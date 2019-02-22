@@ -19,6 +19,11 @@
         "compton.conf": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
     },
+    
+    "install": [
+        "something827542934528345",
+        "nitrogen"
+    ],
 
     "run": [
         "echo 'woo'"

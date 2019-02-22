@@ -181,10 +181,25 @@ def install():
     if 'copy' in js:
         echo_title('copying stuff')
         [copy_path(src, dst) for src in js['copy'].items()]
-    if 'install' in js and 'install_cmd' in js:
+    if 'install' in js:
+        if not os.path.exists('/usr/bin/yay'): 
+            echo_title('installing yay')
+            run_command('git clone https://aur.archlinux.org/yay.git')
+            os.chdir('yay')
+            run_command('makepkg -si --noconfirm')
+            os.chdir('..')
+            echo_icon('>', 'green')
+            echo('cleaning up...')
+            shutil.rmtree('yay')
         echo_title('installing packages')
-        packages = ' '.join(js['install'])
-        run_command("{0} {1}".format(js['install_cmd'], packages))
+        for pkg in js['install']:
+            if not dry:
+                echo_icon('>', 'green')
+                echo(pkg)
+                os.system('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"') 
+            else:
+                echo_icon('>', 'yellow')
+                echo("yay -S --needed --noconfirm " + pkg)
     if 'run' in js:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
