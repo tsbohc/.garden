@@ -11,6 +11,7 @@
 
 - symlinks everything, creating dirs as needed and asking to back up non-symlinks it stumbles across
 - has a dry install option
+- installs yay from git, uses it to get packages
 - can reap dots, cloning config files into the repo
 - shows when local branch has diffs, is able to push changes if set up
 - my first python project, loosely based on vibhavp/dotty
@@ -50,6 +51,10 @@
         "compton.conf": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
     },
+
+    "install": [
+        "nitrogen"
+    ],
 
     "run": [
         "echo 'woo'"

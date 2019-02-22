@@ -44,6 +44,7 @@ def echo(string, end=True, color=None):
 def ask_user(prompt):
     valid = { "yes":True, 'y':True, "no":False, 'n':False }
     while True:
+        echo_icon('?', 'yellow')
         print("{0} | ".format(prompt), end="")
         choice = input().lower()
         if choice in valid:
@@ -96,7 +97,7 @@ def create_symlink(src, dst):
             echo('~/' + os.path.relpath(dst, os.path.expanduser('~')))
 
             if not dry:
-                if ask_user("[" + colors['yellow'] + '?' + colors['escape'] + "] non-symlink found, back it up? [y/n]"):
+                if ask_user("non-symlink found, back it up? [y/n]"):
                     if not os.path.isdir(backup_dir): os.mkdir(backup_dir)
                     echo_icon('+', 'green')
                     echo(os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
@@ -182,21 +183,33 @@ def install():
         echo_title('copying stuff')
         [copy_path(src, dst) for src in js['copy'].items()]
     if 'install' in js:
-        if not os.path.exists('/usr/bin/yay'): 
+        if not os.path.exists('/usr/bin/yay'):
             echo_title('installing yay')
-            run_command('git clone https://aur.archlinux.org/yay.git')
-            os.chdir('yay')
-            run_command('makepkg -si --noconfirm')
-            os.chdir('..')
-            echo_icon('>', 'green')
-            echo('cleaning up...')
-            shutil.rmtree('yay')
+            if not dry:
+                run_command('git clone https://aur.archlinux.org/yay.git')
+                os.chdir('yay')
+                run_command('makepkg -si --noconfirm')
+                os.chdir('..')
+                echo_icon('>', 'green')
+                echo('cleaning up...')
+                shutil.rmtree('yay')
+            else:
+                echo_icon('>', 'yellow')
+                echo('git clone https://aur.archlinux.org/yay.git')
+                echo_icon('>', 'yellow')
+                echo("os.chdir('yay')")
+                echo_icon('>', 'yellow')
+                echo("makepkg -si --noconfirm")
+                echo_icon('>', 'yellow')
+                echo("os.chdir('..')")
+                echo_icon('>', 'yellow')
+                echo("shutil.rmtree('yay')")
         echo_title('installing packages')
         for pkg in js['install']:
             if not dry:
                 echo_icon('>', 'green')
                 echo(pkg)
-                os.system('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"') 
+                os.system('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"')
             else:
                 echo_icon('>', 'yellow')
                 echo("yay -S --needed --noconfirm " + pkg)
@@ -224,15 +237,17 @@ def reap():
                     echo('file already exists in repo')
 
 def git_push():
-    run_command('git add .')
+    run_command('git fetch')
     run_command('git status -s')
-    echo_icon('?', 'yellow')
-    echo("enter a commit message | ", False)
-    while True:
-        message = input().lower()
-        run_command('git commit -m "' + message + '" --quiet')
-        break
-    run_command('git push --quiet')
+    if ask_user('is this okay? [y/n]'):
+        run_command('git add .')
+        echo_icon('?', 'yellow')
+        echo("enter a commit message | ", False)
+        while True:
+            message = input().lower()
+            run_command('git commit -m "' + message + '" --quiet')
+            break
+        run_command('git push --quiet')
 
 def main():
     echo("       _                              ", True, "blue")
