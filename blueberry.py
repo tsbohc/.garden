@@ -11,6 +11,8 @@ import argparse
 try: input = raw_input
 except NameError: pass
 
+os.system('clear')
+
 dry = False
 
 colors = {
@@ -27,6 +29,8 @@ colors = {
 #retroarch configs
 #redo folder creation to allow reap to do that
 #handle keyboard interrupt
+#switch dict menu
+#add firefox theme
 
 def echo_title(string):
     print('--- ' + string + '\x1b[34m...\x1b[0m')
@@ -167,7 +171,12 @@ def run_command(command):
 #js = json.load(open(args.config))
 #os.chdir(os.path.expanduser(os.path.abspath(os.path.dirname(args.config))))
 
-js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
+try:
+    js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
+except FileNotFoundError:
+    echo_icon('!', 'red')
+    echo('blueberry could not find config.json, exiting\x1b[34m...\x1b[0m')
+    sys.exit(1)
 
 def install():
     if 'mkdir' in js:
@@ -266,11 +275,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        os.system('clear')
         main()
     except KeyboardInterrupt:
         print('')
         sys.exit(1)
-
-
-# copyright (c) 2015 Vibhav Pant <vibhavp@gmail.com>
