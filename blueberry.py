@@ -24,14 +24,6 @@ colors = {
     'escape': '\x1b[0m'
 }
 
-#rewrite echos to simply return strings and redo output into print({arg} woo) etc
-#add a command that pushes an alias into bashrc
-#retroarch configs
-#redo folder creation to allow reap to do that
-#handle keyboard interrupt
-#switch dict menu
-#add firefox theme
-
 def echo_title(string):
     print('--- ' + string + '\x1b[34m...\x1b[0m')
 

@@ -1,9 +1,25 @@
-# blueberry
+```
+       _                              
+  /   //         /                    
+ /__ //  . . _  /__ _  __  __  __  ,  
+/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤
+                                 /    
+```
+
 ~/ is where the &lt;3 is
+
+## todo
+
+- rewrite echos to simply return strings and redo output into print({arg} woo) etc
+- add a command that pushes an alias into bashrc
+- retroarch configs
+- redo folder creation to allow reap to do that
+- switch dict menu
+- add firefox theme
 
 ## config.json
 
-```
+```js
 {
     "mkdir": [
         "~/downloads",
