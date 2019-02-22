@@ -5,7 +5,7 @@ import json
 import os
 import shutil
 import datetime
-from sys import stderr
+import sys
 import argparse
 
 try: input = raw_input
@@ -88,7 +88,7 @@ def create_symlink(src, dst):
             if check_symlink(dst):
                 echo_icon('×', 'yellow')
                 echo('~/' + os.path.relpath(dst, os.path.expanduser('~')) + '\x1b[34m:\x1b[0m broken symlink, removing' + colors['blue'] + '...' + colors['escape'])
-                #os.remove(dst)
+                os.remove(dst)
             else:
                 if not dry:
                     os.remove(dst)
@@ -96,7 +96,6 @@ def create_symlink(src, dst):
                     echo_icon('>', 'yellow')
                     echo('os.remove(~/' + os.path.relpath(dst, os.path.expanduser('~')) + ')')
         elif os.path.isfile(dst) and not os.path.islink(dst):
-            #if it's not a symlink, ask if it should be backed up
             echo_icon('#', 'red')
             echo('~/' + os.path.relpath(dst, os.path.expanduser('~')))
 
@@ -266,7 +265,12 @@ def main():
 
 
 if __name__ == "__main__":
-    os.system('clear')
-    main()
+    try:
+        os.system('clear')
+        main()
+    except KeyboardInterrupt:
+        print('')
+        sys.exit(1)
+
 
 # copyright (c) 2015 Vibhav Pant <vibhavp@gmail.com>
