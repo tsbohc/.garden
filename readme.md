@@ -18,11 +18,13 @@
 ## todo
 
 - rewrite echos to simply return strings and redo output into print({arg} woo) etc
+- add the ability to install only a single dotfile
 - add a command that pushes an alias into bashrc
 - retroarch configs
 - redo folder creation to allow reap to do that
 - switch dict menu
 - add firefox theme
+- add a cool gif
 
 ## config.json
 
