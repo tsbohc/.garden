@@ -5,8 +5,15 @@
 /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤
                                  /    
 ```
-
 ~/ is where the &lt;3 is
+
+## about
+
+- symlinks everything, creating dirs as needed and asking to back up non-symlinks it stumbles across
+- has a dry install option
+- can reap dots, cloning config files into the repo
+- shows when local branch has diffs, is able to push changes if set up
+- my first python project, loosely based on vibhavp/dotty
 
 ## todo
 
