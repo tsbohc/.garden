@@ -8,7 +8,6 @@ import datetime
 from sys import stderr
 import argparse
 
-# Fix Python 2.x. a
 try: input = raw_input
 except NameError: pass
 
@@ -24,6 +23,10 @@ colors = {
 }
 
 #rewrite echos to simply return strings and redo output into print({arg} woo) etc
+#add a command that pushes an alias into bashrc
+#retroarch configs
+#redo folder creation to allow reap to do that
+#handle keyboard interrupt
 
 def echo_title(string):
     print('--- ' + string + '\x1b[34m...\x1b[0m')
@@ -115,7 +118,7 @@ def create_symlink(src, dst):
             os.makedirs(os.path.dirname(dst))
         else:
             echo_icon('>', 'yellow')
-            echo('os.makedirs(' + os.path.dirname(dst) + ')')            
+            echo('os.makedirs(' + os.path.dirname(dst) + ')')
 
     if os.path.exists(src):
         if not dry:
@@ -265,3 +268,5 @@ def main():
 if __name__ == "__main__":
     os.system('clear')
     main()
+
+# copyright (c) 2015 Vibhav Pant <vibhavp@gmail.com>
