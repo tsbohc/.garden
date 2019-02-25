@@ -9,18 +9,17 @@
 
 ## about
 
-- symlinks everything, creating dirs as needed and asking to back up non-symlinks it stumbles across
+- symlinks everything, creating dirs as needed; asks to back up non-symlinks it stumbles across
 - has a dry install option
 - installs yay from git, uses it to get packages
 - can reap dots, cloning config files into the repo
-- shows when local branch has diffs, is able to push changes if set up
+- shows when local branch has diffs, is able to pull/push changes 
 - my first python project, loosely based on vibhavp/dotty
 
 ## todo
 
-- rewrite echos to simply return strings and redo output into print({arg} woo) etc
 - add the ability to install only a single dotfile
-- add a command that pushes an alias into bashrc
+- push an alias into bashrc
 - retroarch configs
 - redo folder creation to allow reap to do that
 - switch dict menu
@@ -38,17 +37,18 @@
     ],
 
     "link": {
-        ".bashrc": "~/.bashrc",
-        ".bash_profile": "~/.bash_profile",
-        ".xinitrc": "~/.xinitrc",
-        ".Xresources": "~/.Xresources",
-        ".vimrc": "~/.vimrc",
+        "bashrc": "~/.bashrc",
+        "bash_profile": "~/.bash_profile",
+        "xinitrc": "~/.xinitrc",
+        "Xresources": "~/.Xresources",
+        "vimrc": "~/.vimrc",
+        "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
 
-        "neofetch/config.conf": "~/.config/neofetch/config.conf",
+        "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
         "neofetch/punpun": "~/.config/neofetch/punpun",
 
-        ".i3": "~/.config/i3/config",
-        "compton.conf": "~/.config/compton.conf",
+        "i3": "~/.config/i3/config",
+        "compton": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
     },
 

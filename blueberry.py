@@ -160,7 +160,9 @@ except FileNotFoundError:
     log('!', 'red', 'blueberry could not find config.json, exiting' + dots)
     sys.exit(1)
 
-def install():
+def install(dry_run=False):
+    global dry
+    dry = dry_run
     if 'mkdir' in js:
         echo_title('making directories')
         [create_directory(path) for path in js['mkdir']]
@@ -193,10 +195,17 @@ def install():
                 log('>', 'green', pkg)
                 subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
             else:
-                log('>', 'yellow', "yay -S --needed --noconfirm " + pkg)
+                log('>', 'yellow', pkg)
     if 'run' in js:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
+    if not dry:
+        echo_title('finishing up') 
+    else:
+        echo_title('completing dry run')
+
+def dry():
+    install(True)
 
 def reap():
     if 'link' in js:
@@ -266,23 +275,18 @@ def main():
 
     global dry
 
+    menu = {
+        'i': install,
+        'r': reap,
+        'd': dry,
+        'u': update
+    }
+
     while True:
         choice = input().lower()
-        if choice == 'i':
-            install()
-            echo_title('finishing up')
-            break
-        elif choice == 'r':
-            reap()
-            break
-        elif choice == 'd':
-            dry = True
-            install()
-            echo_title('completing dry run')
-            break
-        elif choice == 'u':
-            update()
-            #main()
+        if choice in menu:
+            result = menu.get(choice)
+            result()
             break
         else:
             log('i', 'yellow', "please enter a valid choice | ", False)

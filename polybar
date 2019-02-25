@@ -1,7 +1,10 @@
 [bar/top]
 monitor = eDP-1
 width = 100%
-height = 23
+height = 25
+override-redirect = true
+wm-restack = i3
+border-top-size = 0
 
 background = #00000000
 foreground = #ccffffff

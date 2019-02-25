@@ -1,14 +1,12 @@
 URxvt*font: xft:TamzenForPowerline:pixelsize=16
-!URxvt*font: xft:monaco:size=8:antialias=false
 
-!URxvt*font: -*-tamzenforpowerline-medium-r-normal--14-*-*-*-*-*-*-*
 !URxvt*font: -gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso10646-1
 !URxvt*font: xft:Dina:pixelsize=13 
 !URxvt*font: -xos4-terminesspowerline-medium-r-normal--14-140-72-72-c-80-iso10646-1
 
 URxvt*scrollBar: false
 URxvt*borderLess: false 
-URxvt*internalBorder: 3
+URxvt*internalBorder: 6
 !URxvt*borderColor: #282522
 
 Xft.dpi: 96
@@ -18,82 +16,6 @@ Xft.rgba: rgb
 Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
-
-!! special
-!*.foreground:   #c5c5c5
-!*.background:   #111111
-!*.cursorColor:  #aaaaaa
-!
-!! black
-!*.color0:       #000000
-!*.color8:       #505050
-!
-!! red
-!*.color1:       #ac4142
-!*.color9:       #ac4142
-!
-!! green
-!*.color2:       #90a959
-!*.color10:      #90a959
-!
-!! yellow
-!*.color3:       #f4bf75
-!*.color11:      #f4bf75
-!
-!! blue
-!*.color4:       #6a9fb5
-!*.color12:      #6a9fb5
-!
-!! magenta
-!*.color5:       #aa759f
-!*.color13:      #aa759f
-!
-!! cyan
-!*.color6:       #75b5aa
-!*.color14:      #75b5aa
-!
-!! white
-!*.color7:       #d0d0d0
-!*.color15:      #f5f5f5
-
-
-
-!!! x:erosion
-!*background: #181512
-!*foreground: #bea492
-!*cursorColor: #93a1a1
-!
-!!! black dark/light
-!*color0: #332d29
-!*color8: #817267
-!
-!!! red dark/light
-!*color1: #8c644c
-!*color9: #9f7155
-!
-!!! green dark/light
-!*color2: #c4be90
-!*color10: #bec17e
-!
-!!! yellow dark/light
-!*color3: #bfba92
-!*color11: #fafac0
-!
-!!! blue dark/light
-!*color4: #646a6d
-!*color12: #626e74
-!
-!!! magenta dark/light
-!*color5: #6d6871
-!*color13: #756f7b
-!
-!!! cyan dark/light
-!*color6: #3b484a
-!*color14: #444d4e
-!
-!!! white dark/light
-!*color7: #504339
-!*color15: #9a875f
 
 *cursorColor: #d7d7d7
 !cursor_foreground = #121212

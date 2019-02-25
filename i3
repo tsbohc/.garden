@@ -174,12 +174,12 @@ bindsym $mod+r mode "resize"
 
 # execs
 exec_always feh --bg-fill /home/sean/Pictures/wallpaper.png
-exec_always compton --config /home/sean/.config/compton.conf
+exec compton --config /home/sean/.config/compton.conf
 exec_always /usr/bin/xrdb /home/sean/.Xresources
-exec_always xinput set-prop 11 281 1
-#exec_always polybar top
-#exec_always xflux -l 60 -g 30 -k 2300
-exec_always sudo nmcli d connect wlp2s0
+exec xinput set-prop 11 281 1
+exec polybar top
+#exec xflux -l 60 -g 30 -k 2300
+exec sudo nmcli d connect wlp2s0
 
 # sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
