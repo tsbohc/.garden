@@ -12,7 +12,7 @@ import argparse
 try: input = raw_input
 except NameError: pass
 
-os.system('clear')
+subprocess.run('clear')
 
 dry = False
 
@@ -29,13 +29,7 @@ dots = colors['blue'] + '...' + colors['escape']
 colon = colors['blue'] + ': ' + colors['escape']
 
 def echo_title(string):
-    print('--- ' + string + '\x1b[34m...\x1b[0m')
-
-def echo_icon(string, color=None):
-    if color:
-        print('[' + colors[color] + string + colors['escape'] + '] ', end='')
-    else:
-        print('[' + string + '] ', end='')
+    print('--- ' + string + dots)
 
 def echo(string, end=True, color=None):
     if color:
@@ -99,7 +93,7 @@ def create_symlink(src, dst):
             log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink, removing' + dots)
             os.remove(dst)
         else:
-            log('>', 'yellow', 'os.remove(~/' + os.path.relpath(dst, os.path.expanduser('~')) + ')')
+            log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink, remove')
     
     # stop if a non-symlink with the same name is found
     if os.path.isfile(dst) and not os.path.islink(dst):
@@ -148,7 +142,7 @@ def copy_path(src, dst):
 def run_command(command):
     if not dry:
         log('>', 'green', command)
-        os.system(command)
+        subprocess.run(command, shell=True)
     else:
         log('>', 'yellow', command)
 
@@ -197,7 +191,7 @@ def install():
         for pkg in js['install']:
             if not dry:
                 log('>', 'green', pkg)
-                os.system('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"')
+                subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
             else:
                 log('>', 'yellow', "yay -S --needed --noconfirm " + pkg)
     if 'run' in js:
@@ -235,7 +229,7 @@ def update():
             run_command('git pull')
 
     elif "ahead" or "up to date" in str(subprocess.check_output(['git', 'status'])):
-        if os.system('git diff-index --quiet HEAD --'):
+        if subprocess.run('git diff-index --quiet HEAD --', shell=True):
             if ask_user('the local branch is ahead, push?'):
                 run_command('git add .')
                 log('?', 'yellow', 'enter a commit message | ', False)
@@ -248,19 +242,8 @@ def update():
             log('i', 'yellow', 'there is nothing to do') 
     
     echo_title('finishing up') 
-        
-    
-    #if os.system('git diff-index --quiet HEAD --'):
-    #    echo_icon('i', 'yellow')
-    #    echo('found non-pushed changes')
 
 
-    #echo_icon('?', 'yellow')
-    #echo('perform update? [push/pull] | ', False)
-    #while True:
-    #    action = input().lower()
-
-    #if ask_user('is this okay? [y/n]'):
 def main():
     echo("       _                              ", True, "blue")
     echo("  /   //         /                    ", True, "blue")
@@ -276,7 +259,7 @@ def main():
     echo('eap, ', False)
     echo('d', False, 'blue')
     echo('ry, ', False)
-    if os.system('git diff-index --quiet HEAD --'):
+    if subprocess.run('git diff-index --quiet HEAD --', shell=True):
         echo('!', False, 'blue')
     echo('u', False, 'blue')
     echo('pdate' + dots + ' ', False)
@@ -286,15 +269,11 @@ def main():
     while True:
         choice = input().lower()
         if choice == 'i':
-            dry = False
             install()
             echo_title('finishing up')
             break
         elif choice == 'r':
             reap()
-            break
-        elif choice == 'rm':
-            delete()
             break
         elif choice == 'd':
             dry = True
@@ -306,8 +285,7 @@ def main():
             #main()
             break
         else:
-            echo_icon('i', 'yellow')
-            echo("please enter a valid choice | ", False)
+            log('i', 'yellow', "please enter a valid choice | ", False)
 
 
 if __name__ == "__main__":
