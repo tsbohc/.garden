@@ -177,9 +177,9 @@ exec_always feh --bg-fill /home/sean/Pictures/wallpaper.png
 exec_always compton --config /home/sean/.config/compton.conf
 exec_always /usr/bin/xrdb /home/sean/.Xresources
 exec_always xinput set-prop 11 281 1
-exec_always polybar top
+#exec_always polybar top
 #exec_always xflux -l 60 -g 30 -k 2300
-exec_always nmcli d connect wlp2s0
+exec_always sudo nmcli d connect wlp2s0
 
 # sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
@@ -187,28 +187,26 @@ bindsym XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym Shift+XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
 
-
-
 # remove window titles, borders
-new_window pixel 1
+new_window pixel 0
 #hide_edge_borders both 
 
-set $bg-color 			#000000
-set $border-color 		$bg-color
+set $bg-color 			    #000000
+set $border-color 		    $bg-color
 set $inactive-bg-color		#000000
 set $inactive-border-color	$inactive-bg-color
-set $text-color			#f3f4f5
+set $text-color			    #f3f4f5
 set $inactive-text-color	#676e7d
 set $urgent-bg-color		#e53935
 set $urgent-border-color	$urgent-bg-color
 set $indicator-color		#000000
 
 #window colors
-#			border			background		text			indicator
-client.focused		$border-color		$bg-color		$text-color		$indicator-color
-client.unfocused	$inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
+#       			    border		        	background	    	text			        indicator
+client.focused		    $border-color		    $bg-color	    	$text-color		        $indicator-color
+client.unfocused	    $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
 client.focused_inactive $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
-client.urgent		$urgent-border-color	$urgent-bg-color	$text-color		$indicator-color
+client.urgent		    $urgent-border-color	$urgent-bg-color	$text-color		        $indicator-color
 
 #i3-gaps
-gaps inner 8
+gaps inner 7

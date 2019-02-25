@@ -14,7 +14,19 @@
 
 export HISTCONTROL=ignoreboth:erasedups
 
-PS1='\e[90m[\e[39m\w\e[90m]\$\e[39m '
+#prompt
+
+CGREEN='\[\e[32m\]'
+CRED='\[\e[31m\]'
+CESCAPE='\[\e[39m\]'
+
+#→ ★ ⇒ ❤ > ❱ ➤ ➸ ➼ ➽ ➙ ➔ ➡ ➞
+
+PS1="\w${CGREEN} ➔${CESCAPE} "
+#PS1='\e[90m[\e[39m\w\e[90m]\$\e[39m '
+#PS1='\e[90m┌─[\e[39m\w\e[90m]\n\e[90m└$ \e[39m'
+
+
 
 if [ -d "$HOME/.bin" ] ;
 	then PATH="$HOME/.bin:$PATH"
@@ -24,8 +36,6 @@ fi
 #POWERLINE_BASH_CONTINUATION=1
 #POWERLINE_BASH_SELECT=1
 #. /usr/share/powerline/bindings/bash/powerline.sh
-
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 #list
 alias ls='ls --color=auto'
@@ -50,7 +60,7 @@ alias df='df -h'
 alias unlock="sudo rm /var/lib/pacman/db.lck"
 
 #free
-alias free="free -mt"
+#alias free="free -mt"
 
 #continue download
 alias wget="wget -c"
@@ -143,4 +153,15 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
-neofetch
+#neofetch
+#DATE=`date '+%Y-%m-%d %H:%M:%S'`
+#echo $DATE
+
+#echo -e "\x1b[34m       _                              \x1b[0m"
+#echo -e "\x1b[34m  /   //         /                    \x1b[0m"
+#echo -e "\x1b[34m /__ //  . . _  /__ _  __  __  __  ,  \x1b[0m"
+#echo -e "\x1b[34m/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤\x1b[0m"
+#echo -e "\x1b[34m                                 /    \x1b[0m"
+#echo -n "what would you like to do?"
+#echo -e "\x1b[34m                                '   \x1b[0m"
+

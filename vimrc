@@ -19,7 +19,18 @@ Plugin 'Valloric/YouCompleteMe'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" required for autoswap.vim
+set title titlestring=
+
 " ### user settings ###
+
+" style
+:set t_Co=256
+colorscheme jellybeans
+" set guifont=Monaco:h10 noanti
+
+" powerline colors
+" monaco noalias
 
 " syntax highlighting
 syntax on
@@ -34,7 +45,7 @@ set ttyfast
 
 " whitespace
 set wrap
-set textwidth=79
+"set textwidth=79
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4

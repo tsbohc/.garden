@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import print_function
-
+#
 import json
 import os
 import shutil
+import subprocess
 import datetime
 import sys
 import argparse
@@ -24,6 +25,9 @@ colors = {
     'escape': '\x1b[0m'
 }
 
+dots = colors['blue'] + '...' + colors['escape']
+colon = colors['blue'] + ': ' + colors['escape']
+
 def echo_title(string):
     print('--- ' + string + '\x1b[34m...\x1b[0m')
 
@@ -41,32 +45,33 @@ def echo(string, end=True, color=None):
     if end:
         print('')
 
+def log(icon, color, string, end=True):
+    if end == True:
+        print('[' + colors[color] + icon + colors['escape'] + '] ' + string) 
+    else:
+        print('[' + colors[color] + icon + colors['escape'] + '] ' + string, end='') 
+
 def ask_user(prompt):
     valid = { "yes":True, 'y':True, "no":False, 'n':False }
     while True:
-        echo_icon('?', 'yellow')
-        print("{0} | ".format(prompt), end="")
+        log('?', 'yellow', prompt + " [y/n] | ", False)
         choice = input().lower()
         if choice in valid:
             return valid[choice]
         else:
-            echo_icon('i', 'yellow')
-            echo("please enter a valid choice | ", False)
+            log('#', 'red', 'please enter a valid choice')
 
 def create_directory(path):
     exp = os.path.expanduser(path)
-    if (not os.path.isdir(exp)):
+    if not os.path.isdir(exp):
         if not dry:
-            echo_icon('+', 'green')
-            echo(path)
+            log('+', 'green', path)
             os.makedirs(exp)
         else:
-            echo_icon('>', 'yellow')
-            echo('os.makedirts(' + path + ')')
+            log('+', 'yellow', path)
     else:
-        echo_icon('#', 'red')
-        echo(path)
-
+        if not dry:
+            log('#', 'red', path)
 
 def check_symlink(path):
     target_path = os.readlink(path)
@@ -79,61 +84,54 @@ def create_symlink(src, dst):
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     backup_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'backup')
-
-    if os.path.isdir(os.path.dirname(dst)):
-        if os.path.islink(dst) and os.readlink(dst) == src:
-            if check_symlink(dst):
-                echo_icon('×', 'yellow')
-                echo('~/' + os.path.relpath(dst, os.path.expanduser('~')) + '\x1b[34m:\x1b[0m broken symlink, removing' + colors['blue'] + '...' + colors['escape'])
-                os.remove(dst)
-            else:
-                if not dry:
-                    os.remove(dst)
-                else:
-                    echo_icon('>', 'yellow')
-                    echo('os.remove(~/' + os.path.relpath(dst, os.path.expanduser('~')) + ')')
-        elif os.path.isfile(dst) and not os.path.islink(dst):
-            echo_icon('#', 'red')
-            echo('~/' + os.path.relpath(dst, os.path.expanduser('~')))
-
-            if not dry:
-                if ask_user("non-symlink found, back it up? [y/n]"):
-                    if not os.path.isdir(backup_dir): os.mkdir(backup_dir)
-                    echo_icon('+', 'green')
-                    echo(os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
-                    os.rename(dst, os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst)))
-                else:
-                    os.remove(dst)
-            else:
-                echo_icon('>', 'yellow')
-                echo('would ask what to do with the file')
-    else:
+    
+    # create necessary dirs
+    if not os.path.isdir(os.path.dirname(dst)):
         if not dry:
-            echo_icon('+', 'green')
-            echo(os.path.dirname(dst))
+            log('+', 'green', os.path.dirname(dst))
             os.makedirs(os.path.dirname(dst))
         else:
-            echo_icon('>', 'yellow')
-            echo('os.makedirs(' + os.path.dirname(dst) + ')')
+            log('+', 'yellow', os.path.dirname(dst))
+    
+    # check for broken symlinks
+    if check_symlink(dst):
+        if not dry:
+            log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink, removing' + dots)
+            os.remove(dst)
+        else:
+            log('>', 'yellow', 'os.remove(~/' + os.path.relpath(dst, os.path.expanduser('~')) + ')')
+    
+    # stop if a non-symlink with the same name is found
+    if os.path.isfile(dst) and not os.path.islink(dst):
+        log('#', 'red', '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+        if not dry:
+            if ask_user("non-symlink found, back it up?"):
+                if not os.path.isdir(backup_dir): os.mkdir(backup_dir)
+                log('+', 'green', os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
+                os.rename(dst, os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst)))
+            else:
+                os.remove(dst)
+        else:
+            log('?', 'yellow', 'ask what to do with the file')
 
+    # check if source file exists
     if os.path.exists(src):
         if not dry:
-            echo_icon('↣', 'blue')
-            echo(os.path.relpath(src) + '\x1b[34m:\x1b[0m ~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            log('↣', 'blue', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            if os.path.exists(dst):
+                os.remove(dst)
             os.symlink(src, dst)
         else:
-            echo_icon('>', 'yellow')
-            echo('os.symlink(' + os.path.relpath(src) + ', ~/' + os.path.relpath(dst, os.path.expanduser('~')) + ')')
+            log('↣', 'yellow', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
-        echo_icon('!', 'red')
-        echo(os.path.relpath(src) + '\x1b[34m:\x1b[0m does not exist, skipping' + colors['blue'] + '...' + colors['escape'])
+        log('!', 'red', os.path.relpath(src) + colon + 'does not exist, skipping' + dots)
 
 
 def copy_path(src, dst):
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     if os.path.exists(dst):
-        if ask_user("{0} exists, delete it? [y/n]".format(dst)):
+        if ask_user("{0} exists, delete it?".format(dst)):
             if os.path.isfile(dst) or os.path.islink(dst):
                 os.remove(dst)
             else:
@@ -149,12 +147,10 @@ def copy_path(src, dst):
 
 def run_command(command):
     if not dry:
-        echo_icon('>', 'green')
-        echo(command)
+        log('>', 'green', command)
         os.system(command)
     else:
-        echo_icon('>', 'yellow')
-        echo(command)
+        log('>', 'yellow', command)
 
 #parser = argparse.ArgumentParser()
 #parser.add_argument("config", help="the JSON file you want to use")
@@ -167,8 +163,7 @@ def run_command(command):
 try:
     js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
 except FileNotFoundError:
-    echo_icon('!', 'red')
-    echo('blueberry could not find config.json, exiting\x1b[34m...\x1b[0m')
+    log('!', 'red', 'blueberry could not find config.json, exiting' + dots)
     sys.exit(1)
 
 def install():
@@ -190,29 +185,21 @@ def install():
                 os.chdir('yay')
                 run_command('makepkg -si --noconfirm')
                 os.chdir('..')
-                echo_icon('>', 'green')
-                echo('cleaning up...')
+                log('>', 'green', 'cleaning up' + dots)
                 shutil.rmtree('yay')
             else:
-                echo_icon('>', 'yellow')
-                echo('git clone https://aur.archlinux.org/yay.git')
-                echo_icon('>', 'yellow')
-                echo("os.chdir('yay')")
-                echo_icon('>', 'yellow')
-                echo("makepkg -si --noconfirm")
-                echo_icon('>', 'yellow')
-                echo("os.chdir('..')")
-                echo_icon('>', 'yellow')
-                echo("shutil.rmtree('yay')")
+                log('>', 'yellow', 'git clone https://aur.archlinux.org/yay.git')
+                log('>', 'yellow', 'cd yay')
+                log('>', 'yellow', 'makepkg -si --noconfirm')
+                log('>', 'yellow', 'cd ..')
+                log('>', 'yellow', 'rm -r yay')
         echo_title('installing packages')
         for pkg in js['install']:
             if not dry:
-                echo_icon('>', 'green')
-                echo(pkg)
+                log('>', 'green', pkg)
                 os.system('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"')
             else:
-                echo_icon('>', 'yellow')
-                echo("yay -S --needed --noconfirm " + pkg)
+                log('>', 'yellow', "yay -S --needed --noconfirm " + pkg)
     if 'run' in js:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
@@ -225,30 +212,55 @@ def reap():
             exp_src = os.path.abspath(src)
             if not os.path.islink(exp_dst):
                 if not os.path.exists(exp_src):
-                    echo_icon('+', 'green')
-                    echo(dst, False)
-                    echo(': ', False, 'blue')
-                    echo(src)
+                    log('+', 'green', dst + colon + src)
                     os.rename(exp_dst, exp_src)
                 else:
-                    echo_icon('#', 'red')
-                    echo(dst, False)
-                    echo(': ', False, 'blue')
-                    echo('file already exists in repo')
+                    log('#', 'red', dst + colon + 'file is already on the local branch')
 
-def git_push():
+def delete():
+    if 'link' in js:
+        echo_title('removing symlinks')
+        for src, dst in js['link'].items():
+            exp_dst = os.path.expanduser(dst)
+            if os.path.islink(exp_dst):
+                echo(dst)
+
+def update():
+    echo_title('checking for updates')
     run_command('git fetch')
-    run_command('git status -s')
-    if ask_user('is this okay? [y/n]'):
-        run_command('git add .')
-        echo_icon('?', 'yellow')
-        echo("enter a commit message | ", False)
-        while True:
-            message = input().lower()
-            run_command('git commit -m "' + message + '" --quiet')
-            break
-        run_command('git push --quiet')
+    log('>', 'green', 'git status')
+    
+    if "behind" in str(subprocess.check_output(['git', 'status'])):
+        if ask_user('the local branch is behind, pull?'):
+            run_command('git pull')
 
+    elif "ahead" or "up to date" in str(subprocess.check_output(['git', 'status'])):
+        if os.system('git diff-index --quiet HEAD --'):
+            if ask_user('the local branch is ahead, push?'):
+                run_command('git add .')
+                log('?', 'yellow', 'enter a commit message | ', False)
+                while True:
+                    message = input().lower()
+                    run_command('git commit -m "' + message + '" --quiet')
+                    break
+                run_command('git push --quiet')
+        else:
+            log('i', 'yellow', 'there is nothing to do') 
+    
+    echo_title('finishing up') 
+        
+    
+    #if os.system('git diff-index --quiet HEAD --'):
+    #    echo_icon('i', 'yellow')
+    #    echo('found non-pushed changes')
+
+
+    #echo_icon('?', 'yellow')
+    #echo('perform update? [push/pull] | ', False)
+    #while True:
+    #    action = input().lower()
+
+    #if ask_user('is this okay? [y/n]'):
 def main():
     echo("       _                              ", True, "blue")
     echo("  /   //         /                    ", True, "blue")
@@ -266,8 +278,8 @@ def main():
     echo('ry, ', False)
     if os.system('git diff-index --quiet HEAD --'):
         echo('!', False, 'blue')
-    echo('p', False, 'blue')
-    echo('ush\x1b[34m...\x1b[0m ', False)
+    echo('u', False, 'blue')
+    echo('pdate' + dots + ' ', False)
 
     global dry
 
@@ -281,14 +293,17 @@ def main():
         elif choice == 'r':
             reap()
             break
+        elif choice == 'rm':
+            delete()
+            break
         elif choice == 'd':
             dry = True
             install()
             echo_title('completing dry run')
             break
-        elif choice == 'p':
-            git_push()
-            main()
+        elif choice == 'u':
+            update()
+            #main()
             break
         else:
             echo_icon('i', 'yellow')

@@ -6,17 +6,18 @@
     ],
 
     "link": {
-        ".bashrc": "~/.bashrc",
-        ".bash_profile": "~/.bash_profile",
-        ".xinitrc": "~/.xinitrc",
-        ".Xresources": "~/.Xresources",
-        ".vimrc": "~/.vimrc",
+        "bashrc": "~/.bashrc",
+        "bash_profile": "~/.bash_profile",
+        "xinitrc": "~/.xinitrc",
+        "Xresources": "~/.Xresources",
+        "vimrc": "~/.vimrc",
+        "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
 
-        "neofetch/config.conf": "~/.config/neofetch/config.conf",
+        "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
         "neofetch/punpun": "~/.config/neofetch/punpun",
 
-        ".i3": "~/.config/i3/config",
-        "compton.conf": "~/.config/compton.conf",
+        "i3": "~/.config/i3/config",
+        "compton": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
     },
 
