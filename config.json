@@ -15,8 +15,6 @@
         "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
         "vim/jellybeans_lightline.vim": "~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim",
 
-        "sl/st": "~/st/config.h",
-
         "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
         "neofetch/punpun": "~/.config/neofetch/punpun",
 
