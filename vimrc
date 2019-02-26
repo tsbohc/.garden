@@ -36,7 +36,10 @@ colorscheme jellybeans
 syntax on
 filetype indent on
 set showmatch " highlight matching [{(s
-set number " show line numbers
+
+" line numbers
+set number relativenumber
+set nu rnu
 
 " rendering
 set clipboard=unnamedplus " systemwide clipboard
@@ -59,8 +62,26 @@ set hlsearch " highlight matches
 set ignorecase
 "set smartcase
 set showmatch
+nnoremap \ :noh<return>
 
-" keymaps
+" ### keymaps ###
+
+" hardmode
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+noremap <PageUp> <nop>
+noremap <PageDown> <nop>
+
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+inoremap <PageUp> <nop>
+inoremap <PageDown> <nop>
+
+" general
 nnoremap j gj
 nnoremap k gk
 :imap ii <Esc>

@@ -229,6 +229,8 @@ def delete():
                 echo(dst)
 
 def update():
+    global dry
+    dry = False
     echo_title('checking for updates')
     run_command('git fetch')
     log('>', 'green', 'git status')

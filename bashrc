@@ -20,12 +20,18 @@ CGREEN='\[\e[32m\]'
 CRED='\[\e[31m\]'
 CESCAPE='\[\e[39m\]'
 
+git_branch() {
+    local status=$(git status --porcelain 2>/dev/null)
+    if [[ "$status" != "" ]]; then
+        git symbolic-ref HEAD --short 2>/dev/null | sed -e 's/^/ {/' -e 's/$/}/'
+    else
+        git symbolic-ref HEAD --short 2>/dev/null | sed -e 's/^/ [/' -e 's/$/]/'
+    fi
+}
+
 #→ ★ ⇒ ❤ > ❱ ➤ ➸ ➼ ➽ ➙ ➔ ➡ ➞
-
-PS1="\w${CGREEN} ➔${CESCAPE} "
-#PS1='\e[90m[\e[39m\w\e[90m]\$\e[39m '
+PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} ➔${CESCAPE} "
 #PS1='\e[90m┌─[\e[39m\w\e[90m]\n\e[90m└$ \e[39m'
-
 
 
 if [ -d "$HOME/.bin" ] ;
@@ -36,6 +42,15 @@ fi
 #POWERLINE_BASH_CONTINUATION=1
 #POWERLINE_BASH_SELECT=1
 #. /usr/share/powerline/bindings/bash/powerline.sh
+
+#-------------------------------------------
+#                  aliases
+#-------------------------------------------
+
+#blueberry
+bb() {
+    vim ~/blueberry/$1
+}
 
 #list
 alias ls='ls --color=auto'
