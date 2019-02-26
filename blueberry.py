@@ -123,22 +123,27 @@ def create_symlink(src, dst):
 
 
 def copy_path(src, dst):
-    dst = os.path.expanduser(dst)
-    src = os.path.abspath(src)
-    if os.path.exists(dst):
-        if ask_user("{0} exists, delete it?".format(dst)):
-            if os.path.isfile(dst) or os.path.islink(dst):
-                os.remove(dst)
+    exp_dst = os.path.expanduser(dst)
+    exp_src = os.path.abspath(src)
+    if os.path.exists(exp_dst):
+        if not dry: 
+            if ask_user(dst + colon + "exists, delete it?"):
+                if os.path.isfile(exp_dst) or os.path.islink(exp_dst):
+                    os.remove(exp_dst)
+                else:
+                    shutil.rmtree(exp_dst)
             else:
-                shutil.rmtree(dst)
+                return
         else:
-            return
-    print("Copying {0} -> {1}".format(src, dst))
-    if os.path.isfile(src):
-        shutil.copy(src, dst)
+            log('?', 'yellow', dst + colon + "ask what to do with the file")
+    if not dry:
+        log('+', 'green', dst)
+        if os.path.isfile(src):
+            shutil.copy(exp_src, exp_dst)
+        else:
+            shutil.copytree(exp_src, exp_dst)
     else:
-        shutil.copytree(src, dst)
-
+        log('+', 'yellow', src + colon + dst)
 
 def run_command(command):
     if not dry:
@@ -173,7 +178,7 @@ def install(dry_run=False):
         [create_symlink(src, dst) for src, dst in js['link'].items()]
     if 'copy' in js:
         echo_title('copying stuff')
-        [copy_path(src, dst) for src in js['copy'].items()]
+        [copy_path(src, dst) for src, dst in js['copy'].items()]
     if 'install' in js:
         if not os.path.exists('/usr/bin/yay'):
             echo_title('installing yay')
@@ -257,11 +262,11 @@ def update():
 
 
 def main():
-    echo("       _                              ", True, "blue")
-    echo("  /   //         /                    ", True, "blue")
-    echo(" /__ //  . . _  /__ _  __  __  __  ,  ", True, "blue")
-    echo("/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤", True, "blue")
-    echo("                                 /    ", True, "blue")
+    echo("       _                                ", True, "blue")
+    echo("  /   //         /                      ", True, "blue")
+    echo(" /__ //  . . _  /__ _  __  __  __  ,    ", True, "blue")
+    echo("/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  ", True, "blue")
+    echo("                                 /      ", True, "blue")
     echo("what would you like to do?", False)
     echo("      '   ", True, "blue")
 

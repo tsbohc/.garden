@@ -63,7 +63,18 @@ fi
 #-------------------------------------------
 
 #blueberry
-alias bb='cd ~/blueberry'
+bb(){
+    if [ ! -d "~/blueberry" ]; then
+        git clone https://github.com/seancallous/bluberry
+    fi
+
+    cd ~/blueberry
+    if [ $# -eq 0 ]; then
+       python3 blueberry.py
+    else
+       vim ~/blueberry/$1
+    fi 
+}
 
 #list
 alias ls='ls --color=auto'

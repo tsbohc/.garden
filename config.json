@@ -23,6 +23,10 @@
         "polybar": "~/.config/polybar/config"
     },
 
+    "copy": {
+        "sl/st": "~/sl/st"
+    },
+
     "install": [
         "nitrogen"
     ],

@@ -30,7 +30,7 @@ font pango:Tamzen 14px
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec ~/sl/st/st #i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
