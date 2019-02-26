@@ -27,42 +27,49 @@ let g:lightline = {
     \ 'colorscheme': 'jellybeans_lightline',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'readonly', 'absolutepath', 'modified' ] ],
+    \             [ 'readonly', 'filepath', 'modified' ] ],
     \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
     \              [ 'fileformat', 'spell' ] ]
     \ },
     \ 'component_function': {
     \   'readonly': 'LightlineReadonly',
-    \   'fugitive': 'LightlineFugitive'
+    \   'fugitive': 'LightlineFugitive',
+    \   'filepath': 'LightlineFilepath'
     \ },
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
-    function! LightlineReadonly()
-        return &readonly ? '' : ''
-    endfunction
-    function! LightlineFugitive()
-        if exists('*fugitive#head')
-            let branch = fugitive#head()
-            return branch !=# '' ? ''.branch : ''
-        endif
-        return ''
-    endfunction
+ 
+function! LightlineReadonly()
+    return &readonly ? '' : ''
+endfunction
 
-    let g:lightline.mode_map = {
-        \ 'n' : 'N',
-        \ 'i' : 'I',
-        \ 'R' : 'R',
-        \ 'v' : 'V',
-        \ 'V' : 'VL',
-        \ "\<C-v>": 'VB',
-        \ 'c' : 'C',
-        \ 's' : 'S',
-        \ 'S' : 'SL',
-        \ "\<C-s>": 'SB',
-        \ 't': 'T',
-        \ }
+function! LightlineFugitive()
+    if exists('*fugitive#head')
+        let branch = fugitive#head()
+        return branch !=# '' ? ''.branch : ''
+    endif
+    return ''
+endfunction
+
+function! LightlineFilepath()
+    return winwidth(0) > 80 ? expand('%:p') : expand('%')
+endfunction
+
+let g:lightline.mode_map = {
+    \ 'n' : 'N',
+    \ 'i' : 'I',
+    \ 'R' : 'R',
+    \ 'v' : 'V',
+    \ 'V' : 'VL',
+    \ "\<C-v>": 'VB',
+    \ 'c' : 'C',
+    \ 's' : 'S',
+    \ 'S' : 'SL',
+    \ "\<C-s>": 'SB',
+    \ 't': 'T',
+    \ }
 
 " ### user settings ###
 
@@ -84,6 +91,10 @@ set nu rnu
 set clipboard=unnamedplus " systemwide clipboard
 set encoding=utf-8
 set ttyfast
+
+set ttimeout
+set ttimeoutlen=30
+set timeoutlen=3000
 
 " whitespace
 set wrap

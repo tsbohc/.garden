@@ -13,6 +13,7 @@
 [[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
+export EDITOR=vim
 
 #prompt
 
@@ -61,9 +62,7 @@ fi
 #-------------------------------------------
 
 #blueberry
-bb() {
-    vim ~/blueberry/$1
-}
+alias bb='cd ~/blueberry'
 
 #list
 alias ls='ls --color=auto'
