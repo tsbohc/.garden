@@ -29,8 +29,21 @@ git_branch() {
     fi
 }
 
+PROMPT_COMMAND=__prompt_command
+
+__prompt_command() {
+    #local EXIT="$?"
+    
+    PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} ➔ ${CESCAPE}"
+
+    #if [ "$EXIT" != 0 ]; then
+    #    PS1+="${CRED} -> ${CESCAPE}"
+    #else
+    #    PS1+="${CGREEN} -> ${CESCAPE}"
+    #fi
+}
+
 #→ ★ ⇒ ❤ > ❱ ➤ ➸ ➼ ➽ ➙ ➔ ➡ ➞
-PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} ➔${CESCAPE} "
 #PS1='\e[90m┌─[\e[39m\w\e[90m]\n\e[90m└$ \e[39m'
 
 

@@ -12,6 +12,7 @@
         "Xresources": "~/.Xresources",
         "vimrc": "~/.vimrc",
         "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
+        "vim/jellybeans_lightline.vim": "~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim",
 
         "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
         "neofetch/punpun": "~/.config/neofetch/punpun",

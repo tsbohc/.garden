@@ -68,11 +68,12 @@ def create_directory(path):
             log('#', 'red', path)
 
 def check_symlink(path):
-    target_path = os.readlink(path)
-    if not os.path.isabs(target_path):
-        target_path = os.path.join(os.path.dirname(path), target_path)
-    if not os.path.exists(target_path):
-        return True
+    if os.path.islink(path):
+        target_path = os.readlink(path)
+        if not os.path.isabs(target_path):
+            target_path = os.path.join(os.path.dirname(path), target_path)
+        if not os.path.exists(target_path):
+            return True
 
 def create_symlink(src, dst):
     dst = os.path.expanduser(dst)

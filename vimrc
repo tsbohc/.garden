@@ -14,28 +14,67 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'itchyny/lightline.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" required for autoswap.vim
-set title titlestring=
+
+" status line
+set noshowmode
+let g:lightline = {
+    \ 'colorscheme': 'jellybeans_lightline',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'absolutepath', 'modified' ] ],
+    \   'right': [ [ 'lineinfo' ],
+    \              [ 'percent' ],
+    \              [ 'fileformat', 'spell' ] ]
+    \ },
+    \ 'component_function': {
+    \   'readonly': 'LightlineReadonly',
+    \   'fugitive': 'LightlineFugitive'
+    \ },
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '', 'right': '' }
+    \ }
+    function! LightlineReadonly()
+        return &readonly ? '' : ''
+    endfunction
+    function! LightlineFugitive()
+        if exists('*fugitive#head')
+            let branch = fugitive#head()
+            return branch !=# '' ? ''.branch : ''
+        endif
+        return ''
+    endfunction
+
+    let g:lightline.mode_map = {
+        \ 'n' : 'N',
+        \ 'i' : 'I',
+        \ 'R' : 'R',
+        \ 'v' : 'V',
+        \ 'V' : 'VL',
+        \ "\<C-v>": 'VB',
+        \ 'c' : 'C',
+        \ 's' : 'S',
+        \ 'S' : 'SL',
+        \ "\<C-s>": 'SB',
+        \ 't': 'T',
+        \ }
 
 " ### user settings ###
 
 " style
 :set t_Co=256
 colorscheme jellybeans
-" set guifont=Monaco:h10 noanti
-
-" powerline colors
-" monaco noalias
 
 " syntax highlighting
 syntax on
 filetype indent on
-set showmatch " highlight matching [{(s
+set cursorline " current line
+set showmatch " matching [{(s
 
 " line numbers
 set number relativenumber
@@ -82,6 +121,7 @@ inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
 " general
+
 nnoremap j gj
 nnoremap k gk
 :imap ii <Esc>

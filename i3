@@ -180,6 +180,8 @@ exec xinput set-prop 11 281 1
 exec polybar top
 #exec xflux -l 60 -g 30 -k 2300
 exec sudo nmcli d connect wlp2s0
+exec xmodmap -e "clear Lock"
+exec xmodmap -e "keycode 66 = Escape NoSymbol Escape"
 
 # sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
