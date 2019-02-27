@@ -4,17 +4,16 @@
  /__ //  . . _  /__ _  __  __  __  ,  
 /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤
                                  /    
-~/ is where the <3 is           '
+                                '
 ```
 
-- looks through config.json for instructions
 - symlinks everything, creating dirs as needed
 - asks to back up non-symlinks in case of conflicts 
 - has a dry install option
 - installs yay from git, uses it to get packages
+- sets up nvim by downloading plug and running pluginstall
 - can reap dots, cloning config files into the repo
 - shows when local branch has diffs, is able to pull/push changes 
-- my first python project, loosely based on vibhavp/dotty
 
 ## about
 - bashrc: 
@@ -36,7 +35,7 @@
     - i3gaps
     - compton
     - polybar
-    - roli
+    - rofi
 
 ## todo
 - add the ability to install only a single dotfile

@@ -1,21 +1,20 @@
-set nocompatible              " required
-filetype off                  " required
-
 " =================================================
-" ### vundle ###
+" ### plug ###
 " =================================================
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin() " alternatively, pass a path where Vundle should install plugins-- call vundle#begin('~/some/path/here')
-Plugin 'gmarik/Vundle.vim'     " required
+call plug#begin('~/.vim/bundle')
 
-" plugins
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'itchyny/lightline.vim'
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'itchyny/lightline.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
-call vundle#end()              " required
-filetype plugin indent on      " required
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('vim-multiple-cursors')
+                     \| autocmd! load_us_ycm
+augroup END
+
+call plug#end()
 
 " =================================================
 " ### status line ###
@@ -43,7 +42,7 @@ let g:lightline = {
     \ }
  
 function! LightlineReadonly()
-    return &readonly ? '' : ''
+    return &readonly ? 'readonly' : ''
 endfunction
 
 function! LightlineFugitive()

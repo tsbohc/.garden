@@ -195,6 +195,7 @@ def install(dry_run=False):
                 log('>', 'yellow', 'makepkg -si --noconfirm')
                 log('>', 'yellow', 'cd ..')
                 log('>', 'yellow', 'rm -r yay')
+
         echo_title('installing packages')
         for pkg in js['install']:
             if not dry:
@@ -202,9 +203,21 @@ def install(dry_run=False):
                 subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
             else:
                 log('>', 'yellow', pkg)
+
     if 'run' in js:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
+
+    if not os.path.isfile(os.path.expanduser('~/config/nvim/plug.vim')):
+        echo_title('setting up nvim')
+        if not dry:
+            log('>', 'green', 'installing plug.vim')
+            run_command('curl -fLo ~/.config/nvim/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+            run_command('nvim "+:PlugInstall" "+:q" "+:q"')
+        if dry:
+            log('>', 'yellow', 'installing plug.vim')
+            log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
+
     if not dry:
         echo_title('finishing up') 
     else:
