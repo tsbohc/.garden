@@ -38,9 +38,9 @@ __prompt_command() {
     PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
 
     #if [ "$EXIT" != 0 ]; then
-    #    PS1+="${CRED} -> ${CESCAPE}"
+    #    PS1+="${CRED} > ${CESCAPE}"
     #else
-    #    PS1+="${CGREEN} -> ${CESCAPE}"
+    #    PS1+="${CGREEN} > ${CESCAPE}"
     #fi
 }
 
@@ -64,10 +64,6 @@ fi
 
 #blueberry
 bb(){
-    if [ ! -d "~/blueberry" ]; then
-        git clone https://github.com/seancallous/bluberry
-    fi
-
     cd ~/blueberry
     if [ $# -eq 0 ]; then
        python3 blueberry.py
@@ -204,3 +200,30 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 #echo -n "what would you like to do?"
 #echo -e "\x1b[34m                                '   \x1b[0m"
 
+
+# reading .Xresources to color tty
+
+get_color(){
+    color=$(awk '/\*'$1':(.*)/ { print substr($2,2) }' < ~/.Xresources)
+    echo $color
+}
+
+if [ "$TERM" = "linux" ]; then
+    echo -en "\e]P0"$(get_color background)  #black
+    echo -en "\e]P8"$(get_color foreground)  #darkgrey
+    echo -en "\e]P1"$(get_color color1)      #darkred
+    echo -en "\e]P9"$(get_color color9)      #red
+    echo -en "\e]P2"$(get_color color2)      #darkgreen
+    echo -en "\e]PA"$(get_color color10)     #green
+    echo -en "\e]P3"$(get_color color3)      #brown
+    echo -en "\e]PB"$(get_color color11)     #yellow
+    echo -en "\e]P4"$(get_color color4)      #darkblue
+    echo -en "\e]PC"$(get_color color12)     #blue
+    echo -en "\e]P5"$(get_color color5)      #darkmagenta
+    echo -en "\e]PD"$(get_color color13)     #magenta
+    echo -en "\e]P6"$(get_color color6)      #darkcyan
+    echo -en "\e]PE"$(get_color color14)     #cyan
+    echo -en "\e]P7"$(get_color color7)      #lightgrey
+    echo -en "\e]PF"$(get_color color15)     #white
+    clear #for background artifacting
+fi

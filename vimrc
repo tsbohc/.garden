@@ -1,28 +1,29 @@
 set nocompatible              " required
 filetype off                  " required
-" set the runtime path to include Vundle and initialize
+
+" =================================================
+" ### vundle ###
+" =================================================
+
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call vundle#begin() " alternatively, pass a path where Vundle should install plugins-- call vundle#begin('~/some/path/here')
+Plugin 'gmarik/Vundle.vim'     " required
 
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
-
+" plugins
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'itchyny/lightline.vim'
+Plugin 'terryma/vim-multiple-cursors'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()              " required
+filetype plugin indent on      " required
 
+" =================================================
+" ### status line ###
+" =================================================
 
-" status line
 set noshowmode
+set laststatus=2
+
 let g:lightline = {
     \ 'colorscheme': 'jellybeans_lightline',
     \ 'active': {
@@ -30,7 +31,7 @@ let g:lightline = {
     \             [ 'readonly', 'filepath', 'modified' ] ],
     \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
-    \              [ 'fileformat', 'spell' ] ]
+    \              [ 'filetype', 'spell' ] ]
     \ },
     \ 'component_function': {
     \   'readonly': 'LightlineReadonly',
@@ -58,20 +59,22 @@ function! LightlineFilepath()
 endfunction
 
 let g:lightline.mode_map = {
-    \ 'n' : 'N',
-    \ 'i' : 'I',
-    \ 'R' : 'R',
-    \ 'v' : 'V',
-    \ 'V' : 'VL',
-    \ "\<C-v>": 'VB',
-    \ 'c' : 'C',
+    \ 'n' : 'NORMAL',
+    \ 'i' : 'INSERT',
+    \ 'R' : 'REPLACE',
+    \ 'v' : 'VISUAL',
+    \ 'V' : 'VLINE',
+    \ "\<C-v>": 'VBLOCK',
+    \ 'c' : 'COMMAND',
     \ 's' : 'S',
     \ 'S' : 'SL',
     \ "\<C-s>": 'SB',
     \ 't': 'T',
     \ }
 
+" =================================================
 " ### user settings ###
+" =================================================
 
 " style
 :set t_Co=256
@@ -82,6 +85,7 @@ syntax on
 filetype indent on
 set cursorline " current line
 set showmatch " matching [{(s
+hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
 " line numbers
 set number relativenumber
@@ -92,13 +96,13 @@ set clipboard=unnamedplus " systemwide clipboard
 set encoding=utf-8
 set ttyfast
 
+" mode switch delays
 set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
 
 " whitespace
 set wrap
-"set textwidth=79
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -114,7 +118,9 @@ set ignorecase
 set showmatch
 nnoremap \ :noh<return>
 
+" =================================================
 " ### keymaps ###
+" =================================================
 
 " hardmode
 noremap <Up> <Nop>
@@ -132,16 +138,13 @@ inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
 " general
-
 nnoremap j gj
 nnoremap k gk
 :imap ii <Esc>
 
-" powerline
-let g:powerline_pycmd="py3"
-:set laststatus=2
-
+" =================================================
 " ### vim magic ###
+" =================================================
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install
