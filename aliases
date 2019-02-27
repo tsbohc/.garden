@@ -8,29 +8,38 @@ bb(){
 }
 
 # nvim
-alias vim='nvim'
+alias v='nvim'
+
+# launch nvim in term emus, vim otherwise
+vim(){
+    shopt -q login_shell && vim ${1} || nvim ${1}
+}
+
+
+# xflux
+alias flux='xflux -l 60 -g 30 -k 3200'
 
 # list
 alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -la'
 alias l='ls' 					
-alias l.="ls -A | egrep '^\.'"      
+alias l.='ls -A | egrep "^\."'      
 
 # cd
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
-# fix obvious typo's
+# fix obvious typos
 alias cd..='cd ..'
-alias pdw="pwd"
+alias pdw='pwd'
 
 #shopt
 shopt -s cdspell # autocorrects cd typos
 shopt -s dotglob # include .files in the expansion
 shopt -s expand_aliases # expand aliases
-shopt -s nocaseglob; # case-insensitive expansion
+shopt -s nocaseglob # case-insensitive expansion
 
 shopt -s histappend # do not overwrite history
 shopt -s cmdhist # save multi-line commands in history as single line
@@ -48,16 +57,16 @@ alias fgrep='fgrep --color=auto'
 alias df='df -h'
 
 #pacman unlock
-alias unlock="sudo rm /var/lib/pacman/db.lck"
+alias unlock='sudo rm /var/lib/pacman/db.lck'
 
 #continue download
-alias wget="wget -c"
+alias wget='wget -c'
 
 #userlist
-alias userlist="cut -d: -f1 /etc/passwd"
+alias userlist='cut -d: -f1 /etc/passwd'
 
 #merge new settings
-alias merge="xrdb -merge ~/.Xresources"
+alias merge='xrdb -merge ~/.Xresources'
 
 # Aliases for software managment
 # pacman or pm
@@ -65,17 +74,17 @@ alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 
 # yay as aur helper - updates everything
-alias pksyua="yay -Syu --noconfirm"
+alias pksyua='yay -Syu --noconfirm'
 
 #ps
-alias ps="ps auxf"
-alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias ps='ps auxf'
+alias psgrep='ps aux | grep -v grep | grep -i -e VSZ -e'
 
 #grub update
-alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 #improve png
-alias fixpng="find . -type f -name "*.png" -exec convert {} -strip {} \;"
+alias fixpng='find . -type f -name "*.png" -exec convert {} -strip {} \;'
 
 #add new fonts
 alias fc='sudo fc-cache -fv'
@@ -86,13 +95,13 @@ alias skel='cp -rf /etc/skel/* ~'
 alias bupskel='cp -Rf /etc/skel ~/.skel-backup-$(date +%Y.%m.%d-%H.%M.%S)'
 
 #copy bashrc-latest over on bashrc - cb= copy bash
-alias cb="cp ~/.bashrc-latest ~/.bashrc && source ~/.bashrc"
+alias cb='cp ~/.bashrc-latest ~/.bashrc && source ~/.bashrc'
 
 #quickly kill conkies
 alias kc='killall conky'
 
 #hardware info --short
-alias hw="hwinfo --short"
+alias hw='hwinfo --short'
 
 #skip integrity check
 alias yayskip='yay -S --mflags --skipinteg'

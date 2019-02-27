@@ -122,7 +122,7 @@ opacity-rule = [
 ];
 
 # Dim inactive windows. (0.0 - 1.0)
-inactive-dim = 0.3;
+inactive-dim = 0.25;
 # Do not let dimness adjust based on window opacity.
 # inactive-dim-fixed = true;
 # Blur background of transparent windows. Bad performance with X Render backend. GLX backend is preferred.
@@ -137,9 +137,7 @@ blur-background-exclude = [
 ];
 
 #################################
-#
 # Fading
-#
 #################################
 
 # Fade windows during opacity changes.
@@ -154,12 +152,12 @@ fade-out-step = 0.03;
 # no-fading-openclose = true;
 
 # Specify a list of conditions of windows that should not be faded.
-fade-exclude = [ ];
+fade-exclude = [ 
+    "name = 'st'"
+];
 
 #################################
-#
 # Other
-#
 #################################
 
 # Try to detect WM windows and mark them as active.
@@ -215,9 +213,7 @@ detect-transient = true;
 detect-client-leader = true;
 
 #################################
-#
 # Window type settings
-#
 #################################
 
 wintypes:
@@ -236,10 +232,8 @@ wintypes:
 };
 
 ######################
-#
 # XSync
 # See: https://github.com/yshui/compton/commit/b18d46bcbdc35a3b5620d817dd46fbc76485c20d
-#
 ######################
 
 # Attempt to synchronize client applications' draw calls with `XSync()`, used on GLX backend to ensure up-to-date window content is painted.

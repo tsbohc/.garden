@@ -1,20 +1,22 @@
 " =================================================
 " ### plug ###
 " =================================================
+"
+if has('nvim')
+    call plug#begin('~/.vim/bundle')
 
-call plug#begin('~/.vim/bundle')
+    Plug 'itchyny/lightline.vim'
+    Plug 'Valloric/YouCompleteMe'
+    Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
-Plug 'itchyny/lightline.vim'
-Plug 'Valloric/YouCompleteMe'
-Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+    augroup load_us_ycm
+        autocmd!
+        autocmd InsertEnter * call plug#load('vim-multiple-cursors')
+                    \| autocmd! load_us_ycm
+    augroup END
 
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter * call plug#load('vim-multiple-cursors')
-                     \| autocmd! load_us_ycm
-augroup END
-
-call plug#end()
+    call plug#end()
+endif
 
 " =================================================
 " ### status line ###
@@ -76,7 +78,7 @@ let g:lightline.mode_map = {
 " =================================================
 
 " style
-:set t_Co=256
+set t_Co=256
 colorscheme jellybeans
 
 " syntax highlighting
@@ -101,6 +103,7 @@ set timeoutlen=3000
 
 " whitespace
 set wrap
+set scrolloff=10
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -111,8 +114,8 @@ set noshiftround
 " search
 set incsearch " search as characters are entered
 set hlsearch " highlight matches
-set ignorecase
-"set smartcase
+set ignorecase " case-insensitive search
+set smartcase " case-sensitive if search contains uppercase
 set showmatch
 nnoremap \ :noh<return>
 
@@ -120,6 +123,7 @@ nnoremap \ :noh<return>
 set clipboard=unnamedplus " systemwide
 vmap <leader>y :w! /tmp/vitmp<CR>
 nmap <leader>p :r! cat /tmp/vitmp<CR>
+" in case of default vim
 
 " =================================================
 " ### keymaps ###
@@ -143,7 +147,6 @@ inoremap <PageDown> <nop>
 " general
 nnoremap j gj
 nnoremap k gk
-:imap ii <Esc>
 
 " =================================================
 " ### vim magic ###

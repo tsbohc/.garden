@@ -172,17 +172,6 @@ bindsym $mod+r mode "resize"
 #        status_command i3status
 #}
 
-# execs
-exec_always feh --bg-fill /home/sean/Pictures/wallpaper.png
-exec compton --config /home/sean/.config/compton.conf
-exec_always /usr/bin/xrdb /home/sean/.Xresources
-exec xinput set-prop 11 281 1
-exec polybar top
-#exec xflux -l 60 -g 30 -k 2300
-exec sudo nmcli d connect wlp2s0
-exec xmodmap -e "clear Lock"
-exec xmodmap -e "keycode 66 = Escape NoSymbol Escape"
-
 # sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -set 1 
@@ -190,25 +179,35 @@ bindsym XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
 
 # remove window titles, borders
-new_window pixel 0
+new_window pixel 1
 #hide_edge_borders both 
 
-set $bg-color 			    #000000
-set $border-color 		    $bg-color
-set $inactive-bg-color		#000000
-set $inactive-border-color	$inactive-bg-color
-set $text-color			    #f3f4f5
-set $inactive-text-color	#676e7d
-set $urgent-bg-color		#e53935
-set $urgent-border-color	$urgent-bg-color
-set $indicator-color		#000000
+# class                 border  backgr. text    indicator child_border
+client.focused          #00ff00 #151515 #ffffff #d75f5f   #101010
+client.focused_inactive #101010 #151515 #ffffff #070707   #101010
+client.unfocused        #101010 #151515 #888888 #070707   #101010
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #101010 #151515 #ffffff #111111   #101010
 
-#window colors
-#       			    border		        	background	    	text			        indicator
-client.focused		    $border-color		    $bg-color	    	$text-color		        $indicator-color
-client.unfocused	    $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
-client.focused_inactive $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
-client.urgent		    $urgent-border-color	$urgent-bg-color	$text-color		        $indicator-color
+client.background       #151515
+
+#set $bg-color 			    #000000
+#set $inactive-bg-color		#000000
+#set $urgent-bg-color		#e53935
+#
+#set $border-color 		    #ff0000
+#set $inactive-border-color	#111111
+#set $urgent-border-color	$urgent-bg-color
+#
+#set $text-color			    #f3f4f5
+#set $inactive-text-color	#676e7d
+#set $indicator-color		#000000
+#
+## window colors		    border		        	background	    	text			        indicator
+#client.focused		    $border-color		    $bg-color	    	$text-color		        $indicator-color
+#client.unfocused	    $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
+#client.focused_inactive $inactive-border-color	$inactive-bg-color	$inactive-text-color	$indicator-color
+#client.urgent		    $urgent-border-color	$urgent-bg-color	$text-color		        $indicator-color
 
 #i3-gaps
 gaps inner 7

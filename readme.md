@@ -32,7 +32,7 @@
     - scrollback
     - boxdraw
 - wm:
-    - i3gaps
+    - i3-gaps
     - compton
     - polybar
     - rofi
@@ -56,11 +56,15 @@
 
     "link": {
         "bashrc": "~/.bashrc",
+        "aliases": "~/.aliases",
         "bash_profile": "~/.bash_profile",
         "xinitrc": "~/.xinitrc",
         "Xresources": "~/.Xresources",
+        
         "vimrc": "~/.vimrc",
         "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
+        "vim/jellybeans_lightline.vim": "~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim",
+        "vim/nvim_init.vim": "~/.config/nvim/init.vim",
 
         "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
         "neofetch/punpun": "~/.config/neofetch/punpun",
@@ -71,11 +75,15 @@
     },
 
     "install": [
-        "nitrogen"
+        "neovim",
+        "python2-pip",
+        "python-pip",
+        "xsel"
     ],
 
     "run": [
-        "echo 'woo'"
+        "sudo pip2 install pyvim",
+        "sudo pip install pyvim"
     ]
 }
 ```
