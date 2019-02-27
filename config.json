@@ -7,6 +7,7 @@
 
     "link": {
         "bashrc": "~/.bashrc",
+        "aliases": "~/.aliases",
         "bash_profile": "~/.bash_profile",
         "xinitrc": "~/.xinitrc",
         "Xresources": "~/.Xresources",

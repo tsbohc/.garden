@@ -92,7 +92,6 @@ set number relativenumber
 set nu rnu
 
 " rendering
-set clipboard=unnamedplus " systemwide clipboard
 set encoding=utf-8
 set ttyfast
 
@@ -117,6 +116,11 @@ set ignorecase
 "set smartcase
 set showmatch
 nnoremap \ :noh<return>
+
+" clipboard woes
+set clipboard=unnamedplus " systemwide
+vmap <leader>y :w! /tmp/vitmp<CR>
+nmap <leader>p :r! cat /tmp/vitmp<CR>
 
 " =================================================
 " ### keymaps ###
