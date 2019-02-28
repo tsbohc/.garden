@@ -1,4 +1,0 @@
-pacman -Syu reflector
-yay -S python2-pip python-pip
-sudo pip2 install pynvim
-sudo pip install pynvim

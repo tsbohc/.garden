@@ -75,11 +75,14 @@ def check_symlink(path):
         if not os.path.exists(target_path):
             return True
 
+care = 'unset'
+
 def create_symlink(src, dst):
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     backup_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'backup')
-    
+    global care 
+
     # create necessary dirs
     if not os.path.isdir(os.path.dirname(dst)):
         if not dry:
@@ -100,10 +103,18 @@ def create_symlink(src, dst):
     if os.path.isfile(dst) and not os.path.islink(dst):
         log('#', 'red', '~/' + os.path.relpath(dst, os.path.expanduser('~')))
         if not dry:
-            if ask_user("non-symlink found, back it up?"):
-                if not os.path.isdir(backup_dir): os.mkdir(backup_dir)
-                log('+', 'green', os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
-                os.rename(dst, os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst)))
+            if care == 'unset':
+                if ask_user("do you care about non-symlink backups?"):
+                    care = True
+                else:
+                    care = False
+            if care:
+                if ask_user("non-symlink found, back it up?"):
+                    if not os.path.isdir(backup_dir): os.mkdir(backup_dir)
+                    log('+', 'green', os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
+                    os.rename(dst, os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst)))
+                else:
+                    os.remove(dst)
             else:
                 os.remove(dst)
         else:
@@ -112,12 +123,12 @@ def create_symlink(src, dst):
     # check if source file exists
     if os.path.exists(src):
         if not dry:
-            log('↣', 'blue', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
-            if os.path.exists(dst):
-                os.remove(dst)
+            log('"', 'blue', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            if os.path.islink(os.path.expanduser(dst)):
+                os.remove(os.path.expanduser(dst))
             os.symlink(src, dst)
         else:
-            log('↣', 'yellow', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            log('"', 'yellow', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
         log('!', 'red', os.path.relpath(src) + colon + 'does not exist, skipping' + dots)
 
@@ -172,10 +183,6 @@ def install(dry_run=False):
     if 'mkdir' in js:
         echo_title('making directories')
         [create_directory(path) for path in js['mkdir']]
-    if 'link' in js:
-        echo_title('linking dots')
-        #[create_symlink(src, dst, args.replace) for src, dst in js['link'].items()]
-        [create_symlink(src, dst) for src, dst in js['link'].items()]
     if 'copy' in js:
         echo_title('copying stuff')
         [copy_path(src, dst) for src, dst in js['copy'].items()]
@@ -189,12 +196,14 @@ def install(dry_run=False):
                 os.chdir('..')
                 log('>', 'green', 'cleaning up' + dots)
                 shutil.rmtree('yay')
+                run_command('yay -Syu')
             else:
                 log('>', 'yellow', 'git clone https://aur.archlinux.org/yay.git')
                 log('>', 'yellow', 'cd yay')
                 log('>', 'yellow', 'makepkg -si --noconfirm')
                 log('>', 'yellow', 'cd ..')
                 log('>', 'yellow', 'rm -r yay')
+                log('>', 'yellow', 'yay -Syu')
 
         echo_title('installing packages')
         for pkg in js['install']:
@@ -208,15 +217,24 @@ def install(dry_run=False):
         echo_title('running commands')
         [run_command(command) for command in js['run']]
 
-    if not os.path.isfile(os.path.expanduser('~/config/nvim/plug.vim')):
-        echo_title('setting up nvim')
+    if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
+        echo_title('installing plug')
         if not dry:
-            log('>', 'green', 'installing plug.vim')
-            run_command('curl -fLo ~/.config/nvim/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-            run_command('nvim "+:PlugInstall" "+:q" "+:q"')
-        if dry:
+            log('>', 'green', 'curling .vim')
+            os.system('curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+        else:
             log('>', 'yellow', 'installing plug.vim')
-            log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
+
+    echo_title('updating nvim plugins')
+    if not dry:
+        run_command('nvim "+:PlugInstall" "+:q" "+:q"')
+    else:
+        log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
+
+    if 'link' in js:
+        echo_title('linking dots')
+        #[create_symlink(src, dst, args.replace) for src, dst in js['link'].items()]
+        [create_symlink(src, dst) for src, dst in js['link'].items()]
 
     if not dry:
         echo_title('finishing up') 

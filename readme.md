@@ -19,8 +19,8 @@
 - bashrc: 
     - promt that is git aware
     - tty colors are read from .Xresources
-- vim:
-    - vundle:
+- nvim:
+    - plug:
         - valloric/youcompleteme
         - itchyny/lightline
         - terryma/vim-multiple-cursors

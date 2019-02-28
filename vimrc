@@ -6,7 +6,7 @@ if has('nvim')
     call plug#begin('~/.vim/bundle')
 
     Plug 'itchyny/lightline.vim'
-    Plug 'Valloric/YouCompleteMe'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
     Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
     augroup load_us_ycm

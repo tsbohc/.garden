@@ -26,7 +26,13 @@
     },
 
     "install": [
+        "cmake",
+        "reflector",
+        "tamzen-font-git",
         "i3-gaps",
+        "compton",
+        "polybar",
+        "xflux",
         "neovim",
         "python2-pip",
         "python-pip",
@@ -34,7 +40,7 @@
     ],
 
     "run": [
-        "sudo pip2 install pyvim",
-        "sudo pip install pyvim"
+        "sudo pip2 install pynvim -q",
+        "sudo pip install pynvim -q"
     ]
 }
