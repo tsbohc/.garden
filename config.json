@@ -21,6 +21,7 @@
         "neofetch/punpun": "~/.config/neofetch/punpun",
 
         "i3": "~/.config/i3/config",
+        "altlayout_i3": "~/.config/i3/alternating_layouts.py",
         "compton": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
     },
@@ -32,6 +33,7 @@
         "i3-gaps",
         "compton",
         "polybar",
+        "feh",
         "xflux",
         "neovim",
         "python2-pip",

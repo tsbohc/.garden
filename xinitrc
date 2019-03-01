@@ -1,9 +1,8 @@
-xrdb ~/.Xresources
-feh --bg-fill /home/sean/Pictures/wallpaper.png
+feh --bg-fill ~/pictures/wallpaper.png
+polybar top &
 xinput set-prop 11 281 1
 xmodmap -e "clear Lock"
-xmodmap -e "keycode 66 = Escape NoSymbol Escape"
+modmap -e "keycode 66 = Escape NoSymbol Escape"
+compton --config ~/.config/compton.conf &
 nmcli d connect wlp2s0
-compton --config /home/sean/.config/compton.conf &
-polybar top &
 i3

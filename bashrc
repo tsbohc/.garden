@@ -2,20 +2,16 @@
 # ~/.bashrc
 #
 
-#Ibus settings if you need them
-#type ibus-setup in terminal to change settings and start the daemon
-#delete the hashtags of the next lines and restart
-#export GTK_IM_MODULE=ibus
-#export XMODIFIERS=@im=dbus
-#export QT_IM_MODULE=ibus
-
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+
+# sources
+
+[[ -f ~/.aliases ]] && . ~/.aliases
 
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=vim
 
-#prompt
+# prompt
 CGREEN='\[\e[32m\]'
 CRED='\[\e[31m\]'
 CESCAPE='\[\e[0;39m\]'
@@ -32,15 +28,35 @@ git_branch() {
 PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
 #PS1='\e[90m┌─[\e[39m\w\e[90m]\n\e[90m└$ \e[39m'
 
+#cd ~/
+
 if [ -d "$HOME/.bin" ] ;
 	then PATH="$HOME/.bin:$PATH"
 fi
 
-[[ -f ~/.aliases ]] && . ~/.aliases
+# ex - the unarchiver
+ex (){
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
 
-#neofetch
-
-# reading .Xresources to color tty
+# .Xresources to tty
 get_color(){
     color=$(awk '/\*'$1':(.*)/ { print substr($2,2) }' < ~/.Xresources)
     echo $color

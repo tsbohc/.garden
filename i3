@@ -3,7 +3,8 @@
 #
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
-#
+
+# layout py
 
 # i3 config file (v4)
 #
@@ -178,16 +179,17 @@ bindsym XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym Shift+XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
 
+exec --no-startup-id ~/.config/i3/alternating_layouts.py
+
 # remove window titles, borders
 new_window pixel 1
-#hide_edge_borders both 
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #00ff00 #151515 #ffffff #d75f5f   #101010
-client.focused_inactive #101010 #151515 #ffffff #070707   #101010
-client.unfocused        #101010 #151515 #888888 #070707   #101010
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #101010 #151515 #ffffff #111111   #101010
+client.focused          #00ff00 #151515 #ffffff #101010   #101010
+client.focused_inactive #101010 #151515 #ffffff #101010   #101010
+client.unfocused        #101010 #151515 #888888 #101010   #101010
+client.urgent           #2f343a #900000 #ffffff #101010   #900000
+client.placeholder      #101010 #151515 #ffffff #101010   #101010
 
 client.background       #151515
 
@@ -211,3 +213,4 @@ client.background       #151515
 
 #i3-gaps
 gaps inner 7
+smart_gaps on

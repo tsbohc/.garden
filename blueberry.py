@@ -180,6 +180,19 @@ except FileNotFoundError:
 def install(dry_run=False):
     global dry
     dry = dry_run
+    should_install_packages = True
+    should_run_commands = True
+
+    if ask_user("install packages?"):
+        should_install_packages = True
+    else:
+        should_install_packages = False
+
+    if ask_user("run commands?"):
+        should_run_commands= True
+    else:
+        should_run_commands = False
+
     if 'mkdir' in js:
         echo_title('making directories')
         [create_directory(path) for path in js['mkdir']]
@@ -204,16 +217,17 @@ def install(dry_run=False):
                 log('>', 'yellow', 'cd ..')
                 log('>', 'yellow', 'rm -r yay')
                 log('>', 'yellow', 'yay -Syu')
+        
+        if should_install_packages:
+            echo_title('installing packages')
+            for pkg in js['install']:
+                if not dry:
+                    log('>', 'green', pkg)
+                    subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
+                else:
+                    log('>', 'yellow', pkg)
 
-        echo_title('installing packages')
-        for pkg in js['install']:
-            if not dry:
-                log('>', 'green', pkg)
-                subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
-            else:
-                log('>', 'yellow', pkg)
-
-    if 'run' in js:
+    if 'run' in js and should_run_commands:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
 
@@ -227,7 +241,8 @@ def install(dry_run=False):
 
     echo_title('updating nvim plugins')
     if not dry:
-        run_command('nvim "+:PlugInstall" "+:q" "+:q"')
+        log('>', 'green', 'nvim "+:PlugInstall" "+:q" "+:q"')
+        os.system('nvim "+:PlugInstall" "+:q" "+:q"')
     else:
         log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
 
@@ -296,7 +311,7 @@ def main():
     echo("       _                                ", True, "blue")
     echo("  /   //         /                      ", True, "blue")
     echo(" /__ //  . . _  /__ _  __  __  __  ,    ", True, "blue")
-    echo("/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  ", True, "blue")
+    echo("/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤ ", True, "blue")
     echo("                                 /      ", True, "blue")
     echo("what would you like to do?", False)
     echo("      '   ", True, "blue")

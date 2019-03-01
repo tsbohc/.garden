@@ -33,6 +33,7 @@
     - boxdraw
 - wm:
     - i3-gaps
+        - olemartinorg/i3-alternating-layout
     - compton
     - polybar
     - rofi
