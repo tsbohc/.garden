@@ -1,0 +1,9 @@
+git clone git://r-36.net/hosts-gen
+sudo cp /etc/hosts /etc/hosts_bak
+cd hosts-gen
+sudo make install
+sudo hosts-gen
+sudo cp examples/gethostszero /bin
+sudo chmod 775 /bin/gethostszero
+sudo /bin/gethostszero
+sudo hosts-gen
