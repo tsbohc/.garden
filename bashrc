@@ -19,7 +19,7 @@ shopt -s cmdhist # save multi-line commands in history as single line
 shopt -s autocd # change to named directory
 
 export HISTCONTROL=ignoreboth:erasedups
-export EDITOR=vim
+export EDITOR=nvim
 
 # prompt
 CGREEN='\[\e[32m\]'
@@ -42,13 +42,22 @@ if [ -d "$HOME/.bin" ] ;
 	then PATH="$HOME/.bin:$PATH"
 fi
 
+# colored man pages
+export LESS_TERMCAP_md=$'\e[1;33m'  #titles
+export LESS_TERMCAP_us=$'\e[1;32m'  #options
+export LESS_TERMCAP_so=$'\e[0m'     #bottom text
+export LESS_TERMCAP_mb=$'\e[0m'     #nothing
+export LESS_TERMCAP_me=$'\e[0m'     #half the text, marks, buggy
+export LESS_TERMCAP_se=$'\e[0m'     #weird, scroll dependent
+export LESS_TERMCAP_ue=$'\e[0m'     #nothing
+
 # .Xresources to tty
 get_color(){
     color=$(awk '/\*'$1':(.*)/ { print substr($2,2) }' < ~/.Xresources)
     echo $color
 }
 
-if [ "$TERM" = "linux" ] && [ shopt -q login_shell ]; then
+if [ "$TERM" = "linux" ]; then
     echo -en "\e]P0"$(get_color background)  #black
     echo -en "\e]P8"$(get_color foreground)  #darkgrey
     echo -en "\e]P1"$(get_color color1)      #darkred
@@ -66,9 +75,9 @@ if [ "$TERM" = "linux" ] && [ shopt -q login_shell ]; then
     echo -en "\e]P7"$(get_color color7)      #lightgrey
     echo -en "\e]PF"$(get_color color15)     #white
     clear 
+    now=$(date +"%A, %B %d, %H:%M")
+    echo "${now}"
     u=$(whoami)
     echo "welcome back, ${u}"
-    now=$(date +"%A %B %d, %H:%M")
-    echo "it is ${now}"
 fi
 

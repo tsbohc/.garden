@@ -8,9 +8,9 @@ bb(){
 }
 
 # launch nvim in term emus, vim otherwise
-vim(){
-    shopt -q login_shell && vim ${1} || nvim ${1}
-}
+#vim(){
+#    shopt -q login_shell && vim ${1} || nvim ${1}
+#}
 
 # nvim
 alias v='nvim'
@@ -44,10 +44,13 @@ alias rm='rm -I'
 alias cp='cp -i'
 alias mv='mv -i'
 
-#readable output
+# readable output
 alias df='df -h'
 
-#cleanup orphaned packages
+# tinyfetch
+alias tinyfetch='python3 ~/blueberry/scripts/tinyfetch.py'
+
+# cleanup orphaned packages
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
 # xflux

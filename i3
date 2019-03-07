@@ -179,7 +179,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym Shift+XF86MonBrightnessDown exec xbacklight -set 1
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
 
-exec --no-startup-id ~/.config/i3/alternating_layouts.py
+exec --no-startup-id ~/blueberry/scripts/alternatinglayout_i3
 
 # remove window titles, borders
 new_window pixel 1
