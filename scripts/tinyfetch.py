@@ -53,13 +53,16 @@ def main():
     hostname = platform.node()
     term = os.getenv("TERM")
     user = os.getenv("USER")
-    shell = os.getenv("SHELL")
+    shell = os.getenv("SHELL")[5:]
     distribution, version, named_version = distro.linux_distribution()
+    packages = subprocess.run("yay -Q | wc -l", stdout=subprocess.PIPE, shell=True).stdout.decode('utf-7')[:-1] + " packages"
+
     
     color_test(colors, False)
     print(distribution)
     color_test(colors, True)
-    print(version)
+    #print(version)
+    print(packages)
     color_test(colors2, False)
     print(shell)
     color_test(colors2, True)

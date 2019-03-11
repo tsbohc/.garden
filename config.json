@@ -29,6 +29,7 @@
         "cmake",
         "reflector",
         "tamzen-font-git",
+        "fzf",
         "i3-gaps",
         "compton",
         "polybar",

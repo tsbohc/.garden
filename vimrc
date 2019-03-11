@@ -105,9 +105,9 @@ set timeoutlen=3000
 set wrap
 set scrolloff=10
 set formatoptions=tcqrn1
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set noshiftround
 
@@ -119,11 +119,17 @@ set smartcase " case-sensitive if search contains uppercase
 set showmatch
 nnoremap \ :noh<return>
 
-" clipboard woes
+" clipboard woes, default vim
 set clipboard=unnamedplus " systemwide
 vmap <leader>y :w! /tmp/vitmp<CR>
 nmap <leader>p :r! cat /tmp/vitmp<CR>
-" in case of default vim
+
+" =================================================
+" ### filetype specifics ###
+" =================================================
+
+" python
+au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
 " =================================================
 " ### keymaps ###

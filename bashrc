@@ -7,6 +7,9 @@
 # sources
 [[ -f ~/.aliases ]] && . ~/.aliases
 
+# z.lua
+eval "$(lua ~/z.lua/z.lua --init bash)"
+
 # shopt
 shopt -s cdspell # autocorrects cd typos
 shopt -s dotglob # include .files in the expansion

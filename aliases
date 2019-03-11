@@ -1,16 +1,10 @@
 #!/bin/bash
 
 bb(){
-    cd ~/blueberry
-    if [ $# -ne 0 ]; then
-       vim ~/blueberry/$1
-    fi 
+  cd ~/blueberry
+  find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r $EDITOR
+  cd
 }
-
-# launch nvim in term emus, vim otherwise
-#vim(){
-#    shopt -q login_shell && vim ${1} || nvim ${1}
-#}
 
 # nvim
 alias v='nvim'
@@ -29,6 +23,11 @@ alias l='ls'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# cdls
+cdl(){
+  cd ${1} ; la
+}
 
 # fix typos
 alias cd..='cd ..'
@@ -54,12 +53,15 @@ alias tinyfetch='python3 ~/blueberry/scripts/tinyfetch.py'
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
 # xflux
-alias flux='xflux -l 60 -g 30 -k 3200'
+alias flux='xflux -l 60 -g 30 -k 2000'
 #alias flux='xflux -l 60 -g 30 -k 3200 | grep -o "'.*'" | sed "s/'//g" > /tmp/fluxkiller'
 #alias fluxkill='. /tmp/fluxkiller'
+#flux(){
+#  xflux -l 60 -g 30 -k $1 | grep -o "'.*'" | sed "s/'//g" > /tmp/fluxkiller
+#}
 
 # ex - the unarchiver
-ex (){
+ex(){
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xjf $1   ;;

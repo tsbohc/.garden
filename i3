@@ -176,8 +176,8 @@ bindsym $mod+r mode "resize"
 # sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -set 1 
-# bindsym Shift+XF86MonBrightnessDown exec xbacklight -set 1
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
+bindsym XF86AudioRaiseVolume exec pactl -- set-sink-volume 0 +10%
+bindsym XF86AudioLowerVolume exec pactl -- set-sink-volume 0 -10%
 
 exec --no-startup-id ~/blueberry/scripts/alternatinglayout_i3
 
