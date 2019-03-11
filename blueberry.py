@@ -234,6 +234,9 @@ def install():
         else:
             echo_log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
 
+    echo_title('updating z.lua')
+    run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > scripts/z.lua')
+
     # symlink
     if 'link' in js:
         echo_title('linking dots')

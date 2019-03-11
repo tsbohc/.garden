@@ -17,9 +17,6 @@
         "vim/jellybeans_lightline.vim": "~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim",
         "vim/nvim_init.vim": "~/.config/nvim/init.vim",
 
-        "neofetch/neofetch.conf": "~/.config/neofetch/config.conf",
-        "neofetch/punpun": "~/.config/neofetch/punpun",
-
         "i3": "~/.config/i3/config",
         "compton": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"

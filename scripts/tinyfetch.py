@@ -58,6 +58,7 @@ def main():
     packages = subprocess.run("yay -Q | wc -l", stdout=subprocess.PIPE, shell=True).stdout.decode('utf-7')[:-1] + " packages"
 
     
+    print()
     color_test(colors, False)
     print(distribution)
     color_test(colors, True)
@@ -67,6 +68,7 @@ def main():
     print(shell)
     color_test(colors2, True)
     print(term)
+    print()
 
 if __name__ == "__main__":
     main()

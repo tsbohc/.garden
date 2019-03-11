@@ -8,7 +8,7 @@
 [[ -f ~/.aliases ]] && . ~/.aliases
 
 # z.lua
-eval "$(lua ~/z.lua/z.lua --init bash)"
+eval "$(lua ~/blueberry/scripts/z.lua --init bash)"
 
 # shopt
 shopt -s cdspell # autocorrects cd typos
