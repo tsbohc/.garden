@@ -41,8 +41,14 @@
         "xsel"
     ],
 
+    "pip2": [
+      "pynvim"
+    ],
+
+    "pip": [
+      "pynvim"
+    ],
+
     "run": [
-        "sudo pip2 install pynvim -q",
-        "sudo pip install pynvim -q"
     ]
 }

@@ -46,7 +46,7 @@ def color_test(colordict, should_key = False):
             print(get_color(colordict, key) + "██ " + escape, end='')
 
 def main():
-    subprocess.run('clear')
+    #subprocess.run('clear')
 
     operatingsystem = platform.system()
     desktopenvironment = os.getenv("DESKTOP_SESSON")
