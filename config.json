@@ -1,8 +1,8 @@
 {
     "mkdir": [
-        "~/downloads",
-        "~/pictures",
-        "~/projects"
+        "~/Downloads",
+        "~/Pictures",
+        "~/Projects"
     ],
 
     "link": {
@@ -11,12 +11,10 @@
         "bash_profile": "~/.bash_profile",
         "xinitrc": "~/.xinitrc",
         "Xresources": "~/.Xresources",
-        
         "vimrc": "~/.vimrc",
         "vim/colors/jellybeans.vim": "~/.vim/colors/jellybeans.vim",
         "vim/jellybeans_lightline.vim": "~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim",
         "vim/nvim_init.vim": "~/.config/nvim/init.vim",
-
         "i3": "~/.config/i3/config",
         "compton": "~/.config/compton.conf",
         "polybar": "~/.config/polybar/config"
@@ -24,15 +22,18 @@
 
     "install": [
         "cmake",
-        "reflector",
         "tamzen-font-git",
-        "fzf",
-        "i3-gaps",
-        "compton",
+        "neovim",
         "polybar",
+        "rofi",
+        "i3-gaps",
+        "python-i3-py",
+        "xorg-util-macros",
+        "compton",
+        "reflector",
+        "fzf",
         "feh",
         "xflux",
-        "neovim",
         "python2-pip",
         "python-pip",
         "xsel"

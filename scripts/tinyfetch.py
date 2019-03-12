@@ -45,6 +45,14 @@ def color_test(colordict, should_key = False):
         else:
             print(get_color(colordict, key) + "██ " + escape, end='')
 
+def stand_by():
+    print('\x1b[97m' + '██' + get_color(colors2, 'yellow') + '██' + get_color(colors2, 'cyan') + '██' + get_color(colors2, 'green') + '██' + get_color(colors2, 'magenta') + '██' + get_color(colors, 'red') + '██' + get_color(colors2, 'blue') + '██' + escape)
+    print('\x1b[97m' + '██' + get_color(colors2, 'yellow') + '██' + get_color(colors2, 'cyan') + '██' + get_color(colors2, 'green') + '██' + get_color(colors2, 'magenta') + '██' + get_color(colors, 'red') + '██' + get_color(colors2, 'blue') + '██' + escape)
+    print('\x1b[97m' + '██' + get_color(colors2, 'yellow') + '██' + get_color(colors2, 'cyan') + '██' + get_color(colors2, 'green') + '██' + get_color(colors2, 'magenta') + '██' + get_color(colors, 'red') + '██' + get_color(colors2, 'blue') + '██' + escape)
+
+    print(get_color(colors2, 'blue') + '██' + '\x1b[30m' + '██' + get_color(colors2, 'magenta') + '██' + '\x1b[30m' + '██' + get_color(colors2, 'cyan') + '██' + '\x1b[30m' + '██' + '\x1b[97m' + '██' + escape) 
+    print('\x1b[30m' + '██████████████' + escape)
+
 def main():
     #subprocess.run('clear')
 

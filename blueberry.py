@@ -148,10 +148,7 @@ def install():
     global dry
 
     tasks = {
-            'install packages?': True,
-            'run commands?': True,
-            'set up nvim?': True,
-            'install pips?': True
+            'install packages?': True
     }
     
     if not dry:
@@ -194,11 +191,11 @@ def install():
                 else:
                     echo_log('+', 'yellow', pkg)
 
-    if 'run' in js and tasks['run commands?']:
+    if 'run' in js:
         echo_title('running commands')
         [run_command(command) for command in js['run']]
     
-    if tasks['install pips?']:
+    if tasks['install packages?']:
         if 'pip' or 'pip2' in js:
             echo_title('installing pips')
             if 'pip2' in js:
@@ -216,23 +213,22 @@ def install():
                     else:
                         echo_log('+', 'yellow', pkg + ' pip')
     
-    if tasks['set up nvim?']:
-        # install plug if needed
-        if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
-            echo_title('installing plug')
-            if not dry:
-                echo_log('>', 'green', 'curling .vim')
-                os.system('curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-            else:
-                echo_log('>', 'yellow', 'installing plug.vim')
-
-        # setup/update nvim plugs
-        echo_title('updating nvim plugins')
+    # install plug if needed
+    if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
+        echo_title('installing plug')
         if not dry:
-            echo_log('>', 'green', 'nvim "+:PlugInstall" "+:q" "+:q"')
-            os.system('nvim "+:PlugInstall" "+:q" "+:q"')
+            echo_log('>', 'green', 'curling .vim')
+            os.system('curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
         else:
-            echo_log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
+            echo_log('>', 'yellow', 'installing plug.vim')
+
+    # setup/update nvim plugs
+    echo_title('updating nvim plugins')
+    if not dry:
+        echo_log('>', 'green', 'nvim "+:PlugInstall" "+:q" "+:q"')
+        os.system('nvim "+:PlugInstall" "+:q" "+:q"')
+    else:
+        echo_log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
 
     echo_title('updating z.lua')
     run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > scripts/z.lua')
