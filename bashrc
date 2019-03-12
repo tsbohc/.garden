@@ -1,7 +1,9 @@
-#
-# ~/.bashrc
-#
-
+#    ______   
+#   (. /   )          /        
+#     /---\ __.  _   /_  __  _.
+#    / ___/(_/|_/_)_/ /_/ (_(__
+# (_/ (      
+            
 [[ $- != *i* ]] && return
 
 # sources
@@ -15,12 +17,14 @@ shopt -s cdspell # autocorrects cd typos
 shopt -s dotglob # include .files in the expansion
 shopt -s expand_aliases # expand aliases
 shopt -s nocaseglob # case-insensitive expansion
+bind 'set completion-ignore-case on' # case-insensitive tab completion
 
 shopt -s histappend # do not overwrite history
 shopt -s cmdhist # save multi-line commands in history as single line
 
 shopt -s autocd # change to named directory
 
+# exports
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=nvim
 
@@ -39,7 +43,6 @@ git_branch() {
 }
 
 PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
-#PS1='\e[90m┌─[\e[39m\w\e[90m]\n\e[90m└$ \e[39m'
 
 if [ -d "$HOME/.bin" ] ;
 	then PATH="$HOME/.bin:$PATH"

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#    ____     _                 
+#   (. / |   //                 
+#     /--|  // o __.  _   _  _  
+#  ) /   |_</_<_(_/|_/_)_</_/_)_
+# (_/       
+
 bb(){
   cd ~/blueberry
   find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r $EDITOR
@@ -13,10 +19,10 @@ alias v='nvim'
 alias :q='exit'
 
 # ls
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -la'
-alias l.='ls -a | egrep "^\."'      
+alias ls='ls -F --color=auto'
+alias la='ls -A'
+alias ll='ls -lA'
+alias l.='ls -A | egrep "^\."'      
 alias l='ls' 					
 
 # cd

@@ -1,5 +1,10 @@
+!  __   __)  
+! (.  |/     
+!     |  __  _  _   __ . . __  _. _  _      
+!  ) /|_/ (_</_/_)_(_)(_/_/ (_(__</_/_)_    
+! (_/        
+           
 URxvt*font: xft:TamzenForPowerline:pixelsize=16
-
 !URxvt*font: -gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso10646-1
 !URxvt*font: xft:Dina:pixelsize=13 
 !URxvt*font: -xos4-terminesspowerline-medium-r-normal--14-140-72-72-c-80-iso10646-1
@@ -7,7 +12,6 @@ URxvt*font: xft:TamzenForPowerline:pixelsize=16
 URxvt*scrollBar: false
 URxvt*borderLess: false 
 URxvt*internalBorder: 6
-!URxvt*borderColor: #282522
 
 Xft.dpi: 96
 Xft.antialias: true      
@@ -18,11 +22,8 @@ Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
 *cursorColor: #d7d7d7
-!cursor_foreground = #121212
 *foreground: #adadad
-!foreground_bold = #efefef
 *background: #121212
-!highlight = #222222
 
 !black
 *color0: #1c1c1c
@@ -59,7 +60,6 @@ rofi.color-urgent: argb:00000000, #f3f4f5, argb:00000000, #ac4142,      #000000
 rofi.color-active: argb:00ff0000, #f3f4f5, argb:00000000, #ac4142,      #000000
 
 rofi.bw: 1
-
 rofi.font: Tamzen 14px
 rofi.eh: 1
 rofi.padding: 2

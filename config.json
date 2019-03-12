@@ -22,6 +22,9 @@
 
     "install": [
         "cmake",
+        "xorg",
+        "xorg-xinit",
+        "lua",
         "tamzen-font-git",
         "neovim",
         "polybar",
@@ -48,5 +51,6 @@
     ],
 
     "run": [
+      "sudo sed -i 's/#Color/Color' /etc/pacman.conf"
     ]
 }

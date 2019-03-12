@@ -1,7 +1,13 @@
-" =================================================
-" ### plug ###
-" =================================================
-"
+"        .
+"  __   __)            
+" (. | /o ______  __  _.
+"    |/<_/ / / <_/ (_(__
+"    |                  
+
+" -------------------------------------------------
+"   plug
+" -------------------------------------------------
+
 if has('nvim')
     call plug#begin('~/.vim/bundle')
 
@@ -18,9 +24,9 @@ if has('nvim')
     call plug#end()
 endif
 
-" =================================================
-" ### status line ###
-" =================================================
+" -------------------------------------------------
+"   status line
+" -------------------------------------------------
 
 set noshowmode
 set laststatus=2
@@ -73,12 +79,13 @@ let g:lightline.mode_map = {
     \ 't': 'T',
     \ }
 
-" =================================================
-" ### user settings ###
-" =================================================
+" -------------------------------------------------
+"   user settings
+" -------------------------------------------------
 
 " style
 set t_Co=256
+set synmaxcol=256
 colorscheme jellybeans
 
 " syntax highlighting
@@ -88,9 +95,13 @@ set cursorline " current line
 set showmatch " matching [{(s
 hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
+" invisibles
+set list
+set listchars=
+set listchars+=tab:•\
+
 " line numbers
 set number relativenumber
-set nu rnu
 
 " rendering
 set encoding=utf-8
@@ -124,16 +135,16 @@ set clipboard=unnamedplus " systemwide
 vmap <leader>y :w! /tmp/vitmp<CR>
 nmap <leader>p :r! cat /tmp/vitmp<CR>
 
-" =================================================
-" ### filetype specifics ###
-" =================================================
+" -------------------------------------------------
+"   filetype specifics
+" -------------------------------------------------
 
 " python
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
-" =================================================
-" ### keymaps ###
-" =================================================
+" -------------------------------------------------
+"   keymaps
+" -------------------------------------------------
 
 " hardmode
 noremap <Up> <Nop>
@@ -154,9 +165,9 @@ inoremap <PageDown> <nop>
 nnoremap j gj
 nnoremap k gk
 
-" =================================================
-" ### vim magic ###
-" =================================================
+" -------------------------------------------------
+"   vim magic
+" -------------------------------------------------
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install

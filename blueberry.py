@@ -78,11 +78,14 @@ def check_symlink(path):
         if not os.path.exists(target_path):
             return True
 
+care = 'unset'
+
 def create_symlink(src, dst):
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     backup_dir = os.path.abspath('backup')
     #backup_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'backup')
+    global care
 
     # check if source file exists
     if os.path.exists(src):
