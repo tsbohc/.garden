@@ -1,0 +1,67 @@
+
+warning: cmake-3.13.4-1 is up to date -- skipping
+ there is nothing to do
+warning: lua-5.3.5-2 is up to date -- skipping
+ there is nothing to do
+:: There are 50 members in group xorg:
+:: Repository extra
+   1) xf86-video-vesa  2) xorg-bdftopcf  3) xorg-docs  4) xorg-font-util  5) xorg-fonts-100dpi  6) xorg-fonts-75dpi  7) xorg-fonts-encodings  8) xorg-iceauth  9) xorg-luit  10) xorg-mkfontscale  11) xorg-server  12) xorg-server-common  13) xorg-server-devel  14) xorg-server-xdmx  15) xorg-server-xephyr  16) xorg-server-xnest  17) xorg-server-xvfb  18) xorg-server-xwayland  19) xorg-sessreg  20) xorg-setxkbmap  21) xorg-smproxy  22) xorg-x11perf  23) xorg-xauth  24) xorg-xbacklight  25) xorg-xcmsdb  26) xorg-xcursorgen  27) xorg-xdpyinfo  28) xorg-xdriinfo  29) xorg-xev  30) xorg-xgamma  31) xorg-xhost  32) xorg-xinput  33) xorg-xkbcomp  34) xorg-xkbevd  35) xorg-xkbutils  36) xorg-xkill  37) xorg-xlsatoms  38) xorg-xlsclients  39) xorg-xmodmap  40) xorg-xpr  41) xorg-xprop  42) xorg-xrandr  43) xorg-xrdb  44) xorg-xrefresh  45) xorg-xset  46) xorg-xsetroot  47) xorg-xvinfo  48) xorg-xwd  49) xorg-xwininfo  50) xorg-xwud
+
+Enter a selection (default=all): warning: xf86-video-vesa-2.4.0-2 is up to date -- skipping
+warning: xorg-bdftopcf-1.1-1 is up to date -- skipping
+warning: xorg-docs-1.7.1-2 is up to date -- skipping
+warning: xorg-font-util-1.3.1-2 is up to date -- skipping
+warning: xorg-fonts-100dpi-1.0.3-4 is up to date -- skipping
+warning: xorg-fonts-75dpi-1.0.3-4 is up to date -- skipping
+warning: xorg-fonts-encodings-1.0.4-5 is up to date -- skipping
+warning: xorg-iceauth-1.0.8-1 is up to date -- skipping
+warning: xorg-luit-1.1.1-3 is up to date -- skipping
+warning: xorg-mkfontscale-1.2.0-2 is up to date -- skipping
+warning: xorg-server-1.20.4-1 is up to date -- skipping
+warning: xorg-server-common-1.20.4-1 is up to date -- skipping
+warning: xorg-server-devel-1.20.4-1 is up to date -- skipping
+warning: xorg-server-xdmx-1.20.4-1 is up to date -- skipping
+warning: xorg-server-xephyr-1.20.4-1 is up to date -- skipping
+warning: xorg-server-xnest-1.20.4-1 is up to date -- skipping
+warning: xorg-server-xvfb-1.20.4-1 is up to date -- skipping
+warning: xorg-server-xwayland-1.20.4-1 is up to date -- skipping
+warning: xorg-sessreg-1.1.1-2 is up to date -- skipping
+warning: xorg-setxkbmap-1.3.1-2 is up to date -- skipping
+warning: xorg-smproxy-1.0.6-2 is up to date -- skipping
+warning: xorg-x11perf-1.6.0-2 is up to date -- skipping
+warning: xorg-xauth-1.0.10-2 is up to date -- skipping
+warning: xorg-xbacklight-1.2.2-1 is up to date -- skipping
+warning: xorg-xcmsdb-1.0.5-2 is up to date -- skipping
+warning: xorg-xcursorgen-1.0.7-1 is up to date -- skipping
+warning: xorg-xdpyinfo-1.3.2-2 is up to date -- skipping
+warning: xorg-xdriinfo-1.0.6-1 is up to date -- skipping
+warning: xorg-xev-1.2.3-1 is up to date -- skipping
+warning: xorg-xgamma-1.0.6-2 is up to date -- skipping
+warning: xorg-xhost-1.0.8-1 is up to date -- skipping
+warning: xorg-xinput-1.6.2-2 is up to date -- skipping
+warning: xorg-xkbcomp-1.4.2-1 is up to date -- skipping
+warning: xorg-xkbevd-1.1.4-2 is up to date -- skipping
+warning: xorg-xkbutils-1.0.4-3 is up to date -- skipping
+warning: xorg-xkill-1.0.5-1 is up to date -- skipping
+warning: xorg-xlsatoms-1.1.3-1 is up to date -- skipping
+warning: xorg-xlsclients-1.1.4-1 is up to date -- skipping
+warning: xorg-xmodmap-1.0.10-1 is up to date -- skipping
+warning: xorg-xpr-1.0.5-1 is up to date -- skipping
+warning: xorg-xprop-1.2.4-1 is up to date -- skipping
+warning: xorg-xrandr-1.5.0-2 is up to date -- skipping
+warning: xorg-xrdb-1.2.0-1 is up to date -- skipping
+warning: xorg-xrefresh-1.0.6-1 is up to date -- skipping
+warning: xorg-xset-1.2.4-1 is up to date -- skipping
+warning: xorg-xsetroot-1.1.2-1 is up to date -- skipping
+warning: xorg-xvinfo-1.1.4-1 is up to date -- skipping
+warning: xorg-xwd-1.0.7-1 is up to date -- skipping
+warning: xorg-xwininfo-1.1.4-1 is up to date -- skipping
+warning: xorg-xwud-1.0.5-1 is up to date -- skipping
+
+ there is nothing to do
+warning: xorg-xinit-1.4.1-1 is up to date -- skipping
+ there is nothing to do
+warning: neovim-0.3.4-2 is up to date -- skipping
+ there is nothing to do
+warning: python2-pip-18.1-2 is up to date -- skipping
+ there is nothing to do

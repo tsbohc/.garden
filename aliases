@@ -12,6 +12,8 @@ bb(){
   cd
 }
 
+alias blueberry='python3 ~/blueberry/blueberry.py'
+
 # nvim
 alias v='nvim'
 

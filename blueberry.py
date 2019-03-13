@@ -1,15 +1,154 @@
 #!/usr/bin/env python3
-from __future__ import print_function
 
 import json
 import os
 import shutil
 import subprocess
 import datetime
+import time
 import sys
+import argparse
+
+dry = True
+care = 'unset'
+
+link = {
+    'bashrc': '~/.bashrc',
+    'aliases': '~/.aliases',
+    'bash_profile': '~/.bash_profile',
+    'xinitrc': '~/.xinitrc',
+    'Xresources': '~/.Xresources',
+    'vimrc': '~/.vimrc',
+    'vim/colors/jellybeans.vim': '~/.vim/colors/jellybeans.vim',
+    'vim/nvim_init.vim': '~/.config/nvim/init.vim',
+    # lightline theme install moved to plug.vim 'do' statement
+    'i3': '~/.config/i3/config',
+    'compton': '~/.config/compton.conf',
+    'polybar': '~/.config/polybar/config'
+    }
+
+mkdir = ['~/Downloads', '~/Pictures', '~/Projects']
+
+pip_packages = ['pynvim']
+pip2_packages = ['pynvim']
+
+base_packages = [
+    'cmake', 'lua', # compile reqs
+    'xorg', 'xorg-xinit', # xserver base 
+    'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
+    'compton', 'xflux', 'fzf',
+    'tamzen-font-git'
+    ]
+
+i3wm_packages = [
+    'i3-gaps', 'xorg-util-macros', 'python-i3-py', # i3wm & scripting 
+    'rofi', 'polybar', 'feh'
+    ]
+
+def main():
+    subprocess.run('clear')
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    print(colors['blue'] + """
+       _                                
+  /   //         /                      
+ /__ //  . . _  /__ _  __  __  __  ,    
+/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
+                                 /      
+""" + colors['escape'])
+
+    global dry
+    if args.install:
+        dry = False
+
+    if args.update:
+        dry = False
+        update()
+    
+    # ask for sudo & empty the log
+    if not dry:
+        subprocess.run('sudo -v', shell=True)
+        subprocess.run('echo "" > .log', shell=True)
+
+    #run_command('yay -Syyu')
+
+    # add color to pacman output
+    f = open('/etc/pacman.conf')
+    try:
+        if '#Color' in f.read():
+            echo_title('adding color to pacman output')
+            run_command("sudo sed -i 's/#Color/Color/' /etc/pacman.conf")
+    finally:
+        f.close()
+
+    # hosts-based adblock
+    echo_title('installing hostblock')
+    if not dry and not os.path.exists('/etc/hosts_bk'):
+        run_command('sudo cp /etc/hosts /etc/hosts_bk') 
+    run_command('sudo bash -c "curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts > /etc/hosts"', 'curl StevenBlack/hosts > /etc/hosts')
+    
+    # install yay if needed
+    if not os.path.exists('/usr/bin/yay'):
+        echo_title('installing yay')
+        if not dry:
+            run_command('git clone https://aur.archlinux.org/yay.git')
+            os.chdir('yay')
+            run_command('makepkg -si --noconfirm')
+            os.chdir('..')
+            echo_log('>', 'green', 'cleaning up')
+            shutil.rmtree('yay')
+            run_command('yay -Syu')
+        else:
+            echo_log('>', 'yellow', 'git clone https://aur.archlinux.org/yay.git')
+            echo_log('>', 'yellow', 'cd yay')
+            echo_log('>', 'yellow', 'makepkg -si --noconfirm')
+            echo_log('>', 'yellow', 'cd ..')
+            echo_log('>', 'yellow', 'rm -r yay')
+            echo_log('>', 'yellow', 'yay -Syu')
+
+    # install plug if needed
+    if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
+        echo_title('installing plug')
+        run_command('curl -fLosS ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
+
+    # update nvim plugs
+    echo_title('updating nvim plugins')
+    run_command("nvim +:PlugInstall +:qa")
+    
+    # update z.lua 
+    echo_title('updating z.lua')
+    run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/blueberry/scripts/z.lua', 'curl skywind3000/z.lua > scripts/z.lua')
+    
+    # mkdirs
+    echo_title('creating directories')
+    [create_directory(path) for path in mkdir]
+
+    # install base
+    echo_title('installing base packages')
+    install_packages(base_packages)
+
+    # setup i3wm
+    echo_title('setting up i3')
+    install_packages(i3wm_packages)
+
+    echo_title('installing pip2 packages')
+    for count, pkg in enumerate(pip2_packages):
+        run_command('sudo pip2 install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip2_packages), '02d')) + ' ' + pkg)
+
+    echo_title('installing pip packages')
+    for count, pkg in enumerate(pip_packages):
+        run_command('sudo pip install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip_packages), '02d')) + ' ' + pkg)
+
+    # symlink
+    echo_title('linking dots')
+    [create_symlink(src, dst) for src, dst in link.items()]
+
+    if not dry:
+        echo_title('finishing up') 
+    else:
+        echo_title('completing dry run')
 
 # =======================================
-# definitions 
+# print functions
 # =======================================
 
 colors = {
@@ -23,10 +162,6 @@ colors = {
 
 dots = colors['blue'] + '...' + colors['escape']
 colon = colors['blue'] + ': ' + colors['escape']
-
-# =======================================
-# print functions
-# =======================================
 
 def echo_log(icon, color, string, end=True):
     if end == True:
@@ -51,12 +186,45 @@ def echo_question(prompt):
 # code that actually does stuff
 # =======================================
 
-def run_command(command):
+def install_packages(packages):
+    for count, pkg in enumerate(packages):
+        if not dry:
+            echo_log('>', 'green', str(format(count+1, '02d')) + '/' + str(format(len(packages), '02d')) + ' ' + pkg, end=False)
+            sys.stdout.flush()
+            try:
+                output = subprocess.check_output('yay -S --needed --noconfirm ' + pkg + ' >> .log 2>&1', stderr=subprocess.STDOUT, shell=True)
+            except subprocess.CalledProcessError:
+                print('\r[' + colors['red'] + '#' + colors['escape'] + ']')
+                echo_log('i', 'yellow', 'see the .log file at line ' + file_len('.log'))
+            else:
+                print('\r[' + colors['blue'] + '+' + colors['escape'] + ']')
+        else:
+            echo_log('>', 'yellow', str(format(count+1, '02d')) + '/' + str(format(len(packages), '02d')) + ' ' + pkg)
+
+def run_command(command, message=False):
     if not dry:
-        echo_log('>', 'green', command)
-        subprocess.run(command, shell=True)
+        if message:
+            echo_log('>', 'green', message, end=False)
+        else:
+            echo_log('>', 'green', command, end=False)
+        sys.stdout.flush()
+        try:
+            output = subprocess.check_output(command, shell=True)
+        except subprocess.CalledProcessError:
+            print('\r[' + colors['red'] + '#' + colors['escape'] + ']')
+        else:
+            print('\r[' + colors['blue'] + '+' + colors['escape'] + ']')
     else:
-        echo_log('>', 'yellow', command)
+        if message:
+            echo_log('>', 'yellow', message)
+        else:
+            echo_log('>', 'yellow', command)
+
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return str(i + 1)
 
 def create_directory(path):
     dst = os.path.expanduser(path)
@@ -67,8 +235,7 @@ def create_directory(path):
         else:
             echo_log('+', 'yellow', path)
     else:
-        if not dry:
-            echo_log('#', 'red', path)
+        echo_log('i', 'yellow', path + colon + 'already exists' + dots)
 
 def check_symlink(path):
     if os.path.islink(path):
@@ -78,13 +245,10 @@ def check_symlink(path):
         if not os.path.exists(target_path):
             return True
 
-care = 'unset'
-
 def create_symlink(src, dst):
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     backup_dir = os.path.abspath('backup')
-    #backup_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'backup')
     global care
 
     # check if source file exists
@@ -125,8 +289,8 @@ def create_symlink(src, dst):
                         os.remove(dst)
                 else:
                     os.remove(dst)
-            else:
-                echo_log('?', 'yellow', 'ask what to do with the file')
+            #else:
+                #echo_log('?', 'yellow', 'ask what to do with the file')
         
         # actually symlink
         if not dry:
@@ -137,119 +301,7 @@ def create_symlink(src, dst):
         else:
             echo_log('"', 'yellow', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
-        echo_log('!', 'red', os.path.relpath(src) + colon + 'does not exist, skipping' + dots)
-
-
-
-# =======================================
-# main menu
-# =======================================
-
-dry = False
-
-def install():
-    global dry
-
-    tasks = {
-            'install packages?': True
-    }
-    
-    if not dry:
-        for key, value in tasks.items():
-            if echo_question(key):
-                tasks[key] = True
-            else:
-                tasks[key] = False
-
-    if 'mkdir' in js:
-        echo_title('making directories')
-        [create_directory(path) for path in js['mkdir']]
-
-    if 'install' in js:
-        # install yay if needed
-        if not os.path.exists('/usr/bin/yay'):
-            echo_title('installing yay')
-            if not dry:
-                run_command('git clone https://aur.archlinux.org/yay.git')
-                os.chdir('yay')
-                run_command('makepkg -si --noconfirm')
-                os.chdir('..')
-                echo_log('>', 'green', 'cleaning up' + dots)
-                shutil.rmtree('yay')
-                run_command('yay -Syu')
-            else:
-                echo_log('>', 'yellow', 'git clone https://aur.archlinux.org/yay.git')
-                echo_log('>', 'yellow', 'cd yay')
-                echo_log('>', 'yellow', 'makepkg -si --noconfirm')
-                echo_log('>', 'yellow', 'cd ..')
-                echo_log('>', 'yellow', 'rm -r yay')
-                echo_log('>', 'yellow', 'yay -Syu')
-        
-        if tasks['install packages?']:
-            echo_title('installing packages')
-            for pkg in js['install']:
-                if not dry:
-                    echo_log('+', 'green', pkg)
-                    subprocess.run('yay -S --needed --noconfirm ' + pkg + ' --color=always | grep --color=never "error\|warning"', shell=True)
-                else:
-                    echo_log('+', 'yellow', pkg)
-
-    if 'run' in js:
-        echo_title('running commands')
-        [run_command(command) for command in js['run']]
-    
-    if tasks['install packages?']:
-        if 'pip' or 'pip2' in js:
-            echo_title('installing pips')
-            if 'pip2' in js:
-                for pkg in js['pip2']:
-                    if not dry:
-                        echo_log('+', 'green', pkg + ' pip2')
-                        subprocess.run('sudo pip2 install ' + pkg + ' -q', shell=True)
-                    else:
-                        echo_log('+', 'yellow', pkg + ' pip2')
-            if 'pip' in js:
-                for pkg in js['pip']:
-                    if not dry:
-                        echo_log('+', 'green', pkg + ' pip')
-                        subprocess.run('sudo pip install ' + pkg + ' -q', shell=True)
-                    else:
-                        echo_log('+', 'yellow', pkg + ' pip')
-    
-    # install plug if needed
-    if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
-        echo_title('installing plug')
-        if not dry:
-            echo_log('>', 'green', 'curling .vim')
-            os.system('curl -fLosS ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-        else:
-            echo_log('>', 'yellow', 'installing plug.vim')
-
-    # setup/update nvim plugs
-    echo_title('updating nvim plugins')
-    if not dry:
-        echo_log('>', 'green', 'nvim "+:PlugInstall" "+:q" "+:q"')
-        os.system('nvim "+:PlugInstall" "+:q" "+:q"')
-    else:
-        echo_log('>', 'yellow', 'nvim "+:PlugInstall" "+:q" "+:q"')
-
-    echo_title('updating z.lua')
-    run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > scripts/z.lua')
-
-    # symlink
-    if 'link' in js:
-        echo_title('linking dots')
-        [create_symlink(src, dst) for src, dst in js['link'].items()]
-
-    if not dry:
-        echo_title('finishing up') 
-    else:
-        echo_title('completing dry run')
-
-def dry_run():
-    global dry
-    dry = True
-    install()
+        echo_log('#', 'red', os.path.relpath(src) + colon + 'missing source file' + dots)
 
 def reap():
     if 'link' in js:
@@ -288,53 +340,17 @@ def update():
             echo_log('i', 'yellow', 'there is nothing to do') 
     
     echo_title('finishing up') 
-
-# =======================================
-# main function
-# =======================================
-
-def main():
-    subprocess.run('clear')
-    print(colors['blue'] + """
-       _                                
-  /   //         /                      
- /__ //  . . _  /__ _  __  __  __  ,    
-/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
-                                 /      
-""" + colors['escape'] + "what would you like to do?      " + colors['blue'] + "'" + colors['escape'])
-
-    print(
-    colors['blue'] + 'i' + colors['escape'] + 'nstall, ' +
-    colors['blue'] + 'r' + colors['escape'] + 'eap, ' +
-    colors['blue'] + 'd' + colors['escape'] + 'ry, ' +
-    colors['blue'] + 'u' + colors['escape'] + 'pdate' + 
-    dots + ' ', end='')
-
-    menu = {
-        'i': install,
-        'r': reap,
-        'd': dry_run,
-        'u': update
-    }
-
-    while True:
-        choice = input().lower()
-        if choice in menu:
-            result = menu.get(choice)
-            result()
-            break
-        else:
-            echo_log('i', 'yellow', "please enter a valid choice | ", False)
+    sys.exit(1)
 
 # =======================================
 # initialization
 # =======================================
 
-try:
-    js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
-except FileNotFoundError:
-    echo_log('!', 'red', 'blueberry could not find config.json, exiting' + dots)
-    sys.exit(1)
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--install', action='store_true', help='perform installation')
+parser.add_argument('-d', '--dry', action='store_true', help='dry run [default]')
+parser.add_argument('-u', '--update', action='store_true', help='sync to configured git repo')
+args = parser.parse_args()
 
 if __name__ == "__main__":
     try:
