@@ -221,7 +221,7 @@ def install():
         echo_title('installing plug')
         if not dry:
             echo_log('>', 'green', 'curling .vim')
-            os.system('curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+            os.system('curl -fLosS ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
         else:
             echo_log('>', 'yellow', 'installing plug.vim')
 
@@ -290,16 +290,6 @@ def update():
     echo_title('finishing up') 
 
 # =======================================
-# initialization
-# =======================================
-
-try:
-    js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
-except FileNotFoundError:
-    echo_log('!', 'red', 'blueberry could not find config.json, exiting' + dots)
-    sys.exit(1)
-
-# =======================================
 # main function
 # =======================================
 
@@ -337,8 +327,14 @@ def main():
             echo_log('i', 'yellow', "please enter a valid choice | ", False)
 
 # =======================================
-# non-modular run only 
+# initialization
 # =======================================
+
+try:
+    js = json.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')))
+except FileNotFoundError:
+    echo_log('!', 'red', 'blueberry could not find config.json, exiting' + dots)
+    sys.exit(1)
 
 if __name__ == "__main__":
     try:

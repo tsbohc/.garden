@@ -11,7 +11,7 @@
 if has('nvim')
     call plug#begin('~/.vim/bundle')
 
-    Plug 'itchyny/lightline.vim'
+    Plug 'itchyny/lightline.vim', { 'do': 'ln -s ~/blueberry/vim/jellybeans_lightline.vim ~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim' }
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
     Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
@@ -96,9 +96,9 @@ set showmatch " matching [{(s
 hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
 " invisibles
-set list
-set listchars=
-set listchars+=tab:•\
+"set list
+"set listchars=
+"set listchars+=tab:|
 
 " line numbers
 set number relativenumber

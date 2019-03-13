@@ -1,5 +1,5 @@
 xrdb ~/.Xresources
-feh --bg-fill ~/pictures/wallpaper.png
+feh --bg-fill ~/Pictures/wallpaper.png
 polybar top &
 xinput set-prop 11 280 1
 xmodmap -e "clear Lock"
