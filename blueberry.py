@@ -319,7 +319,7 @@ def reap():
 def update():
     echo_title('checking for updates')
     run_command('git fetch')
-    echo_log('>', 'green', 'git status')
+    echo_log('+', 'blue', 'git status')
     gitstatus = str(subprocess.check_output(['git', 'status']))
     
     if "behind" in gitstatus:
@@ -336,6 +336,7 @@ def update():
                     run_command('git commit -m "' + message + '" --quiet')
                     break
                 run_command('git push --quiet')
+                print()
         else:
             echo_log('i', 'yellow', 'there is nothing to do') 
     
