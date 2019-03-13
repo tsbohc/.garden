@@ -335,8 +335,8 @@ def update():
                     message = input().lower()
                     run_command('git commit -m "' + message + '" --quiet')
                     break
-                run_command('git push --quiet')
-                print()
+                echo_log('+', 'blue', 'git push --quiet')
+                subprocess.run('git push --quiet', shell=True)
         else:
             echo_log('i', 'yellow', 'there is nothing to do') 
     
