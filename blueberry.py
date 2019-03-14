@@ -12,6 +12,11 @@ import argparse
 dry = True
 care = 'unset'
 
+mkdir = ['~/Downloads', '~/Pictures', '~/Projects']
+
+pip_packages = ['pynvim']
+pip2_packages = ['pynvim']
+
 link = {
     'bashrc': '~/.bashrc',
     'aliases': '~/.aliases',
@@ -27,23 +32,19 @@ link = {
     'polybar': '~/.config/polybar/config'
     }
 
-mkdir = ['~/Downloads', '~/Pictures', '~/Projects']
+bundles = {
+    'base': [
+        'cmake', 'lua', # compile reqs
+        'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
+        'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
+        'compton', 'xflux', 'fzf', 'tamzen-font-git' # can't go w/o those
+        ],
 
-pip_packages = ['pynvim']
-pip2_packages = ['pynvim']
-
-base_packages = [
-    'cmake', 'lua', # compile reqs
-    'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
-    'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
-    'compton', 'xflux', 'fzf',
-    'tamzen-font-git'
-    ]
-
-i3wm_packages = [
-    'i3-gaps', 'xorg-util-macros', 'python-i3-py', # i3wm & scripting 
-    'rofi', 'polybar', 'feh'
-    ]
+    'i3': [
+        'i3-gaps', 'xorg-util-macros', 'python-i3-py', # i3wm & scripting 
+        'rofi', 'polybar', 'feh'
+        ]
+    }
 
 def main():
     subprocess.run('clear')
@@ -115,11 +116,11 @@ def main():
     if args.packages:
         # install base
         echo_title('installing base packages')
-        install_packages(base_packages)
+        install_packages(bundles['base'])
 
         # setup i3wm
         echo_title('setting up i3')
-        install_packages(i3wm_packages)
+        install_packages(bundles['i3'])
 
         echo_title('installing pip2 packages')
         for count, pkg in enumerate(pip2_packages):
