@@ -33,8 +33,8 @@ pip_packages = ['pynvim']
 pip2_packages = ['pynvim']
 
 base_packages = [
-    'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
     'cmake', 'lua', # compile reqs
+    'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
     'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
     'compton', 'xflux', 'fzf',
     'tamzen-font-git'

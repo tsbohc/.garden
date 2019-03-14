@@ -162,8 +162,8 @@ inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
 " general
-nnoremap j gj
-nnoremap k gk
+"nnoremap j gj
+"nnoremap k gk
 
 " -------------------------------------------------
 "   vim magic
