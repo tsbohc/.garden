@@ -33,8 +33,8 @@ pip_packages = ['pynvim']
 pip2_packages = ['pynvim']
 
 base_packages = [
+    'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
     'cmake', 'lua', # compile reqs
-    'xorg', 'xorg-xinit', # xserver base 
     'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
     'compton', 'xflux', 'fzf',
     'tamzen-font-git'
@@ -49,12 +49,12 @@ def main():
     subprocess.run('clear')
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     print(colors['blue'] + """
-       _                                
-  /   //         /                      
- /__ //  . . _  /__ _  __  __  __  ,    
-/_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
-                                 /      
-""" + colors['escape'])
+         _                                
+    /   //         /                      
+   /__ //  . . _  /__ _  __  __  __  ,    
+  /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
+                                   /      
+                                  '  """ + colors['escape'])
 
     global dry
     if args.install:
@@ -105,39 +105,40 @@ def main():
             echo_log('>', 'yellow', 'rm -r yay')
             echo_log('>', 'yellow', 'yay -Syu')
 
-    # install plug if needed
-    if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
-        echo_title('installing plug')
-        run_command('curl -fLosS ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
-
-    # update nvim plugs
-    echo_title('updating nvim plugins')
-    run_command("nvim +:PlugInstall +:qa")
-    
     # update z.lua 
     echo_title('updating z.lua')
     run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/blueberry/scripts/z.lua', 'curl skywind3000/z.lua > scripts/z.lua')
     
     # mkdirs
-    echo_title('creating directories')
-    [create_directory(path) for path in mkdir]
+    create_directories(mkdir)
 
-    # install base
-    echo_title('installing base packages')
-    install_packages(base_packages)
+    if args.packages:
+        # install base
+        echo_title('installing base packages')
+        install_packages(base_packages)
 
-    # setup i3wm
-    echo_title('setting up i3')
-    install_packages(i3wm_packages)
+        # setup i3wm
+        echo_title('setting up i3')
+        install_packages(i3wm_packages)
 
-    echo_title('installing pip2 packages')
-    for count, pkg in enumerate(pip2_packages):
-        run_command('sudo pip2 install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip2_packages), '02d')) + ' ' + pkg)
+        echo_title('installing pip2 packages')
+        for count, pkg in enumerate(pip2_packages):
+            run_command('sudo pip2 install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip2_packages), '02d')) + ' ' + pkg)
 
-    echo_title('installing pip packages')
-    for count, pkg in enumerate(pip_packages):
-        run_command('sudo pip install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip_packages), '02d')) + ' ' + pkg)
+        echo_title('installing pip packages')
+        for count, pkg in enumerate(pip_packages):
+            run_command('sudo pip install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip_packages), '02d')) + ' ' + pkg)
 
+    if args.vim:
+        # install plug if needed
+        if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
+            echo_title('installing plug')
+            run_command('curl -sS https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > ~/.config/nvim/autoload/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
+
+        # update nvim plugs
+        echo_title('updating nvim plugins')
+        run_command("nvim +:PlugInstall +:qa")
+    
     # symlink
     echo_title('linking dots')
     [create_symlink(src, dst) for src, dst in link.items()]
@@ -162,6 +163,7 @@ colors = {
 
 dots = colors['blue'] + '...' + colors['escape']
 colon = colors['blue'] + ': ' + colors['escape']
+arrow = colors['blue'] + ' > ' + colors['escape']
 
 def echo_log(icon, color, string, end=True):
     if end == True:
@@ -226,16 +228,23 @@ def file_len(fname):
             pass
     return str(i + 1)
 
-def create_directory(path):
-    dst = os.path.expanduser(path)
-    if not os.path.isdir(dst):
-        if not dry:
-            echo_log('+', 'green', path)
-            os.makedirs(dst)
-        else:
-            echo_log('+', 'yellow', path)
-    else:
-        echo_log('i', 'yellow', path + colon + 'already exists' + dots)
+def create_directories(directories):
+    should_make_dirs = False
+    for path in directories:
+        dst = os.path.expanduser(path)
+        if not os.path.isdir(dst):
+            should_make_dirs = True
+            
+    if should_make_dirs:
+        echo_title('creating directories')
+        for path in directories:
+            dst = os.path.expanduser(path)
+            if not os.path.isdir(dst):
+                if not dry:
+                    echo_log('+', 'blue', path)
+                    os.makedirs(dst)
+                else:
+                    echo_log('+', 'yellow', path)
 
 def check_symlink(path):
     if os.path.islink(path):
@@ -294,12 +303,12 @@ def create_symlink(src, dst):
         
         # actually symlink
         if not dry:
-            echo_log('"', 'blue', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            echo_log('+', 'blue', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
             if os.path.islink(os.path.expanduser(dst)):
                 os.remove(os.path.expanduser(dst))
             os.symlink(src, dst)
         else:
-            echo_log('"', 'yellow', os.path.relpath(src) + colon + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            echo_log('+', 'yellow', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
         echo_log('#', 'red', os.path.relpath(src) + colon + 'missing source file' + dots)
 
@@ -351,6 +360,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--install', action='store_true', help='perform installation')
 parser.add_argument('-d', '--dry', action='store_true', help='dry run [default]')
 parser.add_argument('-u', '--update', action='store_true', help='sync to configured git repo')
+parser.add_argument('-p', '--packages', action='store_true', help='install packages')
+parser.add_argument('-v', '--vim', action='store_true', help='set up nvim via plug')
 args = parser.parse_args()
 
 if __name__ == "__main__":
