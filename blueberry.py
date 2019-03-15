@@ -9,42 +9,43 @@ import time
 import sys
 import argparse
 
-dry = True
-care = 'unset'
+# =======================================
+# config
+# =======================================
 
-mkdir = ['~/Downloads', '~/Pictures', '~/Projects']
-
-pip_packages = ['pynvim']
-pip2_packages = ['pynvim']
+mkdir = [ '~/Downloads', '~/Pictures', '~/Projects' ]
 
 link = {
-    'bashrc': '~/.bashrc',
-    'aliases': '~/.aliases',
-    'bash_profile': '~/.bash_profile',
-    'xinitrc': '~/.xinitrc',
-    'Xresources': '~/.Xresources',
-    'vimrc': '~/.vimrc',
+    'bashrc':                    '~/.bashrc',
+    'aliases':                   '~/.aliases',
+    'bash_profile':              '~/.bash_profile',
+    'xinitrc':                   '~/.xinitrc',
+    'Xresources':                '~/.Xresources',
+    'vimrc':                     '~/.vimrc',
     'vim/colors/jellybeans.vim': '~/.vim/colors/jellybeans.vim',
-    'vim/nvim_init.vim': '~/.config/nvim/init.vim',
+    'vim/nvim_init.vim':         '~/.config/nvim/init.vim',
+    'i3':                        '~/.config/i3/config',
+    'compton':                   '~/.config/compton.conf',
+    'polybar':                   '~/.config/polybar/config',
     # lightline theme install moved to plug.vim 'do' statement
-    'i3': '~/.config/i3/config',
-    'compton': '~/.config/compton.conf',
-    'polybar': '~/.config/polybar/config'
-    }
+}
 
 bundles = {
-    'base': [
-        'cmake', 'lua', # compile reqs
-        'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm', # xserver base 
-        'neovim', 'python2-pip', 'python-pip', 'xsel', # nvim & deps, clipboard
-        'compton', 'xflux', 'fzf', 'tamzen-font-git' # can't go w/o those
-        ],
+    'xorg':   [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
+    'neovim': [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
+    'i3':     [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
+    'dev':    [ 'cmake', 'lua' ],
+    'ui':     [ 'compton', 'xflux', 'rofi', 'polybar', 'feh' ],
+    'cli':    [ 'fzf' ],
+    'fonts':  [ 'tamzen-font-git' ],
+    # bundles below are executed with approptiate commands
+    'pip':    [ 'pynvim' ],
+    'pip2':   [ 'pynvim' ],
+}
 
-    'i3': [
-        'i3-gaps', 'xorg-util-macros', 'python-i3-py', # i3wm & scripting 
-        'rofi', 'polybar', 'feh'
-        ]
-    }
+# =======================================
+# main function
+# =======================================
 
 def main():
     subprocess.run('clear')
@@ -114,21 +115,16 @@ def main():
     create_directories(mkdir)
 
     if args.packages:
-        # install base
-        echo_title('installing base packages')
-        install_packages(bundles['base'])
-
-        # setup i3wm
-        echo_title('setting up i3')
-        install_packages(bundles['i3'])
-
-        echo_title('installing pip2 packages')
-        for count, pkg in enumerate(pip2_packages):
-            run_command('sudo pip2 install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip2_packages), '02d')) + ' ' + pkg)
-
-        echo_title('installing pip packages')
-        for count, pkg in enumerate(pip_packages):
-            run_command('sudo pip install ' + pkg + ' -q', str(format(count+1, '02d')) + '/' + str(format(len(pip_packages), '02d')) + ' ' + pkg)
+        for name, packages in bundles.items():
+            if name == 'pip2':
+                echo_title('installing pip2 packages')
+                install_packages('sudo pip2 install -q', packages)
+            elif name == 'pip':
+                echo_title('installing pip packages')
+                install_packages('sudo pip install -q', packages)
+            else:
+                echo_title('setting up ' + name) 
+                install_packages('yay -S --needed --noconfirm', packages)
 
     if args.vim:
         # install plug if needed
@@ -136,8 +132,8 @@ def main():
             echo_title('installing plug')
             run_command('curl -sS https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > ~/.config/nvim/autoload/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
 
-        # update nvim plugs
-        echo_title('updating nvim plugins')
+        # update neovim plugs
+        echo_title('updating neovim plugins')
         run_command("nvim +:PlugInstall +:qa")
     
     # symlink
@@ -165,6 +161,7 @@ colors = {
 dots = colors['blue'] + '...' + colors['escape']
 colon = colors['blue'] + ': ' + colors['escape']
 arrow = colors['blue'] + ' > ' + colors['escape']
+equals = colors['blue'] + ' = ' + colors['escape']
 
 def echo_log(icon, color, string, end=True):
     if end == True:
@@ -189,20 +186,28 @@ def echo_question(prompt):
 # code that actually does stuff
 # =======================================
 
-def install_packages(packages):
+def install_packages(command, packages):
     for count, pkg in enumerate(packages):
+        if len(packages) > 9:
+            current = str(format(count+1, '02d'))
+            total = str(format(len(packages), '02d'))
+        else:
+            current = str(count+1)
+            total = str(len(packages))
+
         if not dry:
-            echo_log('>', 'green', str(format(count+1, '02d')) + '/' + str(format(len(packages), '02d')) + ' ' + pkg, end=False)
+            echo_log('>', 'green', current + '/' + total + ' ' + pkg, end=False)
             sys.stdout.flush()
             try:
-                output = subprocess.check_output('yay -S --needed --noconfirm ' + pkg + ' >> .log 2>&1', stderr=subprocess.STDOUT, shell=True)
+                subprocess.check_call(command + ' ' + pkg + ' >> .log 2>&1', stderr=subprocess.STDOUT, shell=True)
             except subprocess.CalledProcessError:
                 print('\r[' + colors['red'] + '#' + colors['escape'] + ']')
                 echo_log('i', 'yellow', 'see the .log file at line ' + file_len('.log'))
             else:
                 print('\r[' + colors['blue'] + '+' + colors['escape'] + ']')
         else:
-            echo_log('>', 'yellow', str(format(count+1, '02d')) + '/' + str(format(len(packages), '02d')) + ' ' + pkg)
+            time.sleep(0.01)
+            echo_log('>', 'yellow', current + '/' + total + ' ' + pkg)
 
 def run_command(command, message=False):
     if not dry:
@@ -212,7 +217,7 @@ def run_command(command, message=False):
             echo_log('>', 'green', command, end=False)
         sys.stdout.flush()
         try:
-            output = subprocess.check_output(command, shell=True)
+            subprocess.check_call(command, shell=True)
         except subprocess.CalledProcessError:
             print('\r[' + colors['red'] + '#' + colors['escape'] + ']')
         else:
@@ -239,6 +244,7 @@ def create_directories(directories):
     if should_make_dirs:
         echo_title('creating directories')
         for path in directories:
+            time.sleep(0.01)
             dst = os.path.expanduser(path)
             if not os.path.isdir(dst):
                 if not dry:
@@ -256,6 +262,7 @@ def check_symlink(path):
             return True
 
 def create_symlink(src, dst):
+    time.sleep(0.01)
     dst = os.path.expanduser(dst)
     src = os.path.abspath(src)
     backup_dir = os.path.abspath('backup')
@@ -263,53 +270,54 @@ def create_symlink(src, dst):
 
     # check if source file exists
     if os.path.exists(src):
-
-        # create necessary dirs
-        if not os.path.isdir(os.path.dirname(dst)):
-            if not dry:
-                echo_log('+', 'green', os.path.dirname(dst))
-                os.makedirs(os.path.dirname(dst))
-            else:
-                echo_log('+', 'yellow', os.path.dirname(dst))
-        
-        # check for broken symlinks
-        if check_symlink(dst):
-            if not dry:
-                echo_log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink, removing' + dots)
-                os.remove(dst)
-            else:
-                echo_log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink')
-
-        # stop if a non-symlink with the same name is found
-        if os.path.isfile(dst) and not os.path.islink(dst):
-            echo_log('#', 'red', '~/' + os.path.relpath(dst, os.path.expanduser('~')))
-            if not dry:
-                if care == 'unset':
-                    if echo_question("do you care about non-symlink backups?"):
-                        care = True
-                    else:
-                        care = False
-                if care:
-                    if echo_question("non-symlink found, back it up?"):
-                        if not os.path.isdir(backup_dir): 
-                            os.mkdir(backup_dir)
-                        echo_log('+', 'green', os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
-                        os.rename(dst, os.path.join(backup_dir, os.path.basename(dst) + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
+        # check if a link already exists and doesn't point to the same file 
+        if os.path.islink(dst) and os.readlink(dst) != src:
+            # create necessary dirs
+            if not os.path.isdir(os.path.dirname(dst)):
+                if not dry:
+                    echo_log('+', 'green', os.path.dirname(dst))
+                    os.makedirs(os.path.dirname(dst))
+                else:
+                    echo_log('+', 'yellow', os.path.dirname(dst))
+            # check for broken symlinks
+            if check_symlink(dst):
+                if not dry:
+                    echo_log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink, removing' + dots)
+                    os.remove(dst)
+                else:
+                    echo_log('×', 'yellow', '~/' + os.path.relpath(dst, os.path.expanduser('~')) + colon + 'broken symlink')
+            # stop if a non-symlink with the same name is found
+            if os.path.isfile(dst) and not os.path.islink(dst):
+                echo_log('#', 'red', '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+                if not dry:
+                    if care == 'unset':
+                        if echo_question("do you care about non-symlink backups?"):
+                            care = True
+                        else:
+                            care = False
+                    if care:
+                        if echo_question("non-symlink found, back it up?"):
+                            if not os.path.isdir(backup_dir): 
+                                os.mkdir(backup_dir)
+                            echo_log('+', 'green', os.path.relpath(os.path.join(backup_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '_' + os.path.basename(dst))))
+                            os.rename(dst, os.path.join(backup_dir, os.path.basename(dst) + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
+                        else:
+                            os.remove(dst)
                     else:
                         os.remove(dst)
-                else:
-                    os.remove(dst)
-            #else:
-                #echo_log('?', 'yellow', 'ask what to do with the file')
-        
-        # actually symlink
-        if not dry:
-            echo_log('+', 'blue', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
-            if os.path.islink(os.path.expanduser(dst)):
-                os.remove(os.path.expanduser(dst))
-            os.symlink(src, dst)
+                #else:
+                    #echo_log('?', 'yellow', 'ask what to do with the file')
+            
+            # actually symlink
+            if not dry:
+                echo_log('+', 'blue', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+                if os.path.islink(os.path.expanduser(dst)):
+                    os.remove(os.path.expanduser(dst))
+                os.symlink(src, dst)
+            else:
+                echo_log('>', 'yellow', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
         else:
-            echo_log('+', 'yellow', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            echo_log('>', 'blue', os.path.relpath(src) + equals + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
         echo_log('#', 'red', os.path.relpath(src) + colon + 'missing source file' + dots)
 
@@ -356,6 +364,9 @@ def update():
 # =======================================
 # initialization
 # =======================================
+
+dry = True
+care = 'unset'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--install', action='store_true', help='perform installation')
