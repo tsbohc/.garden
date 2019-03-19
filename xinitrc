@@ -1,7 +1,7 @@
 xrdb ~/.Xresources
-feh --bg-fill ~/Pictures/wallpaper.png
+feh --bg-fill ~/Pictures/wallpaper
 polybar top &
-xinput set-prop 11 280 1
+xinput set-prop 11 281 1
 xmodmap -e "clear Lock"
 modmap -e "keycode 66 = Escape NoSymbol Escape"
 compton --config ~/.config/compton.conf &

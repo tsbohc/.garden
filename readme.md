@@ -5,9 +5,13 @@
 /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤
                                  /    
                                 '
+-i, --install   perform installation
+-d, --dry       dry run [default]
+-u, --update    sync to/from a git repo
+-p, --packages  install packages
+-v, --vim       set up nvim via plug
 ```
-
-a new machine bootstrap script, featuring: symlinks, yay/aur package bundles, nvim setup via plug, git syncing to a repo, reverse install, dry run, all in a single file and no extra dependencies
+new machine bootstrap script, featuring: symlinks, aur bundles, nvim plugs, and more, all a couple of keystrokes away. single file with no extra dependencies. 
 
 ## about
 - bashrc:
@@ -25,16 +29,16 @@ a new machine bootstrap script, featuring: symlinks, yay/aur package bundles, nv
     - boxdraw
 - i3: 
     - gaps
-- scripts:
-    - skywind3000/z.lua
     - olemartinorg/i3-alternating-layout
+- scripts:
     - keyboard layout switcher
     - tinyfetch
+- tools:
+    - skywind3000/z.lua
 
 ## todo
-- add the ability to install only a single dotfile
 - add firefox theme
 - add a cool gif
-- look into bropages etc
+- look into tldr pages and explain shell
 
 crafted with love

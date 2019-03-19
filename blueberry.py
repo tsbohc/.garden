@@ -16,31 +16,33 @@ import argparse
 mkdir = [ '~/Downloads', '~/Pictures', '~/Projects' ]
 
 link = {
-    'bashrc':                    '~/.bashrc',
-    'aliases':                   '~/.aliases',
-    'bash_profile':              '~/.bash_profile',
-    'xinitrc':                   '~/.xinitrc',
-    'Xresources':                '~/.Xresources',
-    'vimrc':                     '~/.vimrc',
-    'vim/colors/jellybeans.vim': '~/.vim/colors/jellybeans.vim',
-    'vim/nvim_init.vim':         '~/.config/nvim/init.vim',
-    'i3':                        '~/.config/i3/config',
-    'compton':                   '~/.config/compton.conf',
-    'polybar':                   '~/.config/polybar/config',
+    'bashrc':                       '~/.bashrc',
+    'aliases':                      '~/.aliases',
+    'bash_profile':                 '~/.bash_profile',
+    'xinitrc':                      '~/.xinitrc',
+    'Xresources':                   '~/.Xresources',
+    'vimrc':                        '~/.vimrc',
+    'vim/colors/jellybeans.vim':    '~/.vim/colors/jellybeans.vim',
+    'vim/nvim_init.vim':            '~/.config/nvim/init.vim',
+    'i3':                           '~/.config/i3/config',
+    'compton':                      '~/.config/compton.conf',
+    'polybar':                      '~/.config/polybar/config',
     # lightline theme install moved to plug.vim 'do' statement
 }
 
 bundles = {
-    'xorg':   [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
-    'neovim': [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
-    'i3':     [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
-    'dev':    [ 'cmake', 'lua' ],
-    'ui':     [ 'compton', 'xflux', 'rofi', 'polybar', 'feh' ],
-    'cli':    [ 'fzf' ],
-    'fonts':  [ 'tamzen-font-git' ],
+    # xorg-drivers xf86-input-synaptics is unneeded and messes up
+    'xorg':     [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
+    'neovim':   [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
+    'i3':       [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
+    'dev':      [ 'cmake', 'lua' ],
+    'zathura':  [ 'zathura', 'zathura-pdf-mupdf', 'zathura-djvu' ],
+    'ui':       [ 'compton', 'xflux', 'rofi', 'polybar', 'feh' ],
+    'cli':      [ 'fzf' ],
+    'fonts':    [ 'tamzen-font-git' ],
     # bundles below are executed with approptiate commands
-    'pip':    [ 'pynvim' ],
-    'pip2':   [ 'pynvim' ],
+    'pip':      [ 'pynvim' ],
+    'pip2':     [ 'pynvim' ],
 }
 
 # =======================================
@@ -49,7 +51,6 @@ bundles = {
 
 def main():
     subprocess.run('clear')
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     print(colors['blue'] + """
          _                                
     /   //         /                      
@@ -59,12 +60,18 @@ def main():
                                   '  """ + colors['escape'])
 
     global dry
-    if args.install:
-        dry = False
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    if args.update:
+    # manually parsing arguments
+    if args.action in { 'install', 'i' }:
+        dry = False
+    elif args.action in { 'update', 'u' }:
         dry = False
         update()
+    elif args.action in { 'dry', 'd' } or args.action == None:
+        dry = True
+        args.packages = True
+        args.vim = True
     
     # ask for sudo & empty the log
     if not dry:
@@ -109,7 +116,8 @@ def main():
 
     # update z.lua 
     echo_title('updating z.lua')
-    run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/blueberry/scripts/z.lua', 'curl skywind3000/z.lua > scripts/z.lua')
+    #run_command('curl -sS https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/blueberry/scripts/z.lua', 'curl skywind3000/z.lua > scripts/z.lua')
+    run_command('curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ~/blueberry/scripts/z.lua', 'curl skywind3000/z.lua > scripts/z.lua')
     
     # mkdirs
     create_directories(mkdir)
@@ -130,7 +138,9 @@ def main():
         # install plug if needed
         if not os.path.exists(os.path.expanduser('~/.config/nvim/autoload/plug.vim')):
             echo_title('installing plug')
-            run_command('curl -sS https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > ~/.config/nvim/autoload/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
+            #run_command('curl -sS https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > ~/.config/nvim/autoload/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
+            run_command('curl -sS --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.config/nvim/autoload/plug.vim', 'curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim')
+
 
         # update neovim plugs
         echo_title('updating neovim plugins')
@@ -317,7 +327,10 @@ def create_symlink(src, dst):
             else:
                 echo_log('>', 'yellow', os.path.relpath(src) + arrow + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
         else:
-            echo_log('>', 'blue', os.path.relpath(src) + equals + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            if not dry:
+                echo_log('>', 'blue', os.path.relpath(src) + equals + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
+            else:
+                echo_log('>', 'yellow', os.path.relpath(src) + colors['yellow'] + ' = ' + colors['escape'] + '~/' + os.path.relpath(dst, os.path.expanduser('~')))
     else:
         echo_log('#', 'red', os.path.relpath(src) + colon + 'missing source file' + dots)
 
@@ -368,12 +381,24 @@ def update():
 dry = True
 care = 'unset'
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--install', action='store_true', help='perform installation')
-parser.add_argument('-d', '--dry', action='store_true', help='dry run [default]')
-parser.add_argument('-u', '--update', action='store_true', help='sync to configured git repo')
-parser.add_argument('-p', '--packages', action='store_true', help='install packages')
-parser.add_argument('-v', '--vim', action='store_true', help='set up nvim via plug')
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
+        usage='blueberry [install | update | dry] [-p] [-v]',
+        description='''
+perform:
+   i, install     perform installation
+   u, update      sync to or from a git repo
+   d, dry         just print without running
+                  default, includes all options
+install:
+  -p, --packages  install package bundles
+  -v, --vim       set up nvim via plug
+''')
+
+parser.add_argument('action', help=argparse.SUPPRESS)
+parser.add_argument('-p', '--packages', action='store_true', help=argparse.SUPPRESS)
+parser.add_argument('-v', '--vim', action='store_true', help=argparse.SUPPRESS)
+
 args = parser.parse_args()
 
 if __name__ == "__main__":

@@ -81,9 +81,19 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]P7"$(get_color color7)      #lightgrey
     echo -en "\e]PF"$(get_color color15)     #white
     clear 
+
     now=$(date +"%A, %B %d, %H:%M")
     echo "${now}"
     u=$(whoami)
     echo "welcome back, ${u}"
+    for s in $(seq 0 5); do
+      read -t 0 -r && { read -r; break; }
+      echo -ne "starting xserver in $((5-s))... [enter] to cancel \r"
+      sleep 1
+      if [ $s = 5 ]; then
+        echo
+        startx
+      fi
+    done
 fi
 
