@@ -50,19 +50,10 @@ bundles = {
 # =======================================
 
 def main():
-    subprocess.run('clear')
-    print(colors['blue'] + """
-         _                                
-    /   //         /                      
-   /__ //  . . _  /__ _  __  __  __  ,    
-  /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
-                                   /      
-                                  '  """ + colors['escape'])
-
     global dry
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    # manually parsing arguments
+    # manually parsing the arguments
     if args.action in { 'install', 'i' }:
         dry = False
     elif args.action in { 'update', 'u' }:
@@ -72,6 +63,18 @@ def main():
         dry = True
         args.packages = True
         args.vim = True
+    else:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+
+    subprocess.run('clear')
+    print(colors['blue'] + """
+         _                                
+    /   //         /                      
+   /__ //  . . _  /__ _  __  __  __  ,    
+  /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤  
+                                   /      
+                                  '  """ + colors['escape'])
     
     # ask for sudo & empty the log
     if not dry:
