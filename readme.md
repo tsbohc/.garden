@@ -5,11 +5,16 @@
 /_) </_ (_/_</_/_) </_/ (_/ (_/ (_/_ ❤
                                  /    
                                 '
--i, --install   perform installation
--d, --dry       dry run [default]
--u, --update    sync to/from a git repo
--p, --packages  install packages
--v, --vim       set up nvim via plug
+usage: blueberry [install | update | dry] [-p] [-v]
+
+perform:
+   i, install     perform installation
+   u, update      sync to or from a git repo
+   d, dry         just print without running
+                  default, includes all options
+install:
+  -p, --packages  install package bundles
+  -v, --vim       set up nvim via plug
 ```
 new machine bootstrap script, featuring: symlinks, aur bundles, nvim plugs, and more, all a couple of keystrokes away. single file with no extra dependencies. 
 
@@ -17,6 +22,7 @@ new machine bootstrap script, featuring: symlinks, aur bundles, nvim plugs, and 
 - bashrc:
     - simple git aware prompt
     - tty colors are read from .Xresources
+    - cancellable xorg autostart
 - aliases:
     - archive extraction
 - nvim: 
