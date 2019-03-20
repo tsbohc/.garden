@@ -53,16 +53,24 @@ def main():
     global dry
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    # manually parsing the arguments
     if args.action in { 'install', 'i' }:
         dry = False
     elif args.action in { 'update', 'u' }:
         dry = False
         update()
-    elif args.action in { 'dry', 'd' } or args.action == None:
+    elif args.action in { 'dry', 'd' }:
         dry = True
         args.packages = True
         args.vim = True
+    elif (args.action in { 'edit', 'e' } or args.action == None) and len(sys.argv) == 1:
+        if os.path.exists('/usr/bin/fzf'):
+            subprocess.run('find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r $EDITOR', shell=True)
+        else:
+            echo_log('i', 'yellow', 'fzf is not installed')
+        sys.exit(1)
+    elif args.action == None and len(sys.argv) > 1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
     else:
         parser.print_help(sys.stderr)
         sys.exit(1)
@@ -386,19 +394,21 @@ care = 'unset'
 
 parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        usage='blueberry [install | update | dry] [-p] [-v]',
+        usage='blueberry [install|dry|update|edit] [-p] [-v]',
         description='''
 perform:
    i, install     perform installation
+   d, dry         just print without running includes all options
    u, update      sync to or from a git repo
-   d, dry         just print without running
-                  default, includes all options
+   e, edit        fzf into $EDITOR in the script location
+                  runs when no arguments are given
+
 install:
   -p, --packages  install package bundles
   -v, --vim       set up nvim via plug
 ''')
 
-parser.add_argument('action', help=argparse.SUPPRESS)
+parser.add_argument('action', nargs='?', help=argparse.SUPPRESS)
 parser.add_argument('-p', '--packages', action='store_true', help=argparse.SUPPRESS)
 parser.add_argument('-v', '--vim', action='store_true', help=argparse.SUPPRESS)
 
