@@ -53,8 +53,8 @@ full-at = 99
 battery = BAT1
 adapter = ACAD
 
-format-charging = ↑<label-charging>
-format-discharging = ↓<label-discharging>
+format-charging = ><label-charging>
+format-discharging = <<label-discharging>
 format-full = <label-full>
 
 [module/cpu]

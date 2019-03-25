@@ -33,6 +33,7 @@ link = {
 bundles = {
     # xorg-drivers xf86-input-synaptics is unneeded and messes up
     'xorg':     [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
+    # add audio
     'neovim':   [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
     'i3':       [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
     'dev':      [ 'cmake', 'lua' ],
@@ -394,7 +395,7 @@ care = 'unset'
 
 parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        usage='blueberry [install|dry|update|edit] [-p] [-v]',
+        usage='bb {install|dry|update|edit} [-p] [-v]',
         description='''
 perform:
    i, install     perform installation

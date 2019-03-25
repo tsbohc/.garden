@@ -43,7 +43,7 @@ bindsym XF86AudioLowerVolume    exec pactl -- set-sink-volume 0 -10%
 # i3 specific
 bindsym $mod+Shift+c            reload
 bindsym $mod+Shift+r            restart
-bindsym $mod+Shift+e            exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e            exec "i3-nagbar -t warning -m 'are you sure you want to terminate X?' -B 'yes, terminate' 'i3-msg exit'"
 
 # -------------------------------------------
 # window management

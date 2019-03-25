@@ -64,36 +64,40 @@ get_color(){
 }
 
 if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0"$(get_color background)  #black
-    echo -en "\e]P8"$(get_color foreground)  #darkgrey
-    echo -en "\e]P1"$(get_color color1)      #darkred
-    echo -en "\e]P9"$(get_color color9)      #red
-    echo -en "\e]P2"$(get_color color2)      #darkgreen
-    echo -en "\e]PA"$(get_color color10)     #green
-    echo -en "\e]P3"$(get_color color3)      #brown
-    echo -en "\e]PB"$(get_color color11)     #yellow
-    echo -en "\e]P4"$(get_color color4)      #darkblue
-    echo -en "\e]PC"$(get_color color12)     #blue
-    echo -en "\e]P5"$(get_color color5)      #darkmagenta
-    echo -en "\e]PD"$(get_color color13)     #magenta
-    echo -en "\e]P6"$(get_color color6)      #darkcyan
-    echo -en "\e]PE"$(get_color color14)     #cyan
-    echo -en "\e]P7"$(get_color color7)      #lightgrey
-    echo -en "\e]PF"$(get_color color15)     #white
-    clear 
+  echo -en "\e]P0"$(get_color background)  #black
+  echo -en "\e]P8"$(get_color foreground)  #darkgrey
+  echo -en "\e]P1"$(get_color color1)      #darkred
+  echo -en "\e]P9"$(get_color color9)      #red
+  echo -en "\e]P2"$(get_color color2)      #darkgreen
+  echo -en "\e]PA"$(get_color color10)     #green
+  echo -en "\e]P3"$(get_color color3)      #brown
+  echo -en "\e]PB"$(get_color color11)     #yellow
+  echo -en "\e]P4"$(get_color color4)      #darkblue
+  echo -en "\e]PC"$(get_color color12)     #blue
+  echo -en "\e]P5"$(get_color color5)      #darkmagenta
+  echo -en "\e]PD"$(get_color color13)     #magenta
+  echo -en "\e]P6"$(get_color color6)      #darkcyan
+  echo -en "\e]PE"$(get_color color14)     #cyan
+  echo -en "\e]P7"$(get_color color7)      #lightgrey
+  echo -en "\e]PF"$(get_color color15)     #white
+  clear 
 
-    now=$(date +"%A, %B %d, %H:%M")
-    echo "${now}"
-    u=$(whoami)
-    echo "welcome back, ${u}"
-    for s in $(seq 0 5); do
-      read -t 0 -r && { read -r; break; }
-      echo -ne "starting xserver in $((5-s))... [enter] to cancel \r"
-      sleep 1
-      if [ $s = 5 ]; then
-        echo
-        startx
-      fi
-    done
+  [[ -f ~/blueberry/scripts/catlogin.sh ]] && . ~/blueberry/scripts/catlogin.sh
+
+  #y="\x1b[33m"
+  #e="\x1b[0m"
+
+  #arr=(
+  #"                         ,                  \n"
+  #"  $y,-.       _,---._ __$e  / \\            \n"
+  #" $y/  )    .-\'       \`./$e /   \\         \n"
+  #"$y(  (   ,\'            \`$e/    /|         \n"
+  #" $y\\  \`-\"             \\\'$e\\   / |     \n"
+  #"  $y\`.              ,  \\ $e\\ /  |        \n"
+  #"   $y/\`.          ,\'$e-$y\`$e----Y   |    \n"
+  #"  $y(            ;$e        |   \'          \n"
+  #"  $y|  ,-.    ,-\'$e         |  /           \n"
+  #"  $y|  | (   |$e     ${now}  | /            \n"
+  #"  $y)  |  \\  \`.${e}___________|/          \n"
+  #"  $y\`--\'   \`--\'$e                       \n")
 fi
-

@@ -25,6 +25,98 @@ if has('nvim')
 endif
 
 " -------------------------------------------------
+"   user settings
+" -------------------------------------------------
+
+set t_Co=256 " vim in 256 colors
+set synmaxcol=256
+colorscheme jellybeans
+
+" syntax highlighting
+syntax on
+filetype indent on
+set cursorline " current line
+set showmatch " matching [{(s
+hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
+
+" invisibles
+"set list
+"set listchars=
+"set listchars+=tab:|
+
+" line numbers
+set number relativenumber
+
+" rendering
+set encoding=utf-8
+set ttyfast
+
+" mode switch delays
+set ttimeout
+set ttimeoutlen=30
+set timeoutlen=3000
+
+" whitespace
+set wrap
+set scrolloff=10
+set formatoptions=tcqrn1
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set noshiftround
+
+" search
+set incsearch " search as characters are entered
+set hlsearch " highlight matches
+set ignorecase " case-insensitive search
+set smartcase " case-sensitive if search contains uppercase
+set showmatch
+nnoremap \ :noh<return>
+
+" clipboard woes, default vim
+set clipboard=unnamedplus " systemwide
+vmap <leader>y :w! /tmp/vitmp<CR>
+nmap <leader>p :r! cat /tmp/vitmp<CR>
+
+" disable new line comment
+autocmd FileType * setlocal formatoptions-=cro
+
+" -------------------------------------------------
+"   rendering
+" -------------------------------------------------
+
+" -------------------------------------------------
+"   filetype specifics
+" -------------------------------------------------
+
+" python
+au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
+" -------------------------------------------------
+"   keymaps
+" -------------------------------------------------
+
+" hardmode
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+noremap <PageUp> <nop>
+noremap <PageDown> <nop>
+
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+inoremap <PageUp> <nop>
+inoremap <PageDown> <nop>
+
+" general
+"nnoremap j gj
+"nnoremap k gk
+
+" -------------------------------------------------
 "   status line
 " -------------------------------------------------
 
@@ -78,92 +170,6 @@ let g:lightline.mode_map = {
     \ "\<C-s>": 'SB',
     \ 't': 'T',
     \ }
-
-" -------------------------------------------------
-"   user settings
-" -------------------------------------------------
-
-" style
-set t_Co=256
-set synmaxcol=256
-colorscheme jellybeans
-
-" syntax highlighting
-syntax on
-filetype indent on
-set cursorline " current line
-set showmatch " matching [{(s
-hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
-
-" invisibles
-"set list
-"set listchars=
-"set listchars+=tab:|
-
-" line numbers
-set number relativenumber
-
-" rendering
-set encoding=utf-8
-set ttyfast
-
-" mode switch delays
-set ttimeout
-set ttimeoutlen=30
-set timeoutlen=3000
-
-" whitespace
-set wrap
-set scrolloff=10
-set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set noshiftround
-
-" search
-set incsearch " search as characters are entered
-set hlsearch " highlight matches
-set ignorecase " case-insensitive search
-set smartcase " case-sensitive if search contains uppercase
-set showmatch
-nnoremap \ :noh<return>
-
-" clipboard woes, default vim
-set clipboard=unnamedplus " systemwide
-vmap <leader>y :w! /tmp/vitmp<CR>
-nmap <leader>p :r! cat /tmp/vitmp<CR>
-
-" -------------------------------------------------
-"   filetype specifics
-" -------------------------------------------------
-
-" python
-au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-
-" -------------------------------------------------
-"   keymaps
-" -------------------------------------------------
-
-" hardmode
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-noremap <PageUp> <nop>
-noremap <PageDown> <nop>
-
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-inoremap <PageUp> <nop>
-inoremap <PageDown> <nop>
-
-" general
-"nnoremap j gj
-"nnoremap k gk
 
 " -------------------------------------------------
 "   vim magic
