@@ -64,6 +64,7 @@ get_color(){
 }
 
 if [ "$TERM" = "linux" ]; then
+
   echo -en "\e]P0"$(get_color background)  #black
   echo -en "\e]P8"$(get_color foreground)  #darkgrey
   echo -en "\e]P1"$(get_color color1)      #darkred
@@ -82,22 +83,6 @@ if [ "$TERM" = "linux" ]; then
   echo -en "\e]PF"$(get_color color15)     #white
   clear 
 
+  [[ -f ~/blueberry/fonts/TamzenForPowerline8x16.psf ]] && setfont ~/blueberry/fonts/TamzenForPowerline8x16.psf
   [[ -f ~/blueberry/scripts/catlogin.sh ]] && . ~/blueberry/scripts/catlogin.sh
-
-  #y="\x1b[33m"
-  #e="\x1b[0m"
-
-  #arr=(
-  #"                         ,                  \n"
-  #"  $y,-.       _,---._ __$e  / \\            \n"
-  #" $y/  )    .-\'       \`./$e /   \\         \n"
-  #"$y(  (   ,\'            \`$e/    /|         \n"
-  #" $y\\  \`-\"             \\\'$e\\   / |     \n"
-  #"  $y\`.              ,  \\ $e\\ /  |        \n"
-  #"   $y/\`.          ,\'$e-$y\`$e----Y   |    \n"
-  #"  $y(            ;$e        |   \'          \n"
-  #"  $y|  ,-.    ,-\'$e         |  /           \n"
-  #"  $y|  | (   |$e     ${now}  | /            \n"
-  #"  $y)  |  \\  \`.${e}___________|/          \n"
-  #"  $y\`--\'   \`--\'$e                       \n")
 fi

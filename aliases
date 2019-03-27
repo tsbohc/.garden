@@ -11,6 +11,7 @@ alias bb='python3 ~/blueberry/blueberry.py'
 
 # nvim
 alias v='nvim'
+alias vpager='nvim -u ~/blueberry/vim/vpager'
 
 # yeah
 alias :q='exit'

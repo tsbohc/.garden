@@ -32,18 +32,19 @@ link = {
 
 bundles = {
     # xorg-drivers xf86-input-synaptics is unneeded and messes up
-    'xorg':     [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
-    # add audio
-    'neovim':   [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
-    'i3':       [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
-    'dev':      [ 'cmake', 'lua' ],
-    'zathura':  [ 'zathura', 'zathura-pdf-mupdf', 'zathura-djvu' ],
-    'ui':       [ 'compton', 'xflux', 'rofi', 'polybar', 'feh' ],
-    'cli':      [ 'fzf' ],
-    'fonts':    [ 'tamzen-font-git' ],
+    'xorg':         [ 'xorg', 'xorg-xinit', 'xorg-drivers', 'xterm' ],
+    'pulseaudio':   [ 'pulseaudio', 'pulseaudio-alsa', 'pacmixer' ],
+    'neovim':       [ 'neovim', 'python2-pip', 'python-pip', 'xsel' ],
+    'i3':           [ 'i3-gaps', 'xorg-util-macros', 'python-i3-py' ],
+    'dev':          [ 'cmake', 'lua' ],
+    'ui':           [ 'compton', 'xflux', 'rofi', 'polybar', 'feh' ],
+    'media':        [ 'mpv' ],
+    'zathura':      [ 'zathura', 'zathura-pdf-mupdf', 'zathura-djvu' ],
+    'cli':          [ 'fzf' ],
+    'fonts':        [ 'tamzen-font-git' ],
     # bundles below are executed with approptiate commands
-    'pip':      [ 'pynvim' ],
-    'pip2':     [ 'pynvim' ],
+    'pip':          [ 'pynvim' ],
+    'pip2':         [ 'pynvim' ],
 }
 
 # =======================================
@@ -65,7 +66,7 @@ def main():
         args.vim = True
     elif (args.action in { 'edit', 'e' } or args.action == None) and len(sys.argv) == 1:
         if os.path.exists('/usr/bin/fzf'):
-            subprocess.run('find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r $EDITOR', shell=True)
+            subprocess.run('find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r -d"\n" $EDITOR', shell=True)
         else:
             echo_log('i', 'yellow', 'fzf is not installed')
         sys.exit(1)

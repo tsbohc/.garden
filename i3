@@ -33,6 +33,8 @@ smart_gaps on
 # apps
 bindsym $mod+Return             exec ~/blueberry/sl/st/st #i3-sensible-terminal
 bindsym $mod+d                  exec rofi -show run 
+bindcode Shift+64               exec /home/sean/blueberry/scripts/keyboardswitch.sh
+
 
 # media keys
 bindsym XF86MonBrightnessUp     exec xbacklight -inc 10

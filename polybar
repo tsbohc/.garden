@@ -1,10 +1,10 @@
 [bar/top]
 monitor = eDP-1
 width = 100%
-height = 25
+height = 20
 override-redirect = true
 wm-restack = i3
-border-top-size = 0
+border-top-size = 3
 
 background = #00000000
 foreground = #ccffffff
@@ -17,13 +17,12 @@ font-0 = TamzenForPowerline:pixelsize=13
 font-1 = MaterialIcons:size=9
 font-2 = Termsynu:size=8:antialias=false;-2
 
-modules-left = i3  mpd
+modules-left = i3 mpd
 modules-center = date
-modules-right = wireless-network cpu memory backlight wired-network battery
+modules-right = wireless-network cpu memory wired-network battery
 
 [module/i3]
 type = internal/i3
-
 label-focused-foreground = #fba922
 
 [module/backlight]
@@ -54,7 +53,7 @@ battery = BAT1
 adapter = ACAD
 
 format-charging = ><label-charging>
-format-discharging = <<label-discharging>
+format-discharging = ~<label-discharging>
 format-full = <label-full>
 
 [module/cpu]
