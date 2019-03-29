@@ -28,33 +28,29 @@ endif
 "   user settings
 " -------------------------------------------------
 
-set t_Co=256 " vim in 256 colors
+" rendering
+set encoding=utf-8
+set ttyfast
+set t_Co=256
 set synmaxcol=256
-colorscheme jellybeans
+set ttimeout
+set ttimeoutlen=30
+set timeoutlen=3000
 
 " syntax highlighting
+colorscheme jellybeans
 syntax on
 filetype indent on
-set cursorline " current line
-set showmatch " matching [{(s
+set cursorline " hightlight current line
+set showmatch " hl matching [{(s
+set number relativenumber " relative numbers
+
 hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
 " invisibles
 "set list
 "set listchars=
 "set listchars+=tab:|
-
-" line numbers
-set number relativenumber
-
-" rendering
-set encoding=utf-8
-set ttyfast
-
-" mode switch delays
-set ttimeout
-set ttimeoutlen=30
-set timeoutlen=3000
 
 " whitespace
 set wrap
@@ -83,15 +79,21 @@ nmap <leader>p :r! cat /tmp/vitmp<CR>
 autocmd FileType * setlocal formatoptions-=cro
 
 " -------------------------------------------------
-"   rendering
+"   vim magic
 " -------------------------------------------------
 
-" -------------------------------------------------
-"   filetype specifics
-" -------------------------------------------------
+" recompile suckless programs automagically
+autocmd BufWritePost config.h,config.def.h !sudo make install
 
-" python
-au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+" run xrdb whenever Xdefaults or Xresources are updated
+autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
+
+" auto-update current buffer if it's been changed from somewhere else
+set autoread
+augroup autoRead
+    autocmd!
+    autocmd CursorHold * silent! checktime
+augroup END
 
 " -------------------------------------------------
 "   keymaps
@@ -112,9 +114,16 @@ inoremap <Right> <Nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
-" general
-"nnoremap j gj
-"nnoremap k gk
+" vi-line movement
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+
+" -------------------------------------------------
+"   filetype specifics
+" -------------------------------------------------
+
+" python
+au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
 " -------------------------------------------------
 "   status line
@@ -170,13 +179,3 @@ let g:lightline.mode_map = {
     \ "\<C-s>": 'SB',
     \ 't': 'T',
     \ }
-
-" -------------------------------------------------
-"   vim magic
-" -------------------------------------------------
-
-" recompile suckless programs automagically
-autocmd BufWritePost config.h,config.def.h !sudo make install
-
-" run xrdb whenever Xdefaults or Xresources are updated
-autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
