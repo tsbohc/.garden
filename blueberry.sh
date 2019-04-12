@@ -21,17 +21,17 @@ pip2:          pynvim
 EOF
 
 read -d '' links << EOF
-bashrc:                        ~/.bashrc
-aliases:                       ~/.aliases
-bash_profile:                  ~/.bash_profile
-xinitrc:                       ~/.xinitrc
-Xresources:                    ~/.Xresources
-vimrc:                         ~/.vimrc
-vim/colors/jellybeans.vim:     ~/.vim/colors/jellybeans.vim
-vim/nvim_init.vim:             ~/.config/nvim/init.vim
-i3:                            ~/.config/i3/config
-compton:                       ~/.config/compton.conf
-polybar:                       ~/.config/polybar/config
+bashrc                        ~/.bashrc
+aliases                       ~/.aliases
+bash_profile                  ~/.bash_profile
+xinitrc                       ~/.xinitrc
+Xresources                    ~/.Xresources
+vimrc                         ~/.vimrc
+vim/colors/jellybeans.vim     ~/.vim/colors/jellybeans.vim
+vim/nvim_init.vim             ~/.config/nvim/init.vim
+i3                            ~/.config/i3/config
+compton                       ~/.config/compton.conf
+polybar                       ~/.config/polybar/config
 EOF
 # lightline theme install moved to plug.vim 'do' statement
 
@@ -120,7 +120,7 @@ create_directories() {
   if [[ $should_make_dirs == yes ]]; then
     title "creating directories"
     while read -r path; do
-      sleep 0.02 # makes it look cooler
+      sleep 0.05 # makes it look cooler
       dst=$(get_abspath $path)
       if [[ ! -d "$dst" ]]; then
         if [[ $dry == no ]]; then
@@ -151,7 +151,7 @@ update() {
     if ask_user "the local branch is ahead, push?"; then
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
-      read commit_message -e
+      read commit_message -e # -e make backspace work
       run_command "git commit -m $commit_message --quiet"
       run_command "git push --quiet"
     fi
@@ -163,7 +163,7 @@ update() {
 create_symlinks() {
   title "linking dots"
   while read -r line; do
-    sleep 0.1 # because it looks cooler
+    sleep 0.05 # because it looks cooler
     line=($line)
     src=${line[0]}
     dst=${line[1]}
@@ -191,7 +191,7 @@ create_symlinks() {
                 log "+" $green "backup/"
                 mkdir backup
               fi
-              log "+" "green"
+              log "+" $green "backup/$dst"
               cp "$abs_dst" "backup/${abs_dst##*/}$(date + '-%Y-%m-%d_%H-%M-%S')"
             else
               rm "$abs_dst"
@@ -216,22 +216,22 @@ create_symlinks() {
           fi
           # actual symlinking
           if [[ $dry == no ]]; then
-            log "+" $blue "$src"$arrow"$dst"
+            log "+" $blue "$src$arrow$dst"
             ln -sfn $abs_src $abs_dst
           else
-            log ">" $yellow "$src"$arrow"$dst"
+            log ">" $yellow "$src$arrow$dst"
           fi
         # if dst is a symlink and points to the same file
         else
           if [[ $dry == no ]]; then
-            log ">" $blue "$src"$equals"$dst"
+            log ">" $blue "$src$equals$dst"
           else
-            log ">" $yellow "$src"$equals"$dst"
+            log ">" $yellow "$src$equals$dst"
           fi
         fi
       fi
     else
-      log "#" $red "missing source file, skipping"
+      log "#" $red "$src$colon missing source file, skipping"
     fi
   done <<< "$links"
 }
@@ -316,10 +316,8 @@ if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
 else
     case $1 in # the first agrument has to be an action
     i|install)
-      echo "installing"
       dry=no;;
     d|dry)
-      echo "drying"
       dry=yes
       should_install_packages=yes
       should_setup_vim=yes;;
@@ -333,8 +331,8 @@ else
   OPTIND=2 # makes getopts parse arguments starting from the second
   while getopts "pv" opt; do
     case $opt in
-      p) $should_install_packages=yes;;
-      v) $should_setup_vim=yes;;
+      p) should_install_packages=yes;;
+      v) should_setup_vim=yes;;
     esac
   done
 fi
@@ -342,8 +340,6 @@ fi
 # =======================================
 # the bones
 # =======================================
-
-echo "dry = "$dry
 
 # print logo
 welcome
@@ -361,7 +357,7 @@ if grep -Fqx "#Color" "/etc/pacman.conf"; then
 fi
 
 # install yay if needed
-if [[ -d /usr/bin/yay ]]; then # not sure if yay is a dir, check
+if [[ ! -f /usr/bin/yay ]]; then # not sure if yay is a dir, check
   title "installing yay"
   run_command "git clone https://aur.archlinux.org/yay.git"
   run_command "cd yay"
@@ -376,7 +372,7 @@ title "installing hostblock"
 if [[ ! -f /etc/hosts_bk ]]; then
   run_command "cp /etc/hosts /etc/hosts_bk"
 fi
-run_command "sudo bash -c 'curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts > /etc/hosts'" "curl StevenBlack/hosts > /etc/hosts"
+run_command "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts" "curl StevenBlack/hosts > /etc/hosts"
 
 # install/update z.lua
 title "updating z.lua"
@@ -402,7 +398,7 @@ if [[ $should_setup_vim == yes ]]; then
 fi
 
 # symlink everything
-#create_symlinks
+create_symlinks
 
 # print closing message
 if [[ $dry == no ]]; then

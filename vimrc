@@ -9,19 +9,20 @@
 " -------------------------------------------------
 
 if has('nvim')
-    call plug#begin('~/.vim/bundle')
+  call plug#begin('~/.vim/bundle')
 
-    Plug 'itchyny/lightline.vim', { 'do': 'ln -s ~/blueberry/vim/jellybeans_lightline.vim ~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim' }
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-    Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+  Plug 'itchyny/lightline.vim', { 'do': 'ln -s ~/blueberry/vim/jellybeans_lightline.vim ~/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/jellybeans_lightline.vim' }
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+  Plug 'morhetz/gruvbox'
 
-    augroup load_us_ycm
-        autocmd!
-        autocmd InsertEnter * call plug#load('vim-multiple-cursors')
-                    \| autocmd! load_us_ycm
-    augroup END
+  augroup load_us_ycm
+      autocmd!
+      autocmd InsertEnter * call plug#load('vim-multiple-cursors')
+                  \| autocmd! load_us_ycm
+  augroup END
 
-    call plug#end()
+  call plug#end()
 endif
 
 " -------------------------------------------------
@@ -40,19 +41,24 @@ set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
 
+" gruvbox
+let g:gruvbox_dark_contrast = 'hard'
+let g:gruvbox_italicize_comments = '1'
+let g:gruvbox_italic = '1'
+let g:gruvbox_bold = '0'
+
 " syntax highlighting
-colorscheme jellybeans
+colorscheme gruvbox
 syntax on
 filetype indent on
 set number relativenumber " relative numbers
 set cursorline " hightlight current line
 set showmatch " hl matching [{(s
-hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
+"hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
 " invisibles
 "set list
-"set listchars=
-"set listchars+=tab:|
+"set listchars=tab:|
 
 " whitespace
 set wrap
