@@ -30,9 +30,12 @@ endif
 
 " rendering
 set encoding=utf-8
+set nocompatible
 set ttyfast
 set t_Co=256
 set synmaxcol=256
+
+" mode switch delays
 set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
@@ -41,10 +44,9 @@ set timeoutlen=3000
 colorscheme jellybeans
 syntax on
 filetype indent on
+set number relativenumber " relative numbers
 set cursorline " hightlight current line
 set showmatch " hl matching [{(s
-set number relativenumber " relative numbers
-
 hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 
 " invisibles
