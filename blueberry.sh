@@ -151,9 +151,10 @@ update() {
     if ask_user "the local branch is ahead, push?"; then
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
-      read commit_message -e # -e make backspace work
-      run_command "git commit -m $commit_message --quiet"
+      read commit_message
+      run_command "git commit -m ""$commit_message"" --quiet"
       run_command "git push --quiet"
+      echo
     fi
   else
     log "i" $yellow "there is nothing to do"
@@ -363,7 +364,7 @@ if [[ ! -f /usr/bin/yay ]]; then # not sure if yay is a dir, check
   run_command "cd yay"
   run_command "makepkg -si --noconfirm"
   run_command "cd .."
-  #run_command 'rm -rf yay' # careful
+  run_command 'rm -rf yay' # careful
   run_command "yay -Syuu"
 fi
 
@@ -376,7 +377,7 @@ run_command "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/m
 
 # install/update z.lua
 title "updating z.lua"
-run_command "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ~/blueberry/scripts/z.lua" "curl skywind3000/z.lua > scripts/z.lua"
+run_command "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o $(get_abspath ~/blueberry/scripts/z.lua)" "curl skywind3000/z.lua > scripts/z.lua"
 
 # create necessary directories
 create_directories
@@ -390,7 +391,7 @@ if [[ $should_setup_vim == yes ]]; then
   # install plug if needed
   if [[ ! -f $(get_abspath "~/.config/nvim/autoload/plug.vim") ]]; then
     title "intalling plug"
-    run_command "curl -sS --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.config/nvim/autoload/plug.vim" "curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim"
+    run_command "curl -sS --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o $(get_abspath ~/.config/nvim/autoload/plug.vim)" "curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim"
   fi
   # update neovim plugs
   title "updating neovim plugins"
