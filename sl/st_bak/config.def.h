@@ -57,18 +57,6 @@ static unsigned int blinktimeout = 800;
 static unsigned int cursorthickness = 2;
 
 /*
- * 1: render most of the lines/blocks characters without using the font for
- *    perfect alignment between cells (U2500 - U259F except dashes/diagonals).
- *    Bold affects lines thickness if boxdraw_bold is not 0. Italic is ignored.
- * 0: disable (render all U25XX glyphs normally from the font).
- */
-const int boxdraw = 1;
-const int boxdraw_bold = 1;
-
-/* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
-const int boxdraw_braille = 0;
-
-/*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
  * it
  */
@@ -96,63 +84,43 @@ unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-  /* 8 normal colors */
+	/* 8 normal colors */
+	"#1c1c1c", /* black */
+	"#d75f5f", /* red */
+	"#72a25a", /* green */
+	"#d8ad4c", /* yellow */
+	"#597bc5", /* blue */
+	"#8787af", /* magenta */
+	"#4a8382", /* cyan */
+	"#adadad", /* white */
 
-  /* _color0_ */
-  "#1d2021",
-  /* _color1_ */
-  "#cc241d",
-  /* _color2_ */
-  "#98971a",
-  /* _color3_ */
-  "#d79921",
-  /* _color4_ */
-  "#458588",
-  /* _color5_ */
-  "#b16286",
-  /* _color6_ */
-  "#689d6a",
-  /* _color7_ */
-  "#a89984",
+	/* 8 bright colors */
+	"#3b3b3b", /* black */
+	"#ffb964", /* red */
+	"#99ad6a", /* green */
+	"#fad07a", /* yellow */
+	"#8197bf", /* blue */
+	"#d7afff", /* magenta */
+	"#8fbfdc", /* cyan */
+	"#e8e8de", /* white */
 
-  /* 8 bright colors */
+	[255] = 0,
 
-  /* _color8_ */
-  "#928374",
-  /* _color9_ */
-  "#fb4934",
-  /* _color10_ */
-  "#b8bb26",
-  /* _color11_ */
-  "#fabd2f",
-  /* _color12_ */
-  "#83a598",
-  /* _color13_ */
-  "#d3869b",
-  /* _color14_ */
-  "#8ec07c",
-  /* _color15_ */
-  "#ebdbb2",
-
-  [255] = 0,
-  /* more colors can be added after 255 to use with DefaultXX */
-
-  /* _colorfg_ */
-  "#ebdbb2",
-  /* _colorbg_ */
-  "#1d2021",
-  /* _colorcs_ */
-  "#d7d7d7",
+	/* more colors can be added after 255 to use with DefaultXX */
+	"#d7d7d7",
+	"#adadad",
+    "#121212",
 };
+
 
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 256;
-unsigned int defaultbg = 257;
+unsigned int defaultfg = 257;
+unsigned int defaultbg = 258;
 static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+static unsigned int defaultrcs = 258;
 
 /*
  * Default shape of cursor
@@ -211,8 +179,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = 15} },
-	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = 15} },
+	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };
 
 /*

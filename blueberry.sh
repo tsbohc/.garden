@@ -47,7 +47,6 @@ EOF
 
 expand_home() { echo "${1/#\~/$HOME}"; } # unused
 
-# may have to put in a return to working dir
 get_abspath() {
   if [[ $1 == "~"* ]]; then #passing path w/ ~ as a string does not expand the ~
     relpath=${1/"~"/$HOME}
@@ -152,7 +151,7 @@ update() {
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
       read commit_message
-      run_command "git commit -m ""$commit_message"" --quiet"
+      run_command "git commit -m ""$commit_message"
       run_command "git push --quiet"
       echo
     fi

@@ -99,60 +99,58 @@ static const char *colorname[] = {
   /* 8 normal colors */
 
   /* _color0_ */
-  "#1d2021",
+  "#1c1c1c", 
   /* _color1_ */
-  "#cc241d",
+  "#d75f5f", 
   /* _color2_ */
-  "#98971a",
+  "#72a25a", 
   /* _color3_ */
-  "#d79921",
+  "#d8ad4c", 
   /* _color4_ */
-  "#458588",
+  "#597bc5", 
   /* _color5_ */
-  "#b16286",
+  "#8787af", 
   /* _color6_ */
-  "#689d6a",
+  "#4a8382", 
   /* _color7_ */
-  "#a89984",
+  "#adadad", 
 
   /* 8 bright colors */
 
   /* _color8_ */
-  "#928374",
+  "#3b3b3b", 
   /* _color9_ */
-  "#fb4934",
+  "#ffb964", 
   /* _color10_ */
-  "#b8bb26",
+  "#99ad6a", 
   /* _color11_ */
-  "#fabd2f",
+  "#fad07a", 
   /* _color12_ */
-  "#83a598",
+  "#8197bf", 
   /* _color13_ */
-  "#d3869b",
+  "#d7afff", 
   /* _color14_ */
-  "#8ec07c",
+  "#8fbfdc", 
   /* _color15_ */
-  "#ebdbb2",
+  "#e8e8de", 
 
   [255] = 0,
-  /* more colors can be added after 255 to use with DefaultXX */
 
-  /* _colorfg_ */
-  "#ebdbb2",
-  /* _colorbg_ */
-  "#1d2021",
-  /* _colorcs_ */
+  /* more colors can be added after 255 to use with DefaultXX */
   "#d7d7d7",
+  "#adadad",
+  "#121212",
 };
+
 
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 256;
-unsigned int defaultbg = 257;
+unsigned int defaultfg = 257;
+unsigned int defaultbg = 258;
 static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+static unsigned int defaultrcs = 258;
 
 /*
  * Default shape of cursor

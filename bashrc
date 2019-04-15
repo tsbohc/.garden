@@ -58,7 +58,7 @@ export LESS_TERMCAP_se=$'\e[0m'     #weird, scroll dependent
 export LESS_TERMCAP_ue=$'\e[0m'     #nothing
 
 # .Xresources to tty
-get_color(){
+get_color() {
     color=$(awk '/\*'$1':(.*)/ { print substr($2,2) }' < ~/.Xresources)
     echo $color
 }
