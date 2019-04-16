@@ -74,11 +74,12 @@ run_command() {
     else
       log ">" $green "$2\c" # print message instead if supplied
     fi
-    $1 # actually execute the command
+    out=$($1 2>&1) # actually execute the command
     if [[ $? -eq 0 ]]; then # handle errors
       echo -e "\r"[$blue+$escape]
     else
       echo -e "\r"[$red!$escape]
+      echo "$out"
     fi
   else # dry run
     if [[ ! $2 ]]; then
@@ -151,9 +152,8 @@ update() {
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
       read commit_message
-      run_command "git commit -m ""$commit_message"
-      run_command "git push --quiet"
-      echo
+      run_command "git commit -m ""\"$commit_message\""
+      run_command "git push" "git push \n"
     fi
   else
     log "i" $yellow "there is nothing to do"
