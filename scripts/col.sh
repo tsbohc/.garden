@@ -2,6 +2,13 @@
 
 # add check for file existence, like config.h
 
+# fallback colors
+if xrdb -query | grep -q "^\*color237"; then
+  _gray="color237"
+else
+  _gray="color8"
+fi
+
 set_vim_theme() {
   # set vim colorscheme in vimrc
   if grep -q "^colorscheme" ~/blueberry/vim/colsh.vim; then
@@ -24,7 +31,7 @@ set_statusline_color() {
   if [[ $2 == "bg" ]]; then
     sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guifg="$(get_color "background")" gui=bold"'/ }' ~/blueberry/vim/colsh.vim
   else
-    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guibg="$(get_color "color8")""'/ }' ~/blueberry/vim/colsh.vim
+    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guibg="$(get_color $_gray)""'/ }' ~/blueberry/vim/colsh.vim
   fi
 }
 
@@ -54,10 +61,11 @@ main() {
   done
 
   sed -i '/\" _User1_/ { n; s/.*/'"hi User1 guibg="$(get_color "color4")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colsh.vim
-  sed -i '/\" _User2_/ { n; s/.*/'"hi User2 guibg="$(get_color "color8")" guifg="$(get_color "color4")""'/ }' ~/blueberry/vim/colsh.vim
-  sed -i '/\" _User3_/ { n; s/.*/'"hi User3 guibg="$(get_color "color8")" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colsh.vim
-  sed -i '/\" _User4_/ { n; s/.*/'"hi User4 guibg="$(get_color "background")" guifg="$(get_color "color8")""'/ }' ~/blueberry/vim/colsh.vim
-  sed -i '/\" _User5_/ { n; s/.*/'"hi User5 guibg="$(get_color "color8")" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colsh.vim
+  sed -i '/\" _User2_/ { n; s/.*/'"hi User2 guibg="$(get_color $_gray)" guifg="$(get_color "color4")""'/ }' ~/blueberry/vim/colsh.vim
+  # filename
+  sed -i '/\" _User3_/ { n; s/.*/'"hi User3 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colsh.vim
+  sed -i '/\" _User4_/ { n; s/.*/'"hi User4 guibg="$(get_color "background")" guifg="$(get_color "color237")""'/ }' ~/blueberry/vim/colsh.vim
+  sed -i '/\" _User5_/ { n; s/.*/'"hi User5 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colsh.vim
   sed -i '/\" _User6_/ { n; s/.*/'"hi User6 guibg="$(get_color "foreground")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colsh.vim
 }
 

@@ -5,13 +5,13 @@ colorscheme gruvbox
 " _User1_
 hi User1 guibg=#458588 guifg=#1d2021
 " _User2_
-hi User2 guibg=#928374 guifg=#458588
+hi User2 guibg=#504945 guifg=#458588
 " _User3_
-hi User3 guibg=#928374 guifg=#ebdbb2
+hi User3 guibg=#504945 guifg=#ebdbb2
 " _User4_
-hi User4 guibg=#1d2021 guifg=#928374
+hi User4 guibg=#1d2021 guifg=#504945
 " _User5_
-hi User5 guibg=#928374 guifg=#ebdbb2
+hi User5 guibg=#504945 guifg=#ebdbb2
 " _User6_
 hi User6 guibg=#ebdbb2 guifg=#1d2021
 
@@ -25,10 +25,10 @@ hi stlcolor11bg guibg=#fabd2f guifg=#1d2021 gui=bold
 hi stlcolor12bg guibg=#83a598 guifg=#1d2021 gui=bold
 
 " _color9fg_
-hi stlcolor9fg guifg=#fb4934 guibg=#928374
+hi stlcolor9fg guifg=#fb4934 guibg=#504945
 " _color10fg_
-hi stlcolor10fg guifg=#b8bb26 guibg=#928374
+hi stlcolor10fg guifg=#b8bb26 guibg=#504945
 " _color11fg_
-hi stlcolor11fg guifg=#fabd2f guibg=#928374
+hi stlcolor11fg guifg=#fabd2f guibg=#504945
 " _color12fg_
-hi stlcolor12fg guifg=#83a598 guibg=#928374
+hi stlcolor12fg guifg=#83a598 guibg=#504945

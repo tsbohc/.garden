@@ -218,6 +218,9 @@ endfunction
 
 function! StatusLineFileName()
     let full_file_path = expand('%:p')
+    if full_file_path == ''
+      let full_file_path = '[new]'
+    endif
     return strlen(full_file_path) < winwidth(0)*0.55 ? full_file_path : expand('%f')
 endfunction
 
