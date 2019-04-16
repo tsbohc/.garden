@@ -152,7 +152,9 @@ update() {
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
       read commit_message
-      run_command "git commit -m ""\"$commit_message\""
+      #run_command "git commit -m \"""$commit_message""\""
+      log ">" $green "git commit -m ""$commit_message"
+      git commit -m "$commit_message"
       run_command "git push" "git push \n"
     fi
   else
