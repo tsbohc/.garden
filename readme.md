@@ -24,15 +24,15 @@ blueberry is a new machine bootstrap script, featuring: symlinks, aur bundles, n
     - simple git aware prompt
     - tty colors are read from .Xresources
     - cancellable xorg autostart
-- nvim: 
+- nvim:
     - nanotech/jellybeans.vim
     - valloric/youcompleteme
     - itchyny/lightline
     - terryma/vim-multiple-cursors
-- st: 
+- st:
     - scrollback
     - boxdraw
-- i3: 
+- i3:
     - gaps
     - olemartinorg/i3-alternating-layout
 - scripts:

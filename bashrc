@@ -10,7 +10,7 @@
 [[ -f ~/.aliases ]] && . ~/.aliases
 
 # z.lua
-eval "$(lua ~/blueberry/scripts/z.lua --init bash)"
+eval "$(lua ~/blueberry/sc/z.lua --init bash)"
 
 # shopt
 shopt -s cdspell # autocorrects cd typos
@@ -24,8 +24,13 @@ shopt -s cmdhist # save multi-line commands in history as single line
 
 shopt -s autocd # change to named directory
 
-# exports
+# history
 export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+PROMPT_COMMAND="history -a; history -n"
+
+# exports
 export EDITOR=nvim
 
 # prompt
@@ -84,5 +89,5 @@ if [ "$TERM" = "linux" ]; then
   clear 
 
   [[ -f ~/blueberry/fonts/TamzenForPowerline8x16.psf ]] && setfont ~/blueberry/fonts/TamzenForPowerline8x16.psf
-  [[ -f ~/blueberry/scripts/catlogin.sh ]] && . ~/blueberry/scripts/catlogin.sh
+  [[ -f ~/blueberry/sc/catlogin.sh ]] && . ~/blueberry/sc/catlogin.sh
 fi

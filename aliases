@@ -7,7 +7,7 @@
 # (_/       
 
 # blueberry
-alias bb='python3 ~/blueberry/blueberry.py'
+alias bb='bash ~/blueberry/blueberry.sh'
 
 # nvim
 alias v='nvim'
@@ -51,7 +51,7 @@ alias mv='mv -i'
 alias df='df -h'
 
 # tinyfetch
-alias tinyfetch='python3 ~/blueberry/scripts/tinyfetch.py'
+alias tinyfetch='python3 ~/blueberry/sc/tinyfetch.py'
 
 # cleanup orphaned packages
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'

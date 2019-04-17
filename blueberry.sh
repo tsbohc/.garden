@@ -72,16 +72,16 @@ run_command() {
     if [[ ! $2 ]]; then
       log ">" $green "$1\c"
     else
-      log ">" $green "$2\c" # print message instead if supplied
+      log ">" $green "$2\c"
     fi
-    out=$($1 2>&1) # actually execute the command
-    if [[ $? -eq 0 ]]; then # handle errors
+    out=$($1 2>&1)
+    if [[ $? -eq 0 ]]; then
       echo -e "\r"[$blue+$escape]
     else
       echo -e "\r"[$red!$escape]
       echo "$out"
     fi
-  else # dry run
+  else
     if [[ ! $2 ]]; then
       log ">" $yellow "$1"
     else
@@ -92,19 +92,19 @@ run_command() {
 
 install_packages() {
   while read -r bundle; do
-      bundle=($bundle)
-      name=${bundle[0]%?} # remove colon
-      title "setting up $name"
-      if [[ $name == pip ]]; then # determine appropriate install command
-        cmd="sudo pip install -q"
-      elif [[ $name == pip2 ]]; then
-        cmd="sudo pip2 install -q"
-      else
-        cmd="yay -S --needed --noconfirm"
-      fi
-      for package in "${bundle[@]:1}"; do # the :1 skips the first element
-        run_command "$cmd $package" "$package"
-      done
+    bundle=($bundle)
+    name=${bundle[0]%?} # remove colon
+    title "setting up $name"
+    if [[ $name == pip ]]; then # determine appropriate install command
+      cmd="sudo pip install -q"
+    elif [[ $name == pip2 ]]; then
+      cmd="sudo pip2 install -q"
+    else
+      cmd="yay -S --needed --noconfirm"
+    fi
+    for package in "${bundle[@]:1}"; do # the :1 skips the first element
+      run_command "$cmd $package" "$package"
+    done
   done <<< "$bundles"
 }
 
@@ -152,7 +152,6 @@ update() {
       run_command "git add ."
       log "?" $yellow "enter a commit message | \c"
       read commit_message
-      #run_command "git commit -m \"""$commit_message""\""
       log ">" $green "git commit -m ""$commit_message"
       git commit -m "$commit_message"
       run_command "git push" "git push \n"
@@ -302,16 +301,27 @@ dry=no
 should_install_packages=no
 should_setup_vim=no
 
+fuzzy_edit() {
+  current_dir=$(pwd 2>&1)
+  cd ~/blueberry
+  selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse)
+  if [[ $selected_file != "" ]]; then
+    $EDITOR "$selected_file"
+    log ">" $blue "$selected_file"
+  fi
+  cd $current_dir
+}
+
 # parsing the arguments
 if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
   # launch fzf if no arguments are supplied
   if [[ -f /usr/bin/fzf ]]; then
-    find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r -d"\n" $EDITOR
+    fuzzy_edit
   else
     log "i" $yellow "could not find fzf"
     if ask_user "install it?"; then
       run_command "sudo pacman -S fzf --noconfirm"
-      find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse | xargs -r -d"\n" $EDITOR
+      fuzzy_edit
     fi
   fi
   exit 1
@@ -378,7 +388,7 @@ run_command "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/m
 
 # install/update z.lua
 title "updating z.lua"
-run_command "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o $(get_abspath ~/blueberry/scripts/z.lua)" "curl skywind3000/z.lua > scripts/z.lua"
+run_command "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o $(get_abspath ~/blueberry/sc/z.lua)" "curl skywind3000/z.lua > sc/z.lua"
 
 # create necessary directories
 create_directories
@@ -408,5 +418,3 @@ if [[ $dry == no ]]; then
 else
   title "completing dry run"
 fi
-
-# echo check out thte log file blah blah

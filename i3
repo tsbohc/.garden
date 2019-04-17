@@ -33,7 +33,7 @@ smart_gaps on
 # apps
 bindsym $mod+Return             exec ~/blueberry/sl/st/st #i3-sensible-terminal
 bindsym $mod+d                  exec rofi -show run 
-bindcode Shift+64               exec /home/sean/blueberry/scripts/keyboardswitch.sh
+bindcode Shift+64               exec /home/sean/blueberry/sc/keyboardswitch.sh
 
 
 # media keys
@@ -148,4 +148,4 @@ bindsym $mod+Shift+9            move container to workspace $ws9
 # scripts
 # -------------------------------------------
 
-exec_always --no-startup-id ~/blueberry/scripts/alternatinglayout_i3
+exec_always --no-startup-id ~/blueberry/sc/altlayi3
