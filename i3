@@ -1,8 +1,8 @@
-# 
-#    _/_ /           
+#
+#    _/_ /
 #  o /  /_  __  _  _ 
 # <_<__/ /_/ (_</_</_
-# 
+#
 
 font pango:Tamzen 14px
 set $mod Mod4
@@ -32,13 +32,12 @@ smart_gaps on
 
 # apps
 bindsym $mod+Return             exec ~/blueberry/sl/st/st #i3-sensible-terminal
-bindsym $mod+d                  exec rofi -show run 
+bindsym $mod+d                  exec rofi -show run
 bindcode Shift+64               exec /home/sean/blueberry/sc/keyboardswitch.sh
-
 
 # media keys
 bindsym XF86MonBrightnessUp     exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown   exec xbacklight -set 1 
+bindsym XF86MonBrightnessDown   exec xbacklight -set 1
 bindsym XF86AudioRaiseVolume    exec pactl -- set-sink-volume 0 +10%
 bindsym XF86AudioLowerVolume    exec pactl -- set-sink-volume 0 -10%
 

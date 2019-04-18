@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#    ____     _                 
-#   (. / |   //                 
-#     /--|  // o __.  _   _  _  
+#    ____     _
+#   (. / |   //
+#     /--|  // o __.  _   _  _
 #  ) /   |_</_<_(_/|_/_)_</_/_)_
-# (_/       
+# (_/
 
 # blueberry
 alias bb='bash ~/blueberry/blueberry.sh'
@@ -20,8 +20,8 @@ alias :q='exit'
 alias ls='ls -F --color=auto'
 alias la='ls -A'
 alias ll='ls -lA'
-alias l.='ls -A | egrep "^\."'      
-alias l='ls' 					
+alias l.='ls -A | egrep "^\."'
+alias l='ls'
 
 # cd
 alias ..='cd ..'

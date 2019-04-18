@@ -1,4 +1,5 @@
 #!/bin/bash
+# sets vim, vim statusline, and st colorscheme from Xresources and a vim colorscheme
 
 # add check for file existence, like config.h
 
@@ -33,7 +34,7 @@ fi
 set_vim_theme() {
   # set vim colorscheme in vimrc
   log ">" $green "colorscheme $1"
-  sed -i s/"^colorscheme.*"/"colorscheme $1"/ ~/blueberry/vim/colman.vim
+  sed -i s/"^colorscheme.*"/"colorscheme $1"/ ~/blueberry/vim/colors/colman.vim
 }
 
 get_color() {
@@ -52,9 +53,9 @@ set_st_color() {
 set_statusline_color() {
   log ">" $green "$1$2"
   if [[ $2 == "bg" ]]; then
-    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guifg="$(get_color "background")" gui=bold"'/ }' ~/blueberry/vim/colman.vim
+    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guifg="$(get_color "background")" gui=bold"'/ }' ~/blueberry/vim/colors/colman.vim
   else
-    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guibg="$(get_color $_gray)""'/ }' ~/blueberry/vim/colman.vim
+    sed -i '/\" _'$1$2'_/ { n; s/.*/'"hi stl"$1$2" gui"$2"=""$(get_color $1)"" guibg="$(get_color $_gray)""'/ }' ~/blueberry/vim/colors/colman.vim
   fi
 }
 
@@ -81,18 +82,18 @@ main() {
   done
 
   log ">" $green "User1"
-  sed -i '/\" _User1_/ { n; s/.*/'"hi User1 guibg="$(get_color "color4")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User1_/ { n; s/.*/'"hi User1 guibg="$(get_color "color4")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colors/colman.vim
   log ">" $green "User2"
-  sed -i '/\" _User2_/ { n; s/.*/'"hi User2 guibg="$(get_color $_gray)" guifg="$(get_color "color4")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User2_/ { n; s/.*/'"hi User2 guibg="$(get_color $_gray)" guifg="$(get_color "color4")""'/ }' ~/blueberry/vim/colors/colman.vim
   # filename
   log ">" $green "User3"
-  sed -i '/\" _User3_/ { n; s/.*/'"hi User3 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User3_/ { n; s/.*/'"hi User3 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colors/colman.vim
   log ">" $green "User4"
-  sed -i '/\" _User4_/ { n; s/.*/'"hi User4 guibg="$(get_color "background")" guifg="$(get_color "color237")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User4_/ { n; s/.*/'"hi User4 guibg="$(get_color "background")" guifg="$(get_color "color237")""'/ }' ~/blueberry/vim/colors/colman.vim
   log ">" $green "User5"
-  sed -i '/\" _User5_/ { n; s/.*/'"hi User5 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User5_/ { n; s/.*/'"hi User5 guibg="$(get_color $_gray)" guifg="$(get_color "foreground")""'/ }' ~/blueberry/vim/colors/colman.vim
   log ">" $green "User6"
-  sed -i '/\" _User6_/ { n; s/.*/'"hi User6 guibg="$(get_color "foreground")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colman.vim
+  sed -i '/\" _User6_/ { n; s/.*/'"hi User6 guibg="$(get_color "foreground")" guifg="$(get_color "background")""'/ }' ~/blueberry/vim/colors/colman.vim
   echo -e "["$green">"$escape"] done                                    "
 
   cd ~/blueberry/sl/st
