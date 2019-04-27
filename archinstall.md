@@ -65,13 +65,15 @@ not a big fan of wifi-menu, it just seems clunky. will have to check if nmcli is
 `useradd -m -g users -G wheel -s /bin/bash sean`
 2. uncomment wheel all all 
 `EDITOR=nano visudo`
-3. check if you installed networkmanager
+3. connect to wifi
+`sudo systemctl enable NetworkManager.service`
+`sudo NetworkManager`
+`nmcli d wifi connect [name] password [password]`
+4. enable audio, remember to unmute the main channel
+`pacman -S pulseaudio pulseaudio-alsa pacmixer`
+5. blueberry
+`git clone github.com/seancallous/blueberry`
+`bash blueberry/blueberry.sh`
 
-pacman -S xorg xorg-xinit xorg-drivers xterm
-pacman -S pulseaudio pulseaudio-alsa pacmixer (17mb of deps? :s)
 
-sudo systemctl enable NetworkManager.service
-sudo NetworkManager
-nmcli d wifi connect [name] password [password]
 
-> add a check to only install lightline colortheme if lightline is installed

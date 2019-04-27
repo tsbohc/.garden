@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: create a new file if argless bb doesn't find anything
+
 # =======================================
 # config
 # =======================================
@@ -38,7 +40,6 @@ EOF
 read -d '' directories << EOF
 ~/Downloads
 ~/Pictures
-~/Projects
 EOF
 
 # =======================================
@@ -140,24 +141,28 @@ update() {
   clear
   welcome
   title "checking for updates"
-  run_command "git fetch"
-  log "+" $blue "git status"
-  git_status=$(git status 2>&1)
-  if [[ $git_status == *"behind"* ]]; then
-    if ask_user "the local branch is behind, pull?"; then
-      run_command "git pull"
-    fi
-  elif [[ $git_status == *"ahead"* || $git_status == *"hanges not staged for commit:"* ]]; then
-    if ask_user "the local branch is ahead, push?"; then
-      run_command "git add ."
-      log "?" $yellow "enter a commit message | \c"
-      read commit_message
-      log ">" $green "git commit -m ""$commit_message"
-      git commit -m "$commit_message"
-      run_command "git push" "git push \n"
+  if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
+    run_command "git fetch"
+    log "+" $blue "git status"
+    git_status=$(git status 2>&1)
+    if [[ $git_status == *"behind"* ]]; then
+      if ask_user "the local branch is behind, pull?"; then
+        run_command "git pull"
+      fi
+    elif [[ $git_status == *"ahead"* || $git_status == *"hanges not staged for commit:"* ]]; then
+      if ask_user "the local branch is ahead, push?"; then
+        run_command "git add ."
+        log "?" $yellow "enter a commit message | \c"
+        read commit_message
+        log ">" $green "git commit -m ""$commit_message"
+        git commit -m "$commit_message"
+        run_command "git push" "git push \n"
+      fi
+    else
+      log "i" $yellow "there is nothing to do"
     fi
   else
-    log "i" $yellow "there is nothing to do"
+    log "!" $red "no internet connection"
   fi
 }
 
@@ -258,7 +263,7 @@ title() { echo -e "--- "$1$dots; }
 
 ask_user() {
   log "?" $yellow "$1 [y/n] | \c"
-  read -n 1 -r # what does -r do?
+  read -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     true
