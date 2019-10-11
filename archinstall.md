@@ -21,7 +21,7 @@ not a big fan of wifi-menu, it just seems clunky. will have to check if nmcli is
 `fdisk -l`
 2. open up partition menu
 `cfdisk [disk]`
-3. delete > create > set primary > set bootable
+3. delete > create > set primary > set bootable [?]
 4. format the partition, not the disk
 `mkfs.ext4 [partition] 
 5. mount it
@@ -29,30 +29,32 @@ not a big fan of wifi-menu, it just seems clunky. will have to check if nmcli is
 
 ## install
 1. install base system
-`pacstrap -i /mnt base base-devel`
+`pacstrap /mnt base base-devel linux`
 2. generate fstab
-`genfstab -U -p /mnt >> /mnt/etc/fstab`
+`genfstab -U /mnt >> /mnt/etc/fstab`
 
 ## chroot
 1. get into the install
 `arch-chroot /mnt /bin/bash`
-2. uncomment en_US.UTF-7 UTF-8, generate locale
-    - `vi /etc/locale.gen`
+2. generate locale, add "LANG=en_US.UTF-8" to locale.conf
     - `locale-gen`
+    - `vi /etc/locale.conf`
 3. set local time
     - `ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime`
-    - `hwclock --systohc —utc`
+    - `hwclock --systohc`
 4. set host name
 `echo [name] > /etc/hostname`
-5. set password
+5. add matching entries to hosts 
+6. set password
     - `passwd`
-6. install networkmanager
+7. install networkmanager
 
 ## grub
-1. grab grub
-`pacman -S grub`
-2. install on the drive, not the partition
-`grub-install [drive]`
+1. grab grub and efibootmgr
+`pacman -S grub efibootmgr`
+2. mkdir /efi
+3. mount efi system partition to /efi
+4. grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB
 3. create a config file
 `grub-mkconfig -o /boot/grub/grub.cfg`
 4. reboot
