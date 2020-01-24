@@ -6,40 +6,44 @@
 # config
 # =======================================
 
-# xorg-drivers contains xf86-synaptics that's unneeded
+# i3:            i3-gaps xorg-util-macros python-i3-py
+# neovim:        xsel
+# zathura:       zathura zathura-pdf-mupdf zathura-djvu
+# ux:            compton xflux rofi feh
 read -d '' bundles << EOF
-xorg:          xorg xorg-xinit xorg-drivers xterm
-pulseaudio:    pulseaudio pulseaudio-alsa pacmixer
-neovim:        neovim python2-pip python-pip xsel
-i3:            i3-gaps xorg-util-macros python-i3-py
+xorg:          xorg-server xorg-xinit xterm
+pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-ui:            compton xflux rofi polybar feh
-media:         mpv
-zathura:       zathura zathura-pdf-mupdf zathura-djvu
-cli:           fzf
-fonts:         tamzen-font-git
+bspwm:         bspwm sxhkd xtitle
+neovim:        neovim python2-pip python-pip
 pip:           pynvim
 pip2:          pynvim
+media:         mpv
+cli:           fzf
+fonts:         tamzen-font-git
 EOF
 
+# polybar                       ~/.config/polybar/config
+# compton                       ~/.config/compton.conf
+# i3                            ~/.config/i3/config
+# vim/colors/jellybeans.vim     ~/.vim/colors/jellybeans.vim
 read -d '' links << EOF
 bashrc                        ~/.bashrc
 aliases                       ~/.aliases
 bash_profile                  ~/.bash_profile
 xinitrc                       ~/.xinitrc
 Xresources                    ~/.Xresources
+bspwmrc                       ~/.config/bspwm/bspwmrc
+sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 vimrc                         ~/.vimrc
-vim/colors/jellybeans.vim     ~/.vim/colors/jellybeans.vim
 vim/nvim_init.vim             ~/.config/nvim/init.vim
-i3                            ~/.config/i3/config
-compton                       ~/.config/compton.conf
-polybar                       ~/.config/polybar/config
+picom                         ~/.config/picom.conf
 EOF
-# lightline theme install moved to plug.vim 'do' statement
 
+# ~/Downloads
+# ~/Pictures
 read -d '' directories << EOF
-~/Downloads
-~/Pictures
+~/blueberry
 EOF
 
 # =======================================
@@ -65,6 +69,8 @@ get_abspath() {
       else
           echo "$(pwd)/$relpath"
       fi
+  else
+    echo "$(realpath -m $relpath)"
   fi
 }
 
@@ -92,19 +98,23 @@ run_command() {
 }
 
 install_packages() {
+  title "installing package bundles"
   while read -r bundle; do
     bundle=($bundle)
     name=${bundle[0]%?} # remove colon
-    title "setting up $name"
     if [[ $name == pip ]]; then # determine appropriate install command
+      title "installing pip3 bundle"
       cmd="sudo pip install -q"
     elif [[ $name == pip2 ]]; then
+      title "installing pip2 bundle"
       cmd="sudo pip2 install -q"
     else
       cmd="yay -S --needed --noconfirm"
     fi
     for package in "${bundle[@]:1}"; do # the :1 skips the first element
-      run_command "$cmd $package" "$package"
+      if ! yay -Qs $package > /dev/null ; then
+        run_command "$cmd $package" "$package"
+      fi
     done
   done <<< "$bundles"
 }
@@ -153,7 +163,6 @@ update() {
       if ask_user "the local branch is ahead, push?"; then
         run_command "git add ."
         log "?" $yellow "enter a commit message | \c"
-        read commit_message
         log ">" $green "git commit -m ""$commit_message"
         git commit -m "$commit_message"
         run_command "git push" "git push \n"
@@ -171,9 +180,9 @@ create_symlinks() {
   while read -r line; do
     sleep 0.05 # because it looks cooler
     line=($line)
-    src=${line[0]}
+    src=${line[0]} #add script path
     dst=${line[1]}
-    abs_src=$(get_abspath "$src")
+    abs_src="${0%/*}/"$src
     abs_dst=$(get_abspath "$dst")
     # check if source file exists
     if [[ -f "$abs_src" ]]; then
@@ -206,9 +215,8 @@ create_symlinks() {
             rm "$asb_dst"
           fi
         fi
-      fi
       # if dst is already a symlink
-      if [[ -L "$abs_dst" ]]; then
+      elif [[ -L "$abs_dst" ]]; then
         # and doesn't point to the same file
         if [[ ! $(readlink -f "$asb_dst") == "$abs_src" ]]; then
           #create necessary directories
@@ -225,7 +233,7 @@ create_symlinks() {
             log "+" $blue "$src$arrow$dst"
             ln -sfn $abs_src $abs_dst
           else
-            log ">" $yellow "$src$arrow$dst"
+            log ">" $yellow "$abs_src$arrow$abs_dst"
           fi
         # if dst is a symlink and points to the same file
         else
@@ -234,6 +242,23 @@ create_symlinks() {
           else
             log ">" $yellow "$src$equals$dst"
           fi
+        fi
+      elif [[ ! -f "$abs_dst" ]]; then
+        #create necessary directories
+        if [[ ! -d "${abs_dst%/*}" ]]; then
+          if [[ $dry == no ]]; then
+            log "+" $green "${abs_dst%/*}"
+            mkdir -p "${abs_dst%/*}"
+          else
+            log "+" $yellow "${abs_dst%/*}"
+          fi
+        fi
+        # actual symlinking
+        if [[ $dry == no ]]; then
+          log "+" $blue "$src$arrow$dst"
+          ln -sfn $abs_src $abs_dst
+        else
+          log ">" $yellow "$abs_src$arrow$abs_dst"
         fi
       fi
     else
@@ -259,7 +284,7 @@ colon=$blue": "$escape
 equals=$blue" = "$escape
 
 log() { echo -e "["$2$1$escape"] "$3; }
-title() { echo -e "--- "$1$dots; }
+title() { echo -e "─── "$1$dots; }
 
 ask_user() {
   log "?" $yellow "$1 [y/n] | \c"
@@ -289,7 +314,7 @@ usage="usage: bb {install|dry|update|edit} [-p] [-v]
 
 perform:
    i, install     perform installation
-   d, dry         just print without running, includes all options
+   d, dry         just print without running
    u, update      sync to or from a git repo
    e, edit        fzf into $EDITOR in the script location
                   runs when no arguments are given
@@ -326,6 +351,7 @@ if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
     log "i" $yellow "could not find fzf"
     if ask_user "install it?"; then
       run_command "sudo pacman -S fzf --noconfirm"
+      echo ""
       fuzzy_edit
     fi
   fi
@@ -335,9 +361,7 @@ else
     i|install)
       dry=no;;
     d|dry)
-      dry=yes
-      should_install_packages=yes
-      should_setup_vim=yes;;
+      dry=yes;;
     u|update)
       update
       exit 1;;
@@ -370,7 +394,7 @@ fi
 # add color to pacman
 if grep -Fqx "#Color" "/etc/pacman.conf"; then
   title "adding color to pacman output"
-  run_command "sudo sed -i 's/#Color/Color/' /etc/pacman.conf"
+  run_command "sudo sed -i -e s/#Color/Color/g /etc/pacman.conf"
 fi
 
 # install yay if needed
@@ -387,7 +411,7 @@ fi
 # install/update system wide adblock
 title "installing hostblock"
 if [[ ! -f /etc/hosts_bk ]]; then
-  run_command "cp /etc/hosts /etc/hosts_bk"
+  run_command "sudo cp /etc/hosts /etc/hosts_bk"
 fi
 run_command "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts" "curl StevenBlack/hosts > /etc/hosts"
 
@@ -404,18 +428,14 @@ if [[ $should_install_packages == yes ]]; then
 fi
 
 if [[ $should_setup_vim == yes ]]; then
-  # install plug if needed
-  if [[ ! -f $(get_abspath "~/.config/nvim/autoload/plug.vim") ]]; then
-    title "intalling plug"
-    run_command "curl -sS --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o $(get_abspath ~/.config/nvim/autoload/plug.vim)" "curl junegunn/vim-plug > ~/.config/nvim/autoload/plug.vim"
-  fi
-  # update neovim plugs
   title "updating neovim plugins"
   run_command "nvim +:PlugInstall +:qa"
 fi
 
 # symlink everything
+#echo "${0%/*}"
 create_symlinks
+#cd ~
 
 # print closing message
 if [[ $dry == no ]]; then

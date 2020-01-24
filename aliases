@@ -13,6 +13,8 @@ alias bb='bash ~/blueberry/blueberry.sh'
 alias v='nvim'
 alias vpager='nvim -u ~/blueberry/vim/vpager'
 
+alias nnn='nnn -H' # show hidden files by default
+
 # yeah
 alias :q='exit'
 
@@ -56,13 +58,8 @@ alias tinyfetch='python3 ~/blueberry/sc/tinyfetch.py'
 # cleanup orphaned packages
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
-# xflux
-alias flux='xflux -l 60 -g 30 -k 2000'
-#alias flux='xflux -l 60 -g 30 -k 3200 | grep -o "'.*'" | sed "s/'//g" > /tmp/fluxkiller'
-#alias fluxkill='. /tmp/fluxkiller'
-#flux(){
-#  xflux -l 60 -g 30 -k $1 | grep -o "'.*'" | sed "s/'//g" > /tmp/fluxkiller
-#}
+# xflux/redshift
+alias flux='redshift -l 60:30 -t 6000:3800'
 
 # ex - the unarchiver
 ex() {

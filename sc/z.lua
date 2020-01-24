@@ -4,7 +4,7 @@
 -- z.lua - a cd command that learns, by skywind 2018, 2019
 -- Licensed under MIT license.
 --
--- Version 1.7.0, Last Modified: 2019/03/09 16:51
+-- Version 1.7.4, Last Modified: 2019/12/29 04:52
 --
 -- * 10x faster than fasd and autojump, 3x faster than z.sh
 -- * available for posix shells: bash, zsh, sh, ash, dash, busybox
@@ -74,6 +74,8 @@
 --   set $_ZL_MAXAGE to define a aging threshold (default is 5000).
 --   set $_ZL_MATCH_MODE to 1 to enable enhanced matching mode.
 --   set $_ZL_NO_CHECK to 1 to disable path validation. z --purge to clear.
+--   set $_ZL_USE_LFS to 1 to use lua-filesystem package
+--   set $_ZL_HYPHEN to 1 to stop treating hyphen as a regexp keyword
 --
 --=====================================================================
 
@@ -120,6 +122,7 @@ Z_CMD = 'z'
 Z_MATCHMODE = 0
 Z_MATCHNAME = false
 Z_SKIPPWD = false
+Z_HYPHEN = false
 
 os.LOG_NAME = os.getenv('_ZL_LOG_NAME')
 
@@ -548,6 +551,9 @@ end
 -- file or path exists
 -----------------------------------------------------------------------
 function os.path.exists(name)
+	if name == '/' then
+		return true
+	end
 	local ok, err, code = os.rename(name, name)
 	if not ok then
 		if code == 13 then
@@ -1263,6 +1269,9 @@ function data_select(M, patterns, matchlast)
 	local pats = {}
 	for i = 1, #patterns do
 		local p = patterns[i]
+		if Z_HYPHEN then
+			p = p:gsub('-', '%%-')
+		end
 		table.insert(pats, case_insensitive_pattern(p))
 	end
 	for i = 1, #M do
@@ -1864,16 +1873,14 @@ function z_init()
 	local _zl_matchname = os.getenv('_ZL_MATCH_NAME')
 	local _zl_skippwd = os.getenv('_ZL_SKIP_PWD')
 	local _zl_matchmode = os.getenv('_ZL_MATCH_MODE')
+	local _zl_hyphen = os.getenv('_ZL_HYPHEN')
 	if _zl_data ~= nil and _zl_data ~= "" then
 		if windows then
 			DATA_FILE = _zl_data
 		else
 			-- avoid windows environments affect cygwin & msys
-			if _zl_data:sub(2, 2) ~= ':' then
-				local t = _zl_data:sub(3, 3)
-				if t ~= '/' and t ~= "\\" then
-					DATA_FILE = _zl_data
-				end
+			if not string.match(_zl_data, '^%a:[/\\]') then
+				DATA_FILE = _zl_data
 			end
 		end
 	end
@@ -1917,6 +1924,12 @@ function z_init()
 		if (m == 1) then
 			Z_MATCHNAME = true
 			Z_SKIPPWD = true
+		end
+	end
+	if _zl_hyphen ~= nil then
+		local m = string.lower(_zl_hyphen)
+		if (m == '1' or m == 'yes' or m == 'true' or m == 't') then
+			Z_HYPHEN = true
 		end
 	end
 end
@@ -2013,14 +2026,14 @@ alias ${_ZL_CMD:-z}='_zlua'
 local script_init_bash = [[
 case "$PROMPT_COMMAND" in
 	*_zlua?--add*) ;;
-	*) PROMPT_COMMAND="(_zlua --add \"\$(command pwd 2>/dev/null)\" &);$PROMPT_COMMAND" ;;
+	*) PROMPT_COMMAND="(_zlua --add \"\$(command pwd 2>/dev/null)\" &)${PROMPT_COMMAND:+;$PROMPT_COMMAND}" ;;
 esac
 ]]
 
 local script_init_bash_fast = [[
 case "$PROMPT_COMMAND" in
 	*_zlua?--add*) ;;
-	*) PROMPT_COMMAND="(_zlua --add \"\$PWD\" &);$PROMPT_COMMAND" ;;
+	*) PROMPT_COMMAND="(_zlua --add \"\$PWD\" &)${PROMPT_COMMAND:+;$PROMPT_COMMAND}" ;;
 esac
 ]]
 
@@ -2032,7 +2045,7 @@ _zlua_precmd() {
 }
 case "$PROMPT_COMMAND" in
 	*_zlua_precmd*) ;;
-	*) PROMPT_COMMAND="_zlua_precmd;$PROMPT_COMMAND" ;;
+	*) PROMPT_COMMAND="_zlua_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}" ;;
 esac
 ]]
 
@@ -2059,7 +2072,7 @@ local script_init_zsh = [[
 _zlua_precmd() {
 	(_zlua --add "${PWD:a}" &)
 }
-typeset -gaU precmd_functions
+typeset -ga precmd_functions
 [ -n "${precmd_functions[(r)_zlua_precmd]}" ] || {
 	precmd_functions[$(($#precmd_functions+1))]=_zlua_precmd
 }
@@ -2069,7 +2082,7 @@ local script_init_zsh_once = [[
 _zlua_precmd() {
 	(_zlua --add "${PWD:a}" &)
 }
-typeset -gaU chpwd_functions
+typeset -ga chpwd_functions
 [ -n "${chpwd_functions[(r)_zlua_precmd]}" ] || {
 	chpwd_functions[$(($#chpwd_functions+1))]=_zlua_precmd
 }
@@ -2542,7 +2555,33 @@ end
 
 
 -----------------------------------------------------------------------
--- testing case
+-- LFS optimize
+-----------------------------------------------------------------------
+os.lfs = {}
+os.lfs.enable = os.getenv('_ZL_USE_LFS')
+if os.lfs.enable ~= nil then
+	local m = string.lower(os.lfs.enable)
+	if (m == '1' or m == 'yes' or m == 'true' or m == 't') then
+		os.lfs.status, os.lfs.pkg = pcall(require, 'lfs')
+		if os.lfs.status then
+			local lfs = os.lfs.pkg
+			os.path.exists = function (name)
+				return lfs.attributes(name) and true or false
+			end
+			os.path.isdir = function (name)
+				local mode = lfs.attributes(name)
+				if not mode then 
+					return false
+				end
+				return (mode.mode == 'directory') and true or false
+			end
+		end
+	end
+end
+
+
+-----------------------------------------------------------------------
+-- program entry
 -----------------------------------------------------------------------
 if not pcall(debug.getlocal, 4, 1) then
 	-- main script
