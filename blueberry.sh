@@ -163,6 +163,7 @@ update() {
       if ask_user "the local branch is ahead, push?"; then
         run_command "git add ."
         log "?" $yellow "enter a commit message | \c"
+        read commit_message
         log ">" $green "git commit -m ""$commit_message"
         git commit -m "$commit_message"
         run_command "git push" "git push \n"

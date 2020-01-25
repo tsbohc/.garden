@@ -1,1 +1,0 @@
-/home/sean/blueberry/vim/nvim_init.vim
