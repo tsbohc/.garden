@@ -65,7 +65,6 @@ def main():
     distribution, version, named_version = distro.linux_distribution()
     packages = subprocess.run("yay -Q | wc -l", stdout=subprocess.PIPE, shell=True).stdout.decode('utf-7')[:-1] + " packages"
 
-    
     print()
     color_test(colors, False)
     print(distribution)

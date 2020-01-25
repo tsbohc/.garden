@@ -1,0 +1,182 @@
+#!/bin/bash
+
+#./panel | lemonbar -p -b -u 0 -B "#55000000" -f "TamzenForPowerline:pixelsize=16" -f "Unifont:pixelsize=14:antialias=false" -g 1920x16+0+0
+# DON"T FORGET TO XRDB -MERGE CURRENT THEME (REWORK THAT)
+
+lemon_height=16
+lemon_font1="TamzenForPowerline:pixelsize=16"
+lemon_font2="Unifont:pixelsize=14:antialias=false"
+
+# setup
+if [[ $(pgrep -cx lemon) > 1 ]]; then
+  echo "lemon: already running" >&2
+  pkill lemon
+fi
+
+bspc config bottom_padding 12
+bspc config bottom_monocle_padding -16
+
+# ------------------------------
+
+get_color() {
+  # query colors from xrdb
+  color=$(xrdb -query | awk '/^\*'$1':(.*)/ { print $2 }')
+  echo $color
+}
+
+c_red=$(get_color color2)
+c_green="%{F#c9665e}"
+c_white="%{F#ffffff}"
+c_gray="%{F#666666}"
+c_reset="%{F-}"
+
+calc(){ echo $(awk "BEGIN{print $*}"); }
+round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+
+# ------------------------ ui
+
+horizontal_bar() {
+  local value=$(round $(calc $1/10)) # input is %
+  local ram_fill_color=$2
+  local ram_fill=$3
+  local ram_mark_color=$4
+  local ram_mark=$5
+  local ram_empty_color=$6
+  local ram_empty=$7
+
+  local bar="$ram_fill_color"
+
+  for i in {0..10}; do
+    if [[ $i != $value ]]; then
+      bar+=$ram_fill
+    else
+      bar+="$ram_mark_color$ram_mark$ram_empty_color"
+    fi
+  done
+  bar+="$c_reset"
+  echo "$bar"
+}
+
+# --------------------- modules
+
+get_focused_window(){
+  id=$(bspc query -N -d focused -n .focused.window)
+  echo $(xtitle)
+}
+
+_cpu(){
+  #phys_core_count=$(lscpu -p | egrep -v '^#' | sort -u -t, -k 2,4 | wc -l)
+  local load=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
+  local blocks="▁▂▃▄▅▆▇█"
+  local result=$(round $(calc $load/14.3))
+  local b=${blocks:$result:1}
+  echo -e "$c_green$b $b $b $b $b $b$c_reset"
+}
+
+_ram() {
+  local load=$(round $(free | grep Mem | awk '{print $3/$2 * 100}'))
+  local ram_bar=$(horizontal_bar $load $c_green "─" $c_green "┘" $c_gray "─")
+  echo "$ram_bar"
+}
+
+_time(){
+  echo $(date "+%H:%M")
+}
+
+# ------------------------------------------- setup
+
+# gather info
+_modules() {
+  while true; do
+    echo "C" "$(_cpu)"
+    echo "R" "$(_ram)"
+    echo "T" "$(_time)"
+    sleep 1s
+  done
+}
+
+# lay down them pipes
+lemon_fifo="/tmp/lemon.fifo"
+[ -e "$lemon_fifo" ] && rm "$lemon_fifo"
+mkfifo "$lemon_fifo"
+
+_modules > "$lemon_fifo" &
+bspc subscribe report > "$lemon_fifo" &
+
+# manage the pipe
+_lemon() {
+  while read -r line ; do
+    case $line in
+      C*)
+        cpu="${line#?}"
+        ;;
+      R*)
+        ram="${line#?}"
+        ;;
+      T*)
+        time="${line#?}"
+        ;;
+      W*)
+        # bspwm internal state
+        wm_infos=""
+        IFS=':'
+        set -- ${line#?}
+        while [ $# -gt 0 ] ; do
+          item=$1
+          name=${item#?}
+          case $item in
+#            M*)
+#              # active monitor
+#              if [ $num_mon -gt 1 ] ; then
+#                  wm_infos="${wm_infos}${c_green}M${name}${c_reset} "
+#              fi
+#              ;;
+#            m*)
+#              # inactive monitor
+#              if [ $num_mon -gt 1 ] ; then
+#                  wm_infos="${wm_infos}${c_gray}m${name}${c_reset} "
+#              fi
+#              ;;
+            O*)
+              # focused occupied desktop
+              wm_infos="${wm_infos}$c_white${name}$c_reset "
+              ;;
+            F*)
+              # focused free desktop
+              wm_infos="${wm_infos}$c_white${name}$c_reset "
+              ;;
+            U*)
+              # focused urgent desktop
+              wm_infos="${wm_infos}$c_white${name}$c_reset "
+              ;;
+            o*)
+              # occupied desktop
+              wm_infos="${wm_infos}$c_green${name}$c_reset "
+              ;;
+            f*)
+              # free desktop
+              wm_infos="${wm_infos}$c_gray${name}$c_reset "
+              ;;
+            u*)
+              # urgent desktop
+              wm_infos="${wm_infos}$c_red${name}$c_red "
+              ;;
+          esac
+          shift
+        done
+        ;;
+  esac
+
+    left="%{l} ${wm_infos}"
+    center="%{c}"
+    right="%{r}cpu$cpu ram $ram $time"
+    echo " $left $center $right "
+  done
+}
+
+# launch lemon
+_lemon < "$lemon_fifo" \
+  | lemonbar -p -b -u 0 -g "x$lemon_height+0+4" -f "$lemon_font1" -f "$lemon_font2" &
+
+# keep lemon below windows
+xdo above -t $(xdo id -n root) $(xdo id -n lemon) &

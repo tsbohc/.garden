@@ -7,7 +7,7 @@
                                 '
 perform:
    i, install     perform installation
-   d, dry         just print without running includes all options
+   d, dry         just print without running
    u, update      sync to or from a git repo
    e, edit        fzf into $EDITOR in the script location
                   runs when no arguments are given

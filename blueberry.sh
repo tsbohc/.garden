@@ -14,7 +14,7 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm sxhkd xtitle
+bspwm:         bspwm sxhkd xtitle xdo
 neovim:        neovim python2-pip python-pip
 pip:           pynvim
 pip2:          pynvim
@@ -23,7 +23,6 @@ cli:           fzf
 fonts:         tamzen-font-git
 EOF
 
-# polybar                       ~/.config/polybar/config
 # compton                       ~/.config/compton.conf
 # i3                            ~/.config/i3/config
 # vim/colors/jellybeans.vim     ~/.vim/colors/jellybeans.vim
@@ -33,6 +32,7 @@ aliases                       ~/.aliases
 bash_profile                  ~/.bash_profile
 xinitrc                       ~/.xinitrc
 Xresources                    ~/.Xresources
+polybar                       ~/.config/polybar/config
 bspwmrc                       ~/.config/bspwm/bspwmrc
 sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 vimrc                         ~/.vimrc
