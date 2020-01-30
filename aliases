@@ -9,6 +9,8 @@
 # blueberry
 alias bb='bash ~/blueberry/blueberry.sh'
 
+alias fuzpac='sudo pacman -S $(pacman -Slq | fzf --layout=reverse --preview "pacman -Si {}")'
+
 # nvim
 alias v='nvim'
 alias vpager='nvim -u ~/blueberry/vim/vpager'

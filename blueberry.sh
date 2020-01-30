@@ -19,7 +19,7 @@ neovim:        neovim python2-pip python-pip
 pip:           pynvim
 pip2:          pynvim
 media:         mpv
-cli:           fzf
+cli:           fzf cat
 fonts:         tamzen-font-git
 EOF
 
@@ -150,6 +150,7 @@ create_directories() {
 update() {
   clear
   welcome
+  cd ~/blueberry
   title "checking for updates"
   if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
     run_command "git fetch"
@@ -335,7 +336,7 @@ should_setup_vim=no
 fuzzy_edit() {
   current_dir=$(pwd 2>&1)
   cd ~/blueberry
-  selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse)
+  selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" | cut -c 3- | fzf --no-bold --reverse --preview="bat --color=always --style=numbers --line-range :69 {}" --preview-window=right:70%)
   if [[ $selected_file != "" ]]; then
     $EDITOR "$selected_file"
     log ">" $blue "$selected_file"

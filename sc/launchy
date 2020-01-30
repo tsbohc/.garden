@@ -1,0 +1,87 @@
+#!/bin/bash
+
+read -d '' not_terminal << EOF
+discord
+brave
+EOF
+
+read -d '' terminal << EOF
+sdlfasldfja
+EOF
+
+_init() {
+  st -n "launchy" -a -g "50x7+0+0" -e "$0" "$@"
+}
+
+_fzf() {
+  fzf +m "$@"
+}
+
+_detach_process() {
+  exec setsid "$@"
+}
+
+# check the hardcoded lists first, then attempt to guess if app has a gui or runs in a terminal
+_is_terminal() {
+  if $(echo "$not_terminal" | grep -q "^$1$"); then
+    return 1
+  elif $(echo "$terminal" | grep -q "^$1$"); then
+    return 0
+  else
+    files=$(find /usr/share/applications/ -maxdepth 1 -type f -name '*.desktop' | sort | awk -F/ '{print $NF}' | cut -d'.' -f1)
+    if $(echo "$files" | grep -q "^$1$"); then
+      if grep -q "Terminal=false" /usr/share/applications/"$1".desktop; then
+        return 1 #false
+      else
+        return 0 #true
+      fi
+    else
+      return 0
+    fi
+  fi
+}
+
+_run_application() {
+  if $(_is_terminal "$1"); then
+#    echo "$1 is terminal"
+#    sleep 1s
+    _detach_process st -e "$1"
+  else
+#    echo "$1 is not terminal"
+#    sleep 1s
+    _detach_process "$1"
+  fi
+}
+
+case "$1" in
+  _run)
+    choice=$(compgen -c | sort -u | _fzf) && _run_application "$choice"
+    ;;
+#  run)
+#    _init _run
+#    ;;
+  *)
+    _init _run
+    echo "noarg"
+    exit 1
+    ;;
+esac
+
+#_pipe() {
+#  local in=$(mktemp -u)
+#  local out=$(mktemp -u)
+#
+#  mkfifo "$in"
+#  mkfifo "$out"
+#  _launch $(_fzf "$1" > "$2" < "$3") "$out" "$in" 2> /dev/null &
+#  cat > "$in" &
+#  cat "$out"
+#  rm "$in" "$out"
+#}
+
+# selected_item=$(compgen -c | sort -u | fzf)
+# bspc node -f -d 5
+# st -e sh -c "echo $selected_item ; sleep 1s"
+# 
+# run .desktop files
+#`grep '^Exec' filename.desktop | tail -1 | sed 's/^Exec=//' | sed 's/%.//' | sed 's/^"//g' | sed 's/" *$//g'`

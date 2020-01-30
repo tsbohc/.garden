@@ -1,4 +1,4 @@
-#! /usr/bin/env lua
+#!/usr/bin/env lua
 --=====================================================================
 --
 -- z.lua - a cd command that learns, by skywind 2018, 2019

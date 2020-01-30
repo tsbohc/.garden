@@ -31,6 +31,7 @@ fi
 xrdb ~/.Xresources
 xrdb -merge "$HOME/blueberry/xres/gruvbox"
 feh --bg-fill ~/.wallpaper
-exec picom &
-flux &
+#exec ~/blueberry/lemon
+#exec picom &
+#exec flux &
 exec bspwm

@@ -23,6 +23,7 @@ if has('nvim')
   Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'Yggdroot/indentline'
+  Plug 'junegunn/goyo.vim'
   "Plug 'SirVer/ultisnips'
   "Plug 'honza/vim-snippets'
 
@@ -77,7 +78,6 @@ set showmatch " hl matching [{(s
 " invisibles
 exec "set listchars=trail:␣"
 ",eol:⌟"
-
 
 set list
 

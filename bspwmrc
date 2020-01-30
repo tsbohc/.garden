@@ -1,6 +1,9 @@
 #! /bin/sh
 
 sxhkd &
+picom &
+flux &
+~/blueberry/lemon
 
 bspc monitor -d 1 2 3 4 5
 
@@ -21,5 +24,6 @@ bspc config gapless_monocle       true
 bspc config focus_follows_pointer true
 
 # window specifif
+bspc rule -a \*:launchy state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
