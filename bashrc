@@ -52,7 +52,7 @@ git_branch() {
 PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
 
 if [ -d "$HOME/.bin" ] ;
-	then PATH="$HOME/.bin:$PATH"
+  then PATH="$HOME/.bin:$PATH"
 fi
 
 # colored man pages

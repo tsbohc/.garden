@@ -10,11 +10,11 @@ sdlfasldfja
 EOF
 
 _init() {
-  st -n "launchy" -a -g "50x7+0+0" -e "$0" "$@"
+  st -n "launcher" -a -g "35x7+0+0" -e "$0" "$@"
 }
 
 _fzf() {
-  fzf +m "$@"
+  fzf +m --reverse --prompt="< " --color='bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7' --no-info --margin 2 "$@"
 }
 
 _detach_process() {
@@ -41,6 +41,7 @@ _is_terminal() {
   fi
 }
 
+# launch applications based on the above
 _run_application() {
   if $(_is_terminal "$1"); then
 #    echo "$1 is terminal"
@@ -67,21 +68,5 @@ case "$1" in
     ;;
 esac
 
-#_pipe() {
-#  local in=$(mktemp -u)
-#  local out=$(mktemp -u)
-#
-#  mkfifo "$in"
-#  mkfifo "$out"
-#  _launch $(_fzf "$1" > "$2" < "$3") "$out" "$in" 2> /dev/null &
-#  cat > "$in" &
-#  cat "$out"
-#  rm "$in" "$out"
-#}
-
-# selected_item=$(compgen -c | sort -u | fzf)
-# bspc node -f -d 5
-# st -e sh -c "echo $selected_item ; sleep 1s"
-# 
 # run .desktop files
 #`grep '^Exec' filename.desktop | tail -1 | sed 's/^Exec=//' | sed 's/%.//' | sed 's/^"//g' | sed 's/" *$//g'`
