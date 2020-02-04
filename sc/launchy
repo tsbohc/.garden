@@ -9,12 +9,17 @@ read -d '' terminal << EOF
 sdlfasldfja
 EOF
 
+# remember to set a floating rule in the wm
+WINDOW_NAME="launcher"
+
 _init() {
-  st -n "launcher" -a -g "35x7+0+0" -e "$0" "$@"
+  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+    || xdotool search --classname $WINDOW_NAME windowmap \
+    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
 }
 
 _fzf() {
-  fzf +m --reverse --prompt="< " --color='bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7' --no-info --margin 2 "$@"
+  fzf +m --reverse --prompt="$ " --color='bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7' --no-info --margin 2 "$@"
 }
 
 _detach_process() {

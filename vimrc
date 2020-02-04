@@ -97,7 +97,7 @@ set hlsearch " highlight matches
 set ignorecase " case-insensitive search
 set smartcase " case-sensitive if search contains uppercase
 set showmatch
-nnoremap \ :noh<return>
+nnoremap // :noh<return>
 
 " clipboard woes, default vim
 set clipboard=unnamedplus " systemwide

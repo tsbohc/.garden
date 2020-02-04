@@ -14,7 +14,7 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm sxhkd xtitle xdo
+bspwm:         bspwm sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
 pip:           pynvim
 pip2:          pynvim
