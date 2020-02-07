@@ -7,7 +7,7 @@
 # (_/
 
 # blueberry
-alias bb='bash ~/blueberry/blueberry.sh'
+alias bb='bash ~/blueberry/soap'
 
 alias fuzpac='sudo pacman -S $(pacman -Slq | fzf --layout=reverse --preview "pacman -Si {}")'
 

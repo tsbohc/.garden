@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# TODO: create a new file if argless bb doesn't find anything
-
 # =======================================
 # config
 # =======================================
