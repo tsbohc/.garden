@@ -27,7 +27,8 @@ get_color() {
 c_red=$(get_color color2)
 c_green="%{F#c9665e}"
 c_white="%{F#ffffff}"
-c_gray="%{F#777777}"
+c_gray="%{F#666666}"
+c_darkgray="%{F#333333}"
 c_reset="%{F-}"
 
 calc(){ echo $(awk "BEGIN{print $*}"); }
@@ -140,6 +141,10 @@ mkfifo "$lemon_fifo"
 _modules > "$lemon_fifo" &
 bspc subscribe report > "$lemon_fifo" &
 
+get_window_count() {
+  echo $(bspc query -N -d $1 | grep -f <(bspc query -N -n .leaf) | wc -l)
+}
+
 # manage the pipe
 _lemon() {
   while read -r line ; do
@@ -167,17 +172,24 @@ _lemon() {
 #              fi
 #              ;;
             O*) # focused occupied desktop
-#             wm_infos="${wm_infos}$c_white${name}$c_reset "
-              wm_infos="${wm_infos}$c_white██$c_reset "
+              window_count=$(get_window_count $name)
+              local blocks="▁▃▅▇███████████████████████████████████████████████████████████████████████"
+              local b="${blocks:$window_count:1}"
+              b="${b}${b}"
+              wm_infos="${wm_infos}$c_white${b}$c_reset "
               ;;
             o*) # occupied desktop
-              wm_infos="${wm_infos}$c_gray██$c_reset "
+              window_count=$(get_window_count $name)
+              local blocks="▁▃▅▇███████████████████████████████████████████████████████████████████████"
+              local b="${blocks:$window_count:1}"
+              b="${b}${b}"
+              wm_infos="${wm_infos}$c_gray${b}$c_reset "
               ;;
             F*) # focused free desktop
               wm_infos="${wm_infos}$c_white▁▁$c_reset "
               ;;
             f*) # free desktop
-              wm_infos="${wm_infos}$c_gray▁▁$c_reset "
+              wm_infos="${wm_infos}$c_darkgray▁▁$c_reset "
               ;;
             U*) # focused urgent desktop
               wm_infos="${wm_infos}$c_white!!$c_reset "
