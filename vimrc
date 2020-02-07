@@ -71,7 +71,7 @@ set termguicolors
 
 filetype indent on
 set number relativenumber " relative numbers
-set cursorline " hightlight current line
+set cursorline " highlight current line
 set showmatch " hl matching [{(s
 "hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
 

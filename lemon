@@ -27,7 +27,7 @@ get_color() {
 c_red=$(get_color color2)
 c_green="%{F#c9665e}"
 c_white="%{F#ffffff}"
-c_gray="%{F#666666}"
+c_gray="%{F#777777}"
 c_reset="%{F-}"
 
 calc(){ echo $(awk "BEGIN{print $*}"); }
@@ -36,21 +36,50 @@ round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
 # ------------------------ ui
 
 horizontal_bar() {
-  local value=$(round $(calc $1/10)) # input is %
-  local ram_fill_color=$2
-  local ram_fill=$3
-  local ram_mark_color=$4
-  local ram_mark=$5
-  local ram_empty_color=$6
-  local ram_empty=$7
+  local width=15
+  local value=$(round $(calc $1/$width)) # input is %
+  local fill_color=$2
+  local fill=$3
+  local mark_color=$4
+  local mark=$5
+  local empty_color=$6
+  local empty=$7
 
-  local bar="$ram_fill_color"
+  local bar="$fill_color"
 
-  for i in {0..10}; do
+  for i in $(seq 0 $width); do
     if [[ $i != $value ]]; then
-      bar+=$ram_fill
+      bar+=$fill
     else
-      bar+="$ram_mark_color$ram_mark$ram_empty_color"
+      bar+="$mark_color$mark$empty_color"
+    fi
+  done
+  bar+="$c_reset"
+  echo "$bar"
+}
+
+double_bar() {
+  local width=10
+  local value1=$(round $(calc $1/$width)) # input is %
+  local value2=$(round $(calc $2/$width)) # input is %
+  local should_gray="no"
+  local bar="$c_white"─
+
+  for i in $(seq 0 $width); do
+    if [[ $i != $value1 ]] && [[ $i != $value2 ]]; then
+      bar+="─"
+    else
+      if [[ $i == $value1 ]]; then
+        bar+="┘"
+      elif [[ $i == $value2 ]]; then
+        bar+="┐"
+      fi
+
+      if [[ $should_gray == "no" ]]; then
+        should_gray="yes"
+      else
+        bar+="$c_gray"
+      fi
     fi
   done
   bar+="$c_reset"
@@ -67,16 +96,23 @@ get_focused_window(){
 _cpu(){
   #phys_core_count=$(lscpu -p | egrep -v '^#' | sort -u -t, -k 2,4 | wc -l)
   local load=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
-  local blocks="▁▂▃▄▅▆▇█"
-  local result=$(round $(calc $load/14.3))
-  local b=${blocks:$result:1}
-  echo -e "$c_green$b $b $b $b $b $b$c_reset"
+  #local blocks="▁▂▃▄▅▆▇█"
+  #local result=$(round $(calc $load/14.3))
+  #local b=${blocks:$result:1}
+  #local temp=$(round $(sensors | awk '/^Tdie/ {print $2}'))
+  #echo -e "$temp $c_green$b$b$c_reset"
+  echo $(horizontal_bar $load $c_green "─" $c_green "┐" $c_gray "─")
 }
 
 _ram() {
   local load=$(round $(free | grep Mem | awk '{print $3/$2 * 100}'))
-  local ram_bar=$(horizontal_bar $load $c_green "─" $c_green "┘" $c_gray "─")
-  echo "$ram_bar"
+  echo $(horizontal_bar $load $c_white "─" $c_white "┘" $c_gray "─")
+}
+
+_ram_and_cpu() {
+  local load1=$(round $(free | grep Mem | awk '{print $3/$2 * 100}'))
+  local load2=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
+  echo $(double_bar $load1 $load2)
 }
 
 _time(){
@@ -88,10 +124,11 @@ _time(){
 # gather info
 _modules() {
   while true; do
-    echo "C" "$(_cpu)"
-    echo "R" "$(_ram)"
+    #echo "C" "$(_cpu)"
+    #echo "R" "$(_ram)"
+    echo "R" "$(_ram_and_cpu)"
     echo "T" "$(_time)"
-    sleep 1s
+    sleep 3s
   done
 }
 
@@ -107,17 +144,11 @@ bspc subscribe report > "$lemon_fifo" &
 _lemon() {
   while read -r line ; do
     case $line in
-      C*)
-        cpu="${line#?}"
-        ;;
-      R*)
-        ram="${line#?}"
-        ;;
-      T*)
-        time="${line#?}"
-        ;;
+      #C*) cpu="${line#?}" ;;
+      #R*) ram="${line#?}" ;;
+      R*) ram_and_cpu="${line#?}" ;;
+      T*) time="${line#?}" ;;
       W*)
-        # bspwm internal state
         wm_infos=""
         IFS=':'
         set -- ${line#?}
@@ -125,41 +156,34 @@ _lemon() {
           item=$1
           name=${item#?}
           case $item in
-#            M*)
-#              # active monitor
+#            M*) # active monitor
 #              if [ $num_mon -gt 1 ] ; then
 #                  wm_infos="${wm_infos}${c_green}M${name}${c_reset} "
 #              fi
 #              ;;
-#            m*)
-#              # inactive monitor
+#            m*) # inactive monitor
 #              if [ $num_mon -gt 1 ] ; then
 #                  wm_infos="${wm_infos}${c_gray}m${name}${c_reset} "
 #              fi
 #              ;;
-            O*)
-              # focused occupied desktop
-              wm_infos="${wm_infos}$c_white${name}$c_reset "
+            O*) # focused occupied desktop
+#             wm_infos="${wm_infos}$c_white${name}$c_reset "
+              wm_infos="${wm_infos}$c_white██$c_reset "
               ;;
-            F*)
-              # focused free desktop
-              wm_infos="${wm_infos}$c_white${name}$c_reset "
+            o*) # occupied desktop
+              wm_infos="${wm_infos}$c_gray██$c_reset "
               ;;
-            U*)
-              # focused urgent desktop
-              wm_infos="${wm_infos}$c_white${name}$c_reset "
+            F*) # focused free desktop
+              wm_infos="${wm_infos}$c_white▁▁$c_reset "
               ;;
-            o*)
-              # occupied desktop
-              wm_infos="${wm_infos}$c_green${name}$c_reset "
+            f*) # free desktop
+              wm_infos="${wm_infos}$c_gray▁▁$c_reset "
               ;;
-            f*)
-              # free desktop
-              wm_infos="${wm_infos}$c_gray${name}$c_reset "
+            U*) # focused urgent desktop
+              wm_infos="${wm_infos}$c_white!!$c_reset "
               ;;
-            u*)
-              # urgent desktop
-              wm_infos="${wm_infos}$c_red${name}$c_red "
+            u*) # urgent desktop
+              wm_infos="${wm_infos}$c_red!!$c_red "
               ;;
           esac
           shift
@@ -169,7 +193,7 @@ _lemon() {
 
     left="%{l} ${wm_infos}"
     center="%{c}"
-    right="%{r}cpu$cpu ram $ram $time"
+    right="%{r}$ram_and_cpu $time"
     echo " $left $center $right "
   done
 }
