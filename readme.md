@@ -18,35 +18,4 @@ install:
 ```
 
 ## about
-blueberry is a new machine bootstrap script, featuring: symlinks, aur bundles, nvim plugs, and more. single file with no extra dependencies. made for personal use, as my first python project
-
-- bashrc:
-    - simple git aware prompt
-    - tty colors are read from .Xresources
-    - cancellable xorg autostart
-- nvim:
-    - nanotech/jellybeans.vim
-    - valloric/youcompleteme
-    - itchyny/lightline
-    - terryma/vim-multiple-cursors
-- st:
-    - scrollback
-    - boxdraw
-- i3:
-    - gaps
-    - olemartinorg/i3-alternating-layout
-- scripts:
-    - skywind3000/z.lua
-    - junegunn/fzf
-    - keyboard layout switcher
-    - tinyfetch
-- aliases:
-    - archive extraction
-
-## todo
-- rewrite run function
-- add firefox theme
-- add a cool gif
-- look into tldr pages and explain shell
-
-crafted with love
+blueberry is a new machine bootstrap script, featuring: symlinks, aur bundles, nvim plugs, and more. single file with no extra dependencies. now in the process of being rewritten 

@@ -53,7 +53,7 @@ EOF
 expand_home() { echo "${1/#\~/$HOME}"; } # unused
 
 get_abspath() {
-  if [[ $1 == "~"* ]]; then #passing path w/ ~ as a string does not expand the ~
+  if [[ $1 == "~"* ]]; then
     relpath=${1/"~"/$HOME}
   else
     relpath=$1
@@ -182,7 +182,7 @@ create_symlinks() {
   while read -r line; do
     sleep 0.05 # because it looks cooler
     line=($line)
-    src=${line[0]} #add script path
+    src=${line[0]}
     dst=${line[1]}
     abs_src="${0%/*}/"$src
     abs_dst=$(get_abspath "$dst")
