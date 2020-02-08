@@ -6,17 +6,15 @@ pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
 bspwm:         bspwm sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
-media:         mpv vlc
+media:         mpv
 cli:           fzf cat
 fonts:         tamzen-font-git
 pip:           pynvim
-pip2:          pynvim
 EOF
+#pip2:          pynvim
 
 # paths on the left are relative to script's directory
 read -d '' links << EOF
-xinitrc_old                   ~/test
-sdfasdf                       ~/asdfasdf
 bashrc                        ~/.bashrc
 aliases                       ~/.aliases
 bash_profile                  ~/.bash_profile
@@ -51,7 +49,10 @@ fzf_edit() {
     | cut -c 3- \
     | fzf --no-bold --reverse --preview="bat --color=always --style=numbers --line-range :69 {}" \
       --preview-window=right:70%)
-  [[ $selected_file != "" ]] && run_command "$" "soap" "$EDITOR $selected_file"
+  if [[ $selected_file != "" ]]; then
+    $EDITOR $selected_file
+    log "$" "$green" "soap" "$EDITOR $selected_file"
+  fi
   cd "$current_dir"
 }
 
@@ -62,32 +63,26 @@ create_directories() {
   done <<< "$directories"
 }
 
-install_packages() {
+install_packages() { # cherry pick packages that aren't already installed
   while read -r bundle; do
     bundle=($bundle) # removing this breaks everything
     name=${bundle[0]%?} # removes the colon
+    clean_bundle=""
     case "$name" in
       pip|pip2)
-        cmd="sudo $name install -q"
+        install_cmd="sudo $name install -q"
         for package in "${bundle[@]:1}"; do
-          run_command "$" "$name" "$cmd $package"
+          ! python -c "import $package" &> /dev/null && clean_bundle="$clean_bundle$package "
         done
         ;;
       *)
-        cmd="yay -S --needed --noconfirm"
-        # only pick packages that aren't already installed
-        clean_bundle=""
+        install_cmd="yay -S --needed --noconfirm"
         for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
-          if ! yay -Qs $package > /dev/null ; then
-            clean_bundle="$clean_bundle$package "
-          fi
+          ! yay -Qs $package > /dev/null && clean_bundle="$clean_bundle$package "
         done
-        # install w/ one command if there are any to install
-        if [[ "$clean_bundle" != "" ]]; then
-          run_command "$" "$name" "$cmd $clean_bundle"
-        fi
         ;;
     esac
+    [[ "$clean_bundle" != "" ]] && run_command "$" "$name" "$install_cmd $clean_bundle"
   done <<< "$bundles"
 }
 
@@ -96,19 +91,26 @@ create_symlinks() {
     line=($line)
     src=${line[0]}
     dst=${line[1]}
+    if [[ "$dst" == "" ]]; then
+      log "#" "$red" "$src" "broken rule!"
+      continue
+    fi
     abs_src="${script_dir}/$src"
     abs_dst=$(get_abspath "$dst")
 
     if [[ -f "$abs_src" ]]; then
-      if [[ ! -f "$abs_dst" ]]; then
+      if [[ ! -f "$abs_dst" ]]; then # if both are okay, proceed normally
         [[ ! -d "${abs_dst%/*}" ]] && run_command "+" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
         run_command ">" "$src" "ln -s $abs_src $abs_dst"
-      else
+      else # resolve conflicts
         if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
-          if ask "non-symlink found, replace?"; then
-            run_command "." "$src" "ln -sf $abs_src $abs_dst"
+          if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
+              run_command "." "$src" "ln -sf $abs_src $abs_dst"
+          elif ask "soap" "mv $dst $script_dir && ln -s $src $dst?"; then
+            run_command ">" "$dst" "mv $abs_dst $script_dir"
+            run_command "." "$src" "ln -s $abs_src $abs_dst"
           else
-            log "#" "$red" "$src" "skipping"
+            log "#" "$yellow" "$src" "skipping..."
           fi
         elif [[ -L "$abs_dst" ]]; then
           if [[ $(readlink -f "$abs_dst") == "$abs_src" ]]; then
@@ -124,54 +126,77 @@ create_symlinks() {
   done <<< "$links"
 }
 
+update() {
+  current_dir=$(pwd 2>&1)
+  clear
+  welcome
+  cd "$script_dir"
+  if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
+    run_command "$" "soap" "git fetch"
+    log "$" "$green" "soap" "git status"
+    git_status=$(git status 2>&1)
+    git_status="ahead"
+    if [[ "$git_status" == *"behind"* ]]; then
+      if ask "we're behind" "pull?"; then
+        run_command "$" "soap" "git pull"
+      fi
+    elif [[ "$git_status" == *"ahead"* ]]; then
+      if ask "we're ahead" "push?"; then
+        run_command "$" "soap" "git add ."
+        log "?" "$yellow" "commit" "enter a message | \c"
+        echo -ne "$escape"
+        read commit_message
+        run_command "$" "soap" "git commit -m '$commit_messager'"
+        run_command "$" "soap" "git push"
+      fi
+    else
+      log "$" "$green" "soap" "up to date <3"
+    fi
+  else
+    log "#" "$red" "soap" "no internet connection"
+  fi
+  cd "$current_dir"
+}
+
 # ===================================
 # helpers
 # ===================================
 
+get_abspath() {
+  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
+}
+
 log() { # $1 - icon, $2 - color, $3 - object, $4 - action
-  printf "%b%s\n" "[${2}${1}${escape}] ${3}: ${gray}${4}${escape}"
+  color="$2"
+  [[ "$color" == "$green" ]] && [[ "$opt_dry" == "yes" ]] && color="$gray"
+  printf "%b%s\n" "[${color}${1}${escape}] ${3}: ${gray}${4}${escape}"
+}
+
+run_command() { # $1 - icon, $2 - object, $3 - action
+  log "$1" "$green" "$2" "$3\c"
+  out=$($3 2>&1)
+  if [[ $? -eq 0 ]]; then
+    echo -e "\r$escape[$green+$escape]"
+  else
+    echo -e "\r$escape[$red#$escape]"
+    echo "$out"
+  fi
 }
 
 ask() {
-  log "?" "$yellow" "soap" "$1 [y/n] | "
-  read -n 1 -r choice
-  echo "$choice"
-  case "$choice" in
+  log "?" "$yellow" "$1" "$2 [y/n] | \c"
+  echo -ne "$escape"
+  read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
+  echo
+  case "$REPLY" in
     Y|y) true ;;
     N|n) false ;;
     *)
       false
-      #log "i" "$gray" "soap" "please enter a valid choice"
-      #ask "$1"
+      log "i" "$gray" "soap" "please enter a valid choice"
+      ask "$1" "$2"
       ;;
   esac
-}
-
-12ask() {
-  log "?" "$yellow" "soap" "$1 [y/n] | \c"
-  read -n 1 -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    true
-  elif [[ ! $REPLY =~ ^[Nn]$ ]]; then
-    false
-    log "#" $red "please enter a valid choice"
-    ask "$1"
-  else
-    false
-  fi
-}
-
-run_command() { # $1 - icon, $2 - object, $3 - action
-  if [[ "$opt_dry" == "no" ]]; then
-    log "$1" "$green" "$2" "$3"
-  else
-    log "$1" "$gray" "$2" "$3"
-  fi
-}
-
-get_abspath() {
-  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
 }
 
 # ===================================
@@ -230,11 +255,12 @@ install:
 
 if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
   # launch fzf if no arguments are supplied
+  opt_dry="no"
   if [[ -f /usr/bin/fzf ]]; then
     fzf_edit
   else
-    log "i" $yellow "fzf" "not found"
-    if ask "install it?"; then
+    log "i" "$yellow" "fzf" "not found"
+    if ask "soap" "install it?"; then
       run_command "$" "fzf" "sudo pacman -S fzf --noconfirm"
       echo ""
       fuzzy_edit
@@ -244,9 +270,9 @@ if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
 else
   case $1 in # the first agrument has to be an action
     i|install)
-      opt_dry=no;;
+      opt_dry="no";;
     d|dry)
-      opt_dry=yes;;
+      opt_dry="yes";;
     u|update)
       update
       exit 1;;
@@ -257,8 +283,11 @@ else
   OPTIND=2 # makes getopts parse arguments starting from the second
   while getopts "pv" opt; do
     case $opt in
-      p) opt_packages=yes;;
-      v) opt_vim=yes;;
+      p) opt_packages="yes";;
+      v) opt_vim="yes";;
+      *)
+        echo "$usage"
+        exit 1;;
     esac
   done
 fi
@@ -301,7 +330,7 @@ create_directories
 create_symlinks
 
 if [[ "$opt_dry" == "no" ]]; then
-  log "$" "$green" "soap" "all done :]"
+  log "$" "$green" "soap" "all done <3"
 else
   log "$" "$gray" "soap" "dry run complete"
 fi
