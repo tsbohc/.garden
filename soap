@@ -127,15 +127,15 @@ create_symlinks() {
 }
 
 update() {
-  current_dir=$(pwd 2>&1)
   clear
+  opt_dry="no"
+  current_dir=$(pwd 2>&1)
   welcome
   cd "$script_dir"
   if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
     run_command "$" "soap" "git fetch"
-    log "$" "$green" "soap" "git status"
     git_status=$(git status 2>&1)
-    git_status="ahead"
+    log "+" "$green" "soap" "git status"
     if [[ "$git_status" == *"behind"* ]]; then
       if ask "we're behind" "pull?"; then
         run_command "$" "soap" "git pull"
@@ -146,11 +146,12 @@ update() {
         log "?" "$yellow" "commit" "enter a message | \c"
         echo -ne "$escape"
         read commit_message
-        run_command "$" "soap" "git commit -m '$commit_messager'"
+        git commit -m "$commit_message"
+        log "+" "$green" "soap" "git commit -m $commit_message"
         run_command "$" "soap" "git push"
       fi
     else
-      log "$" "$green" "soap" "up to date <3"
+      log "i" "$green" "soap" "up to date <3"
     fi
   else
     log "#" "$red" "soap" "no internet connection"
