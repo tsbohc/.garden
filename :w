@@ -187,16 +187,7 @@ log() { # $1 - icon, $2 - color, $3 - object, $4 - action
 }
 
 get_cpos() {
-  exec < /dev/tty
-  oldstty=$(stty -g)
-  stty raw -echo min 0
-  echo -en "\033[6n" > /dev/tty
-  IFS=';' read -r -d R -a pos
-  stty $oldstty
-  # change from one-based to zero based so they work with: tput cup $row $col
-  row=$((${pos[0]:2} - 1))    # strip off the esc-[
-  col=$((${pos[1]} - 1))
-  echo $row
+  stty -echo; echo -n $'\e[6n'; read -d R x; stty echo; echo ${x#??}
 }
 
 run_command() { # $1 - icon, $2 - object, $3 - action
