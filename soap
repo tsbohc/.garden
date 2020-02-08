@@ -6,14 +6,17 @@ pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
 bspwm:         bspwm sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
-media:         mpv
+media:         mpv vlc
 cli:           fzf cat
 fonts:         tamzen-font-git
 pip:           pynvim
 pip2:          pynvim
 EOF
 
+# paths on the left are relative to script's directory
 read -d '' links << EOF
+xinitrc_old                   ~/test
+sdfasdf                       ~/asdfasdf
 bashrc                        ~/.bashrc
 aliases                       ~/.aliases
 bash_profile                  ~/.bash_profile
@@ -31,63 +34,132 @@ read -d '' directories << EOF
 ~/blueberry
 EOF
 
+script_dir="${0%/*}"
+
 opt_dry="yes"
 opt_packages="no"
 opt_vim="no"
 
-# -------------------------------------------------
+# ===================================
+# functions
+# ===================================
 
 fzf_edit() {
   current_dir=$(pwd 2>&1)
-  cd ~/blueberry
+  cd "$script_dir"
   selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" \
     | cut -c 3- \
     | fzf --no-bold --reverse --preview="bat --color=always --style=numbers --line-range :69 {}" \
       --preview-window=right:70%)
-  if [[ $selected_file != "" ]]; then
-    run_command "$" "soap" "$EDITOR $selected_file"
-  fi
+  [[ $selected_file != "" ]] && run_command "$" "soap" "$EDITOR $selected_file"
   cd "$current_dir"
+}
+
+create_directories() {
+  while read -r path; do
+    abs_path=$(get_abspath $path)
+    [[ ! -d "$abs_path" ]] && run_command "+" "$path" "mkdir -p $abs_path"
+  done <<< "$directories"
 }
 
 install_packages() {
   while read -r bundle; do
     bundle=($bundle) # removing this breaks everything
     name=${bundle[0]%?} # removes the colon
-
-    if [[ $name == pip ]]; then
-      cmd="sudo pip install -q"
-    elif [[ $name == pip2 ]]; then
-      cmd="sudo pip2 install -q"
-    else
-      cmd="yay -S --needed --noconfirm"
-    fi
-
-    if [[ $name != pip ]] && [[ $name != pip2 ]]; then
-      # only pick packages that aren't already installed
-      clean_bundle=""
-      for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
-        if ! yay -Qs $package > /dev/null ; then
-          clean_bundle="$clean_bundle$package "
+    case "$name" in
+      pip|pip2)
+        cmd="sudo $name install -q"
+        for package in "${bundle[@]:1}"; do
+          run_command "$" "$name" "$cmd $package"
+        done
+        ;;
+      *)
+        cmd="yay -S --needed --noconfirm"
+        # only pick packages that aren't already installed
+        clean_bundle=""
+        for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
+          if ! yay -Qs $package > /dev/null ; then
+            clean_bundle="$clean_bundle$package "
+          fi
+        done
+        # install w/ one command if there are any to install
+        if [[ "$clean_bundle" != "" ]]; then
+          run_command "$" "$name" "$cmd $clean_bundle"
         fi
-      done
-      # install w/ one command if there are any to install
-      if [[ "$clean_bundle" != "" ]]; then
-        run_command "$" "$name" "$cmd $clean_bundle"
-      fi
-    else
-      for package in "${bundle[@]:1}"; do
-        run_command "$" "$name" "$cmd $package"
-      done
-    fi
+        ;;
+    esac
   done <<< "$bundles"
 }
 
-# helpers -------------------------
+create_symlinks() {
+  while read -r line; do
+    line=($line)
+    src=${line[0]}
+    dst=${line[1]}
+    abs_src="${script_dir}/$src"
+    abs_dst=$(get_abspath "$dst")
+
+    if [[ -f "$abs_src" ]]; then
+      if [[ ! -f "$abs_dst" ]]; then
+        [[ ! -d "${abs_dst%/*}" ]] && run_command "+" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
+        run_command ">" "$src" "ln -s $abs_src $abs_dst"
+      else
+        if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
+          if ask "non-symlink found, replace?"; then
+            run_command "." "$src" "ln -sf $abs_src $abs_dst"
+          else
+            log "#" "$red" "$src" "skipping"
+          fi
+        elif [[ -L "$abs_dst" ]]; then
+          if [[ $(readlink -f "$abs_dst") == "$abs_src" ]]; then
+            log "." "$green" "$src" "== readlink -f $abs_dst"
+          else
+            run_command "." "$src" "ln -s $abs_src $abs_dst"
+          fi
+        fi
+      fi
+    else
+      log "#" "$red" "$src" "missing source file!"
+    fi
+  done <<< "$links"
+}
+
+# ===================================
+# helpers
+# ===================================
 
 log() { # $1 - icon, $2 - color, $3 - object, $4 - action
   printf "%b%s\n" "[${2}${1}${escape}] ${3}: ${gray}${4}${escape}"
-  #printf "\r%*s\r%s\n" $(tput cols) "${gray}$4${escape} " "[${2}${1}${escape}] $3 ";
+}
+
+ask() {
+  log "?" "$yellow" "soap" "$1 [y/n] | "
+  read -n 1 -r choice
+  echo "$choice"
+  case "$choice" in
+    Y|y) true ;;
+    N|n) false ;;
+    *)
+      false
+      #log "i" "$gray" "soap" "please enter a valid choice"
+      #ask "$1"
+      ;;
+  esac
+}
+
+12ask() {
+  log "?" "$yellow" "soap" "$1 [y/n] | \c"
+  read -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    true
+  elif [[ ! $REPLY =~ ^[Nn]$ ]]; then
+    false
+    log "#" $red "please enter a valid choice"
+    ask "$1"
+  else
+    false
+  fi
 }
 
 run_command() { # $1 - icon, $2 - object, $3 - action
@@ -98,7 +170,13 @@ run_command() { # $1 - icon, $2 - object, $3 - action
   fi
 }
 
-# init -------------------------------------
+get_abspath() {
+  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
+}
+
+# ===================================
+# init
+# ===================================
 
 red="\x1b[31m"
 green="\x1b[32m"
@@ -107,18 +185,35 @@ blue="\x1b[34m"
 gray="\x1b[90m"
 escape="\x1b[0m"
 
-clear
+#black="\u001b[30m"
+#red="\u001b[31m"
+#green="\u001b[32m"
+#yellow="\u001b[33m"
+#blue="\u001b[34m"
+#magenta="\u001b[35m"
+#cyan="\u001b[36m"
+#white="\u001b[37m"
+#
+#bblack="\u001b[30;1m"
+#bred="\u001b[31;1m"
+#bgreen="\u001b[32;1m"
+#byellow="\u001b[33;1m"
+#bblue="\u001b[34;1m"
+#bmagenta="\u001b[35;1m"
+#bcyan="\u001b[36;1m"
+#bwhite="\u001b[37;1m"
+#
+#escape="\u001b[0m"
 
 welcome() {
   echo -e "
-     ____    ___      __     _____    
-    /',__\  / __'\  /'__'\  /\ '__'\  
-   /\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \ 
-   \/\____/\ \____/\ \__/.\_\  \ ,__/ 
-    \/___/  \/___/  \/__/\/_/ \ \ \/  
-                               \ \_\  
-                                \/_/  
-  "
+   ____    ___      __     _____    
+  /',__\  / __'\  /'__'\  /\ '__'\  
+ /\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \ 
+ \/\____/\ \____/\ \__/.\_\  \ ,__/ 
+  \/___/  \/___/  \/__/\/_/ \ \ \/  
+                             \ \_\  
+                              \/_/  "
 }
 
 usage="usage: bb {install|dry|update|edit} [-p] [-v]
@@ -139,7 +234,7 @@ if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
     fzf_edit
   else
     log "i" $yellow "fzf" "not found"
-    if ask_user "install it?"; then
+    if ask "install it?"; then
       run_command "$" "fzf" "sudo pacman -S fzf --noconfirm"
       echo ""
       fuzzy_edit
@@ -168,14 +263,15 @@ else
   done
 fi
 
-# actual program --------------------
+# ===================================
+# calls
+# ===================================
 
+clear
 welcome
 
 # ask for sudo
-if [[ "$opt_dry" == "no" ]]; then
-  run_command "$" "soap" "sudo -v"
-fi
+[[ "$opt_dry" == "no" ]] && run_command "$" "soap" "sudo -v"
 
 # add color to pacman
 if grep -Fqx "#Color" "/etc/pacman.conf"; then
@@ -193,25 +289,16 @@ if [[ ! -f /usr/bin/yay ]]; then # not sure if yay is a dir, check
 fi
 
 # install/update system wide adblock
-if [[ ! -f /etc/hosts_bk ]]; then
-  run_command "$" "hosts" "sudo cp /etc/hosts /etc/hosts_bk"
-fi
+[[ ! -f /etc/hosts_bk ]] && run_command "$" "hosts" "sudo cp /etc/hosts /etc/hosts_bk"
 run_command "$" "hosts" "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
 # install/update z.lua
-run_command "$" "z.lua" "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o /home/blueberry/sc/z.lua)"
+run_command "$" "z.lua" "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${script_dir}/sc/z.lua)"
 
-#create_directories
-
-if [[ "$opt_packages" == "yes" ]]; then
-  install_packages
-fi
-
-if [[ "$opt_vim" == "yes" ]]; then
-  run_command "$" "nvim" "nvim +:PlugInstall +:qa"
-fi
-
-#create_symlinks
+create_directories
+[[ "$opt_packages" == "yes" ]] && install_packages
+[[ "$opt_vim" == "yes" ]] && run_command "$" "nvim" "nvim +:PlugInstall +:qa"
+create_symlinks
 
 if [[ "$opt_dry" == "no" ]]; then
   log "$" "$green" "soap" "all done :]"

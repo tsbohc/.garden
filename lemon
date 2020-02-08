@@ -70,16 +70,20 @@ double_bar() {
     if [[ $i != $value1 ]] && [[ $i != $value2 ]]; then
       bar+="─"
     else
-      if [[ $i == $value1 ]]; then
-        bar+="┘"
-      elif [[ $i == $value2 ]]; then
-        bar+="┐"
-      fi
-
-      if [[ $should_gray == "no" ]]; then
-        should_gray="yes"
+      if [[ $i == $value1 ]] && [[ $i == $value2 ]]; then
+        bar+="|$c_gray"
       else
-        bar+="$c_gray"
+        if [[ $i == $value1 ]]; then
+          bar+="┘"
+        elif [[ $i == $value2 ]]; then
+          bar+="┐"
+        fi
+
+        if [[ $should_gray == "no" ]]; then
+          should_gray="yes"
+        else
+          bar+="$c_gray"
+        fi
       fi
     fi
   done

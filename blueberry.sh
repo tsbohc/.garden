@@ -50,28 +50,6 @@ EOF
 
 expand_home() { echo "${1/#\~/$HOME}"; } # unused
 
-get_abspath() {
-  if [[ $1 == "~"* ]]; then
-    relpath=${1/"~"/$HOME}
-  else
-    relpath=$1
-  fi
-  if [[ -d "$relpath" ]]; then
-      (cd "$relpath"; pwd)
-  elif [[ -f "$relpath" ]]; then
-      # file
-      if [[ $relpath = /* ]]; then
-          echo "$relpath"
-      elif [[ $relpath == */* ]]; then
-          echo "$(cd "${relpath%/*}"; pwd)/${relpath##*/}"
-      else
-          echo "$(pwd)/$relpath"
-      fi
-  else
-    echo "$(realpath -m $relpath)"
-  fi
-}
-
 run_command() {
   if [[ $dry == no ]]; then
     if [[ ! $2 ]]; then
@@ -145,6 +123,28 @@ create_directories() {
   fi
 }
 
+
+get_abspath() {
+  if [[ $1 == "~"* ]]; then
+    relpath=${1/"~"/$HOME}
+  else
+    relpath=$1
+  fi
+  if [[ -d "$relpath" ]]; then
+      (cd "$relpath"; pwd)
+  elif [[ -f "$relpath" ]]; then
+      # file
+      if [[ $relpath = /* ]]; then
+          echo "$relpath"
+      elif [[ $relpath == */* ]]; then
+          echo "$(cd "${relpath%/*}"; pwd)/${relpath##*/}"
+      else
+          echo "$(pwd)/$relpath"
+      fi
+  else
+    echo "$(realpath -m $relpath)"
+  fi
+}
 update() {
   clear
   welcome
