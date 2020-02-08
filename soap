@@ -161,7 +161,6 @@ update() {
         git commit -m "$commit_message"
         log "+" "$green" "soap" "git commit -m $commit_message"
         run_command "$" "soap" "git push"
-        echo
       fi
     else
       log "i" "$green" "soap" "up to date <3"
