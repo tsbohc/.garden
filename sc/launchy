@@ -9,6 +9,7 @@ EOF
 IFS='' read -r -d '' not_terminal << "EOF"
 discord
 brave
+redshift
 EOF
 
 IFS='' read -r -d '' terminal << "EOF"

@@ -15,7 +15,6 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" package set up
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 
@@ -23,7 +22,7 @@ if has('nvim')
   Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'Yggdroot/indentline'
-  Plug 'junegunn/goyo.vim'
+  "Plug 'junegunn/goyo.vim'
   "Plug 'SirVer/ultisnips'
   "Plug 'honza/vim-snippets'
 
@@ -43,43 +42,23 @@ endif
 "let g:UltiSnipsExpandTrigger="<CR>"
 "let g:UltiSnipsExpandTrigger="<c-b>"
 
-let g:indentLine_char = '│'
-
 " rendering
 set encoding=utf-8
 set nocompatible
 set ttyfast
 set synmaxcol=256
-"set background=dark
 
 " mode switch delays
 set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
 
-" gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_italicize_comments = '1'
-let g:gruvbox_italic = '1'
-let g:gruvbox_bold = '0'
-
-" syntax highlighting
-colorscheme gruvbox
-set t_Co=256
-set termguicolors
-"hi Normal ctermbg=none guibg=none
-
+" editor
 filetype indent on
 set number relativenumber " relative numbers
 set cursorline " highlight current line
 set showmatch " hl matching [{(s
 "hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
-
-" invisibles
-exec "set listchars=trail:␣"
-",eol:⌟"
-
-set list
 
 " whitespace
 set wrap
@@ -91,6 +70,10 @@ set softtabstop=2
 set expandtab
 set noshiftround
 
+" invisibles
+exec "set listchars=trail:␣"
+set list
+
 " search
 set incsearch " search as characters are entered
 set hlsearch " highlight matches
@@ -99,7 +82,7 @@ set smartcase " case-sensitive if search contains uppercase
 set showmatch
 nnoremap // :noh<return>
 
-" clipboard woes, default vim
+" clipboard woes
 set clipboard=unnamedplus " systemwide
 vmap <leader>y :w! /tmp/vitmp<CR>
 nmap <leader>p :r! cat /tmp/vitmp<CR>
@@ -107,15 +90,27 @@ nmap <leader>p :r! cat /tmp/vitmp<CR>
 " disable new line comment
 autocmd FileType * setlocal formatoptions-=cro
 
+" syntax highlighting
+colorscheme gruvbox
+set t_Co=256
+set termguicolors
+
+" -------------------------------------------------
+"   plug specific
+" -------------------------------------------------
+
+" indent line
+let g:indentLine_char = '│'
+
+" gruvbox
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_italicize_comments = '1'
+let g:gruvbox_italic = '1'
+let g:gruvbox_bold = '0'
+
 " -------------------------------------------------
 "   vim magic
 " -------------------------------------------------
-
-" recompile suckless programs automagically
-autocmd BufWritePost config.h,config.def.h !sudo make install
-
-" run xrdb whenever Xdefaults or Xresources are updated
-autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 " write a function that handles swapfiles automagically
 
@@ -125,6 +120,12 @@ augroup autoRead
     autocmd!
     autocmd CursorHold * silent! checktime
 augroup END
+
+" recompile suckless programs automagically
+autocmd BufWritePost config.h,config.def.h !sudo make install
+
+" run xrdb whenever Xdefaults or Xresources are updated
+autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 " -------------------------------------------------
 "   keymaps
