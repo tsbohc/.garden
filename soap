@@ -133,6 +133,23 @@ update() {
   welcome
   cd "$script_dir"
   if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
+    if ! git config --list | grep -q "user.name"; then
+      log "?" "$yellow" "git" "name | \c"
+      echo -ne "$escape"
+      read name
+      run_command "$" "soap" "git config --global user.name $name"
+    elif ! git config --list | grep -q "user.email"; then
+      log "?" "$yellow" "git" "email | \c"
+      echo -ne "$escape"
+      read email
+      run_command "$" "soap" "git config --global user.name $email"
+    elif ! git config --list | grep -q "user.password"; then
+      log "?" "$yellow" "git" "password | \c"
+      echo -ne "$escape"
+      read password
+      run_command "$" "soap" "git config --global user.name $password"
+    fi
+
     run_command "$" "soap" "git fetch"
     git_status=$(git status 2>&1)
     log "+" "$green" "soap" "git status"
@@ -149,6 +166,7 @@ update() {
         git commit -m "$commit_message"
         log "+" "$green" "soap" "git commit -m $commit_message"
         run_command "$" "soap" "git push"
+        echo
       fi
     else
       log "i" "$green" "soap" "up to date <3"
