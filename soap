@@ -142,12 +142,12 @@ update() {
       log "?" "$yellow" "git" "email | \c"
       echo -ne "$escape"
       read email
-      run_command "$" "soap" "git config --global user.name $email"
+      run_command "$" "soap" "git config --global user.email $email"
     elif ! git config --list | grep -q "user.password"; then
       log "?" "$yellow" "git" "password | \c"
       echo -ne "$escape"
       read password
-      run_command "$" "soap" "git config --global user.name $password"
+      run_command "$" "soap" "git config --global user.password $password"
     fi
 
     run_command "$" "soap" "git fetch"
@@ -157,7 +157,7 @@ update() {
       if ask "we're behind" "pull?"; then
         run_command "$" "soap" "git pull"
       fi
-    elif [[ "$git_status" == *"ahead"* ]]; then
+    elif [[ "$git_status" == *"ahead"* || "$git_status" == *"hanges not staged for commit:"* ]]; then
       if ask "we're ahead" "push?"; then
         run_command "$" "soap" "git add ."
         log "?" "$yellow" "commit" "enter a message | \c"
