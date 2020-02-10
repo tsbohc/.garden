@@ -212,23 +212,23 @@ source ~/blueberry/vim/colors/colman.vim
 function! ChangeStatuslineColor()
 "  if mode() =~# '\v(n|c)' " command and others now default to red
   if mode() == 'n' " blue
-"   hi User1 ctermbg=12
-"   hi User2 ctermfg=12
+ "   hi! link User1 mode_blue
+ "   hi User2 ctermfg=cyan
     hi! link User1 stlcolor12bg
     hi! link User2 stlcolor12fg
   elseif (mode() =~# '\v(v|V)' || ModeCurrent() == 'VBLOCK') " orange
-"   hi User1 ctermbg=11
-"   hi User2 ctermfg=11
+ "   hi User1 ctermbg=11
+ "   hi User2 ctermfg=11
     hi! link User1 stlcolor11bg
     hi! link User2 stlcolor11fg
   elseif mode() == 'i' " green
-"   hi User1 ctermbg=10
-"   hi User2 ctermfg=10
+ "   hi! link User1 mode_green
+ "   hi User2 ctermfg=10
     hi! link User1 stlcolor10bg
     hi! link User2 stlcolor10fg
   else " red
-"   hi User1 ctermbg=9
-"   hi User2 ctermfg=9
+ "   hi User1 ctermbg=9
+ "   hi User2 ctermfg=9
     hi! link User1 stlcolor9bg
     hi! link User2 stlcolor9fg
   endif
