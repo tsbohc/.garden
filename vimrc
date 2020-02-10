@@ -8,12 +8,12 @@
 "   plug
 " -------------------------------------------------
 
-" autoinstall
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+" boostrap plug
+"if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+"  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
 
 if has('nvim')
   call plug#begin('~/.vim/bundle')
@@ -91,7 +91,11 @@ nmap <leader>p :r! cat /tmp/vitmp<CR>
 autocmd FileType * setlocal formatoptions-=cro
 
 " syntax highlighting
-colorscheme gruvbox
+try
+  colorscheme gruvbox
+  catch
+endtry
+
 set t_Co=256
 set termguicolors
 

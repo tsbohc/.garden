@@ -16,9 +16,11 @@ alias v='nvim'
 alias vpager='nvim -u ~/blueberry/vim/vpager'
 
 alias nnn='nnn -H' # show hidden files by default
+alias st='~/blueberry/sl/st/st'
 
 # yeah
 alias :q='exit'
+alias please='sudo'
 
 # ls
 alias ls='ls -F --color=auto'

@@ -4,7 +4,7 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm sxhkd xtitle xdo xdotool
+bspwm:         bspwm lemonbar-xft picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
 media:         mpv
 cli:           fzf cat
@@ -100,7 +100,7 @@ create_symlinks() {
     abs_dst=$(get_abspath "$dst")
 
     if [[ -f "$abs_src" ]]; then
-      if [[ ! -f "$abs_dst" ]]; then # if both are okay, proceed normally
+      if [[ ! -f "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
         [[ ! -d "${abs_dst%/*}" ]] && run_command "+" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
         run_command ">" "$src" "ln -s $abs_src $abs_dst"
       else # resolve conflicts
@@ -117,7 +117,7 @@ create_symlinks() {
           if [[ $(readlink -f "$abs_dst") == "$abs_src" ]]; then
             log "." "$green" "$src" "== readlink -f $abs_dst"
           else
-            run_command "." "$src" "ln -s $abs_src $abs_dst"
+            run_command "." "$src" "ln -sfn $abs_src $abs_dst"
           fi
         fi
       fi
@@ -141,6 +141,20 @@ update() {
     log "#" "$red" "soap" "the following option is extremely insecure!"
     if ask "git" "enable credential store?"; then
       run_command "$" "soap" "git config credential.helper store"
+    fi
+
+    if ! git config --list | grep -q "user.email"; then
+      log "?" "$yellow" "git" "please enter user.email | \c"
+      echo -ne "$escape"
+      read useremail
+      run_command "$" "soap" "git config --global user.email $useremail"
+    fi
+
+    if ! git config --list | grep -q "user.name"; then
+      log "?" "$yellow" "git" "please enter user.name | \c"
+      echo -ne "$escape"
+      read username
+      run_command "$" "soap" "git config --global user.name $username"
     fi
   fi
 
@@ -366,9 +380,14 @@ run_command "$" "z.lua" "curl -sS --create-dirs https://raw.githubusercontent.co
 
 create_directories
 [[ "$opt_packages" == "yes" ]] && install_packages
-[[ "$opt_vim" == "yes" ]] && run_command "$" "nvim" "nvim +:PlugInstall +:qa"
-create_symlinks
+if [[ "$opt_vim" == "yes" ]]; then
+  [[ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]] && run_command "$" "nvim" "curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  nvim +:PlugInstall +:qa
+  log "+" "$green" "nvim" "nvim +:PlugInstall +:qa"
+  #run_command "$" "nvim" "nvim +:PlugInstall +:qa"
+fi
 
+create_symlinks
 
 if [[ "$opt_dry" == "no" ]]; then
   log "$" "$green" "soap" "all done <3"

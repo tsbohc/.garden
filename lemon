@@ -1,11 +1,13 @@
 #!/bin/bash
 
-#./panel | lemonbar -p -b -u 0 -B "#55000000" -f "TamzenForPowerline:pixelsize=16" -f "Unifont:pixelsize=14:antialias=false" -g 1920x16+0+0
+# try bdf-unifont
+
 # DON"T FORGET TO XRDB -MERGE CURRENT THEME (REWORK THAT)
 
 lemon_height=16
 lemon_font1="TamzenForPowerline:pixelsize=16"
 lemon_font2="Unifont:pixelsize=14:antialias=false"
+#lemon_font2="Unifont:style=Sans-Serif"
 
 # setup
 if [[ $(pgrep -cx lemon) > 1 ]]; then
@@ -42,7 +44,7 @@ _block() { # $1 - value, $2 - max value
   (( $result > 1 )) && result=$((result - 1)) # shift to 0 based index
   (( $result > 7 )) && result=7 # clamp
   local b=${blocks:$result:1}
-  echo "$b$b"
+  echo "$b$b" #$1/$2"
 }
 
 horizontal_bar() {
@@ -113,7 +115,11 @@ _cpu(){
   local load=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
   #echo $(horizontal_bar $load $c_green "─" $c_green "┐" $c_gray "─")
 
-  local temp=$(($(round $(sensors | awk '/^Tdie/ {print $2}'))-40))
+  local temp=$(sensors | awk '/^Tdie/ {print $2}')
+  [[ "$temp" == "" ]] && temp=$(sensors | awk '/^Core 0:/ {print $3}')
+  [[ "$temp" == "" ]] && temp=140
+  temp=$(round $temp)
+  temp=$(($temp - 40))
   local btemp=$(_block $temp 60)
   local bload=$(_block $load 100)
   [[ $btemp == "▁▁" ]] && btemp=$c_darkgray$btemp$c_reset
@@ -219,10 +225,10 @@ _lemon() {
         ;;
   esac
 
-    left="%{l} $wm_infos"
-    center="%{c}$time"
-    right="%{r}$cpu$ram "
-    echo " $left $center $right "
+    l="$wm_infos"
+    c="$time ────"
+    r="$cpu$ram"
+    echo "%{l} $l%{c}$c%{r}$r "
   done
 }
 
