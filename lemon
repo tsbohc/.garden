@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# try bdf-unifont
-
 # DON"T FORGET TO XRDB -MERGE CURRENT THEME (REWORK THAT)
 
 lemon_height=16
 lemon_font1="TamzenForPowerline:pixelsize=16"
 lemon_font2="Unifont:pixelsize=14:antialias=false"
-#lemon_font2="Unifont:style=Sans-Serif"
 
 # setup
 if [[ $(pgrep -cx lemon) > 1 ]]; then
@@ -70,48 +67,46 @@ horizontal_bar() {
   echo "$bar"
 }
 
-double_bar() {
-  local width=10
-  local value1=$(round $(calc $1/$width)) # input is %
-  local value2=$(round $(calc $2/$width)) # input is %
-  local should_gray="no"
-  local bar="$c_white"─
-
-  for i in $(seq 0 $width); do
-    if [[ $i != $value1 ]] && [[ $i != $value2 ]]; then
-      bar+="─"
-    else
-      if [[ $i == $value1 ]] && [[ $i == $value2 ]]; then
-        bar+="|$c_gray"
-      else
-        if [[ $i == $value1 ]]; then
-          bar+="┘"
-        elif [[ $i == $value2 ]]; then
-          bar+="┐"
-        fi
-
-        if [[ $should_gray == "no" ]]; then
-          should_gray="yes"
-        else
-          bar+="$c_gray"
-        fi
-      fi
-    fi
-  done
-  bar+="$c_reset"
-  echo "$bar"
-}
+#double_bar() {
+#  local width=10
+#  local value1=$(round $(calc $1/$width)) # input is %
+#  local value2=$(round $(calc $2/$width)) # input is %
+#  local should_gray="no"
+#  local bar="$c_white"─
+#
+#  for i in $(seq 0 $width); do
+#    if [[ $i != $value1 ]] && [[ $i != $value2 ]]; then
+#      bar+="─"
+#    else
+#      if [[ $i == $value1 ]] && [[ $i == $value2 ]]; then
+#        bar+="|$c_gray"
+#      else
+#        if [[ $i == $value1 ]]; then
+#          bar+="┘"
+#        elif [[ $i == $value2 ]]; then
+#          bar+="┐"
+#        fi
+#
+#        if [[ $should_gray == "no" ]]; then
+#          should_gray="yes"
+#        else
+#          bar+="$c_gray"
+#        fi
+#      fi
+#    fi
+#  done
+#  bar+="$c_reset"
+#  echo "$bar"
+#}
 
 # --------------------- modules
 
-get_focused_window(){
-  id=$(bspc query -N -d focused -n .focused.window)
-  echo $(xtitle)
+_time(){
+  echo $(date "+%H%M")
 }
 
 _cpu(){
   #phys_core_count=$(lscpu -p | egrep -v '^#' | sort -u -t, -k 2,4 | wc -l)
-
   local load=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
   #echo $(horizontal_bar $load $c_green "─" $c_green "┐" $c_gray "─")
 
@@ -124,7 +119,6 @@ _cpu(){
   local bload=$(_block $load 100)
   [[ $btemp == "▁▁" ]] && btemp=$c_darkgray$btemp$c_reset
   [[ $bload == "▁▁" ]] && bload=$c_darkgray$bload$c_reset
-  #▁▂▃▄▅▆▇█
   echo $btemp $bload
 }
 
@@ -142,29 +136,32 @@ _ram_and_cpu() {
   echo $(double_bar $load1 $load2)
 }
 
-_time(){
-  echo $(date "+%H:%M")
+_window_title(){
+  echo $(xtitle)
 }
 
 # ------------------------------------------- setup
 
 # gather info
-_modules() {
-  while true; do
-    echo "C" "$(_cpu)"
-    echo "R" "$(_ram)"
-    #echo "R" "$(_ram_and_cpu)"
-    echo "T" "$(_time)"
-    sleep 3s
-  done
-}
+#_modules() {
+#  while true; do
+#    echo "C" "$(_cpu)"
+#    echo "R" "$(_ram)"
+#    #echo "R" "$(_ram_and_cpu)"
+#    echo "T" "$(_time)"
+#    sleep 3s
+#  done
+#}
 
-# lay down them pipes
+# lay down the pipes
 lemon_fifo="/tmp/lemon.fifo"
 [ -e "$lemon_fifo" ] && rm "$lemon_fifo"
 mkfifo "$lemon_fifo"
 
-_modules > "$lemon_fifo" &
+#_modules > "$lemon_fifo" &
+while true; do echo "T" "$(_time)"; sleep 30s; done > "$lemon_fifo" &
+while true; do echo "C" "$(_cpu)"; sleep 5s; done > "$lemon_fifo" &
+while true; do echo "R" "$(_ram)"; sleep 5s; done > "$lemon_fifo" &
 bspc subscribe report > "$lemon_fifo" &
 
 get_window_count() {
@@ -175,10 +172,10 @@ get_window_count() {
 _lemon() {
   while read -r line ; do
     case $line in
+      T*) time="${line#?}" ;;
       C*) cpu="${line#?}" ;;
       R*) ram="${line#?}" ;;
       #R*) ram_and_cpu="${line#?}" ;;
-      T*) time="${line#?}" ;;
       W*)
         wm_infos=""
         IFS=':'
@@ -226,7 +223,7 @@ _lemon() {
   esac
 
     l="$wm_infos"
-    c="$time"
+    c="$time" #$(xtitle)"
     r="$cpu$ram"
     echo "%{l} $l%{c}$c%{r}$r "
   done
