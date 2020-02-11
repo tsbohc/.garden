@@ -4,10 +4,10 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm lemonbar-xft-git feh picom sxhkd xtitle xdo xdotool
+bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
 media:         mpv
-cli:           fzf cat
+cli:           fzf bat
 fonts:         tamzen-font-git
 pip:           pynvim
 EOF
@@ -92,19 +92,29 @@ run_command() { # $1 - icon, $2 - object, $3 - action
   if [[ $opt_dry == "no" ]]; then
     sc1=$(get_cpos)
     log "$1" "$green" "$2" "$3"
-    out=$($3 2>&1)
+    sc3=$(get_cpos)
+    #out=$($3 2>&1)
+
+    $3 | tee -a ".${sc_name}_log.txt" |
+      while read -r line
+      do
+        out+="
+$line"
+      tput cup "$sc3" 0 && tput ed
+      echo "$out" | tail -n 10
+    done
+    tput cup "$sc3" 0 && tput ed
+
+    sc2=$(get_cpos)
+    tput cup "$sc1" 0
     if [[ $? -eq 0 ]]; then
-      sc2=$(get_cpos)
-      tput cup "$sc1" 0
       echo -e "$escape[$green+$escape]"
-      tput cup "$sc2" 0
     else
-      sc2=$(get_cpos)
-      tput cup "$sc1" 0
       echo -e "$escape[$red#$escape]"
-      tput cup "$sc2" 0
-      echo "$out"
+      cat ".${sc_name}_log.txt"
+      rm ".${sc_name}_log.txt"
     fi
+    tput cup "$sc2" 0
   else
     log "$1" "$green" "$2" "$3"
   fi
@@ -180,7 +190,7 @@ install_packages() { # cherry pick packages that aren't already installed
       *)
         install_cmd="yay -S --needed --noconfirm"
         for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
-          ! yay -Qs $package > /dev/null && clean_bundle="$clean_bundle$package "
+          ! yay -Q $package > /dev/null 2>&1 && clean_bundle="$clean_bundle$package "
         done
         ;;
     esac
