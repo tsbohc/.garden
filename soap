@@ -4,7 +4,7 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm lemonbar-xft feh picom sxhkd xtitle xdo xdotool
+bspwm:         bspwm lemonbar-xft-git feh picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
 media:         mpv
 cli:           fzf cat
@@ -363,12 +363,20 @@ fi
 
 # install yay if needed
 if [[ ! -f /usr/bin/yay ]]; then
+  current_dir=$(pwd 2>&1)
+  cd $HOME
   run_command "$i_run" "$sc_name" "git clone https://aur.archlinux.org/yay.git"
-  run_command "$i_run" "$sc_name" "cd yay"
+  cd "yay"
+  log "$i_ok" "$green" "$sc_name" "cd yay"
   run_command "$i_run" "$sc_name" "makepkg -si --noconfirm"
-  run_command "$i_run" "$sc_name" "cd .."
-  run_command "$i_run" "$sc_name" 'rm -rf yay' # careful
-  run_command "$i_run" "$sc_name" "yay -Syu"
+  cd ..
+  log "$i_ok" "$green" "$sc_name" "cd .."
+  run_command "$i_run" "$sc_name" "rm -rf yay"
+  cd "$current_dir"
+  if [[ ! -f /usr/bin/yay ]]; then
+    log "$i_error" "$red" "$sc_name" "yay was not installed properly"
+    exit 1
+  fi
 fi
 
 # install/update system wide adblock
