@@ -252,20 +252,18 @@ update() {
     log "$i_error" "$red" "$sc_name" "the following option is extremely insecure!"
     if ask "git" "enable credential store?"; then
       run_command "$i_run" "$sc_name" "git config credential.helper store"
-    fi
-
-    if ! git config --list | grep -q "user.email"; then
-      log "$i_question" "$yellow" "git" "please enter user.email | \c"
-      echo -ne "$escape"
-      read useremail
-      run_command "$i_run" "$sc_name" "git config --global user.email $useremail"
-    fi
-
-    if ! git config --list | grep -q "user.name"; then
-      log "$i_question" "$yellow" "git" "please enter user.name | \c"
-      echo -ne "$escape"
-      read username
-      run_command "$i_run" "$sc_name" "git config --global user.name $username"
+      if ! git config --list | grep -q "user.email"; then
+        log "$i_question" "$yellow" "git" "please enter user.email | \c"
+        echo -ne "$escape"
+        read useremail
+        run_command "$i_run" "$sc_name" "git config --global user.email $useremail"
+      fi
+      if ! git config --list | grep -q "user.name"; then
+        log "$i_question" "$yellow" "git" "please enter user.name | \c"
+        echo -ne "$escape"
+        read username
+        run_command "$i_run" "$sc_name" "git config --global user.name $username"
+      fi
     fi
   fi
 
@@ -392,10 +390,10 @@ fi
 
 # install/update system wide adblock
 [[ ! -f /etc/hosts_bk ]] && run_command "$i_run" "hosts" "sudo cp /etc/hosts /etc/hosts_bk"
-run_command "$i_run" "hosts" "sudo curl -sS https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
+run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
 # install/update z.lua
-run_command "$i_run" "z.lua" "curl -sS --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${sc_dir}/sc/z.lua)"
+run_command "$i_run" "z.lua" "curl -S --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${sc_dir}/sc/z.lua)"
 
 create_directories
 [[ "$opt_packages" == "yes" ]] && install_packages

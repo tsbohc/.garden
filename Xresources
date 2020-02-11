@@ -4,11 +4,38 @@
 !  ) /|_/ (_</_/_)_(_)(_/_/ (_(__</_/_)_
 ! (_/
 
-URxvt*font: xft:TamzenForPowerline:pixelsize=16
-!URxvt*font: -gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso10646-1
-!URxvt*font: xft:Dina:pixelsize=13
-!URxvt*font: -xos4-terminesspowerline-medium-r-normal--14-140-72-72-c-80-iso10646-1
+#include "/home/sean/blueberry/themes/gruvbox"
 
+*.foreground: FOREGROUND
+*.background: BACKGROUND
+*.cursorColor: FOREGROUND
+
+! black
+*.color0: COLOR0
+*.color8: COLOR8
+! red
+*.color1: COLOR1
+*.color9: COLOR9
+! yellow
+*.color2: COLOR2
+*.color10: COLOR10
+! green
+*.color3: COLOR3
+*.color11: COLOR11
+! blue
+*.color4: COLOR4
+*.color12: COLOR12
+! magenta
+*.color5: COLOR5
+*.color13: COLOR13
+! cyan
+*.color6: COLOR6
+*.color14: COLOR14
+! white
+*.color7: COLOR7
+*.color15: COLOR15
+
+URxvt*font: xft:TamzenForPowerline:pixelsize=16
 URxvt*scrollBar: false
 URxvt*borderLess: false
 URxvt*internalBorder: 6

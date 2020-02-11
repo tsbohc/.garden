@@ -66,7 +66,7 @@ export LESS_TERMCAP_ue=$'\e[0m'     #nothing
 
 # .Xresources to tty
 get_color() {
-  color=$(awk '/\*'$1':(.*)/ { print substr($2,2) }' < ~/.Xresources)
+  color=$(xrdb -query | awk '/\*'$1':(.*)/ { print substr($2,2) }')
   echo $color
 }
 
