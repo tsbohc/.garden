@@ -4,7 +4,7 @@ read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
-bspwm:         bspwm lemonbar-xft picom sxhkd xtitle xdo xdotool
+bspwm:         bspwm lemonbar-xft feh picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip
 media:         mpv
 cli:           fzf cat
@@ -33,7 +33,7 @@ read -d '' directories << EOF
 EOF
 
 # ===================================
-# script settings
+# logging settings
 # ===================================
 
 i_link="."
@@ -47,159 +47,19 @@ i_info="i"
 # definitions
 # ===================================
 
+red="\x1b[31m"
+green="\x1b[32m"
+yellow="\x1b[33m"
+blue="\x1b[34m"
+gray="\x1b[90m"
+escape="\x1b[0m"
+
 opt_dry="yes"
 opt_packages="no"
 opt_vim="no"
 
 sc_dir="${0%/*}"
 sc_name="${0##*/}"
-
-# ===================================
-# functions
-# ===================================
-
-fzf_edit() {
-  current_dir=$(pwd 2>&1)
-  cd "$sc_dir"
-  selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" \
-    | cut -c 3- \
-    | fzf --no-bold --reverse --preview="bat --color=always --style=numbers --line-range :69 {}" \
-      --preview-window=right:70%)
-  if [[ $selected_file != "" ]]; then
-    $EDITOR $selected_file
-    log "$i_run" "$green" "$sc_name" "$EDITOR $selected_file"
-  fi
-  cd "$current_dir"
-}
-
-create_directories() {
-  while read -r path; do
-    abs_path=$(get_abspath $path)
-    [[ ! -d "$abs_path" ]] && run_command "$i_ok" "$path" "mkdir -p $abs_path"
-  done <<< "$directories"
-}
-
-install_packages() { # cherry pick packages that aren't already installed
-  while read -r bundle; do
-    bundle=($bundle) # removing this breaks everything
-    name=${bundle[0]%?} # removes the colon
-    clean_bundle=""
-    case "$name" in
-      pip|pip2)
-        install_cmd="sudo $name install -q"
-        for package in "${bundle[@]:1}"; do
-          ! python -c "import $package" &> /dev/null && clean_bundle="$clean_bundle$package "
-        done
-        ;;
-      *)
-        install_cmd="yay -S --needed --noconfirm"
-        for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
-          ! yay -Qs $package > /dev/null && clean_bundle="$clean_bundle$package "
-        done
-        ;;
-    esac
-    [[ "$clean_bundle" != "" ]] && run_command "$i_run" "$name" "$install_cmd $clean_bundle"
-  done <<< "$bundles"
-}
-
-create_symlinks() {
-  while read -r line; do
-    sleep 0.03
-    line=($line)
-    src=${line[0]}
-    dst=${line[1]}
-    if [[ "$dst" == "" ]]; then
-      log "$i_error" "$red" "$src" "broken rule!"
-      continue
-    fi
-    abs_src="${sc_dir}/$src"
-    abs_dst=$(get_abspath "$dst")
-
-    if [[ -f "$abs_src" ]]; then
-      if [[ ! -f "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
-        [[ ! -d "${abs_dst%/*}" ]] && run_command "$i_ok" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
-        run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
-      else # resolve conflicts
-        if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
-          if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
-              run_command "$i_link" "$src" "ln -sf $abs_src $abs_dst"
-          elif ask "$sc_name" "mv $dst $sc_dir && ln -s $src $dst?"; then
-            run_command "$i_run" "$dst" "mv $abs_dst $sc_dir"
-            run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
-          else
-            log "$i_error" "$yellow" "$src" "skipping..."
-          fi
-        elif [[ -L "$abs_dst" ]]; then
-          if [[ $(readlink -f "$abs_dst") == "$abs_src" ]]; then
-            log "$i_link" "$green" "$src" "== readlink -f $abs_dst"
-          else
-            run_command "$i_link" "$src" "ln -sfn $abs_src $abs_dst"
-          fi
-        fi
-      fi
-    else
-      log "$i_error" "$red" "$src" "missing source file!"
-    fi
-  done <<< "$links"
-}
-
-update() {
-  clear
-  opt_dry="no"
-  current_dir=$(pwd 2>&1)
-  welcome
-  echo
-  cd "$sc_dir"
-
-  if [[ -f "$(get_abspath ~/.git-credentials)" ]]; then
-    log "$i_info" "$yellow" "git" "credential store enabled"
-  else
-    log "$i_error" "$red" "$sc_name" "the following option is extremely insecure!"
-    if ask "git" "enable credential store?"; then
-      run_command "$i_run" "$sc_name" "git config credential.helper store"
-    fi
-
-    if ! git config --list | grep -q "user.email"; then
-      log "$i_question" "$yellow" "git" "please enter user.email | \c"
-      echo -ne "$escape"
-      read useremail
-      run_command "$i_run" "$sc_name" "git config --global user.email $useremail"
-    fi
-
-    if ! git config --list | grep -q "user.name"; then
-      log "$i_question" "$yellow" "git" "please enter user.name | \c"
-      echo -ne "$escape"
-      read username
-      run_command "$i_run" "$sc_name" "git config --global user.name $username"
-    fi
-  fi
-
-  if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
-    run_command "$i_run" "$sc_name" "git fetch"
-    git_status=$(git status 2>&1)
-    log "$i_ok" "$green" "$sc_name" "git status"
-    if [[ "$git_status" == *"behind"* ]]; then
-      if ask "we're behind" "pull?"; then
-        run_command "$i_run" "$sc_name" "git pull"
-      fi
-    elif [[ "$git_status" == *"ahead"* || "$git_status" == *"hanges not staged for commit:"* ]]; then
-      if ask "we're ahead" "push?"; then
-        run_command "$i_run" "$sc_name" "git add ."
-        log "$i_question" "$yellow" "commit" "enter a message | \c"
-        echo -ne "$escape"
-        read commit_message
-        git commit -m "$commit_message"
-        log "$i_ok" "$green" "$sc_name" "git commit -m $commit_message"
-        run_command "$i_run" "$sc_name" "git push"
-      fi
-    else
-      log "$i_info" "$green" "$sc_name" "up to date <3"
-    fi
-  else
-    log "$i_error" "$red" "$sc_name" "no internet connection"
-  fi
-  cd "$current_dir"
-}
 
 # ===================================
 # helpers
@@ -267,17 +127,171 @@ ask() {
 }
 
 # ===================================
+# functions
+# ===================================
+
+fzf_edit() {
+  if [[ -f /usr/bin/fzf ]]; then
+    current_dir=$(pwd 2>&1)
+    cd "$sc_dir"
+    if [[ -f /usr/bin/bat ]]; then
+      preview="bat --color=always --style=numbers --line-range :69"
+    else
+      preview="head -69"
+    fi
+    selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" \
+      | cut -c 3- \
+      | fzf --no-bold --reverse --preview="$preview {}" \
+        --preview-window=right:70%)
+    if [[ $selected_file != "" ]]; then
+      $EDITOR $selected_file
+      log "$i_run" "$green" "$sc_name" "$EDITOR $selected_file"
+    fi
+    cd "$current_dir"
+  else
+    log "$i_info" "$yellow" "fzf" "not found"
+    if ask "$sc_name" "install it?"; then
+      run_command "$i_run" "fzf" "sudo pacman -S fzf --noconfirm"
+      echo ""
+      fzf_edit
+    fi
+  fi
+}
+
+create_directories() {
+  while read -r path; do
+    abs_path=$(get_abspath $path)
+    [[ ! -d "$abs_path" ]] && run_command "$i_ok" "$path" "mkdir -p $abs_path"
+  done <<< "$directories"
+}
+
+install_packages() { # cherry pick packages that aren't already installed
+  while read -r bundle; do
+    bundle=($bundle) # removing this breaks everything
+    name=${bundle[0]%?} # removes the colon
+    clean_bundle=""
+    case "$name" in
+      pip|pip2)
+        install_cmd="sudo $name install -q"
+        for package in "${bundle[@]:1}"; do
+          ! python -c "import $package" &> /dev/null && clean_bundle="$clean_bundle$package "
+        done
+        ;;
+      *)
+        install_cmd="yay -S --needed --noconfirm"
+        for package in "${bundle[@]:1}"; do # :1 skips the first element (name)
+          ! yay -Qs $package > /dev/null && clean_bundle="$clean_bundle$package "
+        done
+        ;;
+    esac
+    [[ "$clean_bundle" != "" ]] && run_command "$i_run" "$name" "$install_cmd $clean_bundle"
+  done <<< "$bundles"
+}
+
+create_symlinks() {
+  while read -r line; do
+    sleep 0.03
+    line=($line)
+    src=${line[0]}
+    dst=${line[1]}
+    if [[ "$dst" == "" ]]; then
+      log "$i_error" "$red" "$src" "broken rule!"
+      continue
+    fi
+    abs_src="${sc_dir}/$src"
+    abs_dst=$(get_abspath "$dst")
+
+    if [[ -f "$abs_src" ]]; then
+      if [[ ! -f "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
+        [[ ! -d "${abs_dst%/*}" ]] && run_command "$i_ok" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
+        run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
+      else # resolve conflicts
+        if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
+          if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
+              run_command "$i_link" "$src" "ln -sf $abs_src $abs_dst"
+          elif ask "$sc_name" "mv $dst $sc_dir && ln -s $src $dst?"; then
+            run_command "$i_run" "$dst" "mv $abs_dst $sc_dir"
+            run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
+          else
+            log "$i_error" "$yellow" "$src" "skipping..."
+          fi
+        elif [[ -L "$abs_dst" ]]; then
+          if [[ $(readlink -f "$abs_dst") == "$abs_src" ]]; then
+            log "$i_link" "$green" "$src" "-eq readlink -f $abs_dst"
+          else
+            run_command "$i_link" "$src" "ln -sfn $abs_src $abs_dst"
+          fi
+        fi
+      fi
+    else
+      log "$i_error" "$red" "$src" "missing source file!"
+    fi
+  done <<< "$links"
+}
+
+update() {
+  opt_dry="no"
+  current_dir=$(pwd 2>&1)
+  welcome
+  echo
+  cd "$sc_dir"
+
+  if [[ -f "$(get_abspath ~/.git-credentials)" ]]; then
+    log "$i_info" "$yellow" "git" "credential store enabled"
+  else
+    log "$i_error" "$red" "$sc_name" "the following option is extremely insecure!"
+    if ask "git" "enable credential store?"; then
+      run_command "$i_run" "$sc_name" "git config credential.helper store"
+    fi
+
+    if ! git config --list | grep -q "user.email"; then
+      log "$i_question" "$yellow" "git" "please enter user.email | \c"
+      echo -ne "$escape"
+      read useremail
+      run_command "$i_run" "$sc_name" "git config --global user.email $useremail"
+    fi
+
+    if ! git config --list | grep -q "user.name"; then
+      log "$i_question" "$yellow" "git" "please enter user.name | \c"
+      echo -ne "$escape"
+      read username
+      run_command "$i_run" "$sc_name" "git config --global user.name $username"
+    fi
+  fi
+
+  if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
+    run_command "$i_run" "$sc_name" "git fetch"
+    git_status=$(git status 2>&1)
+    log "$i_ok" "$green" "$sc_name" "git status"
+    if [[ "$git_status" == *"behind"* ]]; then
+      if ask "we're behind" "pull?"; then
+        run_command "$i_run" "$sc_name" "git pull"
+      fi
+    elif [[ "$git_status" == *"ahead"* || "$git_status" == *"hanges not staged for commit:"* ]]; then
+      if ask "we're ahead" "push?"; then
+        run_command "$i_run" "$sc_name" "git add ."
+        log "$i_question" "$yellow" "commit" "enter a message | \c"
+        echo -ne "$escape"
+        read commit_message
+        git commit -m "$commit_message"
+        log "$i_ok" "$green" "$sc_name" "git commit -m $commit_message"
+        run_command "$i_run" "$sc_name" "git push"
+      fi
+    else
+      log "$i_info" "$green" "$sc_name" "up to date <3"
+    fi
+  else
+    log "$i_error" "$red" "$sc_name" "no internet connection"
+  fi
+  cd "$current_dir"
+}
+
+# ===================================
 # init
 # ===================================
 
-red="\x1b[31m"
-green="\x1b[32m"
-yellow="\x1b[33m"
-blue="\x1b[34m"
-gray="\x1b[90m"
-escape="\x1b[0m"
-
 welcome() {
+  clear
   echo -e "
    ____    ___      __     _____    
   /',__\  / __'\  /'__'\  /\ '__'\  
@@ -303,16 +317,7 @@ install:
 if [[ $# -eq 0 || $1 == "e" || $1 == "edit" ]]; then
   # launch fzf if no arguments are supplied
   opt_dry="no"
-  if [[ -f /usr/bin/fzf ]]; then
-    fzf_edit
-  else
-    log "$i_info" "$yellow" "fzf" "not found"
-    if ask "$sc_name" "install it?"; then
-      run_command "$i_run" "fzf" "sudo pacman -S fzf --noconfirm"
-      echo ""
-      fuzzy_edit
-    fi
-  fi
+  fzf_edit
   exit 1
 else
   case $1 in # the first agrument has to be an action
@@ -343,7 +348,6 @@ fi
 # calls
 # ===================================
 
-clear
 welcome
 
 # ask for sudo
@@ -358,7 +362,7 @@ if grep -Fqx "#Color" "/etc/pacman.conf"; then
 fi
 
 # install yay if needed
-if [[ ! -f /usr/bin/yay ]]; then # not sure if yay is a dir, check
+if [[ ! -f /usr/bin/yay ]]; then
   run_command "$i_run" "$sc_name" "git clone https://aur.archlinux.org/yay.git"
   run_command "$i_run" "$sc_name" "cd yay"
   run_command "$i_run" "$sc_name" "makepkg -si --noconfirm"
@@ -388,8 +392,4 @@ fi
 
 create_symlinks
 
-if [[ "$opt_dry" == "no" ]]; then
-  log "$i_run" "$green" "$sc_name" "all done <3"
-else
-  log "$i_run" "$gray" "$sc_name" "dry run complete"
-fi
+log "$i_run" "$green" "$sc_name" "all done <3"

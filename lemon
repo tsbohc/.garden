@@ -226,7 +226,7 @@ _lemon() {
   esac
 
     l="$wm_infos"
-    c="$time ────"
+    c="$time"
     r="$cpu$ram"
     echo "%{l} $l%{c}$c%{r}$r "
   done
