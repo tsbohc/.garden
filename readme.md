@@ -27,18 +27,17 @@ soap reads simple instructions from the top of the file and takes care of the re
 - set up nvim and plug
 - install arch and pip packages
 - sync itself to and from the repo
-- prettily log w/ exit statuses and partial live command output
+- log pretty things w/ exit statuses and partial live command output
 
 # .files
 the general spirit of this repo is finding the balance between doing it yourself, striving for minimalism, and not overdoing it too much
 
 ### present
 - bspwm and lemonbar
-- vimrc with a custom statusline
+- vim statusline that pulls colors from xrdb -query
 
 ### past
 - i3 and polybar
 
 ### future
-- source themes into .Xresources, make a function that follows that source and returns color values, maybe sort all colors into variables right in bashrc
 - music

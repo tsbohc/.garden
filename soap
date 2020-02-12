@@ -5,7 +5,7 @@ xorg:          xorg-server xorg-xinit xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
 bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdotool
-neovim:        neovim python2-pip python-pip
+neovim:        neovim python2-pip python-pip xsel
 media:         mpv
 cli:           fzf bat
 fonts:         tamzen-font-git
@@ -26,7 +26,6 @@ sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 vimrc                         ~/.vimrc
 vim/nvim_init.vim             ~/.config/nvim/init.vim
 picom                         ~/.config/picom.conf
-sc/get_xres                   ~/.bin/get_xres
 EOF
 
 read -d '' directories << EOF
