@@ -65,29 +65,25 @@ export LESS_TERMCAP_se=$'\e[0m'     #weird, scroll dependent
 export LESS_TERMCAP_ue=$'\e[0m'     #nothing
 
 # .Xresources to tty
-get_color() {
-  color=$(xrdb -query | awk '/\*'$1':(.*)/ { print substr($2,2) }')
-  echo $color
-}
 
 if [ "$TERM" = "linux" ]; then
-  echo -en "\e]P0"$(get_color background)  #black
-  echo -en "\e]P8"$(get_color foreground)  #darkgrey
-  echo -en "\e]P1"$(get_color color1)      #darkred
-  echo -en "\e]P9"$(get_color color9)      #red
-  echo -en "\e]P2"$(get_color color2)      #darkgreen
-  echo -en "\e]PA"$(get_color color10)     #green
-  echo -en "\e]P3"$(get_color color3)      #brown
-  echo -en "\e]PB"$(get_color color11)     #yellow
-  echo -en "\e]P4"$(get_color color4)      #darkblue
-  echo -en "\e]PC"$(get_color color12)     #blue
-  echo -en "\e]P5"$(get_color color5)      #darkmagenta
-  echo -en "\e]PD"$(get_color color13)     #magenta
-  echo -en "\e]P6"$(get_color color6)      #darkcyan
-  echo -en "\e]PE"$(get_color color14)     #cyan
-  echo -en "\e]P7"$(get_color color7)      #lightgrey
-  echo -en "\e]PF"$(get_color color15)     #white
-  clear
+#  echo -en "\e]P0"$(get_color background)  #black
+#  echo -en "\e]P8"$(get_color foreground)  #darkgrey
+#  echo -en "\e]P1"$(get_color color1)      #darkred
+#  echo -en "\e]P9"$(get_color color9)      #red
+#  echo -en "\e]P2"$(get_color color2)      #darkgreen
+#  echo -en "\e]PA"$(get_color color10)     #green
+#  echo -en "\e]P3"$(get_color color3)      #brown
+#  echo -en "\e]PB"$(get_color color11)     #yellow
+#  echo -en "\e]P4"$(get_color color4)      #darkblue
+#  echo -en "\e]PC"$(get_color color12)     #blue
+#  echo -en "\e]P5"$(get_color color5)      #darkmagenta
+#  echo -en "\e]PD"$(get_color color13)     #magenta
+#  echo -en "\e]P6"$(get_color color6)      #darkcyan
+#  echo -en "\e]PE"$(get_color color14)     #cyan
+#  echo -en "\e]P7"$(get_color color7)      #lightgrey
+#  echo -en "\e]PF"$(get_color color15)     #white
+#  clear
 
   [[ -f ~/blueberry/fonts/TamzenForPowerline8x16.psf ]] && setfont ~/blueberry/fonts/TamzenForPowerline8x16.psf
   [[ -f ~/blueberry/sc/catlogin.sh ]] && . ~/blueberry/sc/catlogin.sh

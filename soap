@@ -26,6 +26,7 @@ sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 vimrc                         ~/.vimrc
 vim/nvim_init.vim             ~/.config/nvim/init.vim
 picom                         ~/.config/picom.conf
+sc/get_xres                   ~/.bin/get_xres
 EOF
 
 read -d '' directories << EOF
@@ -281,7 +282,7 @@ update() {
         log "$i_question" "$yellow" "commit" "enter a message | \c"
         echo -ne "$escape"
         read commit_message
-        git commit -m "$commit_message"
+        git commit -m "$commit_message" >/dev/null
         log "$i_ok" "$green" "$sc_name" "git commit -m $commit_message"
         run_command "$i_run" "$sc_name" "git push"
       fi

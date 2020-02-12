@@ -16,10 +16,10 @@
 ! red
 *.color1: COLOR1
 *.color9: COLOR9
-! yellow
+! green
 *.color2: COLOR2
 *.color10: COLOR10
-! green
+! yellow
 *.color3: COLOR3
 *.color11: COLOR11
 ! blue
