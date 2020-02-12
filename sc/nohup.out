@@ -1,2 +1,0 @@
-/usr/bin/brave: line 27: 31655 Segmentation fault      (core dumped) /usr/lib/brave/brave "$@" $SANDBOX_FLAG $PEPPER_FLASH_FLAG $USER_FLAGS
-/usr/bin/brave: line 27:  4279 Segmentation fault      (core dumped) /usr/lib/brave/brave "$@" $SANDBOX_FLAG $PEPPER_FLASH_FLAG $USER_FLAGS

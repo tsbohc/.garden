@@ -51,8 +51,9 @@ git_branch() {
 
 PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
 
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
+#if [ -d "$HOME/.bin" ] ;
+if [ -d "$HOME/blueberry/sc" ] ;
+  then PATH="$HOME/blueberry/sc:$PATH"
 fi
 
 # colored man pages

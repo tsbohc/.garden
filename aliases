@@ -65,6 +65,9 @@ alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 # xflux/redshift
 alias flux='redshift -l 60:30 -t 6000:3800'
 
+calc(){ echo $(awk "BEGIN{print $*}"); }
+round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+
 # ex - the unarchiver
 ex() {
   if [ -f $1 ] ; then

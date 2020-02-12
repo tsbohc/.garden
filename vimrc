@@ -185,18 +185,19 @@ au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 "" black on white
 "hi User6 ctermbg=fg ctermfg=bg
 
+" settings
 let g:currentmode={
     \ 'n'  : 'NORMAL',
-    \ 'no' : 'N·Operator Pending',
+    \ 'no' : 'N Operator Pending',
     \ 'v'  : 'VISUAL',
     \ 'V'  : 'VLINE',
     \ '^V' : 'VBLOCK',
     \ 's'  : 'Select',
-    \ 'S'  : 'S·Line',
-    \ '^S' : 'S·Block',
+    \ 'S'  : 'SLine',
+    \ '^S' : 'SBlock',
     \ 'i'  : 'INSERT',
     \ 'R'  : 'REPLACE',
-    \ 'Rv' : 'V·Replace',
+    \ 'Rv' : 'VReplace',
     \ 'c'  : 'COMMAND',
     \ 'cv' : 'Vim Ex',
     \ 'ce' : 'Ex',
@@ -211,13 +212,6 @@ let s:statuslineseparator=""
 let statuslinesfr=""
 let statuslinesfl=""
 
-let s:xres_color0='#' . system('get_xres color0')
-let s:xres_color12='#' . system('get_xres color12')
-let s:xres_color11='#' . system('get_xres color11')
-let s:xres_color10='#' . system('get_xres color10')
-let s:xres_color9='#' . system('get_xres color9')
-let s:xres_background='#' . system('get_xres background')
-
 function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain when doing it w/ one line
   let command = 'hi ' . a:name
   if a:bold == 1
@@ -231,19 +225,52 @@ function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain
   endif
 endfunction
 
+" FIXME something is wrong somewhere and it requires a conversion for some reason
+let s:xres_lighter_background=system('get_xres color0')
+let s:xres_lighter_background=system('hex_to_rgb ' . s:xres_lighter_background . '')
+let s:xres_lighter_background=system('rgb_to_hex ' . s:xres_lighter_background . '')
+let s:xres_lighter_background=system('shade_hex ' . s:xres_lighter_background . ' 0.7')
+let s:xres_lighter_background='#' . s:xres_lighter_background
+
+" pull colors from xrdb
+let s:xres_foreground='#' . system('get_xres foreground')
+let s:xres_background='#' . system('get_xres background')
+let s:xres_color0=    '#' . system('get_xres color0')
+let s:xres_color1=    '#' . system('get_xres color1')
+let s:xres_color2=    '#' . system('get_xres color2')
+let s:xres_color3=    '#' . system('get_xres color3')
+let s:xres_color4=    '#' . system('get_xres color4')
+let s:xres_color5=    '#' . system('get_xres color5')
+let s:xres_color6=    '#' . system('get_xres color6')
+let s:xres_color7=    '#' . system('get_xres color7')
+let s:xres_color8=    '#' . system('get_xres color8')
+let s:xres_color9=    '#' . system('get_xres color9')
+let s:xres_color10=   '#' . system('get_xres color10')
+let s:xres_color11=   '#' . system('get_xres color11')
+let s:xres_color12=   '#' . system('get_xres color12')
+let s:xres_color13=   '#' . system('get_xres color13')
+let s:xres_color14=   '#' . system('get_xres color14')
+let s:xres_color15=   '#' . system('get_xres color15')
+
+" set define highlights
 call SetHighlight("statusline_normal_bg", s:xres_background, s:xres_color12, 1)
-call SetHighlight("statusline_normal_separator", s:xres_color12, s:xres_color0, 0)
+call SetHighlight("statusline_normal_separator", s:xres_color12, s:xres_lighter_background, 0)
 
 call SetHighlight("statusline_insert_bg", s:xres_background, s:xres_color10, 1)
-call SetHighlight("statusline_insert_separator", s:xres_color10, s:xres_color0, 0)
+call SetHighlight("statusline_insert_separator", s:xres_color10, s:xres_lighter_background, 0)
 
 call SetHighlight("statusline_visual_bg", s:xres_background, s:xres_color11, 1)
-call SetHighlight("statusline_visual_separator", s:xres_color11, s:xres_color0, 0)
+call SetHighlight("statusline_visual_separator", s:xres_color11, s:xres_lighter_background, 0)
 
 call SetHighlight("statusline_command_bg", s:xres_background, s:xres_color9, 1)
-call SetHighlight("statusline_command_separator", s:xres_color9, s:xres_color0, 0)
+call SetHighlight("statusline_command_separator", s:xres_color9, s:xres_lighter_background, 0)
 
-function! ChangeStatuslineColor() " links User1 and User2 (%1 & %2) to predefined #color values
+call SetHighlight("User3", s:xres_foreground, s:xres_lighter_background, 0)
+call SetHighlight("User4", s:xres_lighter_background, s:xres_background, 0)
+call SetHighlight("User5", s:xres_foreground, s:xres_lighter_background, 0)
+call SetHighlight("User6", s:xres_background, s:xres_foreground, 0)
+
+function! ChangeStatuslineColor()
   if mode() == 'n'
     hi! link User1 statusline_normal_bg
     hi! link User2 statusline_normal_separator
@@ -299,7 +326,7 @@ set laststatus=2
 set statusline=
 
 " left side
-set statusline+=%{ChangeStatuslineColor()} " automagically set mode color
+set statusline+=%{ChangeStatuslineColor()}
 set statusline+=%1*\ %{ModeCurrent()}\ %2*%{statuslinesfr} " [1]_mode_[2]>
 set statusline+=%3*\ %{StatusLineFileName()}\  " [3]_filename_
 set statusline+=%{StatusLineReadonly()}

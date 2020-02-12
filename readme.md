@@ -25,7 +25,7 @@ soap reads simple instructions from the top of the file and takes care of the re
 
 - symlink and be kinda smart about it
 - set up nvim and plug
-- install packages from arch repos
+- install arch and pip packages
 - sync itself to and from the repo
 - prettily log w/ exit statuses and partial live command output
 
