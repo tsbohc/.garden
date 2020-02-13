@@ -1,3 +1,8 @@
 #!/bin/bash
-xrdb -query | awk '/\*.'$1':(.*)/ { print substr($2,2) }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
+if [[ "$1" =~ "color" ]] || [[ "$1" =~ "Color" ]] || [[ "$1" =~ "background" ]] || [[ "$1" =~ "foreground" ]]; then
+  xrdb -query | awk '/\*.'$1':(.*)/ { print substr($2,2) }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
+else
+  xrdb -query | awk '/\*.'$1':(.*)/ { print $2 }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
+fi
+
 #xrdb -query | grep -w ^*.$1 | awk '{print $2}'

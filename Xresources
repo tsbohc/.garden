@@ -4,6 +4,8 @@
 !  ) /|_/ (_</_/_)_(_)(_/_/ (_(__</_/_)_
 ! (_/
 
+*.font: xft:TamzenForPowerline:pixelsize=16
+
 #include "/home/sean/blueberry/themes/gruvbox"
 
 *.foreground: FOREGROUND
@@ -35,10 +37,11 @@
 *.color7: COLOR7
 *.color15: COLOR15
 
-URxvt*font: xft:TamzenForPowerline:pixelsize=16
 URxvt*scrollBar: false
 URxvt*borderLess: false
 URxvt*internalBorder: 6
+
+! font rendering
 
 Xft.dpi: 96
 Xft.antialias: true

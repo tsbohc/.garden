@@ -16,7 +16,7 @@ super + Escape
 
 # change language
 super + n
-  ~/blueberry/sc/keyboardswitch.sh
+  bash ~/blueberry/sc/keyboardswitch
 
 #
 # bspwm hotkeys
