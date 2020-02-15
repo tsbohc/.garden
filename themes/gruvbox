@@ -17,11 +17,3 @@
 #define COLOR14    #8ec07c
 #define COLOR7     #a89984
 #define COLOR15    #ebdbb2
-
-#define COLOR234   #1d2021
-#define COLOR235   #282828
-#define COLOR236   #3c3836
-#define COLOR237   #504945
-#define COLOR238   #665c54
-#define COLOR239   #7c6f64
-#define COLOR240   #928374

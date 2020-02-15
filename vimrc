@@ -28,6 +28,7 @@ if has('nvim')
   Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'Yggdroot/indentline'
+  Plug 'joshdick/onedark.vim'
   "Plug 'junegunn/goyo.vim'
 
   augroup load_us_ycm
@@ -38,25 +39,6 @@ if has('nvim')
 
   call plug#end()
 endif
-
-" -------------------------------------------------
-"   plug specific
-" -------------------------------------------------
-
-" indent line
-let g:indentLine_char = '│'
-
-" gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_italicize_comments = '1'
-let g:gruvbox_italic = '1'
-let g:gruvbox_bold = '0'
-
-" syntax highlighting
-try
-  colorscheme gruvbox
-  catch
-endtry
 
 " -------------------------------------------------
 "   user settings
@@ -112,6 +94,34 @@ set clipboard+=unnamedplus
 
 " disable new line comment
 autocmd FileType * setlocal formatoptions-=cro
+
+" -------------------------------------------------
+"   plug specific
+" -------------------------------------------------
+
+" indent line
+let g:indentLine_char = '│'
+
+" gruvbox
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_italicize_comments = '1'
+let g:gruvbox_italic = '1'
+let g:gruvbox_bold = '0'
+
+" onedark
+let g:onedark_color_overrides = {
+\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
+\}
+
+try
+  " theme : DO NOT REMOVE THIS TAG
+  colorscheme gruvbox
+  catch
+  try
+    colorscheme termcolors
+    catch
+  endtry
+endtry
 
 " -------------------------------------------------
 "   vim magic
@@ -208,7 +218,7 @@ let g:currentmode={
     \ }
 
 
-if system('get_xres font') =~? 'p1owerline'
+if system('get_xres font') =~? 'powerline'
  let s:statuslineseparator=""
  let statuslinesfr=""
  let statuslinesfl=""

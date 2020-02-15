@@ -4,10 +4,13 @@
 !  ) /|_/ (_</_/_)_(_)(_/_/ (_(__</_/_)_
 ! (_/
 
-*.font: xft:TamzenForPowerline:pixelsize=16
-
+! theme : DO NOT REMOVE THIS TAG
 #include "/home/sean/blueberry/themes/gruvbox"
 
+! font
+*.font: TamzenForPowerline:pixelsize=16
+
+! colors
 *.foreground: FOREGROUND
 *.background: BACKGROUND
 *.cursorColor: FOREGROUND
@@ -37,12 +40,7 @@
 *.color7: COLOR7
 *.color15: COLOR15
 
-URxvt*scrollBar: false
-URxvt*borderLess: false
-URxvt*internalBorder: 6
-
 ! font rendering
-
 Xft.dpi: 96
 Xft.antialias: true
 Xft.hinting: true
@@ -51,8 +49,7 @@ Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
-! rofi
-!                  background     border   separator
+! rofi             background     border   separator
 rofi.color-window: argb:f3000000, #000000, #1d1f21
 ! state:           bg             fg       bgalt          hlbg          hlfg
 rofi.color-normal: argb:00000000, #f3f4f5, argb:00000000, #ac4142,      #000000

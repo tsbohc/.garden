@@ -8,6 +8,7 @@ bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdo
 neovim:        neovim python2-pip python-pip xsel
 media:         mpv
 cli:           fzf bat
+ex:            unzip
 fonts:         tamzen-font-git
 pip:           pynvim
 EOF
@@ -26,6 +27,7 @@ sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 vimrc                         ~/.vimrc
 vim/nvim_init.vim             ~/.config/nvim/init.vim
 picom                         ~/.config/picom.conf
+vim/colors                    ~/.config/nvim/colors
 EOF
 
 read -d '' directories << EOF
@@ -211,7 +213,7 @@ create_symlinks() {
     abs_src="${sc_dir}/$src"
     abs_dst=$(get_abspath "$dst")
 
-    if [[ -f "$abs_src" ]]; then
+    if [[ -f "$abs_src" ]] || [[ -d "$abs_src" ]]; then
       if [[ ! -f "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
         [[ ! -d "${abs_dst%/*}" ]] && run_command "$i_ok" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
         run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
@@ -219,9 +221,9 @@ create_symlinks() {
         if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
           if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
               run_command "$i_link" "$src" "ln -sf $abs_src $abs_dst"
-          elif ask "$sc_name" "mv $dst $sc_dir && ln -s $src $dst?"; then
-            run_command "$i_run" "$dst" "mv $abs_dst $sc_dir"
-            run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
+#          elif ask "$sc_name" "mv $dst $sc_dir && ln -s $src $dst?"; then
+#            run_command "$i_run" "$dst" "mv $abs_dst $sc_dir"
+#            run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
           else
             log "$i_error" "$yellow" "$src" "skipping..."
           fi
