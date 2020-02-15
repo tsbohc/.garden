@@ -1,10 +1,10 @@
 #!/bin/bash
 
-IFS='' read -r -d '' data << "EOF"
-discord:gui:0
-brave:gui:0
-r/unixporn:reddit:0
-EOF
+# add command history
+# remove compgen
+# store all typed commands into a file, use that as data
+# if the entered command isn't in the below definitions, run it within the launcher terminal and exit
+# maybe store data as priority|name
 
 IFS='' read -r -d '' not_terminal << "EOF"
 discord
