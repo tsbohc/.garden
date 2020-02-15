@@ -26,8 +26,8 @@ main() {
   choice=$(ls | fzf --height=10 --bind=esc:abort)
   if [[ "$choice" != "" ]]; then
     preview $choice
-    #set_term_colors "$choice"
-    #echo
+    set_term_colors "$choice"
+    echo
     main
   fi
 }
@@ -35,7 +35,7 @@ main() {
 set_term_colors() {
   [[ ! -f "/home/sean/blueberry/themes/${1}" ]] && echo "boo" && exit 1
   sed -i "/! theme/!b;n;c#include \"/home/sean/blueberry/themes/${1}\"" ~/.Xresources
-  sed -i "/\" theme/!b;n;ccolorscheme \"${1}\"" ~/.Xresources
+  sed -i "/\" theme/!b;n;ccolorscheme ${1}" /home/sean/blueberry/vimrc
   xrdb ~/.Xresources
   update_colors
 }

@@ -115,7 +115,7 @@ let g:onedark_color_overrides = {
 
 try
   " theme : DO NOT REMOVE THIS TAG
-  colorscheme gruvbox
+colorscheme gruvbox
   catch
   try
     colorscheme termcolors
