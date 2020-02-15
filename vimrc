@@ -24,11 +24,14 @@
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 
+  Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
   Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
-  Plug 'Yggdroot/indentline'
   Plug 'joshdick/onedark.vim'
+  Plug 'rakr/vim-two-firewatch'
+  Plug 'jnurmine/Zenburn'
+
   "Plug 'junegunn/goyo.vim'
 
   augroup load_us_ycm
@@ -223,9 +226,9 @@ if system('get_xres font') =~? 'powerline'
  let statuslinesfr=""
  let statuslinesfl=""
 else
- let s:statuslineseparator="|"
- let statuslinesfr=""
- let statuslinesfl=""
+ let s:statuslineseparator="│"
+ let statuslinesfr="▒░"
+ let statuslinesfl="░▒"
 endif
 
 function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain when doing it w/ one line

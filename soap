@@ -247,9 +247,9 @@ set_colors() {
     perl -e 'foreach $a(@ARGV){print "\e[48;2;".join(";",unpack("C*",pack("H*",$a)))."m \e[49m"}' "$@"
   }
   preview() {
+    [[ ! -f "$sc_dir/themes/$1" ]] && return
     echo
     while read l; do
-      [[ $l != *"define"* ]] && continue
       index=$(echo $l | awk '{ print $2 }')
       color=$(echo $l | awk '{ print substr($3,2) }')
       if [[ "$index" =~ "COLOR" ]]; then
@@ -257,8 +257,28 @@ set_colors() {
         show_colour $color
         echo -n " "
       fi
-    done <<< "$(cat /home/sean/blueberry/themes/$1)"
+    done <<< "$(cat $sc_dir/themes/$1)"
     echo "$1"
+  }
+  convert() {
+    conversion_result=""
+    while read l; do
+      [[ ! "$l" == *"color"* ]] && [[ ! "$l" == *"ground"* ]] && continue
+      new_line="#define "
+      if [[ "$l" =~ "foreground" ]]; then
+        new_line+="FOREGROUND "
+      elif [[ "$l" =~ "background" ]]; then
+        new_line+="BACKGROUND "
+      else
+        index=$(get_first_number "$l")
+        new_line+="COLOR$index "
+      fi
+      color=$(echo "$l" | awk '{ print $2 }')
+      new_line+="$color"
+      conversion_result+="$new_line
+"
+    done <<< "$(cat $sc_dir/themes/$1)"
+    echo
   }
   update_colors() {
     # check out SeungheonOh/xrdm!
@@ -289,19 +309,43 @@ set_colors() {
       printf "%b" "$sequence" > "$tty"
     done
   }
+  get_first_number() {
+    echo "$1" | sed 's@^[^0-9]*\([0-9]\+\).*@\1@'
+  }
 
-  current_dir=$(pwd 2>&1)
-  cd "$sc_dir"
-  cd "themes"
+  choice=$(ls $sc_dir/themes/ | fzf --height=10 --bind=esc:abort)
 
-  choice=$(ls | fzf --height=10 --bind=esc:abort)
   if [[ "$choice" != "" ]]; then
+    if ! grep -q "define" "$sc_dir/themes/$choice"; then
+      log "$i_info" "$yellow" "$choice" "is in regular .Xresources format"
+      if ask "$sc_name" "convert to a sourceable bash script?"; then
+        convert "$choice"
+        echo -ne "$gray"
+        echo "$conversion_result"
+        echo -ne "$escape"
+        if ask "$sc_name" "create colorscheme?"; then
+          run_command "$i_run" "$sc_name" "mv $sc_dir/themes/$choice $sc_dir/themes/${choice}_old"
+          echo "$conversion_result" >> "$sc_dir/themes/$choice"
+          log "$i_ok" "$green" "$sc_name" "echo \"\$conversion_result\" >> $sc_dir/themes/$choice"
+        else
+          set_colors
+          return
+        fi
+      else
+        set_colors
+        return
+      fi
+    fi
+
     preview $choice
     echo
-    if ask "$sc_name" "set this colorscheme?"; then
+
+    if [[ "$choice" != "" ]] && ask "$choice" "set this colorscheme?"; then
       [[ ! -f "$sc_dir/themes/$choice" ]] && echo "boo" && exit 1
-      sed -i "/! theme/!b;n;c#include \"$sc_dir/themes/$choice\"" ~/.Xresources
-      sed -i "/\" theme/!b;n;ccolorscheme $choice" $sc_dir/vimrc
+      sed -i --follow-symlinks "/! theme/!b;n;c#include \"$sc_dir/themes/$choice\"" ~/.Xresources
+      log "$i_ok" "$green" "$sc_name" 'sed -i --follow-symlinks "/! theme/!b;n;c#include \"$sc_dir/themes/$choice\"" ~/.Xresources'
+      sed -i --follow-symlinks "/\" theme/!b;n;ccolorscheme $choice" $sc_dir/vimrc
+      log "$i_ok" "$green" "$sc_name" 'sed -i --follow-symlinks "/\" theme/!b;n;ccolorscheme $choice" $sc_dir/vimrc'
       xrdb ~/.Xresources
       update_colors
       exit 0
@@ -309,8 +353,6 @@ set_colors() {
       set_colors
     fi
   fi
-
-  cd "$current_dir"
 }
 
 update() {
