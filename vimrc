@@ -244,32 +244,38 @@ function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain
   endif
 endfunction
 
-" FIXME something is wrong somewhere and it requires a conversion for some reason
-let s:xres_lighter_background=system('get_xres color0')
-let s:xres_lighter_background=system('hex_to_rgb ' . s:xres_lighter_background . '')
-let s:xres_lighter_background=system('rgb_to_hex ' . s:xres_lighter_background . '')
-let s:xres_lighter_background=system('shade_hex ' . s:xres_lighter_background . ' 0.7')
-let s:xres_lighter_background='#' . s:xres_lighter_background
+" these are pretty slow on an old machine, prolly let it set defaults somewhere, or go back to generating a sourced file
+
+" a better idea would be to check if current bg is the same, and only generate colors if it isn't. a single query is not as bad as doing all of them every time
+
+" FIXME something is wrong somewhere and it requires a conversion for some reason, also on laptop this results in weird errors
 
 " pull colors from xrdb
+let s:xres_hashless_background=system('get_xres background')
+
 let s:xres_foreground='#' . system('get_xres foreground')
-let s:xres_background='#' . system('get_xres background')
-let s:xres_color0=    '#' . system('get_xres color0')
-let s:xres_color1=    '#' . system('get_xres color1')
-let s:xres_color2=    '#' . system('get_xres color2')
-let s:xres_color3=    '#' . system('get_xres color3')
-let s:xres_color4=    '#' . system('get_xres color4')
-let s:xres_color5=    '#' . system('get_xres color5')
-let s:xres_color6=    '#' . system('get_xres color6')
-let s:xres_color7=    '#' . system('get_xres color7')
-let s:xres_color8=    '#' . system('get_xres color8')
+let s:xres_background='#' . s:xres_hashless_background
+"let s:xres_color0=    '#' . system('get_xres color0')
+"let s:xres_color1=    '#' . system('get_xres color1')
+"let s:xres_color2=    '#' . system('get_xres color2')
+"let s:xres_color3=    '#' . system('get_xres color3')
+"let s:xres_color4=    '#' . system('get_xres color4')
+"let s:xres_color5=    '#' . system('get_xres color5')
+"let s:xres_color6=    '#' . system('get_xres color6')
+"let s:xres_color7=    '#' . system('get_xres color7')
+"let s:xres_color8=    '#' . system('get_xres color8')
 let s:xres_color9=    '#' . system('get_xres color9')
 let s:xres_color10=   '#' . system('get_xres color10')
 let s:xres_color11=   '#' . system('get_xres color11')
 let s:xres_color12=   '#' . system('get_xres color12')
-let s:xres_color13=   '#' . system('get_xres color13')
-let s:xres_color14=   '#' . system('get_xres color14')
-let s:xres_color15=   '#' . system('get_xres color15')
+"let s:xres_color13=   '#' . system('get_xres color13')
+"let s:xres_color14=   '#' . system('get_xres color14')
+"let s:xres_color15=   '#' . system('get_xres color15')
+
+"let s:xres_lighter_background=system('hex_to_rgb ' . s:xres_lighter_background . '')
+"let s:xres_lighter_background=system('rgb_to_hex ' . s:xres_lighter_background . '')
+"let s:xres_lighter_background=system('shade_hex ' . s:xres_lighter_background . ' 0.7')
+let s:xres_lighter_background='#' . s:xres_hashless_background
 
 " set define highlights
 call SetHighlight("statusline_normal_bg", s:xres_background, s:xres_color12, 1)

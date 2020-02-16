@@ -151,7 +151,7 @@ fzf_edit() {
     else
       preview="head -69"
     fi
-    selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/sl/*" ! -path "*/fonts/*" \
+    selected_file=$(find . -type f ! -path "*/.git*/*" ! -path "*/st-*/*" ! -path "*/fonts/*" \
       | cut -c 3- \
       | fzf --no-bold --reverse --preview="$preview {}" \
         --preview-window=right:70%)
