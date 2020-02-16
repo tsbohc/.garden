@@ -386,12 +386,13 @@ update() {
   if ping -q -c 1 -w 1 google.com >/dev/null 2>&1; then
     run_command "$i_run" "$sc_name" "git fetch"
     git_status=$(git status 2>&1)
+    git_porcelain=$(git status --porcelain 2>&1)
     log "$i_ok" "$green" "$sc_name" "git status"
     if [[ "$git_status" == *"behind"* ]]; then
       if ask "we're behind" "pull?"; then
         run_command "$i_run" "$sc_name" "git pull"
       fi
-    elif [[ "$git_status" == *"ahead"* || "$git_status" == *"hanges not staged for commit:"* ]]; then
+    elif [[ "$git_porcelain" != "" ]]; then
       if ask "we're ahead" "push?"; then
         run_command "$i_run" "$sc_name" "git add ."
         log "$i_question" "$yellow" "commit" "enter a message | \c"
