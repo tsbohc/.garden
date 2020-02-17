@@ -1,0 +1,106 @@
+#!/bin/bash
+
+DATA_PATH="$HOME/blueberry/sandbox/data.txt"
+WINDOW_NAME="launcher"
+
+_init() {
+  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+    || xdotool search --classname $WINDOW_NAME windowmap \
+    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
+}
+
+data=$(cat "$DATA_PATH")
+d="    "
+gray="\x1b[30m"
+escape="\x1b[0m"
+
+# ------
+
+_fzf() {
+  fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='1' -d "$d" \
+    --bind=change:top --reverse --no-info --margin 2 --prompt="$ " \
+    --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7,preview-fg:8" \
+    "$@"
+}
+
+_decide() {
+  if [[ -d $(get_abspath "$@") ]]; then
+    echo "cd"
+  fi
+}
+
+_run() {
+  _dp() {
+    exec setsid -f "$@"
+  }
+
+  case "$2" in
+    "cd") # black magic
+      _dp st -e sh -c "cd $1 ; exec bash" &
+      wait
+      exit 0
+      ;;
+    *) sleep 1s ;;
+  esac
+}
+
+_main() {
+  out=$(echo -e "$data" | _fzf)
+  mapfile -t out <<< "$out"
+  query="${out[0]}"
+  selection="${out[1]}"
+  if [[ "$selection" != "" ]]; then
+    index=$(awk -F"$d" '{print $1}' <<< "$selection")
+    entry=$(awk -F"$d" '{print $2}' <<< "$selection")
+    action=$(awk -F"$d" '{print $3}' <<< "$selection")
+
+    # increment index $((index+1))
+    data=$(sed "s+^.*\(${d}${entry}\)+$((index+1))\1+g" <<< "$data")
+    # sort and remove duplicates
+    data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$2]++')
+    # write back to the file
+    echo "$data" > "$DATA_PATH"
+
+    # run
+    _run "$entry" "$action"
+
+  elif [[ "$query" != "" ]]; then
+
+    action=$(_decide "$query")
+
+    if ! ask "should I $action?"; then
+      exit 0
+    fi
+
+    # write to data
+    data+="
+1${d}${query}${d}${gray}${action}${escape}"
+    echo "$data" > "$DATA_PATH"
+
+    # run
+    _run "$query" "$action"
+  fi
+}
+
+#cat "$DATA_PATH"
+
+get_abspath() {
+  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
+}
+
+ask() {
+  echo -e "$1 [y/n] | \c"
+  read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
+  echo
+  case "$REPLY" in
+    Y|y) true ;;
+    N|n) false ;;
+    *)
+      false
+      echo "please enter a valid choice"
+      ask "$1"
+      ;;
+  esac
+}
+
+[[ "$1" == "" ]] && _init wooooo || _main

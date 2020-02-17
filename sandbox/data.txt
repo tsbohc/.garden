@@ -1,4 +1,6 @@
-64@@@acd
-64@@@dcd
-63@@@bcd
-1@@@ccd
+82    ~/blueberry    \x1b[30mcd\x1b[0m
+46    ~    \x1b[30mcd\x1b[0m
+4    entry1    \x1b[30m cmd1\x1b[0m
+2    entry2    \x1b[30m cmd2\x1b[0m
+1    asdasdasd    \x1b[30m cmd4\x1b[0m
+1    entry3    \x1b[30m cmd3\x1b[0m
