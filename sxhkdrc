@@ -9,7 +9,7 @@ super + Return
 
 # program launcher
 super + @space
-  bspc rule -a \*:"lantern" state=floating && ~/blueberry/sandbox/lantern
+  bspc rule -a \*:"lantern" state=floating && st -n "lantern" -a -g "35x7+0+0" -e ~/blueberry/sandbox/lantern
 
 # make sxhkd reload its configuration files:
 super + Escape

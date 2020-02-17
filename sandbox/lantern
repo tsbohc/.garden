@@ -1,45 +1,68 @@
 #!/bin/bash
 
 DATA_PATH="$HOME/blueberry/sandbox/data.txt"
-WINDOW_NAME="launcher"
+WINDOW_NAME="lantern"
 
-_init() {
-  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
-    || xdotool search --classname $WINDOW_NAME windowmap \
-    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
-}
+#_init() {
+#  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+#    || xdotool search --classname $WINDOW_NAME windowmap \
+#    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
+##  st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
+#}
 
 data=$(cat "$DATA_PATH")
 d="    "
 gray="\x1b[30m"
 escape="\x1b[0m"
 
-# ------
-
 _fzf() {
   fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='1' -d "$d" \
     --bind=change:top --reverse --no-info --margin 2 --prompt="$ " \
     --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7,preview-fg:8" \
+    --expect=ctrl-a,ctrl-d
     "$@"
 }
 
 _decide() {
-  if [[ -d $(get_abspath "$@") ]]; then
+  if [[ -d $(get_abspath "$1") ]]; then
     echo "cd"
+  elif [[ -f $(get_abspath "$1") ]]; then
+    echo "edit"
+  elif [[ $(which "$1" &>/dev/null && echo $?) == 0 ]]; then
+    echo "term"
+  elif \
+    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
+    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
+    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
+    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
+    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
+    echo "web"
+  elif [[ "$1" == "r/"* ]]; then
+    echo "reddit"
+  else
+    echo "term"
   fi
 }
 
 _run() {
-  _dp() {
+  _l() {
     exec setsid -f "$@"
   }
 
+  # black magic
   case "$2" in
-    "cd") # black magic
-      _dp st -e sh -c "cd $1 ; exec bash" &
-      wait
-      exit 0
-      ;;
+    "cd")
+      _l st -e sh -c "cd $1 ; exec bash" &
+      wait ; exit 0 ;;
+    "term")
+      _l st -e sh -c "$1 ; exec bash" &
+      wait ; exit 0 ;;
+    "web")
+      _l brave "$1" ;;
+    "reddit")
+      _l brave "https://old.reddit.com/$1" ;;
+    "edit")
+      _l st -e sh -c "nvim $1 ; exec bash" ;;
     *) sleep 1s ;;
   esac
 }
@@ -48,7 +71,16 @@ _main() {
   out=$(echo -e "$data" | _fzf)
   mapfile -t out <<< "$out"
   query="${out[0]}"
-  selection="${out[1]}"
+  key="${out[1]}"
+  selection="${out[2]}"
+
+  if [[ "$key" == "ctrl-d" ]]; then
+    data=$(sed "/^.*${index}${d}${entry}/d" <<< "$data")
+    exit 0
+  elif [[ "$key" == "ctrl-a" ]]; then
+    selection=""
+  fi
+
   if [[ "$selection" != "" ]]; then
     index=$(awk -F"$d" '{print $1}' <<< "$selection")
     entry=$(awk -F"$d" '{print $2}' <<< "$selection")
@@ -61,14 +93,14 @@ _main() {
     # write back to the file
     echo "$data" > "$DATA_PATH"
 
-    # run
     _run "$entry" "$action"
 
   elif [[ "$query" != "" ]]; then
 
     action=$(_decide "$query")
 
-    if ! ask "should I $action?"; then
+    clear
+    if ! ask "$query > $action"; then
       exit 0
     fi
 
@@ -77,7 +109,6 @@ _main() {
 1${d}${query}${d}${gray}${action}${escape}"
     echo "$data" > "$DATA_PATH"
 
-    # run
     _run "$query" "$action"
   fi
 }
@@ -89,6 +120,7 @@ get_abspath() {
 }
 
 ask() {
+  echo
   echo -e "$1 [y/n] | \c"
   read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
   echo
@@ -103,4 +135,6 @@ ask() {
   esac
 }
 
-[[ "$1" == "" ]] && _init wooooo || _main
+_main
+
+#[[ "$1" == "" ]] && _init wooooo || _main
