@@ -5,7 +5,6 @@
 # terminal emulator
 super + Return
   st
-#  ~/blueberry/sl/st/st
 
 # program launcher
 super + @space

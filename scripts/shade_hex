@@ -3,13 +3,13 @@
 calc(){ echo $(awk "BEGIN{print $*}"); }
 round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
 
-d=$(calc 1 + $2)
+d=$(calc 1+$2)
 rgb=$(hex_to_rgb $1)
 
 for value in $rgb
 do
-  #new_value=$(round $(calc $value*$d))
-  new_value=$(round $(echo $value*$d | bc))
+  new_value=$(round $(calc $value*$d))
+  #new_value=$(round $(echo $value*$d | bc))
   if (( $new_value > 255 )); then
     new_value=255
   elif (( $new_value < 0 )); then

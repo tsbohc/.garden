@@ -1,6 +1,5 @@
 #define FOREGROUND #ebdbb2
 #define BACKGROUND #1d2021
-
 #define COLOR0     #1d2021
 #define COLOR8     #928374
 #define COLOR1     #cc241d

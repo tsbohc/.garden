@@ -12,7 +12,7 @@
 [[ -f ~/.aliases ]] && . ~/.aliases
 
 # z.lua
-eval "$(lua ~/blueberry/sc/z.lua --init bash)"
+eval "$(lua ~/blueberry/scripts/z.lua --init bash)"
 
 # shopt
 shopt -s cdspell # autocorrects cd typos
@@ -52,8 +52,8 @@ git_branch() {
 PS1="\w${CGREEN}\$(git_branch)${CESCAPE}${CGREEN} > ${CESCAPE}"
 
 #if [ -d "$HOME/.bin" ] ;
-if [ -d "$HOME/blueberry/sc" ] ;
-  then PATH="$HOME/blueberry/sc:$PATH"
+if [ -d "$HOME/blueberry/scripts" ] ;
+  then PATH="$HOME/blueberry/scripts:$PATH"
 fi
 
 # colored man pages

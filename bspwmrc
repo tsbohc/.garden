@@ -26,5 +26,6 @@ bspc config focus_follows_pointer true
 
 # window specifif
 bspc rule -a \*:launcher state=floating
+bspc rule -a zatjira state=tiling
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off

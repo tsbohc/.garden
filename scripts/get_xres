@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# pulls a resource from xrdb
+
+case "$1" in
+  *"color"*|*"ground"*)
+    xrdb -query | awk '/\*.'$1':(.*)/ { print substr($2,2) }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
+    ;;
+  *)
+    xrdb -query | awk '/\*.'$1':(.*)/ { print $2 }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
+    ;;
+esac
+
+#theme_path=$(sed -n '/! theme/ {n;p}' ~/.Xresources | awk '{print $2}' | tr -d \")
+#[[ -f "$theme_path" ]] && theme=$(cat "$theme_path") || theme=""
+#data="$theme"
+#data+="
+#$(cat ~/.Xresources)"
+#echo "$data"

@@ -9,8 +9,6 @@
 # blueberry
 alias bb='bash ~/blueberry/soap'
 
-alias fuzpac='sudo pacman -S $(pacman -Slq | fzf --layout=reverse --preview "pacman -Si {}")'
-
 # nvim
 alias v='nvim'
 alias vpager='nvim -u ~/blueberry/vim/vpager'
@@ -56,7 +54,7 @@ alias mv='mv -i'
 alias df='df -h'
 
 # tinyfetch
-alias tinyfetch='python3 ~/blueberry/sc/tinyfetch.py'
+alias tinyfetch='python3 ~/blueberry/scripts/tinyfetch.py'
 
 # cleanup orphaned packages
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
@@ -64,8 +62,13 @@ alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 # xflux/redshift
 alias flux='redshift -l 60:30 -t 6000:3800'
 
-calc(){ echo $(awk "BEGIN{print $*}"); }
-round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+calc() { echo $(awk "BEGIN{print $*}"); }
+round() { echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+
+fzfpac() {
+  local out=$(pacman -Slq | fzf --bind=change:top --layout=reverse --preview 'pacman -Si {}')
+  [[ "$out" != "" ]] && sudo pacman -S "$out"
+}
 
 # ex - the unarchiver
 ex() {
