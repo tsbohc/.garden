@@ -19,7 +19,7 @@ escape="\x1b[0m"
 _fzf() {
   fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='2' -d "$d" \
     --bind=change:top --reverse --no-info --margin 2 --prompt="  l " \
-    --cycle --no-multi --tiebreak=index $fzf_height \
+    --cycle --no-multi $fzf_height \
     --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:7,pointer:4,header:7,preview-fg:8" \
     --expect=ctrl-a,ctrl-d \
     "$@"
@@ -54,20 +54,28 @@ _run() {
 
   # if "sudo" in command, ask for pw inside launcher
 
+  # TODO split f into f-ile, d-ir, x-cutable to show what cmd will be run
+  # I need a better way to add entries quickly
+
   # black magic
   case "$2" in
-    "c")
+    "c"|"f")
       if [[ "$console_mode" == "y" ]]; then
         if [[ -d "$1" ]]; then
-          cd "$1" ; exec bash
+          cd "$1"
+        elif [[ -x "$1" ]]; then
+          "$1"
         else
-          "$1" ; exec bash
+          nvim "$1"
         fi
+        exec bash
       else
         if [[ -d "$1" ]]; then
           _l st -e sh -c "cd $1 ; exec bash" &
-        else
+        elif [[ -x "$1" ]]; then
           _l st -e sh -c "$1 ; exec bash" &
+        else
+          _l st -e sh -c "nvim $1 ; exec bash" &
         fi
         wait
         exit 0
@@ -88,21 +96,57 @@ _run() {
   esac
 }
 
+read -d '' exceptions << EOF
+.cache
+.git
+bundle
+.nv
+.mozilla
+BraveSoftware
+discord
+EOF
+
 add_entry() {
+  # checking if entry already in data slows it down A LOT
+  if [ -e "$2" ]; then
     data+="
 1${d}${gray}${1}${escape}${d}${2}"
+  fi
 }
 
 _main() {
-  home=$(find ~ -maxdepth 4 -not -path '*/\.*' -type d \( ! -iname ".*" \))
+  # add a warning if data lines grow twice in size at once
 
+  # way too long
+  #while IFS= read -r l; do
+  #  entry=$(awk -F"$d" '{print $3}' <<< "$l")
+  #done <<< "$data"
+
+  # keep a tmp file somewhere that has the last added f-iles, compare to it first and then run add_entry-ies if needed
+
+  # pool files
+  while IFS= read -r e; do
+    except+=" -name $e -o"
+  done <<< "$exceptions"
+  except=${except::-2}
+  home=$(find ~ \(${except}\) -prune -o -print)
+
+  #echo data $(wc -l <<< "$data")
+  #echo home $(wc -l <<< "$home")
+
+  # append to data
   while IFS= read -r line; do
-    add_entry "c" "$line"
+    add_entry "f" "$line"
   done <<< "$home"
 
-  # sort and remove duplicates based on $col
+  #echo tota $(wc -l <<< "$data")
+
+  # sort and ignore duplicates based on $col
   data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
 
+  #echo uniq $(wc -l <<< "$data")
+
+  # fzf init
   out=$(echo -e "$data" | _fzf)
 
   mapfile -t out <<< "$out"
@@ -128,7 +172,7 @@ _main() {
 
   if [[ "$selection" != "" ]]; then
     # increment index
-    data=$(sed "s+^.*\(${d}.*${action}.*${entry}\)+$((index+1))\1+g" <<< "$data")
+    data=$(sed "s+^.*\(${d}.*${action}.*${entry}$\)+$((index+1))\1+g" <<< "$data")
     # write back to the file
     echo "$data" > "$DATA_PATH"
     _run "$entry" "$action"
