@@ -1,11 +1,10 @@
-11    vk.com/im    \x1b[30mweb\x1b[0m
-5    cat ~/blueberry/sandbox/data.txt    \x1b[30mterm\x1b[0m
-3    ~/blueberry/sandbox    \x1b[30mcd\x1b[0m
-3    man fzf    \x1b[30mterm\x1b[0m
-3    r/unixporn    \x1b[30mreddit\x1b[0m
-2    asciiquarium    \x1b[30mterm\x1b[0m
-2    redshift    \x1b[30mterm\x1b[0m
-2    top    \x1b[30mterm\x1b[0m
-1    ~/blueberry    \x1b[30mcd\x1b[0m
-1    google.com    \x1b[30mweb\x1b[0m
-1    sudo shutdown now    \x1b[30mterm\x1b[0m
+2    cat ~/blueberry/sandbox/data.txt    \x1b[30mcl\x1b[0m
+2    man fzf    \x1b[30mcl\x1b[0m
+2    redshift -l 30:60    \x1b[30mbg\x1b[0m
+1    asciiquarium    \x1b[30mcl\x1b[0m
+1    google.com    \x1b[30mww\x1b[0m
+1    r/unixporn    \x1b[30mre\x1b[0m
+1    sudo shutdown now    \x1b[30mbg\x1b[0m
+1    top    \x1b[30mcl\x1b[0m
+1    vk.com/im    \x1b[30mww\x1b[0m
+1    zathura ~/Downloads/Drew\ Neil\ -\ Practical\ Vim\ Edit\ Text\ at\ the\ Speed\ of\ Thought\,\ 2nd\ Edition\ -\ 2015.pdf    \x1b[30mbg\x1b[0m

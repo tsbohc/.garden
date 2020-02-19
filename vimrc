@@ -20,7 +20,7 @@ if has('nvim')
 
   Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-  Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+  "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'joshdick/onedark.vim'
   Plug 'rakr/vim-two-firewatch'
@@ -28,11 +28,11 @@ if has('nvim')
 
   "Plug 'junegunn/goyo.vim'
 
-  augroup load_us_ycm
-    autocmd!
-    autocmd InsertEnter * call plug#load('vim-multiple-cursors')
-      \| autocmd! load_us_ycm
-  augroup END
+  "augroup load_us_ycm
+  "  autocmd!
+  "  autocmd InsertEnter * call plug#load('vim-multiple-cursors')
+  "    \| autocmd! load_us_ycm
+  "augroup END
 
   call plug#end()
 endif

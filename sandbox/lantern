@@ -24,23 +24,30 @@ _fzf() {
 }
 
 _decide() {
-  if [[ -d $(get_abspath "$1") ]]; then
-    echo "cd"
-  elif [[ -f $(get_abspath "$1") ]]; then
-    echo "edit"
-  elif [[ $(which "$1" &>/dev/null && echo $?) == 0 ]]; then
-    echo "term"
-  elif \
+#  if [[ -d $(get_abspath "$1") ]]; then
+#    echo "cd"
+#  elif [[ -f $(get_abspath "$1") ]]; then
+#    echo "ed"
+#  elif [[ $(which "$1" &>/dev/null && echo $?) == 0 ]]; then
+#    echo "cl"
+  if \
     [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
     [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
     [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
     [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
     [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
-    echo "web"
+    echo "ww"
   elif [[ "$1" == "r/"* ]]; then
-    echo "reddit"
+    echo "re"
+  # check
+  elif grep -qFx "$1" <<< "${desktop_applications}"; then
+    if grep -q "Terminal=false" "/usr/share/applications/${1}.desktop"; then
+      echo "ui"
+    else
+      echo "cl"
+    fi
   else
-    echo "term"
+    echo "cl"
   fi
 }
 
@@ -49,21 +56,33 @@ _run() {
     exec setsid -f "$@"
   }
 
+  # redo this to just be bg in launcher window,
+  # new term window and launch
+  # ww web
+  # etc
+
   # black magic
   case "$2" in
-    "cd")
-      _l st -e sh -c "cd $1 ; exec bash" &
-      wait ; exit 0 ;;
-    "term")
+#    "cd")
+#      _l st -e sh -c "cd $1 ; exec bash" &
+#      wait ; exit 0 ;;
+#    "ed")
+#      _l st -e sh -c "nvim $1 ; exec bash" ;;
+    "cl")
       _l st -e sh -c "$1 ; exec bash" &
       wait ; exit 0 ;;
-    "web")
+    "bg")
+      _l sh -c "$1 &" ;;
+    "ui")
+      _l "$1" ;;
+    "ww")
       _l brave "$1" ;;
-    "reddit")
+    "re")
       _l brave "https://old.reddit.com/$1" ;;
-    "edit")
-      _l st -e sh -c "nvim $1 ; exec bash" ;;
-    *) sleep 1s ;;
+    *)
+      echo "$1 | $2"
+      echo "unexpected cmd"
+      sleep 1s ;;
   esac
 }
 
@@ -101,7 +120,10 @@ _main() {
 
     clear
     if ! ask "$query > $action"; then
-      exit 0
+      echo -e "enter action | \c"
+      read
+      echo
+      action="$REPLY"
     fi
 
     # write to data
