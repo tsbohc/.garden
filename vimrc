@@ -15,6 +15,11 @@
 "  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 "endif
 
+"
+" MOVE FONT CHECK TO STATUSLINE SCRIPT
+"
+"
+
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 

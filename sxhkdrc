@@ -20,6 +20,10 @@ super + Escape
 super + n
   bash ~/blueberry/scripts/keyboardswitch
 
+Print
+  sleep 0.2; \
+  scrot
+
 #
 # bspwm hotkeys
 #
