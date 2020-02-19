@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # TODO if "sudo" in command, ask for pw inside launcher
-# TODO background a script that refreshes data.txt every few minutes instead of on launch
+# if launched through tab, switch default command
+
+# background a script that refreshes data.txt every few minutes instead of on launch
+
+# add g: to google
 # add a warning if data lines grow twice in size at once
-# zathura pdfs
 
 DATA_PATH="$HOME/blueberry/sandbox/data.txt"
 WINDOW_NAME="lantern"
@@ -21,13 +24,12 @@ white="\x1b[37;1m"
 blue="\x1b[34;1m"
 escape="\x1b[0m"
 
+# --no-sort makes things worse, but sorting still takes into account indexes, so why disable it? 
+# --tiebreak=length,index 
+
+
 _fzf() {
-  fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='2' -d "$d" \
-    --bind=change:top --reverse $fzf_margin --prompt="  $ " \
-    --cycle --no-multi --tiebreak=end,length,index $fzf_height --info=hidden \
-    --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:7,preview-fg:8" \
-    --expect=ctrl-a,ctrl-d \
-    "$@"
+  fzf $fzf_options "$@"
 }
 
 _decide() {
@@ -60,7 +62,17 @@ _run() {
   _l() {
     exec setsid -f "$@"
   }
+  _v() {
+    if [[ "$console_mode" == "y" ]]; then
+      nvim "$1"
+    else
+      _l st -e sh -c "nvim $1 ; exec bash"# & wait ; exit 0
+    fi
+  }
+
   e="${1//\~/$HOME}"
+
+  echo "$2"
 
   # black magic
   case "$2" in
@@ -82,11 +94,7 @@ _run() {
       if [[ "$(file "$e")" == *"PDF"* ]]; then
         _l zathura $e
       else
-        if [[ "$console_mode" == "y" ]]; then
-          nvim "$e"
-        else
-          _l st -e sh -c "nvim $e ; exec bash"# & wait ; exit 0
-        fi
+        _v $e
       fi
       ;;
     "b")
@@ -96,10 +104,13 @@ _run() {
     "w")
       _l brave "$e" ;;
     "r")
+      fzf_header=""
       _l brave "https://old.reddit.com/$e" ;;
+    "v")
+      _v $e ;;
     *)
-      echo "  $2"
-      echo "  unexpected cmd"
+      echo "|$2|"
+      echo "unexpected cmd"
       sleep 1s ;;
   esac
   pkill fzf # remember this
@@ -176,10 +187,13 @@ _scan_for_entries() {
 }
 
 _main() {
+  fzf_options="$fzf_margin --ansi --reverse --prompt=$d$d\$$d --cycle $fzf_height --info=hidden
+--no-multi --print-query --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:7,preview-fg:8"
+
   _scan_for_entries
 
   # fzf init
-  out=$(echo -e "$data" | _fzf)
+  out=$(echo -e "$data" | _fzf -d $d --with-nth=2,3 --nth=2 --expect=tab,ctrl-a,ctrl-d)
 
   mapfile -t out <<< "$out"
   query="${out[0]}"
@@ -190,8 +204,18 @@ _main() {
   action=$(awk -F"$d" '{print $2}' <<< "$selection")
   entry=$(awk -F"$d" '{print $3}' <<< "$selection")
 
+  # custom run
+  if [[ "$key" == "tab" ]]; then
+    out_2=$(echo -e "v\nf\nb\nu" | _fzf --header="$entry")
+    action_2=${out_2:0:1}
+    # increment based on original action
+    # TODO or maybe replace default action
+    #data=$(sed "s+^.*\(${d}.*${action}.*${entry}$\)+$((index+1))\1+g" <<< "$data")
+    #echo "$data" > "$DATA_PATH"
+    _run "$entry" "$action_2"
+    return
   # delete
-  if [[ "$key" == "ctrl-d" ]]; then
+  elif [[ "$key" == "ctrl-d" ]]; then
     # prep entry for sed
     entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
     data=$(sed "/${index}.*${entry}/d" <<< "$data")
@@ -255,11 +279,11 @@ ask() {
 if [[ "$1" == "" ]] || { [ "$1" == "-w" ] && [ "$2" != "initialized" ]; }; then
   _init "-w" "initialized"
 elif [[ "$1" == "-w" ]] && [[ "$2" == "initialized" ]]; then
-  fzf_margin="--margin 2"
+  fzf_margin="--margin=2"
   _main
 elif [[ "$1" == "-c" ]]; then
   fzf_height="--height=10"
-  fzf_margin="--margin 1,2"
+  fzf_margin="--margin=1,2"
   console_mode="y"
   _main
 elif [[ "$1" == "-g" ]]; then

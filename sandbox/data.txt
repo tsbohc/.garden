@@ -1,21 +1,7 @@
-23 \x1b[37md\x1b[0m ~/blueberry/sandbox
-23 \x1b[37mx\x1b[0m man fzf
-10 \x1b[37mx\x1b[0m asciiquarium
-3 \x1b[37md\x1b[0m ~/.config/htop
-3 \x1b[37mf\x1b[0m ~/st-0.8.2/README
-3 \x1b[37mu\x1b[0m brave
-3 \x1b[37mx\x1b[0m htop
-2 \x1b[37mb\x1b[0m redshift -l 30:60
-2 \x1b[37md\x1b[0m ~
-2 \x1b[37md\x1b[0m ~/.config/sxhkd
-2 \x1b[37md\x1b[0m ~/Downloads
-2 \x1b[37mf\x1b[0m ~/.aliases
-2 \x1b[37mf\x1b[0m ~/blueberry/sandbox/data.txt
-2 \x1b[37mf\x1b[0m ~/blueberry/sxhkdrc
-2 \x1b[37mf\x1b[0m ~/blueberry/zathurarc
-2 \x1b[37mr\x1b[0m r/unixporn
-2 \x1b[37mw\x1b[0m vk.com/im
-2 \x1b[37mx\x1b[0m ~/blueberry/sandbox/lantern
+113 \x1b[37md\x1b[0m ~/blueberry/sandbox
+6 \x1b[37mx\x1b[0m ~/blueberry/sandbox/lantern
+1 \x1b[37mb\x1b[0m redshift -l 30:60
+1 \x1b[37md\x1b[0m ~
 1 \x1b[37md\x1b[0m ~/blueberry
 1 \x1b[37md\x1b[0m ~/blueberry/fonts
 1 \x1b[37md\x1b[0m ~/blueberry/graveyard
@@ -31,6 +17,7 @@
 1 \x1b[37md\x1b[0m ~/.config/composer
 1 \x1b[37md\x1b[0m ~/.config/dconf
 1 \x1b[37md\x1b[0m ~/.config/gtk-3.0
+1 \x1b[37md\x1b[0m ~/.config/htop
 1 \x1b[37md\x1b[0m ~/.config/libfm
 1 \x1b[37md\x1b[0m ~/.config/nnn
 1 \x1b[37md\x1b[0m ~/.config/nnn/plugins
@@ -41,7 +28,9 @@
 1 \x1b[37md\x1b[0m ~/.config/pcmanfm/default
 1 \x1b[37md\x1b[0m ~/.config/polybar
 1 \x1b[37md\x1b[0m ~/.config/procps
+1 \x1b[37md\x1b[0m ~/.config/sxhkd
 1 \x1b[37md\x1b[0m ~/.config/yay
+1 \x1b[37md\x1b[0m ~/Downloads
 1 \x1b[37md\x1b[0m ~/st-0.8.2
 1 \x1b[37md\x1b[0m ~/.vim
 1 \x1b[37mf\x1b[0m ~/2020-02-12-114824_1920x1080_scrot.png
@@ -49,6 +38,7 @@
 1 \x1b[37mf\x1b[0m ~/2020-02-19-184158_1920x1080_scrot.png
 1 \x1b[37mf\x1b[0m ~/2020-02-19-212550_1920x1080_scrot.png
 1 \x1b[37mf\x1b[0m ~/2020-02-19-223249_1920x1080_scrot.png
+1 \x1b[37mf\x1b[0m ~/.aliases
 1 \x1b[37mf\x1b[0m ~/.bash_history
 1 \x1b[37mf\x1b[0m ~/.bash_logout
 1 \x1b[37mf\x1b[0m ~/.bash_profile
@@ -68,6 +58,7 @@
 1 \x1b[37mf\x1b[0m ~/blueberry/notes/patching_st.md
 1 \x1b[37mf\x1b[0m ~/blueberry/picom
 1 \x1b[37mf\x1b[0m ~/blueberry/readme.md
+1 \x1b[37mf\x1b[0m ~/blueberry/sandbox/data.txt
 1 \x1b[37mf\x1b[0m ~/blueberry/sandbox/data.txt2
 1 \x1b[37mf\x1b[0m ~/blueberry/sandbox/nohup.out
 1 \x1b[37mf\x1b[0m ~/blueberry/scripts/nts.py
@@ -98,6 +89,7 @@
 1 \x1b[37mf\x1b[0m ~/blueberry/st-0.8.2/win.h
 1 \x1b[37mf\x1b[0m ~/blueberry/st-0.8.2/x.c
 1 \x1b[37mf\x1b[0m ~/blueberry/st-0.8.2/x.o
+1 \x1b[37mf\x1b[0m ~/blueberry/sxhkdrc
 1 \x1b[37mf\x1b[0m ~/blueberry/themes/gruvbox
 1 \x1b[37mf\x1b[0m ~/blueberry/themes/jellybeans
 1 \x1b[37mf\x1b[0m ~/blueberry/themes/jellybeans_old
@@ -116,6 +108,7 @@
 1 \x1b[37mf\x1b[0m ~/blueberry/vim/vpager
 1 \x1b[37mf\x1b[0m ~/blueberry/xinitrc
 1 \x1b[37mf\x1b[0m ~/blueberry/Xresources
+1 \x1b[37mf\x1b[0m ~/blueberry/zathurarc
 1 \x1b[37mf\x1b[0m ~/.config/composer/.htaccess
 1 \x1b[37mf\x1b[0m ~/.config/dconf/user
 1 \x1b[37mf\x1b[0m ~/.config/htop/htoprc
@@ -144,6 +137,7 @@
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/LEGACY
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/LICENSE
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/Makefile
+1 \x1b[37mf\x1b[0m ~/st-0.8.2/README
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/st.1
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/st.c
 1 \x1b[37mf\x1b[0m ~/st-0.8.2/st.h
@@ -163,6 +157,12 @@
 1 \x1b[37mf\x1b[0m ~/.Xauthority
 1 \x1b[37mf\x1b[0m ~/.xinitrc
 1 \x1b[37mf\x1b[0m ~/.Xresources
+1 \x1b[37mr\x1b[0m r/unixporn
+1 \x1b[37mu\x1b[0m brave
+1 \x1b[37mw\x1b[0m google.com
+1 \x1b[37mw\x1b[0m vk.com/im
+1 \x1b[37mw\x1b[0m youtube.com
+1 \x1b[37mx\x1b[0m asciiquarium
 1 \x1b[37mx\x1b[0m ~/blueberry/bspwmrc
 1 \x1b[37mx\x1b[0m ~/blueberry/graveyard/blueberry.sh
 1 \x1b[37mx\x1b[0m ~/blueberry/lemon
@@ -185,4 +185,6 @@
 1 \x1b[37mx\x1b[0m ~/blueberry/vim/statusline_colors
 1 \x1b[37mx\x1b[0m ~/.config/bspwm/bspwmrc
 1 \x1b[37mx\x1b[0m ~/.fehbg
+1 \x1b[37mx\x1b[0m htop
+1 \x1b[37mx\x1b[0m man fzf
 1 \x1b[37mx\x1b[0m ~/st-0.8.2/st
