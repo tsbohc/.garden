@@ -1,10 +1,20 @@
-2    cat ~/blueberry/sandbox/data.txt    \x1b[30mcl\x1b[0m
-2    man fzf    \x1b[30mcl\x1b[0m
-2    redshift -l 30:60    \x1b[30mbg\x1b[0m
-1    asciiquarium    \x1b[30mcl\x1b[0m
-1    google.com    \x1b[30mww\x1b[0m
-1    r/unixporn    \x1b[30mre\x1b[0m
-1    sudo shutdown now    \x1b[30mbg\x1b[0m
-1    top    \x1b[30mcl\x1b[0m
-1    vk.com/im    \x1b[30mww\x1b[0m
-1    zathura ~/Downloads/Drew\ Neil\ -\ Practical\ Vim\ Edit\ Text\ at\ the\ Speed\ of\ Thought\,\ 2nd\ Edition\ -\ 2015.pdf    \x1b[30mbg\x1b[0m
+4 \x1b[37mc\x1b[0m /home/sean/blueberry
+5 \x1b[37mc\x1b[0m /home/sean/blueberry/fonts
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/graveyard
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/images
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/notes
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/sandbox
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/scripts
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/st-0.8.2
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/themes
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/vim
+4 \x1b[37mc\x1b[0m /home/sean/blueberry/vim/colors
+2 \x1b[37mu\x1b[0m brave
+1 \x1b[37mb\x1b[0m redshift -l 30:60
+1 \x1b[37mc\x1b[0m /home/sean
+1 \x1b[37mc\x1b[0m /home/sean/Downloads
+1 \x1b[37mc\x1b[0m /home/sean/st-0.8.2
+1 \x1b[37mc\x1b[0m /home/sean/test.d
+1 \x1b[37mc\x1b[0m man fzf
+1 \x1b[37mr\x1b[0m r/unixporn
+1 \x1b[37mw\x1b[0m vk.com/im

@@ -8,7 +8,9 @@ super + Return
 
 # program launcher
 super + @space
-  bspc rule -a \*:"lantern" state=floating && st -n "lantern" -a -g "35x7+0+0" -e ~/blueberry/sandbox/lantern
+  bspc rule -a \*:"lantern" state=floating && ~/blueberry/sandbox/lantern -w
+
+# st -n "lantern" -a -g "35x7+0+0" -e 
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -16,7 +18,7 @@ super + Escape
 
 # change language
 super + n
-  bash ~/blueberry/sc/keyboardswitch
+  bash ~/blueberry/scripts/keyboardswitch
 
 #
 # bspwm hotkeys

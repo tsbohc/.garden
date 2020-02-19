@@ -515,7 +515,7 @@ fi
 run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
 # install/update z.lua
-run_command "$i_run" "z.lua" "curl -S --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${sc_dir}/sc/z.lua"
+run_command "$i_run" "z.lua" "curl -S --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${sc_dir}/scripts/z.lua"
 
 create_directories
 [[ "$opt_packages" == "yes" ]] && install_packages

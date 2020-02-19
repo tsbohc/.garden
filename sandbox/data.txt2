@@ -1,3 +1,5 @@
-1	entry1	\x1b[30mcmd1\x1b[0m
-1	entry2	\x1b[30mcmd2\x1b[0m
-1	entry3	\x1b[30mcmd3\x1b[0m
+2 \x1b[37mu\x1b[0m brave
+1 \x1b[37mb\x1b[0m redshift -l 30:60
+1 \x1b[37mc\x1b[0m man fzf
+1 \x1b[37mr\x1b[0m r/unixporn
+1 \x1b[37mw\x1b[0m vk.com/im

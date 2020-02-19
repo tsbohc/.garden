@@ -1,0 +1,78 @@
+Updating 5fa6f12..ae8525e
+Fast-forward
+ aliases                                |   13 +-
+ bashrc                                 |    6 +-
+ bspwmrc                                |    1 +
+ blueberry.sh => graveyard/blueberry.sh |    0
+ compton => graveyard/compton           |    0
+ i3 => graveyard/i3                     |    0
+ polybar => graveyard/polybar           |    0
+ xinitrc_old => graveyard/xinitrc_old   |    0
+ {img => images}/0bfp46.jpg             |  Bin
+ archinstall.md => notes/archinstall.md |    0
+ patching_st.md => notes/patching_st.md |    0
+ sandbox/data.txt                       |   14 +-
+ sandbox/data.txt2                      |    3 +
+ sandbox/fzf_test.sh                    |   22 -
+ sandbox/lantern                        |  162 ++
+ sandbox/nohup.out                      |    1 +
+ sc/get_xres                            |    8 -
+ {sc => scripts}/altlayi3               |    0
+ {sc => scripts}/brightnesscontrol      |    0
+ {sc => scripts}/catlogin               |    0
+ {sc => scripts}/cpos                   |    4 +-
+ scripts/get_xres                       |   19 +
+ {sc => scripts}/hex_to_rgb             |    0
+ {sc => scripts}/keyboardswitch         |    0
+ {sc => scripts}/launchy                |    0
+ {sc => scripts}/menuselect             |    0
+ {sc => scripts}/nts.py                 |    0
+ {sc => scripts}/print_hex              |    0
+ {sc => scripts}/rgb_to_hex             |    0
+ {sc => scripts}/shade_hex              |    6 +-
+ {sc => scripts}/sincolwal.png          |  Bin
+ {sc => scripts}/sincolwal.py           |    0
+ {sc => scripts}/tinyfetch.py           |    0
+ scripts/z.lua                          | 2686 ++++++++++++++++++++++++++++++++
+ soap                                   |    9 +-
+ sxhkdrc                                |    3 +-
+ themes/gruvbox                         |    1 -
+ tt.sh                                  |   13 -
+ vim/statusline.vim                     |   73 +-
+ vim/statusline_colors                  |   24 +
+ vimrc                                  |  198 +--
+ zathurarc                              |   65 +
+ 42 files changed, 3048 insertions(+), 283 deletions(-)
+ rename blueberry.sh => graveyard/blueberry.sh (100%)
+ rename compton => graveyard/compton (100%)
+ rename i3 => graveyard/i3 (100%)
+ rename polybar => graveyard/polybar (100%)
+ rename xinitrc_old => graveyard/xinitrc_old (100%)
+ rename {img => images}/0bfp46.jpg (100%)
+ rename archinstall.md => notes/archinstall.md (100%)
+ rename patching_st.md => notes/patching_st.md (100%)
+ create mode 100644 sandbox/data.txt2
+ delete mode 100755 sandbox/fzf_test.sh
+ create mode 100755 sandbox/lantern
+ create mode 100644 sandbox/nohup.out
+ delete mode 100755 sc/get_xres
+ rename {sc => scripts}/altlayi3 (100%)
+ rename {sc => scripts}/brightnesscontrol (100%)
+ rename {sc => scripts}/catlogin (100%)
+ rename {sc => scripts}/cpos (67%)
+ create mode 100755 scripts/get_xres
+ rename {sc => scripts}/hex_to_rgb (100%)
+ rename {sc => scripts}/keyboardswitch (100%)
+ rename {sc => scripts}/launchy (100%)
+ rename {sc => scripts}/menuselect (100%)
+ rename {sc => scripts}/nts.py (100%)
+ rename {sc => scripts}/print_hex (100%)
+ rename {sc => scripts}/rgb_to_hex (100%)
+ rename {sc => scripts}/shade_hex (78%)
+ rename {sc => scripts}/sincolwal.png (100%)
+ rename {sc => scripts}/sincolwal.py (100%)
+ rename {sc => scripts}/tinyfetch.py (100%)
+ create mode 100644 scripts/z.lua
+ delete mode 100755 tt.sh
+ create mode 100755 vim/statusline_colors
+ create mode 100644 zathurarc

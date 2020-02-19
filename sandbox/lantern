@@ -3,51 +3,47 @@
 DATA_PATH="$HOME/blueberry/sandbox/data.txt"
 WINDOW_NAME="lantern"
 
-#_init() {
-#  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
-#    || xdotool search --classname $WINDOW_NAME windowmap \
-#    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
-##  st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
-#}
+_init() {
+  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+    || xdotool search --classname $WINDOW_NAME windowmap \
+    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
+}
 
 data=$(cat "$DATA_PATH")
-d="    "
-gray="\x1b[30m"
+d=" " # this is nbsp
+gray="\x1b[37m" # in file
+white="\x1b[37;1m"
+blue="\x1b[34;1m"
 escape="\x1b[0m"
 
 _fzf() {
-  fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='1' -d "$d" \
-    --bind=change:top --reverse --no-info --margin 2 --prompt="$ " \
-    --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:2,pointer:8,header:7,preview-fg:8" \
-    --expect=ctrl-a,ctrl-d
+  fzf --ansi --print-query --no-sort --with-nth='2,3' --nth='2' -d "$d" \
+    --bind=change:top --reverse --no-info --margin 2 --prompt="  l " \
+    --cycle --no-multi --tiebreak=index $fzf_height \
+    --color="bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,prompt:7,pointer:4,header:7,preview-fg:8" \
+    --expect=ctrl-a,ctrl-d \
     "$@"
 }
 
 _decide() {
-#  if [[ -d $(get_abspath "$1") ]]; then
-#    echo "cd"
-#  elif [[ -f $(get_abspath "$1") ]]; then
-#    echo "ed"
-#  elif [[ $(which "$1" &>/dev/null && echo $?) == 0 ]]; then
-#    echo "cl"
   if \
     [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
     [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
     [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
     [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
     [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
-    echo "ww"
+    echo "w"
   elif [[ "$1" == "r/"* ]]; then
-    echo "re"
+    echo "r"
   # check
-  elif grep -qFx "$1" <<< "${desktop_applications}"; then
+  elif grep -qFx "$1" <<< "$(find /usr/share/applications/ -maxdepth 1 -type f -name '*.desktop' | awk -F/ '{print $NF}' | cut -d'.' -f1)"; then
     if grep -q "Terminal=false" "/usr/share/applications/${1}.desktop"; then
-      echo "ui"
+      echo "u"
     else
-      echo "cl"
+      echo "c"
     fi
   else
-    echo "cl"
+    echo "c"
   fi
 }
 
@@ -56,107 +52,139 @@ _run() {
     exec setsid -f "$@"
   }
 
-  # redo this to just be bg in launcher window,
-  # new term window and launch
-  # ww web
-  # etc
+  # if "sudo" in command, ask for pw inside launcher
 
   # black magic
   case "$2" in
-#    "cd")
-#      _l st -e sh -c "cd $1 ; exec bash" &
-#      wait ; exit 0 ;;
-#    "ed")
-#      _l st -e sh -c "nvim $1 ; exec bash" ;;
-    "cl")
-      _l st -e sh -c "$1 ; exec bash" &
-      wait ; exit 0 ;;
-    "bg")
+    "c")
+      if [[ "$console_mode" == "y" ]]; then
+        if [[ -d "$1" ]]; then
+          cd "$1" ; exec bash
+        else
+          "$1" ; exec bash
+        fi
+      else
+        if [[ -d "$1" ]]; then
+          _l st -e sh -c "cd $1 ; exec bash" &
+        else
+          _l st -e sh -c "$1 ; exec bash" &
+        fi
+        wait
+        exit 0
+      fi
+      ;;
+    "b")
       _l sh -c "$1 &" ;;
-    "ui")
+    "u")
       _l "$1" ;;
-    "ww")
+    "w")
       _l brave "$1" ;;
-    "re")
+    "r")
       _l brave "https://old.reddit.com/$1" ;;
     *)
-      echo "$1 | $2"
-      echo "unexpected cmd"
+      echo "  $2"
+      echo "  unexpected cmd"
       sleep 1s ;;
   esac
 }
 
+add_entry() {
+    data+="
+1${d}${gray}${1}${escape}${d}${2}"
+}
+
 _main() {
+  home=$(find ~ -maxdepth 4 -not -path '*/\.*' -type d \( ! -iname ".*" \))
+
+  while IFS= read -r line; do
+    add_entry "c" "$line"
+  done <<< "$home"
+
+  # sort and remove duplicates based on $col
+  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
+
   out=$(echo -e "$data" | _fzf)
+
   mapfile -t out <<< "$out"
   query="${out[0]}"
   key="${out[1]}"
   selection="${out[2]}"
 
+  index=$(awk -F"$d" '{print $1}' <<< "$selection")
+  action=$(awk -F"$d" '{print $2}' <<< "$selection")
+  entry=$(awk -F"$d" '{print $3}' <<< "$selection")
+
+  # delete
   if [[ "$key" == "ctrl-d" ]]; then
-    data=$(sed "/^.*${index}${d}${entry}/d" <<< "$data")
+    # prep entry for sed
+    entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
+    data=$(sed "/${index}.*${entry}/d" <<< "$data")
+    echo "$data" > "$DATA_PATH"
     exit 0
+  # add
   elif [[ "$key" == "ctrl-a" ]]; then
     selection=""
   fi
 
   if [[ "$selection" != "" ]]; then
-    index=$(awk -F"$d" '{print $1}' <<< "$selection")
-    entry=$(awk -F"$d" '{print $2}' <<< "$selection")
-    action=$(awk -F"$d" '{print $3}' <<< "$selection")
-
-    # increment index $((index+1))
-    data=$(sed "s+^.*\(${d}${entry}\)+$((index+1))\1+g" <<< "$data")
-    # sort and remove duplicates
-    data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$2]++')
+    # increment index
+    data=$(sed "s+^.*\(${d}.*${action}.*${entry}\)+$((index+1))\1+g" <<< "$data")
     # write back to the file
     echo "$data" > "$DATA_PATH"
-
     _run "$entry" "$action"
 
   elif [[ "$query" != "" ]]; then
-
     action=$(_decide "$query")
-
     clear
-    if ! ask "$query > $action"; then
-      echo -e "enter action | \c"
+    echo
+    echo -e "    ${white}l $white$query$escape"
+    echo -e "  ${blue}> $white$action$escape"
+    if ! ask; then
+      echo -e "    action? > ${white}\c"
       read
-      echo
+      echo -e "$escape"
       action="$REPLY"
     fi
-
     # write to data
-    data+="
-1${d}${query}${d}${gray}${action}${escape}"
+    #data+="
+#1${d}${gray}${action}${escape}${d}${query}"
+    add_entry "$action" "$query"
     echo "$data" > "$DATA_PATH"
-
     _run "$query" "$action"
   fi
 }
-
-#cat "$DATA_PATH"
 
 get_abspath() {
   echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
 }
 
 ask() {
-  echo
-  echo -e "$1 [y/n] | \c"
+  tput sc
+  echo -e "    y/n? > ${white}\c"
   read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
-  echo
+  echo -e "$escape"
   case "$REPLY" in
     Y|y) true ;;
     N|n) false ;;
     *)
       false
-      echo "please enter a valid choice"
+      tput rc && tput ed
       ask "$1"
       ;;
   esac
 }
 
-_main
+# initialize
 
-#[[ "$1" == "" ]] && _init wooooo || _main
+# if no args are given, or -w, initialize itself in a new window, else
+# if -c is given, start the script in the same window
+# rewrite this freaking thing
+if [[ "$1" == "" ]] || { [ "$1" == "-w" ] && [ "$2" != "initialized" ]; }; then
+  _init "-w" "initialized"
+elif [[ "$1" == "-w" ]] && [[ "$2" == "initialized" ]]; then
+  _main
+elif [[ "$1" == "-c" ]]; then
+  fzf_height="--height=10"
+  console_mode="y"
+  _main
+fi
