@@ -146,6 +146,7 @@ _garbage_collect() {
     entry=$(awk -F"$d" '{print $3}' <<< "$l")
 
     if [[ ${entry:0:1} == "~" ]]; then
+      # get abs path?
       entry="${entry//\~/$HOME}"
       if [[ ! -e "$entry" ]]; then
         entry=${entry/#$HOME/'~'}
@@ -246,10 +247,6 @@ _main() {
     echo "$data" > "$DATA_PATH"
     _run "$query" "$action"
   fi
-}
-
-get_abspath() {
-  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
 }
 
 ask() {

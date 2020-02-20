@@ -9,7 +9,7 @@ all: define_main add_dependencies invoke_main make_executable
 
 define_main:
 	echo -e "#!/usr/bin/env bash\n" > ${TARGET_FILE}
-	echo -e "function init() {" >> ${TARGET_FILE}
+	echo -e "init() {" >> ${TARGET_FILE}
 	cat "${PRJ_SRC}" | sed -e 's/^/  /g' >> ${TARGET_FILE}
 	echo -e "}\n" >> ${TARGET_FILE}
 

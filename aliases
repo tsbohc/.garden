@@ -19,8 +19,7 @@ alias nnn='nnn -H' # show hidden files by default
 alias :q='exit'
 alias please='sudo'
 
-alias vv='source ~/blueberry/sandbox/lantern -c'
-alias vvg='source ~/blueberry/sandbox/lantern -g'
+alias vv='source ~/blueberry/lantern.d/lantern'
 
 # ls
 alias ls='ls -F --color=auto'

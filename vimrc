@@ -23,6 +23,8 @@
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 
+  Plug 'junegunn/fzf', { 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
   Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
@@ -100,6 +102,11 @@ autocmd FileType * setlocal formatoptions-=cro
 " -------------------------------------------------
 "   plug specific
 " -------------------------------------------------
+
+" fzf-vim
+nnoremap <C-F> :Files<cr>
+vnoremap <C-F> <esc>:Files<cr>
+inoremap <C-F> <esc>:Files<cr>
 
 " indent line
 let g:indentLine_char = '│'

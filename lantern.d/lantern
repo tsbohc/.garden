@@ -1,0 +1,264 @@
+#!/usr/bin/env bash
+
+init() {
+  data=$(cat "$DATA_PATH")
+  
+  [[ $# == 0 ]] && opt=c || opt=$1
+  case $opt in
+    c)
+      fzf_margin="--margin=1,2"
+      fzf_height="--height=10"
+      main
+      ;;
+    w)
+      xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+        || xdotool search --classname $WINDOW_NAME windowmap \
+        || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" i
+      ;;
+    i)
+      fzf_height="--height=100"
+      fzf_margin="--margin=2"
+      main
+      ;;
+    g)
+      clean
+      ;;
+    *)
+      echo "usage"
+      sleep 1s
+      return
+      ;;
+  esac
+  
+  echo "$data" > "$DATA_PATH"
+  
+}
+
+clean() {
+  echo "cleaning"
+  while IFS= read -r l; do
+    index=$(awk -F"$d" '{print $1}' <<< "$l")
+    action=$(awk -F"$d" '{print $2}' <<< "$l")
+    entry=$(awk -F"$d" '{print $3}' <<< "$l")
+
+    if [[ ${entry:0:1} == "~" ]]; then
+      # get abs path?
+      entry="${entry//\~/$HOME}"
+      if [[ ! -e "$entry" ]]; then
+        entry=${entry/#$HOME/'~'}
+        echo "$entry"
+        entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
+        data=$(sed "/${index}.*${entry}$/d" <<< "$data")
+      fi
+    fi
+  done <<< "$data"
+  echo "$data" > "$DATA_PATH"
+
+  echo "scanning"
+  _scan_for_entries
+}
+
+get_abspath() {
+  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
+}
+
+ask() {
+  tput sc
+  echo -e "    y/n? > ${white}\c"
+  read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
+  echo -e "$escape"
+  case "$REPLY" in
+    Y|y) true ;;
+    N|n) false ;;
+    *)
+      false
+      tput rc && tput ed
+      ask "$1"
+      ;;
+  esac
+}
+
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+. "$DIR/config.sh"
+
+launch() {
+
+  _l() {
+    exec setsid -f "$@"
+  }
+
+  _x() {
+    if [[ "$opt" == "c" ]]; then
+      $1
+    else
+      _l st -e sh -c "$1 ; exec bash" #; pkill fzf #exit 0
+    fi
+  }
+
+  _d() {
+    if [[ "$opt" == "c" ]]; then
+      cd "$1"
+    else
+      _l st -e sh -c "cd $1 ; exec bash" #;  #exit 0
+    fi
+  }
+
+  _e() {
+    if [[ "$opt" == "c" ]]; then
+      nvim "$1"
+    else
+      _l st -e sh -c "nvim $1 ; exec bash"# & wait ; exit 0
+    fi
+  }
+
+  _f() {
+    if [[ "$(file "$1")" == *"PDF"* ]]; then
+      _l zathura "$1"
+    else
+      _e "$1"
+    fi
+  }
+
+  entry="${1//\~/$HOME}"
+
+  # black magic
+  case "$2" in
+    "x") _x "$entry" ;;
+    "d") _d "$entry" ;;
+    "e") _e "$entry" ;;
+    "f") _f "$entry" ;;
+    "b") _l sh -c "$entry &" ;;
+    "u") _l "$entry" ;;
+    "w") _l brave "$entry" ;;
+    "r") _l brave "https://old.reddit.com/$entry" ;;
+    *)
+      echo "|$2|"
+      echo "unexpected cmd"
+      sleep 1s ;;
+  esac
+  pkill fzf # remember this
+}
+
+# i think it doesn't blink if it's global
+actions="x execute
+d cd directory
+e edit
+f file
+b background
+u graphical ui
+w browse web
+r reddit"
+
+select_action() {
+  local a=$(echo "$actions" | fzf $fzf_base --header="  $1")
+  if [[ "$a" != "" ]]; then
+    a="${a:0:1}"
+    action=$a
+  fi
+}
+
+select_entry() {
+  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab)
+
+  mapfile -t out <<< "$out"
+  query="${out[0]}"
+  key="${out[1]}"
+  selection="${out[2]}"
+
+  index=$(awk -F"$d" '{print $1}' <<< "$selection")
+  action=$(awk -F"$d" '{print $2}' <<< "$selection")
+  entry=$(awk -F"$d" '{print $3}' <<< "$selection")
+}
+
+guess_action() {
+  if [[ -d "$1" ]]; then
+    action="d"
+  elif [[ -x "$1" ]]; then
+    action="x"
+  elif \
+    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
+    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
+    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
+    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
+    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
+    action="w"
+  elif [[ "$1" == "r/"* ]]; then
+    action="r"
+  else
+    action="f"
+  fi
+}
+
+decide_and_add_entry() {
+  guess_action "$1"
+  echo "    $action $1"
+  ! ask && select_action "$1"
+  add_entry "$action" "$1"
+  entry="$1"
+}
+
+main() {
+  fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
+
+  populate
+  select_entry
+
+  case "$key" in
+    "tab")
+      select_action "$entry"
+      # replace action with the new one
+      data=$(sed "s+\(^[0-9]*${d}\).\(${d}${entry}$\)+\1${action}\2+g" <<< "$data")
+      ;;
+    "ctrl-a")
+      decide_and_add_entry "$query"
+      ;;
+  esac
+
+  if [[ "$entry" == "" ]] && [[ "$query" != "" ]]; then
+    decide_and_add_entry "$query"
+  fi
+
+  # increment index
+  data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
+
+  if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
+    launch "$entry" "$action"
+  fi
+  #echo "$entry $action"
+
+}
+
+add_entry() {
+  data+="
+1${d}${1}${d}${2}"
+}
+
+populate() {
+  # find all non-hidden folders in home, remove ~ itself
+  home_dirs="$(find ~ -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
+  # separate into lines
+  home_dirs="${home_dirs//$'\n'/ }"
+  # find all files in those folders
+  home="$(find $home_dirs \( -name .git \) -prune -o -print)"
+  # add files from ~
+  home+="$(find ~ -maxdepth 1 -type f)"
+
+  # decide on default action for each file
+  while IFS= read -r l; do
+    if [[ -d "$l" ]]; then
+      m="d"
+    elif [[ -x "$l" ]]; then
+      m="x"
+    else
+      m="f"
+    fi
+    l=${l/#$HOME/'~'}
+    add_entry "$m" "$l"
+  done <<< "$home"
+
+  # sort and ignore duplicates based on $col
+  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
+}
+
+init $@

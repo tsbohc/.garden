@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + @space
-  bspc rule -a \*:"lantern" state=floating && ~/blueberry/sandbox/lantern -w
+  bspc rule -a \*:"lantern" state=floating && ~/blueberry/lantern.d/lantern w
 
 # st -n "lantern" -a -g "35x7+0+0" -e 
 

@@ -1,40 +1,9 @@
-#!/usr/bin/env bash
-
-function init() {
-  data=$(cat "$DATA_PATH")
-  [[ $# == 0 ]] && opt=c || opt=$1
-  case $opt in
-    c)
-      launch
-      ;;
-    w)
-      st -e "$0" i
-      ;;
-    i)
-      launch
-      ;;
-    g)
-      clean
-      ;;
-    *)
-      echo "usage"
-      sleep 1s
-      exit 1 ;;
-  esac
+add_entry() {
+  data+="
+1${d}${1}${d}${2}"
 }
 
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/config.sh"
-
-launch() {
-  echo $opt
-  search
-  echo launch
-  sleep 1s
-}
-
-search() {
+populate() {
   # find all non-hidden folders in home, remove ~ itself
   home_dirs="$(find ~ -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
   # separate into lines
@@ -60,9 +29,3 @@ search() {
   # sort and ignore duplicates based on $col
   data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
 }
-
-WINDOW_NAME="lantern"
-DATA_PATH="$HOME/blueberry/sandbox/lantern.d/data"
-d=" " # this is &nbsp;
-
-init $@
