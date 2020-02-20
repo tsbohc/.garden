@@ -7,7 +7,7 @@
 # (_/
 
 # blueberry
-alias bb='bash ~/blueberry/soap'
+alias blueberry='bash ~/blueberry/soap'
 
 # nvim
 alias v='nvim'
@@ -15,11 +15,11 @@ alias vpager='nvim -u ~/blueberry/vim/vpager'
 
 alias nnn='nnn -H' # show hidden files by default
 
-# yeah
+# because
 alias :q='exit'
 alias please='sudo'
 
-alias vv='source ~/blueberry/lantern.d/lantern'
+alias bb='source ~/blueberry/lantern.d/lantern'
 
 # ls
 alias ls='ls -F --color=auto'

@@ -30,7 +30,7 @@ soap reads simple instructions from the top of the file and takes care of the re
 - log pretty things w/ exit statuses and partial live command output
 
 # lantern
-is an app launcher/file browser, that indexes ~/ and strives to provide the most relevant suggestions by tracking frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file: cd into folders, launch executables, call $EDITOR on text files, open links in a web browser etc. any entry can be "tabbed" on to show a list of actions
+is an app launcher/file browser, that indexes ~/ and strives to provide relevant suggestions by tracking frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file. any entry can be "tabbed" on to show a list of actions. lantern can be launched in an existing terminal or spawn itself in a new window.
 
 powered by fzf, inspired by quicksilver
 
@@ -45,4 +45,7 @@ the general spirit of this repo is finding the balance between doing it yourself
 - i3 and polybar
 
 ### future
+- add a $DOTS global path already
 - music
+
+my bash is bashfully bad, but i'm having fun

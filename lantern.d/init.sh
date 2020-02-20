@@ -27,3 +27,4 @@ case $opt in
     #fzf_query="#opt"
     ;;
 esac
+pkill fzf # remember this

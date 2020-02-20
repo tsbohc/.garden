@@ -514,8 +514,8 @@ fi
 [[ ! -f /etc/hosts_bk ]] && run_command "$i_run" "hosts" "sudo cp /etc/hosts /etc/hosts_bk"
 run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
-# install/update z.lua
-run_command "$i_run" "z.lua" "curl -S --create-dirs https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -o ${sc_dir}/scripts/z.lua"
+# install/update z
+run_command "$i_run" "z.sh" "curl -S --create-dirs https://https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
 
 create_directories
 [[ "$opt_packages" == "yes" ]] && install_packages

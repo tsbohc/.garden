@@ -24,8 +24,8 @@ bspc config gapless_monocle       true
 # general
 bspc config focus_follows_pointer true
 
-# window specifif
-bspc rule -a \*:launcher state=floating
-bspc rule -a zatjira state=tiling
+# window specific
+bspc rule -a \*:launcher state=floating focus=on
+bspc rule -a Zathura state=tiled
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off

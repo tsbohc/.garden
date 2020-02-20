@@ -53,5 +53,4 @@ launch() {
       echo "unexpected cmd"
       sleep 1s ;;
   esac
-  pkill fzf # remember this
 }

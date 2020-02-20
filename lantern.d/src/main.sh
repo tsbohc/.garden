@@ -13,11 +13,14 @@ select_action() {
   if [[ "$a" != "" ]]; then
     a="${a:0:1}"
     action=$a
+  # bail if in window mode
+  elif [[ "$opt" = "i" ]]; then
+    exit 0
   fi
 }
 
 select_entry() {
-  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab,ctrl-a,ctrl-d)
+  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab,ctrl-a,ctrl-d,esc)
 
   mapfile -t out <<< "$out"
   query="${out[0]}"
@@ -56,6 +59,30 @@ decide_and_add_entry() {
   entry="$1"
 }
 
+reduce_scores() {
+  # we only care about score > 1, so find the first occurrence of index 1
+  line_number=$(awk -v search="^1${d}" '$0~search{print NR-1; exit}' <<< "$data")
+
+  # this will keep at least n entries above score 1
+  (( $line_number < 20 )) && return
+
+  # find a random line w/ i > 1
+  rnd=$RANDOM
+  let "rnd %= $line_number"
+  ((rnd++))
+  j=0
+  while read -r line; do
+    ((j++))
+    [ $j -eq $rnd ] && break
+  done <<< "$data"
+
+  # reduce index
+  local en=$(awk -F"$d" '{print $3}' <<< "$line")
+  local id=$(awk -F"$d" '{print $1}' <<< "$line")
+  data=$(sed "s+^[0-9]*\(.*${en}$\)+$((id-1))\1+g" <<< "$data")
+  echo "$en $id"
+}
+
 main() {
   fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
 
@@ -71,12 +98,16 @@ main() {
     "ctrl-a")
       decide_and_add_entry "$query"
       ;;
+    "esc")
+      return
+      ;;
   esac
 
   if [[ "$entry" == "" ]] && [[ "$query" != "" ]]; then
     decide_and_add_entry "$query"
   fi
 
+  reduce_scores
   # increment index
   data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
 
@@ -86,6 +117,4 @@ main() {
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"
   fi
-  #echo "$entry $action"
-
 }
