@@ -11,7 +11,8 @@ populate() {
   # find all files in those folders
   home="$(find $home_dirs \( -name .git \) -prune -o -print)"
   # add files from ~
-  home+="$(find ~ -maxdepth 1 -type f)"
+  home+="
+$(find ~ -maxdepth 1 -type f)"
 
   # decide on default action for each file
   while IFS= read -r l; do

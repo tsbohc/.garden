@@ -17,7 +17,4 @@ clean() {
     fi
   done <<< "$data"
   echo "$data" > "$DATA_PATH"
-
-  echo "scanning"
-  _scan_for_entries
 }

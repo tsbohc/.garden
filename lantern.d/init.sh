@@ -20,12 +20,10 @@ case $opt in
   g)
     clean
     ;;
-  *)
+  h|help)
     echo "usage"
-    sleep 1s
-    return
+    ;;
+  *)
+    #fzf_query="#opt"
     ;;
 esac
-
-echo "$data" > "$DATA_PATH"
-

@@ -17,7 +17,7 @@ select_action() {
 }
 
 select_entry() {
-  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab)
+  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab,ctrl-a,ctrl-d)
 
   mapfile -t out <<< "$out"
   query="${out[0]}"
@@ -79,6 +79,9 @@ main() {
 
   # increment index
   data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
+
+  # write to file
+  echo "$data" > "$DATA_PATH"
 
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"

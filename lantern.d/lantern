@@ -23,15 +23,13 @@ init() {
     g)
       clean
       ;;
-    *)
+    h|help)
       echo "usage"
-      sleep 1s
-      return
+      ;;
+    *)
+      #fzf_query="#opt"
       ;;
   esac
-  
-  echo "$data" > "$DATA_PATH"
-  
 }
 
 clean() {
@@ -53,9 +51,6 @@ clean() {
     fi
   done <<< "$data"
   echo "$data" > "$DATA_PATH"
-
-  echo "scanning"
-  _scan_for_entries
 }
 
 get_abspath() {
@@ -159,7 +154,7 @@ select_action() {
 }
 
 select_entry() {
-  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab)
+  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,3 --nth=2 --print-query --expect=tab,ctrl-a,ctrl-d)
 
   mapfile -t out <<< "$out"
   query="${out[0]}"
@@ -222,6 +217,9 @@ main() {
   # increment index
   data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
 
+  # write to file
+  echo "$data" > "$DATA_PATH"
+
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"
   fi
@@ -242,7 +240,8 @@ populate() {
   # find all files in those folders
   home="$(find $home_dirs \( -name .git \) -prune -o -print)"
   # add files from ~
-  home+="$(find ~ -maxdepth 1 -type f)"
+  home+="
+$(find ~ -maxdepth 1 -type f)"
 
   # decide on default action for each file
   while IFS= read -r l; do
