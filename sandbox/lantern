@@ -8,7 +8,7 @@
 # add g: to google
 # add a warning if data lines grow twice in size at once
 
-DATA_PATH="$HOME/blueberry/sandbox/data.txt"
+DATA_PATH="$HOME/blueberry/sandbox/data"
 WINDOW_NAME="lantern"
 
 _init() {
@@ -26,7 +26,6 @@ escape="\x1b[0m"
 
 # --no-sort makes things worse, but sorting still takes into account indexes, so why disable it? 
 # --tiebreak=length,index 
-
 
 _fzf() {
   fzf $fzf_options "$@"
@@ -71,8 +70,6 @@ _run() {
   }
 
   e="${1//\~/$HOME}"
-
-  echo "$2"
 
   # black magic
   case "$2" in
@@ -138,7 +135,7 @@ _run() {
 add_entry() {
   # checking if entry already in data slows it down A LOT
   data+="
-1${d}${gray}${1}${escape}${d}${2}"
+1${d}${1}${d}${2}"
 }
 
 _garbage_collect() {

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+_launch() {
+  echo $opt
+  _search
+  echo launch
+  sleep 1s
+}
+
+# these two should go background
+_clean() {
+  echo clean
+}
+
+_search() {
+  echo search
+}
+
+# main
+[[ $# == 0 ]] && opt=c || opt=$1
+case $opt in
+  c)
+    _launch
+    ;;
+  w)
+    st -e "$0" i
+    ;;
+  i)
+    _launch
+    ;;
+  g)
+    _clean
+    ;;
+  *)
+    echo "usage"
+    sleep 1s
+    exit 1 ;;
+esac
