@@ -30,7 +30,7 @@ soap reads simple instructions from the top of the file and takes care of the re
 - log pretty things w/ exit statuses and partial live command output
 
 # lantern
-is an app launcher/file browser, that indexes ~/ and strives to provide relevant suggestions by tracking frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file. any entry can be "tabbed" on to show a list of actions. lantern can be launched in an existing terminal or spawn itself in a new window.
+is an app launcher/file browser, that indexes ~/ and strives to provide relevant suggestions by tracking and balancing frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file. any entry can be "tabbed" on to show a list of actions. lantern can be launched in an existing terminal or spawn itself in a new window.
 
 powered by fzf, inspired by quicksilver
 

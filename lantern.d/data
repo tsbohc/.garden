@@ -1,27 +1,26 @@
-32 d ~/blueberry/lantern.d
+35 d ~/blueberry/lantern.d
 21 f ~/blueberry/lantern.d/src/launch.sh
 20 d ~/blueberry/lantern.d/src
-17 e ~/blueberry/soap
-18 f ~/blueberry/lantern.d/src/clean.sh
 18 f ~/blueberry/lantern.d/src/main.sh
+18 f ~/blueberry/lantern.d/src/clean.sh
 18 f ~/Downloads/practical_vim.pdf
 18 f ~/.zshrc
+17 e ~/blueberry/soap
 7 b redshift -l 30:60 -t 5500K:2500K -b 1.0:0.9
 7 e ~/blueberry/bspwmrc
-6 u brave
+5 u brave
 4 f ~/blueberry/lantern.d/data
 4 f ~/blueberry/lantern.d/init.sh
-3 d ~/blueberry
 3 e ~/blueberry/lantern.d/lantern
 3 f ~/blueberry/aliases
 3 f ~/blueberry/bashrc
-3 f ~/blueberry/readme.md
+4 f ~/blueberry/readme.md
 3 f ~/blueberry/vimrc
 2 d ~/blueberry/themes
-2 d ~/blueberry/vim
-2 e ~/blueberry/scripts/hex_to_rgb
 2 r r/all
 2 w reddit.com/r/all
+2 x man fzf
+1 d ~/blueberry
 1 d ~/blueberry/fonts
 1 d ~/blueberry/graveyard
 1 d ~/blueberry/images
@@ -29,8 +28,10 @@
 1 d ~/blueberry/sandbox
 1 d ~/blueberry/scripts
 1 d ~/blueberry/st-0.8.2
+1 d ~/blueberry/vim
 1 d ~/blueberry/vim/colors
 1 d ~/Downloads
+1 e ~/blueberry/scripts/hex_to_rgb
 1 f ~/.bash_history
 1 f ~/.bash_logout
 1 f ~/blueberry/bash_profile
@@ -130,5 +131,4 @@
 1 x ~/blueberry/st-0.8.2/st
 1 x ~/blueberry/vim/statusline_colors
 1 x ~/.fehbg
-1 x man fzf
 1 x reboot
