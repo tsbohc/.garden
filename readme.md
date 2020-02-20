@@ -29,6 +29,11 @@ soap reads simple instructions from the top of the file and takes care of the re
 - sync itself to and from the repo
 - log pretty things w/ exit statuses and partial live command output
 
+# lantern
+is an app launcher/file browser, that indexes ~/ and strives to provide the most relevant suggestions by tracking frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file: cd into folders, launch executables, call $EDITOR on text files, open links in a web browser etc. any entry can be "tabbed" on to show a list of actions
+
+powered by fzf, inspired by quicksilver
+
 # .files
 the general spirit of this repo is finding the balance between doing it yourself, striving for minimalism, and not overdoing it too much
 

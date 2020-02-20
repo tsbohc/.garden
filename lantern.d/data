@@ -1,14 +1,16 @@
-5 d ~/blueberry/lantern.d
+7 d ~/blueberry/lantern.d
 5 f ~/blueberry/lantern.d/init.sh
-5 f ~/blueberry/sandbox/data
+4 b redshift -l 30:60 -t 5500K:2500K -b 1.0:0.9
+3 e ~/blueberry/lantern.d/lantern
+3 f ~/blueberry/lantern.d/data
 3 f ~/blueberry/lantern.d/src/clean.sh
 3 f ~/blueberry/lantern.d/src/main.sh
 3 r r/all
-2 e ~/blueberry/scripts/hex_to_rgb
-2 f ~/blueberry/lantern.d/data
-2 f ~/blueberry/lantern.d/src/populate.sh
-1 b redshift -l 30:60
 2 d ~/blueberry
+2 e ~/blueberry/scripts/hex_to_rgb
+2 f ~/blueberry/bashrc
+2 f ~/blueberry/lantern.d/src/populate.sh
+2 f ~/.zshrc
 1 d ~/blueberry/fonts
 1 d ~/blueberry/graveyard
 1 d ~/blueberry/images
@@ -31,7 +33,6 @@
 1 f ~/.bash_logout
 1 f ~/blueberry/aliases
 1 f ~/blueberry/bash_profile
-1 f ~/blueberry/bashrc
 1 f ~/blueberry/dunstrc
 1 f ~/blueberry/fonts/TamzenForPowerline8x16.psf
 1 f ~/blueberry/.gitignore
@@ -48,8 +49,7 @@
 1 f ~/blueberry/notes/archinstall.md
 1 f ~/blueberry/notes/patching_st.md
 1 f ~/blueberry/picom
-1 f ~/blueberry/readme.md
-1 f ~/blueberry/sandbox/data.txt2
+2 f ~/blueberry/readme.md
 1 f ~/blueberry/scripts/nts.py
 1 f ~/blueberry/scripts/sincolwal.png
 1 f ~/blueberry/scripts/sincolwal.py
@@ -100,6 +100,7 @@
 1 f ~/Downloads/practical_vim.pdf
 1 f ~/.gitconfig
 1 f ~/.git-credentials
+1 f ~/.histfile
 1 f ~/.lesshst
 1 f ~/.log
 1 f ~/remember_to_upload_st_fork_to_github
@@ -133,6 +134,7 @@
 1 f ~/.wallpaper
 1 f ~/wallpaper
 1 f ~/.Xauthority
+1 f ~/.zcompdump
 1 r r/unixporn
 1 u brave
 1 w reddit.com/r/all
@@ -140,10 +142,8 @@
 1 w youtube.com
 1 x ~/blueberry/bspwmrc
 1 x ~/blueberry/graveyard/blueberry.sh
-1 x ~/blueberry/lantern.d/lantern
+1 x ~/blueberry/graveyard/lantern_old
 1 x ~/blueberry/lemon
-1 x ~/blueberry/sandbox/lantern
-1 x ~/blueberry/sandbox/new_lantern
 1 x ~/blueberry/scripts/altlayi3
 1 x ~/blueberry/scripts/brightnesscontrol
 1 x ~/blueberry/scripts/catlogin
