@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 
+# disable unicode to speed things up
+export LC_ALL=C
+
+# since our delimiter is ascii
+d=" "
+
+# load config
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+. "$DIR/config.sh"
+
+# load data and create it if it doesn't exist
+[ -f "$LANTERN_DATA" ] && data=$(cat "$LANTERN_DATA") || touch "$LANTERN_DATA"
+
 init() {
-  data=$(cat "$DATA_PATH")
-  
   [[ $# == 0 ]] && opt=c || opt=$1
+
   case $opt in
     c)
       fzf_margin="--margin=1,2"
@@ -11,9 +24,9 @@ init() {
       main
       ;;
     w)
-      xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
-        || xdotool search --classname $WINDOW_NAME windowmap \
-        || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" i
+      xdotool search --onlyvisible --classname "lantern" windowunmap \
+        || xdotool search --classname "lantern" windowmap \
+        || st -n "lantern" -a -g "35x7+0+0" -e "$0" i
       ;;
     i)
       fzf_height="--height=100"
@@ -30,34 +43,23 @@ init() {
       #fzf_query="#opt"
       ;;
   esac
-  pkill fzf # remember this
+
+  # write to file
+  echo "$data" > "$LANTERN_DATA"
+
+  #pkill fzf
 }
 
 clean() {
-  echo "lantern: cleaning"
-  line_count=$(echo "$data" | wc -l)
-  count=0
-  tput sc
-  while IFS= read -r l; do
-    index=$(awk -F"$d" '{print $1}' <<< "$l")
-    action=$(awk -F"$d" '{print $2}' <<< "$l")
-    entry=$(awk -F"$d" '{print $3}' <<< "$l")
-    count=$((count+1))
-    tput ed
-    echo "$count / $line_count : $entry"
-
-    if [[ ${entry:0:1} == "~" ]]; then
-      # get abs path?
-      entry="${entry//\~/$HOME}"
-      if [[ ! -e "$entry" ]]; then
-        entry=${entry/#$HOME/'~'}
-        entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
-        data=$(sed "/${index}.*${entry}$/d" <<< "$data")
+  # now 10 times quicker!
+  while IFS="" read -r i a e; do
+    if [[ ${e:0:1} == "~" ]]; then
+      if [[ ! -e "${e//\~/$HOME}" ]]; then
+        e=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$e")
+        data=$(sed "/.*${e}$/d" <<< "$data")
       fi
     fi
-    tput rc
   done <<< "$data"
-  echo "$data" > "$DATA_PATH"
 }
 
 get_abspath() {
@@ -79,10 +81,6 @@ ask() {
       ;;
   esac
 }
-
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/config.sh"
 
 launch() {
 
@@ -202,35 +200,14 @@ decide_and_add_entry() {
   entry="$1"
 }
 
-reduce_scores() {
-  # we only care about score > 1, so find the first occurrence of index 1
-  local line_number=$(awk -v search="^1${d}" '$0~search{print NR-1; exit}' <<< "$data")
-
-  # this should keep things from getting out of control
-  local line=$(head -n 1 <<< "$data")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  (( $id < 20 )) && (( $line_number < 20 )) && return
-
-  # find a random line w/ i > 1
-  local rnd=$RANDOM
-  let "rnd %= $line_number"
-  ((rnd++))
-  local j=0
-  while read -r line; do
-    ((j++))
-    [ $j -eq $rnd ] && break
-  done <<< "$data"
-
-  # reduce index
-  local en=$(awk -F"$d" '{print $3}' <<< "$line")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  data=$(sed "s+^[0-9]*\(.*${en}$\)+$((id-1))\1+g" <<< "$data")
-}
-
 main() {
   fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
 
   populate
+  clean
+
+  #return
+
   select_entry
 
   case "$key" in
@@ -252,15 +229,48 @@ main() {
   fi
 
   reduce_scores
+
   # increment index
   data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
-
-  # write to file
-  echo "$data" > "$DATA_PATH"
 
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"
   fi
+}
+
+populate() {
+  # find all non-hidden folders in home
+  # can break if empty (doubt it ever will) without [ -d ${file} ] && 
+  #home_dirs=$(for folder in $HOME/*/; do
+  #  [ -d $folder ] && echo "$folder"
+  #done)
+  local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
+
+  # find everything in them
+  local home="$(find $home_dirs \( -name .git \) -prune -o -print)"
+
+  # append all files from home
+  home+="
+$(find $HOME -maxdepth 1 -type f)"
+
+  # prevent them from sticking together
+  data+="
+"
+
+  # add entries to data
+  data+=$(while IFS= read -r l; do
+    if [ -d "$l" ]; then
+      m="d"
+    elif [ -x "$l" ]; then
+      m="x"
+    else
+      m="f"
+    fi
+    echo "1$d$m$d${l/#$HOME/'~'}"
+  done <<< "$home")
+
+  # sort and ignore duplicates based on $col in file
+  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
 }
 
 add_entry() {
@@ -268,32 +278,30 @@ add_entry() {
 1${d}${1}${d}${2}"
 }
 
-populate() {
-  # find all non-hidden folders in home, remove ~ itself
-  home_dirs="$(find ~ -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
-  # separate into lines
-  home_dirs="${home_dirs//$'\n'/ }"
-  # find all files in those folders
-  home="$(find $home_dirs \( -name .git \) -prune -o -print)"
-  # add files from ~
-  home+="
-$(find ~ -maxdepth 1 -type f)"
+reduce_scores() {
+  # we only care about score > 1, so find the first occurrence of index 1
+  local line_number=$(awk -v search="^1${d}" '$0~search{print NR-1; exit}' <<< "$data")
 
-  # decide on default action for each file
-  while IFS= read -r l; do
-    if [[ -d "$l" ]]; then
-      m="d"
-    elif [[ -x "$l" ]]; then
-      m="x"
-    else
-      m="f"
-    fi
-    l=${l/#$HOME/'~'}
-    add_entry "$m" "$l"
-  done <<< "$home"
+  # this should keep things from getting out of control
+  (( $line_number < 20 )) && return
+  local line=$(head -n 1 <<< "$data")
+  local id=$(awk -F"$d" '{print $1}' <<< "$line")
+  (( $id < 20 )) &&  return
 
-  # sort and ignore duplicates based on $col
-  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
+  # find a random line w/ i > 1
+  local rnd=$RANDOM
+  let "rnd %= $line_number"
+  ((rnd++))
+  local j=0
+  while read -r line; do
+    ((j++))
+    [ $j -eq $rnd ] && break
+  done <<< "$data"
+
+  # reduce index
+  local en=$(awk -F"$d" '{print $3}' <<< "$line")
+  local id=$(awk -F"$d" '{print $1}' <<< "$line")
+  data=$(sed "s+^[0-9]*\(.*${en}$\)+$((id-1))\1+g" <<< "$data")
 }
 
 init $@

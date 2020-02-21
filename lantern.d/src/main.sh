@@ -59,35 +59,14 @@ decide_and_add_entry() {
   entry="$1"
 }
 
-reduce_scores() {
-  # we only care about score > 1, so find the first occurrence of index 1
-  local line_number=$(awk -v search="^1${d}" '$0~search{print NR-1; exit}' <<< "$data")
-
-  # this should keep things from getting out of control
-  local line=$(head -n 1 <<< "$data")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  (( $id < 20 )) && (( $line_number < 20 )) && return
-
-  # find a random line w/ i > 1
-  local rnd=$RANDOM
-  let "rnd %= $line_number"
-  ((rnd++))
-  local j=0
-  while read -r line; do
-    ((j++))
-    [ $j -eq $rnd ] && break
-  done <<< "$data"
-
-  # reduce index
-  local en=$(awk -F"$d" '{print $3}' <<< "$line")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  data=$(sed "s+^[0-9]*\(.*${en}$\)+$((id-1))\1+g" <<< "$data")
-}
-
 main() {
   fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
 
   populate
+  clean
+
+  #return
+
   select_entry
 
   case "$key" in
@@ -109,11 +88,9 @@ main() {
   fi
 
   reduce_scores
+
   # increment index
   data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
-
-  # write to file
-  echo "$data" > "$DATA_PATH"
 
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"
