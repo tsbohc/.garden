@@ -27,6 +27,8 @@ if has('nvim')
   Plug 'junegunn/fzf.vim'
   Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  " add npm and yarn to bb
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'joshdick/onedark.vim'

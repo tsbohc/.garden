@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
+
 # disable unicode to speed things up
 export LC_ALL=C
 
@@ -12,7 +14,7 @@ if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/config.sh"
 
 # load data and create it if it doesn't exist
-[ -f "$LANTERN_DATA" ] && data=$(cat "$LANTERN_DATA") || touch "$LANTERN_DATA"
+[ -f "$LANTERN_DATA" ] && data=$(<"$LANTERN_DATA") || touch "$LANTERN_DATA"
 
 init() {
   [[ $# == 0 ]] && opt=c || opt=$1
@@ -35,6 +37,11 @@ init() {
       ;;
     g)
       clean
+      ;;
+    a)
+      local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
+      local a=$(guess_action "$e")
+      add_entry "$a" "$e"
       ;;
     h|help)
       echo "usage"
@@ -120,6 +127,15 @@ launch() {
     fi
   }
 
+  # FIXME bg closes terminal in console mode
+  #_b() {
+  #  if [[ "$opt" == "c" ]]; then
+  #    _l zathura "$1"
+  #  else
+  #    _e "$1"
+  #  fi
+  #}
+
   entry="${1//\~/$HOME}"
 
   # black magic
@@ -140,7 +156,8 @@ launch() {
 }
 
 # i think it doesn't blink if it's global
-actions="x execute
+select_action() {
+  local actions="x execute
 d cd directory
 e edit
 f file
@@ -149,19 +166,17 @@ u graphical ui
 w browse web
 r reddit"
 
-select_action() {
   local a=$(echo "$actions" | fzf $fzf_base --header="  $1")
   if [[ "$a" != "" ]]; then
     a="${a:0:1}"
     action=$a
-  # bail if in window mode
-  elif [[ "$opt" = "i" ]]; then
+  else
     exit 0
   fi
 }
 
 select_entry() {
-  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=2,1,3 --nth=3 --print-query --expect=tab,ctrl-a,ctrl-d,esc)
+  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=1,2,3 --nth=3 --print-query --expect=tab,ctrl-a,ctrl-d,esc)
 
   mapfile -t out <<< "$out"
   query="${out[0]}"
@@ -192,7 +207,7 @@ guess_action() {
   fi
 }
 
-decide_and_add_entry() {
+auto_add_entry() {
   guess_action "$1"
   echo "    $action $1"
   ! ask && select_action "$1"
@@ -204,9 +219,11 @@ main() {
   fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
 
   populate
+
+  # only works on second relaunch for some reason
   clean
 
-  #return
+  return
 
   select_entry
 
@@ -217,7 +234,7 @@ main() {
       data=$(sed "s+\(^[0-9]*${d}\).\(${d}${entry}$\)+\1${action}\2+g" <<< "$data")
       ;;
     "ctrl-a")
-      decide_and_add_entry "$query"
+      auto_add_entry "$query"
       ;;
     "esc")
       return
@@ -225,17 +242,23 @@ main() {
   esac
 
   if [[ "$entry" == "" ]] && [[ "$query" != "" ]]; then
-    decide_and_add_entry "$query"
+    auto_add_entry "$query"
   fi
 
   reduce_scores
 
+  # FIXME $d needs to be escaped for sed
   # increment index
-  data=$(sed "s+^[0-9]*\(${d}${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
+  data=$(sed "s+^[0-9]*\(\ ${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
 
   if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
     launch "$entry" "$action"
   fi
+}
+
+add_entry() {
+  data+="
+1${d}${1}${d}${2}"
 }
 
 populate() {
@@ -254,28 +277,55 @@ populate() {
 $(find $HOME -maxdepth 1 -type f)"
 
   # prevent them from sticking together
-  data+="
+  [ -s "$LANTERN_DATA" ] && data+="
 "
 
   # add entries to data
   data+=$(while IFS= read -r l; do
     if [ -d "$l" ]; then
-      m="d"
+      a="d"
     elif [ -x "$l" ]; then
-      m="x"
+      a="x"
     else
-      m="f"
+      a="f"
     fi
-    echo "1$d$m$d${l/#$HOME/'~'}"
+    echo "1${d}${a}${d}0${d}${l/#$HOME/'~'}"
   done <<< "$home")
 
-  # sort and ignore duplicates based on $col in file
-  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
-}
+  # remove duplicates based on $col in file
+  data=$(awk -F"$d" '!x[$4]++' <<< "$data")
 
-add_entry() {
-  data+="
-1${d}${1}${d}${2}"
+  # maybe pipe the output of below into fzf without overwriting a file?
+  # but this seems easier though, but stuff can go wrong
+
+  # calculate score and sort, prepare for fzf
+  # note the delimiters!
+  echo "$data" | awk -v d="$d" -v now="$(date +%s)" -F"$d" '
+    function frecency(time) {
+      if ( time > 0 ) {
+        dt = now-time
+        if( dt < 86400 ) return 4
+        if( dt < 43200 ) return 8
+        if( dt < 3600 ) return 16
+      }
+      return 1
+    }
+    {
+      score[$4] = $1 / ( length / 2 ) * frecency($3)
+      uses[$4] = $1
+      action[$4] = $2
+      time[$4] = $3
+    }
+    END {
+      for ( x in score ) print score[x] d uses[x] d action[x] d time[x] d x
+    }
+    ' | sort -k1,1nr | cut -d"" -f2-5
+
+    #if ( $3 in score == 0 ) {
+    #  score[$3] = $1 / length
+    #  action[$3] = $2
+    #}
+
 }
 
 reduce_scores() {

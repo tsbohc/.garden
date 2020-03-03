@@ -36,6 +36,15 @@ launch() {
     fi
   }
 
+  # FIXME bg closes terminal in console mode
+  #_b() {
+  #  if [[ "$opt" == "c" ]]; then
+  #    _l zathura "$1"
+  #  else
+  #    _e "$1"
+  #  fi
+  #}
+
   entry="${1//\~/$HOME}"
 
   # black magic

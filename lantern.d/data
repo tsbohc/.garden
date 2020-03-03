@@ -1,127 +1,163 @@
-2 d ~/Downloads
-1 d ~/blueberry
-1 d ~/blueberry/fonts
-1 d ~/blueberry/graveyard
-1 d ~/blueberry/images
-1 d ~/blueberry/lantern.d
-1 d ~/blueberry/lantern.d/src
-1 d ~/blueberry/notes
-1 d ~/blueberry/sandbox
-1 d ~/blueberry/scripts
-1 d ~/blueberry/st-0.8.2
-1 d ~/blueberry/themes
-1 d ~/blueberry/vim
-1 d ~/blueberry/vim/colors
-1 f ~/.Xauthority
-1 f ~/.bash_history
-1 f ~/.bash_logout
-1 f ~/.git-credentials
-1 f ~/.gitconfig
-1 f ~/.lesshst
-1 f ~/.log
-1 f ~/.soap_log.txt
-1 f ~/.wallpaper
-1 f ~/.zcompdump
-1 f ~/.zcompdump-tsbohc-5.7.1
-1 f ~/.zsh_history
-1 f ~/.zshrc
-1 f ~/.zshrc_bleh
-1 f ~/Downloads/practical_vim.pdf
-1 f ~/blueberry/.gitignore
-1 f ~/blueberry/.soap_log.txt
-1 f ~/blueberry/Xresources
-1 f ~/blueberry/aliases
-1 f ~/blueberry/bash_profile
-1 f ~/blueberry/bashrc
-1 f ~/blueberry/dunstrc
-1 f ~/blueberry/fonts/TamzenForPowerline8x16.psf
-1 f ~/blueberry/graveyard/compton
-1 f ~/blueberry/graveyard/i3
-1 f ~/blueberry/graveyard/polybar
-1 f ~/blueberry/graveyard/xinitrc_old
-1 f ~/blueberry/images/0bfp46.jpg
-1 f ~/blueberry/lantern.d/config.sh
-1 f ~/blueberry/lantern.d/data
-1 f ~/blueberry/lantern.d/init.sh
-1 f ~/blueberry/lantern.d/makefile
-2 f ~/blueberry/lantern.d/src/clean.sh
-1 f ~/blueberry/lantern.d/src/helpers.sh
-1 f ~/blueberry/lantern.d/src/launch.sh
-1 f ~/blueberry/lantern.d/src/main.sh
-1 f ~/blueberry/lantern.d/src/populate.sh
-1 f ~/blueberry/lantern.d/src/r.sh
-1 f ~/blueberry/lantern.d/src/reduce_scores.sh
-1 f ~/blueberry/notes/archinstall.md
-1 f ~/blueberry/notes/patching_st.md
-1 f ~/blueberry/picom
-1 f ~/blueberry/readme.md
-1 f ~/blueberry/scripts/nts.py
-1 f ~/blueberry/scripts/sincolwal.png
-1 f ~/blueberry/scripts/sincolwal.py
-1 f ~/blueberry/scripts/tinyfetch.py
-1 f ~/blueberry/scripts/z.lua
-1 f ~/blueberry/st-0.8.2/FAQ
-1 f ~/blueberry/st-0.8.2/LEGACY
-1 f ~/blueberry/st-0.8.2/LICENSE
-1 f ~/blueberry/st-0.8.2/Makefile
-1 f ~/blueberry/st-0.8.2/README
-1 f ~/blueberry/st-0.8.2/TODO
-1 f ~/blueberry/st-0.8.2/arg.h
-1 f ~/blueberry/st-0.8.2/boxdraw.c
-1 f ~/blueberry/st-0.8.2/boxdraw.o
-1 f ~/blueberry/st-0.8.2/boxdraw_data.h
-1 f ~/blueberry/st-0.8.2/config.def.h
-1 f ~/blueberry/st-0.8.2/config.h
-1 f ~/blueberry/st-0.8.2/config.mk
-1 f ~/blueberry/st-0.8.2/st.1
-1 f ~/blueberry/st-0.8.2/st.c
-1 f ~/blueberry/st-0.8.2/st.h
-1 f ~/blueberry/st-0.8.2/st.info
-1 f ~/blueberry/st-0.8.2/st.o
-1 f ~/blueberry/st-0.8.2/win.h
-1 f ~/blueberry/st-0.8.2/x.c
-1 f ~/blueberry/st-0.8.2/x.o
-1 f ~/blueberry/sxhkdrc
-1 f ~/blueberry/themes/.soap_log.txt
-1 f ~/blueberry/themes/gruvbox
-1 f ~/blueberry/themes/jellybeans
-1 f ~/blueberry/themes/kasugano
-1 f ~/blueberry/themes/onedark
-1 f ~/blueberry/themes/unknown
-1 f ~/blueberry/themes/unknown_old
-1 f ~/blueberry/vim/.soap_log.txt
-1 f ~/blueberry/vim/colors/.soap_log.txt
-1 f ~/blueberry/vim/colors/default-light.vim
-1 f ~/blueberry/vim/colors/dim.vim
-1 f ~/blueberry/vim/colors/jellybeans.vim
-1 f ~/blueberry/vim/colors/kasugano.vim
-1 f ~/blueberry/vim/colors/termcolors.vim
-1 f ~/blueberry/vim/nvim_init.vim
-1 f ~/blueberry/vim/statusline.vim
-1 f ~/blueberry/vim/vpager
-1 f ~/blueberry/vimrc
-1 f ~/blueberry/xinitrc
-1 f ~/blueberry/zathurarc
-1 x ~/.fehbg
-1 x ~/blueberry/bspwmrc
-1 x ~/blueberry/graveyard/blueberry.sh
-1 x ~/blueberry/graveyard/lantern_old
-1 x ~/blueberry/graveyard/test.sh
-1 x ~/blueberry/lantern.d/lantern
-1 x ~/blueberry/lemon
-1 x ~/blueberry/scripts/altlayi3
-1 x ~/blueberry/scripts/brightnesscontrol
-1 x ~/blueberry/scripts/catlogin
-1 x ~/blueberry/scripts/cpos
-1 x ~/blueberry/scripts/get_xres
-1 x ~/blueberry/scripts/hex_to_rgb
-1 x ~/blueberry/scripts/keyboardswitch
-1 x ~/blueberry/scripts/launchy
-1 x ~/blueberry/scripts/menuselect
-1 x ~/blueberry/scripts/print_hex
-1 x ~/blueberry/scripts/rgb_to_hex
-1 x ~/blueberry/scripts/shade_hex
-1 x ~/blueberry/soap
-1 x ~/blueberry/st-0.8.2/st
-1 x ~/blueberry/vim/statusline_colors
-1 x ~/test.sh
+1 d 0 ~/Downloads
+1 f 0 ~/Downloads/practical_vim.pdf
+1 d 0 ~/ops
+1 f 0 ~/ops/movieclub.mp4
+1 f 0 ~/ops/tatamigalaxy.mkv
+1 f 0 ~/ops/samuraichamploo2.mp4
+1 f 0 ~/ops/4evangelion.mp4
+1 f 0 ~/ops/samuraichamploo1.mp4
+1 f 0 ~/ops/luckystar.mp4
+1 f 0 ~/ops/pingpong.mp4
+1 f 0 ~/ops/p
+1 f 0 ~/ops/6utena.mkv
+1 f 0 ~/ops/2trigun.mp4
+1 f 0 ~/ops/1berserk.mp4
+1 f 0 ~/ops/angelbeats.mp4
+1 f 0 ~/ops/flcl.mp4
+1 f 0 ~/ops/koenokatachi.mp4
+1 f 0 ~/ops/ergoproxy.mp4
+1 f 0 ~/ops/3cowboybebop.mp4
+1 f 0 ~/ops/spacedandy.mp4
+1 f 0 ~/ops/mob1.mp4
+1 f 0 ~/ops/jojo3.mpv
+1 f 0 ~/ops/mob2.mp4
+1 f 0 ~/ops/popteamepic.mp4
+1 f 0 ~/ops/onepunchman.mp4
+1 f 0 ~/ops/jojo1.mpv
+1 f 0 ~/ops/5lain.mp4
+1 f 0 ~/ops/jojo2.mpv
+1 f 0 ~/ops/7yuyuhakusho.mp4
+1 d 0 ~/blueberry
+1 x 0 ~/blueberry/lemon
+1 f 0 ~/blueberry/.soap_log.txt
+1 d 0 ~/blueberry/lantern.d
+1 f 0 ~/blueberry/lantern.d/data
+1 f 0 ~/blueberry/lantern.d/makefile
+1 d 0 ~/blueberry/lantern.d/src
+1 f 0 ~/blueberry/lantern.d/src/manage.sh
+1 f 0 ~/blueberry/lantern.d/src/helpers.sh
+1 f 0 ~/blueberry/lantern.d/src/clean.sh
+1 f 0 ~/blueberry/lantern.d/src/launch.sh
+1 f 0 ~/blueberry/lantern.d/src/populate.sh
+1 f 0 ~/blueberry/lantern.d/src/main.sh
+1 f 0 ~/blueberry/lantern.d/src/reduce_scores.sh
+1 f 0 ~/blueberry/lantern.d/config.sh
+1 f 0 ~/blueberry/lantern.d/b_c
+1 f 0 ~/blueberry/lantern.d/b_d
+1 x 0 ~/blueberry/lantern.d/lantern
+1 f 0 ~/blueberry/lantern.d/init.sh
+1 f 0 ~/blueberry/lantern.d/test.txt
+1 d 0 ~/blueberry/sandbox
+1 x 0 ~/blueberry/sandbox/test.sh
+1 f 0 ~/blueberry/sandbox/test.sa
+1 f 0 ~/blueberry/Xresources
+1 f 0 ~/blueberry/sxhkdrc
+1 d 0 ~/blueberry/st-0.8.2
+1 f 0 ~/blueberry/st-0.8.2/config.h
+1 f 0 ~/blueberry/st-0.8.2/config.mk
+1 f 0 ~/blueberry/st-0.8.2/TODO
+1 f 0 ~/blueberry/st-0.8.2/boxdraw.c
+1 f 0 ~/blueberry/st-0.8.2/LEGACY
+1 f 0 ~/blueberry/st-0.8.2/st.h
+1 f 0 ~/blueberry/st-0.8.2/config.def.h
+1 x 0 ~/blueberry/st-0.8.2/st
+1 f 0 ~/blueberry/st-0.8.2/arg.h
+1 f 0 ~/blueberry/st-0.8.2/st.1
+1 f 0 ~/blueberry/st-0.8.2/st.c
+1 f 0 ~/blueberry/st-0.8.2/boxdraw_data.h
+1 f 0 ~/blueberry/st-0.8.2/st.o
+1 f 0 ~/blueberry/st-0.8.2/README
+1 f 0 ~/blueberry/st-0.8.2/win.h
+1 f 0 ~/blueberry/st-0.8.2/x.c
+1 f 0 ~/blueberry/st-0.8.2/boxdraw.o
+1 f 0 ~/blueberry/st-0.8.2/LICENSE
+1 f 0 ~/blueberry/st-0.8.2/x.o
+1 f 0 ~/blueberry/st-0.8.2/FAQ
+1 f 0 ~/blueberry/st-0.8.2/Makefile
+1 f 0 ~/blueberry/st-0.8.2/st.info
+1 d 0 ~/blueberry/themes
+1 f 0 ~/blueberry/themes/.soap_log.txt
+1 f 0 ~/blueberry/themes/onedark
+1 f 0 ~/blueberry/themes/gruvbox
+1 f 0 ~/blueberry/themes/kasugano
+1 f 0 ~/blueberry/themes/unknown_old
+1 f 0 ~/blueberry/themes/unknown
+1 f 0 ~/blueberry/themes/jellybeans
+1 f 0 ~/blueberry/readme.md
+1 f 0 ~/blueberry/vimrc
+1 f 0 ~/blueberry/picom
+1 d 0 ~/blueberry/fonts
+1 f 0 ~/blueberry/fonts/TamzenForPowerline8x16.psf
+1 x 0 ~/blueberry/bspwmrc
+1 d 0 ~/blueberry/scripts
+1 x 0 ~/blueberry/scripts/menuselect
+1 f 0 ~/blueberry/scripts/tinyfetch.py
+1 f 0 ~/blueberry/scripts/sincolwal.py
+1 x 0 ~/blueberry/scripts/hex_to_rgb
+1 x 0 ~/blueberry/scripts/cpos
+1 x 0 ~/blueberry/scripts/brightnesscontrol
+1 f 0 ~/blueberry/scripts/sincolwal.png
+1 x 0 ~/blueberry/scripts/print_hex
+1 x 0 ~/blueberry/scripts/keyboardswitch
+1 f 0 ~/blueberry/scripts/nts.py
+1 x 0 ~/blueberry/scripts/catlogin
+1 x 0 ~/blueberry/scripts/launchy
+1 f 0 ~/blueberry/scripts/z.lua
+1 x 0 ~/blueberry/scripts/rgb_to_hex
+1 x 0 ~/blueberry/scripts/shade_hex
+1 x 0 ~/blueberry/scripts/altlayi3
+1 x 0 ~/blueberry/scripts/get_xres
+1 d 0 ~/blueberry/images
+1 f 0 ~/blueberry/images/0bfp46.jpg
+1 f 0 ~/blueberry/bashrc
+1 d 0 ~/blueberry/notes
+1 f 0 ~/blueberry/notes/archinstall.md
+1 f 0 ~/blueberry/notes/patching_st.md
+1 f 0 ~/blueberry/dunstrc
+1 f 0 ~/blueberry/aliases
+1 f 0 ~/blueberry/.gitignore
+1 f 0 ~/blueberry/bash_profile
+1 d 0 ~/blueberry/vim
+1 f 0 ~/blueberry/vim/.soap_log.txt
+1 d 0 ~/blueberry/vim/colors
+1 f 0 ~/blueberry/vim/colors/.soap_log.txt
+1 f 0 ~/blueberry/vim/colors/dim.vim
+1 f 0 ~/blueberry/vim/colors/default-light.vim
+1 f 0 ~/blueberry/vim/colors/termcolors.vim
+1 f 0 ~/blueberry/vim/colors/kasugano.vim
+1 f 0 ~/blueberry/vim/colors/jellybeans.vim
+1 f 0 ~/blueberry/vim/vpager
+1 f 0 ~/blueberry/vim/nvim_init.vim
+1 f 0 ~/blueberry/vim/statusline.vim
+1 x 0 ~/blueberry/vim/statusline_colors
+1 d 0 ~/blueberry/graveyard
+1 x 0 ~/blueberry/graveyard/blueberry.sh
+1 x 0 ~/blueberry/graveyard/lantern_old
+1 f 0 ~/blueberry/graveyard/compton
+1 f 0 ~/blueberry/graveyard/i3
+1 f 0 ~/blueberry/graveyard/xinitrc_old
+1 x 0 ~/blueberry/graveyard/test.sh
+1 f 0 ~/blueberry/graveyard/polybar
+1 f 0 ~/blueberry/xinitrc
+1 f 0 ~/blueberry/zathurarc
+1 x 0 ~/blueberry/soap
+1 d 0 ~/notes
+1 f 0 ~/notes/german.md
+1 f 0 ~/.soap_log.txt
+1 f 0 ~/.wallpaper
+1 f 0 ~/.zshrc
+1 f 0 ~/.lesshst
+1 f 0 ~/.Xauthority
+1 f 0 ~/.zshrc_bleh
+1 f 0 ~/op.zip
+1 f 0 ~/.zcompdump-tsbohc-5.7.1
+1 f 0 ~/.log
+1 f 0 ~/.gitconfig
+1 x 0 ~/.fehbg
+1 f 0 ~/.bash_history
+1 f 0 ~/.zsh_history
+1 f 0 ~/.git-credentials
+1 x 0 ~/test.sh
+1 f 0 ~/.zcompdump
+1 f 0 ~/.bash_logout
+1 f 0 ~/.bash_logoasd

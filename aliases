@@ -72,6 +72,11 @@ fzfpac() {
   [[ "$out" != "" ]] && sudo pacman -S "$out"
 }
 
+ytdl() {
+  youtube-dl -f 137+140 $@
+  (( $? != 0 )) && youtube-dl -f 136+140 $@
+}
+
 # ex - the unarchiver
 ex() {
   if [ -f $1 ] ; then

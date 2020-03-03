@@ -14,21 +14,53 @@ populate() {
 $(find $HOME -maxdepth 1 -type f)"
 
   # prevent them from sticking together
-  data+="
+  [ -s "$LANTERN_DATA" ] && data+="
 "
 
   # add entries to data
   data+=$(while IFS= read -r l; do
     if [ -d "$l" ]; then
-      m="d"
+      a="d"
     elif [ -x "$l" ]; then
-      m="x"
+      a="x"
     else
-      m="f"
+      a="f"
     fi
-    echo "1$d$m$d${l/#$HOME/'~'}"
+    echo "1${d}${a}${d}0${d}${l/#$HOME/'~'}"
   done <<< "$home")
 
-  # sort and ignore duplicates based on $col in file
-  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
+  # remove duplicates based on $col in file
+  data=$(awk -F"$d" '!x[$4]++' <<< "$data")
+
+  # maybe pipe the output of below into fzf without overwriting a file?
+  # but this seems easier though, but stuff can go wrong
+
+  # calculate score and sort, prepare for fzf
+  # note the delimiters!
+  echo "$data" | awk -v d="$d" -v now="$(date +%s)" -F"$d" '
+    function frecency(time) {
+      if ( time > 0 ) {
+        dt = now-time
+        if( dt < 86400 ) return 4
+        if( dt < 43200 ) return 8
+        if( dt < 3600 ) return 16
+      }
+      return 1
+    }
+    {
+      score[$4] = $1 / ( length / 2 ) * frecency($3)
+      uses[$4] = $1
+      action[$4] = $2
+      time[$4] = $3
+    }
+    END {
+      for ( x in score ) print score[x] d uses[x] d action[x] d time[x] d x
+    }
+    ' | sort -k1,1nr | cut -d"" -f2-5
+
+    #if ( $3 in score == 0 ) {
+    #  score[$3] = $1 / length
+    #  action[$3] = $2
+    #}
+
 }

@@ -1,3 +1,5 @@
+# TODO: it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
+
 # disable unicode to speed things up
 export LC_ALL=C
 
@@ -10,7 +12,7 @@ if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/config.sh"
 
 # load data and create it if it doesn't exist
-[ -f "$LANTERN_DATA" ] && data=$(cat "$LANTERN_DATA") || touch "$LANTERN_DATA"
+[ -f "$LANTERN_DATA" ] && data=$(<"$LANTERN_DATA") || touch "$LANTERN_DATA"
 
 init() {
   [[ $# == 0 ]] && opt=c || opt=$1
@@ -33,6 +35,11 @@ init() {
       ;;
     g)
       clean
+      ;;
+    a)
+      local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
+      local a=$(guess_action "$e")
+      add_entry "$a" "$e"
       ;;
     h|help)
       echo "usage"
