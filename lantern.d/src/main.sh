@@ -31,30 +31,9 @@ select_entry() {
   entry=$(awk -F"$d" '{print $3}' <<< "$selection")
 }
 
-guess_action() {
-  if [[ -d "$1" ]]; then
-    action="d"
-  elif [[ -x "$1" ]]; then
-    action="x"
-  elif \
-    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
-    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
-    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
-    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
-    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
-    action="w"
-  elif [[ "$1" == "r/"* ]]; then
-    action="r"
-  else
-    action="f"
-  fi
-}
-
 auto_add_entry() {
-  guess_action "$1"
-  echo "    $action $1"
-  ! ask && select_action "$1"
-  add_entry "$action" "$1"
+  select_action "$1"
+  data+=$(new_entry "$1" "$action")
   entry="$1"
 }
 

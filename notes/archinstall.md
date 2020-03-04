@@ -68,6 +68,7 @@ not a big fan of wifi-menu, it just seems clunky. will have to check if nmcli is
 2. uncomment wheel all all 
 `EDITOR=nano visudo`
 3. connect to wifi
+`sudo systemctl enable dhcpcd.service`
 `sudo systemctl enable NetworkManager.service`
 `sudo NetworkManager`
 `nmcli d wifi connect [name] password [password]`
@@ -76,6 +77,8 @@ not a big fan of wifi-menu, it just seems clunky. will have to check if nmcli is
 5. blueberry
 `git clone github.com/seancallous/blueberry`
 `bash blueberry/blueberry.sh`
+
+if the system boots into memtest, it's probably the kernel. chroot and install it
 
 
 

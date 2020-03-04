@@ -4,7 +4,7 @@
 export LC_ALL=C
 
 # since our delimiter is ascii
-d=" "
+d=""
 
 # load config
 DIR="${BASH_SOURCE%/*}"
@@ -33,19 +33,17 @@ init() {
       fzf_margin="--margin=2"
       main
       ;;
-    g)
-      clean
-      ;;
-    a)
-      local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
-      local a=$(guess_action "$e")
-      add_entry "$a" "$e"
-      ;;
+    # guess action got chopped
+    #a)
+    #  local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
+    #  local a=$(guess_action "$e")
+    #  data+=$(new_entry "$e" "$a")
+    #  ;;
     h|help)
       echo "usage"
       ;;
     *)
-      #fzf_query="#opt"
+      return
       ;;
   esac
 

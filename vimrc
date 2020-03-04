@@ -101,6 +101,32 @@ set clipboard+=unnamedplus
 " disable new line comment
 autocmd FileType * setlocal formatoptions-=cro
 
+" code folding
+filetype plugin indent on
+set foldenable
+set foldmethod=marker
+au FileType sh let g:sh_fold_enabled=1
+au FileType sh let g:is_bash=1
+au FileType sh set foldmethod=syntax
+syntax enable
+
+function! MyFoldText() " {{{
+  let line = getline(v:foldstart)
+
+  let nucolwidth = &fdc + &number * &numberwidth
+  let windowwidth = winwidth(0) - nucolwidth - 3
+  let foldedlinecount = v:foldend - v:foldstart
+
+  " expand tabs into spaces
+  let onetab = strpart('          ', 0, &tabstop)
+  let line = substitute(line, '\t', onetab, 'g')
+
+  let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+  let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
+  return line . ' ' . repeat(" ", fillcharcount) . ' ' . foldedlinecount . '  '
+endfunction " }}}
+set foldtext=MyFoldText()
+
 " -------------------------------------------------
 "   plug specific
 " -------------------------------------------------
@@ -133,6 +159,10 @@ colorscheme gruvbox
     catch
   endtry
 endtry
+
+" remove fold bg
+"highlight Folded guibg=bg
+"hi! link Folded User5
 
 " -------------------------------------------------
 "   vim magic

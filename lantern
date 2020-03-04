@@ -6,7 +6,7 @@
 export LC_ALL=C
 
 # since our delimiter is ascii
-d=""
+d=" "
 
 # load config
 DIR="${BASH_SOURCE%/*}"
@@ -35,17 +35,17 @@ init() {
       fzf_margin="--margin=2"
       main
       ;;
-    # guess action got chopped
-    #a)
-    #  local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
-    #  local a=$(guess_action "$e")
-    #  data+=$(new_entry "$e" "$a")
-    #  ;;
+    a)
+      local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
+      local a=$(guess_action "$e")
+      add_entry "$a" "$e"
+      ;;
     h|help)
       echo "usage"
       ;;
     *)
       return
+      #fzf_query="#opt"
       ;;
   esac
 
@@ -186,9 +186,30 @@ select_entry() {
   entry=$(awk -F"$d" '{print $3}' <<< "$selection")
 }
 
+guess_action() {
+  if [[ -d "$1" ]]; then
+    action="d"
+  elif [[ -x "$1" ]]; then
+    action="x"
+  elif \
+    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
+    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
+    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
+    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
+    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
+    action="w"
+  elif [[ "$1" == "r/"* ]]; then
+    action="r"
+  else
+    action="f"
+  fi
+}
+
 auto_add_entry() {
-  select_action "$1"
-  data+=$(new_entry "$1" "$action")
+  guess_action "$1"
+  echo "    $action $1"
+  ! ask && select_action "$1"
+  add_entry "$action" "$1"
   entry="$1"
 }
 
@@ -233,9 +254,9 @@ main() {
   fi
 }
 
-
-new_entry() { # $1 - entry, $2 - action
-  echo "1${d}0${d}${2}${d}${1/#$HOME/'~'}"
+add_entry() {
+  data+="
+1${d}${1}${d}${2}"
 }
 
 populate() {
@@ -266,13 +287,14 @@ $(find $HOME -maxdepth 1 -type f)"
     else
       a="f"
     fi
-    new_entry "$l" "$a"
+    echo "1${d}${a}${d}0${d}${l/#$HOME/'~'}"
   done <<< "$home")
 
   # remove duplicates based on $col in file
   data=$(awk -F"$d" '!x[$4]++' <<< "$data")
 
-  # FIXME pipe the output of below into fzf without overwriting a file?
+  # maybe pipe the output of below into fzf without overwriting a file?
+  # but this seems easier though, but stuff can go wrong
 
   # calculate score and sort, prepare for fzf
   # note the delimiters!
@@ -287,18 +309,22 @@ $(find $HOME -maxdepth 1 -type f)"
       return 1
     }
     {
-      score[$4] = $1 / ( length / 2 ) * frecency($2)
+      score[$4] = $1 / ( length / 2 ) * frecency($3)
       uses[$4] = $1
-      time[$4] = $2
-      action[$4] = $3
+      action[$4] = $2
+      time[$4] = $3
     }
     END {
-      for ( x in score ) print score[x] d uses[x] d time[x] d action[x] d x
+      for ( x in score ) print score[x] d uses[x] d action[x] d time[x] d x
     }
     ' | sort -k1,1nr | cut -d"" -f2-5
+
+    #if ( $3 in score == 0 ) {
+    #  score[$3] = $1 / length
+    #  action[$3] = $2
+    #}
+
 }
-
-
 
 reduce_scores() {
   # we only care about score > 1, so find the first occurrence of index 1

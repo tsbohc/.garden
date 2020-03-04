@@ -515,12 +515,14 @@ fi
 run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
 # install/update z
-run_command "$i_run" "z.sh" "curl -S --create-dirs https://https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
+run_command "$i_run" "z.sh" "curl -S --create-dirs https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
 
 create_directories
+
 [[ "$opt_packages" == "yes" ]] && install_packages
+
 if [[ "$opt_vim" == "yes" ]]; then
-  [[ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]] && run_command "$i_run" "nvim" "curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  [[ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]] && run_command "$i_run" "nvim" "curl -S --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o $HOME/.local/share/nvim/site/autoload/plug.vim"
   if [[ "$opt_dry" == "no" ]]; then
     nvim +:PlugInstall +:qa
     log "$i_ok" "$green" "nvim" "nvim +:PlugInstall +:qa"

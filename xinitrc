@@ -23,3 +23,4 @@ feh --bg-fill ~/.wallpaper
 #exec picom &
 #exec flux &
 exec bspwm
+#exec xterm
