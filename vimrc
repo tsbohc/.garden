@@ -123,7 +123,7 @@ function! MyFoldText() " {{{
 
   let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
   let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
-  return line . ' ' . repeat(" ", fillcharcount) . ' ' . foldedlinecount . '  '
+  return line . ' ' . repeat("-", fillcharcount) . ' ' . foldedlinecount . '  '
 endfunction " }}}
 set foldtext=MyFoldText()
 
@@ -161,7 +161,10 @@ colorscheme gruvbox
 endtry
 
 " remove fold bg
+" FIXME set this to comment bg color
 "highlight Folded guibg=bg
+"set foldcolumn=1
+"highlight FoldColumn guifg=grey guibg=bg
 "hi! link Folded User5
 
 " -------------------------------------------------
