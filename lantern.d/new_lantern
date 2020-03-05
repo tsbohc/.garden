@@ -57,10 +57,6 @@ main() {
   # fill up the database
   populate
 
-  # background those to speed stuff up
-  (clean &)
-  (prepare &)
-
   # get fzf output
   local out=$(echo "$data" | _fzf \
     --print-query \
@@ -68,9 +64,6 @@ main() {
     --bind "ctrl-r:reload(cat $LANTERN_DATA),change:top" \
     --with-nth=3,4 --nth=2 \
   )
-
-  # get our data back after it was processed
-  data=$(<"$LANTERN_DATA")
 
   # sort out any additional things to do before executing
   mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
@@ -91,7 +84,6 @@ main() {
       # need to check if action is valid etc
       # launch
       ;;
-    "esc") return ;;
   esac
 
   #if [[ "$e" == "" ]] && [[ "$q" != "" ]]; then
@@ -112,34 +104,35 @@ main() {
     fi
   fi
 
-  # write back
-  echo "$data" > "$LANTERN_DATA"
+  # ready data for next launch
+  # NOTE: this may cause problems if data is very large and lantern is relaunched quickly, but
+  # from testing it so far it only results in a minor data loss
+  (prepare &)
 }
 
 # ------------------------------------
 # data manipulation
 # ------------------------------------
 
-# echo a new entry in a proper format w/ 1 use
-# this is needed to speed up populate
 new_entry() { # $1 - entry, $2 - time, $3 - action
+  # echo a new entry in a proper format w/ 1 use
+  # this is needed to speed up populate
   echo "1${d}${2}${d}${3}${d}${1/#$HOME/'~'}"
 }
 
-# append entry generated through the above to data
 add_entry() { # $1 - entry, $2 - time, $3 - action
+  # append entry generated through the above to data
   [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $3 == "" ]] && return
   data+=$(echo -e "\n$(new_entry $1 $2 $3)")
 }
 
-# FIXME prolly broken too
-# remove entry from data
 delete_entry() { # $1 - entry
+  # remove entry from data
   data=$(awk -v entry="$1" -F"$d" '$4 != entry' <<< "$data")
 }
 
-# update index, timestamp, action of an existing entry
 update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
+  # update index, timestamp, action of an existing entry
   data=$(awk -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$d" -F"$d" '
     $4 == entry {
       if ( length(dindex) != 0 ) $1 = $1 + dindex
@@ -149,8 +142,9 @@ update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
   ' <<< "$data")
 }
 
-# scan $HOME for entries, append them to data, remove duplicates
 populate() {
+  # scan $HOME for entries, append them to data, remove duplicates
+
   # find all non-hidden folders in home
   local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | tail -n +2)"
 
@@ -178,19 +172,15 @@ $(find $HOME -maxdepth 1 -type f)"
   data=$(awk -F"$d" '!x[$4]++' <<< "$data")
 }
 
-# remove non-existent path entries, nb! IFS
-clean() {
-  while IFS="" read -r s t a e; do
+prepare() {
+  # remove non-existent path entries, nb! IFS
+  while IFS="" read -r u t a e; do
     if [[ ${e:0:1} == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
       delete_entry "$e"
     fi
-  done <<< "$data" > "$LANTERN_DATA"
-  xdotool key ctrl+r
-}
+  done <<< "$data"
 
-# calculate score, sort, call ctrl-r
-prepare() {
-  # get ready for fzf
+  # calculate score, sort, call ctrl-r
   echo "$data" | awk -v d="$d" -v now="$(date +%s)" -F"$d" '
     function frecency(time) {
       if ( time > 0 ) {
@@ -229,16 +219,16 @@ prepare() {
 # user interaction
 # ------------------------------------
 
-# base fzf function
 _fzf() {
+  # base fzf function
   fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi \
     $_lantern_fzf_height $_lantern_fzf_margin \
     --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 \
     "$@"
 }
 
-# show a fzf menu that returns a single letter representing an action
 select_action() { # $1 - entry
+  # show a fzf menu that returns a single letter representing an action
   local actions="x execute
 d cd directory
 e edit
@@ -311,7 +301,3 @@ launch() {
       sleep 1s ;;
   esac
 }
-
-#init $@
-
-#select_action "entry"
