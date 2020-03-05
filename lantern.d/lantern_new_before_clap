@@ -1,0 +1,300 @@
+#!/usr/bin/env bash
+
+# TODO it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
+# FIXME wrap everything into one single function to prevent global scope pollution
+
+# config
+# ------------------------------------
+
+_LANTERN_DATA="$HOME/blueberry/lantern.d/data"
+_LANTERN_CMD="bb"
+
+# preparation
+# ------------------------------------
+
+# disable unicode to speed things up, since our delimiter is ascii
+# FIXME move those below $# == 0 return
+export LC_ALL=C
+_LANTERN_D=" "
+
+alias ${_LANTERN_CMD:-lantern}="_lantern c"
+
+# initialization
+# ------------------------------------
+
+_lantern() { # $1 - option
+
+  # bail if no args are given
+  # FIXME opt -> local
+  [ $# == 0 ] && return || _LANTERN_OPT="$1"
+
+  case "$_LANTERN_OPT" in
+    c)
+      _lantern_fzf_margin="--margin=1,2"
+      _lantern_fzf_height="--height=10"
+      main ;;
+    w)
+      xdotool search --onlyvisible --classname "lantern" windowunmap \
+      || xdotool search --classname "lantern" windowmap \
+      || st -n "lantern" -a -g "35x7+0+0" -e $(realpath ${BASH_SOURCE[0]}) i
+      ;;
+    i)
+      _lantern_fzf_height="--height=100"
+      _lantern_fzf_margin="--margin=2"
+      main ;;
+    h|help)
+      echo "usage" ;;
+    *)
+      echo hey
+      return ;;
+  esac
+
+
+}
+
+# call center
+# ------------------------------------
+
+main() {
+  # load data and create it if it doesn't exist
+  [ -f "$_LANTERN_DATA" ] && data=$(<"$_LANTERN_DATA") || touch "$_LANTERN_DATA"
+
+  # fill up the database
+  populate
+
+  # get fzf output
+  local out=$(echo "$data" | _fzf \
+    --print-query \
+    --expect "tab,ctrl-a" \
+    --bind "ctrl-r:reload(cat $_LANTERN_DATA),change:top" \
+    --with-nth=3,4 --nth=2 \
+  )
+
+  mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
+
+  local q="${out[0]}"
+  local a="$(awk -F"$_LANTERN_D" '{ print $3 }' <<< ${out[2]})"
+  local e="$(awk -F"$_LANTERN_D" '{ print $4 }' <<< ${out[2]})"
+
+  local action_override
+
+  case "${out[1]}" in
+    "tab")
+      action_override="$(select_action $e)"
+      update_entry "$e" "" "" "$action_override" ;;
+    "ctrl-a")
+      #local action_add="$(select_action $e)"
+      #add_entry "$q" "$(date +%s)" "$action_add"
+      # need to check if action is valid etc
+      # launch
+      #if [[ "$e" == "" ]] && [[ "$q" != "" ]]; then
+      #  add_entry "$q" "$(date +%s)" "$(select_action $q)"
+      #  # launch
+      #fi
+      ;;
+  esac
+
+  if [[ "$e" != "" ]] && [[ "$a" != "" ]]; then
+    # selected entry
+    update_entry "$e" 1 "$(date +%s)" ""
+    # execute selection
+    if [[ "$action_override" == "" ]]; then
+      launch "$e" "$a"
+    else
+      launch "$e" "$action_override"
+    fi
+  fi
+
+  # ready data for next launch
+  (prepare &) # NOTE: this may cause problems if data is very large and lantern is relaunched quickly, but from testing it so far it only results in a minor data loss (of the latest launch)
+}
+
+# data manipulation
+# ------------------------------------
+
+new_entry() { # $1 - entry, $2 - time, $3 - action
+  # echo a new entry in a proper format w/ 1 use, speeds up populate
+  echo "1$_LANTERN_D${2}$_LANTERN_D${3}$_LANTERN_D${1/#$HOME/'~'}"
+}
+
+add_entry() { # $1 - entry, $2 - time, $3 - action
+  # append entry generated through the above to data
+  [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $3 == "" ]] && return
+  data+=$(echo -e "\n$(new_entry $1 $2 $3)")
+}
+
+delete_entry() { # $1 - entry
+  # remove entry from data
+  data=$(awk -v entry="$1" -F"$_LANTERN_D" '$4 != entry' <<< "$data")
+}
+
+update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
+  # update index, timestamp, action of an existing entry
+  data=$(awk -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_LANTERN_D" -F"$_LANTERN_D" '
+    $4 == entry {
+      if ( length(dindex) != 0 ) $1 = $1 + dindex
+      if ( length(time) != 0 ) $2 = time
+      if ( length(action) == 1 ) $3 = action
+    } { print $1 d $2 d $3 d $4 }
+  ' <<< "$data")
+}
+
+populate() {
+  # scan $HOME for entries, append them to data, remove duplicates
+
+  # find all non-hidden folders in home
+  local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | tail -n +2)"
+
+  # find everything in them and append entries from home
+  local home="$(find $home_dirs \( -name .git \) -prune -o -print)
+$(find $HOME -maxdepth 1 -type f)"
+
+  # prevent new and old entries from sticking together
+  [ -s "$_LANTERN_DATA" ] && data+="
+"
+
+  # add entries to data
+  data+=$(while IFS= read -r l; do
+    if [ -d "$l" ]; then
+      a="d"
+    elif [ -x "$l" ]; then
+      a="x"
+    else
+      a="f"
+    fi
+    new_entry "$l" 0 "$a"
+  done <<< "$home")
+
+  # remove duplicates based on $col in file
+  data=$(awk -F"$_LANTERN_D" '!x[$4]++' <<< "$data")
+}
+
+prepare() {
+  # remove non-existent path entries, nb! IFS
+  while IFS="" read -r u t a e; do
+    if [[ ${e:0:1} == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
+      delete_entry "$e"
+    fi
+  done <<< "$data"
+
+  # calculate score, sort, call ctrl-r
+  echo "$data" | awk -v d="$_LANTERN_D" -v now="$(date +%s)" -F"$_LANTERN_D" '
+    function frecency(time) {
+      if ( time > 0 ) {
+        dt = now-time
+        if( dt < 86400 ) return 4
+        if( dt < 43200 ) return 8
+        if( dt < 3600 ) return 16
+      }
+      return 1
+    }
+
+    length > 0 {
+      score[$4] = $1 / ( length / 2 ) * frecency($2)
+      uses[$4] = $1
+      time[$4] = $2
+      action[$4] = $3
+      total += $1 - 1
+    }
+
+    END {
+      if ( total < 100 ) {
+        for ( x in score ) print score[x] d uses[x] d time[x] d action[x] d x
+      }
+      else {
+        for ( x in score ) {
+          if ( uses[x] > 1 ) { print score[x] d uses[x]-1 d time[x] d action[x] d x }
+          else { print score[x] d uses[x] d time[x] d action[x] d x }
+        }
+      }
+    }
+  ' | sort -k1,1nr | cut -d"" -f2-5 > "$_LANTERN_DATA"
+  #xdotool key ctrl+r
+}
+
+# user interaction
+# ------------------------------------
+
+_fzf() {
+  # base fzf function
+  fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi \
+    $_lantern_fzf_height $_lantern_fzf_margin \
+    --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 \
+    "$@"
+}
+
+select_action() { # $1 - entry
+  # show a fzf menu that returns a single letter representing an action
+  local actions="x execute
+d cd directory
+e edit
+f file
+b background
+u graphical ui
+w browse web
+r reddit"
+
+  local a=$(echo "$actions" | _fzf --sort --bind "esc:abort" --header="  $1")
+  [[ "$a" != "" ]] && echo "${a:0:1}"
+}
+
+# execution
+# ------------------------------------
+
+launch() {
+  _l() {
+    exec setsid -f "$@"
+  }
+
+  _x() {
+    [[ "$_LANTERN_OPT" == "c" ]] && $1 || _l st -e sh -c "$1 ; exec bash"
+  }
+
+  _d() {
+    if [[ "$_LANTERN_OPT" == "c" ]]; then
+      cd "$1"
+    else
+      _l st -e sh -c "cd $1 ; exec bash"
+    fi
+  }
+
+  _e() {
+    [[ "$_LANTERN_OPT" == "c" ]] && nvim "$1" || _l st -e sh -c "$EDITOR $1 ; exec bash"
+  }
+
+  _f() {
+    if [[ "$(file "$1")" == *"PDF"* ]]; then
+      _l zathura "$1"
+    else
+      _e "$1"
+    fi
+  }
+
+  # FIXME bg closes terminal in console mode
+  #_b() {
+  #  if [[ "$_LANTERN_OPT" == "c" ]]; then
+  #    _l zathura "$1"
+  #  else
+  #    _e "$1"
+  #  fi
+  #}
+
+  e="${1//\~/$HOME}"
+
+  # black magic
+  case "$2" in
+    "x") _x "$e" ;;
+    "d") _d "$e" ;;
+    "e") _e "$e" ;;
+    "f") _f "$e" ;;
+    "b") _l sh -c "$e &" ;;
+    "u") _l "$e" ;;
+    "w") _l brave "$e" ;;
+    "r") _l brave "https://old.reddit.com/$e" ;;
+    *)
+      echo "unexpected cmd: \"$2\""
+      sleep 1s ;;
+  esac
+}
+
+_lantern $@

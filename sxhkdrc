@@ -8,9 +8,9 @@ super + Return
 
 # program launcher
 super + @space
-  bspc rule -a \*:"lantern" state=floating && ~/blueberry/lantern.d/lantern w
+  bspc rule -a \*:"lantern" state=floating && source ~/blueberry/lantern.d/new_lantern ; _lantern w
 
-# st -n "lantern" -a -g "35x7+0+0" -e 
+# st -n "lantern" -a -g "35x7+0+0" -e
 
 # make sxhkd reload its configuration files:
 super + Escape
