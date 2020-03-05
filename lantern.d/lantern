@@ -233,7 +233,6 @@ main() {
   fi
 }
 
-
 new_entry() { # $1 - entry, $2 - action
   echo "1${d}0${d}${2}${d}${1/#$HOME/'~'}"
 }
@@ -297,8 +296,6 @@ $(find $HOME -maxdepth 1 -type f)"
     }
     ' | sort -k1,1nr | cut -d"" -f2-5
 }
-
-
 
 reduce_scores() {
   # we only care about score > 1, so find the first occurrence of index 1

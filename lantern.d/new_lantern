@@ -2,6 +2,8 @@
 
 # TODO it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
 # FIXME wrap everything into one single function to prevent global scope pollution
+# FIXME window mode is broken
+# TODO add alias
 
 # ------------------------------------
 # prep
@@ -16,8 +18,7 @@ DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/config.sh"
 
-# load data and create it if it doesn't exist
-[ -f "$LANTERN_DATA" ] && data=$(<"$LANTERN_DATA") || touch "$LANTERN_DATA"
+alias ${_LANTERN_CMD:-bb}="init"
 
 # ------------------------------------
 # initialization
@@ -33,7 +34,7 @@ init() { # $1 - option
     w)
       xdotool search --onlyvisible --classname "lantern" windowunmap \
         || xdotool search --classname "lantern" windowmap \
-        || st -n "lantern" -a -g "35x7+0+0" -e "$0" i ;;
+        || st -n "lantern" -a -g "35x7+0+0" -e sh -c "bb" ;;
     i)
       _lantern_fzf_height="--height=100"
       _lantern_fzf_margin="--margin=2"
@@ -43,7 +44,6 @@ init() { # $1 - option
     *)
       return ;;
   esac
-  echo "$data" > "$LANTERN_DATA"
 }
 
 # ------------------------------------
@@ -51,13 +51,20 @@ init() { # $1 - option
 # ------------------------------------
 
 main() {
+  # load data and create it if it doesn't exist
+  [ -f "$LANTERN_DATA" ] && data=$(<"$LANTERN_DATA") || touch "$LANTERN_DATA"
+
+  # fill up the database
   populate
 
-  # run this in the background to speed stuff up
-  prepare &
+  # background those to speed stuff up
+  (clean &)
+  (prepare &)
+
+  # get fzf output
   local out=$(echo "$data" | _fzf \
     --print-query \
-    --expect "tab,ctrl-a" \
+    --expect "tab,ctrl-a,esc" \
     --bind "ctrl-r:reload(cat $LANTERN_DATA),change:top" \
     --with-nth=3,4 --nth=2 \
   )
@@ -65,59 +72,90 @@ main() {
   # get our data back after it was processed
   data=$(<"$LANTERN_DATA")
 
-  # 0 - query, 1 - key, 2 - selection
-  mapfile -t out <<< "$out"
+  # sort out any additional things to do before executing
+  mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
+
+  local action_override
+
+  local q="${out[0]}"
+  local a="$(awk -F"$d" '{ print $3 }' <<< ${out[2]})"
+  local e="$(awk -F"$d" '{ print $4 }' <<< ${out[2]})"
 
   case "${out[1]}" in
     "tab")
-      update_entry "${out[2]}" 0 
+      action_override="$(select_action $e)"
+      update_entry "$e" "" "" "$action_override" ;;
+    "ctrl-a")
+      #local action_add="$(select_action $e)"
+      #add_entry "$q" "$(date +%s)" "$action_add"
+      # need to check if action is valid etc
+      # launch
+      ;;
+    "esc") return ;;
+  esac
 
+  #if [[ "$e" == "" ]] && [[ "$q" != "" ]]; then
+  #  add_entry "$q" "$(date +%s)" "$(select_action $q)"
+  #  # launch
+  #fi
 
+  if [[ "$e" != "" ]] && [[ "$a" != "" ]]; then
+    # selected entry
+    update_entry "$e" 1 "$(date +%s)" ""
+    # execute selection
+    if [[ "$action_override" == "" ]]; then
+      echo "$e $a"
+      launch "$e" "$a"
+    else
+      echo "$e $action_override"
+      launch "$e" "$action_override"
+    fi
+  fi
+
+  # write back
+  echo "$data" > "$LANTERN_DATA"
 }
 
 # ------------------------------------
 # data manipulation
 # ------------------------------------
 
-# echo a new entry in a proper format
-# FIXME rename to format_entry or generate_entry
-new_entry() { # $1 - entry, $2 - action
-  echo "1${d}0${d}${2}${d}${1/#$HOME/'~'}"
+# echo a new entry in a proper format w/ 1 use
+# this is needed to speed up populate
+new_entry() { # $1 - entry, $2 - time, $3 - action
+  echo "1${d}${2}${d}${3}${d}${1/#$HOME/'~'}"
 }
 
+# append entry generated through the above to data
+add_entry() { # $1 - entry, $2 - time, $3 - action
+  [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $3 == "" ]] && return
+  data+=$(echo -e "\n$(new_entry $1 $2 $3)")
+}
+
+# FIXME prolly broken too
 # remove entry from data
 delete_entry() { # $1 - entry
-  data=$(awk -v entry="$1" -F"$d" '
-    $4 != entry
-  ' <<< "$data")
+  data=$(awk -v entry="$1" -F"$d" '$4 != entry' <<< "$data")
 }
 
 # update index, timestamp, action of an existing entry
 update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
-  data=$(awk -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -F"$d" '
+  data=$(awk -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$d" -F"$d" '
     $4 == entry {
-      if ( dindex != 0 ) $1 = $1 + dindex
+      if ( length(dindex) != 0 ) $1 = $1 + dindex
       if ( length(time) != 0 ) $2 = time
       if ( length(action) == 1 ) $3 = action
-    }
+    } { print $1 d $2 d $3 d $4 }
   ' <<< "$data")
 }
 
 # scan $HOME for entries, append them to data, remove duplicates
 populate() {
-  # can break if empty (doubt it ever will) without [ -d ${file} ] && 
-  #home_dirs=$(for folder in $HOME/*/; do
-  #  [ -d $folder ] && echo "$folder"
-  #done)
-
   # find all non-hidden folders in home
-  local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
+  local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | tail -n +2)"
 
-  # find everything in them
-  local home="$(find $home_dirs \( -name .git \) -prune -o -print)"
-
-  # append all files from home
-  home+="
+  # find everything in them and append entries from home
+  local home="$(find $home_dirs \( -name .git \) -prune -o -print)
 $(find $HOME -maxdepth 1 -type f)"
 
   # prevent new and old entries from sticking together
@@ -133,22 +171,25 @@ $(find $HOME -maxdepth 1 -type f)"
     else
       a="f"
     fi
-    new_entry "$l" "$a"
+    new_entry "$l" 0 "$a"
   done <<< "$home")
 
   # remove duplicates based on $col in file
   data=$(awk -F"$d" '!x[$4]++' <<< "$data")
 }
 
-# calculate score, sort, call ctrl-r
-prepare() {
-  # remove non-existent path entries, nb! IFS
+# remove non-existent path entries, nb! IFS
+clean() {
   while IFS="" read -r s t a e; do
     if [[ ${e:0:1} == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
       delete_entry "$e"
     fi
-  done <<< "$data"
+  done <<< "$data" > "$LANTERN_DATA"
+  xdotool key ctrl+r
+}
 
+# calculate score, sort, call ctrl-r
+prepare() {
   # get ready for fzf
   echo "$data" | awk -v d="$d" -v now="$(date +%s)" -F"$d" '
     function frecency(time) {
@@ -160,16 +201,27 @@ prepare() {
       }
       return 1
     }
+
     length > 0 {
       score[$4] = $1 / ( length / 2 ) * frecency($2)
       uses[$4] = $1
       time[$4] = $2
       action[$4] = $3
+      total += $1 - 1
     }
+
     END {
-      for ( x in score ) print score[x] d uses[x] d time[x] d action[x] d x
+      if ( total < 100 ) {
+        for ( x in score ) print score[x] d uses[x] d time[x] d action[x] d x
+      }
+      else {
+        for ( x in score ) {
+          if ( uses[x] > 1 ) { print score[x] d uses[x]-1 d time[x] d action[x] d x }
+          else { print score[x] d uses[x] d time[x] d action[x] d x }
+        }
+      }
     }
-  ' | sort -k1,1nr | cut -d"" -f2-5 > $LANTERN_DATA
+  ' | sort -k1,1nr | cut -d"" -f2-5 > "$LANTERN_DATA"
   xdotool key ctrl+r
 }
 
@@ -196,10 +248,70 @@ u graphical ui
 w browse web
 r reddit"
 
-  local a=$(echo "$actions" | _fzf --sort --header="  $1")
+  local a=$(echo "$actions" | _fzf --sort --bind "esc:abort" --header="  $1")
   [[ "$a" != "" ]] && echo "${a:0:1}"
 }
 
-init $@
+# ------------------------------------
+# selection execution
+# ------------------------------------
+
+launch() {
+  _l() {
+    exec setsid -f "$@"
+  }
+
+  _x() {
+    [[ "$opt" == "c" ]] && $1 || _l st -e sh -c "$1 ; exec bash"
+  }
+
+  _d() {
+    if [[ "$opt" == "c" ]]; then
+      cd "$1"
+    else
+      _l st -e sh -c "cd $1 ; exec bash"
+    fi
+  }
+
+  _e() {
+    [[ "$opt" == "c" ]] && nvim "$1" || l st -e sh -c "$EDITOR $1 ; exec bash"
+  }
+
+  _f() {
+    if [[ "$(file "$1")" == *"PDF"* ]]; then
+      _l zathura "$1"
+    else
+      _e "$1"
+    fi
+  }
+
+  # FIXME bg closes terminal in console mode
+  #_b() {
+  #  if [[ "$opt" == "c" ]]; then
+  #    _l zathura "$1"
+  #  else
+  #    _e "$1"
+  #  fi
+  #}
+
+  e="${1//\~/$HOME}"
+
+  # black magic
+  case "$2" in
+    "x") _x "$e" ;;
+    "d") _d "$e" ;;
+    "e") _e "$e" ;;
+    "f") _f "$e" ;;
+    "b") _l sh -c "$e &" ;;
+    "u") _l "$e" ;;
+    "w") _l brave "$e" ;;
+    "r") _l brave "https://old.reddit.com/$e" ;;
+    *)
+      echo "unexpected cmd: \"$2\""
+      sleep 1s ;;
+  esac
+}
+
+#init $@
 
 #select_action "entry"

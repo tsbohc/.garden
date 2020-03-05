@@ -181,7 +181,7 @@ augroup autoRead
 augroup END
 
 " auto remake lantern with each edit
-autocmd BufWritePost ~/blueberry/lantern.d/* silent! !cd ~/blueberry/lantern.d ; make
+"autocmd BufWritePost ~/blueberry/lantern.d/* silent! !cd ~/blueberry/lantern.d ; make
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install

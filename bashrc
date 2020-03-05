@@ -10,14 +10,15 @@
 
 # sources
 [[ -f ~/.aliases ]] && . ~/.aliases
-[[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
-[[ -f /usr/share/fzf/completion.bash ]] && . /usr/share/fzf/completion.bash
+[[ -f ~/blueberry/lantern.d/new_lantern ]] && . ~/blueberry/lantern.d/new_lantern
+#[[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
+#[[ -f /usr/share/fzf/completion.bash ]] && . /usr/share/fzf/completion.bash
 
 # z.lua
 #eval "$(lua ~/blueberry/scripts/z.lua --init bash)"
 
 # z.sh
-[[ -f ~/blueberry/scripts/z.sh ]] && . ~/blueberry/scripts/z.sh
+#[[ -f ~/blueberry/scripts/z.sh ]] && . ~/blueberry/scripts/z.sh
 
 # vi mode
 #set -o vi
