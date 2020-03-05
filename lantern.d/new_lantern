@@ -193,8 +193,6 @@ r reddit"
     local a="$(awk -F"$_lantern_d" '{ print $3 }' <<< ${out[2]})"
     local e="$(awk -F"$_lantern_d" '{ print $4 }' <<< ${out[2]})"
 
-    [[ "$e" == "" ]] && return
-
     local actual_e
     local actual_a
 
@@ -202,7 +200,7 @@ r reddit"
       "tab")
         actual_e="$e"
         actual_a="$(select_action $actual_e)"
-        if [[ "$actual_a" != "" ]]; then
+        if [[ "$actual_e" != "" ]] && [[ "$actual_a" != "" ]]; then
           update_entry "$actual_e" "" "" "$actual_a"
         else
           return
@@ -214,8 +212,8 @@ r reddit"
       "ctrl-a")
         if [[ "$q" != "" ]]; then
           actual_e="$q"
-          actual_a="$(select_action $q)"
-          if [[ "$actual_a" != "" ]]; then
+          actual_a="$(select_action $actual_e)"
+          if [[ "$actual_e" != "" ]] && [[ "$actual_a" != "" ]]; then
             add_entry "$actual_e" "0" "$actual_a"
           else
             return
@@ -224,13 +222,14 @@ r reddit"
         ;;
       "") # fzf prints "" on enter
         actual_a="$a"
-        if [[ "$actual_a" != "" ]]; then
-          actual_e="$e"
-        else
+        actual_e="$e"
+        if [[ "$actual_e" == "" ]] && [[ "$actual_a" == "" ]]; then
           return
         fi
         ;;
     esac
+
+    [[ "$actual_e" == "" ]] && return
 
     update_entry "$actual_e" 1 "$(date +%s)" ""
 
@@ -238,7 +237,6 @@ r reddit"
     (prepare &)
 
     launch "$actual_e" "$actual_a"
-
 
   } #}}}
 
