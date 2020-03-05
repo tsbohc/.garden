@@ -25,37 +25,35 @@ _lantern() {
     add_entry() { # $1 - entry, $2 - time, $3 - action {{{
       # append entry generated through the above to data
       [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $3 == "" ]] && return
-      echo "$(new_entry $1 $2 $3)" >> "$_LANTERN_DATA"
+      data+=$(echo -e "\n$(new_entry $1 $2 $3)")
     } #}}}
 
     delete_entry() { # $1 - entry {{{
       # remove entry from data
-      awk -i inplace -v entry="$1" -F"$_lantern_d" '$4 != entry' "$_LANTERN_DATA"
+      data=$(awk -v entry="$1" -F"$_lantern_d" '$4 != entry' <<< "$data")
     } #}}}
 
     update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action {{{
       # update index, timestamp, action of an existing entry
-      awk -i inplace -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_lantern_d" -F"$_lantern_d" '
+      data=$(awk -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_lantern_d" -F"$_lantern_d" '
       $4 == entry {
           if ( length(dindex) != 0 ) $1 = $1 + dindex
           if ( length(time) != 0 ) $2 = time
           if ( length(action) == 1 ) $3 = action
       } { print $1 d $2 d $3 d $4 }
-      ' "$_LANTERN_DATA"
+      ' <<< "$data")
     } #}}}
 
     populate() { #{{{
       # find all non-hidden folders in home
       local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | tail -n +2)"
-
       # find everything in them and append entries from home
       local home="$(find $home_dirs \( -name .git \) -prune -o -print)
 $(find $HOME -maxdepth 1 -type f)"
-
       # prevent new and old entries from sticking together
-      #[ -s "$_LANTERN_DATA" ] && echo -e "\n" >> "$_LANTERN_DATA"
-
-      while IFS= read -r l; do
+      [ -s "$_LANTERN_DATA" ] && data+="
+"
+      data+=$(while IFS= read -r l; do
         if [ -d "$l" ]; then
           a="d"
         elif [ -x "$l" ]; then
@@ -64,9 +62,9 @@ $(find $HOME -maxdepth 1 -type f)"
           a="f"
         fi
         new_entry "$l" 0 "$a"
-      done <<< "$home" >> "$_LANTERN_DATA"
+      done <<< "$home")
       # remove duplicates based on $col in file
-      awk -i inplace -F"$_lantern_d" '!x[$4]++' "$_LANTERN_DATA"
+      data=$(awk -F"$_lantern_d" '!x[$4]++' <<< "$data")
     } #}}}
 
     prepare() { #{{{
@@ -75,10 +73,9 @@ $(find $HOME -maxdepth 1 -type f)"
         if [[ ${e:0:1} == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
           delete_entry "$e"
         fi
-      done < "$_LANTERN_DATA"
+      done <<< "$data"
       # calculate score, sort
-      # FIXME
-      awk -v d="$_lantern_d" -v now="$(date +%s)" -F"$_lantern_d" '
+      echo "$data" | awk -v d="$_lantern_d" -v now="$(date +%s)" -F"$_lantern_d" '
         function frecency(time) {
           if ( time > 0 ) {
             dt = now-time
@@ -106,8 +103,7 @@ $(find $HOME -maxdepth 1 -type f)"
             }
           }
         }
-      ' "$_LANTERN_DATA" | sort -k1,1nr | cut -d"" -f2-5 > "/tmp/_lantern_data_processed"
-      [ -s /tmp/_lantern_data_processed ] && mv -f /tmp/_lantern_data_processed "$_LANTERN_DATA"
+      ' | sort -k1,1nr | cut -d"" -f2-5 > "$_LANTERN_DATA"
     } #}}}
 
     _fzf() { #{{{
@@ -180,7 +176,7 @@ r reddit"
     populate
 
     # get fzf output
-    local out=$(cat "$_LANTERN_DATA" | _fzf \
+    local out=$(echo "$data" | _fzf \
       --print-query \
       --expect "tab,ctrl-a,esc" \
       --bind "ctrl-r:reload(cat $_LANTERN_DATA),change:top" \
@@ -193,52 +189,37 @@ r reddit"
     local a="$(awk -F"$_lantern_d" '{ print $3 }' <<< ${out[2]})"
     local e="$(awk -F"$_lantern_d" '{ print $4 }' <<< ${out[2]})"
 
-    [[ "$e" == "" ]] && return
-
-    local actual_e
-    local actual_a
+    local action_override
 
     case "${out[1]}" in
       "tab")
-        actual_e="$e"
-        actual_a="$(select_action $actual_e)"
-        if [[ "$actual_a" != "" ]]; then
-          update_entry "$actual_e" "" "" "$actual_a"
-        else
-          return
-        fi
-        ;;
+        action_override="$(select_action $e)"
+        update_entry "$e" "" "" "$action_override" ;;
       "esc")
-        return
-        ;;
+        return ;;
       "ctrl-a")
         if [[ "$q" != "" ]]; then
-          actual_e="$q"
-          actual_a="$(select_action $q)"
-          if [[ "$actual_a" != "" ]]; then
-            add_entry "$actual_e" "0" "$actual_a"
-          else
-            return
+          local action_add="$(select_action $q)"
+          if [[ "$action_add" != "" ]]; then
+            add_entry "$q" "$(date +%s)" "$action_add"
+            #launch "$q" "$action_add"
           fi
         fi
         ;;
       "") # fzf prints "" on enter
-        actual_a="$a"
-        if [[ "$actual_a" != "" ]]; then
-          actual_e="$e"
-        else
-          return
+        if [[ "$e" != "" ]] && [[ "$a" != "" ]]; then
+          update_entry "$e" 1 "$(date +%s)" ""
+          if [[ "$action_override" == "" ]]; then
+            launch "$e" "$a"
+          else
+            launch "$e" "$action_override"
+          fi
         fi
         ;;
     esac
 
-    update_entry "$actual_e" 1 "$(date +%s)" ""
-
     # black magic
-    (prepare &)
-
-    launch "$actual_e" "$actual_a"
-
+    (prepare &) # NOTE: this may cause problems if data is very large and lantern is relaunched quickly, but from testing it so far it only results in a minor data loss (of the latest launch)
 
   } #}}}
 
