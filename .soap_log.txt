@@ -1216,3 +1216,29 @@ See the README in /usr/share/doc/tamzen-font for more info.
 (2/3) Updating fontconfig cache...
 (3/3) Updating X fontdir indices...
 Updating ff9032a..5dfbeda
+Updating 14557e5..071922f
+Fast-forward
+ aliases                                  |   4 +-
+ bashrc                                   |   8 +-
+ lantern.d/b_c                            |   1 -
+ lantern.d/b_d                            | 161 ------------
+ lantern.d/data                           |  56 +++-
+ lantern.d/lantern                        | 330 +-----------------------
+ lantern.d/lantern_new_before_clap        | 300 ++++++++++++++++++++++
+ lantern.d/lantern_old                    | 326 ++++++++++++++++++++++++
+ lantern.d/new_lantern                    | 424 ++++++++++++++++++-------------
+ lantern.d/new_lantern_var                | 250 ++++++++++++++++++
+ lantern.d/test.txt                       | 163 ------------
+ {lantern.d => sandbox}/backgroundtest.sh |   0
+ sandbox/test.sh                          | 182 +------------
+ sxhkdrc                                  |   4 +-
+ vimrc                                    |   5 +-
+ 15 files changed, 1198 insertions(+), 1016 deletions(-)
+ delete mode 100644 lantern.d/b_c
+ delete mode 100644 lantern.d/b_d
+ mode change 100755 => 100644 lantern.d/lantern
+ create mode 100755 lantern.d/lantern_new_before_clap
+ create mode 100755 lantern.d/lantern_old
+ create mode 100755 lantern.d/new_lantern_var
+ delete mode 100644 lantern.d/test.txt
+ rename {lantern.d => sandbox}/backgroundtest.sh (100%)

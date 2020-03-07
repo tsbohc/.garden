@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# DON"T FORGET TO XRDB -MERGE CURRENT THEME (REWORK THAT)
-
 lemon_height=16
 lemon_font1="TamzenForPowerline:pixelsize=16"
 lemon_font2="Unifont:pixelsize=14:antialias=false"
 
-# setup
+# prep
+# ------------------------------------
+
 if [[ $(pgrep -cx lemon) > 1 ]]; then
   echo "lemon: already running" >&2
   pkill lemon
@@ -15,15 +15,7 @@ fi
 bspc config bottom_padding 12
 bspc config bottom_monocle_padding -16
 
-# ------------------------------
-
-get_color() {
-  # query colors from xrdb
-  color=$(xrdb -query | awk '/^\*'$1':(.*)/ { print $2 }')
-  echo $color
-}
-
-c_red=$(get_color color2)
+c_red="%{F#c9665e}"
 c_green="%{F#c9665e}"
 c_white="%{F#ffffff}"
 c_gray="%{F#666666}"
@@ -33,18 +25,45 @@ c_reset="%{F-}"
 calc(){ echo $(awk "BEGIN{print $*}"); }
 round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
 
-# ------------------------ ui
+# ui
+# ------------------------------------
 
-_block() { # $1 - value, $2 - max value
-  local blocks="▁▂▃▄▅▆▇█" # 8 total
-  local result=$(round $(calc $(calc $1*8)/$2)) # $1/$2 = x/8
-  (( $result > 1 )) && result=$((result - 1)) # shift to 0 based index
-  (( $result > 7 )) && result=7 # clamp
-  local b=${blocks:$result:1}
-  echo "$b$b" #$1/$2"
-}
+_block() { # $1 - value, $2 - max value, $3 - color {{{
+  local blocks=( ▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ) # 8 total
+  local id=$(round $(calc $(calc $1*8)/$2)) # $1/$2 = x/8
+  (( $id > 1 )) && id=$((id - 1)) # shift to 0 based index
+  (( $id > 7 )) && id=7 # clamp
 
-horizontal_bar() {
+  if [[ "$3" != "" ]]; then
+    if [[ "$3" == "n" ]]; then
+      if (( $id < 2 )); then
+        local c="$c_darkgray"
+      elif (( $id > 5 )); then
+        local c="$c_white"
+      else
+        local c="$c_gray"
+      fi
+    elif [[ "$3" == "r" ]]; then
+      if (( $id < 2 )); then
+        local c="$c_white"
+      elif (( $id > 5 )); then
+        local c="$c_darkgray"
+      else
+        local c="$c_gray"
+      fi
+    fi
+  fi
+
+  local b=${blocks[$id]}
+
+  if [[ "$3" != "" ]]; then
+    echo -e "$c$b$b$c_reset"
+  else
+    echo -e "$b$b"
+  fi
+} #}}}
+
+horizontal_bar() { #{{{
   local width=15
   local value=$(round $(calc $1/$width)) # input is %
   local fill_color=$2
@@ -65,9 +84,9 @@ horizontal_bar() {
   done
   bar+="$c_reset"
   echo "$bar"
-}
+} #}}}
 
-#double_bar() {
+#double_bar() { #{{{
 #  local width=10
 #  local value1=$(round $(calc $1/$width)) # input is %
 #  local value2=$(round $(calc $2/$width)) # input is %
@@ -97,15 +116,20 @@ horizontal_bar() {
 #  done
 #  bar+="$c_reset"
 #  echo "$bar"
-#}
+#} #}}}
 
-# --------------------- modules
+# modules
+# ------------------------------------
 
-_time(){
+_time() { #{{{
   echo $(date "+%H%M")
-}
+} #}}}
 
-_cpu(){
+_window_title() { #{{{
+  echo $(xtitle)
+} #}}}
+
+_cpu() { #{{{
   #phys_core_count=$(lscpu -p | egrep -v '^#' | sort -u -t, -k 2,4 | wc -l)
   local load=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
   #echo $(horizontal_bar $load $c_green "─" $c_green "┐" $c_gray "─")
@@ -115,64 +139,52 @@ _cpu(){
   [[ "$temp" == "" ]] && temp=140
   temp=$(round $temp)
   temp=$(($temp - 40))
-  local btemp=$(_block $temp 60)
-  local bload=$(_block $load 100)
-  [[ $btemp == "▁▁" ]] && btemp=$c_darkgray$btemp$c_reset
-  [[ $bload == "▁▁" ]] && bload=$c_darkgray$bload$c_reset
+  local btemp=$(_block $temp 60 "n")
+  local bload=$(_block $load 100 "n")
   echo $btemp $bload
-}
+} #}}}
 
-_ram() {
+_ram() { #{{{
   local load=$(round $(free | grep Mem | awk '{print $3/$2 * 100}'))
   #echo $(horizontal_bar $load $c_white "─" $c_white "┘" $c_gray "─")
-  local bload=$(_block $load 100)
-  [[ $bload == "▁▁" ]] && bload=$c_darkgray$bload$c_reset
+  local bload=$(_block $load 100 "n")
   echo $bload
-}
+} #}}}
 
-_ram_and_cpu() {
-  local load1=$(round $(free | grep Mem | awk '{print $3/$2 * 100}'))
-  local load2=$(top -d 0.5 -b -n2 | grep "Cpu(s)"| tail -n 1 | awk '{print $2 + $4}')
-  echo $(double_bar $load1 $load2)
-}
-
-_window_title(){
-  echo $(xtitle)
-}
-
-# ------------------------------------------- setup
+_battery() { #{{{
+  if [ -d /sys/module/battery ]; then
+    local percentage=$(acpi -b | awk -F"," '{ print $2 }')
+    percentage=${percentage:1:-1}
+    local bload=$(_block $percentage 100 "r")
+    echo "$bload"
+  fi
+} #}}}
 
 # gather info
-#_modules() {
-#  while true; do
-#    echo "C" "$(_cpu)"
-#    echo "R" "$(_ram)"
-#    #echo "R" "$(_ram_and_cpu)"
-#    echo "T" "$(_time)"
-#    sleep 3s
-#  done
-#}
+# ------------------------------------
 
-# lay down the pipes
 lemon_fifo="/tmp/lemon.fifo"
 [ -e "$lemon_fifo" ] && rm "$lemon_fifo"
 mkfifo "$lemon_fifo"
 
-#_modules > "$lemon_fifo" &
 while true; do echo "T" "$(_time)"; sleep 30s; done > "$lemon_fifo" &
-while true; do echo "C" "$(_cpu)"; sleep 5s; done > "$lemon_fifo" &
-while true; do echo "R" "$(_ram)"; sleep 5s; done > "$lemon_fifo" &
+while true; do echo "B" "$(_battery)"; sleep 30s; done > "$lemon_fifo" &
+while true; do echo "C" "$(_cpu)"; sleep 10s; done > "$lemon_fifo" &
+while true; do echo "R" "$(_ram)"; sleep 10s; done > "$lemon_fifo" &
 bspc subscribe report > "$lemon_fifo" &
+
+# manage the pipe
+# ------------------------------------
 
 get_window_count() {
   echo $(bspc query -N -d $1 | grep -f <(bspc query -N -n .leaf) | wc -l)
 }
 
-# manage the pipe
-_lemon() {
+_lemon() { #{{{
   while read -r line ; do
     case $line in
       T*) time="${line#?}" ;;
+      B*) battery="${line#?}" ;;
       C*) cpu="${line#?}" ;;
       R*) ram="${line#?}" ;;
       #R*) ram_and_cpu="${line#?}" ;;
@@ -197,41 +209,37 @@ _lemon() {
             O*) # focused occupied desktop
               local window_count=$(get_window_count $name)
               local b=$(_block $window_count 3)
-              wm_infos="${wm_infos}$c_white${b}$c_reset "
-              ;;
+              wm_infos="${wm_infos}$c_white${b}$c_reset " ;;
             o*) # occupied desktop
               local window_count=$(get_window_count $name)
               local b=$(_block $window_count 3)
-              wm_infos="${wm_infos}$c_gray${b}$c_reset "
-              ;;
+              wm_infos="${wm_infos}$c_gray${b}$c_reset " ;;
             F*) # focused free desktop
-              wm_infos="${wm_infos}$c_white▁▁$c_reset "
-              ;;
+              wm_infos="${wm_infos}$c_white▁▁$c_reset " ;;
             f*) # free desktop
-              wm_infos="${wm_infos}$c_darkgray▁▁$c_reset "
-              ;;
+              wm_infos="${wm_infos}$c_darkgray▁▁$c_reset " ;;
             U*) # focused urgent desktop
-              wm_infos="${wm_infos}$c_white!!$c_reset "
-              ;;
+              wm_infos="${wm_infos}$c_white!!$c_reset " ;;
             u*) # urgent desktop
-              wm_infos="${wm_infos}$c_red!!$c_red "
-              ;;
+              wm_infos="${wm_infos}$c_red!!$c_red " ;;
           esac
           shift
         done
         ;;
   esac
 
-    l="$wm_infos"
-    c="$time" #$(xtitle)"
-    r="$cpu$ram"
-    echo "%{l} $l%{c}$c%{r}$r "
+    l="$time"
+    c="$wm_infos" #$(xtitle)"
+    r="$cpu$ram$battery"
+    echo "%{l}$l%{c}$c%{r}$r "
   done
-}
+} #}}}
 
 # launch lemon
+# ------------------------------------
+
 _lemon < "$lemon_fifo" \
   | lemonbar -p -b -u 0 -g "x$lemon_height+0+4" -f "$lemon_font1" -f "$lemon_font2" &
 
-# keep lemon below windows
+# keep self below windows
 xdo above -t $(xdo id -n root) $(xdo id -n lemon) &

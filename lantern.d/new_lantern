@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
-
 _LANTERN_DATA="$HOME/blueberry/lantern.d/data"
 _LANTERN_CMD="bb"
 _LANTERN_BROWSER="brave"
@@ -24,8 +22,8 @@ _lantern() {
 
     add_entry() { # $1 - entry, $2 - time, $3 - action {{{
       # append entry generated through the above to data
-      [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $3 == "" ]] && return
-      echo "$(new_entry $1 $2 $3)" >> "$_LANTERN_DATA"
+      [[ "$1" == "" ]] || [[ "$2" == "" ]] || [[ "$3" == "" ]] && return
+      echo "$(new_entry "$1" "$2" "$3")" >> "$_LANTERN_DATA"
     } #}}}
 
     delete_entry() { # $1 - entry {{{
@@ -35,6 +33,7 @@ _lantern() {
 
     update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action {{{
       # update index, timestamp, action of an existing entry
+      [[ "$1" == "" ]] && return
       awk -i inplace -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_lantern_d" -F"$_lantern_d" '
       $4 == entry {
           if ( length(dindex) != 0 ) $1 = $1 + dindex
@@ -70,15 +69,23 @@ $(find $HOME -maxdepth 1 -type f)"
     } #}}}
 
     prepare() { #{{{
+
       # remove non-existent path entries, nb! IFS _lantern_d
+      local now=$(date +%s)
+
       while IFS="" read -r u t a e; do
-        if [[ ${e:0:1} == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
-          delete_entry "$e"
+        t="${t:0:-1}" # trim off the whitespace
+        if [[ "${e:0:1}" == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
+          if [[ "$t" == 0 ]]; then
+            delete_entry "$e"
+          elif [[ $(($(date +%s) - "$t")) > 604800 ]]; then
+            delete_entry "$e"
+          fi
         fi
       done < "$_LANTERN_DATA"
+
       # calculate score, sort
-      # FIXME
-      awk -v d="$_lantern_d" -v now="$(date +%s)" -F"$_lantern_d" '
+      awk -v d="$_lantern_d" -v now="$now" -F"$_lantern_d" '
         function frecency(time) {
           if ( time > 0 ) {
             dt = now-time
@@ -97,12 +104,14 @@ $(find $HOME -maxdepth 1 -type f)"
         }
         END {
           if ( total < 100 ) {
-            for ( x in score ) print score[x] d uses[x] d time[x] d action[x] d x
+            for ( x in score ) {
+              print score[x] d uses[x] d time[x] d action[x] d x
+            }
           }
           else {
             for ( x in score ) {
-              if ( uses[x] > 1 ) { print score[x] d uses[x]-1 d time[x] d action[x] d x }
-              else { print score[x] d uses[x] d time[x] d action[x] d x }
+              if ( uses[x] > 1 ) uses[x] = uses[x] - 1
+              print score[x] d uses[x] d time[x] d action[x] d x
             }
           }
         }
@@ -139,14 +148,19 @@ r reddit"
       _l() {
         exec setsid -f "$@"
       }
+
+      #sudo causes weird behavior
+      #if [[ "$e" == "sudo"* ]]; then
+      #fi
+
       _x() {
-        [[ "$_lantern_opt" == "c" ]] && $1 || _l st -e bash -c "$1 ; exec $SHELL"
+        [[ "$_lantern_opt" == "c" ]] && $1 || _l st -e bash -c "$1 ; $SHELL"
       }
       _d() {
-        [[ "$_lantern_opt" == "c" ]] && cd "$1" || _l st -e sh -c "cd $1 ; exec $SHELL"
+        [[ "$_lantern_opt" == "c" ]] && cd "$1" || _l st -e bash -c "cd $1 ; $SHELL"
       }
       _e() {
-        [[ "$_lantern_opt" == "c" ]] && nvim "$1" || _l st -e sh -c "$EDITOR $1 ; exec $SHELL"
+        [[ "$_lantern_opt" == "c" ]] && "$EDITOR" "$1" || _l st -e bash -c "$EDITOR $1 ; $SHELL"
       }
       _f() {
         if [[ "$(file "$1")" == *"PDF"* ]]; then
@@ -155,8 +169,6 @@ r reddit"
           _e "$1"
         fi
       }
-
-      # FIXME bg closes terminal in console mode
 
       case "$2" in
         "x") _x "$e" ;;
@@ -184,7 +196,7 @@ r reddit"
       --print-query \
       --expect "tab,ctrl-a,esc" \
       --bind "ctrl-r:reload(cat $_LANTERN_DATA),change:top" \
-      --with-nth=3,4 --nth=2 \
+      --with-nth=3.. --nth=2 \
     )
 
     mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
