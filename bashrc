@@ -44,6 +44,7 @@ PROMPT_COMMAND="history -a; history -n"
 
 # exports
 export EDITOR=nvim
+export BROWSER=brave
 
 # prompt
 CGREEN='\[\e[32m\]'

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 read -d '' bundles << EOF
-xorg:          xorg-server xorg-xinit xterm
+xorg:          xorg-server xorg-xinit xorg-xsetroot xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua
 bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdotool

@@ -11,21 +11,17 @@ alias ${_LANTERN_ALIAS:-lantern}="_lantern"
 
 _lantern() {
   _main() {
-    #{{{
 
     _new_entry() { echo "1$_lantern_d${2}$_lantern_d${3}$_lantern_d${1/#$HOME/'~'}" ; }
 
     _add_entry() { # $1 - entry, $2 - time, $3 - action
-      #{{{
       [[ "$1" == "" ]] || [[ "$2" == "" ]] || [[ "$3" == "" ]] && return
       echo "$(_new_entry "$1" "$2" "$3")" >> "$_LANTERN_DATA"
-      #}}}
     }
 
     _delete_entry() { awk -i inplace -v entry="$1" -F"$_lantern_d" '$4 != entry' "$_LANTERN_DATA" ; }
 
     _delete_entries() { # $1 - array of entries
-      #{{{
       local a="$1" # bash yells about bad substitution
       awk -i inplace -v array="${a[*]}" -F"$_lantern_d" '
       BEGIN {
@@ -33,11 +29,9 @@ _lantern() {
         for ( i in values ) keys[values[i]] = ""
       }
       !($4 in keys) ' "$_LANTERN_DATA"
-      #}}}
     }
 
     _update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
-      #{{{
       [[ "$1" == "" ]] && return
       awk -i inplace -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_lantern_d" -F"$_lantern_d" '
       $4 == entry {
@@ -46,20 +40,16 @@ _lantern() {
           if ( length(action) == 1 ) $3 = action
       } { print $1 d $2 d $3 d $4 }
       ' "$_LANTERN_DATA"
-      #}}}
-    }
 
     _manage() {
-      #{{{
 
       _populate() {
-        #{{{
         # find all non-hidden folders in home
-        local home_dirs=$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)
+        local home_dirs="$(find $HOME -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)"
 
         # find everything in them and append entries from home
         local home="$(find $home_dirs \( -name .git \) -prune -o -print)
-$(find "$HOME" -maxdepth 1 -type f)"
+  $(find $HOME -maxdepth 1 -type f)"
 
         while IFS= read -r l; do
           if [ -d "$l" ]; then
@@ -73,11 +63,9 @@ $(find "$HOME" -maxdepth 1 -type f)"
         done <<< "$home" >> "$_LANTERN_DATA"
         # remove duplicates based on $col in file
         awk -i inplace -F"$_lantern_d" '!x[$4]++' "$_LANTERN_DATA"
-        #}}}
       }
 
       _clean() {
-        #{{{
         # remove non-existent path entries, nb! IFS _lantern_d
         local now=$(date +%s)
         local entries_to_delete
@@ -94,11 +82,9 @@ $(find "$HOME" -maxdepth 1 -type f)"
         done < "$_LANTERN_DATA"
 
         _delete_entries "$entries_to_delete"
-        #}}}
       }
 
       _sort() {
-        #{{{
         awk -v d="$_lantern_d" -v now="$now" -F"$_lantern_d" '
           function frecency(time) {
             if ( time > 0 ) {
@@ -133,8 +119,8 @@ $(find "$HOME" -maxdepth 1 -type f)"
               }
             }
           }
-        ' "$_LANTERN_DATA" | sort -k1,1nr | cut -d"" -f2-5 > '/tmp/_lantern_data_processed' && mv -f '/tmp/_lantern_data_processed' "$_LANTERN_DATA"
-        #}}}
+        ' "$_LANTERN_DATA" | sort -k1,1nr | cut -d"" -f2-5 > "/tmp/_lantern_data_processed"
+        [ -s /tmp/_lantern_data_processed ] && mv -f /tmp/_lantern_data_processed "$_LANTERN_DATA"
       }
 
       _populate
@@ -142,112 +128,96 @@ $(find "$HOME" -maxdepth 1 -type f)"
       _sort
 
       xdotool key ctrl+r
-      #}}}
     }
 
     _fzf() {
-      #{{{
       fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi --no-unicode \
-        "$_lantern_fzf_height" "$_lantern_fzf_margin" \
+        $_lantern_fzf_height $_lantern_fzf_margin \
         --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 \
         "$@"
-      #}}}
     }
 
     declare -A actions=( [x]=_execute [d]=_directory [f]=_file [u]=_launch [e]=_edit [w]=_browse [b]=_background )
 
     _select_action() { # $1 - entry
-      #{{{
       [[ "$1" == "" ]] && return
-      local actions="$(for key in "${!actions[@]}"; do echo "$key ${actions[$key]:1}"; done)"
-      local a="$(echo "$actions" | _fzf --sort --bind "esc:abort" --header="  $1")"
+      local actions=$(for key in "${!actions[@]}"; do echo "$key ${actions[$key]:1}"; done)
+      local a=$(echo "$actions" | _fzf --sort --bind "esc:abort" --header="  $1")
       [[ "$a" != "" ]] && echo "${a:0:1}"
-      #}}}
     }
 
     _launch() { # $1 - entry, $2 - action
-      #{{{
       [[ "$1" == "" ]] || [[ "$2" == "" ]] && return
       _detach() { exec setsid -f "$@" ; }
       _file() {
-        #{{{
         if [[ "$(file "$1")" == *"PDF"* ]]; then
           _detach zathura "$1"
         else
-          "${actions["e"]}" "$1"
+          ${actions["e"]} "$1"
         fi
-        #}}}
       }
       _execute() {
-        #{{{
         if [[ "$_lantern_opt" == "c" ]]; then
           $1
         else
           _detach st -e bash -c "$1 ; $SHELL"
         fi
-        #}}}
       }
       _directory() {
-        #{{{
         if [[ "$_lantern_opt" == "c" ]]; then
           cd "$1"
         else
           _detach st -e bash -c "cd $1 ; $SHELL"
         fi
-        #}}}
       }
       _launch() {
         _detach "$1"
       }
       _edit() {
-        #{{{
         if [[ "$_lantern_opt" == "c" ]]; then
           "$EDITOR" "$1"
         else
           _detach st -e bash -c "$EDITOR $1 ; $SHELL"
         fi
-        #}}}
       }
       _browse() {
-        #{{{
         if [[ "$1" != "r/"* ]]; then
           _detach "${_LANTERN_BROWSER:-$BROWSER}" "$1"
         else
           _detach "${_LANTERN_BROWSER:-$BROWSER}" "https://old.reddit.com/$1"
         fi
-        #}}}
       }
       _backround() { _detach bash -c "$e &" ; }
-      "${actions[$2]}" "${1//\~/$HOME}"
-      #}}}
+      ${actions[$2]} "${1//\~/$HOME}"
     }
 
-    [[ ! -e "$_LANTERN_DATA" ]] && touch "$_LANTERN_DATA"
+    [ ! -e "$_LANTERN_DATA" ] && touch "$_LANTERN_DATA"
 
     (_manage &)
 
-    local out="$(_fzf \
+    local out=$(_fzf \
       --print-query \
       --expect "tab,ctrl-a,esc" \
       --bind "ctrl-r:reload(cat $_LANTERN_DATA),change:top" \
       --tiebreak=length,end,index \
       --with-nth=3.. --nth=2.. \
-      < "$_LANTERN_DATA")"
+      < "$_LANTERN_DATA"
+    )
 
     mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
     local _q="${out[0]}"
-    local _e="$(awk -F"$_lantern_d" '{ print $4 }' <<< "${out[2]}")"
-    local _a="$(awk -F"$_lantern_d" '{ print $3 }' <<< "${out[2]}")"
+    local _e="$(awk -F"$_lantern_d" '{ print $4 }' <<< ${out[2]})"
+    local _a="$(awk -F"$_lantern_d" '{ print $3 }' <<< ${out[2]})"
 
     case "${out[1]}" in
       "tab")
         local e="$_e"
-        local a="$(_select_action "$e")"
+        local a="$(_select_action $e)"
         _update_entry "$e" "" "" "$a"
         ;;
       "ctrl-a")
         local e="$_q"
-        local a="$(_select_action "$e")"
+        local a="$(_select_action $e)"
         _add_entry "$e" "0" "$a"
         ;;
       "alt-enter")
@@ -263,7 +233,6 @@ $(find "$HOME" -maxdepth 1 -type f)"
     [[ "$e" == "" ]] || [[ "$a" == "" ]] && return
     _update_entry "$e" 1 "$(date +%s)" ""
     _launch "$e" "$a"
-  #}}}
   }
 
   local _lantern_opt="$1"
@@ -274,7 +243,7 @@ $(find "$HOME" -maxdepth 1 -type f)"
     w)
       xdotool search --onlyvisible --classname "lantern" windowunmap \
       || xdotool search --classname "lantern" windowmap \
-      || st -n "lantern" -a -g "35x7+0+0" -e bash -c "source "$(realpath "${BASH_SOURCE[0]}")" ; _lantern i"
+      || st -n "lantern" -a -g "35x7+0+0" -e bash -c "source $(realpath ${BASH_SOURCE[0]}) ; _lantern i"
       ;;
     i)
       _lantern_fzf_height="--height=100"

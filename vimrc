@@ -5,8 +5,7 @@
 "    |
 
 " -------------------------------------------------
-"   plug
-" -------------------------------------------------
+"{{{ plug
 
 " boostrap plug
 "if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -15,10 +14,7 @@
 "  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 "endif
 
-"
-" MOVE FONT CHECK TO STATUSLINE SCRIPT
-"
-"
+" FIXME MOVE FONT CHECK TO STATUSLINE SCRIPT
 
 if has('nvim')
   call plug#begin('~/.vim/bundle')
@@ -27,30 +23,22 @@ if has('nvim')
   Plug 'junegunn/fzf.vim'
   Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-  " add npm and yarn to bb
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-  "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
   Plug 'morhetz/gruvbox'
   Plug 'joshdick/onedark.vim'
   Plug 'rakr/vim-two-firewatch'
   Plug 'jnurmine/Zenburn'
-
-  "Plug 'junegunn/goyo.vim'
-
-  "augroup load_us_ycm
-  "  autocmd!
-  "  autocmd InsertEnter * call plug#load('vim-multiple-cursors')
-  "    \| autocmd! load_us_ycm
-  "augroup END
+  "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
   call plug#end()
 endif
 
-" -------------------------------------------------
-"   user settings
+"}}}
 " -------------------------------------------------
 
-"let g:UltiSnipsExpandTrigger="<CR>"
+" -------------------------------------------------
+"{{{ user settings
+
+"let g:UltiSnipsExpandTrigger="<CR>
 "let g:UltiSnipsExpandTrigger="<c-b>"
 
 " rendering
@@ -107,7 +95,7 @@ set foldenable
 set foldmethod=marker
 syntax enable
 
-function! MyFoldText() " {{{
+function! MyFoldText()
   let line = getline(v:foldstart)
 
   let nucolwidth = &fdc + &number * &numberwidth
@@ -120,13 +108,20 @@ function! MyFoldText() " {{{
 
   let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
   let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
-  return line . ' ' . repeat("-", fillcharcount) . ' ' . foldedlinecount . '  '
-endfunction " }}}
+  return line . ' ' . repeat(" ", fillcharcount) . ' ' . foldedlinecount . '  '
+endfunction
+
 set foldtext=MyFoldText()
 
+" hide CursorLine in insert mode
+autocmd InsertEnter * set nocul
+autocmd InsertLeave * set cul
+
+"}}}
 " -------------------------------------------------
-"   plug specific
+
 " -------------------------------------------------
+"{{{ plug specific
 
 " fzf-vim
 nnoremap <C-F> :Files<cr>
@@ -159,14 +154,18 @@ endtry
 
 " remove fold bg
 " FIXME set this to comment bg color
-"highlight Folded guibg=bg
+"highlight Folded guibg=NONE ctermbg=NONE
+"highlight CursorLine guifg=NONE guibg=NONE cterm=nocombine
+
 "set foldcolumn=1
 "highlight FoldColumn guifg=grey guibg=bg
 "hi! link Folded User5
 
+"}}}
 " -------------------------------------------------
-"   vim magic
+
 " -------------------------------------------------
+"{{{ vim magic
 
 " write a function that handles swapfiles automagically
 
@@ -186,9 +185,11 @@ autocmd BufWritePost config.h,config.def.h !sudo make install
 " run xrdb whenever Xdefaults or Xresources are updated
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
+"}}}
 " -------------------------------------------------
-"   keymaps
+
 " -------------------------------------------------
+"{{{ keymaps
 
 " hardmode
 noremap <Up> <Nop>
@@ -209,15 +210,22 @@ inoremap <PageDown> <nop>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
+"}}}
 " -------------------------------------------------
-"   filetype specific
+
 " -------------------------------------------------
+"{{{ filetype specific
 
 " python
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
-" -------------------------------------------------
-"   sources
+"}}}
 " -------------------------------------------------
 
+" -------------------------------------------------
+"{{{ sources
+
 source ~/blueberry/vim/statusline.vim
+
+"}}}
+" -------------------------------------------------

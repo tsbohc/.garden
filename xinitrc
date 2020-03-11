@@ -19,6 +19,7 @@ fi
 
 #xrdb ~/.Xresources
 feh --bg-fill ~/.wallpaper
+xsetroot -cursor_name left_ptr
 #exec ~/blueberry/lemon
 #exec picom &
 #exec flux &
