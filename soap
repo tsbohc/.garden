@@ -3,7 +3,7 @@
 read -d '' bundles << EOF
 xorg:          xorg-server xorg-xinit xorg-xsetroot xterm
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
-dev:           cmake lua
+dev:           cmake lua jre-openjdk
 bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip xsel
 zathura:       zathura zathura-pdf-mupdf zathura-djvu
@@ -29,6 +29,8 @@ vim/nvim_init.vim             ~/.config/nvim/init.vim
 vim/colors                    ~/.config/nvim/colors
 picom                         ~/.config/picom.conf
 zathurarc                     ~/.config/zathura/zathurarc
+vim/spellcheck                ~/.vim/spellcheck
+vim/thesaurus                 ~/.vim/thesaurus
 EOF
 
 read -d '' directories << EOF
@@ -516,6 +518,8 @@ run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/Ste
 
 # install/update z
 run_command "$i_run" "z.sh" "curl -S --create-dirs https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
+
+#run_command "$i_run" "thesaurus" "sudo curl -S --create-dirs https://raw.githubusercontent.com/zeke/moby/master/words.txt -o $HOME/.vim/thesaurus/mthesaur.txt"
 
 create_directories
 

@@ -19,15 +19,22 @@
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 
+  " general
   Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
+
+  " coding
   Plug 'Yggdroot/indentline'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-  Plug 'morhetz/gruvbox'
-  Plug 'joshdick/onedark.vim'
-  Plug 'rakr/vim-two-firewatch'
-  Plug 'jnurmine/Zenburn'
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+
+  " writing
+  Plug 'dbmrq/vim-ditto'
+  Plug 'ron89/thesaurus_query.vim'
+  Plug 'reedes/vim-lexical'
+
+  " style
+  Plug 'morhetz/gruvbox'
 
   call plug#end()
 endif
@@ -36,7 +43,7 @@ endif
 " -------------------------------------------------
 
 " -------------------------------------------------
-"{{{ user settings
+"{{{ settings
 
 "let g:UltiSnipsExpandTrigger="<CR>
 "let g:UltiSnipsExpandTrigger="<c-b>"
@@ -121,53 +128,46 @@ autocmd InsertLeave * set cul
 " -------------------------------------------------
 
 " -------------------------------------------------
-"{{{ plug specific
-
-" fzf-vim
-nnoremap <C-F> :Files<cr>
-vnoremap <C-F> <esc>:Files<cr>
-inoremap <C-F> <esc>:Files<cr>
-
-" indent line
-let g:indentLine_char = '│'
-
-" gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_italicize_comments = '1'
-let g:gruvbox_italic = '1'
-let g:gruvbox_bold = '0'
-
-" onedark
-let g:onedark_color_overrides = {
-\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
-\}
-
-try
-  " theme : DO NOT REMOVE THIS TAG
-colorscheme gruvbox
-  catch
-  try
-    colorscheme termcolors
-    catch
-  endtry
-endtry
-
-" remove fold bg
-" FIXME set this to comment bg color
-"highlight Folded guibg=NONE ctermbg=NONE
-"highlight CursorLine guifg=NONE guibg=NONE cterm=nocombine
-
-"set foldcolumn=1
-"highlight FoldColumn guifg=grey guibg=bg
-"hi! link Folded User5
-
-"}}}
-" -------------------------------------------------
-
-" -------------------------------------------------
 "{{{ vim magic
 
 " write a function that handles swapfiles automagically
+
+"" default filetype to txt
+"autocmd BufNewFile,BufRead * if expand('%:t') !~ '\.' | set filetype=text | endif
+
+"" vim-lexical
+"augroup lexical
+"  autocmd!
+"  autocmd FileType markdown,mkd call lexical#init()
+"  autocmd FileType textile call lexical#init()
+"  autocmd FileType text call lexical#init()
+"augroup END
+"
+"let g:lexical#spell = 1
+
+let g:writing_mode_enabled = 0
+function! WritingMode()
+  if g:writing_mode_enabled
+    set spell!
+    DittoOff
+    let g:writing_mode_enabled = 0
+  else
+    call lexical#init({
+      \ 'spell': 1,
+      \ 'spellang': ['en', 'geographic'],
+      \ 'dictionary': ['~/Downloads/cut.txt',
+      \                '/usr/share/dict/words',
+      \               ],
+      \ 'thesaurus': ['~/.vim/thesaurus/mthesaur.txt',
+      \              ],
+      \ 'spellfile': ['~/.vim/spellcheck/geograpgic.utf-8.add',
+      \              ],
+      \ })
+    DittoOn
+    let g:writing_mode_enabled = 1
+  endif
+endfunction
+command! WritingMode call WritingMode()
 
 " auto-update current buffer if it's been changed from somewhere else
 set autoread
@@ -214,18 +214,79 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 " -------------------------------------------------
 
 " -------------------------------------------------
-"{{{ filetype specific
+" filetype specific
+" -------------------------------------------------
 
 " python
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
+" -------------------------------------------------
+"{{{ plug specific
+
+" thesaurus_query
+nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
+
+" vim-ditto
+au FileType markdown,text,tex DittoOn
+hi clear SpellBad
+hi SpellBad ctermfg=red guifg=#fb4934
+execute 'hi SpellCap guifg=#fb4934'
+exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
+let g:ditto_hlgroups = ['SpellDitto', ]
+
+" fzf-vim
+nnoremap <C-F> :Files<cr>
+vnoremap <C-F> <esc>:Files<cr>
+inoremap <C-F> <esc>:Files<cr>
+
+" indent line
+let g:indentLine_char = '│'
+
+" gruvbox
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_italicize_comments = '1'
+let g:gruvbox_italic = '1'
+let g:gruvbox_bold = '0'
+
+" onedark
+let g:onedark_color_overrides = {
+\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
+\}
+
+try
+  " theme : DO NOT REMOVE THIS TAG
+colorscheme gruvbox
+  catch
+  try
+    colorscheme termcolors
+    catch
+  endtry
+endtry
+
+" remove fold bg
+" FIXME set this to comment bg color
+"highlight Folded guibg=NONE ctermbg=NONE
+"highlight CursorLine guifg=NONE guibg=NONE cterm=nocombine
+
+"set foldcolumn=1
+"highlight FoldColumn guifg=grey guibg=bg
+"hi! link Folded User5
+
 "}}}
 " -------------------------------------------------
 
 " -------------------------------------------------
-"{{{ sources
-
+" sources (keep at the end)
+" -------------------------------------------------
 source ~/blueberry/vim/statusline.vim
 
-"}}}
-" -------------------------------------------------
+" vim-ditto
+"au FileType markdown,text,tex DittoOn
+hi clear SpellBad
+hi SpellBad ctermfg=red guifg=#fb4934
+hi clear SpellCap
+hi SpellCap guifg=#fabd2f
+hi clear SpellRare
+hi SpellRare guifg=#d3869b
+hi SpellDitto guifg=#83a598
+let g:ditto_hlgroups = ['SpellDitto']

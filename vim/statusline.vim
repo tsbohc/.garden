@@ -174,6 +174,10 @@ function! StatusLineReadonly()
   return &readonly ? s:statuslineseparator . ' readonly ' : ''
 endfunction
 
+"function! CharacterCount()
+"  return execute "w !wc -c "
+"endfunction
+
 set noshowmode
 set laststatus=2
 set statusline=
@@ -189,4 +193,5 @@ set statusline+=%4*%{statuslinesfr}
 set statusline+=%=
 set statusline+=%{StatusLineFileType()} " filetype
 set statusline+=\ %4*%{statuslinesfl}%3*\ %p%% " _[4]<[3]_percentage
+"set statusline+=\ %o
 set statusline+=\ %5*%{statuslinesfl}%6*\ %l:%c\  " _[5]<[6]_line:column_

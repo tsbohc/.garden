@@ -24,6 +24,8 @@
 #     * z -l foo  # list matches instead of cd
 #     * z -e foo  # echo the best match, don't cd
 #     * z -c foo  # restrict matches to subdirs of $PWD
+#     * z -x      # remove the current directory from the datafile
+#     * z -h      # show a brief help message
 
 [ -d "${_Z_DATA:-$HOME/.z}" ] && {
     echo "ERROR: z.sh's datafile (${_Z_DATA:-$HOME/.z}) is a directory."
@@ -147,14 +149,14 @@ _z() {
             function output(matches, best_match, common) {
                 # list or return the desired directory
                 if( list ) {
+                    if( common ) {
+                        printf "%-10s %s\n", "common:", common > "/dev/stderr"
+                    }
                     cmd = "sort -n >&2"
                     for( x in matches ) {
                         if( matches[x] ) {
                             printf "%-10s %s\n", matches[x], x | cmd
                         }
-                    }
-                    if( common ) {
-                        printf "%-10s %s\n", "common:", common > "/dev/stderr"
                     }
                 } else {
                     if( common ) best_match = common
@@ -199,15 +201,22 @@ _z() {
                 # prefer case sensitive
                 if( best_match ) {
                     output(matches, best_match, common(matches))
+                    exit
                 } else if( ibest_match ) {
                     output(imatches, ibest_match, common(imatches))
+                    exit
                 }
+                exit(1)
             }
         ')"
 
-        [ $? -eq 0 ] && [ "$cd" ] && {
-          if [ "$echo" ]; then echo "$cd"; else builtin cd "$cd"; fi
-        }
+        if [ "$?" -eq 0 ]; then
+          if [ "$cd" ]; then
+            if [ "$echo" ]; then echo "$cd"; else builtin cd "$cd"; fi
+          fi
+        else
+          return $?
+        fi
     fi
 }
 
@@ -222,10 +231,12 @@ if type compctl >/dev/null 2>&1; then
         if [ "$_Z_NO_RESOLVE_SYMLINKS" ]; then
             _z_precmd() {
                 (_z --add "${PWD:a}" &)
+                : $RANDOM
             }
         else
             _z_precmd() {
                 (_z --add "${PWD:A}" &)
+                : $RANDOM
             }
         fi
         [[ -n "${precmd_functions[(r)_z_precmd]}" ]] || {
