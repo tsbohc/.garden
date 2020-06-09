@@ -6,12 +6,13 @@ pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua jre-openjdk
 bspwm:         bspwm lemonbar-xft-git ttf-unifont feh picom sxhkd xtitle xdo xdotool
 neovim:        neovim python2-pip python-pip xsel
+latex:         latex-mk texlive-most texlive-lang
 zathura:       zathura zathura-pdf-mupdf zathura-djvu
 media:         mpv
 cli:           fzf bat
 ex:            unzip
 fonts:         tamzen-font-git
-pip:           pynvim
+pip:           pynvim neovim-remote
 EOF
 #pip2:          pynvim
 

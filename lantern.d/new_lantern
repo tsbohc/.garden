@@ -3,7 +3,7 @@
 # settings & defaults
 _LANTERN_DATA="$HOME/blueberry/lantern.d/data"
 _LANTERN_ALIAS="bb" # lantern
-#_LANTERN_BROWSER="" # $BROWSER
+_LANTERN_BROWSER="brave" # $BROWSER
 #_LANTERN_EDITOR="" # $EDITOR
 
 export LC_ALL=C # disable unicode to speed things up
@@ -13,7 +13,11 @@ _lantern() {
   _main() {
     #{{{
 
-    _new_entry() { echo "1$_lantern_d${2}$_lantern_d${3}$_lantern_d${1/#$HOME/'~'}" ; }
+    _new_entry() {
+      #{{{
+      echo "1$_lantern_d${2}$_lantern_d${3}$_lantern_d${1/#$HOME/'~'}"
+      #}}}
+    }
 
     _add_entry() { # $1 - entry, $2 - time, $3 - action
       #{{{
@@ -22,17 +26,21 @@ _lantern() {
       #}}}
     }
 
-    _delete_entry() { awk -i inplace -v entry="$1" -F"$_lantern_d" '$4 != entry' "$_LANTERN_DATA" ; }
-
-    _delete_entries() { # $1 - array of entries
+    _delete_entry() {
       #{{{
-      local a="$1" # bash yells about bad substitution
-      awk -i inplace -v array="${a[*]}" -F"$_lantern_d" '
-      BEGIN {
-        split(array, values);
-        for ( i in values ) keys[values[i]] = ""
+      awk -i inplace -v entry="$1" -F"$_lantern_d" '$4 != entry' "$_LANTERN_DATA"
+      #}}}
+    }
+
+    _delete_entries() { # $1 - path to a file with entries to delete
+      #{{{
+      awk -i inplace -F"$_lantern_d" '
+      NR==FNR{
+        a[$0]; next
       }
-      !($4 in keys) ' "$_LANTERN_DATA"
+      !($4 in a) {
+        print
+      } ' '/tmp/_lantern_entries_to_delete' "$_LANTERN_DATA"
       #}}}
     }
 
@@ -85,15 +93,15 @@ $(find "$HOME" -maxdepth 1 -type f)"
         while IFS="" read -r u t a e; do
           t="${t:0:-1}" # trim off the whitespace
           if [[ "${e:0:1}" == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
-            if [[ "$t" == 0 ]]; then
-              entries_to_delete+=( "$e" )
-            elif [[ $(($(date +%s) - "$t")) > 604800 ]]; then
+            if [[ "$t" == 0 ]] || [[ $(("$now" - "$t")) > 604800 ]]; then
               entries_to_delete+=( "$e" )
             fi
           fi
         done < "$_LANTERN_DATA"
 
-        _delete_entries "$entries_to_delete"
+        printf "%s\n" "${entries_to_delete[@]}"  > '/tmp/_lantern_entries_to_delete'
+        _delete_entries '/tmp/_lantern_entries_to_delete'
+
         #}}}
       }
 

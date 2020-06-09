@@ -53,9 +53,6 @@ alias mv='mv -i'
 # readable output
 alias df='df -h'
 
-# tinyfetch
-alias tinyfetch='python3 ~/blueberry/scripts/tinyfetch.py'
-
 # cleanup orphaned packages
 alias pacmancleanup='sudo pacman -Rns $(pacman -Qtdq)'
 

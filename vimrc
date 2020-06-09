@@ -28,6 +28,9 @@ if has('nvim')
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
+  " latex
+  Plug 'lervag/vimtex'
+
   " writing
   Plug 'dbmrq/vim-ditto'
   Plug 'ron89/thesaurus_query.vim'
@@ -210,6 +213,9 @@ inoremap <PageDown> <nop>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
+" cyrillic bindings
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
 "}}}
 " -------------------------------------------------
 
@@ -238,6 +244,14 @@ let g:ditto_hlgroups = ['SpellDitto', ]
 nnoremap <C-F> :Files<cr>
 vnoremap <C-F> <esc>:Files<cr>
 inoremap <C-F> <esc>:Files<cr>
+
+" vimtex
+let g:tex_flavor  = 'latex'
+let g:tex_conceal = ''
+"let g:vimtex_fold_manual = 1
+let g:vimtex_latexmk_continuous = 1
+"let g:vimtex_compiler_progname = 'nvr'
+let g:vimtex_view_method = 'zathura'
 
 " indent line
 let g:indentLine_char = '│'
