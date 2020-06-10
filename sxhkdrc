@@ -28,6 +28,9 @@ Print
 # bspwm hotkeys
 #
 
+{F7,F8}
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 5 ))
+
 # quit/restart bspwm
 super + alt + {q,r}
   bspc {quit,wm -r}
@@ -47,6 +50,9 @@ super + y
 # swap the current node and the biggest node
 super + g
   bspc node -s biggest
+
+
+
 
 #
 # state/flags

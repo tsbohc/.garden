@@ -101,7 +101,7 @@ if [ "$TERM" = "linux" ]; then
   [[ -f ~/blueberry/sc/catlogin.sh ]] && . ~/blueberry/sc/catlogin.sh
 fi
 
-#LANG=ru_RU.UTF-8
+#export LANG=ru_RU.UTF-8
 #export LC_TIME=en_UK.UTF-8
 #export LC_CTYPE=ru_RU.UTF-8
-#export LC_ALL=ru_RU.UTF-8
+#export LC_ALL=C

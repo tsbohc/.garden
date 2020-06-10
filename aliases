@@ -11,6 +11,7 @@ alias soap='bash ~/blueberry/soap'
 
 # nvim
 alias v='nvim'
+alias ruterm='LC_ALL=ru_RU.UTF-8 st'
 alias vpager='nvim -u ~/blueberry/vim/vpager'
 
 alias nnn='nnn -H' # show hidden files by default
