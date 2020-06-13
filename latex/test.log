@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  11 JUN 2020 02:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  13 JUN 2020 15:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -644,38 +644,242 @@ Package: epigraph 2009/09/02 v1.5c typesetting epigraphs
 \afterepigraphskip=\skip53
 \epigraphwidth=\skip54
 \epigraphrule=\skip55
-) (/usr/share/texmf-dist/tex/latex/lettrine/lettrine.sty
+) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/10/08 v1.3c Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen135
+\Gin@req@width=\dimen136
+) (/usr/share/texmf-dist/tex/latex/background/background.sty
+Package: background 2014/03/04 v2.1 background material
+ (/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks22
+\pgfutil@tempdima=\dimen137
+\pgfutil@tempdimb=\dimen138
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box30
+ (/usr/share/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2019/08/03 v3.1.4b (3.1.4b)
+))
+Package: pgf 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks23
+\pgfkeys@temptoks=\toks24
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks25
+))
+\pgf@x=\dimen139
+\pgf@y=\dimen140
+\pgf@xa=\dimen141
+\pgf@ya=\dimen142
+\pgf@xb=\dimen143
+\pgf@yb=\dimen144
+\pgf@xc=\dimen145
+\pgf@yc=\dimen146
+\pgf@xd=\dimen147
+\pgf@yd=\dimen148
+\w@pgf@writea=\write3
+\r@pgf@reada=\read1
+\c@pgf@counta=\count129
+\c@pgf@countb=\count130
+\c@pgf@countc=\count131
+\c@pgf@countd=\count132
+\t@pgf@toka=\toks26
+\t@pgf@tokb=\toks27
+\t@pgf@tokc=\toks28
+\pgf@sys@id@count=\count133
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2019/08/03 v3.1.4b (3.1.4b)
+)
+Driver file for pgf: pgfsys-pdftex.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2019/08/03 v3.1.4b (3.1.4b)
+))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfsyssoftpath@smallbuffer@items=\count134
+\pgfsyssoftpath@bigbuffer@items=\count135
+) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+)) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen149
+\pgfmath@count=\count136
+\pgfmath@box=\box31
+\pgfmath@toks=\toks29
+\pgfmath@stack@operand=\toks30
+\pgfmath@stack@operation=\toks31
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count137
+)) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@picminx=\dimen150
+\pgf@picmaxx=\dimen151
+\pgf@picminy=\dimen152
+\pgf@picmaxy=\dimen153
+\pgf@pathminx=\dimen154
+\pgf@pathmaxx=\dimen155
+\pgf@pathminy=\dimen156
+\pgf@pathmaxy=\dimen157
+\pgf@xx=\dimen158
+\pgf@xy=\dimen159
+\pgf@yx=\dimen160
+\pgf@yy=\dimen161
+\pgf@zx=\dimen162
+\pgf@zy=\dimen163
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@path@lastx=\dimen164
+\pgf@path@lasty=\dimen165
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@shorten@end@additional=\dimen166
+\pgf@shorten@start@additional=\dimen167
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfpic=\box32
+\pgf@hbox=\box33
+\pgf@layerbox@main=\box34
+\pgf@picture@serial@count=\count138
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgflinewidth=\dimen168
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@pt@x=\dimen169
+\pgf@pt@y=\dimen170
+\pgf@pt@temp=\dimen171
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfarrowsep=\dimen172
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@max=\dimen173
+\pgf@sys@shading@range@num=\count139
+\pgf@shadingcount=\count140
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfexternal@startupbox=\box35
+))
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+))) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfnodeparttextbox=\box36
+) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@nodesepstart=\dimen174
+\pgf@nodesepend=\dimen175
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2019/08/03 v3.1.4b (3.1.4b)
+)) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen176
+\pgffor@skip=\dimen177
+\pgffor@stack=\toks32
+\pgffor@toks=\toks33
+)) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2019/08/03 v3.1.4b (3.1.4b)
+ (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgf@plot@mark@count=\count141
+\pgfplotmarksize=\dimen178
+)
+\tikz@lastx=\dimen179
+\tikz@lasty=\dimen180
+\tikz@lastxsaved=\dimen181
+\tikz@lastysaved=\dimen182
+\tikz@lastmovetox=\dimen183
+\tikz@lastmovetoy=\dimen184
+\tikzleveldistance=\dimen185
+\tikzsiblingdistance=\dimen186
+\tikz@figbox=\box37
+\tikz@figbox@bg=\box38
+\tikz@tempbox=\box39
+\tikz@tempbox@bg=\box40
+\tikztreelevel=\count142
+\tikznumberofchildren=\count143
+\tikznumberofcurrentchild=\count144
+\tikz@fig@count=\count145
+ (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+\pgfmatrixcurrentrow=\count146
+\pgfmatrixcurrentcolumn=\count147
+\pgf@matrix@numberofcolumns=\count148
+)
+\tikz@expandcount=\count149
+ (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2019/08/03 v3.1.4b (3.1.4b)
+))) (/usr/share/texmf-dist/tex/latex/everypage/everypage.sty
+Package: everypage 2007/06/20 1.1 Hooks to run on every page
+) (/usr/share/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
+\AP@output=\toks34
+\AP@partial=\box41
+\AP@footins=\box42
+)) (/usr/share/texmf-dist/tex/latex/lettrine/lettrine.sty
 File: lettrine.sty 2019-04-06 v2.22 (Daniel Flipo)
  (/usr/share/texmf-dist/tex/generic/minifp/minifp.sty
 Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack-based programing language.
-\MFP@loopctr=\count129
+\MFP@loopctr=\count150
 )
-\c@DefaultLines=\count130
-\c@DefaultDepth=\count131
-\DefaultFindent=\dimen135
-\DefaultNindent=\dimen136
-\DefaultSlope=\dimen137
-\DiscardVskip=\dimen138
-\L@lbox=\box30
-\L@tbox=\box31
-\c@L@lines=\count132
-\c@L@depth=\count133
-\L@Pindent=\dimen139
-\L@Findent=\dimen140
-\L@Nindent=\dimen141
-\L@lraise=\dimen142
-\L@first=\dimen143
-\L@next=\dimen144
-\L@slope=\dimen145
-\L@height=\dimen146
-\L@novskip=\dimen147
-\L@target@ht=\dimen148
-\L@target@dp=\dimen149
-\L@target@tht=\dimen150
-\LettrineWidth=\dimen151
-\LettrineHeight=\dimen152
-\LettrineDepth=\dimen153
-\Llist@everypar=\toks22
+\c@DefaultLines=\count151
+\c@DefaultDepth=\count152
+\DefaultFindent=\dimen187
+\DefaultNindent=\dimen188
+\DefaultSlope=\dimen189
+\DiscardVskip=\dimen190
+\L@lbox=\box43
+\L@tbox=\box44
+\c@L@lines=\count153
+\c@L@depth=\count154
+\L@Pindent=\dimen191
+\L@Findent=\dimen192
+\L@Nindent=\dimen193
+\L@lraise=\dimen194
+\L@first=\dimen195
+\L@next=\dimen196
+\L@slope=\dimen197
+\L@height=\dimen198
+\L@novskip=\dimen199
+\L@target@ht=\dimen256
+\L@target@dp=\dimen257
+\L@target@tht=\dimen258
+\LettrineWidth=\dimen259
+\LettrineHeight=\dimen260
+\LettrineDepth=\dimen261
+\Llist@everypar=\toks35
 
 Loading lettrine.cfg
 (/usr/share/texmf-dist/tex/latex/lettrine/lettrine.cfg)) (/usr/share/texmf-dist/tex/latex/filecontents/filecontents.sty
@@ -705,119 +909,136 @@ Package: scrbase 2019/10/12 v3.27 KOMA-Script package (KOMA-Script-independent b
 Package: scrlfile 2019/10/12 v3.27 KOMA-Script package (loading files)
 ))
 \scr@dte@tocline@numberwidth=\skip65
-\scr@dte@tocline@numbox=\box32
+\scr@dte@tocline@numbox=\box45
 )
 \scr@dte@chapter@maxnumwidth=\skip66
  (./test.aux
-LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 21.
+LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 22.
  (/usr/share/texmf-dist/tex/latex/cyrillic/t2acmr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 ))
 \openout1 = `test.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 87.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 87.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 94.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 94.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Trying to load font information for OT1+CormorantGaramond-LF on input line 87.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Trying to load font information for OT1+CormorantGaramond-LF on input line 94.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/OT1CormorantGaramond-LF.fd
 File: OT1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for OT1/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/m/n' in size <12> not available
-(Font)              Font shape `OT1/CormorantGaramond-LF/regular/n' tried instead on input line 87.
+(Font)              Font shape `OT1/CormorantGaramond-LF/regular/n' tried instead on input line 94.
 LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 12.0pt on input line 87.
-\c@mv@tabular=\count134
-\c@mv@boldtabular=\count135
+(Font)              scaled to size 12.0pt on input line 94.
+\c@mv@tabular=\count155
+\c@mv@boldtabular=\count156
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count136
-\scratchdimen=\dimen154
-\scratchbox=\box33
-\nofMPsegments=\count137
-\nofMParguments=\count138
-\everyMPshowfont=\toks23
-\MPscratchCnt=\count139
-\MPscratchDim=\dimen155
-\MPnumerator=\count140
-\makeMPintoPDFobject=\count141
-\everyMPtoPDFconversion=\toks24
+\scratchcounter=\count157
+\scratchdimen=\dimen262
+\scratchbox=\box46
+\nofMPsegments=\count158
+\nofMParguments=\count159
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count160
+\MPscratchDim=\dimen263
+\MPnumerator=\count161
+\makeMPintoPDFobject=\count162
+\everyMPtoPDFconversion=\toks37
+) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ (/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
-\AtBeginShipoutBox=\box34
-Package hyperref Info: Link coloring OFF on input line 87.
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+ (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+\AtBeginShipoutBox=\box47
+Package hyperref Info: Link coloring OFF on input line 94.
  (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count142
+\c@section@level=\count163
 )
-LaTeX Info: Redefining \ref on input line 87.
-LaTeX Info: Redefining \pageref on input line 87.
-LaTeX Info: Redefining \nameref on input line 87.
+LaTeX Info: Redefining \ref on input line 94.
+LaTeX Info: Redefining \pageref on input line 94.
+LaTeX Info: Redefining \nameref on input line 94.
  (./test.out) (./test.out)
-\@outlinefile=\write3
-\openout3 = `test.out'.
+\@outlinefile=\write4
+\openout4 = `test.out'.
 
-LaTeX Font Info:    Trying to load font information for T2A+CormorantGaramond-LF on input line 87.
+LaTeX Font Info:    Trying to load font information for T2A+CormorantGaramond-LF on input line 94.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/T2ACormorantGaramond-LF.fd
 File: T2ACormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for T2A/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 87.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 94.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 12.0pt on input line 87.
+(Font)              scaled to size 12.0pt on input line 94.
+ ABD: EveryShipout initializing macros
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 90.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 20.74pt on input line 90.
+(Font)              scaled to size 20.74pt on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 90.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 20.74pt on input line 90.
+(Font)              scaled to size 20.74pt on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 90.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 14.4pt on input line 90.
+(Font)              scaled to size 14.4pt on input line 97.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 90.
+(Font)              <14.4> on input line 97.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 90.
+(Font)              <7> on input line 97.
+<paper.jpg, id=87, 614.295pt x 794.97pt>
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 97.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
  [1
 
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./paper.jpg>]
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 90.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 14.4pt on input line 90.
+(Font)              scaled to size 14.4pt on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 90.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 14.4pt on input line 90.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 90.
+(Font)              scaled to size 14.4pt on input line 97.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <24.88> not available
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 20.74pt on input line 90.
+(Font)              scaled to size 24.88pt on input line 97.
  (./test.toc
 Package tocbasic Info: Using my definition of `\numberline' on input line 2.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <12> not available
@@ -836,64 +1057,71 @@ Package tocbasic Info: Using my definition of `\numberline' on input line 24.
 Package tocbasic Info: Using my definition of `\numberline' on input line 31.
 Package tocbasic Info: Using my definition of `\numberline' on input line 40.
 )
-\tf@toc=\write4
-\openout4 = `test.toc'.
+\tf@toc=\write5
+\openout5 = `test.toc'.
 
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 97.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
  [2
 
 
 ]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 93.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 100.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 10.95pt on input line 93.
+(Font)              scaled to size 10.95pt on input line 100.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/it' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 93.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 100.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/it' will be
-(Font)              scaled to size 10.95pt on input line 93.
+(Font)              scaled to size 10.95pt on input line 100.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 93.
+(Font)              <10.95> on input line 100.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/sc' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 95.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/sc' will be
-(Font)              scaled to size 12.0pt on input line 95.
+(Font)              scaled to size 12.0pt on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <20.29> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 95.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 20.29pt on input line 95.
+(Font)              scaled to size 20.29pt on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <31.60434> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 95.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 31.60434pt on input line 95.
+(Font)              scaled to size 31.60434pt on input line 102.
 Package lettrine.sty Info: Targeted height = 20.29pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 19.29442pt (E);
-(lettrine.sty)             reported on input line 95.
+(lettrine.sty)             reported on input line 102.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <17.28> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 101.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 108.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 17.28pt on input line 101.
+(Font)              scaled to size 17.28pt on input line 108.
 
-Underfull \hbox (badness 1852) in paragraph at lines 135--136
+Underfull \hbox (badness 1852) in paragraph at lines 142--143
 \T2A/CormorantGaramond-LF/regular/n/12 Каждый ис-ка-тель при-клю-че-ний от-но-сит-ся
  []
 
-
-Underfull \hbox (badness 3128) in paragraph at lines 139--140
-\T2A/CormorantGaramond-LF/regular/n/12 Личность со-став-ля-ют идеи ко-то-рые ва-ми
- []
-
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 144.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 [3
 
 ]
+Underfull \hbox (badness 3128) in paragraph at lines 146--147
+\T2A/CormorantGaramond-LF/regular/n/12 Личность со-став-ля-ют идеи ко-то-рые ва-ми
+ []
+
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
 Package lettrine.sty Info: Targeted height = 20.29pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 19.29442pt (Рџ);
-(lettrine.sty)             reported on input line 153.
+(lettrine.sty)             reported on input line 160.
 
-Underfull \hbox (badness 3199) in paragraph at lines 159--160
+Underfull \hbox (badness 3199) in paragraph at lines 166--167
 \T2A/CormorantGaramond-LF/regular/n/12 Определяет фи-зи-че-скую си-лу и вы-нос-ли-
  []
 
@@ -901,59 +1129,76 @@ Underfull \hbox (badness 3199) in paragraph at lines 159--160
 Package lettrine.sty Info: Targeted height = 20.29pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 19.29442pt (Рќ);
-(lettrine.sty)             reported on input line 170.
+(lettrine.sty)             reported on input line 177.
 
-Underfull \hbox (badness 2221) in paragraph at lines 170--171
+Underfull \hbox (badness 2221) in paragraph at lines 177--178
 \T2A/CormorantGaramond-LF/regular/n/12 ра-сы ex vinum. Пол-ный спи-сок су-
  []
 
 
-Underfull \hbox (badness 2894) in paragraph at lines 191--192
+Underfull \hbox (badness 2894) in paragraph at lines 198--199
 []\T2A/CormorantGaramond-LF/regular/n/12 Ростом чуть ни-же че-ло-ве-ка. Строй-ные,
  []
 
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 199.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 [4]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
 Package lettrine.sty Info: Targeted height = 20.29pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 20.28995pt (РЎ);
-(lettrine.sty)             reported on input line 243.
+(lettrine.sty)             reported on input line 250.
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 268.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 [5]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 5.
 Package lettrine.sty Info: Targeted height = 20.29pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 20.28995pt (Р’);
-(lettrine.sty)             reported on input line 315.
+(lettrine.sty)             reported on input line 322.
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 353.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 [6]
-Underfull \hbox (badness 3579) in paragraph at lines 359--360
+Underfull \hbox (badness 3579) in paragraph at lines 366--367
 \T2A/CormorantGaramond-LF/regular/n/12 со-на-жей. От-дых вос-ста-нав-ли-ва-ет иг-ро-кам
  []
 
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 6.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 401.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 401.
+File: paper.jpg Graphic file (type jpg)
+<use paper.jpg>
+Package pdftex.def Info: paper.jpg  used on input line 408.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 [7
 
-] (./test.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 401.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 401.
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 408.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 408.
+ (./test.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 408.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 408.
 Package rerunfilecheck Info: File `test.out' has not changed.
 (rerunfilecheck)             Checksum: 568745940E8A64E079D2568E204F0D28;1036.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 401.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 408.
  ) 
 Here is how much of TeX's memory you used:
- 9632 strings out of 492167
- 143615 string characters out of 6131559
- 297377 words of memory out of 5000000
- 13812 multiletter control sequences out of 15000+600000
+ 19904 strings out of 492167
+ 363848 string characters out of 6131559
+ 487396 words of memory out of 5000000
+ 23837 multiletter control sequences out of 15000+600000
  79274 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,11n,58p,567b,388s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,12n,71p,567b,829s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on test.pdf (7 pages, 165754 bytes).
+Output written on test.pdf (7 pages, 1781147 bytes).
 PDF statistics:
- 201 PDF objects out of 1000 (max. 8388607)
- 184 compressed objects within 2 object streams
+ 205 PDF objects out of 1000 (max. 8388607)
+ 187 compressed objects within 2 object streams
  47 named destinations out of 1000 (max. 500000)
- 161 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 

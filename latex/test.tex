@@ -5,10 +5,10 @@
 \date{}
 
 \usepackage{CormorantGaramond}
-
 \usepackage{tabularx} % page width
 \usepackage{calc}
 \usepackage{booktabs}
+%\usepackage[margin=0.5in]{geometry}
 \usepackage{array}
 \usepackage[table]{xcolor} % table row colors
 \usepackage{hyperref} % links
@@ -17,6 +17,8 @@
 \usepackage[russian]{babel}
 \usepackage{titlesec} % titles customization
 \usepackage{epigraph}
+\usepackage{graphicx}
+\usepackage{background}
 \usepackage{lettrine} % big letters in the beginning of the chapter
 \usepackage{filecontents} % define file in text and reuse
 %\usepackage{indentfirst}
@@ -24,6 +26,8 @@
 \usepackage{tocbasic}
 
 %\raggedbottom
+
+\backgroundsetup{scale=1,angle=0,contents=\includegraphics{paper.jpg}}
 
 % set page numbers at the bottom
 \pagestyle{fancy}
@@ -62,21 +66,24 @@ linefill=\bfseries\TOCLineLeaderFill,beforeskip=2pt
 
 \titleclass{\chapter}{straight}
 
+%\definecolor{reddish}{RGB}{76,28,12}
+\definecolor{reddish}{RGB}{0,0,0}
+
 \titleformat{\chapter}
-  {\large\bfseries\scshape} % format
+  {\color{reddish}\large\bfseries\scshape} % format
   {}                % label
   {0pt}             % sep
-  {\LARGE\filcenter} % before-code
+  {\huge\filcenter} % before-code
 
 \titleformat{\section}
-  {\large\bfseries\scshape} % format
+  {\color{reddish}\large\bfseries\scshape} % format
   {}                % label
   {0pt}             % sep
   {\Large}          % before-code
   [{\titlerule[0.1pt]}]
 
 \titleformat{\subsection}
-  {\large\bfseries\scshape} % format
+  {\color{reddish}\large\bfseries\scshape} % format
   {}                % label
   {0pt}             % sep
   {\large}          % before-code
