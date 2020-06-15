@@ -9,6 +9,8 @@ INPUT /usr/share/texmf-dist/tex/latex/base/bk11.clo
 INPUT /usr/share/texmf-dist/tex/latex/base/bk11.clo
 INPUT /usr/share/texmf-dist/fonts/map/fontname/texfonts.map
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
+INPUT /usr/share/texmf-dist/tex/latex/tools/longtable.sty
+INPUT /usr/share/texmf-dist/tex/latex/tools/longtable.sty
 INPUT /usr/share/texmf-dist/tex/latex/tools/multicol.sty
 INPUT /usr/share/texmf-dist/tex/latex/tools/multicol.sty
 INPUT /usr/share/texmf-dist/tex/latex/cormorantgaramond/CormorantGaramond.sty
@@ -172,6 +174,12 @@ INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaram
 INPUT /usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 INPUT /usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-sc-t2a.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-t2a.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Italic-lf-t2a.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-sc-t2a.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-sc-t2a.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Italic-lf-t2a.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1--base.tfm
 INPUT test.aux
@@ -184,5 +192,3 @@ INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb
-INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb

@@ -9,32 +9,33 @@
 \contentsline {section}{\numberline {2.4}Tiefling}{4}{section.2.4}% 
 \contentsline {section}{\numberline {2.5}Drow}{4}{section.2.5}% 
 \contentsline {section}{\numberline {2.6}Aasimar}{5}{section.2.6}% 
-\contentsline {chapter}{\numberline {3}Your Character}{5}{chapter.3}% 
-\contentsline {subsection}{\numberline {3.0.1}Race}{5}{subsection.3.0.1}% 
-\contentsline {subsection}{\numberline {3.0.2}Age}{5}{subsection.3.0.2}% 
-\contentsline {subsection}{\numberline {3.0.3}Sex}{5}{subsection.3.0.3}% 
-\contentsline {subsection}{\numberline {3.0.4}Class}{5}{subsection.3.0.4}% 
-\contentsline {subsection}{\numberline {3.0.5}Personality}{5}{subsection.3.0.5}% 
-\contentsline {subsection}{\numberline {3.0.6}Backstory}{6}{subsection.3.0.6}% 
-\contentsline {subsection}{\numberline {3.0.7}Appearance}{6}{subsection.3.0.7}% 
-\contentsline {chapter}{\numberline {4}Rules}{6}{chapter.4}% 
+\contentsline {chapter}{\numberline {3}Roleplaying}{5}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Race}{5}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Age}{5}{section.3.2}% 
+\contentsline {section}{\numberline {3.3}Sex}{5}{section.3.3}% 
+\contentsline {section}{\numberline {3.4}Class}{5}{section.3.4}% 
+\contentsline {section}{\numberline {3.5}Personality}{6}{section.3.5}% 
+\contentsline {section}{\numberline {3.6}Backstory}{6}{section.3.6}% 
+\contentsline {section}{\numberline {3.7}Appearance}{6}{section.3.7}% 
+\contentsline {chapter}{\numberline {4}Character Creation}{6}{chapter.4}% 
 \contentsline {section}{\numberline {4.1}Dice}{6}{section.4.1}% 
 \contentsline {section}{\numberline {4.2}Attributes}{6}{section.4.2}% 
-\contentsline {subsection}{\numberline {4.2.1}Strength}{6}{subsection.4.2.1}% 
-\contentsline {subsection}{\numberline {4.2.2}Dexterity}{6}{subsection.4.2.2}% 
-\contentsline {subsection}{\numberline {4.2.3}Intelligence}{6}{subsection.4.2.3}% 
+\contentsline {subsection}{\numberline {4.2.1}Strength}{7}{subsection.4.2.1}% 
+\contentsline {subsection}{\numberline {4.2.2}Dexterity}{7}{subsection.4.2.2}% 
+\contentsline {subsection}{\numberline {4.2.3}Intelligence}{7}{subsection.4.2.3}% 
 \contentsline {section}{\numberline {4.3}Rolling Attributes}{7}{section.4.3}% 
-\contentsline {subsection}{\numberline {4.3.1}Racial Bonuses}{7}{subsection.4.3.1}% 
-\contentsline {subsection}{\numberline {4.3.2}Best Backstory Award}{7}{subsection.4.3.2}% 
-\contentsline {subsection}{\numberline {4.3.3}Max Health}{7}{subsection.4.3.3}% 
+\contentsline {subsection}{\numberline {4.3.1}Best Backstory Award}{7}{subsection.4.3.1}% 
+\contentsline {subsection}{\numberline {4.3.2}Racial Bonuses}{7}{subsection.4.3.2}% 
+\contentsline {subsection}{\numberline {4.3.3}Health}{7}{subsection.4.3.3}% 
 \contentsline {section}{\numberline {4.4}Attribute Modifiers}{7}{section.4.4}% 
-\contentsline {section}{\numberline {4.5}Ability Checks}{7}{section.4.5}% 
-\contentsline {section}{\numberline {4.6}Free Movement}{7}{section.4.6}% 
-\contentsline {section}{\numberline {4.7}Combat}{8}{section.4.7}% 
-\contentsline {subsection}{\numberline {4.7.1}Initiative}{8}{subsection.4.7.1}% 
-\contentsline {subsection}{\numberline {4.7.2}Vision}{8}{subsection.4.7.2}% 
-\contentsline {subsection}{\numberline {4.7.3}Rolling}{8}{subsection.4.7.3}% 
-\contentsline {subsection}{\numberline {4.7.4}Opportunity Attacks}{8}{subsection.4.7.4}% 
-\contentsline {section}{\numberline {4.8}Resting}{8}{section.4.8}% 
-\contentsline {chapter}{\numberline {5}Equipment}{8}{chapter.5}% 
-\contentsline {chapter}{\numberline {6}Bestiary}{8}{chapter.6}% 
+\contentsline {chapter}{\numberline {5}Character Example}{8}{chapter.5}% 
+\contentsline {chapter}{\numberline {6}Equipment}{8}{chapter.6}% 
+\contentsline {chapter}{\numberline {7}Rules}{9}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Ability Checks}{9}{section.7.1}% 
+\contentsline {section}{\numberline {7.2}Free Movement}{9}{section.7.2}% 
+\contentsline {section}{\numberline {7.3}Combat}{9}{section.7.3}% 
+\contentsline {subsection}{\numberline {7.3.1}Initiative}{10}{subsection.7.3.1}% 
+\contentsline {subsection}{\numberline {7.3.2}Vision}{10}{subsection.7.3.2}% 
+\contentsline {subsection}{\numberline {7.3.3}Rolling}{10}{subsection.7.3.3}% 
+\contentsline {subsection}{\numberline {7.3.4}Opportunity Attacks}{10}{subsection.7.3.4}% 
+\contentsline {section}{\numberline {7.4}Resting}{10}{section.7.4}% 
