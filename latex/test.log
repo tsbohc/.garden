@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  15 JUN 2020 22:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  16 JUN 2020 01:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -920,17 +920,17 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 111.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 20.74pt on input line 109.
+(Font)              scaled to size 20.74pt on input line 111.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 111.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 20.74pt on input line 109.
+(Font)              scaled to size 20.74pt on input line 111.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 111.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 20.74pt on input line 109.
+(Font)              scaled to size 20.74pt on input line 111.
  (./test.toc
 Package tocbasic Info: Using my definition of `\numberline' on input line 2.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <10.95> not available
@@ -945,6 +945,7 @@ Package tocbasic Info: Using my definition of `\numberline' on input line 20.
 Package tocbasic Info: Using my definition of `\numberline' on input line 31.
 Package tocbasic Info: Using my definition of `\numberline' on input line 32.
 Package tocbasic Info: Using my definition of `\numberline' on input line 33.
+Package tocbasic Info: Using my definition of `\numberline' on input line 42.
 )
 \tf@toc=\write4
 \openout4 = `test.toc'.
@@ -952,68 +953,68 @@ Package tocbasic Info: Using my definition of `\numberline' on input line 33.
  [2]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 117.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 119.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 10.0pt on input line 117.
+(Font)              scaled to size 10.0pt on input line 119.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/it' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 117.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 119.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/it' will be
-(Font)              scaled to size 10.0pt on input line 117.
+(Font)              scaled to size 10.0pt on input line 119.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 117.
+(Font)              <7> on input line 119.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 117.
+(Font)              <5> on input line 119.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/sc' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 119.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/sc' will be
-(Font)              scaled to size 10.95pt on input line 119.
+(Font)              scaled to size 10.95pt on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <18.88338> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 119.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 18.88338pt on input line 119.
+(Font)              scaled to size 18.88338pt on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <29.41336> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 119.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 29.41336pt on input line 119.
+(Font)              scaled to size 29.41336pt on input line 121.
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 17.95683pt (E);
-(lettrine.sty)             reported on input line 119.
+(lettrine.sty)             reported on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 125.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 127.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 12.0pt on input line 125.
+(Font)              scaled to size 12.0pt on input line 127.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 125.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 127.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 12.0pt on input line 125.
+(Font)              scaled to size 12.0pt on input line 127.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 125.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 127.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 14.4pt on input line 125.
+(Font)              scaled to size 14.4pt on input line 127.
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
 [3]
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 17.95683pt (Рќ);
-(lettrine.sty)             reported on input line 152.
+(lettrine.sty)             reported on input line 154.
 
-Underfull \hbox (badness 10000) in paragraph at lines 169--170
+Underfull \hbox (badness 10000) in paragraph at lines 171--172
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Ростом чуть ни-же че-ло-ве-ка.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
+Underfull \hbox (badness 10000) in paragraph at lines 177--178
 \T2A/CormorantGaramond-LF/regular/n/10.95 Тифлинги несут за со-бой бре-
  []
 
 
-Underfull \hbox (badness 6204) in paragraph at lines 189--190
+Underfull \hbox (badness 6204) in paragraph at lines 191--192
 \T2A/CormorantGaramond-LF/regular/n/10.95 ней под-расы Эль-фов, из-гнан-ных
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
 \T2A/CormorantGaramond-LF/regular/n/10.95 Азимары по-доб-ны Ти-флин-гам в
  []
 
@@ -1021,9 +1022,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 198--199
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 17.95683pt (Рљ);
-(lettrine.sty)             reported on input line 213.
+(lettrine.sty)             reported on input line 215.
 
-Underfull \hbox (badness 5592) in paragraph at lines 225--226
+Underfull \hbox (badness 5592) in paragraph at lines 227--228
 \T2A/CormorantGaramond-LF/regular/n/10.95 Про-фес-сия опре-де-ля-ет, вла-да-е-е-те
  []
 
@@ -1032,53 +1033,53 @@ Underfull \hbox (badness 5592) in paragraph at lines 225--226
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 18.88335pt (РЎ);
-(lettrine.sty)             reported on input line 244.
+(lettrine.sty)             reported on input line 246.
 
-Underfull \hbox (badness 5985) in paragraph at lines 244--245
+Underfull \hbox (badness 5985) in paragraph at lines 246--247
 \T2A/CormorantGaramond-LF/regular/n/10.95 мать за ко-го вы хо-ти-те иг-рать.
  []
 
 [6]
-Underfull \hbox (badness 5578) in paragraph at lines 265--266
+Underfull \hbox (badness 5578) in paragraph at lines 267--268
 \T2A/CormorantGaramond-LF/regular/n/10.95 Определяет лов-кость и ско-рость
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--269
+Underfull \hbox (badness 10000) in paragraph at lines 270--271
 \T2A/CormorantGaramond-LF/regular/n/10.95 Определяет ум и со-об-ра-зи-тель-
  []
 
 
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 282--296
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 284--298
  []
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 301.
+LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 303.
 (/usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 File: TS1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/b/n' in size <10.95> not available
-(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 301.
+(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 303.
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 10.95pt on input line 301.
+(Font)              scaled to size 10.95pt on input line 303.
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--302
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 \T2A/CormorantGaramond-LF/regular/n/10.95 Максимальный за-пас здо-ро-вья
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 306--307
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Высокие зна-че-ния ат-ри-бу-тов
  []
 
 
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 311--322
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 313--324
  [] 
  []
 
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 5.
 
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 332--386
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 334--388
   [] 
  []
 
@@ -1088,7 +1089,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [7]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 6.
 
-Underfull \hbox (badness 10000) in alignment at lines 408--445
+Underfull \hbox (badness 10000) in alignment at lines 410--447
 [] [] [] []
  []
 
@@ -1097,9 +1098,9 @@ Underfull \hbox (badness 10000) in alignment at lines 408--445
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 18.88335pt (Р’);
-(lettrine.sty)             reported on input line 461.
+(lettrine.sty)             reported on input line 463.
 
-Underfull \hbox (badness 10000) in paragraph at lines 465--466
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Для успеш-но-го вы-пол-не-ния
  []
 
@@ -1107,38 +1108,96 @@ Underfull \hbox (badness 10000) in paragraph at lines 465--466
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 513--567
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 515--569
   [] 
  []
 
 
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 570--624
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 572--626
   [] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 627.
-[11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 627.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
+{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 8.
+
+Underfull \hbox (badness 7030) in paragraph at lines 636--637
+\T2A/CormorantGaramond-LF/regular/n/10.95 one has bothered to check, and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 646--647
+\T2A/CormorantGaramond-LF/regular/n/10.95 usual stuff. players order drinks
+ []
+
+
+Underfull \hbox (badness 5036) in paragraph at lines 646--647
+\T2A/CormorantGaramond-LF/regular/n/10.95 infused alcohol, same effects too.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 658--659
+\T2A/CormorantGaramond-LF/regular/n/10.95 village and looks like plain old
+ []
+
+
+Underfull \hbox (badness 6842) in paragraph at lines 658--659
+\T2A/CormorantGaramond-LF/regular/n/10.95 ordinary well, very deep though.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 665--666
+\T2A/CormorantGaramond-LF/regular/n/10.95 into and swarm the well. have
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 the party emerges in the
+ []
+
+
+Underfull \hbox (badness 5802) in paragraph at lines 667--668
+\T2A/CormorantGaramond-LF/regular/n/10.95 beginning of what looks like an
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+\T2A/CormorantGaramond-LF/regular/n/10.95 old ruin/dungeon. the place is
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 695--696
+\T2A/CormorantGaramond-LF/regular/n/10.95 the cultists perform rituals that
+ []
+
+
+Overfull \vbox (0.94348pt too high) has occurred while \output is active []
+
+ [13]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 700.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 700.
  (./test.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 627.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 627.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 700.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 700.
 Package rerunfilecheck Info: File `test.out' has not changed.
-(rerunfilecheck)             Checksum: E0D373829E1482D0799D7C681276C90B;1586.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 627.
+(rerunfilecheck)             Checksum: 55BF439AD57FC760EBA9BE8DEE712000;1790.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 700.
  ) 
 Here is how much of TeX's memory you used:
- 10371 strings out of 492167
- 155293 string characters out of 6131559
- 324100 words of memory out of 5000000
- 14526 multiletter control sequences out of 15000+600000
+ 10404 strings out of 492167
+ 155719 string characters out of 6131559
+ 325100 words of memory out of 5000000
+ 14539 multiletter control sequences out of 15000+600000
  109999 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  38i,12n,70p,567b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on test.pdf (11 pages, 152966 bytes).
+Output written on test.pdf (13 pages, 163670 bytes).
 PDF statistics:
- 252 PDF objects out of 1000 (max. 8388607)
- 233 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
- 241 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 279 compressed objects within 3 object streams
+ 73 named destinations out of 1000 (max. 500000)
+ 273 words of extra memory for PDF output out of 10000 (max. 10000000)
 
