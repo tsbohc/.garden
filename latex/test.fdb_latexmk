@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1592247041 "test.tex" "test.pdf" "test" 1592247041
+["pdflatex"] 1592247932 "test.tex" "test.pdf" "test" 1592247933
   "/home/sean/.texlive/texmf-var/fonts/tfm/lh/lh-t2a/larm1095.tfm" 1591706112 3264 ead613d557baebcc53cf028c9c92d927 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc" 1572568373 3416 ffdc7e386842571d801852fe64655d0e ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc" 1572568373 3195 0881859a5bf6e9fb5bd5e1410ec68b67 ""
@@ -97,13 +97,13 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1572595918 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1591652938 4700588 6cff29fd2f933ef89e76aa832077506f ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1591652922 8044938 f5c43b7f84751a25967d12554c5e18d2 ""
-  "test.aux" 1592247041 5409 bb43e2d71c71d6fe7c333bed5952c97d "pdflatex"
-  "test.out" 1592247041 1586 e0d373829e1482d0799d7c681276c90b "pdflatex"
-  "test.tex" 1592247040 26077 901b375d5d1d94bf54b2fa18ad0da41c ""
-  "test.toc" 1592247041 2913 9db1178178c6a57c4ccf9b879bf912b0 "pdflatex"
+  "test.aux" 1592247933 5409 bb43e2d71c71d6fe7c333bed5952c97d "pdflatex"
+  "test.out" 1592247933 1586 e0d373829e1482d0799d7c681276c90b "pdflatex"
+  "test.tex" 1592247931 29082 2e7889f7e8031b04b58b5381606553c1 ""
+  "test.toc" 1592247933 2913 9db1178178c6a57c4ccf9b879bf912b0 "pdflatex"
   (generated)
   "test.pdf"
-  "test.aux"
-  "test.log"
   "test.toc"
   "test.out"
+  "test.aux"
+  "test.log"
