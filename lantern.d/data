@@ -1,10 +1,11 @@
-51 1592315288 u brave
-20 1592265813 x sudo shutdown now
-15 1591780478 f ~/blueberry/vimrc
-6 1592315281 u telegram-desktop
-5 1591652837 e ~/blueberry/soap
-3 1592251531 u discord
-3 1591780111 f ~/blueberry/bashrc
+50 1592315288 u brave
+19 1592265813 x sudo shutdown now
+16 1592337089 f ~/blueberry/vimrc
+6 1592334917 u telegram-desktop
+3 1592334854 u discord
+4 1591652837 e ~/blueberry/soap
+3 1592335661 f ~/blueberry/vim/statusline.vim
+2 1591780111 f ~/blueberry/bashrc
 1 1583703206 w r/all
 1 1592167479 x ruterm
 1 1592262442 x reboot
@@ -23,8 +24,7 @@
 1 1591731342 f ~/blueberry/Xresources
 1 1584050497 f ~/blueberry/lantern.d/data
 1 1591701743 f ~/blueberry/themes/gruvbox
-1 1590940491 f ~/blueberry/vim/statusline.vim
-1 1583951514 e ~/blueberry/lantern.d/new_lantern
+1 1592334908 e ~/blueberry/lantern.d/new_lantern
 1 1591698067 e ~/blueberry/scripts/keyboardswitch
 1 1590621909 d ~/Downloads/LinuxLNP-0.47.03-rc1/LNP/graphics/Mayday/source/no background (transparent background)
 1 0 d ~/Downloads/Telegram Desktop
@@ -73,6 +73,9 @@
 1 0 f ~/2020-06-10-215622_1920x1080_scrot.png
 1 0 f ~/2020-06-12-180728_3840x1080_scrot.png
 1 0 f ~/2020-06-12-202628_3840x1080_scrot.png
+1 0 f ~/2020-06-16-221724_3840x1080_scrot.png
+1 0 f ~/2020-06-16-221858_3840x1080_scrot.png
+1 0 f ~/2020-06-16-221908_3840x1080_scrot.png
 1 0 f ~/Downloads/Telegram Desktop/Соловки в Архангельской области.jpg
 1 0 f ~/Downloads/practical_vim.pdf
 1 0 f ~/blueberry/.gitignore
@@ -187,6 +190,7 @@
 1 0 f ~/f13
 1 0 f ~/f15
 1 0 f ~/f16
+1 0 f ~/f17
 1 0 f ~/notes/german.md
 1 0 f ~/ops/1berserk.mp4
 1 0 f ~/ops/2trigun.mp4

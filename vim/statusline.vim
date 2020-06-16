@@ -123,6 +123,8 @@ call SetHighlight("User4", g:xres_lighter_background, g:xres_background, 0)
 call SetHighlight("User5", g:xres_foreground, g:xres_lighter_background, 0)
 call SetHighlight("User6", g:xres_background, g:xres_foreground, 0)
 
+call SetHighlight("red_text", g:xres_color9, g:xres_background, 0)
+
 function! ChangeStatuslineColor()
   if mode() == 'n'
     hi! link User1 statusline_normal_bg
@@ -162,6 +164,7 @@ function! StatusLineFileName()
   return strlen(full_file_path) < winwidth(0)*0.55 ? full_file_path : expand('%f')
 endfunction
 
+
 function! StatusLineFileType()
   return &filetype
 endfunction
@@ -174,9 +177,20 @@ function! StatusLineReadonly()
   return &readonly ? s:statuslineseparator . ' readonly ' : ''
 endfunction
 
-"function! CharacterCount()
-"  return execute "w !wc -c "
-"endfunction
+function! CharacterCount()
+  if g:writing_mode_enabled == 1
+    let character_count = strwidth(join(getline(1,'$'),'\ '))
+    if character_count < 1800
+      hi! link User7 User4
+      return '  ' . character_count
+    elseif character_count >= 1800
+      hi! link User7 red_text
+      return '  ' . character_count
+    endif
+  else
+    return ''
+  endif
+endfunction
 
 set noshowmode
 set laststatus=2
@@ -191,7 +205,7 @@ set statusline+=%{StatusLineModified()}
 set statusline+=%4*%{statuslinesfr}
 " right side
 set statusline+=%=
-set statusline+=%{StatusLineFileType()} " filetype
+set statusline+=\ %4*%{StatusLineFileType()} " filetype
+set statusline+=%7*%{CharacterCount()}
 set statusline+=\ %4*%{statuslinesfl}%3*\ %p%% " _[4]<[3]_percentage
-"set statusline+=\ %o
 set statusline+=\ %5*%{statuslinesfl}%6*\ %l:%c\  " _[5]<[6]_line:column_
