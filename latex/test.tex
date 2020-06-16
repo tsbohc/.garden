@@ -8,6 +8,7 @@
 
 \usepackage{longtable}
 \usepackage{multicol}
+\usepackage[linewidth=0.1pt]{mdframed}
 \usepackage{CormorantGaramond}
 \usepackage{tabularx} % page width
 \usepackage{calc}
@@ -27,6 +28,10 @@
 %\usepackage{indentfirst}
 \usepackage{fancyhdr} % page numbers
 \usepackage{tocbasic}
+
+\newmdenv[
+innerbottommargin=11pt, innertopmargin=\topskip, font=\itshape
+]{boxed}
 
 %\hyphenpenalty=100000
 
@@ -396,62 +401,6 @@ DM должен поощрять изобретательность игроко
 
 % }}}
 
-% {{{ equipment
-
-
-\end{multicols}
-\chapter{Equipment}
-
-\noindent
-\rowcolors{1}{}{lightgray}
-\setlength\tabcolsep{0pt}
-\setlength\LTleft{0pt}
-\setlength\LTright{0pt}
-\begin{longtable}{p{0.4\textwidth}P{0.1\textwidth}p{0.4\textwidth}P{0.1\textwidth}}
-  \textbf{\ \ \ name}
-  & \textbf{price}
-  & \textbf{\ \ \ name}
-  & \textbf{price}
-  \\
-  \hline
-  \ \ \ зелье здоровья                  &  25g &
-  \ \ \ зелье языка животных            &  10g \\
-  \ \ \ зелье ночного зрения            &  10g &
-  \ \ \ зелье подводного дыхания        &  10g \\
-  \ \ \ зелье паучьих ног               &  25g &
-  \ \ \ фляска кислоты                  &  10g \\
-  \ \ \ фляска вечной мерзлоты          &  10g &
-  \ \ \ фляска дымовой завесы           &   5g \\
-  \ \ \ фляска света                    &  10g &
-  \ \ \ порошок усыпления               &   5g \\
-  \ \ \ горсть пороха                   &   5g &
-  \ \ \ палатка                         &  10g \\
-  \ \ \ котел                           &   5g &
-  \ \ \ огниво                          &   5g \\
-  \ \ \ соль и перец                    &   2g &
-  \ \ \ бинты                           &  15g \\
-  \ \ \ бутылка виски                   &   3g &
-  \ \ \ отмычки                         &   5g \\
-  \ \ \ крюк                            &   5g &
-  \ \ \ железные колючки                &   5g \\
-  \ \ \ зеркало                         &  10g &
-  \ \ \ факел                           &   3g \\
-  \ \ \ веревка                         &   5g &
-  \ \ \ мыло                            &   1g \\
-  \ \ \ лопата                          &   5g &
-  \ \ \ топорик                         &   5g \\
-  \ \ \ кирка                           &   5g &
-  \ \ \ музыкальный инструмент          &   5g
-  \\
-
-\end{longtable}
-
-По поводу предметов -- спрашивайте на месте.
-
-\begin{multicols}{2}
-
-% }}}
-
 % {{{ rules
 
 \end{multicols}
@@ -501,6 +450,63 @@ DM должен поощрять изобретательность игроко
 На протяжение кампании у игроков будет возможность разбить лагерь и отдохнуть. Качество отдыха определяется действиями персонажей. Отдых восстанавливает игрокам здоровье.
 
 Для хорошего отдыха необходимо хорошо поесть, обустроить лагерь и рассказать пару историй у костра.
+
+% }}}
+
+% {{{ equipment
+
+
+\end{multicols}
+\pagebreak
+\chapter{Equipment}
+
+\noindent
+\rowcolors{1}{}{lightgray}
+\setlength\tabcolsep{0pt}
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{p{0.4\textwidth}P{0.1\textwidth}p{0.4\textwidth}P{0.1\textwidth}}
+  \textbf{\ \ \ name}
+  & \textbf{price}
+  & \textbf{\ \ \ name}
+  & \textbf{price}
+  \\
+  \hline
+  \ \ \ зелье здоровья                  &  25g &
+  \ \ \ зелье языка животных            &  10g \\
+  \ \ \ зелье ночного зрения            &  10g &
+  \ \ \ зелье подводного дыхания        &  10g \\
+  \ \ \ зелье паучьих ног               &  25g &
+  \ \ \ фляска кислоты                  &  10g \\
+  \ \ \ фляска вечной мерзлоты          &  10g &
+  \ \ \ фляска дымовой завесы           &   5g \\
+  \ \ \ фляска света                    &  10g &
+  \ \ \ порошок усыпления               &   5g \\
+  \ \ \ горсть пороха                   &   5g &
+  \ \ \ палатка                         &  10g \\
+  \ \ \ котел                           &   5g &
+  \ \ \ огниво                          &   5g \\
+  \ \ \ соль и перец                    &   2g &
+  \ \ \ бинты                           &  15g \\
+  \ \ \ бутылка виски                   &   3g &
+  \ \ \ отмычки                         &   5g \\
+  \ \ \ крюк                            &   5g &
+  \ \ \ железные колючки                &   5g \\
+  \ \ \ зеркало                         &  10g &
+  \ \ \ факел                           &   3g \\
+  \ \ \ веревка                         &   5g &
+  \ \ \ мыло                            &   1g \\
+  \ \ \ лопата                          &   5g &
+  \ \ \ топорик                         &   5g \\
+  \ \ \ кирка                           &   5g &
+  \ \ \ музыкальный инструмент          &   5g
+  \\
+
+\end{longtable}
+
+По поводу наличия неуказанных выше предметов можно спросить у торговца, главное сделать это в будучи в роли.
+
+\begin{multicols}{2}
 
 % }}}
 
@@ -633,32 +639,118 @@ DM должен поощрять изобретательность игроко
 \begin{multicols}{2}
 
 \subsection{Hook}
-the party hears a rumour about a village known for its alcohol which slowed down trading and kinda went silent. because it's pretty remote no one has bothered to check, and whoever did, didn't return yet (all fairly recent)
+the party hears a rumour about a small remote village that became known for its ale and decides to check it out
+
+on the way there they meet a travelling merchant, a dark elf named ginchi. he sparks the conversation
+
+\begin{boxed}
+Во время совместных путешествий до вас донеслись слухи о небольшой деревне, которая недавно прославилась своим элем. Заинтригованные проспектами диковенной выпивки, вы в пути уже несколько дней. И вот, наконец, деревья расступаются и вы выходите на дорогу через поле.
+
+Утро, погода стоит ясная, на небе нет ни облачка. По сторонам дороги расстилаются золотые солодовые поля. Люди, двигаясь рядом, одновременно взмахивают косами, но песни не слышно.
+
+Вас догоняет повозка запряженная лошадью, судя по всему торговца разными мелочами. За упряжкой-- темный эльф, в зубах у него травинка, а на голове соломенная шляпа.
+
+"Тоже хотите изведать здешней выпивки?"
+\end{boxed}
+
+ghinci's dialogue ideas:
+
+\begin{boxed}
+Я -- Гинчи, а лошадь зовут Пташка
+
+Раньше был наемником, но мне отяготела рисковая жизнь.
+
+\textbf{cha low}. Друг погиб на одном из заданий, мы пытались стянуть семейную реликвию, какой-то там меч. Стрела меж глаз. Я не смог ничего сделать.
+
+Теперь я странствующий торговец
+\end{boxed}
 
 \section{Act I}
 \subsection{Village}
-the village is a small one, think a brewery, a store, a tavern and a few houses. the fields around are yellow with grain (meaning it wasn't gathered, but just tell them it's yellow and that no one seems to be working)
+two buildings, a tavern and a brewery. 
 
-players are likely to go to the tavern first, because in rpgs that's where rumours come from
+\begin{boxed}
+Вы вместе прибываете в деревню. Картина перед вами скромная: несколько домов сложенных из бревен, а среди них только пивоварня и таверна.
+
+"Взгляните на мои товары?"\,, говорит Гинчи, "скидки новым покупателям"
+
+\end{boxed}
+
+give the players a list of things they can buy. Ghinci sells the potion of animal tongue for half the price. if the players leave without buying it, have him give it for free.
+
+\begin{boxed}
+"Эй, подождите, *протягивает зелье разговора с животными*, в знак новой дружбы"
+\end{boxed}
 
 \subsection{Tavern}
+the tavern is full of people, all the usual stuff.
 
-the tavern is full of people, everyone is drinking, talking loudly, all the usual stuff. players order drinks (supply menu irl), but get served what looks like ordinary water. take a sip and there's a funny taste, its sweet but overbearing and old (think old mango). practically bad-magic infused alcohol, same effects too. players inquire about the drinks and are told that "the new booze is much better than ye olde one"
+\begin{boxed}
+На вывеске таверны название -- "Коготь Медведя". Изнутри доносятся разговоры и редкие раскаты смеха.
 
-players are likely to go investigate what's up in the brewery
+Как вы заходите внутрь, вы слышите голос
+
+"Присаживайтесь, присаживайтесь мои хорошие!"
+
+к вам направляется хозяин таверны, в руках у него метла, и он судя по всему только что подметал пол.
+
+"Чего желаете?"
+\end{boxed}
+
+give players a print out menu of drinks with one highlight especially clearly (being that rumoured ale). if the players for some reason don't order it, serve it to them anyway. fore-fucking-shadowing
+
+\begin{boxed}
+  сказать, что выпивка хороша, значит ничего не сказать. 
+
+  \textbf{per low} но есть странный привкус. Такой очень сладкий, но земельный, что ли. 
+\end{boxed}
+
+have players drink
+
+\begin{boxed}
+  вы чувствуете себя странно, голова слегка кружится, но это можно списать на эффекты алкоголя. пиво все-таки крепкое.
+
+  \textbf{con imp}. ты вдруг понимаешь что не помнишь почему ты здесь, но выпивка хороша и тебе все равно. ты ничего никому не говоришь
+\end{boxed}
+
+if players ask the tavern keeper, have him bite his broom
+
+\begin{boxed}
+  ... Да обычная выпивка, я ей уже сколько лет торгую, и сам пью. постойте ... а сколько я ей торгую. 
+
+  Оставьте меня, мне нужно побыть одному
+\end{boxed}
 
 \subsection{Brewery}
+there's a black cat called Joseph. 
 
-in the brewery there's a dude hiding. the conversation ends up in him saying, "i don't dare touch it, but they ... they're DRINKING IT!! IT'S THE WELL! IT'S CURSEEED!" or maybe something less dramatic
+\begin{boxed}
+  Время для всех пролетело незаметно, уже вечереет. Работа на сегодня окончена, и пивоварня закрыта наглухо.
 
-if the party goes here first, just say it looks locked up and that no one is there, they'll have to go to the tavern one way or the other
+  \textbf{per mid} в траве свернувшись в клубочек лежит черный кот. в сумерках его почти не видно. его глаза поблескивают и направлены на вас
+
+\end{boxed}
+
+hopefully they'll talk to the cat
+
+\begin{boxed}
+  ... Для остальных это звучит как мяуканье. 
+
+  Чувак, тут что-то неладное, я по ночам вижу как вокруг колодца ошиваются странные типы. А эти (показывает на людей) потом на этой воде выпивку варят.
+\end{boxed}
 
 \subsection{Well}
+they should be hooked by now I HOPE
 
-the well is on the outskirts of the village and looks like plain old ordinary well, very deep though. Strange smell, kinda sweet, bit musky. the rope and the bucket have seen a lot of use, and won't support a person (make bad things happen if they don't use hook/rope, that should be a good)
+\begin{boxed}
+  По дороге у вас ногами у вас шуршит трава
 
-\subsection{Store}
-the party should realise that they need to prepare and head to the store. have some weird dude there selling typical adventure gear. maybe let him have a black cat or something
+  Перед вам обычный деревенский колодец, с виду ничего необычного. Глубокий, внизу вода.
+
+  Видно, что им часто пользуются, но веревка выглядит надежно
+
+  \textbf{per low} тот же странный сладковато-земельный запах
+\end{boxed}
 
 \section{Act II}
 \subsection{Descent}
