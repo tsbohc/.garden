@@ -1,355 +1,305 @@
 #!/usr/bin/env bash
 
-# TODO: it'd be super cool if we were contextually aware, and showed entries that are in the pwd at the top
+# settings & defaults
+_LANTERN_HOSTNAME="$(hostname)"
+_LANTERN_DATA="$HOME/blueberry/lantern.d/$_LANTERN_HOSTNAME"
+_LANTERN_ALIAS="bb" # lantern
+_LANTERN_BROWSER="brave" # $BROWSER
+#_LANTERN_EDITOR="" # $EDITOR
 
-# disable unicode to speed things up
-export LC_ALL=C
+export LC_ALL=C # disable unicode to speed things up
+alias ${_LANTERN_ALIAS:-lantern}="_lantern"
 
-# since our delimiter is ascii
-d=" "
+_lantern() {
+  _main() {
+    #{{{
 
-# load config
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/config.sh"
+    _new_entry() {
+      #{{{
+      echo "1$_lantern_d${2}$_lantern_d${3}$_lantern_d${1/#$HOME/'~'}"
+      #}}}
+    }
 
-# load data and create it if it doesn't exist
-[ -f "$LANTERN_DATA" ] && data=$(<"$LANTERN_DATA") || touch "$LANTERN_DATA"
+    _add_entry() { # $1 - entry, $2 - time, $3 - action
+      #{{{
+      [[ "$1" == "" ]] || [[ "$2" == "" ]] || [[ "$3" == "" ]] && return
+      echo "$(_new_entry "$1" "$2" "$3")" >> "$_LANTERN_DATA"
+      #}}}
+    }
 
-init() {
-  [[ $# == 0 ]] && opt=c || opt=$1
+    _delete_entry() {
+      #{{{
+      awk -i inplace -v entry="$1" -F"$_lantern_d" '$4 != entry' "$_LANTERN_DATA"
+      #}}}
+    }
 
-  case $opt in
-    c)
-      fzf_margin="--margin=1,2"
-      fzf_height="--height=10"
-      main
-      ;;
+    _delete_entries() { # $1 - path to a file with entries to delete
+      #{{{
+      awk -i inplace -F"$_lantern_d" '
+      NR==FNR{
+        a[$0]; next
+      }
+      !($4 in a) {
+        print
+      } ' '/tmp/_lantern_entries_to_delete' "$_LANTERN_DATA"
+      #}}}
+    }
+
+    _update_entry() { # $1 - entry, $2 - index delta, $3 - time, $4 - action
+      #{{{
+      [[ "$1" == "" ]] && return
+      awk -i inplace -v entry="$1" -v dindex="$2" -v time="$3" -v action="$4" -v d="$_lantern_d" -F"$_lantern_d" '
+      $4 == entry {
+          if ( length(dindex) != 0 ) $1 = $1 + dindex
+          if ( length(time) != 0 ) $2 = time
+          if ( length(action) == 1 ) $3 = action
+      } { print $1 d $2 d $3 d $4 }
+      ' "$_LANTERN_DATA"
+      #}}}
+    }
+
+    _manage() {
+      #{{{
+
+      _populate() {
+        #{{{
+        # find all non-hidden folders in home
+        local home_dirs=$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)
+
+        # find everything in them and append entries from home
+        local home="$(find $home_dirs \( -name .git \) -prune -o -print)
+$(find "$HOME" -maxdepth 1 -type f)"
+
+        while IFS= read -r l; do
+          if [ -d "$l" ]; then
+            a="d"
+          elif [ -x "$l" ]; then
+            a="x"
+          else
+            a="f"
+          fi
+          _new_entry "$l" 0 "$a"
+        done <<< "$home" >> "$_LANTERN_DATA"
+
+        cat ~/blueberry/lantern.d/common_commands >> "$_LANTERN_DATA"
+
+        # remove duplicates based on $col in file
+        awk -i inplace -F"$_lantern_d" '!x[$4]++' "$_LANTERN_DATA"
+        #}}}
+      }
+
+      _clean() {
+        #{{{
+        # remove non-existent path entries, nb! IFS _lantern_d
+        local now=$(date +%s)
+        local entries_to_delete
+
+        while IFS="" read -r u t a e; do
+          t="${t:0:-1}" # trim off the whitespace
+          if [[ "${e:0:1}" == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
+            #if [[ "$t" == 0 ]] || [[ $(("$now" - "$t")) > 604800 ]]; then
+            entries_to_delete+=( "$e" )
+            #fi
+          fi
+        done < "$_LANTERN_DATA"
+
+        printf "%s\n" "${entries_to_delete[@]}"  > '/tmp/_lantern_entries_to_delete'
+        _delete_entries '/tmp/_lantern_entries_to_delete'
+
+        #}}}
+      }
+
+      _sort() {
+        #{{{
+        awk -v d="$_lantern_d" -v now="$now" -F"$_lantern_d" '
+          function frecency(time) {
+            if ( time > 0 ) {
+              dt = now-time
+              if( dt < 86400 ) return 4
+              if( dt < 43200 ) return 8
+              if( dt < 3600 ) return 16
+            }
+            return 1
+          }
+          length > 0 {
+            if ( $2 > 0 ) {
+              score[$4] = $1 / ( length / 2 ) * frecency($2)
+            } else {
+              score[$4] = 0
+            }
+            uses[$4] = $1
+            time[$4] = $2
+            action[$4] = $3
+            total += $1 - 1
+          }
+          END {
+            if ( total < 100 ) {
+              for ( x in score ) {
+                print score[x] d uses[x] d time[x] d action[x] d x
+              }
+            }
+            else {
+              for ( x in score ) {
+                if ( uses[x] > 1 ) uses[x] = uses[x] - 1
+                print score[x] d uses[x] d time[x] d action[x] d x
+              }
+            }
+          }
+        ' "$_LANTERN_DATA" | sort -k1,1nr | cut -d"" -f2-5 > '/tmp/_lantern_data_processed' && mv -f '/tmp/_lantern_data_processed' "$_LANTERN_DATA"
+        #}}}
+      }
+
+      _populate
+      _clean
+      _sort
+
+      xdotool key ctrl+r
+      #}}}
+    }
+
+    _fzf() {
+      #{{{
+      fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi --no-unicode \
+        "$_lantern_fzf_height" "$_lantern_fzf_margin" \
+        --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 \
+        "$@"
+      #}}}
+    }
+
+    declare -A actions=( [x]=_execute [d]=_directory [f]=_file [u]=_launch [e]=_edit [w]=_browse [b]=_background )
+
+    _select_action() { # $1 - entry
+      #{{{
+      [[ "$1" == "" ]] && return
+      local actions="$(for key in "${!actions[@]}"; do echo "$key ${actions[$key]:1}"; done)"
+      local a="$(echo "$actions" | _fzf --sort --bind "esc:abort" --header="  $1")"
+      [[ "$a" != "" ]] && echo "${a:0:1}"
+      #}}}
+    }
+
+    _launch() { # $1 - entry, $2 - action
+      #{{{
+      [[ "$1" == "" ]] || [[ "$2" == "" ]] && return
+      _detach() { exec setsid -f "$@" ; }
+      _file() {
+        #{{{
+        if [[ "$(file "$1")" == *"PDF"* ]]; then
+          _detach zathura "$1"
+        else
+          "${actions["e"]}" "$1"
+        fi
+        #}}}
+      }
+      _execute() {
+        #{{{
+        if [[ "$_lantern_opt" == "c" ]]; then
+          $1
+        else
+          _detach st -e bash -c "$1 ; $SHELL"
+        fi
+        #}}}
+      }
+      _directory() {
+        #{{{
+        if [[ "$_lantern_opt" == "c" ]]; then
+          cd "$1"
+        else
+          _detach st -e bash -c "cd $1 ; $SHELL"
+        fi
+        #}}}
+      }
+      _launch() {
+        _detach "$1"
+      }
+      _edit() {
+        #{{{
+        if [[ "$_lantern_opt" == "c" ]]; then
+          "$EDITOR" "$1"
+        else
+          _detach st -e bash -c "$EDITOR $1 ; $SHELL"
+        fi
+        #}}}
+      }
+      _browse() {
+        #{{{
+        if [[ "$1" != "r/"* ]]; then
+          _detach "${_LANTERN_BROWSER:-$BROWSER}" "$1"
+        else
+          _detach "${_LANTERN_BROWSER:-$BROWSER}" "https://old.reddit.com/$1"
+        fi
+        #}}}
+      }
+      _backround() { _detach bash -c "$e &" ; }
+      "${actions[$2]}" "${1//\~/$HOME}"
+      #}}}
+    }
+
+    [[ ! -e "$_LANTERN_DATA" ]] && touch "$_LANTERN_DATA"
+
+    (_manage &)
+
+    local out="$(_fzf \
+      --print-query \
+      --expect "tab,ctrl-a,esc" \
+      --bind "ctrl-r:reload(cat $_LANTERN_DATA),change:top" \
+      --tiebreak=length,end,index \
+      --with-nth=3.. --nth=2.. \
+      < "$_LANTERN_DATA")"
+
+    mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
+    local _q="${out[0]}"
+    local _e="$(awk -F"$_lantern_d" '{ print $4 }' <<< "${out[2]}")"
+    local _a="$(awk -F"$_lantern_d" '{ print $3 }' <<< "${out[2]}")"
+
+    case "${out[1]}" in
+      "tab")
+        local e="$_e"
+        local a="$(_select_action "$e")"
+        _update_entry "$e" "" "" "$a"
+        ;;
+      "ctrl-a")
+        local e="$_q"
+        local a="$(_select_action "$e")"
+        _add_entry "$e" "0" "$a"
+        ;;
+      "alt-enter")
+        echo reveal
+        ;;
+      "") # fzf prints "" on enter
+        local a="$_a"
+        local e="$_e"
+        ;;
+      "esc") return ;;
+    esac
+
+    [[ "$e" == "" ]] || [[ "$a" == "" ]] && return
+    _update_entry "$e" 1 "$(date +%s)" ""
+    _launch "$e" "$a"
+  #}}}
+  }
+
+  local _lantern_opt="$1"
+  local _lantern_d=" "
+
+  # initialize
+  case "$_lantern_opt" in
     w)
       xdotool search --onlyvisible --classname "lantern" windowunmap \
-        || xdotool search --classname "lantern" windowmap \
-        || st -n "lantern" -a -g "35x7+0+0" -e "$0" i
+      || xdotool search --classname "lantern" windowmap \
+      || st -n "lantern" -a -g "35x7+0+0" -e bash -c "source "$(realpath "${BASH_SOURCE[0]}")" ; _lantern i"
       ;;
     i)
-      fzf_height="--height=100"
-      fzf_margin="--margin=2"
-      main
-      ;;
-    a)
-      local e="$(history 2 | head -n 1 | awk '{ print $2 }')"
-      local a=$(guess_action "$e")
-      add_entry "$a" "$e"
+      _lantern_fzf_height="--height=100"
+      _lantern_fzf_margin="--margin=2"
+      _main
       ;;
     h|help)
-      echo "usage"
-      ;;
-    *)
-      return
-      #fzf_query="#opt"
-      ;;
-  esac
-
-  # write to file
-  echo "$data" > "$LANTERN_DATA"
-
-  #pkill fzf
-}
-
-clean() {
-  # now 10 times quicker!
-  while IFS="" read -r i a e; do
-    if [[ ${e:0:1} == "~" ]]; then
-      if [[ ! -e "${e//\~/$HOME}" ]]; then
-        e=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$e")
-        data=$(sed "/.*${e}$/d" <<< "$data")
-      fi
-    fi
-  done <<< "$data"
-}
-
-get_abspath() {
-  echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})"
-}
-
-ask() {
-  tput sc
-  echo -e "    y/n? > ${white}\c"
-  read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
-  echo -e "$escape"
-  case "$REPLY" in
-    Y|y) true ;;
-    N|n) false ;;
-    *)
-      false
-      tput rc && tput ed
-      ask "$1"
+      echo "usage" ;;
+    c|*)
+      _lantern_opt="c"
+      _lantern_fzf_margin="--margin=1,2"
+      _lantern_fzf_height="--height=10"
+      _main
       ;;
   esac
 }
-
-launch() {
-
-  _l() {
-    exec setsid -f "$@"
-  }
-
-  _x() {
-    if [[ "$opt" == "c" ]]; then
-      $1
-    else
-      _l st -e sh -c "$1 ; exec bash" #; pkill fzf #exit 0
-    fi
-  }
-
-  _d() {
-    if [[ "$opt" == "c" ]]; then
-      cd "$1"
-    else
-      _l st -e sh -c "cd $1 ; exec bash" #;  #exit 0
-    fi
-  }
-
-  _e() {
-    if [[ "$opt" == "c" ]]; then
-      nvim "$1"
-    else
-      _l st -e sh -c "nvim $1 ; exec bash"# & wait ; exit 0
-    fi
-  }
-
-  _f() {
-    if [[ "$(file "$1")" == *"PDF"* ]]; then
-      _l zathura "$1"
-    else
-      _e "$1"
-    fi
-  }
-
-  # FIXME bg closes terminal in console mode
-  #_b() {
-  #  if [[ "$opt" == "c" ]]; then
-  #    _l zathura "$1"
-  #  else
-  #    _e "$1"
-  #  fi
-  #}
-
-  entry="${1//\~/$HOME}"
-
-  # black magic
-  case "$2" in
-    "x") _x "$entry" ;;
-    "d") _d "$entry" ;;
-    "e") _e "$entry" ;;
-    "f") _f "$entry" ;;
-    "b") _l sh -c "$entry &" ;;
-    "u") _l "$entry" ;;
-    "w") _l brave "$entry" ;;
-    "r") _l brave "https://old.reddit.com/$entry" ;;
-    *)
-      echo "|$2|"
-      echo "unexpected cmd"
-      sleep 1s ;;
-  esac
-}
-
-# i think it doesn't blink if it's global
-select_action() {
-  local actions="x execute
-d cd directory
-e edit
-f file
-b background
-u graphical ui
-w browse web
-r reddit"
-
-  local a=$(echo "$actions" | fzf $fzf_base --header="  $1")
-  if [[ "$a" != "" ]]; then
-    a="${a:0:1}"
-    action=$a
-  else
-    exit 0
-  fi
-}
-
-select_entry() {
-  out=$(echo -e "$data" | fzf $fzf_base -d $d --bind=change:top --with-nth=1,2,3 --nth=3 --print-query --expect=tab,ctrl-a,ctrl-d,esc)
-
-  mapfile -t out <<< "$out"
-  query="${out[0]}"
-  key="${out[1]}"
-  selection="${out[2]}"
-
-  index=$(awk -F"$d" '{print $1}' <<< "$selection")
-  action=$(awk -F"$d" '{print $2}' <<< "$selection")
-  entry=$(awk -F"$d" '{print $3}' <<< "$selection")
-}
-
-guess_action() {
-  if [[ -d "$1" ]]; then
-    action="d"
-  elif [[ -x "$1" ]]; then
-    action="x"
-  elif \
-    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
-    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
-    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
-    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
-    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
-    action="w"
-  elif [[ "$1" == "r/"* ]]; then
-    action="r"
-  else
-    action="f"
-  fi
-}
-
-auto_add_entry() {
-  guess_action "$1"
-  echo "    $action $1"
-  ! ask && select_action "$1"
-  add_entry "$action" "$1"
-  entry="$1"
-}
-
-main() {
-  fzf_base="--ansi --reverse --prompt=  \$  --cycle $fzf_height $fzf_margin --info=hidden --no-multi --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15,preview-fg:8"
-
-  populate
-
-  # only works on second relaunch for some reason
-  clean
-
-  return
-
-  select_entry
-
-  case "$key" in
-    "tab")
-      select_action "$entry"
-      # replace action with the new one
-      data=$(sed "s+\(^[0-9]*${d}\).\(${d}${entry}$\)+\1${action}\2+g" <<< "$data")
-      ;;
-    "ctrl-a")
-      auto_add_entry "$query"
-      ;;
-    "esc")
-      return
-      ;;
-  esac
-
-  if [[ "$entry" == "" ]] && [[ "$query" != "" ]]; then
-    auto_add_entry "$query"
-  fi
-
-  reduce_scores
-
-  # FIXME $d needs to be escaped for sed
-  # increment index
-  data=$(sed "s+^[0-9]*\(\ ${action}${d}${entry}$\)+$((index+1))\1+g" <<< "$data")
-
-  if [[ "$entry" != "" ]] && [[ "$action" != "" ]]; then
-    launch "$entry" "$action"
-  fi
-}
-
-add_entry() {
-  data+="
-1${d}${1}${d}${2}"
-}
-
-populate() {
-  # find all non-hidden folders in home
-  # can break if empty (doubt it ever will) without [ -d ${file} ] && 
-  #home_dirs=$(for folder in $HOME/*/; do
-  #  [ -d $folder ] && echo "$folder"
-  #done)
-  local home_dirs="$(find $HOME -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
-
-  # find everything in them
-  local home="$(find $home_dirs \( -name .git \) -prune -o -print)"
-
-  # append all files from home
-  home+="
-$(find $HOME -maxdepth 1 -type f)"
-
-  # prevent them from sticking together
-  [ -s "$LANTERN_DATA" ] && data+="
-"
-
-  # add entries to data
-  data+=$(while IFS= read -r l; do
-    if [ -d "$l" ]; then
-      a="d"
-    elif [ -x "$l" ]; then
-      a="x"
-    else
-      a="f"
-    fi
-    echo "1${d}${a}${d}0${d}${l/#$HOME/'~'}"
-  done <<< "$home")
-
-  # remove duplicates based on $col in file
-  data=$(awk -F"$d" '!x[$4]++' <<< "$data")
-
-  # maybe pipe the output of below into fzf without overwriting a file?
-  # but this seems easier though, but stuff can go wrong
-
-  # calculate score and sort, prepare for fzf
-  # note the delimiters!
-  echo "$data" | awk -v d="$d" -v now="$(date +%s)" -F"$d" '
-    function frecency(time) {
-      if ( time > 0 ) {
-        dt = now-time
-        if( dt < 86400 ) return 4
-        if( dt < 43200 ) return 8
-        if( dt < 3600 ) return 16
-      }
-      return 1
-    }
-    {
-      score[$4] = $1 / ( length / 2 ) * frecency($3)
-      uses[$4] = $1
-      action[$4] = $2
-      time[$4] = $3
-    }
-    END {
-      for ( x in score ) print score[x] d uses[x] d action[x] d time[x] d x
-    }
-    ' | sort -k1,1nr | cut -d"" -f2-5
-
-    #if ( $3 in score == 0 ) {
-    #  score[$3] = $1 / length
-    #  action[$3] = $2
-    #}
-
-}
-
-reduce_scores() {
-  # we only care about score > 1, so find the first occurrence of index 1
-  local line_number=$(awk -v search="^1${d}" '$0~search{print NR-1; exit}' <<< "$data")
-
-  # this should keep things from getting out of control
-  (( $line_number < 20 )) && return
-  local line=$(head -n 1 <<< "$data")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  (( $id < 20 )) &&  return
-
-  # find a random line w/ i > 1
-  local rnd=$RANDOM
-  let "rnd %= $line_number"
-  ((rnd++))
-  local j=0
-  while read -r line; do
-    ((j++))
-    [ $j -eq $rnd ] && break
-  done <<< "$data"
-
-  # reduce index
-  local en=$(awk -F"$d" '{print $3}' <<< "$line")
-  local id=$(awk -F"$d" '{print $1}' <<< "$line")
-  data=$(sed "s+^[0-9]*\(.*${en}$\)+$((id-1))\1+g" <<< "$data")
-}
-
-init $@

@@ -8,9 +8,7 @@ super + Return
 
 # program launcher
 super + @space
-  bspc rule -a \*:"lantern" state=floating && source ~/blueberry/lantern.d/new_lantern ; _lantern w
-
-# st -n "lantern" -a -g "35x7+0+0" -e
+  bspc rule -a \*:"lantern" state=floating && source ~/blueberry/lantern ; _lantern w
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -23,6 +21,18 @@ super + n
 Print
   sleep 0.2; \
   scrot
+
+alt + j
+  red-control -750 0
+
+alt + k
+  red-control 750 0
+
+alt + h
+  red-control 0 -1
+
+alt + l
+  red-control 0 1
 
 #
 # bspwm hotkeys
