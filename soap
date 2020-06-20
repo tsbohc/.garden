@@ -25,6 +25,7 @@ xinitrc                       ~/.xinitrc
 Xresources                    ~/.Xresources
 bspwmrc                       ~/.config/bspwm/bspwmrc
 sxhkdrc                       ~/.config/sxhkd/sxhkdrc
+dunstrc                       ~/.config/dunst/dunstrc
 vimrc                         ~/.vimrc
 vim/nvim_init.vim             ~/.config/nvim/init.vim
 vim/colors                    ~/.config/nvim/colors

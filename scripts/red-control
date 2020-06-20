@@ -26,6 +26,10 @@ fi
 (( "$b" > "$b_max" )) && b="$b_max"
 (( "$b" < "$b_min" )) && b="$b_min"
 
+# dunst
+t_bar=$(hbar "$t" "$t_max" 13 "─" "┘" "─")
+dunstify "redshift" "${t}K "$t_bar" ${b}0%" -r 93437187 -t 2000
+
 # overwrite file contents
 > "$temp_file"
 echo "$t" >> "$temp_file"

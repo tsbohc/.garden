@@ -23,10 +23,10 @@ Print
   scrot
 
 alt + j
-  red-control -750 0
+  red-control -500 0
 
 alt + k
-  red-control 750 0
+  red-control 500 0
 
 alt + h
   red-control 0 -1

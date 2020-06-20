@@ -1,6 +1,9 @@
 [global]
     ### Display ###
+
+    # Which monitor should the notifications be displayed on.
     monitor = 0
+
     # Display notification on focused monitor.  Possible modes are:
     #   mouse: follow mouse pointer
     #   keyboard: follow window with keyboard focus
@@ -12,7 +15,7 @@
     #
     # If this option is set to mouse or keyboard, the monitor option
     # will be ignored.
-    follow = mouse
+    follow = none
 
     # The geometry of the window:
     #   [{width}]x{height}[+/-{x}+/-{y}]
@@ -26,7 +29,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "320x5-15+15"
+    geometry = "250x5-20+20"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -38,7 +41,7 @@
     # The transparency of the window.  Range: [0; 100].
     # This option will only work if a compositing window manager is
     # present (e.g. xcompmgr, compiz, etc.).
-    transparency = 0
+    transparency = 5
 
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
@@ -48,20 +51,20 @@
     # Draw a line of "separator_height" pixel height between two
     # notifications.
     # Set to 0 to disable.
-    separator_height = 2
+    separator_height = 1
 
     # Padding between text and separator.
-    padding = 10
+    padding = 12
 
     # Horizontal padding.
-    horizontal_padding = 10
+    horizontal_padding = 12
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 1
+    frame_width = 0
 
     # Defines color of the frame around the notification window.
-    frame_color = "#232323"
+    frame_color = "#000"
 
     # Define a color for the separator.
     # possible values are:
@@ -82,8 +85,7 @@
     idle_threshold = 120
 
     ### Text ###
-
-    font = TamzenForPowerline 16px
+    font = Fira Code 11
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -123,7 +125,8 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>\n%b"
+    #format = "<b>%s</b>\n%b"
+    format = "<b><i><span foreground='#101010'>%s</span></i></b>\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
@@ -272,23 +275,23 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#232323"
-    foreground = "#ebdbb2"
+    background = "#fbf1c7"
+    foreground = "#3c3836"
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#232323"
-    foreground = "#ebdbb2"
+    background = "#fbf1c7"
+    foreground = "#3c3836"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
 [urgency_critical]
-    background = "#d64e4e"
-    foreground = "#f0e0e0"
-    frame_color = "#d64e4e"
+    background = "#fbf1c7"
+    foreground = "#3c3836"
+    frame_color = "#ff0000"
     timeout = 0
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
