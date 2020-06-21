@@ -28,11 +28,17 @@ alt + j
 alt + k
   red-control 500 0
 
-alt + h
+alt + shift + j
   red-control 0 -1
 
-alt + l
+alt + shift + k
   red-control 0 1
+
+alt + h
+  volume-control -10
+
+alt + l
+  volume-control 10
 
 #
 # bspwm hotkeys

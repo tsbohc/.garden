@@ -18,7 +18,23 @@ fi
 
 # apply deltas
 [[ -n "$1" ]] && t=$(( "$t" + "$1" ))
-[[ -n "$2" ]] && b=$(( "$b" + "$2" ))
+if [[ -n "$2" ]]; then
+  if $(command -v brightnessctl); then
+    x_b=$(brightnessctl -m | awk -F',' '{print $4}')
+    x_b=${x_b:0:-1}
+    if (( ( "$2" < 0 && "$x_b" > 5 ) || ( "$2" > 0 && "$b" == "$b_max" ) )); then
+      x_b=$(( "$x_b" + "${2}0" ))
+      (( "$x_b" < 5 )) && x_b=5
+      (( "$x_b" > 100 )) && x_b=100
+      brightnessctl s "${x_b}%"
+    else
+      b=$(( "$b" + "$2" ))
+    fi
+  else
+    x_b=100
+    b=$(( "$b" + "$2" ))
+  fi
+fi
 
 # cap values
 (( "$t" > "$t_max" )) && t="$t_max"
@@ -27,8 +43,8 @@ fi
 (( "$b" < "$b_min" )) && b="$b_min"
 
 # dunst
-t_bar=$(hbar "$t" "$t_max" 13 "─" "┘" "─")
-dunstify "redshift" "${t}K "$t_bar" ${b}0%" -r 93437187 -t 2000
+t_bar=$(hbar "$t" "$t_max" 14 "─" "┘" "─")
+dunstify "redshift" "${t}K $t_bar $(( "${b}0" + "$x_b" ))" -r 93437187 -t 2000
 
 # overwrite file contents
 > "$temp_file"
