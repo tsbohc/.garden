@@ -7,7 +7,7 @@ super + Return
   st
 
 # program launcher
-super + @space
+ctrl + @space
   bspc rule -a \*:"lantern" state=floating && source ~/blueberry/lantern ; _lantern w
 
 # make sxhkd reload its configuration files:
@@ -15,7 +15,7 @@ super + Escape
   pkill -USR1 -x sxhkd
 
 # change language
-super + n
+super + space
   bash ~/blueberry/scripts/keyboardswitch
 
 Print

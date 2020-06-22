@@ -12,7 +12,7 @@ media:         mpv
 cli:           fzf bat
 ex:            unzip
 fonts:         tamzen-font-git
-pip:           pynvim neovim-remote
+pip:           pynvim neovim-remote ueberzug
 EOF
 #pip2:          pynvim
 
@@ -27,6 +27,9 @@ bspwmrc                       ~/.config/bspwm/bspwmrc
 sxhkdrc                       ~/.config/sxhkd/sxhkdrc
 dunstrc                       ~/.config/dunst/dunstrc
 vimrc                         ~/.vimrc
+vifm/vifmrc                   ~/.config/vifm/vifmrc
+vifm/colors                   ~/.config/vifm/colors
+vifm/scripts                  ~/.config/vifm/scripts
 vim/nvim_init.vim             ~/.config/nvim/init.vim
 vim/colors                    ~/.config/nvim/colors
 picom                         ~/.config/picom.conf
@@ -219,16 +222,14 @@ create_symlinks() {
     abs_dst=$(get_abspath "$dst")
 
     if [[ -f "$abs_src" ]] || [[ -d "$abs_src" ]]; then
-      if [[ ! -f "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
+      if [[ ! -e "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
         [[ ! -d "${abs_dst%/*}" ]] && run_command "$i_ok" "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
         run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
       else # resolve conflicts
-        if [[ -f "$abs_dst" && ! -L "$abs_dst" ]]; then
+        if [[ -e "$abs_dst" && ! -L "$abs_dst" ]]; then
           if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
-              run_command "$i_link" "$src" "ln -sf $abs_src $abs_dst"
-#          elif ask "$sc_name" "mv $dst $sc_dir && ln -s $src $dst?"; then
-#            run_command "$i_run" "$dst" "mv $abs_dst $sc_dir"
-#            run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
+              rm -rf "$abs_dst"
+              run_command "$i_link" "$src" "ln -s $abs_src $abs_dst"
           else
             log "$i_error" "$yellow" "$src" "skipping..."
           fi

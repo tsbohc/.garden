@@ -10,10 +10,3 @@ case "$1" in
     xrdb -query | awk '/\*.'$1':(.*)/ { print $2 }' | sed 's/[^\x00-\x7F]//g' | sed 's/\x0//g'
     ;;
 esac
-
-#theme_path=$(sed -n '/! theme/ {n;p}' ~/.Xresources | awk '{print $2}' | tr -d \")
-#[[ -f "$theme_path" ]] && theme=$(cat "$theme_path") || theme=""
-#data="$theme"
-#data+="
-#$(cat ~/.Xresources)"
-#echo "$data"

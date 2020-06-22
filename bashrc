@@ -68,14 +68,20 @@ if [ -d "$HOME/blueberry/scripts" ] ;
 fi
 
 # colored man pages
-export LESS_TERMCAP_md=$'\e[1;33m'  #titles
-export LESS_TERMCAP_us=$'\e[1;32m'  #options
-export LESS_TERMCAP_so=$'\e[0m'     #bottom text
-export LESS_TERMCAP_mb=$'\e[0m'     #nothing
-export LESS_TERMCAP_me=$'\e[0m'     #half the text, marks, buggy
-export LESS_TERMCAP_se=$'\e[0m'     #weird, scroll dependent
-export LESS_TERMCAP_ue=$'\e[0m'     #nothing
-
+#export LESS_TERMCAP_md=$'\e[1;33m'  #titles
+#export LESS_TERMCAP_us=$'\e[1;32m'  #options
+#export LESS_TERMCAP_so=$'\e[0m'     #bottom text
+#export LESS_TERMCAP_mb=$'\e[0m'     #nothing
+#export LESS_TERMCAP_me=$'\e[0m'     #half the text, marks, buggy
+#export LESS_TERMCAP_se=$'\e[0m'     #weird, scroll dependent
+#export LESS_TERMCAP_ue=$'\e[0m'     #nothing
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
 # .Xresources to tty
 
 if [ "$TERM" = "linux" ]; then
