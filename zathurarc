@@ -21,7 +21,7 @@ set guioptions ""
 
 set font "inconsolata 14"
 
-set default-bg "#ffffff" #00
+set default-bg "#eeeeee" #00
 #set default-fg "#000000" #01
 
 #set default-bg "#000000" #00
