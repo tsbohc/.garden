@@ -246,9 +246,6 @@ INPUT comment.cut
 OUTPUT comment.cut
 INPUT comment.cut
 INPUT comment.cut
-OUTPUT comment.cut
-INPUT comment.cut
-INPUT comment.cut
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-sc-t2a.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-t2a.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Italic-lf-t2a.tfm
@@ -288,9 +285,6 @@ INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaram
 OUTPUT comment.cut
 INPUT comment.cut
 INPUT comment.cut
-OUTPUT comment.cut
-INPUT comment.cut
-INPUT comment.cut
 INPUT /usr/share/texmf-dist/fonts/vf/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1--base.tfm
 OUTPUT comment.cut
@@ -326,13 +320,14 @@ INPUT comment.cut
 OUTPUT comment.cut
 INPUT comment.cut
 INPUT comment.cut
-INPUT /usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-BoldItalic-lf-t2a.tfm
+OUTPUT comment.cut
+INPUT comment.cut
+INPUT comment.cut
 INPUT eng.aux
-INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc
 INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc
 INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc
+INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc
 INPUT /usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb
-INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-BoldItalic.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb

@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1592925840 "eng.tex" "eng.pdf" "eng" 1592925840
+["pdflatex"] 1592927913 "eng.tex" "eng.pdf" "eng" 1592927914
   "/dev/null" 1592918693 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/home/sean/.texlive/texmf-var/fonts/tfm/lh/lh-t2a/larm1095.tfm" 1591706112 3264 ead613d557baebcc53cf028c9c92d927 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc" 1572568373 3416 ffdc7e386842571d801852fe64655d0e ""
@@ -11,7 +11,6 @@
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-t2a.tfm" 1572568373 19232 de900fe6030bedf69ab5f5b11dfce649 ""
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1--base.tfm" 1572568373 1468 3b7f9117717b2215de2bbeb5a6c152f4 ""
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1.tfm" 1572568373 1480 e9346b6855d0aa1da6f0645cede3f5b7 ""
-  "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-BoldItalic-lf-t2a.tfm" 1572568373 20960 24b5c3848f575a74b78b00935d8f5036 ""
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Italic-lf-t2a.tfm" 1572568373 21052 76645c41a612fb90f6c26f6fea0b5e55 ""
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-ot1.tfm" 1572568373 5904 1b8b5aa1b1e80b2fc680bb77ea8e815b ""
   "/usr/share/texmf-dist/fonts/tfm/catharsis/cormorantgaramond/CormorantGaramond-Regular-lf-sc-t2a.tfm" 1572568373 15116 67fdc074ad335d3dac75659fdba65fcb ""
@@ -28,7 +27,6 @@
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1572595918 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1572595918 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb" 1572568373 405235 76a1724d56c260461d500e0f416d5a27 ""
-  "/usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-BoldItalic.pfb" 1572568373 250705 22474eb1476d2af8fed5e83a261f93d1 ""
   "/usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb" 1572568373 256324 c125f7dad4f2f2a246e6dd00e2bddef7 ""
   "/usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb" 1572568373 422718 a8ce799551b1760ab1398516d3868542 ""
   "/usr/share/texmf-dist/fonts/vf/catharsis/cormorantgaramond/CormorantGaramond-Bold-lf-ts1.vf" 1572568373 588 20085ade722387224431c3e53e2a5f9e ""
@@ -109,13 +107,13 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1572595918 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1591652938 4700588 6cff29fd2f933ef89e76aa832077506f ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1591652922 8044938 f5c43b7f84751a25967d12554c5e18d2 ""
-  "comment.cut" 1592925840 301 8eb553f10ec5fbc67ce2f4a8cb5b1742 "pdflatex"
-  "eng.aux" 1592925840 6772 2f542af5332b51e324f12bac39adbde8 "pdflatex"
-  "eng.tex" 1592925840 51429 5adee4210c99307f1710dc9fc895ebb1 ""
-  "eng.toc" 1592925840 3187 177d7f1aa7df231758544f29fe8ac447 "pdflatex"
+  "comment.cut" 1592927914 301 8eb553f10ec5fbc67ce2f4a8cb5b1742 "pdflatex"
+  "eng.aux" 1592927914 3999 07863143c5c7cef148fc46053ea1a8f7 "pdflatex"
+  "eng.tex" 1592927912 51534 54b4a3af8338f2753e5f69a83816bc0f ""
+  "eng.toc" 1592927914 2299 008588308d8754dff71fedcd4a4c6aa9 "pdflatex"
   (generated)
-  "eng.log"
   "comment.cut"
-  "eng.aux"
-  "eng.pdf"
   "eng.toc"
+  "eng.pdf"
+  "eng.aux"
+  "eng.log"

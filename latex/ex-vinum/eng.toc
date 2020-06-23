@@ -18,38 +18,23 @@
 \contentsline {section}{\numberline {3.6}Backstory}{5}% 
 \contentsline {section}{\numberline {3.7}Appearance}{5}% 
 \contentsline {chapter}{\numberline {4}Character Example}{6}% 
-\contentsline {chapter}{\numberline {5}Rules}{6}% 
+\contentsline {chapter}{\numberline {5}Rules}{7}% 
 \contentsline {section}{\numberline {5.1}Ability Scores}{7}% 
 \contentsline {subsection}{\numberline {5.1.1}Strength}{7}% 
 \contentsline {subsection}{\numberline {5.1.2}Dexterity}{7}% 
 \contentsline {subsection}{\numberline {5.1.3}Intelligence}{7}% 
 \contentsline {subsection}{\numberline {5.1.4}Determining Scores}{7}% 
 \contentsline {subsection}{\numberline {5.1.5}Hit Points}{7}% 
-\contentsline {subsection}{\numberline {5.1.6}Score Modifiers}{7}% 
+\contentsline {subsection}{\numberline {5.1.6}Score Modifiers}{8}% 
 \contentsline {section}{\numberline {5.2}Ability Checks}{8}% 
 \contentsline {subsection}{\numberline {5.2.1}Advantage}{8}% 
 \contentsline {subsection}{\numberline {5.2.2}Assisting}{8}% 
 \contentsline {section}{\numberline {5.3}Out of Combat}{8}% 
 \contentsline {section}{\numberline {5.4}In Combat}{8}% 
 \contentsline {subsection}{\numberline {5.4.1}Initiative}{8}% 
-\contentsline {subsection}{\numberline {5.4.2}Vision}{8}% 
-\contentsline {subsection}{\numberline {5.4.3}Rolling}{8}% 
+\contentsline {subsection}{\numberline {5.4.2}Vision}{9}% 
+\contentsline {subsection}{\numberline {5.4.3}Rolling}{9}% 
 \contentsline {subsection}{\numberline {5.4.4}Damage}{9}% 
 \contentsline {subsection}{\numberline {5.4.5}Opportunity Attacks}{9}% 
 \contentsline {subsection}{\numberline {5.4.6}Death}{9}% 
 \contentsline {section}{\numberline {5.5}Resting}{9}% 
-\contentsline {chapter}{\numberline {6}Equipment}{10}% 
-\contentsline {chapter}{\numberline {7}Bad Water}{12}% 
-\contentsline {subsection}{\numberline {7.0.1}Hook}{12}% 
-\contentsline {section}{\numberline {7.1}Act I}{13}% 
-\contentsline {subsection}{\numberline {7.1.1}Village}{13}% 
-\contentsline {subsection}{\numberline {7.1.2}Tavern}{13}% 
-\contentsline {subsection}{\numberline {7.1.3}Brewery}{15}% 
-\contentsline {subsection}{\numberline {7.1.4}Well}{15}% 
-\contentsline {section}{\numberline {7.2}Act II}{17}% 
-\contentsline {subsection}{\numberline {7.2.1}Descent}{17}% 
-\contentsline {subsection}{\numberline {7.2.2}Dungeon}{17}% 
-\contentsline {subsection}{\numberline {7.2.3}Interrogation}{17}% 
-\contentsline {section}{\numberline {7.3}Act III}{17}% 
-\contentsline {subsection}{\numberline {7.3.1}Final Boss}{17}% 
-\contentsline {subsection}{\numberline {7.3.2}Reveal}{18}% 
