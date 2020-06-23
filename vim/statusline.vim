@@ -180,10 +180,10 @@ endfunction
 function! CharacterCount()
   if g:writing_mode_enabled == 1
     let character_count = strwidth(join(getline(1,'$'),'\ '))
-    if character_count < 1800
+    if character_count < 2000
       hi! link User7 User4
       return '  ' . character_count
-    elseif character_count >= 1800
+    elseif character_count >= 2000
       hi! link User7 red_text
       return '  ' . character_count
     endif

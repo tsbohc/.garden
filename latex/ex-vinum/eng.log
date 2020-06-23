@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.22)  23 JUN 2020 01:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  23 JUN 2020 18:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -976,7 +976,7 @@ Package: scrlfile 2019/10/12 v3.27 KOMA-Script package (loading files)
 \scr@dte@tocline@numbox=\box86
 )
 \scr@dte@chapter@maxnumwidth=\skip144
- Excluding comment 'en' Include comment 'ru' (./eng.aux
+ Include comment 'en' Excluding comment 'ru' (./eng.aux
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 5.
  (/usr/share/texmf-dist/tex/latex/cyrillic/t2acmr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
@@ -1125,199 +1125,425 @@ Package tocbasic Info: Using my definition of `\numberline' on input line 42.
 
  [2]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 1.
+Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 107.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 10.0pt on input line 107.
+(Font)              scaled to size 10.0pt on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/it' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 107.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/it' will be
-(Font)              scaled to size 10.0pt on input line 107.
+(Font)              scaled to size 10.0pt on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 107.
+(Font)              <7> on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 107.
+(Font)              <5> on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/sc' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/sc' will be
-(Font)              scaled to size 10.95pt on input line 109.
+(Font)              scaled to size 10.95pt on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <18.88338> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 18.88338pt on input line 109.
+(Font)              scaled to size 18.88338pt on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <29.41336> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 109.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 29.41336pt on input line 109.
+(Font)              scaled to size 29.41336pt on input line 3.
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 17.95683pt (E);
-(lettrine.sty)             reported on input line 109.
+(lettrine.sty)             reported on input line 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+\T2A/CormorantGaramond-LF/regular/n/10.95 simplifying yet not rejecting the
+ []
+
+) Excluding 'ru' comment.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 115.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 12.0pt on input line 115.
+(Font)              scaled to size 12.0pt on input line 128.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 115.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 12.0pt on input line 115.
+(Font)              scaled to size 12.0pt on input line 128.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 115.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 14.4pt on input line 115.
+(Font)              scaled to size 14.4pt on input line 128.
+ Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 The Dungeon Master describes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 the situation. The details of the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 DM describes the results of
+ []
+
+)
+Underfull \hbox (badness 8019) in paragraph at lines 9--152
+\T2A/CormorantGaramond-LF/regular/n/10.95 game. The actions of players are
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 DM must reward players for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+\T2A/CormorantGaramond-LF/regular/n/10.95 experimentation and role-playing,
+ []
+
+)
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
-Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Рќ);
-(lettrine.sty)             reported on input line 142.
-
-Underfull \hbox (badness 7221) in paragraph at lines 142--143
-[][]\T2A/CormorantGaramond-LF/regular/n/10.95 иже пе-ре-чис-ле-ны ра-зум-ные,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
-[]\T2A/CormorantGaramond-LF/regular/n/10.95 Ростом чуть ни-же че-ло-ве-ка.
- []
-
-[4]
-{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
-Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Рљ);
-(lettrine.sty)             reported on input line 202.
-[5]
-{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
-
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 233--287
-  [] 
- []
-
-[6]
-{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 5.
-Excluding 'en' comment. Including 'ru' comment.
+ [3] Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut
 Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Р‘);
+(lettrine.sty)             Lettrine height = 18.88335pt (B);
 (lettrine.sty)             reported on input line 1.
+) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 5245) in paragraph at lines 1--197
+\T2A/CormorantGaramond-LF/regular/n/10.95 things, but don't excel at any of
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 craftsmanship. They often become
+ []
+
+) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 3--223
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Slightly shorter than humans.
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 5050) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 demonic apperances provokes only
+ []
+
 
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
-[][] \T2A/CormorantGaramond-LF/regular/n/10.95 обо-зна-ча-ют-ся
+\T2A/CormorantGaramond-LF/regular/n/10.95 sharp glares and no compassion.
  []
 
-) Excluding 'en' comment. Including 'ru' comment.
+) Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 condemned to live underground.
+ []
+
+) Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
+ Straight input of comment.cut. (./comment.cut) [4]
+{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
+Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
+ Straight input of comment.cut. (./comment.cut
+Package lettrine.sty Info: Targeted height = 18.88338pt
+(lettrine.sty)             (no accent, loversize=0),
+(lettrine.sty)             Lettrine height = 17.95683pt (W);
+(lettrine.sty)             reported on input line 1.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 1--276
+\T2A/CormorantGaramond-LF/regular/n/10.95 Dwarf with a bellowing
+ []
 
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
+Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 375--390
- []
+Underfull \hbox (badness 10000) in paragraph at lines 1--285
+\T2A/CormorantGaramond-LF/regular/n/10.95 Race doesn't only affect physical
  []
 
-Excluding 'en' comment. Including 'ru' comment.
+Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 407.
+Underfull \hbox (badness 5374) in paragraph at lines 1--303
+\T2A/CormorantGaramond-LF/regular/n/10.95 past. Not all women can become
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 1--312
+\T2A/CormorantGaramond-LF/regular/n/10.95 Every adventurer belongs to a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--312
+\T2A/CormorantGaramond-LF/regular/n/10.95 you're proficient with magic or
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 7468) in paragraph at lines 1--339
+\T2A/CormorantGaramond-LF/regular/n/10.95 Everything that's related to outer
+ []
+
+[5]
+{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
+
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 348--402
+  [] 
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 7907) in paragraph at lines 1--2
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Above is the example of my
+ []
+
+)
+{\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 5.
+Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Package lettrine.sty Info: Targeted height = 18.88338pt
+(lettrine.sty)             (no accent, loversize=0),
+(lettrine.sty)             Lettrine height = 18.88335pt (D);
+(lettrine.sty)             reported on input line 1.
+) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 1--446
+\T2A/CormorantGaramond-LF/regular/n/10.95 Character's attributes reflect their
+ []
+
+[6] Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 6032) in paragraph at lines 1--455
+\T2A/CormorantGaramond-LF/regular/n/10.95 weapons. Greatly affects the total
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 1--464
+\T2A/CormorantGaramond-LF/regular/n/10.95 Defines character's reflexes and
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 1--473
+\T2A/CormorantGaramond-LF/regular/n/10.95 Indicates background knowledge
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--473
+\T2A/CormorantGaramond-LF/regular/n/10.95 and charisma, proficiency with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--473
+\T2A/CormorantGaramond-LF/regular/n/10.95 intelligence weapons and magic.
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Note that DM may suggest
+ []
+
+) Excluding 'ru' comment.
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 497--512
+ []
+ []
+
+Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment.
+LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 529.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 File: TS1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/b/n' in size <10.95> not available
-(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 407.
+(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 529.
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 10.95pt on input line 407.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1--408
-\T2A/CormorantGaramond-LF/regular/n/10.95 Максимальный за-пас здо-ро-вья
- []
-
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-\T2A/CormorantGaramond-LF/regular/n/10.95 Модифаеры ис-поль-зу-ют-ся что-бы
- []
-
-
-Underfull \hbox (badness 5105) in paragraph at lines 1--2
-\T2A/CormorantGaramond-LF/regular/n/10.95 пло-хо пер-со-наж вла-де-ет тем или
- []
-
-[7])
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 424--436
- [] 
- []
-
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-\T2A/CormorantGaramond-LF/regular/n/10.95 Игроки мо-гу вза-и-мо-дей-ство-вать
- []
-
-[8]) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
+(Font)              scaled to size 10.95pt on input line 529.
+ Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 3--537
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 High Ability Scores result in
+ []
+
+Excluding 'ru' comment.
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 546--558
+ [] 
+ []
+
+Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut [7]) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Out of combat players may
+ []
+
+) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 The success of each action is
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 5--652
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Higher values provide good
+ []
+
+[8] Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 10000) in paragraph at lines 1--665
+\T2A/CormorantGaramond-LF/regular/n/10.95 just discussed, with the addition
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 1--665
+\T2A/CormorantGaramond-LF/regular/n/10.95 of relevant Modifiers. On critical
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--665
+\T2A/CormorantGaramond-LF/regular/n/10.95 successes, blows deal double the
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut)
+Underfull \hbox (badness 5802) in paragraph at lines 3--676
+\T2A/CormorantGaramond-LF/regular/n/10.95 by an Ability Check. On critical
+ []
+
+
+Underfull \hbox (badness 6477) in paragraph at lines 3--676
+\T2A/CormorantGaramond-LF/regular/n/10.95 success, the character fully avoids
+ []
+
+Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 Once a player character's health
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 unconscious, additionally, their
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 Strength is reduced by 2. A
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 1--2
+\T2A/CormorantGaramond-LF/regular/n/10.95 friendly character can then spend
+ []
+
+) Excluding 'ru' comment. Including 'en' comment.
+\openout3 = `comment.cut'.
+
+ Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 6.
 
-Underfull \hbox (badness 10000) in alignment at lines 597--634
+Underfull \hbox (badness 10000) in alignment at lines 719--756
 [] [] [] []
  []
 
@@ -1325,12 +1551,12 @@ Underfull \hbox (badness 10000) in alignment at lines 597--634
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 644--698
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 766--820
   [] 
  []
 
 
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 701--755
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 823--877
   [] 
  []
 
@@ -1339,39 +1565,39 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 7.
-Package mdframed Info: mdframed works in twoside mode on input line 772.
+Package mdframed Info: mdframed works in twoside mode on input line 894.
 
-Underfull \hbox (badness 7397) in paragraph at lines 772--773
+Underfull \hbox (badness 7397) in paragraph at lines 894--895
 []\T2A/CormorantGaramond-LF/regular/it/10.95 Во вре-мя сов-мест-ных пу-те-ше-
  []
 
-Package mdframed Info: mdframed works in twoside mode on input line 784.
+Package mdframed Info: mdframed works in twoside mode on input line 906.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/it' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/it' tried instead on input line 788.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/it' tried instead on input line 910.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/it' will be
-(Font)              scaled to size 10.95pt on input line 788.
+(Font)              scaled to size 10.95pt on input line 910.
 
-Underfull \hbox (badness 10000) in paragraph at lines 790--791
+Underfull \hbox (badness 10000) in paragraph at lines 912--913
 []\T2A/CormorantGaramond-LF/regular/it/10.95 Теперь я стран-ству-ю-щий
  []
 
-Package mdframed Info: mdframed works in twoside mode on input line 798.
+Package mdframed Info: mdframed works in twoside mode on input line 920.
 [12]
-Package mdframed Info: mdframed works in twoside mode on input line 809.
-Package mdframed Info: mdframed works in twoside mode on input line 816.
+Package mdframed Info: mdframed works in twoside mode on input line 931.
+Package mdframed Info: mdframed works in twoside mode on input line 938.
 
-Underfull \hbox (badness 10000) in paragraph at lines 818--819
+Underfull \hbox (badness 10000) in paragraph at lines 940--941
 []\T2A/CormorantGaramond-LF/regular/it/10.95 помещение хо-ро-шо осве-ще-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 824--825
+Underfull \hbox (badness 10000) in paragraph at lines 946--947
 \T2A/CormorantGaramond-LF/regular/it/10.95 та-вер-ны, доб-ро-душ-но улы-ба-ю-
  []
 
-Package mdframed Info: mdframed works in twoside mode on input line 834.
+Package mdframed Info: mdframed works in twoside mode on input line 956.
 
-Underfull \hbox (badness 5924) in paragraph at lines 834--835
+Underfull \hbox (badness 5924) in paragraph at lines 956--957
 []\T2A/CormorantGaramond-LF/regular/it/10.95 сказать, что вы-пив-ка хо-ро-ша,
  []
 
@@ -1380,60 +1606,60 @@ Package mdframed Warning: You got a bad break
 (mdframed)                because the last box will be empty
 (mdframed)                you have to change it manually
 (mdframed)                by changing the text, the space
-(mdframed)                or something else on input line 837.
+(mdframed)                or something else on input line 959.
 
 [13] [14]
-Package mdframed Info: mdframed works in twoside mode on input line 846.
-Package mdframed Info: mdframed works in twoside mode on input line 854.
-Package mdframed Info: mdframed works in twoside mode on input line 871.
+Package mdframed Info: mdframed works in twoside mode on input line 968.
+Package mdframed Info: mdframed works in twoside mode on input line 976.
+Package mdframed Info: mdframed works in twoside mode on input line 993.
 
-Underfull \hbox (badness 10000) in paragraph at lines 871--872
+Underfull \hbox (badness 10000) in paragraph at lines 993--994
 []\T2A/CormorantGaramond-LF/regular/it/10.95 составлена из бре-вен, внут-ри
  []
 
-Package mdframed Info: mdframed works in twoside mode on input line 877.
-Package mdframed Info: mdframed works in twoside mode on input line 890.
+Package mdframed Info: mdframed works in twoside mode on input line 999.
+Package mdframed Info: mdframed works in twoside mode on input line 1012.
 
-Underfull \hbox (badness 10000) in paragraph at lines 892--893
+Underfull \hbox (badness 10000) in paragraph at lines 1014--1015
 []\T2A/CormorantGaramond-LF/regular/it/10.95 Перед вам обыч-ный де-ре-
  []
 
 [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
+Underfull \hbox (badness 10000) in paragraph at lines 1023--1024
 \T2A/CormorantGaramond-LF/regular/n/10.95 endurance checks for suffocation,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 903--904
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1026
 []\T2A/CormorantGaramond-LF/regular/n/10.95 the party emerges in the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 903--904
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1026
 \T2A/CormorantGaramond-LF/regular/n/10.95 beginning of what looks like an
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 903--904
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1026
 \T2A/CormorantGaramond-LF/regular/n/10.95 old ruin/dungeon. the place is
  []
 
 
-Underfull \hbox (badness 6396) in paragraph at lines 915--916
+Underfull \hbox (badness 6396) in paragraph at lines 1037--1038
 \T2A/CormorantGaramond-LF/regular/n/10.95 a broom or something that
  []
 
 [17] [18] (./eng.aux) ) 
 Here is how much of TeX's memory you used:
- 18068 strings out of 492167
- 321995 string characters out of 6131558
+ 18108 strings out of 492167
+ 322481 string characters out of 6131559
  448809 words of memory out of 5000000
- 22202 multiletter control sequences out of 15000+600000
+ 22204 multiletter control sequences out of 15000+600000
  643913 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  52i,11n,71p,826b,574s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-BoldItalic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (18 pages, 187078 bytes).
+Output written on eng.pdf (18 pages, 185561 bytes).
 PDF statistics:
  88 PDF objects out of 1000 (max. 8388607)
  63 compressed objects within 1 object stream
