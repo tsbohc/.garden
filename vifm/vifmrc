@@ -150,6 +150,10 @@ command! reload :write | restart
 " You can also add %CLEAR if you want to clear screen before running FUSE
 " program.
 
+    "fileviewer  bat --color always --wrap never --pager never %c -p
+
+    fileviewer */ tree %c -C -L 4
+
     fileviewer *.pdf
         \ vifmimg pdfpreview %px %py %pw %ph %c
         \ %pc
