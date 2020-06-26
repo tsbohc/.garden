@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cat ~/blueberry/scripts/wordhunt/osorted | fzf -d"—" --bind "enter:execute(brave https://wooordhunt.ru/word/{1})" --query="$1" --info=hidden --no-multi --reverse --ansi --no-sort --exact --no-hscroll \
+  --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15

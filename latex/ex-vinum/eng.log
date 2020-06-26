@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  23 JUN 2020 18:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  26 JUN 2020 15:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -983,42 +983,42 @@ File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 ))
 \openout1 = `eng.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 98.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 98.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 116.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Trying to load font information for OT1+CormorantGaramond-LF on input line 98.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Trying to load font information for OT1+CormorantGaramond-LF on input line 116.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/OT1CormorantGaramond-LF.fd
 File: OT1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for OT1/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/m/n' in size <10.95> not available
-(Font)              Font shape `OT1/CormorantGaramond-LF/regular/n' tried instead on input line 98.
+(Font)              Font shape `OT1/CormorantGaramond-LF/regular/n' tried instead on input line 116.
 LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 10.95pt on input line 98.
-LaTeX Font Info:    Trying to load font information for T2A+CormorantGaramond-LF on input line 98.
+(Font)              scaled to size 10.95pt on input line 116.
+LaTeX Font Info:    Trying to load font information for T2A+CormorantGaramond-LF on input line 116.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/T2ACormorantGaramond-LF.fd
 File: T2ACormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for T2A/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 98.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 116.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 10.95pt on input line 98.
+(Font)              scaled to size 10.95pt on input line 116.
 \AtBeginShipoutBox=\box87
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -1072,39 +1072,39 @@ LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <17.28> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 99.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 17.28pt on input line 99.
+(Font)              scaled to size 17.28pt on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <17.28> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 99.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 17.28pt on input line 99.
+(Font)              scaled to size 17.28pt on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 99.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 12.0pt on input line 99.
+(Font)              scaled to size 12.0pt on input line 117.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 99.
+(Font)              <12> on input line 117.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 99.
+(Font)              <8> on input line 117.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 99.
+(Font)              <6> on input line 117.
 [1
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 102.
+(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 120.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 20.74pt on input line 102.
+(Font)              scaled to size 20.74pt on input line 120.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 102.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 120.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 20.74pt on input line 102.
+(Font)              scaled to size 20.74pt on input line 120.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 102.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 120.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 20.74pt on input line 102.
+(Font)              scaled to size 20.74pt on input line 120.
  (./eng.toc
 Package tocbasic Info: Using my definition of `\numberline' on input line 2.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <10.95> not available
@@ -1167,17 +1167,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--6
 
 ) Excluding 'ru' comment.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 129.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 147.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 12.0pt on input line 129.
+(Font)              scaled to size 12.0pt on input line 147.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 129.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 147.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 12.0pt on input line 129.
+(Font)              scaled to size 12.0pt on input line 147.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 129.
+(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 147.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
-(Font)              scaled to size 14.4pt on input line 129.
+(Font)              scaled to size 14.4pt on input line 147.
  Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
@@ -1197,7 +1197,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
  []
 
 )
-Underfull \hbox (badness 8019) in paragraph at lines 9--153
+Underfull \hbox (badness 8019) in paragraph at lines 9--171
 \T2A/CormorantGaramond-LF/regular/n/10.95 game. The actions of players are
  []
 
@@ -1214,9 +1214,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--6
 \T2A/CormorantGaramond-LF/regular/n/10.95 experimentation and role-playing,
  []
 
-)
+) [3]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
-[3] Excluding 'ru' comment. Excluding 'ru' comment. Including 'en' comment.
+Excluding 'ru' comment. Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
@@ -1231,7 +1231,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--2
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 3--220
+Underfull \hbox (badness 10000) in paragraph at lines 3--239
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Slightly shorter than humans.
  []
 
@@ -1262,6 +1262,9 @@ Underfull \hbox (badness 7981) in paragraph at lines 1--2
 )
 Overfull \vbox (3.3277pt too high) has occurred while \output is active []
 
+
+Overfull \vbox (8.11182pt too high) has occurred while \output is active []
+
  [4]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
 Excluding 'ru' comment. Including 'en' comment.
@@ -1273,7 +1276,7 @@ Package lettrine.sty Info: Targeted height = 18.88338pt
 (lettrine.sty)             Lettrine height = 17.95683pt (W);
 (lettrine.sty)             reported on input line 1.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 1--273
+Underfull \hbox (badness 10000) in paragraph at lines 1--291
 \T2A/CormorantGaramond-LF/regular/n/10.95 Dwarf with a bellowing
  []
 
@@ -1281,7 +1284,7 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--282
+Underfull \hbox (badness 10000) in paragraph at lines 1--300
 \T2A/CormorantGaramond-LF/regular/n/10.95 Race doesn't only affect physical
  []
 
@@ -1292,7 +1295,7 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 5374) in paragraph at lines 1--300
+Underfull \hbox (badness 5374) in paragraph at lines 1--318
 \T2A/CormorantGaramond-LF/regular/n/10.95 past. Not all women can become
  []
 
@@ -1300,12 +1303,12 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--309
+Underfull \hbox (badness 10000) in paragraph at lines 1--327
 \T2A/CormorantGaramond-LF/regular/n/10.95 Every adventurer belongs to a
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1--309
+Underfull \hbox (badness 10000) in paragraph at lines 1--327
 \T2A/CormorantGaramond-LF/regular/n/10.95 you're proficient with magic or
  []
 
@@ -1319,14 +1322,14 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 7468) in paragraph at lines 1--336
+Underfull \hbox (badness 7468) in paragraph at lines 1--354
 \T2A/CormorantGaramond-LF/regular/n/10.95 Everything that's related to outer
  []
 
 [5]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
 
-Overfull \hbox (3.41638pt too wide) in paragraph at lines 343--397
+Overfull \hbox (3.41638pt too wide) in paragraph at lines 361--415
   [] 
  []
 
@@ -1352,7 +1355,7 @@ Package lettrine.sty Info: Targeted height = 18.88338pt
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--444
+Underfull \hbox (badness 10000) in paragraph at lines 1--462
 \T2A/CormorantGaramond-LF/regular/n/10.95 Character's attributes reflect their
  []
 
@@ -1360,7 +1363,7 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 6032) in paragraph at lines 1--453
+Underfull \hbox (badness 6032) in paragraph at lines 1--471
 \T2A/CormorantGaramond-LF/regular/n/10.95 weapons. Greatly affects the total
  []
 
@@ -1368,7 +1371,7 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--462
+Underfull \hbox (badness 10000) in paragraph at lines 1--480
 \T2A/CormorantGaramond-LF/regular/n/10.95 Defines character's reflexes and
  []
 
@@ -1376,17 +1379,17 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--471
+Underfull \hbox (badness 10000) in paragraph at lines 1--489
 \T2A/CormorantGaramond-LF/regular/n/10.95 Indicates background knowledge
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1--471
+Underfull \hbox (badness 10000) in paragraph at lines 1--489
 \T2A/CormorantGaramond-LF/regular/n/10.95 and charisma, proficiency with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1--471
+Underfull \hbox (badness 10000) in paragraph at lines 1--489
 \T2A/CormorantGaramond-LF/regular/n/10.95 intelligence weapons and magic.
  []
 
@@ -1394,7 +1397,7 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment.
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 495--510
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 513--528
  []
  []
 
@@ -1405,24 +1408,24 @@ Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment.
-LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 527.
+LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 545.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 File: TS1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
 )
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/b/n' in size <10.95> not available
-(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 527.
+(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 545.
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/bold/n' will be
-(Font)              scaled to size 10.95pt on input line 527.
+(Font)              scaled to size 10.95pt on input line 545.
  Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut [7])
-Underfull \hbox (badness 10000) in paragraph at lines 3--535
+Underfull \hbox (badness 10000) in paragraph at lines 3--553
 []\T2A/CormorantGaramond-LF/regular/n/10.95 High Ability Scores result in
  []
 
 Excluding 'ru' comment.
-Overfull \hbox (1.70819pt too wide) in paragraph at lines 544--556
+Overfull \hbox (1.70819pt too wide) in paragraph at lines 562--574
  [] 
  []
 
@@ -1452,7 +1455,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--4
  Straight input of comment.cut. (./comment.cut) Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
- Straight input of comment.cut. (./comment.cut [8]) Excluding 'ru' comment. Including 'en' comment.
+ Straight input of comment.cut. (./comment.cut) [8] Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut
@@ -1461,7 +1464,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--2
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 5--650
+Underfull \hbox (badness 10000) in paragraph at lines 5--668
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Higher values provide good
  []
 
@@ -1469,17 +1472,17 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 10000) in paragraph at lines 1--663
+Underfull \hbox (badness 10000) in paragraph at lines 1--681
 \T2A/CormorantGaramond-LF/regular/n/10.95 just discussed, with the addition
  []
 
 
-Underfull \hbox (badness 7433) in paragraph at lines 1--663
+Underfull \hbox (badness 7433) in paragraph at lines 1--681
 \T2A/CormorantGaramond-LF/regular/n/10.95 of relevant Modifiers. On critical
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1--663
+Underfull \hbox (badness 10000) in paragraph at lines 1--681
 \T2A/CormorantGaramond-LF/regular/n/10.95 successes, blows deal double the
  []
 
@@ -1487,12 +1490,12 @@ Excluding 'ru' comment. Including 'en' comment.
 \openout3 = `comment.cut'.
 
  Straight input of comment.cut. (./comment.cut)
-Underfull \hbox (badness 5802) in paragraph at lines 3--674
+Underfull \hbox (badness 5802) in paragraph at lines 3--692
 \T2A/CormorantGaramond-LF/regular/n/10.95 by an Ability Check. On critical
  []
 
 
-Underfull \hbox (badness 6477) in paragraph at lines 3--674
+Underfull \hbox (badness 6477) in paragraph at lines 3--692
 \T2A/CormorantGaramond-LF/regular/n/10.95 success, the character fully avoids
  []
 
@@ -1526,13 +1529,13 @@ Underfull \hbox (badness 5667) in paragraph at lines 1--2
 Here is how much of TeX's memory you used:
  18078 strings out of 492167
  321905 string characters out of 6131559
- 442429 words of memory out of 5000000
+ 443393 words of memory out of 5000000
  22177 multiletter control sequences out of 15000+600000
  638697 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 52i,12n,71p,826b,554s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i,11n,71p,826b,552s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (9 pages, 137331 bytes).
+Output written on eng.pdf (9 pages, 137139 bytes).
 PDF statistics:
  56 PDF objects out of 1000 (max. 8388607)
  41 compressed objects within 1 object stream

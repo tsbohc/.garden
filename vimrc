@@ -133,26 +133,23 @@ autocmd InsertLeave * set cul
 " -------------------------------------------------
 "{{{ vim magic
 
-" write a function that handles swapfiles automagically
+" pass cword to a bash script an echo the output
+function! SaveCurrentWord()
+  let cword = expand("<cword>")
+  let cword_command = 'output-test ' . cword
+  let cwordout = system(cword_command)
+  echom cwordout
+  " maybe grep the thesaurus with inverted keyboard too
+  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
+endfunction
 
-"" default filetype to txt
-"autocmd BufNewFile,BufRead * if expand('%:t') !~ '\.' | set filetype=text | endif
-
-"" vim-lexical
-"augroup lexical
-"  autocmd!
-"  autocmd FileType markdown,mkd call lexical#init()
-"  autocmd FileType textile call lexical#init()
-"  autocmd FileType text call lexical#init()
-"augroup END
-"
-"let g:lexical#spell = 1
-
+" writing mode
 let g:writing_mode_enabled = 0
 function! WritingMode()
   if g:writing_mode_enabled
     set spell!
     DittoOff
+    " autocmd! CWord
     let g:writing_mode_enabled = 0
   else
     call lexical#init({
@@ -167,6 +164,9 @@ function! WritingMode()
       \              ],
       \ })
     DittoOn
+    " augroup CWord
+    "   autocmd CursorMoved * call SaveCurrentWord()
+    " augroup END
     let g:writing_mode_enabled = 1
   endif
 endfunction
@@ -178,9 +178,6 @@ augroup autoRead
     autocmd!
     autocmd CursorHold * silent! checktime
 augroup END
-
-" auto remake lantern with each edit
-"autocmd BufWritePost ~/blueberry/lantern.d/* silent! !cd ~/blueberry/lantern.d ; make
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install
@@ -209,6 +206,12 @@ inoremap <Right> <Nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
+" easier split movement
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " vi-line movement
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
@@ -233,7 +236,6 @@ au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
 
 " vim-ditto
-au FileType markdown,text,tex DittoOn
 hi clear SpellBad
 hi SpellBad ctermfg=red guifg=#fb4934
 execute 'hi SpellCap guifg=#fb4934'

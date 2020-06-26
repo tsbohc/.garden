@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1592927913 "eng.tex" "eng.pdf" "eng" 1592927914
-  "/dev/null" 1592918693 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1593173535 "eng.tex" "eng.pdf" "eng" 1593173536
+  "/dev/null" 1593160947 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/home/sean/.texlive/texmf-var/fonts/tfm/lh/lh-t2a/larm1095.tfm" 1591706112 3264 ead613d557baebcc53cf028c9c92d927 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc" 1572568373 3416 ffdc7e386842571d801852fe64655d0e ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc" 1572568373 3195 0881859a5bf6e9fb5bd5e1410ec68b67 ""
@@ -107,13 +107,13 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1572595918 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1591652938 4700588 6cff29fd2f933ef89e76aa832077506f ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1591652922 8044938 f5c43b7f84751a25967d12554c5e18d2 ""
-  "comment.cut" 1592927914 301 8eb553f10ec5fbc67ce2f4a8cb5b1742 "pdflatex"
-  "eng.aux" 1592927914 3999 07863143c5c7cef148fc46053ea1a8f7 "pdflatex"
-  "eng.tex" 1592927912 51534 54b4a3af8338f2753e5f69a83816bc0f ""
-  "eng.toc" 1592927914 2299 008588308d8754dff71fedcd4a4c6aa9 "pdflatex"
+  "comment.cut" 1593173536 301 8eb553f10ec5fbc67ce2f4a8cb5b1742 "pdflatex"
+  "eng.aux" 1593173536 3999 c9cfff37adeac6f43c7c7f1aeb68cb49 "pdflatex"
+  "eng.tex" 1593173534 52452 cf643451c73c303d809f787f51a0c1c3 ""
+  "eng.toc" 1593173536 2299 b6c03ba1e21bfad7382908e35c92ea32 "pdflatex"
   (generated)
-  "comment.cut"
   "eng.toc"
-  "eng.pdf"
-  "eng.aux"
   "eng.log"
+  "eng.aux"
+  "eng.pdf"
+  "comment.cut"

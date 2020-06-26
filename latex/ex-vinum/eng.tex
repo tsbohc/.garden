@@ -26,9 +26,27 @@
 \usepackage{fancyhdr} % page numbers
 \usepackage{tocbasic}
 
-\newmdenv[
-innerbottommargin=11pt, innertopmargin=\topskip, font=\itshape
-]{boxed}
+%\newmdenv[
+%  innerbottommargin=11pt, 
+%  innertopmargin=\topskip,
+%  font=\itshape,
+%  skipabove=\topsep,
+%  skipbelow=\topsep
+%]{boxed}
+
+\newenvironment{boxed}
+{\em\noindent\rule[1ex]{\linewidth}{0.1pt}\linebreak\indent}
+{\par\noindent\rule[1ex]{\linewidth}{0.1pt}}
+
+%\newenvironment{boxed}
+%    {\em
+%    \begin{longtable}{|p{0.9\textwidth}|}
+%    \hline
+%    }
+%    { 
+%    \\\hline
+%    \end{longtable} 
+%    }
 
 % just table things
 \definecolor{lightgray}{gray}{0.95}
@@ -113,7 +131,7 @@ linefill=\bfseries\TOCLineLeaderFill,beforeskip=2pt
 
 The game emphasizes the role-playing aspect of similar titles, while simplifying yet not rejecting the traditional systems.
 
-The setting is classic fantasy world akin to D\&D that doesn't strive to be strictly realistic.
+The setting is classic fantasy world akin to that of D\&D that doesn't strive to be strictly realistic.
 \end{en}
 
 \begin{ru}
@@ -142,7 +160,7 @@ DM описывает результаты действий игроков, и �
 \begin{en}
 The Dungeon Master describes the situation. The details of the surrounding area, characters, etc. Not all there is to know is available to the players right away.
 
-The players describe what they would like to do. During combat this happens in a strict order. Out of combat, the players can move freely. One of them maybe picking a lock, another being on guard.
+The players describe what they would like to do. During combat this happens in a strict order. Out of combat, the players can move freely. One of them maybe picking a lock, another standing on guard.
 
 Sometimes, solving a problem is easy, like opening a door. In this case, DM may just say that the door opens and describe what lies beyond. Sometimes, the success of the players' actions depends on dice rolls.
 
@@ -165,7 +183,7 @@ DM должен поощрять изобретательность игроко
 \begin{en}
 DM and the players work together to create a narrative, they are not fighting each other.
 
-No matter what is written in the rules, DM always have the last say in conflicts.
+No matter what is written in the rules, DM always have the last say.
 
 DM must reward players for experimentation and role-playing, even if their ideas are not realistic.
 
@@ -176,6 +194,7 @@ The main goal is not to win, but to have fun with your friends.
 % }}}
 
 % {{{ races 
+\pagebreak
 \chapter{Races}
 \begin{multicols}{2}
 
@@ -222,13 +241,13 @@ Slightly shorter than humans. Slender physique, light hair, blue or green eyes. 
 \begin{ru}
 Тифлинги несут за собой бремя своей родословной -- они потомки людей и дьявола. Их полу-демоническое обличие не пробуждают в людях теплых чувств, лишь только косые взгляды. Тифлинги, оказавшиеся в этом мире не по своей воли, делают все, чтобы выжить.
 
-Ростом с человека. Цвета кожи те же, что и у людей, но могут принимать и красноватые оттенки. Длииинный хвост. На голове большие рога. Туманные глаза, темные волосы.
+Ростом с человека. Цвета кожи те же, что и у людей, но могут принимать красноватые или фиолетовые оттенки. Длииинный хвост. На голове большие рога. Туманные глаза, темные волосы.
 \end{ru}
 
 \begin{en}
 Tieflings carry the burden of their ancestry. They are the offspring of the devil and a human. They half-demonic appearances provokes only sharp glares and no compassion. Tieflings were brought into this world against their will, and do everything they can to survive.
 
-Height is around that of a human. The skin color tends to be reddish. A long tail, large horns on the top of the head. Misty eyes, dark hair.
+Height is around that of a human. The skin color tends to be reddish, violetish, or similar to humans. A long tail, large horns on the top of the head. Misty eyes, dark hair.
 \end{en}
 
 \section{Drow}
@@ -241,7 +260,7 @@ Height is around that of a human. The skin color tends to be reddish. A long tai
 \begin{en}
   Dark Elves are the ancient sub-race of the traditional Elves. They were condemned to live underground. Those who end up on the surface often follow the path of evil, but there are exceptions. They often become mercenaries or travellers.
 
-Slightly smaller than Elves. Dark, ebony colored skin. Almost white hair, pale eyes.
+Slightly shorter than Elves. Dark, ebony colored skin. Almost white hair, pale eyes.
 \end{en}
 
 \section{Aasimar}
@@ -252,8 +271,7 @@ Slightly smaller than Elves. Dark, ebony colored skin. Almost white hair, pale e
 \end{ru}
 
 \begin{en}
-  Aasimar are similar to Tieflings in their ancestry, only there's divine blood in their veins. They are very likely to become fighters for virtue. In their dreams they speak with their divine father. Aasimar prefer not to reveal their lineage.
-
+Aasimar are similar to Tieflings in their ancestry, only there's divine blood in their veins. They are very likely to become fighters for virtue. In their dreams they speak with their divine father. Aasimar prefer not to reveal their lineage.
 
 Taller than Humans. The skin and hair colors are similar to that of Humans, but may have metallic colors.
 \end{en}
@@ -286,7 +304,7 @@ Race doesn't only affect physical appearance and character attributes, but also 
 \end{ru}
 
 \begin{en}
-Some races, such as Dwarves and Elves, live a few hundred years older than humans. For this reason, they have a different perceptive on the world.
+Some races, such as Dwarves and Elves, live a few hundred years older than humans. For this reason, they have a different perception of the world.
 \end{en}
 
 \section{Sex}
@@ -304,7 +322,7 @@ Sex greatly affects your character and past. Not all women can become knights wh
 \end{ru}
 
 \begin{en}
-Every adventurer belongs to a profession. Class determined whether you're proficient with magic or weapons, and what role you'll be filling in your group.
+Every adventurer belongs to a profession. Class determines whether you're proficient with magic or weapons, and what role you'll be filling in your group.
 \end{en}
 
 \section{Personality}
@@ -560,7 +578,7 @@ If there's a chance of a player's action failing, DM will ask him to perform an 
 
 The player must throw a d12 and add relevant Modifiers to the roll. If the final roll is equal or higher than the Difficulty Class set by DM, the action succeeds.
 
-Saving Throws, meaning rolling for a chance to resist damage, are also included in this mechanic and function the same way. DM will ask the player to roll for an Ability Check when a Saving Throw is valid.
+%Saving Throws, meaning rolling for a chance to resist damage, are also included in this mechanic and function the same way. DM will ask the player to roll for an Ability Check when a Saving Throw is valid.
 \end{en}
 
 \begin{ru}
@@ -649,7 +667,7 @@ Higher values provide good results, with 12 being a critical success, where you 
 \end{en}
 
 \begin{ru}
-Успешность каждого действия в бою определяется одним роллом d12 без модифаеров. 
+Успешность каждого действия в бою определяется одним роллом d12 без модифаеров.
 
 1 означает критический провал, когда все идет не по плану. 2 обычно промах и ничего больше.
 
@@ -662,7 +680,7 @@ The damage is equal to the roll we just discussed, with the addition of relevant
 \end{en}
 
 \begin{ru}
-Урон, наносимый атакой или заклинанием равен сумме ролла о котором мы только что говорили и соответствующего модифаера.  В случае критического успеха урон удваивается.
+Урон, наносимый атакой или заклинанием равен сумме ролла о котором мы только что говорили и соответствующего модифаера. В случае критического успеха урон удваивается.
 \end{ru}
 
 \subsection{Opportunity Attacks}
@@ -888,16 +906,10 @@ You can ask the merchant for the availablity of an item you don't see above.
 \pagebreak
 \chapter{Bad Water}
 \begin{multicols}{2}
-
-\subsection{Hook}
-tell players that they can pick up rocks from the ground, get a stick, "borrow" a shovel, etc. that you can ask if there's a boulder or a stick or anything else lying around
-
-the party hears a rumour about a small remote village that became known for its ale and decides to check it out
-
-on the way there they meet a travelling merchant, a dark elf named ginchi. he sparks the conversation
+The party hears a rumour about a small remote village that became known for its ale and decides to check it out.
 
 \begin{boxed}
-Во время совместных путешествий до вас донеслись слухи о небольшой деревне, которая недавно прославилась своим элем. Заинтригованные проспектами диковенной выпивки, вы в пути уже несколько дней. И вот, наконец, деревья расступаются и вы выходите на дорогу через поле.
+Во время совместных путешествий до вас донеслись слухи о небольшой деревне, которая недавно прославилась своим элем. Заинтригованные проспектами диковенной выпивки, вы в пути уже несколько дней. И вот, наконец, лесная чаща расступаются и вы выходите на дорогу через поле.
 
 Утро, погода стоит ясная, на небе нет ни облачка. По сторонам дороги расстилаются золотые солодовые поля. Люди, двигаясь рядом, одновременно взмахивают косами, но песни не слышно.
 
@@ -906,7 +918,7 @@ on the way there they meet a travelling merchant, a dark elf named ginchi. he sp
 "Тоже хотите изведать здешней выпивки?"
 \end{boxed}
 
-ghinci's dialogue ideas:
+On the way there they meet a travelling merchant, a dark elf named Ginchi. He sparks the conversation. Ghinci used to be a mercenary, but his friend got killed on a job, and now he's a simple merchant. He's charismatic and friendly. Also after the booze.
 
 \begin{boxed}
 Я -- Гинчи, а лошадь зовут Пташка
@@ -916,40 +928,49 @@ ghinci's dialogue ideas:
 \textbf{cha low}. Друг погиб на одном из заданий, мы пытались стянуть семейную реликвию, какой-то там меч. Стрела меж глаз. Я не смог ничего сделать.
 
 Теперь я странствующий торговец
+
+Ну, увидимся в таверне. Подгоняет лошадь и уносится вперед.
 \end{boxed}
 
-\section{Act I}
-\subsection{Village}
-two buildings, a tavern and a brewery. 
+\section{Act I: The Village}
+A scene on the outskirts of the village with Ghinci. He leaves after.
 
 \begin{boxed}
-Вы вместе прибываете в деревню. Картина перед вами скромная: несколько домов сложенных из бревен, а среди них только пивоварня и таверна.
-
-"Взгляните на мои товары?"\,, говорит Гинчи, "скидки новым покупателям" *Гинчи показывает на свою повозку*
-
+Подходя к деревне вы замечаете как Гинчи разговаривает с кем-то. Выражение лица у него слегка опешаное, а женщина с которой он говорит ведет себя довольно холодно.
 \end{boxed}
 
-give the players a list of things they can buy. 
-
-each of the players can get one item off of Ghinci for half the price.
+Village description. Tavern, Brewery, Ghinci's cart.
 
 \begin{boxed}
-Я пойду выпить, вы со мной?
+Картина перед вами скромная: несколько домов сложенных из бревен, а среди них только пивоварня и таверна. Близ таверны стоит повозка Гинчи, он сидит ступеньке хмурый и курит.
+\end{boxed}
+
+\subsection{Ghinci's Cart}
+\begin{boxed}
+Да так, ничего... старая знакомая.
+\end{boxed}
+
+If PC ask him what he has for sale give them a printout. Each of the players can get one item off of Ghinci for half the price.
+
+\begin{boxed}
+Улыбка возвращается на лицо Гинчи. "Скидки новым покупателям"
+\end{boxed}
+
+After that, he leaves to have a drink.
+
+\begin{boxed}
+Я пойду выпить, увидимся.
 \end{boxed}
 
 \subsection{Tavern}
-the tavern is full of people, the usual. BUT! nobody talks about anything that happened soon-ish, as they all are forgetting that
-
 \begin{boxed}
 На вывеске таверны название -- "Коготь Медведя". Изнутри громкие разговоры и редкие раскаты смеха.
 
-помещение хорошо освещено, стены бревенчатые. несколько штук круглых столов, барная стойка. на стене голова медведя. как бы убрано, но не сказать чтобы очень чисто
+Помещение хорошо освещено, стены бревенчатые. несколько штук круглых столов, барная стойка. на стене голова медведя, на полу ковер. Как бы убрано, но не сказать чтобы очень чисто
 
-вы слышите голос
+Вы слышите голос, "Присаживайтесь, присаживайтесь мои хорошие!"
 
-"Присаживайтесь, присаживайтесь мои хорошие!"
-
-к вам направляется хозяин таверны, добродушно улыбающийся дворф, в руках у него метла, и он судя по всему только что подметал пол.
+К вам направляется хозяин таверны, добродушно улыбающийся дворф, в руках у него метла, и он судя по всему только что подметал пол.
 
 "Чего желаете?"
 \end{boxed}

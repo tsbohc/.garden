@@ -32,7 +32,7 @@
 \contentsline {section}{\numberline {5.3}Out of Combat}{8}% 
 \contentsline {section}{\numberline {5.4}In Combat}{8}% 
 \contentsline {subsection}{\numberline {5.4.1}Initiative}{8}% 
-\contentsline {subsection}{\numberline {5.4.2}Vision}{9}% 
+\contentsline {subsection}{\numberline {5.4.2}Vision}{8}% 
 \contentsline {subsection}{\numberline {5.4.3}Rolling}{9}% 
 \contentsline {subsection}{\numberline {5.4.4}Damage}{9}% 
 \contentsline {subsection}{\numberline {5.4.5}Opportunity Attacks}{9}% 
