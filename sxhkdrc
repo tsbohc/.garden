@@ -20,7 +20,7 @@ super + space
 
 Print
   sleep 0.2; \
-  scrot
+  scrot -q 100 && notify-send "scrot" "cheese!"
 
 alt + j
   red-control -500 0

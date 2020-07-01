@@ -12,7 +12,7 @@ media:         mpv
 cli:           fzf bat
 ex:            unzip
 fonts:         tamzen-font-git
-pip:           pynvim neovim-remote ueberzug
+pip:           pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect
 EOF
 #pip2:          pynvim
 
