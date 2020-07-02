@@ -110,8 +110,9 @@ linefill=\bfseries\TOCLineLeaderFill,beforeskip=2pt
 % }}}
 
 \raggedbottom
-\includecomment{en}
-\excludecomment{ru}
+\excludecomment{en}
+\includecomment{ru}
+
 
 \begin{document}
 \maketitle
@@ -723,8 +724,6 @@ To rest well, the players need to have dinner, properly set up camp, and tell a 
 \end{multicols}
 % }}}
 
-\end{document}
-
 % {{{ equipment
 \pagebreak
 \chapter{Equipment}
@@ -905,133 +904,149 @@ You can ask the merchant for the availablity of an item you don't see above.
 
 \pagebreak
 \chapter{Bad Water}
+
 \begin{multicols}{2}
-The party hears a rumour about a small remote village that became known for its ale and decides to check it out.
+The part is recruited to escort a supply wagon, it gets raided. The part and the coachman reach the destination, get paid very little. The small village they arrive it recently became known for its incredibly potent ale. In reality, there's a cult in the catacomb underneath that poisons the water to steal souls of those who drink it, and restore the physical form of an ancient being.
+
+\section{Prologue}
+Empty tavern in the middle of nowhere. No alcohol.
 
 \begin{boxed}
-Во время совместных путешествий до вас донеслись слухи о небольшой деревне, которая недавно прославилась своим элем. Заинтригованные проспектами диковенной выпивки, вы в пути уже несколько дней. И вот, наконец, лесная чаща расступаются и вы выходите на дорогу через поле.
+Дело клонится к вечеру, небо затягивают облака, ночь надвигается темная.
 
-Утро, погода стоит ясная, на небе нет ни облачка. По сторонам дороги расстилаются золотые солодовые поля. Люди, двигаясь рядом, одновременно взмахивают косами, но песни не слышно.
+По воли случая, таинственных обстоятельств или какой-то верховной силы трое незнакомцев в поисках ночлега прибывают в таверну на опушке леса. По обоим сторонам от крыльца тянется дорога и через какое-то время скрывается за деревьями. Настоящая глушь. Заведение небольшое, построено давно, крыша течет, повсюду пыль.
 
-Вас догоняет повозка запряженная лошадью, судя по всему торговца разными мелочами. За упряжкой-- темный эльф, в зубах у него травинка, а на голове соломенная шляпа.
-
-"Тоже хотите изведать здешней выпивки?"
+За стойкой на стуле стоит хозяин со скучающим видом. У камина похрапывает темный эльф, лицо его закрывает соломеная шляпа. Других посетителей нет. К вам обращается хозяин -- Милости просим, чего желаете?
 \end{boxed}
 
-On the way there they meet a travelling merchant, a dark elf named Ginchi. He sparks the conversation. Ghinci used to be a mercenary, but his friend got killed on a job, and now he's a simple merchant. He's charismatic and friendly. Also after the booze.
+\subsection{hook}
+The tavernkeep recruits the party to escort a supply cart and bring him booze.
 
 \begin{boxed}
-Я -- Гинчи, а лошадь зовут Пташка
+Выпивки уже два дня нет, вот все и разбежались. А послать некого, неуютно нынче в лесу.
 
-Раньше был наемником, но мне отяготела рисковая жизнь.
+*осматривает вас* А вы знать, путешественники? Небось народ удалый.
 
-\textbf{cha low}. Друг погиб на одном из заданий, мы пытались стянуть семейную реликвию, какой-то там меч. Стрела меж глаз. Я не смог ничего сделать.
-
-Теперь я странствующий торговец
-
-Ну, увидимся в таверне. Подгоняет лошадь и уносится вперед.
+Неподалеку деревня, с недавнего времени прославилась своим элем. До нее рукой подать, к закату вернетесь. Привезете мне партию, отблагодарю честной монетой. Коли отправитесь сегодня, заплачу вдвойне, а то таверна совсем не таверна без выпивки.
 \end{boxed}
 
-\section{Act I: The Village}
-A scene on the outskirts of the village with Ghinci. He leaves after.
+Enter Ghinchi
 
 \begin{boxed}
-Подходя к деревне вы замечаете как Гинчи разговаривает с кем-то. Выражение лица у него слегка опешаное, а женщина с которой он говорит ведет себя довольно холодно.
+Эй, Гинчи! ГИНЧИ!! -- дроу у камина громко всхрапывает -- Иди запрягай лошадь, поедите в Кельт за выпивкой. Эльф поднимается, но ворчит что-то себе под нос и выходит через заднюю дверь. -- Он подождет вас снаружи. Хорошего пути.
 \end{boxed}
 
-Village description. Tavern, Brewery, Ghinci's cart.
+Outside
 
 \begin{boxed}
-Картина перед вами скромная: несколько домов сложенных из бревен, а среди них только пивоварня и таверна. Близ таверны стоит повозка Гинчи, он сидит ступеньке хмурый и курит.
-\end{boxed}
+Гинчи стоит рядом с повозкой явно повидавшей свет и ворошит лошадь за гриву -- "ути ты моя пташка". заметив вас, он поворачивается к вам. в зубах у него травинка, на голове все та же соломенная шляпа, а на шее висит наконечник стрелы.
 
-\subsection{Ghinci's Cart}
-\begin{boxed}
-Да так, ничего... старая знакомая.
+-- why are you here -- да так, проездом, думал подзаработать а у старого хрыча *он говорит это с ухмылкой, без зла* закончилась вся выпивка
+
+-- who are you -- ну теперь я колешу по континенту, продаю всякую всячину.
+
+-- past -- раньше был наемником, но когда напарника убили решил бросить
+
+-- arrowhead -- это так, талисман. этой стрелой убили напарника. прям промешь глаз *взгляд его застывает*
 \end{boxed}
 
 If PC ask him what he has for sale give them a printout. Each of the players can get one item off of Ghinci for half the price.
 
 \begin{boxed}
-Улыбка возвращается на лицо Гинчи. "Скидки новым покупателям"
+Дорога непростая, вам не помешало бы закупиться. "Скидки новым покупателям", подмигивает он.
+
+===
+
+Ну что, в путь?
 \end{boxed}
 
-After that, he leaves to have a drink.
+\subsection{Escort}
 
 \begin{boxed}
-Я пойду выпить, увидимся.
+Вы в пути около часа, начинает смеркаться
+
+Откуда-то неподалеку доносится волчий вой. Гинчи бросает на Наташу обеспокоинный взгляд.
+
+Справа шуршат кусты и на дорогу выбегают три волка. Бой начался
 \end{boxed}
 
-\subsection{Tavern}
-\begin{boxed}
-На вывеске таверны название -- "Коготь Медведя". Изнутри громкие разговоры и редкие раскаты смеха.
+ENCOUNTER: 2-3 wolves
 
-Помещение хорошо освещено, стены бревенчатые. несколько штук круглых столов, барная стойка. на стене голова медведя, на полу ковер. Как бы убрано, но не сказать чтобы очень чисто
+\begin{boxed}
+Расправившись с волками, вы продолжаете путь. Становится уже совсем темно и ничего не видно даже на пару шагов вперед.
+
+=====
+
+Из всепоглощающей темноты появляется человек в темной одежде, он стоит облокатившись к стволу дерева.
+
+Приветствую, добрые путники. Чего везете? *легким движением он откидывает край камзола, на поясе у него поблескивает кинжал*
+
+===
+
+Мои напарники вон там в кустах *он указывает куда-то в темную чащу*
+\end{boxed}
+
+ENCOUNTER: 2 bandits
+
+\section{Kelt}
+A small village with fields surrounding it. Notable is only a tavern and a brewery. A couple of random houses.
+
+\begin{boxed}
+Светает, погода стоит ясная, на небе нет ни облачка, ночь вас вымотала. По сторонам дороги расстилаются золотые солодовые поля. Люди, двигаясь рядом, одновременно взмахивают косами, но песни не слышно.
+
+Вы прибываете в деревнью.
+
+Картина перед вами скромная: несколько домов сложенных из бревен, а среди них примечательна только таверна. Гинчи останавливает повозку близ таверны, слезает с места кучера и закуривает.
+
+Ну, теперь не грех и выпить, проверить слухи, а?
+\end{boxed}
+
+\section{Tavern}
+Bear's claw, lots of people, loud.
+
+\subsection{Upstairs}
+
+\begin{boxed}
+На вывеске таверны название -- "Коготь Медведя". Изнутри доносятся громкие разговоры и частые раскаты смеха.
+
+Помещение хорошо освещено, стены бревенчатые. несколько штук круглых столов, барная стойка. на стене лапа медведя.
 
 Вы слышите голос, "Присаживайтесь, присаживайтесь мои хорошие!"
 
-К вам направляется хозяин таверны, добродушно улыбающийся дворф, в руках у него метла, и он судя по всему только что подметал пол.
-
-"Чего желаете?"
+К вам направляется хозяин таверны, добродушный на вид дворф.  Подойдя к вам он прищуривается и говорит, "да вам неплохо бы вздремнуть, у нас как раз внизу свободная комната"
 \end{boxed}
 
-give players a print out menu of drinks with one highlight especially clearly (being that rumoured ale). if the players for some reason don't order it, serve it to them anyway. fore-fucking-shadowing
+\subsection{Drinks}
 
-ask the players if they want to say toasts
+give players a menu. ask if they want to say toasts
 
 \begin{boxed}
-  сказать, что выпивка хороша, значит ничего не сказать.
+сказать, что выпивка хороша, значит ничего не сказать.
 
-  \textbf{per low} но есть странный привкус. Такой сладкий, но земельный, что ли. 
+Наталья -- ты чувствуешь как что-то мягкое касается твоей ноги.
 \end{boxed}
 
-have ghinci order two more drinks and down them quickly after a toast
-
-have players drink, if they interact with the tavern keeper have him forget them
-
-if they walk out have Ghinci forget what happened
+Ghinchi orders one more drink and downs it immediately. Shortly after he forgets a  party member.
 
 \begin{boxed}
-  Ухх, хорошо выпили, давной я так ни с кем не сидел. Подождите... а вы вообще кто?
-%  \textbf{per low} С виду Гинчи выглядит странновато, как будто в ауте что ли. Может это из-за алкоголя. 
-%  Гинчи: я... как я сюда попал? вы вообще кто? (погоди... тебя я помню *указывает на темного эльфа если в пати такой есть*)
+"Хозяин, еще одну!", кричит Гинчи. Он залпом выбивает пинту. Ух давно я так ни с кем не сидел *он делает паузу и со стеклянным выражением лица смотрит тебе в глаза* а ты вообще кто?
 \end{boxed}
 
-if they go back
+\subsection{Downstairs}
 
 \begin{boxed}
-  Хозяин таверны вернулся за стойку. \textbf{per low} На ней стоит почти выпитая кружка эля.
-
-  "О, посетители? Чего желаете? Комнату? Выпить?"
-
-  ... Да обычная выпивка, я ей уже сколько лет торгую с тех пор как у меня родилась дочь... как же ее звали?
-
-  Оставьте меня, мне нужно побыть одному
+На полу ковер, постелей всего две. Одному из вас придется спать на полу.
 \end{boxed}
 
-if the players rent a room, have time pass weirdly, so that its the twilight again
-
-\subsection{Brewery}
-there's a black cat called Juro.
-
-if they go here first
+\section{Juro}
+\textbf{per mid} в траве свернувшись в клубочек лежит черный кот. в сумерках его почти не видно. его глаза поблескивают и направлены на вас
 
 \begin{boxed}
-  составлена из бревен, внутри несколько человек. один перебирает зерно, двое других тоскают мешки, еще один размешивает что-то в чане. вокруг стоят уже закрытые бочки
-\end{boxed}
-
-if they go here after the tavern:
-
-\begin{boxed}
-  Время для всех пролетело незаметно, уже вечереет. Работа на сегодня окончена, и пивоварня закрыта наглухо.
-
-  \textbf{per mid} в траве свернувшись в клубочек лежит черный кот. в сумерках его почти не видно. его глаза поблескивают и направлены на вас
-
   ... Для остальных это звучит как мяуканье. 
 
-  Чувак, ты че замяукал вдруг? У кота на морде вырисовывается крайнее изумление.
+  Бля, чувак, ты меня напугал.
 
-  Чувак, тут что-то неладное, люди ведут себя как-то странно, а по ночам я вижу как вокруг колодца ошиваются странные типы. А эти (показывает лапой на пивоварню) потом на этой воде выпивку варят.
+  Слушай, тут что-то неладное, люди стали вести себя странно, а по ночам я вижу как вокруг колодца ошиваются странные типы.
 \end{boxed}
 
 \subsection{Well}
@@ -1039,13 +1054,28 @@ if they go here after the tavern:
   По дороге у вас ногами у вас шуршит трава
 
   Перед вам обычный деревенский колодец, с виду ничего необычного. Глубокий, внизу вода.
-
-  Видно, что им часто пользуются, но веревка выглядит надежно
-
-  \textbf{per low} тот же странный сладковато-земельный запах
 \end{boxed}
 
 \section{Act II}
+
+\subsection{Descent}
+
+\begin{boxed}
+
+\end{boxed}
+
+
+
+
+
+
+
+
+\end{multicols}
+% }}}
+
+\end{document}
+
 \subsection{Descent}
 by now the party should be hooked and swarm the well. have them dive into water one way or another (roll endurance checks for suffocation, maybe make it just a bit dramatic)
 
@@ -1081,6 +1111,24 @@ let's say that he hasn't regained his physical form yet, and he needs souls to g
 \subsection{Reveal}
 the cultists perform rituals that poison the water in the well, making the water take VERY GOOD and take the souls of those who drink it. the souls are then fed into skeleton and make him more powerful
 
-\end{multicols}
-% }}}
 
+
+%===
+%
+%Хозяин таверны вернулся за стойку. "О, посетители? Чего желаете? Комнату? Выпить?"
+%
+%\textbf{per low} На ней стоит почти выпитая кружка эля.
+%\end{boxed}
+%
+%if the players rent a room, have time pass weirdly, so that its the twilight again
+%
+%\subsection{Brewery}
+%there's a black cat called Juro.
+%
+%if they go here first
+%
+%\begin{boxed}
+%  составлена из бревен, внутри несколько человек. один перебирает зерно, двое других тоскают мешки, еще один размешивает что-то в чане. вокруг стоят уже закрытые бочки
+%\end{boxed}
+%
+%if they go here after the tavern:
