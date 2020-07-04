@@ -53,6 +53,7 @@
 \contentsline {section}{\numberline {7.5}Act II}{15}% 
 \contentsline {subsection}{\numberline {7.5.1}Descent}{15}% 
 \contentsline {subsection}{\numberline {7.5.2}1: Cave}{15}% 
-\contentsline {subsection}{\numberline {7.5.3}2: Chasm}{15}% 
-\contentsline {subsection}{\numberline {7.5.4}Chamber}{16}% 
-\contentsline {subsection}{\numberline {7.5.5}Quarters}{16}% 
+\contentsline {subsection}{\numberline {7.5.3}2: Chasm}{16}% 
+\contentsline {subsection}{\numberline {7.5.4}3: Chamber}{17}% 
+\contentsline {subsection}{\numberline {7.5.5}Quarters}{18}% 
+\contentsline {subsection}{\numberline {7.5.6}Reception}{19}% 

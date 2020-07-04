@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.22)  4 JUL 2020 03:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.22)  4 JUL 2020 19:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -580,40 +580,54 @@ File: md-frame-0.mdf 2013/07/01\ 1.9b: md-frame-0
 Package zref Info: New property: mdf@pagevalue on input line 895.
 ) (/usr/share/texmf-dist/tex/latex/comment/comment.sty
 \CommentStream=\write3
- Excluding comment 'comment') (/usr/share/texmf-dist/tex/latex/tools/array.sty
+ Excluding comment 'comment') (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/10/08 v1.3c Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen137
+\Gin@req@width=\dimen138
+)
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
 Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
-\col@sep=\dimen137
+\col@sep=\dimen139
 \ar@mcellbox=\box55
-\extrarowheight=\dimen138
+\extrarowheight=\dimen140
 \NC@list=\toks18
 \extratabsurround=\skip120
 \backup@length=\skip121
 \ar@cellbox=\box56
 ) (/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2019/10/08 v1.6180339 publication quality tables
-\heavyrulewidth=\dimen139
-\lightrulewidth=\dimen140
-\cmidrulewidth=\dimen141
-\belowrulesep=\dimen142
-\belowbottomsep=\dimen143
-\aboverulesep=\dimen144
-\abovetopsep=\dimen145
-\cmidrulesep=\dimen146
-\cmidrulekern=\dimen147
-\defaultaddspace=\dimen148
+\heavyrulewidth=\dimen141
+\lightrulewidth=\dimen142
+\cmidrulewidth=\dimen143
+\belowrulesep=\dimen144
+\belowbottomsep=\dimen145
+\aboverulesep=\dimen146
+\abovetopsep=\dimen147
+\cmidrulesep=\dimen148
+\cmidrulekern=\dimen149
+\defaultaddspace=\dimen150
 \@cmidla=\count196
 \@cmidlb=\count197
-\@aboverulesep=\dimen149
-\@belowrulesep=\dimen150
+\@aboverulesep=\dimen151
+\@belowrulesep=\dimen152
 \@thisruleclass=\count198
 \@lastruleclass=\count199
-\@thisrulewidth=\dimen151
+\@thisrulewidth=\dimen153
 ) (/usr/share/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count266
 \calc@Bcount=\count267
-\calc@Adimen=\dimen152
-\calc@Bdimen=\dimen153
+\calc@Adimen=\dimen154
+\calc@Bdimen=\dimen155
 \calc@Askip=\skip122
 \calc@Bskip=\skip123
 LaTeX Info: Redefining \setlength on input line 80.
@@ -622,8 +636,7 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Cskip=\skip124
 ) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-
-(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -645,32 +658,32 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 ) (/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
-\TX@col@width=\dimen154
-\TX@old@table=\dimen155
-\TX@old@col=\dimen156
-\TX@target=\dimen157
-\TX@delta=\dimen158
+\TX@col@width=\dimen156
+\TX@old@table=\dimen157
+\TX@old@col=\dimen158
+\TX@target=\dimen159
+\TX@delta=\dimen160
 \TX@cols=\count270
 \TX@ftn=\toks20
 ) (/usr/share/texmf-dist/tex/latex/tools/multicol.sty
 Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
 \c@tracingmulticols=\count271
 \mult@box=\box57
-\multicol@leftmargin=\dimen159
+\multicol@leftmargin=\dimen161
 \c@unbalance=\count272
 \c@collectmore=\count273
 \doublecol@number=\count274
 \multicoltolerance=\count275
 \multicolpretolerance=\count276
-\full@width=\dimen160
-\page@free=\dimen161
-\premulticols=\dimen162
-\postmulticols=\dimen163
+\full@width=\dimen162
+\page@free=\dimen163
+\premulticols=\dimen164
+\postmulticols=\dimen165
 \multicolsep=\skip126
 \multicolbaselineskip=\skip127
 \partial@page=\box58
 \last@line=\box59
-\maxbalancingoverflow=\dimen164
+\maxbalancingoverflow=\dimen166
 \mult@rightbox=\box60
 \mult@grightbox=\box61
 \mult@gfirstbox=\box62
@@ -695,9 +708,9 @@ Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
 \c@minrows=\count277
 \c@columnbadness=\count278
 \c@finalcolumnbadness=\count279
-\last@try=\dimen165
-\multicolovershoot=\dimen166
-\multicolundershoot=\dimen167
+\last@try=\dimen167
+\multicolovershoot=\dimen168
+\multicolundershoot=\dimen169
 \mult@nat@firstbox=\box81
 \colbreak@box=\box82
 \mc@col@check@num=\count280
@@ -706,12 +719,12 @@ Package: titlesec 2019/10/16 v2.13 Sectioning titles
 \ttl@box=\box83
 \beforetitleunit=\skip128
 \aftertitleunit=\skip129
-\ttl@plus=\dimen168
-\ttl@minus=\dimen169
+\ttl@plus=\dimen170
+\ttl@minus=\dimen171
 \ttl@toksa=\toks21
-\titlewidth=\dimen170
-\titlewidthlast=\dimen171
-\titlewidthfirst=\dimen172
+\titlewidth=\dimen172
+\titlewidthlast=\dimen173
+\titlewidthfirst=\dimen174
 ) (/usr/share/texmf-dist/tex/latex/cormorantgaramond/CormorantGaramond.sty
 Package: CormorantGaramond 2019/10/21 (Bob Tennent and autoinst) Style file for Cormorant Garamond fonts.
  (/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
@@ -910,29 +923,29 @@ Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack-
 )
 \c@DefaultLines=\count283
 \c@DefaultDepth=\count284
-\DefaultFindent=\dimen173
-\DefaultNindent=\dimen174
-\DefaultSlope=\dimen175
-\DiscardVskip=\dimen176
+\DefaultFindent=\dimen175
+\DefaultNindent=\dimen176
+\DefaultSlope=\dimen177
+\DiscardVskip=\dimen178
 \L@lbox=\box84
 \L@tbox=\box85
 \c@L@lines=\count285
 \c@L@depth=\count286
-\L@Pindent=\dimen177
-\L@Findent=\dimen178
-\L@Nindent=\dimen179
-\L@lraise=\dimen180
-\L@first=\dimen181
-\L@next=\dimen182
-\L@slope=\dimen183
-\L@height=\dimen184
-\L@novskip=\dimen185
-\L@target@ht=\dimen186
-\L@target@dp=\dimen187
-\L@target@tht=\dimen188
-\LettrineWidth=\dimen189
-\LettrineHeight=\dimen190
-\LettrineDepth=\dimen191
+\L@Pindent=\dimen179
+\L@Findent=\dimen180
+\L@Nindent=\dimen181
+\L@lraise=\dimen182
+\L@first=\dimen183
+\L@next=\dimen184
+\L@slope=\dimen185
+\L@height=\dimen186
+\L@novskip=\dimen187
+\L@target@ht=\dimen188
+\L@target@dp=\dimen189
+\L@target@tht=\dimen190
+\LettrineWidth=\dimen191
+\LettrineHeight=\dimen192
+\LettrineDepth=\dimen193
 \Llist@everypar=\toks24
 
 Loading lettrine.cfg
@@ -945,14 +958,14 @@ Package ifvtex Info: VTeX not detected.
 \Gm@cnth=\count287
 \Gm@cntv=\count288
 \c@Gm@tempcnt=\count289
-\Gm@bindingoffset=\dimen192
-\Gm@wd@mp=\dimen193
-\Gm@odd@mp=\dimen194
-\Gm@even@mp=\dimen195
-\Gm@layoutwidth=\dimen196
-\Gm@layoutheight=\dimen197
-\Gm@layouthoffset=\dimen198
-\Gm@layoutvoffset=\dimen199
+\Gm@bindingoffset=\dimen194
+\Gm@wd@mp=\dimen195
+\Gm@odd@mp=\dimen196
+\Gm@even@mp=\dimen197
+\Gm@layoutwidth=\dimen198
+\Gm@layoutheight=\dimen199
+\Gm@layouthoffset=\dimen256
+\Gm@layoutvoffset=\dimen257
 \Gm@dimlist=\toks25
 ) (/usr/share/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footers
@@ -1023,17 +1036,28 @@ LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count290
-\scratchdimen=\dimen256
+\scratchdimen=\dimen258
 \scratchbox=\box88
 \nofMPsegments=\count291
 \nofMParguments=\count292
 \everyMPshowfont=\toks26
 \MPscratchCnt=\count293
-\MPscratchDim=\dimen257
+\MPscratchDim=\dimen259
 \MPnumerator=\count294
 \makeMPintoPDFobject=\count295
 \everyMPtoPDFconversion=\toks27
+) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ (/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+ (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
 \c@mv@tabular=\count296
 \c@mv@boldtabular=\count297
 
@@ -1407,42 +1431,138 @@ Underfull \hbox (badness 10000) in paragraph at lines 999--1000
  []
 
 [13] [14]
-Underfull \hbox (badness 7064) in paragraph at lines 1090--1092
+<1.jpg, id=53, 1307.88625pt x 2168.1pt>
+File: 1.jpg Graphic file (type jpg)
+<use 1.jpg>
+Package pdftex.def Info: 1.jpg  used on input line 1076.
+(pdftex.def)             Requested size: 167.18796pt x 277.1321pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 1076--1077
+[] 
+ []
+
+[15 <./1.jpg>]
+<2.jpg, id=57, 1225.57875pt x 2168.1pt>
+File: 2.jpg Graphic file (type jpg)
+<use 2.jpg>
+Package pdftex.def Info: 2.jpg  used on input line 1086.
+(pdftex.def)             Requested size: 167.18796pt x 295.75754pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 1086--1087
+[] 
+ []
+
+
+Underfull \hbox (badness 7064) in paragraph at lines 1093--1095
 [] \T2A/CormorantGaramond-LF/regular/it/10.95 Оста-вил их на слу-чай ес-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1090--1092
+Underfull \hbox (badness 10000) in paragraph at lines 1093--1095
 \T2A/CormorantGaramond-LF/regular/it/10.95 ли ты опять ("как при-ду-
  []
 
-[15]
-Underfull \hbox (badness 7888) in paragraph at lines 1109--1110
+[16 <./2.jpg>]
+<3.jpg, id=61, 2168.1pt x 2168.1pt>
+File: 3.jpg Graphic file (type jpg)
+<use 3.jpg>
+Package pdftex.def Info: 3.jpg  used on input line 1111.
+(pdftex.def)             Requested size: 167.18796pt x 167.16586pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 1111--1112
+[] 
+ []
+
+
+Underfull \hbox (badness 7888) in paragraph at lines 1114--1115
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Круглая ком-на-та, по бо-кам
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1113--1114
+Underfull \hbox (badness 10000) in paragraph at lines 1118--1119
 \T2A/CormorantGaramond-LF/regular/n/10.95 этой сто-ро-ны. По-се-ре-дине
  []
 
+<4.jpg, id=62, 1940.24875pt x 2168.1pt>
+File: 4.jpg Graphic file (type jpg)
+<use 4.jpg>
+Package pdftex.def Info: 4.jpg  used on input line 1124.
+(pdftex.def)             Requested size: 167.18796pt x 186.81688pt.
 
-Overfull \vbox (11.84354pt too high) has occurred while \output is active []
+Overfull \hbox (5.0pt too wide) in paragraph at lines 1124--1125
+[] 
+ []
 
- [16] (./eng.aux) ) 
+[17 <./3.jpg>]
+Underfull \hbox (badness 6364) in paragraph at lines 1127--1128
+\T2A/CormorantGaramond-LF/regular/n/10.95 На дру-гой сто-роне лест-ни-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1128--1129
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Проходит ри-ту-ал. Чет-ве-ро
+ []
+
+
+Underfull \hbox (badness 5022) in paragraph at lines 1128--1129
+\T2A/CormorantGaramond-LF/regular/n/10.95 тем-ных фи-гур сто-ят во-круг
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 1129--1130
+\T2A/CormorantGaramond-LF/regular/n/10.95 де-ре-вян-ные сто-лы и сту-лья.
+ []
+
+[18 <./4.jpg>]
+<5.jpg, id=69, 2384.91pt x 2168.1pt>
+File: 5.jpg Graphic file (type jpg)
+<use 5.jpg>
+Package pdftex.def Info: 5.jpg  used on input line 1138.
+(pdftex.def)             Requested size: 167.18796pt x 151.981pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 1138--1139
+[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1148--1149
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 большое по-ме-ще-ние, вдоль
+ []
+
+
+Underfull \hbox (badness 6016) in paragraph at lines 1149--1150
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Раздается скре-жет, а по-том
+ []
+
+
+Underfull \hbox (badness 7186) in paragraph at lines 1149--1150
+\T2A/CormorantGaramond-LF/regular/n/10.95 мень упа-ло что-то тя-же-лое.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
+\T2A/CormorantGaramond-LF/regular/n/10.95 Огром-ный ске-лет по-яв-ля-ет-
+ []
+
+[19 <./5.jpg>]
+Underfull \hbox (badness 5970) in paragraph at lines 1163--1164
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Когда он за-кан-чи-ва-ет го-во-
+ []
+
+[20] (./eng.aux) ) 
 Here is how much of TeX's memory you used:
- 18085 strings out of 492167
- 321993 string characters out of 6131558
- 448461 words of memory out of 5000000
- 22180 multiletter control sequences out of 15000+600000
+ 18453 strings out of 492167
+ 327315 string characters out of 6131558
+ 453583 words of memory out of 5000000
+ 22520 multiletter control sequences out of 15000+600000
  638697 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 52i,12n,71p,826b,552s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i,12n,71p,826b,555s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (16 pages, 179715 bytes).
+Output written on eng.pdf (20 pages, 3262979 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 96 PDF objects out of 1000 (max. 8388607)
+ 65 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
