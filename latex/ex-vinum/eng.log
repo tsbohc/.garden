@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.22)  2 JUL 2020 20:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.22)  4 JUL 2020 03:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1406,7 +1406,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 999--1000
 []\T2A/CormorantGaramond-LF/regular/it/10.95 Картина пе-ред ва-ми скром-ная:
  []
 
-[13] [14] [15] (./eng.aux) ) 
+[13] [14]
+Underfull \hbox (badness 7064) in paragraph at lines 1090--1092
+[] \T2A/CormorantGaramond-LF/regular/it/10.95 Оста-вил их на слу-чай ес-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1092
+\T2A/CormorantGaramond-LF/regular/it/10.95 ли ты опять ("как при-ду-
+ []
+
+[15]
+Underfull \hbox (badness 7888) in paragraph at lines 1109--1110
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Круглая ком-на-та, по бо-кам
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1113--1114
+\T2A/CormorantGaramond-LF/regular/n/10.95 этой сто-ро-ны. По-се-ре-дине
+ []
+
+
+Overfull \vbox (11.84354pt too high) has occurred while \output is active []
+
+ [16] (./eng.aux) ) 
 Here is how much of TeX's memory you used:
  18085 strings out of 492167
  321993 string characters out of 6131558
@@ -1414,12 +1437,12 @@ Here is how much of TeX's memory you used:
  22180 multiletter control sequences out of 15000+600000
  638697 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 52i,11n,71p,826b,552s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i,12n,71p,826b,552s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (15 pages, 171567 bytes).
+Output written on eng.pdf (16 pages, 179715 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
