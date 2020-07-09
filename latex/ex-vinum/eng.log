@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  5 JUL 2020 17:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  8 JUL 2020 19:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1441,6 +1441,11 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1076--1077
 [] 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 1079--1080
+\T2A/CormorantGaramond-LF/regular/n/10.95 лаг-ми-ты/сталагтиты Впе-ре-
+ []
+
 [15 <./1.jpg>]
 <2.jpg, id=57, 1225.57875pt x 2168.1pt>
 File: 2.jpg Graphic file (type jpg)
@@ -1479,11 +1484,22 @@ Underfull \hbox (badness 7888) in paragraph at lines 1114--1115
  []
 
 
+Underfull \hbox (badness 6510) in paragraph at lines 1117--1118
+\T2A/CormorantGaramond-LF/regular/n/10.95 лон-ны, меж них гор-ки ко-
+ []
+
+
+Underfull \hbox (badness 6300) in paragraph at lines 1117--1118
+\T2A/CormorantGaramond-LF/regular/n/10.95 стей. На стене раз-ма-зан-ная
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 1118--1119
 \T2A/CormorantGaramond-LF/regular/n/10.95 этой сто-ро-ны. По-се-ре-дине
  []
 
-<4.jpg, id=62, 1940.24875pt x 2168.1pt>
+[17 <./3.jpg>]
+<4.jpg, id=65, 1940.24875pt x 2168.1pt>
 File: 4.jpg Graphic file (type jpg)
 <use 4.jpg>
 Package pdftex.def Info: 4.jpg  used on input line 1124.
@@ -1493,14 +1509,14 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1124--1125
 [] 
  []
 
-[17 <./3.jpg>]
+
 Underfull \hbox (badness 6364) in paragraph at lines 1127--1128
 \T2A/CormorantGaramond-LF/regular/n/10.95 На дру-гой сто-роне лест-ни-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1128--1129
-[]\T2A/CormorantGaramond-LF/regular/n/10.95 Проходит ри-ту-ал. Чет-ве-ро
+Underfull \hbox (badness 6608) in paragraph at lines 1128--1129
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Проходит ри-ту-ал. Весь пол
  []
 
 
@@ -1509,8 +1525,8 @@ Underfull \hbox (badness 5022) in paragraph at lines 1128--1129
  []
 
 
-Underfull \hbox (badness 5050) in paragraph at lines 1129--1130
-\T2A/CormorantGaramond-LF/regular/n/10.95 де-ре-вян-ные сто-лы и сту-лья.
+Underfull \hbox (badness 8113) in paragraph at lines 1130--1131
+\T2A/CormorantGaramond-LF/regular/n/10.95 бы-ло бес-по-ря-доч-но ски-ну-то
  []
 
 [18 <./4.jpg>]
@@ -1525,8 +1541,13 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1138--1139
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1148--1149
-[]\T2A/CormorantGaramond-LF/regular/n/10.95 большое по-ме-ще-ние, вдоль
+Underfull \hbox (badness 6893) in paragraph at lines 1148--1149
+\T2A/CormorantGaramond-LF/regular/n/10.95 не вид-но. по ком-на-те рас-
+ []
+
+
+Underfull \hbox (badness 6910) in paragraph at lines 1148--1149
+\T2A/CormorantGaramond-LF/regular/n/10.95 став-ле-ны све-чи и об-ра-зу-ют
  []
 
 
@@ -1545,8 +1566,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
  []
 
 [19 <./5.jpg>]
-Underfull \hbox (badness 5970) in paragraph at lines 1163--1164
-[]\T2A/CormorantGaramond-LF/regular/n/10.95 Когда он за-кан-чи-ва-ет го-во-
+Underfull \hbox (badness 10000) in paragraph at lines 1167--1168
+\T2A/CormorantGaramond-LF/regular/n/10.95 weak skeletons filled with
  []
 
 [20] (./eng.aux) ) 
@@ -1559,7 +1580,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  52i,12n,71p,826b,555s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (20 pages, 3262979 bytes).
+Output written on eng.pdf (20 pages, 3264656 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  65 compressed objects within 1 object stream

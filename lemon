@@ -1,6 +1,8 @@
 #!/bin/bash
 
 lemon_height=16
+#lemon_font1="FiraCode:size=12"
+#lemon_font1='-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1'
 lemon_font1="TamzenForPowerline:pixelsize=16"
 lemon_font2="Unifont:pixelsize=14:antialias=false"
 
