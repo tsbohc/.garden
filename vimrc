@@ -38,6 +38,7 @@ if has('nvim')
 
   " style
   Plug 'morhetz/gruvbox'
+  Plug 'sainnhe/sonokai'
 
   call plug#end()
 endif

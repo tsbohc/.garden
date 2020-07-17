@@ -11,6 +11,9 @@ alias soap='bash ~/blueberry/soap'
 
 # nvim
 alias v='nvim'
+rv() {
+  LC_ALL=ru_RU.UTF-8 exec setsid -f st -e bash -c "nvim $@"
+}
 alias ruterm='LC_ALL=ru_RU.UTF-8 st'
 alias vpager='nvim -u ~/blueberry/vim/vpager'
 
@@ -19,6 +22,10 @@ alias nnn='nnn -H' # show hidden files by default
 # because
 alias :q='exit'
 alias please='sudo'
+
+# nas
+alias sshnas="ssh root@192.168.0.40"
+alias cdnas="cd $XDG_RUNTIME_DIR/gvfs/smb-share:server=trashcan,share=media"
 
 # ls
 alias ls='ls -F --color=auto'
