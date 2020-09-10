@@ -3,7 +3,7 @@
 <table align="right">
   <tr>
     <td><code><b>bin/</b></code></td>
-    <td>path entries</td>
+    <td>scripts</td>
   </tr>
   <tr>
     <td><code><b>etc/</b></code></td>
@@ -31,7 +31,7 @@ Enjoy your stay.
 
 <br>
 
-# soap
+## soap
 
 Soap is the third rewrite of my personal config bootstrap script. It was designed to be a learning project and a way to reality check my current level of bash. It's been with me since day one of using linux
 
@@ -43,7 +43,7 @@ Soap reads simple instructions from the top of the file and takes care of the re
 - sync itself to and from the repo
 - log pretty things w/ exit statuses and partial live command output
 
-# lantern
+## lantern
 An app launcher/file browser that attempts to provide relevant suggestions by tracking frequency of use. When adding new entries, lantern assigns tags by guessing the best way to act on a file. Any entry can be tabbed to show a list of actions. Lantern can be launched in an existing terminal or spawn itself in a new window.
 
 powered by fzf, inspired by quicksilver

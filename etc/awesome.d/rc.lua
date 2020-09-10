@@ -237,6 +237,9 @@ root.keys(globalkeys)
 
 -- }}}
 
+root.tags()[2]:view_only()
+root.tags()[1]:view_only()
+
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
