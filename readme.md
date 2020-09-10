@@ -1,27 +1,41 @@
-```
-   ____    ___      __     _____
-  /',__\  / __'\  /'__'\  /\ '__'\
- /\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \
- \/\____/\ \____/\ \__/.\_\  \ ,__/
-  \/___/  \/___/  \/__/\/_/ \ \ \/
-                             \ \_\
-                              \/_/
-perform:
-   i, install     perform installation
-   d, dry         just print without running
-   u, update      sync to or from a git repo
-   e, edit        fzf into $EDITOR in the script location
-                  runs when no arguments are given
+<h1 align="center">.files</h1>
 
-install:
-  -p, --packages  install package bundles
-  -v, --vim       set up nvim via plug
-```
+<table align="right">
+  <tr>
+    <td><code><b>bin/</b></code></td>
+    <td>path entries</td>
+  </tr>
+  <tr>
+    <td><code><b>etc/</b></code></td>
+    <td>config files</td>
+  </tr>
+  <tr>
+    <td><code><b>src/</b></code></td>
+    <td>code sandbox</td>
+  </tr>
+  <tr>
+    <td><code><b>tmp/</b></code></td>
+    <td>to be removed</td>
+  </tr>
+  <tr>
+    <td><code><b>usr/</b></code></td>
+    <td>extras</td>
+  </tr>
+</table>
 
-# about
-soap is the third rewrite of my personal config bootstrap script. it was designed to be a learning project and a way to reality check my current level of bash. it's been with me since day one of using linux
+Dotfiles can be a collection of raw, functional forks. They can be finely tuned and very personal. Or something in between. 
 
-soap reads simple instructions from the top of the file and takes care of the rest. currently it has no extra dependencies (though fzf is advisable) and is able to
+Here, I like to learn by doing. Although it may be crude, awfully written pieces of code, each one of them is a lesson learned.
+
+Enjoy your stay.
+
+<br>
+
+# soap
+
+Soap is the third rewrite of my personal config bootstrap script. It was designed to be a learning project and a way to reality check my current level of bash. It's been with me since day one of using linux
+
+Soap reads simple instructions from the top of the file and takes care of the rest. currently it has no extra dependencies and is able to
 
 - symlink and be kinda smart about it
 - set up nvim and plug
@@ -30,22 +44,6 @@ soap reads simple instructions from the top of the file and takes care of the re
 - log pretty things w/ exit statuses and partial live command output
 
 # lantern
-is an app launcher/file browser, that indexes ~/ and strives to provide relevant suggestions by tracking and balancing frequency of use. when adding new entries, lantern assigns tags by guessing the best way to act on a file. any entry can be "tabbed" on to show a list of actions. lantern can be launched in an existing terminal or spawn itself in a new window.
+An app launcher/file browser that attempts to provide relevant suggestions by tracking frequency of use. When adding new entries, lantern assigns tags by guessing the best way to act on a file. Any entry can be tabbed to show a list of actions. Lantern can be launched in an existing terminal or spawn itself in a new window.
 
 powered by fzf, inspired by quicksilver
-
-# .files
-the general spirit of this repo is finding the balance between doing it yourself, striving for minimalism, and not overdoing it too much
-
-### present
-- bspwm and lemonbar
-- vim statusline that pulls colors from xrdb -query
-
-### past
-- i3 and polybar
-
-### future
-- add a $DOTS global path already
-- music
-
-my bash is bashfully bad, but i'm having fun
