@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# return coloured ascii blocks based on window count on each desktop
+
+c_white="%{F#ffffff}"
+c_gray="%{F#666666}"
+c_darkgray="%{F#333333}"
+c_reset="%{F-}"
+
+get_desktop_ids() {
+  #echo "$(bspc query -D --names)"
+  echo "$(echo "$desktop_list" | awk '{ print $1 }')"
+}
+
+count_windows_on_desktop() {
+  #echo "$(bspc query -N -d "$1" | grep -f <(bspc query -N -n .leaf) | wc -l)"
+  echo $(echo "$window_list" | awk -v d=$1 '{ if ($2 == d) print $0 }' | wc -l)
+}
+
+get_focused_desktop() {
+  #echo "$(bspc query -D -d focused --names)"
+  echo "$(echo "$desktop_list" | awk '{ if ($2 == "'*'") print $1}')"
+}
+
+# {{{ garbage
+
+calc(){ echo $(awk "BEGIN{print $*}"); }
+round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+
+_block() { # $1 - value, $2 - max value, $3 - forced_color {{{
+  local blocks=(▁ ▂ ▃ ▄ ▅ ▆ ▇ █) # 8 total
+  local id=$(round $(calc $(calc $1*8)/$2)) # $1/$2 = x/8
+  (( $id > 1 )) && id=$((id - 1)) # shift to 0 based index
+  (( $id > 7 )) && id=7 # clamp
+
+  if (( $id < 2 )); then
+    local c="$c_darkgray"
+  else
+    local c="$c_gray"
+  fi
+
+  local b=${blocks[$id]}
+
+  if [[ "$3" != "" ]]; then
+    echo -en "$3$b$c_reset"
+  else
+    echo -en "$c$b$c_reset"
+  fi
+} #}}}
+
+# }}}
+
+desktop_list="$(wmctrl -d)"
+window_list="$(wmctrl -l)"
+
+desktop_ids="$(get_desktop_ids)"
+focused_desktop="$(get_focused_desktop)"
+
+echo -n "%{T4}"
+while IFS= read -r l; do
+  if [[ "$focused_desktop" == "$l" ]]; then
+    _block $(count_windows_on_desktop $l) 3 "$c_white"
+  else
+    _block $(count_windows_on_desktop $l) 3
+  fi
+  echo -n " "
+done <<< "$desktop_ids"
+echo -n "%{T-}"
+echo

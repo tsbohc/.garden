@@ -1,0 +1,24 @@
+#!/bin/bash
+
+calc(){ echo $(awk "BEGIN{print $*}"); }
+round(){ echo $(echo $1 | awk '{ printf("%d", $1 + 0.5) }'); }
+
+current=$1
+max=$2
+width=$3
+value=$(round $(calc $current/$max*$width))
+fill=$4
+mark=$5
+empty=$6
+
+for i in $(seq 0 $width); do
+  if (( $i < $value )); then
+    bar+=$fill
+  elif (( $i > $value )); then
+    bar+="$empty"
+  else
+    bar+="$mark"
+  fi
+done
+
+echo -n "$bar"

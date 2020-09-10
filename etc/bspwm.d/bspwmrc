@@ -1,0 +1,32 @@
+#! /bin/sh
+
+sxhkd &
+picom &
+flux # &
+#~/blueberry/lemon
+
+bspc monitor -d 1 2 3 4 5
+
+# borders
+bspc config border_width          16
+bspc config active_border_color   "#1d2021"
+bspc config normal_border_color   "#1d2021"
+bspc config focused_border_color  "#1d2021"
+
+# gaps
+bspc config window_gap            10
+bspc config split_ratio           0.50
+
+# single window layout
+bspc config single_monocle        true
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
+
+# general
+bspc config focus_follows_pointer true
+
+# window specific
+bspc rule -a \*:launcher state=floating focus=on
+bspc rule -a Zathura state=tiled
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off

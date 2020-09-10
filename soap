@@ -1,10 +1,11 @@
 #!/bin/bash
 
 read -d '' bundles << EOF
-xorg:          xorg-server xorg-xinit xorg-xsetroot xterm
+xorg:          xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool wmctrl
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua jre-openjdk
-bspwm:         bspwm lemonbar-xft-git ttf-unifont feh vifm picom dunst sxhkd xtitle xdo xdotool
+wm:            feh picom dunst notify-send.sh
+bspwm:         bspwm lemonbar-xft-git ttf-unifont vifm sxhkd
 neovim:        neovim python2-pip python-pip xsel
 latex:         latex-mk texlive-most texlive-lang
 zathura:       zathura zathura-pdf-mupdf zathura-djvu
@@ -14,28 +15,30 @@ ex:            unzip
 fonts:         tamzen-font-git
 pip:           pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect
 EOF
-#pip2:          pynvim
 
 # paths on the left are relative to script's directory
 read -d '' links << EOF
-bash_profile                  ~/.bash_profile
-bashrc                        ~/.bashrc
-aliases                       ~/.aliases
-xinitrc                       ~/.xinitrc
-Xresources                    ~/.Xresources
-bspwmrc                       ~/.config/bspwm/bspwmrc
-sxhkdrc                       ~/.config/sxhkd/sxhkdrc
-dunstrc                       ~/.config/dunst/dunstrc
-vimrc                         ~/.vimrc
-vifm/vifmrc                   ~/.config/vifm/vifmrc
-vifm/colors                   ~/.config/vifm/colors
-vifm/scripts                  ~/.config/vifm/scripts
-vim/nvim_init.vim             ~/.config/nvim/init.vim
-vim/colors                    ~/.config/nvim/colors
-picom                         ~/.config/picom.conf
-zathurarc                     ~/.config/zathura/zathurarc
-vim/spellcheck                ~/.vim/spellcheck
-vim/thesaurus                 ~/.vim/thesaurus
+etc/bash.d/bash_profile              ~/.bash_profile
+etc/bash.d/bashrc                    ~/.bashrc
+etc/bash.d/aliases                   ~/.aliases
+etc/xorg.d/xinitrc                   ~/.xinitrc
+etc/xorg.d/xresources.d/xresources   ~/.Xresources
+etc/bspwm.d/bspwmrc                  ~/.config/bspwm/bspwmrc
+etc/bspwm.d/sxhkdrc                  ~/.config/sxhkd/sxhkdrc
+etc/awesome.d/rc.lua                 ~/.config/awesome/rc.lua
+etc/awesome.d/modules                ~/.config/awesome/modules
+etc/vim.d/vimrc                      ~/.vimrc
+etc/vim.d/nvim_init.vim              ~/.config/nvim/init.vim
+etc/vim.d/colors                     ~/.config/nvim/colors
+etc/vim.d/spellcheck                 ~/.vim/spellcheck
+etc/vim.d/thesaurus                  ~/.vim/thesaurus
+etc/vifm.d/vifmrc                    ~/.config/vifm/vifmrc
+etc/vifm.d/colors                    ~/.config/vifm/colors
+etc/vifm.d/scripts                   ~/.config/vifm/scripts
+etc/picom                            ~/.config/picom.conf
+etc/zathurarc                        ~/.config/zathura/zathurarc
+etc/dunstrc                          ~/.config/dunst/dunstrc
+etc/lanternrc                        ~/.config/lanternrc
 EOF
 
 read -d '' directories << EOF
@@ -105,7 +108,7 @@ run_command() { # $1 - icon, $2 - object, $3 - action
     sc3=$(get_cpos)
     #out=$($3 2>&1)
 
-    $3 | tee -a ".${sc_name}_log.txt" |
+    $3 | tee -a ".${sc_name}_log" |
       while read -r line
       do
         out+="
@@ -121,8 +124,8 @@ $line"
       echo -e "$escape[$green+$escape]"
     else
       echo -e "$escape[$red#$escape]"
-      cat ".${sc_name}_log.txt"
-      rm ".${sc_name}_log.txt"
+      cat ".${sc_name}_log"
+      rm ".${sc_name}_log"
     fi
     tput cup "$sc2" 0
   else
@@ -520,7 +523,7 @@ fi
 run_command "$i_run" "hosts" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts"
 
 # install/update z
-run_command "$i_run" "z.sh" "curl -S --create-dirs https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
+#run_command "$i_run" "z.sh" "curl -S --create-dirs https://raw.githubusercontent.com/rupa/z/master/z.sh -o ${sc_dir}/scripts/z.sh"
 
 #run_command "$i_run" "thesaurus" "sudo curl -S --create-dirs https://raw.githubusercontent.com/zeke/moby/master/words.txt -o $HOME/.vim/thesaurus/mthesaur.txt"
 

@@ -1,0 +1,286 @@
+#!/bin/bash
+
+# TODO if "sudo" in command, ask for pw inside launcher
+# if launched through tab, switch default command
+
+# background a script that refreshes data.txt every few minutes instead of on launch
+
+# add g: to google
+# add a warning if data lines grow twice in size at once
+
+DATA_PATH="$HOME/blueberry/sandbox/data"
+WINDOW_NAME="lantern"
+
+_init() {
+  xdotool search --onlyvisible --classname $WINDOW_NAME windowunmap \
+    || xdotool search --classname $WINDOW_NAME windowmap \
+    || st -n $WINDOW_NAME -a -g "35x7+0+0" -e "$0" "$@"
+}
+
+data=$(cat "$DATA_PATH")
+d=" " # this is nbsp
+gray="\x1b[37m" # in file
+white="\x1b[37;1m"
+blue="\x1b[34;1m"
+escape="\x1b[0m"
+
+# --no-sort makes things worse, but sorting still takes into account indexes, so why disable it? 
+# --tiebreak=length,index 
+
+_fzf() {
+  fzf $fzf_options "$@"
+}
+
+_decide() {
+  if [[ -d "$l" ]]; then
+    echo "d"
+  elif [[ -x "$l" ]]; then
+    echo "x"
+  elif \
+    [[ "$1" == *".com" ]] || [[ "$1" == *".com/"* ]] || \
+    [[ "$1" == *".net" ]] || [[ "$1" == *".net/"* ]] || \
+    [[ "$1" == *".ru" ]] || [[ "$1" == *".ru/"* ]] || \
+    [[ "$1" == *".su" ]] || [[ "$1" == *".su/"* ]] || \
+    [[ "$1" == *".cc" ]] || [[ "$1" == *".cc/"* ]]; then
+    echo "w"
+  elif [[ "$1" == "r/"* ]]; then
+    echo "r"
+  # check
+#  elif grep -qFx "$1" <<< "$(find /usr/share/applications/ -maxdepth 1 -type f -name '*.desktop' | awk -F/ '{print $NF}' | cut -d'.' -f1)"; then
+#    if grep -q "Terminal=false" "/usr/share/applications/${1}.desktop"; then
+#      echo "u"
+#    else
+#      echo "x"
+#    fi
+  else
+    echo "f"
+  fi
+}
+
+_run() {
+  _l() {
+    exec setsid -f "$@"
+  }
+  _v() {
+    if [[ "$console_mode" == "y" ]]; then
+      nvim "$1"
+    else
+      _l st -e sh -c "nvim $1 ; exec bash"# & wait ; exit 0
+    fi
+  }
+
+  e="${1//\~/$HOME}"
+
+  # black magic
+  case "$2" in
+    "x")
+      if [[ "$console_mode" == "y" ]]; then
+        $e
+      else
+        _l st -e sh -c "$e ; exec bash" #; pkill fzf #exit 0
+      fi
+      ;;
+      "d")
+      if [[ "$console_mode" == "y" ]]; then
+        cd "$e"
+      else
+        _l st -e sh -c "cd $e ; exec bash" #;  #exit 0
+      fi
+      ;;
+    "f")
+      if [[ "$(file "$e")" == *"PDF"* ]]; then
+        _l zathura $e
+      else
+        _v $e
+      fi
+      ;;
+    "b")
+      _l sh -c "$e &" ;;
+    "u")
+      _l "$e" ;;
+    "w")
+      _l brave "$e" ;;
+    "r")
+      fzf_header=""
+      _l brave "https://old.reddit.com/$e" ;;
+    "v")
+      _v $e ;;
+    *)
+      echo "|$2|"
+      echo "unexpected cmd"
+      sleep 1s ;;
+  esac
+  pkill fzf # remember this
+}
+
+#read -d '' whitelist << EOF
+#something
+#EOF
+#
+#read -d '' blacklist << EOF
+#.cache
+#.git
+#.local
+#bundle
+#.nv
+#.mozilla
+#BraveSoftware
+#discord
+#pulse
+#.gnupg
+#.pki
+#.thumbnails
+#EOF
+
+add_entry() {
+  # checking if entry already in data slows it down A LOT
+  data+="
+1${d}${1}${d}${2}"
+}
+
+_garbage_collect() {
+  echo "garbage collecting"
+  while IFS= read -r l; do
+    index=$(awk -F"$d" '{print $1}' <<< "$l")
+    action=$(awk -F"$d" '{print $2}' <<< "$l")
+    entry=$(awk -F"$d" '{print $3}' <<< "$l")
+
+    if [[ ${entry:0:1} == "~" ]]; then
+      # get abs path?
+      entry="${entry//\~/$HOME}"
+      if [[ ! -e "$entry" ]]; then
+        entry=${entry/#$HOME/'~'}
+        echo "$entry"
+        entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
+        data=$(sed "/${index}.*${entry}$/d" <<< "$data")
+      fi
+    fi
+  done <<< "$data"
+  echo "$data" > "$DATA_PATH"
+
+  echo "scanning"
+  _scan_for_entries
+}
+
+_scan_for_entries() {
+  home_dirs="$(find ~ -maxdepth 1 -not -path '*/\.*' -type d | sed '1d')"
+  home_dirs="${home_dirs//$'\n'/ }"
+  home="$(find $home_dirs \( -name .git \) -prune -o -print)"
+  home+="$(find ~ -maxdepth 1 -type f)"
+
+  while IFS= read -r l; do
+    if [[ -d "$l" ]]; then
+      m="d"
+    elif [[ -x "$l" ]]; then
+      m="x"
+    else
+      m="f"
+    fi
+    l=${l/#$HOME/'~'}
+    add_entry "$m" "$l"
+  done <<< "$home"
+
+  # sort and ignore duplicates based on $col
+  data=$(echo "$data" | sort -k1,1nr | awk -F"$d" '!x[$3]++')
+}
+
+_main() {
+  fzf_options="$fzf_margin --ansi --reverse --prompt=$d$d\$$d --cycle $fzf_height --info=hidden
+--no-multi --print-query --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:7,preview-fg:8"
+
+  _scan_for_entries
+
+  # fzf init
+  out=$(echo -e "$data" | _fzf -d $d --with-nth=2,3 --nth=2 --expect=tab,ctrl-a,ctrl-d)
+
+  mapfile -t out <<< "$out"
+  query="${out[0]}"
+  key="${out[1]}"
+  selection="${out[2]}"
+
+  index=$(awk -F"$d" '{print $1}' <<< "$selection")
+  action=$(awk -F"$d" '{print $2}' <<< "$selection")
+  entry=$(awk -F"$d" '{print $3}' <<< "$selection")
+
+  # custom run
+  if [[ "$key" == "tab" ]]; then
+    out_2=$(echo -e "v\nf\nb\nu" | _fzf --header="$entry")
+    action_2=${out_2:0:1}
+    # increment based on original action
+    # TODO or maybe replace default action
+    #data=$(sed "s+^.*\(${d}.*${action}.*${entry}$\)+$((index+1))\1+g" <<< "$data")
+    #echo "$data" > "$DATA_PATH"
+    _run "$entry" "$action_2"
+    return
+  # delete
+  elif [[ "$key" == "ctrl-d" ]]; then
+    # prep entry for sed
+    entry=$(sed 's/[]\/$*.^[]/\\&/g' <<< "$entry")
+    data=$(sed "/${index}.*${entry}/d" <<< "$data")
+    echo "$data" > "$DATA_PATH"
+    exit 0
+  # add
+  elif [[ "$key" == "ctrl-a" ]]; then
+    selection=""
+  fi
+
+  if [[ "$selection" != "" ]]; then
+    # increment index
+    data=$(sed "s+^.*\(${d}.*${action}.*${entry}$\)+$((index+1))\1+g" <<< "$data")
+    # write back to the file
+    echo "$data" > "$DATA_PATH"
+    _run "$entry" "$action"
+
+  elif [[ "$query" != "" ]]; then
+    action=$(_decide "$query")
+    clear
+    echo
+    echo -e "    ${white}l $white$query$escape"
+    echo -e "  ${blue}> $white$action$escape"
+    if ! ask; then
+      echo -e "    action? > ${white}\c"
+      read
+      echo -e "$escape"
+      action="$REPLY"
+    fi
+    add_entry "$action" "$query"
+    echo "$data" > "$DATA_PATH"
+    _run "$query" "$action"
+  fi
+}
+
+ask() {
+  tput sc
+  echo -e "    y/n? > ${white}\c"
+  read -n 1 -r < /dev/tty # lack of redirect breaks the function in a while loop
+  echo -e "$escape"
+  case "$REPLY" in
+    Y|y) true ;;
+    N|n) false ;;
+    *)
+      false
+      tput rc && tput ed
+      ask "$1"
+      ;;
+  esac
+}
+
+# initialize
+
+# if no args are given, or -w, initialize itself in a new window, else
+# if -c is given, start the script in the same window
+# rewrite this freaking thing
+if [[ "$1" == "" ]] || { [ "$1" == "-w" ] && [ "$2" != "initialized" ]; }; then
+  _init "-w" "initialized"
+elif [[ "$1" == "-w" ]] && [[ "$2" == "initialized" ]]; then
+  fzf_margin="--margin=2"
+  _main
+elif [[ "$1" == "-c" ]]; then
+  fzf_height="--height=10"
+  fzf_margin="--margin=1,2"
+  console_mode="y"
+  _main
+elif [[ "$1" == "-g" ]]; then
+  sleep 2s
+  _garbage_collect
+fi
