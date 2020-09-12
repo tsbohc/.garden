@@ -4,7 +4,7 @@
 
 # launch terminal emulator and force tiled
 super + Return
-  st ; bspc desktop -l tiled
+  bspc desktop -l tiled ; st
 
 # program launcher
 ctrl + @space

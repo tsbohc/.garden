@@ -1,13 +1,12 @@
 #!/bin/bash
 
-monitor="DP-4"
-
 if [[ "$1" == "1" ]]; then
   polybar-msg cmd show >/dev/null
-  bspc config -m $monitor bottom_padding 15
-  bspc config -m $monitor bottom_monocle_padding -15
+  # running those two concurrently helps alleviate window flickering
+  bspc config -m ^1 bottom_padding 15 &
+  bspc config -m ^1 bottom_monocle_padding -15 &
 else
-  bspc config -m $monitor bottom_padding 0
-  bspc config -m $monitor bottom_monocle_padding 0
+  bspc config -m ^1 bottom_padding 0
+  bspc config -m ^1 bottom_monocle_padding 0
   polybar-msg cmd hide >/dev/null
 fi
