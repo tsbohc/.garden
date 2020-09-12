@@ -18,6 +18,11 @@ EOF
 
 # paths on the left are relative to script's directory
 read -d '' links << EOF
+etc/                                 ~/etc
+src/                                 ~/src
+bin/                                 ~/bin
+tmp/                                 ~/tmp
+usr/                                 ~/usr
 etc/bash.d/bash_profile              ~/.bash_profile
 etc/bash.d/bashrc                    ~/.bashrc
 etc/bash.d/aliases                   ~/.aliases

@@ -22,6 +22,8 @@ export NNN_FCOLORS='c1e20402006033f7c6d6abc4'
 # 04 bold blue
 # 02 bold green
 
+#export MANPAGER="nvim -u /home/sean/src/pager.vim"
+
 #[[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
 #.vim[[ -f /usr/share/fzf/completion.bash ]] && . /usr/share/fzf/completion.bash
 

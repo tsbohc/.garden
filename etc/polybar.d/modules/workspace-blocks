@@ -58,7 +58,6 @@ window_list="$(wmctrl -l)"
 desktop_ids="$(get_desktop_ids)"
 focused_desktop="$(get_focused_desktop)"
 
-echo -n "%{T4}"
 while IFS= read -r l; do
   if [[ "$focused_desktop" == "$l" ]]; then
     _block $(count_windows_on_desktop $l) 3 "$c_white"

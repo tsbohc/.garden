@@ -7,35 +7,25 @@
 # (_/ (        /
 #             '
 
+# modules are located in the git repo, not symlinked to ~/.config/bspwm/modules
+DIR="$(cd "$(dirname "$(realpath "$0")")" && pwd)"
+
 _c() { bspc config "$@"; }
 _r() { bspc rule -a "$@"; }
 _s() { pkill -x "$1"; { sleep 0.1; "$@"; } & }
+_m() { _s "$DIR/modules/$@"; }
 
 # autostart
 _s sxhkd
-_s bspwm-blocks
-_s bspwm-chomp
 _s picom
+_s polybar example
 
-_set_workspaces() { # {{{
-  # alternates workspaces across monitors
-  # $1 - desired number of workspaces
-  declare -A workspaces
-  monitor_names="$(bspc query -M --names)"
+# modules
+_m alternating-workspaces 6
+_m polybar-blocks-hook
+_m terminal-chomp
 
-  i=1
-  while (( "$i" <= "$1" )); do
-    while read m; do
-      workspaces["$m"]="${workspaces[$m]}${i} "
-      i=$[$i+1]
-    done <<< "$monitor_names"
-  done
-
-  while read m; do
-    bspc monitor "$m" -d ${workspaces[$m]}
-  done <<< "$monitor_names"
-} # }}}
-_set_workspaces 6
+#bspc monitor -d 1 2 3 4
 
 # borders
 _c border_width          1
@@ -50,9 +40,10 @@ _c window_gap            10
 _c split_ratio           0.50
 
 # single window layout
-_c single_monocle        true
-_c borderless_monocle    true
-_c gapless_monocle       true
+_c single_monocle         true
+_c borderless_monocle     true
+_c gapless_monocle        true
+_c bottom_monocle_padding 0
 
 # general
 _c focus_follows_pointer true

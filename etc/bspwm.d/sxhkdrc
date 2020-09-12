@@ -2,9 +2,9 @@
 # wm independent hotkeys
 #
 
-# terminal emulator
+# launch terminal emulator and force tiled
 super + Return
-  st
+  st ; bspc desktop -l tiled
 
 # program launcher
 ctrl + @space
@@ -17,6 +17,9 @@ super + Escape
 # change language
 super + space
   keyboardswitch
+
+super + d
+  ~/etc/bspwm.d/modules/polybar-hide {0,1}
 
 Print
   sleep 0.2; \
@@ -75,8 +78,12 @@ super + g
 #
 
 # set the window state
-super + {t,shift + t,s,f}
-  bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+#super + {t,shift + t,s,f}
+#  bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# toggle floating
+super + f
+  bspc node -t ~floating
 
 # set the node flags
 super + ctrl + {m,x,y,z}

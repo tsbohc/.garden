@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# alternates workspaces across monitors
+# $1 - desired number of workspaces
+
+declare -A workspaces
+monitor_names="$(bspc query -M --names)"
+
+i=1
+while (( "$i" <= "$1" )); do
+  while read m; do
+    workspaces["$m"]="${workspaces[$m]}${i} "
+    i=$[$i+1]
+  done <<< "$monitor_names"
+done
+
+while read m; do
+  bspc monitor "$m" -d ${workspaces[$m]}
+  #echo "$m ${workspaces[$m]}"
+done <<< "$monitor_names"

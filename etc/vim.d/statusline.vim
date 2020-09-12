@@ -3,9 +3,7 @@
 " -------------------------------------------------
 
 " black magic
-"execute 'silent !' . expand('<sfile>:p:h') . '/test'
 silent !/home/sean/blueberry/etc/vim.d/statusline_colors
-"silent !expand('<sfile>:p:h') . '/statusline_colors'
 source /tmp/statusline_colors.vim
 
 " should implement a check that looks for a hex value, and if it doesn't find it, grabs term colors
@@ -55,8 +53,8 @@ if system('get_xres font') =~? 'powerline'
  let statuslinesfl=""
 else
  let s:statuslineseparator="│"
- let statuslinesfr="▒░"
- let statuslinesfl="░▒"
+ let statuslinesfr="▒"
+ let statuslinesfl="▒"
 endif
 
 function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain when doing it w/ one line

@@ -11,11 +11,11 @@ alias soap='bash ~/blueberry/soap'
 
 # nvim
 alias v='nvim'
-rv() {
-  LC_ALL=ru_RU.UTF-8 exec setsid -f st -e bash -c "nvim $@"
-}
+m() { man "$1" | nvim -u ~/src/pager.vim ; }
+
+rv() { LC_ALL=ru_RU.UTF-8 exec setsid -f st -e bash -c "nvim $@" ; }
+
 alias ruterm='LC_ALL=ru_RU.UTF-8 st'
-alias vpager='nvim -u ~/blueberry/vim/vpager'
 
 alias nnn='nnn -H' # show hidden files by default
 
