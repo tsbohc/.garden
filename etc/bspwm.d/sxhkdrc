@@ -16,7 +16,7 @@ super + Escape
 
 # change language
 super + space
-  bash ~/blueberry/scripts/keyboardswitch
+  keyboardswitch
 
 Print
   sleep 0.2; \
@@ -114,7 +114,7 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-  bspc {desktop -f,node -d} '^{1-9,10}'
+  bspc {desktop -f,node -d} {1-9,10}
 
 #
 # preselect

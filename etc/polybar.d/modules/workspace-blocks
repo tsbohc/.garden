@@ -2,6 +2,8 @@
 
 # return coloured ascii blocks based on window count on each desktop
 
+# note: workspaces are sorted numerically by name to prevent weird ordering when using alternating workspaces
+
 c_white="%{F#ffffff}"
 c_gray="%{F#666666}"
 c_darkgray="%{F#333333}"
@@ -50,7 +52,7 @@ _block() { # $1 - value, $2 - max value, $3 - forced_color {{{
 
 # }}}
 
-desktop_list="$(wmctrl -d)"
+desktop_list="$(wmctrl -d | sort -nk9)"
 window_list="$(wmctrl -l)"
 
 desktop_ids="$(get_desktop_ids)"

@@ -216,7 +216,7 @@ for i = 1, 9 do
         awful.screen.focus(tag.screen)
         tag:view_only()
       end
-    end, {description = "view tag #"..i, group = "tag"}),
+    end, {description = "view tag #" .. i, group = "tag"}),
 
     -- move client to tag
     awful.key({ modkey, "Shift" }, "#" .. i + 9, function ()

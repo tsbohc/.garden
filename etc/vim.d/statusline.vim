@@ -4,7 +4,7 @@
 
 " black magic
 "execute 'silent !' . expand('<sfile>:p:h') . '/test'
-silent !/home/sean/blueberry/vim/statusline_colors
+silent !/home/sean/blueberry/etc/vim.d/statusline_colors
 "silent !expand('<sfile>:p:h') . '/statusline_colors'
 source /tmp/statusline_colors.vim
 

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+Xephyr -br -ac -noreset -screen 1920x1080 :1 &
+
+sleep 1s
+
+DISPLAY=:1 feh --bg-fill ~/Downloads/lain.jpg
+
+DISPLAY=:1 python ~/blueberry/bin/wm.py &
+
+sleep 1s
+
+DISPLAY=:1 xterm &
+DISPLAY=:1 xterm

@@ -27,6 +27,8 @@ etc/bspwm.d/bspwmrc                  ~/.config/bspwm/bspwmrc
 etc/bspwm.d/sxhkdrc                  ~/.config/sxhkd/sxhkdrc
 etc/awesome.d/rc.lua                 ~/.config/awesome/rc.lua
 etc/awesome.d/modules                ~/.config/awesome/modules
+etc/qtile.d/rc.py                    ~/.config/qtile/config.py
+etc/polybar.d/rc                     ~/.config/polybar/config
 etc/vim.d/vimrc                      ~/.vimrc
 etc/vim.d/nvim_init.vim              ~/.config/nvim/init.vim
 etc/vim.d/colors                     ~/.config/nvim/colors
@@ -71,7 +73,7 @@ opt_dry="yes"
 opt_packages="no"
 opt_vim="no"
 
-sc_dir="${0%/*}"
+sc_dir="${0%/*}" # i don;t think this is right ...
 sc_name="${0##*/}"
 
 # ===================================

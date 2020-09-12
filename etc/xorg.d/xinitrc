@@ -27,4 +27,4 @@ fi
 
 feh --bg-fill ~/.wallpaper
 xsetroot -cursor_name left_ptr # cursor-fix
-exec awesome # launch wm
+exec bspwm # launch wm

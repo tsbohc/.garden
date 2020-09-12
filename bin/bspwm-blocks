@@ -1,0 +1,4 @@
+{ echo; bspc subscribe desktop_focus node_add node_remove node_transfer; } |
+  while read -r _; do
+    polybar-msg hook workspace-blocks 1 &>/dev/null
+  done
