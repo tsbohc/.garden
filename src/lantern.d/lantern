@@ -1,0 +1,78 @@
+#!/bin/bash
+
+_LANTERN_PROJECT_ROOT="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# TODO
+# add extra entries from config by reading
+# action entry
+# format, e.g
+# u discord
+
+export LC_ALL=C # disable unicode to speed things up
+
+::lantern::main() {
+  # $1 - mode
+
+  source "$_LANTERN_PROJECT_ROOT/defaults.sh"
+  source "$_LANTERN_PROJECT_ROOT/data.sh"
+  source "$_LANTERN_PROJECT_ROOT/actions.sh" "$1" # pass mode to actions
+
+  declare -a common_fzf_options=( # {{{
+    --no-unicode
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --border
+    --delimiter="${_LANTERN_DELIMITER:1}"
+    --prompt="$_LANTERN_PROMPT "
+    --pointer="$_LANTERN_POINTER"
+    --color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15
+    --height=10
+    --margin=1,2
+    --tiebreak=index
+    --with-nth=2..4 # visible fields
+    --nth=3       # search fields relative to the above
+    --bind=change:top
+  )
+  # }}}
+
+  tui::fzf() {
+    fzf "${common_fzf_options[@]}" "$@"
+  }
+
+  ::lantern::data::refresh
+
+  local out="$(tui::fzf --expect "enter,tab" --print-query < "$_LANTERN_DATA")"
+  mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
+
+  local q="${out[0]}"
+  local k="${out[1]}"
+  local s="$(awk -F"$_LANTERN_DELIMITER" '{ print $4 }' <<< "${out[2]}")"
+  local e="$(awk -F"$_LANTERN_DELIMITER" '{ print $3 }' <<< "${out[2]}")"
+
+  # handle keypresses
+  case "$k" in
+    "tab")
+      local a="$(::lantern::actions::select "$e")"
+    ;;
+    "enter")
+      local a="$(awk -F"$_LANTERN_DELIMITER" '{ print $2 }' <<< "${out[2]}")"
+    ;;
+  esac
+
+  [[ "$e" == "" ]] || [[ "$a" == "" ]] && return
+  ::lantern::data::update_entry "$e" "1" "$a"
+  e="${e///}"
+  "${_lantern_actions["$a"]}" "${e/#\~/$HOME}"
+}
+
+b(){
+  if [[ "$1" == "" ]]; then
+    ::lantern::main "c"
+  else
+    xdotool search --onlyvisible --classname "lantern" windowunmap \
+    || xdotool search --classname "lantern" windowmap \
+    || st -n "lantern" -a -g "55x7+0+0" -e bash -c "source /home/sean/blueberry/src/lantern.d/lantern ; ::lantern::main w"
+  fi
+}

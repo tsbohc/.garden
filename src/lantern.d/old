@@ -1,0 +1,200 @@
+#!/bin/bash
+
+readonly _LANTERN_PROJECT_ROOT="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+source "$_LANTERN_PROJECT_ROOT/data.sh"
+source "$_LANTERN_PROJECT_ROOT/defaults.sh"
+
+# TODO
+# remove time factor
+# remove edit action, just use d f x l
+# keep data in [score, action, shortcut, path]
+
+# add extra entries from config by reading
+# action entry
+# format, e.g
+# u discord
+
+# maybe mark for shortcut replacement somehow? meh
+
+# FIXME nesed functions become global namescape so there's no real point in defining them locally here
+
+export LC_ALL=C # disable unicode to speed things up
+
+# settings
+_detach() {
+  nohup "$@" &>/dev/null &
+}
+
+
+data::new_entry() { # {{{
+  # $1 - score, $2 - action, $3 - shortcut, $4 - path
+  echo "${1}${d}${2}${d}${3}${d}${4/#$HOME/'~'}"
+} # }}}
+
+data::refresh() { # {{{
+  [[ ! -e "$_LANTERN_DATA" ]] && touch "$_LANTERN_DATA"
+
+  # retrive old data
+  data="$(<"$_LANTERN_DATA")"
+
+  # cleanup time
+  local redundancy
+  while IFS="" read -r s a h e; do
+    if [[ "${e:0:1}" == "~" ]] && [[ ! -e "${e//\~/$HOME}" ]]; then
+      redundancy+="$e "
+    fi
+  done <<< "$data"
+  redundancy="${redundancy::-1}"
+
+  data="$(awk -v a="$redundancy" -F"$_LANTERN_DELIMITER" '
+  BEGIN {
+    split(a, A)
+    for (i in A) B[A[i]] = ""
+  }
+  !($4 in B) { print }
+  ' <<< "$data")"
+
+  # append new data
+
+  # find all non-hidden folders in home
+  #local home_dirs=$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)
+
+  # find everything in them and append non-hidden files from home
+  #local home="$(find $home_dirs \( -name .git \) -prune -o -print)
+#$(find "$HOME" -maxdepth 1 -not -path '*/\.*' -type f)"
+
+  local home=$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)
+
+  data+="
+$(while IFS= read -r e; do
+    if [ -d "$e" ]; then
+      a="d"
+    else
+      a="f"
+    fi
+    data::new_entry "0" "$a" "-" "$e"
+  done <<< "$home")"
+
+  # remove empty lines and dupes
+  awk -F"$_LANTERN_DELIMITER" 'NF && !x[$4]++' <<< "$data" | sort -k1,1nr > "$_LANTERN_DATA"
+} # }}}
+
+data::update_entry(){ # {{{
+  # $1 - entry, $2 - score delta, $3 - action, $4 - shortcut
+  [[ "$1" == "" ]] && return
+  awk -i inplace -v entry="$1" -v dscore="$2" -v action="$3" -v shortcut="$4" -v d="$_LANTERN_DELIMITER" -F"$_LANTERN_DELIMITER" '
+  $4 == entry {
+      if ( length(dscore) != 0 ) $1 = $1 + dscore
+      if ( length(action) == 1 ) $2 = action
+      if ( length(shortcut) != 0 ) $3 = shortcut
+  } { print $1 d $2 d $3 d $4 }
+  ' "$_LANTERN_DATA"
+} # }}}
+
+::lantern() {
+  # $1 - mode
+
+  # black magic! assign keys to appropriate functions based on mode
+  declare -A actions=(
+    [x]=_"$1"_execute
+    [f]=_"$1"_file
+    [d]=_"$1"_directory
+  )
+
+  # action definitions
+  _w_execute() { _detach st -e bash -c "$@ ; $SHELL" ; }
+  _c_execute() { $@ ; } # no quotes here
+
+  _w_directory() { _detach st -e bash -c "cd $1 ; $SHELL" ; }
+  _c_directory() { cd "$1" ; }
+
+  _w_file() {
+    if [[ "$(file "$1")" == *"PDF"* ]]; then
+      _detach zathura "$1"
+    else
+      _w_execute "$EDITOR $1"
+    fi
+  }
+
+  _c_file() {
+    if [[ "$(file "$1")" == *"PDF"* ]]; then
+      _detach zathura "$1"
+    else
+      _c_execute "$EDITOR" "$1"
+    fi
+  }
+
+  # -----
+
+  declare -a common_fzf_options=( # {{{
+    --no-unicode
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --border
+    --prompt="$_LANTERN_PROMPT "
+    --pointer="$_LANTERN_POINTER"
+    --color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15
+    --height=10
+    --margin=1,2
+    --tiebreak=index
+    --nth=2,3
+    --with-nth=2..4
+    --bind=change:top
+  )
+  # }}}
+
+  tui::fzf() {
+    fzf "${common_fzf_options[@]}" "$@"
+  }
+
+  action::select() {
+    # $1 - entry
+    # cut off the _m_ part off of the function names
+    # return only the first letter, the action key
+    [[ "$1" == "" ]] && return
+    local a="$(for key in "${!actions[@]}"; do echo $key ${actions[$key]:3}; done | \
+      tui::fzf --sort --bind "esc:abort" --header="  $1" --nth=.. --with-nth=..)"
+    [[ "$a" != "" ]] && echo "${a:0:1}"
+  }
+
+  data::refresh
+
+  # FIXME put into main
+
+  local out="$(tui::fzf --expect "enter,tab" --print-query < "$_LANTERN_DATA")"
+  mapfile -t out <<< "$out" # 0 - query, 1 - key, 2 - selection
+
+  local q="${out[0]}"
+  local k="${out[1]}"
+  local s="$(awk -F"$_LANTERN_DELIMITER" '{ print $3 }' <<< "${out[2]}")"
+  local e="$(awk -F"$_LANTERN_DELIMITER" '{ print $4 }' <<< "${out[2]}")"
+
+  # handle keypresses
+  case "$k" in
+    "tab")
+      local a="$(action::select "$e")"
+    ;;
+    "enter")
+      local a="$(awk -F"$_LANTERN_DELIMITER" '{ print $2 }' <<< "${out[2]}")"
+      # set query as shortcut and increase score
+    ;;
+  esac
+
+  [[ "$e" == "" ]] || [[ "$a" == "" ]] && return
+  data::update_entry "$e" "1" "$a" "$q"
+  "${actions["$a"]}" "${e/#\~/$HOME}"
+}
+
+b(){
+  if [[ "$1" == "" ]]; then
+    ::lantern "c" "$@"
+  else
+    ::lantern "w" "$@" ; exit 0
+  fi
+}
+
+# b ; exit 0
+# to quit after launching

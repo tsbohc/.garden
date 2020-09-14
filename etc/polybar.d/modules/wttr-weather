@@ -1,0 +1,22 @@
+#!/bin/bash
+
+o="$(curl --silent --compressed wttr.in/Saint\ Petersburg?format="%C:%f\n")"
+
+declare -A icons=(
+  ["cloudy"]=""
+  ["partly cloudy"]=""
+  ["clear/sunny"]=""
+)
+
+condition="$(awk -F":" '{ print tolower($1) }' <<< "$o")"
+feels_like="$(awk -F":" '{ print $2 }' <<< "$o")"
+
+echo "$condition ${icons[$condition]} "
+
+#for i in "${!icons[@]}"; do
+#  echo -n "${icons[$i]}  "
+#done
+
+
+
+

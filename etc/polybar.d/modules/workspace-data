@@ -1,0 +1,39 @@
+#!/bin/bash
+
+desktops="$(wmctrl -d | sort -nk9)"
+focused_desktop="$(awk '$2 == "*" { print $1 }' <<< "$desktops")"
+
+desktops="$( awk '{ print $1 }' <<< "$desktops")"
+desktops="${desktops//$'\n'/ }"
+
+# note to future self
+# array is converted from string to {0: "value1", 1: "value2"}
+# and then to {"value1": "", "value2": ""}
+# order is needed because awk stores things out of order
+
+_get_workspaces() {
+  window_counts="$(awk -v desktops="$desktops" '
+    BEGIN {
+      split(desktops, d)
+
+      for (i=1; i<=length(d); i++)
+        order[i] = d[i]
+        a[d[i]] = 0
+    }
+    {
+      a[$2] += 1
+    }
+    END {
+      for (i=1; i<=length(order); i++)
+        if (length(a[order[i]]) == 0)
+          print order[i], 0
+        else
+          print order[i], a[order[i]]
+    }' < <(wmctrl -l ))"
+
+  echo "$window_counts"
+}
+
+_get_focused_workspace() {
+  echo "$focused_desktop"
+}

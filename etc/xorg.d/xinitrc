@@ -21,9 +21,8 @@ fi
 [[ -f ~/.bash_profile ]] && . ~/.bash_profile
 
 # path
-if [ -d "$HOME/blueberry/bin" ]; then
-  PATH="$HOME/blueberry/bin:$PATH"
-fi
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "$HOME/etc/polybar.d/modules" ] && PATH="$HOME/etc/polybar.d/modules:$PATH"
 
 feh --bg-fill ~/.wallpaper
 xsetroot -cursor_name left_ptr # cursor-fix

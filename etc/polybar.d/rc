@@ -1,20 +1,12 @@
-;==========================================================
-;
-;
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
 ;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
 ;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
 ;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
 ;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
 ;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
-;==========================================================
+
+;  cat
+;  
 
 [colors]
 ;background = #66000000
@@ -61,25 +53,16 @@ padding-left = 1
 padding-right = 1
 
 module-margin-left = 0
-module-margin-right = 1
+module-margin-right = 0
 
-font-0 = RobotoMono Nerd Font:style=Medium:size=10;4
-font-1 = RobotoMono Nerd Font:style=Medium:size=10;10
+font-0 = RobotoMono Nerd Font:style=Medium:size=10;2
+font-1 = RobotoMono Nerd Font:style=Medium:size=12;2
 font-2 = pixelsize=11;2
 
-;font-0 = FiraCode:style=Medium:pixelsize=10;2
-;font-1 = xos4 Terminus:pixelsize=16:antialias=false;0
-;font-2 = Material Icons:pixelsize=16:antialias=true;3
-;font-3 = antialias=false;pixelsize=11;2
-
-;font-1 = xos4 Terminus:pixelsize=16:antialias=false;0
-;font-1 = Material Icons:pixelsize=16:antialias=true;3
-;font-3 = antialias=false;pixelsize=11;2
-
-modules-left = xwindow
+modules-left = wttr
 ;mpd
 modules-center = workspace-blocks
-modules-right = xbacklight battery memory cpu date 
+modules-right = xbacklight battery memory cpu nerd-clock date
 ;eth
 ;xkeyboard 
 ;pulseaudio
@@ -137,10 +120,10 @@ label-unmounted-foreground = ${colors.foreground-alt}
 [module/workspace-blocks]
 type = custom/ipc
 
-hook-0 = bash ~/blueberry/etc/polybar.d/modules/workspace-blocks
+hook-0 = bash workspace-hearts
 initial = 1
 
-format-font = 3
+format-font = 2
 #format-y-offset = 109
 
 [module/bspwm]
@@ -239,17 +222,17 @@ card = intel_backlight
 type = internal/cpu
 interval = 2
 
-format-prefix =
+format-prefix = " "
 format-prefix-foreground =
 
 label = cpu %percentage%
 format = <ramp-load>
 
-ramp-load-0 = 
+ramp-load-0 = " "
 ramp-load-1 = ﯜ
 ramp-load-2 = 
 
-ramp-load-0-foreground = ${colors.foreground-alt}
+;ramp-load-0-foreground = ${colors.foreground-alt}
 
 [module/memory]
 type = internal/memory
@@ -258,11 +241,11 @@ interval = 2
 label = ram %gb_used%
 format = <ramp-used>
 
-ramp-used-0 = 
+ramp-used-0 = " "
 ramp-used-1 = ﯜ
 ramp-used-2 = 
 
-ramp-used-0-foreground = ${colors.foreground-alt}
+;ramp-used-0-foreground = ${colors.foreground-alt}
 
 [module/wlan]
 type = internal/network
@@ -301,21 +284,31 @@ format-disconnected = 
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.foreground-alt}
 
+[module/wttr]
+type = custom/script
+interval = 1800
+
+exec = bash wttr-weather
+format-font = 1
+
+[module/nerd-clock]
+type = custom/script
+interval = 900
+
+exec = bash nerd-clock
+
+label = "  %{T2}%output%%{T-}"
+
 [module/date]
 type = internal/date
 interval = 60
 
-date-alt = " %B %d,"
+date-alt = " %B %d,"
 
-time = " %I:%M %p"
+time = "%I:%M %p"
 time-alt = "%I:%M %p"
 
-;format-prefix = " "
-;format-prefix-foreground = ${colors.foreground-alt}
-
 label = "%date% %time%"
-;  cat
-;  
 
 [module/pulseaudio]
 type = internal/pulseaudio

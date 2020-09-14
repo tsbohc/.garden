@@ -15,7 +15,9 @@
 
 # sources
 [[ -f ~/.aliases ]] && . ~/.aliases
-type -P lantern > /dev/null && . lantern
+#type -P lantern > /dev/null && . lantern
+
+. ~/src/lantern.d/lantern
 
 export NNN_FCOLORS='c1e20402006033f7c6d6abc4'
 #                   ^^  ^^  ^^  ^^  ^^  ^^
@@ -41,6 +43,8 @@ shopt -s cdspell # autocorrects cd typos
 shopt -s dotglob # include .files in the expansion
 shopt -s expand_aliases # expand aliases
 shopt -s nocaseglob # case-insensitive expansion
+
+bind 'set mark-symlinked-directories on' # auto expand symlinked slashes
 bind 'set completion-ignore-case on' # case-insensitive tab completion
 
 shopt -s histappend # do not overwrite history

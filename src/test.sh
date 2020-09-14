@@ -1,19 +1,11 @@
 #!/bin/bash
 
-_bspc() {
-  #bspc subscribe all | while read -r e; do
-  #  echo "$e"
-  #done
 
-  for i in {1..5}; do
-    echo "$i event"
-    sleep 1
-  done
-  return
-}
+declare -A _c_actions=(
+  [x]=_$1_terminal
+)
 
-_bspc &
+_w_terminal() { echo "w term" ; }
+_c_terminal() { echo "c term" ; }
 
-wait
-echo "done"
-exit 0
+${_c_actions[x]}

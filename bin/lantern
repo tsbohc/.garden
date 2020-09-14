@@ -159,9 +159,9 @@ $(find "$HOME" -maxdepth 1 -type f)"
 
     _fzf() {
       #{{{
-      fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi --no-unicode \
+      fzf --no-sort --ansi --reverse --prompt="  $ " --info=hidden --no-multi --no-unicode --border \
         "$_lantern_fzf_height" "$_lantern_fzf_margin" \
-        --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 \
+        --color=bg:-1,bg+:-1,gutter:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 \
         "$@"
       #}}}
     }

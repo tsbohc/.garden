@@ -1,0 +1,7 @@
+#!/bin/bash
+
+_LANTERN_PROMPT='  $'
+_LANTERN_POINTER='>'
+_LANTERN_DATA="$HOME/.lantern"
+
+_LANTERN_DELIMITER=" "

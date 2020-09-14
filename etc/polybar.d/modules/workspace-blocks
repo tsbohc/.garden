@@ -11,17 +11,17 @@ c_reset="%{F-}"
 
 get_desktop_ids() {
   #echo "$(bspc query -D --names)"
-  echo "$(echo "$desktop_list" | awk '{ print $1 }')"
+  echo "$desktop_list" | awk '{ print $1 }'
 }
 
 count_windows_on_desktop() {
   #echo "$(bspc query -N -d "$1" | grep -f <(bspc query -N -n .leaf) | wc -l)"
-  echo $(echo "$window_list" | awk -v d=$1 '{ if ($2 == d) print $0 }' | wc -l)
+  echo "$window_list" | awk -v d=$1 '{ if ($2 == d) print $0 }' | wc -l
 }
 
 get_focused_desktop() {
   #echo "$(bspc query -D -d focused --names)"
-  echo "$(echo "$desktop_list" | awk '{ if ($2 == "'*'") print $1}')"
+  echo "$desktop_list" | awk '{ if ($2 == "'*'") print $1}'
 }
 
 # {{{ garbage

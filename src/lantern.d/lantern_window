@@ -1,0 +1,5 @@
+#!/bin/bash
+
+xdotool search --onlyvisible --classname "lantern" windowunmap \
+|| xdotool search --classname "lantern" windowmap \
+|| st -n "lantern" -a -g "55x7+0+0" -e bash -c "source /home/sean/blueberry/src/lantern.d/lantern ; ::lantern::main w"
