@@ -1,0 +1,87 @@
+# --- autoload ---
+#autoload -Uz colors zsh/terminfo && colors # ls colors
+
+source ~/.zinit/bin/zinit.zsh
+
+#zinit light zsh-users/zsh-autosuggestions
+#zinit light zdharma/fast-syntax-highlighting
+#zinit light b4b4r07/enhancd
+zinit light Aloxaf/fzf-tab
+#zinit light changyuheng/zsh-interactive-cd # added margin
+
+autoload -Uz compinit # completion
+compinit
+
+# --- setopt ---
+setopt auto_cd # cd into directories if only path is given
+setopt no_case_glob # case-insensitive globbing
+#unsetopt menu_complete
+#setopt auto_menu
+
+#zstyle ':completion:*' insert-tab false
+
+setopt prompt_subst # support $() in prompt
+
+setopt no_auto_menu
+setopt no_menu_complete
+
+# history
+HISTFILE=~/.cache/histfile
+HISTSIZE=1000
+SAVEHIST=$HISTSIZE
+setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
+
+# remove that annoying bold slash
+zle_highlight[(r)suffix:*]="suffix:fg=foreground"
+
+# --- prompt ---
+
+# shove those into an array
+__prompt_symbol="> "
+__prompt_success_color=green
+__prompt_failure_color=yellow
+__prompt_current_color=
+
+::prompt::current_dir() {
+  echo -n "%~"
+}
+
+::prompt::return_status() {
+  echo -n "%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%f"
+}
+
+#::prompt::git_status()
+#  echo -n ""
+#}
+
+PROMPT='$(::prompt::current_dir) $(::prompt::return_status)'
+
+# --- exports ---
+
+source ~/src/lantern.d/lantern
+
+# fzf
+export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2'
+
+
+# --- aliases ---
+
+alias v='nvim'
+m() { man "$1" | nvim -u ~/src/pager.vim ; }
+
+# braindamage
+alias :q='exit'
+alias please='sudo'
+
+# ls
+alias ls='ls -F --color=auto'
+alias la='ls -A'
+alias ll='ls -lA'
+alias l.='ls -A | egrep "^\."'
+alias l='ls'
+
+# cd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+

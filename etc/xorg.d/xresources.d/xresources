@@ -14,12 +14,16 @@ xterm*faceSize: 12
 URxvt.font: Ubuntu
 !*.font: TamzenForPowerline:pixelsize=16
 !*.font: Ubuntu Mono:size=12
-!*.font: Hack:size=11
+
+!*.font: Hack:size=13
 ! best so far, but > are ugly
-!*.font: Operator Mono Medium:size=11
+
+!*.font: Operator Mono Medium:size=13
 ! no cyrillic
+
 !*.font: Consolas for Powerline:size=13
 ! a bit too narrow, pretty >
+
 *.font: Fira Code:size=12
 
 ! colors

@@ -26,6 +26,9 @@ usr/                                 ~/usr
 etc/bash.d/bash_profile              ~/.bash_profile
 etc/bash.d/bashrc                    ~/.bashrc
 etc/bash.d/aliases                   ~/.aliases
+etc/zsh.d/zshenv                     ~/.zshenv
+etc/zsh.d/zshrc                      ~/.config/zsh/.zshrc
+etc/zsh.d/modules                    ~/.config/zsh/modules
 etc/xorg.d/xinitrc                   ~/.xinitrc
 etc/xorg.d/xresources.d/xresources   ~/.Xresources
 etc/bspwm.d/bspwmrc                  ~/.config/bspwm/bspwmrc
@@ -115,7 +118,7 @@ run_command() { # $1 - icon, $2 - object, $3 - action
     sc3=$(get_cpos)
     #out=$($3 2>&1)
 
-    $3 | tee -a ".${sc_name}_log" |
+    $3 | tee -a "$HOME/.cache/.${sc_name}_log" |
       while read -r line
       do
         out+="
@@ -131,8 +134,8 @@ $line"
       echo -e "$escape[$green+$escape]"
     else
       echo -e "$escape[$red#$escape]"
-      cat ".${sc_name}_log"
-      rm ".${sc_name}_log"
+      cat "$HOME/.cache/.${sc_name}_log"
+      rm "$HOME/.cache/.${sc_name}_log"
     fi
     tput cup "$sc2" 0
   else

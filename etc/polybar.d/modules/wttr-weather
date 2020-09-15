@@ -1,19 +1,17 @@
 #!/bin/bash
 
-o="$(curl --silent --compressed wttr.in/Saint\ Petersburg?format="%C:%f\n")"
+o="$(curl --silent --compressed wttr.in/~59.9387318,30.3162286?format="%C:%f\n")"
 
 declare -A icons=(
+  ["sunny"]=""
   ["clear"]=""
+  ["clear/sunny"]=""
   ["cloudy"]=""
   ["partly cloudy"]=""
-  ["clear/sunny"]=""
+  ["parftial fog, fog"]=""
 )
 
 condition="$(awk -F":" '{ print tolower($1) }' <<< "$o")"
 feels_like="$(awk -F":" '{ print $2 }' <<< "$o")"
 
 echo "$condition ${icons[$condition]} "
-
-#for i in "${!icons[@]}"; do
-#  echo -n "${icons[$i]}  "
-#done

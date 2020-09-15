@@ -19,24 +19,18 @@
 
 . ~/src/lantern.d/lantern
 
-export NNN_FCOLORS='c1e20402006033f7c6d6abc4'
+#export NNN_FCOLORS='c1e20402006033f7c6d6abc4'
 #                   ^^  ^^  ^^  ^^  ^^  ^^
 # 04 bold blue
 # 02 bold green
 
-#export MANPAGER="nvim -u /home/sean/src/pager.vim"
+# NOTE: I hope this is safe-ish
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-#[[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
-#.vim[[ -f /usr/share/fzf/completion.bash ]] && . /usr/share/fzf/completion.bash
-
-# z.lua
-#eval "$(lua ~/blueberry/scripts/z.lua --init bash)"
-
-# z.sh
-#[[ -f ~/blueberry/scripts/z.sh ]] && . ~/blueberry/scripts/z.sh
-
-# vi mode
-#set -o vi
+export LESSHISTFILE="-" # disable less search history
+export __GL_SHADER_DISK_CACHE_PATH="$XDG_CACHE_HOME"/.nv # nvidia drivers
 
 # shopt
 shopt -s cdspell # autocorrects cd typos

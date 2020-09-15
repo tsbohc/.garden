@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. ~/blueberry/src/lantern.d/lantern
+
+b

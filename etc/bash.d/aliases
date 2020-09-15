@@ -19,7 +19,7 @@ alias ruterm='LC_ALL=ru_RU.UTF-8 st'
 
 alias nnn='nnn -H' # show hidden files by default
 
-# because
+# braindamage
 alias :q='exit'
 alias please='sudo'
 

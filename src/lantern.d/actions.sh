@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # action keys
-declare -A _lantern_actions=(
-  [x]=::lantern::actions::"$1"_execute
-  [f]=::lantern::actions::"$1"_file
-  [d]=::lantern::actions::"$1"_directory
-)
+declare -A _lantern_actions=()
+_lantern_actions["x"]=::lantern::actions::"$1"_execute
+_lantern_actions["f"]=::lantern::actions::"$1"_file
+_lantern_actions["d"]=::lantern::actions::"$1"_directory
 
 ::lantern::actions::detach() {
   #nohup "$@" &>/dev/null &
@@ -42,14 +41,18 @@ declare -A _lantern_actions=(
   fi
 }
 
-
 ::lantern::actions::select() {
   # $1 - entry
   # cut off the _m_ part off of the function names
   # return only the first letter, the action key
   [[ "$1" == "" ]] && return
-  local a="$(for key in "${!_lantern_actions[@]}"; do echo $key ${_lantern_actions[$key]:22}; done | \
-    tui::fzf --sort --bind "esc:abort" --header="  $1" --nth=.. --with-nth=..)"
+
+  # zsh bandaid
+  if [[ $ZSH_VERSION ]]; then
+    local a="$(for key val in "${(kv)_lantern_actions}"; do echo $key $val[22,25]; done | tui::fzf --sort --bind "esc:abort" --header="  $1" --nth=.. --with-nth=..)"
+  else
+    local a="$(for key in "${!_lantern_actions[@]}"; do echo $key ${_lantern_actions[$key]:22}; done | tui::fzf --sort --bind "esc:abort" --header="  $1" --nth=.. --with-nth=..)"
+  fi
   [[ "$a" != "" ]] && echo "${a:0:1}"
 }
 

@@ -290,6 +290,8 @@ interval = 1800
 
 exec = bash wttr-weather
 
+label = "%{A1:$BROWSER yandex.ru/pogoda:}%output%%{A}"
+
 [module/nerd-clock]
 type = custom/script
 interval = 900

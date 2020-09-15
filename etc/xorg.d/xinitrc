@@ -17,13 +17,13 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-[[ -f ~/.bash_profile ]] && . ~/.bash_profile
+#[[ -f ~/.bashrc ]] && . ~/.bashrc
+#[[ -f ~/.bash_profile ]] && . ~/.bash_profile
 
 # path
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 [ -d "$HOME/etc/polybar.d/modules" ] && PATH="$HOME/etc/polybar.d/modules:$PATH"
 
-feh --bg-fill ~/.wallpaper
+feh --no-fehbg --bg-fill ~/.wallpaper
 xsetroot -cursor_name left_ptr # cursor-fix
 exec bspwm # launch wm
