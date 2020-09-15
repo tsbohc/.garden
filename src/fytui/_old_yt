@@ -1,0 +1,23 @@
+#!/bin/bash
+
+strip_attribute() {
+  awk -F"\"" '{ print $2 }' <<< "$@"
+}
+
+get_rss_urls() {
+  strip_attribute "$(xmllint --xpath '//outline[@type="rss"]/@xmlUrl' subscriptions)"
+}
+
+echo > parsed
+
+while read url; do
+  raw="$(curl --silent "$url")"
+  raw="$(echo "$raw" | sed '2 s/xmlns=".*"//g')"
+  channel_name="$(xmllint --xpath '/feed/title/text()' - <<< "$raw")"
+  video_titles="$(xmllint --xpath '/feed/entry/title/text()' - <<< "$raw")"
+  video_urls="$(xmllint --xpath '/feed/entry/link/@href' - <<< "$raw")"
+  video_urls="$(strip_attribute "$video_urls")"
+  echo "$channel_name"
+  paste -d'|' <(echo "$video_titles") <(echo "$video_urls")
+done < <(get_rss_urls) #> parsed
+

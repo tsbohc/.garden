@@ -289,7 +289,6 @@ type = custom/script
 interval = 1800
 
 exec = bash wttr-weather
-format-font = 1
 
 [module/nerd-clock]
 type = custom/script
@@ -309,6 +308,15 @@ time = "%I:%M %p"
 time-alt = "%I:%M %p"
 
 label = "%date% %time%"
+
+[module/powerswitch]
+type = custom/script
+
+exec = echo a
+
+label = 襤
+label-font = 2
+format = "<label> "
 
 [module/pulseaudio]
 type = internal/pulseaudio

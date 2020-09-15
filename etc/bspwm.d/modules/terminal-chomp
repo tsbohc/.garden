@@ -39,10 +39,10 @@ is_terminal() {
   IFS=', ' read -r -a classes_array <<< "$classes"
   for class in "${classes_array[@]}"; do
     if grep -q ",$class," <<< "$terminals"; then
-      echo "y"
-      return
+      return 0
     fi
   done
+  echo "no"
 }
 
 bspc subscribe node_add node_remove | while read -r event; do
@@ -57,12 +57,13 @@ bspc subscribe node_add node_remove | while read -r event; do
     l_pid="$(get_pid "$l_wid")"
 
     # check if it's a terminal emulator we're chomping
-    is_terminal "$l_wid" || continue
+    if [[ "$(is_terminal "$l_wid")" != "no" ]]; then
 
-    # check if new window is a child process of the previous one
-    if [[ "$(is_child "$n_pid" "$l_pid")" == "y" ]]; then
-      chomp "$l_wid" "$n_wid"
-      windows["$n_wid"]="$l_wid"
+      # check if new window is a child process of the previous one
+      if [[ "$(is_child "$n_pid" "$l_pid")" == "y" ]]; then
+        chomp "$l_wid" "$n_wid"
+        windows["$n_wid"]="$l_wid"
+      fi
     fi
 
   elif [[ "$event_name" == "node_remove" ]]; then

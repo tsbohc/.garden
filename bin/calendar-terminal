@@ -1,0 +1,9 @@
+#!/bin/bash
+
+window="$(xdotool search --onlyvisible --classname "calendar-terminal")"
+
+if [[ "$window" != "" ]]; then
+  xdotool windowkill "$window"
+else
+  st -a -g "20x8-35-35" -n "calendar-terminal" -e bash -c "tput civis ; cal -m ; sleep 5"
+fi

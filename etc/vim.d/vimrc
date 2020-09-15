@@ -220,6 +220,12 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
+" prevent cursor movement when *-ing
+nnoremap * *<c-o>
+
+" easy highlighted occurances replacement
+nnoremap <c-n> :%s///g<left><left>
+
 " cyrillic bindings
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 

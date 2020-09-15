@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+terminals=",brave-browser,"
+
+is_browser() {
+  classes="$(xprop -id "$1" WM_CLASS | awk -F"=" '{ print $2 }' | tr -d '"')"
+
+  IFS=', ' read -r -a classes_array <<< "$classes"
+  for class in "${classes_array[@]}"; do
+    if grep -q ",$class," <<< "$terminals"; then
+      return 0
+    fi
+  done
+  echo "no"
+}
+
+bspc subscribe node_add | while read -r event; do
+  wid="$(awk '{ print $5 }' <<< "$event")"
+  if [[ "$(is_browser "$wid")" != "no" ]]; then
+    bspc node "$wid" --state floating
+  fi
+done

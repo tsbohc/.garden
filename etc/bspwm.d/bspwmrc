@@ -51,6 +51,7 @@ _c focus_follows_pointer true
 # window specific
 _r \*:launcher state=floating focus=on
 _r \*:lantern state=floating
+_r \*:calendar-terminal state=floating
 _r Zathura state=tiled
 _r Kupfer.py focus=on
 _r Screenkey manage=off

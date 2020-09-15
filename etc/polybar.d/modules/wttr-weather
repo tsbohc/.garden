@@ -3,6 +3,7 @@
 o="$(curl --silent --compressed wttr.in/Saint\ Petersburg?format="%C:%f\n")"
 
 declare -A icons=(
+  ["clear"]=""
   ["cloudy"]=""
   ["partly cloudy"]=""
   ["clear/sunny"]=""
@@ -16,7 +17,3 @@ echo "$condition ${icons[$condition]} "
 #for i in "${!icons[@]}"; do
 #  echo -n "${icons[$i]}  "
 #done
-
-
-
-
