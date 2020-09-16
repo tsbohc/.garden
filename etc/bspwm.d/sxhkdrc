@@ -83,7 +83,7 @@ super + g
 
 # toggle floating
 super + f
-  bspc node -t ~floating
+  bspc node -t \~floating
 
 # set the node flags
 super + ctrl + {m,x,y,z}

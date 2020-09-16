@@ -63,15 +63,12 @@ source ~/src/lantern.d/lantern
 # fzf
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2'
 
-
 # --- aliases ---
 
 alias v='nvim'
-m() { man "$1" | nvim -u ~/src/pager.vim ; }
 
-# braindamage
-alias :q='exit'
-alias please='sudo'
+# man paging through vim
+#m() { man "$1" | nvim -u ~/src/pager.vim ; }
 
 # ls
 alias ls='ls -F --color=auto'
@@ -85,3 +82,22 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+# auto ls after cd except when going back to ~
+cd() { [ -n "$1" ] && builtin cd "$@" && la --group-directories-first || builtin cd ~ ; }
+
+# brain damage
+alias :q='exit'
+alias please='sudo'
+
+# git
+function git_prepare() {
+  if [ -z "$BUFFER" ]; then
+    BUFFER="git add -A && git commit -v && git push"
+  else
+    BUFFER="git add -A && git commit -m \"$BUFFER\" && git push"
+  fi
+  zle accept-line # <cr>
+}
+
+zle -N git_prepare
+bindkey "^g" git_prepare
