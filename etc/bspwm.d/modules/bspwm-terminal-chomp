@@ -12,12 +12,14 @@ declare -A windows
 chomp() {
   # $1 - wid to chomp
   bspc node "$1" --flag hidden=on
+  bspc node "$1" --flag private=on
 }
 
 blergh() {
   # $1 - wid to blergh
   #bspc query -N -n "$1".fullscreen && bspc desktop -l tiled
   bspc node "$1" --flag hidden=off
+  bspc node "$1" --flag private=off
   bspc node "$1" --focus
 }
 

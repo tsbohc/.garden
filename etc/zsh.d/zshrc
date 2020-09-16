@@ -1,5 +1,14 @@
-# --- autoload ---
-#autoload -Uz colors zsh/terminfo && colors # ls colors
+#     ___
+#   (,   )      /
+#       /  _   /_  __  _.
+#     _/_ /_)_/ /_/ (_(__
+#  )   /
+# (__ /
+#
+
+# ------------------------------
+#            plugins
+# ------------------------------
 
 source ~/.zinit/bin/zinit.zsh
 
@@ -9,8 +18,15 @@ zinit light Aloxaf/fzf-tab
 #zinit light zsh-users/zsh-autosuggestions
 #zinit light changyuheng/zsh-interactive-cd # added margin
 
-autoload -Uz compinit # completion
-compinit
+# ------------------------------
+#           settings
+# ------------------------------
+
+autoload -Uz compinit ; compinit # completion
+
+zstyle ':completion:*:functions' ignored-patterns '_*' # don't auto-complete internal functions (ones prefixed with _)
+
+compinit -i
 
 # --- setopt ---
 setopt auto_cd # cd into directories if only path is given
@@ -29,14 +45,16 @@ setopt no_menu_complete
 HISTFILE=~/.cache/histfile
 HISTSIZE=1000
 SAVEHIST=$HISTSIZE
-setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
+setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
 
 # remove that annoying bold slash
 zle_highlight[(r)suffix:*]="suffix:fg=foreground"
 
-# --- prompt ---
+# ------------------------------
+#            prompt
+# ------------------------------
 
-# shove those into an array
+# TODO shove those into an array
 __prompt_symbol="> "
 __prompt_success_color=green
 __prompt_failure_color=yellow
@@ -47,7 +65,7 @@ __prompt_current_color=
 }
 
 ::prompt::return_status() {
-  echo -n "%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%f"
+  echo -n "%B%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%b%f"
 }
 
 ::prompt::git_status() {
@@ -62,22 +80,50 @@ __prompt_current_color=
 
 PROMPT='$(::prompt::current_dir)$(::prompt::git_status) $(::prompt::return_status)'
 
-# --- exports ---
+export KEYTIMEOUT=1 # make mode switching in vi mode quicker
+
+# {{{ cursor shape for prompt vi modes
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+# }}}
+
+#  ------------------------------
+#             exports
+#  ------------------------------
 
 source ~/src/lantern.d/lantern
 
 # fzf
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2'
 
-# --- aliases ---
+# ------------------------------
+#            aliases
+# ------------------------------
 
 alias v='nvim'
-
-# man paging through vim
-#m() { man "$1" | nvim -u ~/src/pager.vim ; }
+alias :q='exit'
+alias please='sudo'
 
 # ls
 alias ls='ls -F --color=auto'
+alias sl='ls'
 alias la='ls -A'
 alias ll='ls -lA'
 alias l.='ls -A | egrep "^\."'
@@ -88,15 +134,48 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# auto ls after cd except when going back to ~
+# ask for confirmation
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+
+alias rrrr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
+
+# probably a bad idea
+sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
+
+# ls after cd except when going back to ~
 cd() { [ -n "$1" ] && builtin cd "$@" && la --group-directories-first || builtin cd ~ ; }
 
-# brain damage
-alias :q='exit'
-alias please='sudo'
+# nvim as manpage viewer
+#m() { man "$1" | nvim -u ~/src/pager.vim ; }
+
+ex() {
+  if [ -f $1 ]; then
+    case $1 in
+      *.tar.bz2) tar xjf $1    ;;
+      *.tar.gz)  tar xzf $1    ;;
+      *.bz2)     bunzip2 $1    ;;
+      *.rar)     unrar x $1    ;;
+      *.gz)      gunzip $1     ;;
+      *.tar)     tar xf $1     ;;
+      *.tbz2)    tar xjf $1    ;;
+      *.tgz)     tar xzf $1    ;;
+      *.zip)     unzip $1      ;;
+      *.Z)       uncompress $1 ;;
+      *.7z)      7z x $1       ;;
+      *.deb)     ar x $1       ;;
+      *.tar.xz)  tar xf $1     ;;
+      *.tar.zst) unzstd $1     ;;
+      *) echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
 
 # git
-function gg() {
+function gp() {
   if [ -z "$BUFFER" ]; then
     BUFFER="git add -A && git commit -v && git push"
   else
@@ -104,6 +183,20 @@ function gg() {
   fi
   zle accept-line # <cr>
 }
+zle -N gp
+bindkey "^g" gp
 
-zle -N gg
-bindkey "^g" gg
+#  ------------------------------
+#        coloured manpages
+#  ------------------------------
+
+export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\e[01;93m'       # begin bold
+
+export LESS_TERMCAP_so=$'\e[30;47m'       # info box / search highlighting
+export LESS_TERMCAP_se=$'\e[0m'           # end standout-mode
+
+export LESS_TERMCAP_us=$'\e[38;5;255;2m'  # begin underline
+export LESS_TERMCAP_ue=$'\e[0m'           # end underline
+
+export LESS_TERMCAP_me=$'\e[0m'           # end mode

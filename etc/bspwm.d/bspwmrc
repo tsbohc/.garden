@@ -7,51 +7,57 @@
 # (_/ (        /
 #             '
 
+# TODO rename modules to bspwm-* and add to path
+
 # modules are located in the git repo, not symlinked to ~/.config/bspwm/modules
-DIR="$(cd "$(dirname "$(realpath "$0")")" && pwd)"
+con() { bspc config "$@"; }
+rul() { bspc rule -a "$@"; }
+ice() { pkill -x "$1"; { sleep 0.1; "$@"; } ; }
 
-_c() { bspc config "$@"; }
-_r() { bspc rule -a "$@"; }
-_s() { pkill -x "$1"; { sleep 0.1; "$@"; } & }
-_m() { _s "$DIR/modules/$@"; }
+# ------------------------------
+#           autostart
+# ------------------------------
 
-# autostart
-_s sxhkd
-_s picom
-_s polybar example
+ice sxhkd &
+ice picom &
+ice polybar example &
 
-# modules
-_m alternating-workspaces 6
-_m polybar-workspaces-hook
-_m terminal-chomp
+# custom sctripts
+ice bspwm-alternating-workspaces 6
+ice bspwm-double-borders &
+ice bspwm-polybar-workspaces-hook &
+ice bspwm-terminal-chomp &
 
-#bspc monitor -d 1 2 3 4
+# ------------------------------
+#          wm settings
+# ------------------------------
 
 # borders
-_c border_width          1
-_c active_border_color   "#1d2021"
-_c normal_border_color   "#1d2021"
-_c focused_border_color  "#1d2021"
+con border_width          1
+con active_border_color   "#1d2021"
+con normal_border_color   "#1d2021"
+con focused_border_color  "#1d2021"
 
 # gaps
-_c window_gap            10
+con window_gap            10
 
 # windows
-_c split_ratio           0.50
+con split_ratio           0.50
 
 # single window layout
-_c single_monocle         true
-_c borderless_monocle     true
-_c gapless_monocle        true
-_c bottom_monocle_padding 0
+con single_monocle         true
+con borderless_monocle     true
+con gapless_monocle        true
+con bottom_monocle_padding 0
 
 # general
-_c focus_follows_pointer true
+con focus_follows_pointer true
+con directional_focus_tightness low # allow floating window to be focused
 
-# window specific
-_r \*:launcher state=floating focus=on
-_r \*:lantern state=floating
-_r \*:calendar-terminal state=floating
-_r Zathura state=tiled
-_r Kupfer.py focus=on
-_r Screenkey manage=off
+# client specific
+rul \*:launcher state=floating focus=on
+rul \*:lantern state=floating
+rul \*:calendar-terminal state=floating
+rul Zathura state=tiled
+rul Kupfer.py focus=on
+rul Screenkey manage=off

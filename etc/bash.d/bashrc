@@ -8,21 +8,11 @@
 
 [[ $- != *i* ]] && return
 
-# path
-#if [ -d "$HOME/blueberry/bin" ]; then
-#  PATH="$HOME/blueberry/bin:$PATH"
-#fi
-
 # sources
 [[ -f ~/.aliases ]] && . ~/.aliases
 #type -P lantern > /dev/null && . lantern
 
 . ~/src/lantern.d/lantern
-
-#export NNN_FCOLORS='c1e20402006033f7c6d6abc4'
-#                   ^^  ^^  ^^  ^^  ^^  ^^
-# 04 bold blue
-# 02 bold green
 
 # NOTE: I hope this is safe-ish
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"

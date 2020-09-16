@@ -4,20 +4,11 @@
 "    |/<_/ / / <_/ (_(__
 "    |
 "
-
 " cursive lowercase and invita upper
 
-" -------------------------------------------------
-"{{{ plug
-
-" boostrap plug
-"if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-"  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
-
-" FIXME MOVE FONT CHECK TO STATUSLINE SCRIPT
+" ------------------------------
+"             plug
+" ------------------------------
 
 if has('nvim')
   call plug#begin('~/.vim/bundle')
@@ -42,18 +33,13 @@ if has('nvim')
   " style
   Plug 'morhetz/gruvbox'
   Plug 'sainnhe/sonokai'
+  Plug 'ayu-theme/ayu-vim'
 
   call plug#end()
 endif
 
-"}}}
-" -------------------------------------------------
-
-" -------------------------------------------------
+" ------------------------------
 "{{{ settings
-
-"let g:UltiSnipsExpandTrigger="<CR>
-"let g:UltiSnipsExpandTrigger="<c-b>"
 
 " rendering
 set encoding=utf-8
@@ -132,10 +118,21 @@ autocmd InsertEnter * set nocul
 autocmd InsertLeave * set cul
 
 "}}}
-" -------------------------------------------------
+" ------------------------------
 
-" -------------------------------------------------
+" ------------------------------
 "{{{ vim magic
+
+" insert a nice centered header like one above around the text on the current line
+function! HeaderComment()
+  let c = split(&commentstring, '%s')[0]
+  call append(line('.')-1, c . " ------------------------------")
+  :center 29
+  call setline('.', c . " " . getline('.'))
+  call append(line('.'), c . " ------------------------------")
+endfunction
+command! HeaderComment call HeaderComment()
+map <leader>c :call HeaderComment()
 
 " pass cword to a bash script an echo the output
 function! SaveCurrentWord()
@@ -190,10 +187,11 @@ autocmd BufWritePost config.h,config.def.h !sudo make install
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 "}}}
-" -------------------------------------------------
+" ------------------------------
 
-" -------------------------------------------------
-"{{{ keymaps
+" ------------------------------
+"            keymaps
+" ------------------------------
 
 " hardmode
 noremap <Up> <Nop>
@@ -210,7 +208,7 @@ inoremap <Right> <Nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
-" easier split movement
+" easy split movement
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -220,26 +218,20 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" prevent cursor movement when *-ing
+" prevent cursor movement when searching with *
 nnoremap * *<c-o>
 
 " easy highlighted occurances replacement
 nnoremap <c-n> :%s///g<left><left>
 
-" cyrillic bindings
-set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
-
-"}}}
-" -------------------------------------------------
-
-" -------------------------------------------------
-" filetype specific
-" -------------------------------------------------
+" ------------------------------
+"       filetype specific
+" ------------------------------
 
 " python
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
-" -------------------------------------------------
+" ------------------------------
 "{{{ plug specific
 
 " thesaurus_query
@@ -290,23 +282,6 @@ colorscheme gruvbox
   endtry
 endtry
 
-" remove fold bg
-" FIXME set this to comment bg color
-"highlight Folded guibg=NONE ctermbg=NONE
-"highlight CursorLine guifg=NONE guibg=NONE cterm=nocombine
-
-"set foldcolumn=1
-"highlight FoldColumn guifg=grey guibg=bg
-"hi! link Folded User5
-
-"}}}
-" -------------------------------------------------
-
-" -------------------------------------------------
-" sources (keep at the end)
-" -------------------------------------------------
-source ~/blueberry/etc/vim.d/statusline.vim
-
 " vim-ditto
 "au FileType markdown,text,tex DittoOn
 hi clear SpellBad
@@ -317,3 +292,13 @@ hi clear SpellRare
 hi SpellRare guifg=#d3869b
 hi SpellDitto guifg=#83a598
 let g:ditto_hlgroups = ['SpellDitto']
+
+"}}}
+" ------------------------------
+
+" ------------------------------
+"   sources (keep at the end)
+" ------------------------------
+
+source ~/blueberry/etc/vim.d/statusline.vim
+

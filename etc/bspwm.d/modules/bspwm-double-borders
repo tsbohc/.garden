@@ -1,0 +1,37 @@
+#!/bin/bash
+
+_d='0x050505'
+_b='0x1d2021'
+_g='0x3c3836'
+_l='0x665c54'
+
+outer=$_d  # outer
+inner1=$_l  # focused
+inner2=$_g  # normal
+
+bspc config border_width 2
+
+draw() { chwb2 -I "$inner" -O "$outer" -i "1" -o "1" "$@" >/dev/null 2>&1 ; }
+
+bspc subscribe node_geometry node_focus | while read -r event; do
+  event_name="$(awk '{ print $1 }' <<< "$event")"
+  if [[ "$event_name" == "node_geometry" ]]; then
+    wid="$(awk '{ print $4 }' <<< "$event")"
+    inner="$inner2"
+    draw "$wid"
+
+    focused_wid="$(bspc query -N -n focused)"
+    inner="$inner1"
+    draw "$focused_wid"
+
+  elif [[ "$event_name" == "node_focus" ]]; then
+    wid="$(awk '{ print $4 }' <<< "$event")"
+    last_wid="$(bspc query -N -n last)"
+
+    inner="$inner2"
+    draw "$last_wid"
+
+    inner="$inner1"
+    draw "$wid"
+  fi
+done

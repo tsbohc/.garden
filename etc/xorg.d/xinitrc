@@ -23,6 +23,7 @@ fi
 # path
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 [ -d "$HOME/etc/polybar.d/modules" ] && PATH="$HOME/etc/polybar.d/modules:$PATH"
+[ -d "$HOME/etc/bspwm.d/modules" ] && PATH="$HOME/etc/bspwm.d/modules:$PATH"
 
 feh --no-fehbg --bg-fill ~/.wallpaper
 xsetroot -cursor_name left_ptr # cursor-fix
