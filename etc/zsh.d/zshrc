@@ -3,10 +3,10 @@
 
 source ~/.zinit/bin/zinit.zsh
 
-#zinit light zsh-users/zsh-autosuggestions
 #zinit light zdharma/fast-syntax-highlighting
 #zinit light b4b4r07/enhancd
 zinit light Aloxaf/fzf-tab
+#zinit light zsh-users/zsh-autosuggestions
 #zinit light changyuheng/zsh-interactive-cd # added margin
 
 autoload -Uz compinit # completion
@@ -50,11 +50,17 @@ __prompt_current_color=
   echo -n "%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%f"
 }
 
-#::prompt::git_status()
-#  echo -n ""
-#}
+::prompt::git_status() {
+  if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
+    echo -n ", %F{green}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
+    MODIFIED=$(git status --short | wc -l)
+    if [ $MODIFIED -gt 0 ]; then
+      echo -n "+$MODIFIED"
+    fi
+  fi
+}
 
-PROMPT='$(::prompt::current_dir) $(::prompt::return_status)'
+PROMPT='$(::prompt::current_dir)$(::prompt::git_status) $(::prompt::return_status)'
 
 # --- exports ---
 
@@ -90,7 +96,7 @@ alias :q='exit'
 alias please='sudo'
 
 # git
-function git_prepare() {
+function gg() {
   if [ -z "$BUFFER" ]; then
     BUFFER="git add -A && git commit -v && git push"
   else
@@ -99,5 +105,5 @@ function git_prepare() {
   zle accept-line # <cr>
 }
 
-zle -N git_prepare
-bindkey "^g" git_prepare
+zle -N gg
+bindkey "^g" gg
