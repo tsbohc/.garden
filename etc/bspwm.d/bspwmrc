@@ -61,3 +61,7 @@ rul \*:calendar-terminal state=floating
 rul Zathura state=tiled
 rul Kupfer.py focus=on
 rul Screenkey manage=off
+
+# godot
+rul \*:godot-st desktop=^1
+rul \*:Godot_Engine desktop=^1 state=floating

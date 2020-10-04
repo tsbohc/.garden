@@ -19,7 +19,8 @@ if has('nvim')
 
   " coding
   Plug 'Yggdroot/indentline'
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'habamax/vim-godot'
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
   " latex
@@ -29,6 +30,7 @@ if has('nvim')
   Plug 'dbmrq/vim-ditto'
   Plug 'ron89/thesaurus_query.vim'
   Plug 'reedes/vim-lexical'
+  "Plug 'jooize/vim-colemak'
 
   " style
   Plug 'morhetz/gruvbox'
@@ -39,55 +41,53 @@ if has('nvim')
 endif
 
 " ------------------------------
-"{{{ settings
+"           settings
+" ------------------------------
 
 " rendering
 set encoding=utf-8
-set nocompatible
-set ttyfast
-set synmaxcol=256
-set t_Co=256
-set termguicolors
+set nocompatible              " allow vim -u vimrc
+set ttyfast                   " fast redraws, not needed in nvim
+set synmaxcol=256             " max colums to use highlightig on
+"set t_Co=256                 " 256 color support
+set termguicolors             " true color support
 
-" mode switch delays
+" wait times
 set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
 
 " editor
 filetype indent on
-set number relativenumber " relative numbers
-set cursorline " highlight current line
-set showmatch " hl matching [{(s
-"hi MatchParen cterm=bold ctermbg=darkgray ctermfg=white
+set number relativenumber     " relative numbers
+set cursorline                " hl current line
+
+set showmatch                 " blink matching brace when a new one is inserted
+set matchtime=2               " return quicker
 
 " whitespace
-set wrap
-set scrolloff=10
-set formatoptions=tcqrn1
+set wrap                      " wrap at the end of a line
+set scrolloff=10              " cursor padding in lines
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
 set noshiftround
 
-" invisibles
-exec "set listchars=trail:␣"
+set formatoptions=tcqrn1
+
+" invisible characters
+set listchars=trail:␣
 set list
 
 " search
-set incsearch " search as characters are entered
-set hlsearch " highlight matches
-set ignorecase " case-insensitive search
-set smartcase " case-sensitive if search contains uppercase
-set showmatch
+set incsearch                 " search as characters are entered
+set hlsearch                  " highlight matches
+set ignorecase                " case-insensitive search
+set smartcase                 " case-sensitive if search contains uppercase
 nnoremap // :noh<return>
 
-" clipboard woes, remember xsel
-set clipboard+=unnamedplus
-
-" disable new line comment
-autocmd FileType * setlocal formatoptions-=cro
+set clipboard+=unnamedplus    " global clipboard, don't forget xsel
 
 " code folding
 filetype plugin indent on
@@ -95,35 +95,58 @@ set foldenable
 set foldmethod=marker
 syntax enable
 
-function! MyFoldText()
-  let line = getline(v:foldstart)
-
-  let nucolwidth = &fdc + &number * &numberwidth
-  let windowwidth = winwidth(0) - nucolwidth - 3
-  let foldedlinecount = v:foldend - v:foldstart
-
-  " expand tabs into spaces
-  let onetab = strpart('          ', 0, &tabstop)
-  let line = substitute(line, '\t', onetab, 'g')
-
-  let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-  let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
-  return line . ' ' . repeat(" ", fillcharcount) . ' ' . foldedlinecount . '  '
-endfunction
-
-set foldtext=MyFoldText()
+" ------------------------------
+"           vim magic
+" ------------------------------
 
 " hide CursorLine in insert mode
 autocmd InsertEnter * set nocul
 autocmd InsertLeave * set cul
 
-"}}}
-" ------------------------------
+" disable new line comment
+autocmd FileType * setlocal formatoptions-=cro
 
-" ------------------------------
-"{{{ vim magic
+" {{{
+"function! MyFoldText()
+"  let line = getline(v:foldstart)
+"
+"  let nucolwidth = &fdc + &number * &numberwidth
+"  let windowwidth = winwidth(0) - nucolwidth - 3
+"  let foldedlinecount = v:foldend - v:foldstart
+"
+"  " expand tabs into spaces
+"  let onetab = strpart('          ', 0, &tabstop)
+"  let line = substitute(line, '\t', onetab, 'g')
+"
+"  let line = strpart(line, 0, windowwidth - 2 - len(foldedlinecount))
+"  let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
+"  return line . ' ' . repeat(" ", fillcharcount) . ' ' . foldedlinecount . '  '
+"endfunction
+" }}}
 
-" insert a nice centered header like one above around the text on the current line
+" custom folding function
+" {{{
+function! MyFoldText()
+  " get the right fold size
+  let fold_lines = v:foldend - v:foldstart - 1
+
+  " get window width
+  let nucolwidth = &fdc + &number * &numberwidth
+  let window_width = winwidth(0) - nucolwidth
+
+  let next_line = getline(v:foldstart + 1)
+  let txt = "[+] " . next_line . " "
+
+  let line_count = " +" . fold_lines . "       "
+
+  let txt = txt . repeat(" ", window_width - len(txt) - len(line_count) - 1) . line_count . "     "
+  return txt
+endfunction
+" }}}
+set foldtext=MyFoldText()
+
+" format current line as a nice commeht like the one above
+" {{{
 function! HeaderComment()
   let c = split(&commentstring, '%s')[0]
   call append(line('.')-1, c . " ------------------------------")
@@ -131,21 +154,13 @@ function! HeaderComment()
   call setline('.', c . " " . getline('.'))
   call append(line('.'), c . " ------------------------------")
 endfunction
+" }}}
 command! HeaderComment call HeaderComment()
 map <leader>c :call HeaderComment()
 
-" pass cword to a bash script an echo the output
-function! SaveCurrentWord()
-  let cword = expand("<cword>")
-  let cword_command = 'output-test ' . cword
-  let cwordout = system(cword_command)
-  echom cwordout
-  " maybe grep the thesaurus with inverted keyboard too
-  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
-endfunction
-
 " writing mode
 let g:writing_mode_enabled = 0
+" {{{
 function! WritingMode()
   if g:writing_mode_enabled
     set spell!
@@ -171,13 +186,14 @@ function! WritingMode()
     let g:writing_mode_enabled = 1
   endif
 endfunction
+" }}}
 command! WritingMode call WritingMode()
 
 " auto-update current buffer if it's been changed from somewhere else
 set autoread
 augroup autoRead
-    autocmd!
-    autocmd CursorHold * silent! checktime
+  autocmd!
+  autocmd CursorHold * silent! checktime
 augroup END
 
 " recompile suckless programs automagically
@@ -186,14 +202,24 @@ autocmd BufWritePost config.h,config.def.h !sudo make install
 " run xrdb whenever Xdefaults or Xresources are updated
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
-"}}}
-" ------------------------------
+" pass cword to a bash script an echo the output
+" {{{
+function! SaveCurrentWord()
+  let cword = expand("<cword>")
+  let cword_command = 'output-test ' . cword
+  let cwordout = system(cword_command)
+  echom cwordout
+  " maybe grep the thesaurus with inverted keyboard too
+  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
+endfunction
+" }}}
 
 " ------------------------------
 "            keymaps
 " ------------------------------
 
 " hardmode
+" {{{
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
@@ -207,22 +233,43 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
+" }}}
 
 " easy split movement
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" {{{
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+nnoremap <c-h> <c-w><c-h>
+" }}}
 
 " vi-line movement
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" prevent cursor movement when searching with *
+" prevent jumping to the next match when searching with *
 nnoremap * *<c-o>
 
 " easy highlighted occurances replacement
 nnoremap <c-n> :%s///g<left><left>
+
+" colemak -> qwerty in normal mode
+set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP
+nnoremap <c-s> <c-d>
+nnoremap <c-p> <c-r>
+nnoremap <c-l> <c-u>
+
+" coc
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " ------------------------------
 "       filetype specific
@@ -231,8 +278,33 @@ nnoremap <c-n> :%s///g<left><left>
 " python
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
+" godot
+" {{{
+func! GDscriptSettings() abort
+  let g:godot_executable = '/home/sean/godot/Godot_v3.2.3-stable_x11.64'
+  setlocal tabstop=4
+  setlocal expandtab
+  setlocal shiftwidth=4
+  setlocal softtabstop=4
+
+  nnoremap <buffer> <F4> :GodotRunLast<CR>
+  nnoremap <buffer> <C-J> :GodotRun<CR>
+  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
+  nnoremap <buffer> <F7> :GodotRunFZF<CR>
+
+  nnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+  vnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+  inoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+endfunc
+" }}}
+
+augroup godot | au!
+  au FileType gdscript call GDscriptSettings()
+augroup end
+
 " ------------------------------
-"{{{ plug specific
+"         plug specific
+" ------------------------------
 
 " thesaurus_query
 nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
@@ -283,7 +355,6 @@ colorscheme gruvbox
 endtry
 
 " vim-ditto
-"au FileType markdown,text,tex DittoOn
 hi clear SpellBad
 hi SpellBad ctermfg=red guifg=#fb4934
 hi clear SpellCap
@@ -292,9 +363,6 @@ hi clear SpellRare
 hi SpellRare guifg=#d3869b
 hi SpellDitto guifg=#83a598
 let g:ditto_hlgroups = ['SpellDitto']
-
-"}}}
-" ------------------------------
 
 " ------------------------------
 "   sources (keep at the end)

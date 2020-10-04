@@ -1,0 +1,43 @@
+#!/bin/bash
+
+mac="a8:a1:59:0a:ea:ff"
+address="192.168.0.91"
+user="$(whoami)" # NB!
+
+rexec() {
+  ssh "$user@$address" "$@"
+}
+
+get_status() {
+  if ping -c 1 -w 1 $address >/dev/null; then
+    echo -n " "
+  else
+    echo -n ""
+  fi
+}
+
+get_usage() {
+  if ping -c 1 -w 1 $address >/dev/null; then
+    rexec df -H -x tmpfs -x devtmpfs -x vfat --output=source,pcent,used,avail,size --total | awk '($1 == "total") { print $3"/"$5 }'
+  else
+    echo -n ""
+  fi
+}
+
+wake() {
+  wakeonlan "$mac"
+}
+
+bedtime() {
+  rexec sudo systemctl poweroff
+}
+
+toggle_power() {
+  if ping -c 3 -w 5 $address >/dev/null; then
+    rexec sudo systemctl poweroff
+  else
+    wakeonlan "$mac"
+  fi
+}
+
+"$@"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+list="$(find ~/blueberry -type f -not -path '*/\.git*' -not -path '*.jpg')"
+
+get_description() {
+  awk -F" " '($1 ~ /^#:/) {for (i=2; i<NF; i++) printf $i " "; print $NF}' "$1"
+}
+
+while read p; do
+  if [[ "$(file "$p")" =~ "shell script" ]]; then
+    echo "${p}"
+  fi
+done <<< "$list"

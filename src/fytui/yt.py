@@ -1,83 +1,49 @@
 import json
-import xml.etree.ElementTree as ET
-import urllib.request as URL
+import grequests
+import feedparser
 from datetime import datetime
 
+urls = []
 rss = []
-subscriptions_opml='subscriptions'
 
-def fuck_namespace(el): # {{{
-  '''Recursively search this element tree, removing namespaces.'''
-  if el.tag.startswith("{"):
-    el.tag = el.tag.split('}', 1)[1]
-  for k in el.attrib.keys():
-    if k.startswith("{"):
-      k2 = k.split('}', 1)[1]
-      el.attrib[k2] = el.attrib[k]
-      del el.attrib[k]
-  for child in el:
-    fuck_namespace(child)
-# }}}
+youtube_channel_ids = [
+    'UCvrLvII5oxSWEMEkszrxXEA', # N-O-D-E
+    'UC2eYFnH61tmytImy1mTYvhA', # Luke Smith
+    ''
+]
 
 def pretty_print(j):
     print(json.dumps(j, indent=4))
 
-def get_rss_urls(filename):
-    feeds = []
+def exception_handler(request, exception):
+    print("Request failed", exception)
 
-    tree = ET.parse(filename)
-    for tag in tree.findall('.//outline'):
-        url = tag.get('xmlUrl')
-        if url:
-            feeds.append(url)
-    return feeds
+for i in youtube_channel_ids:
+    urls.append('http://www.youtube.com/feeds/videos.xml?channel_id=' + i)
 
-feeds = get_rss_urls(subscriptions_opml)
+requests = (grequests.get(u, stream=True) for u in urls)
+responces = (grequests.map(requests, exception_handler=exception_handler))
 
-i=len(feeds)
+for r in responces:
+    if r.status_code != 200:
+        continue
+    f = feedparser.parse(r.text)
 
-for feed in feeds:
-    try:
-        _f = URL.urlopen(feed)
-    except URL.URLError as e:
-        print(e.reason)
-    else:
-        with _f as f:
-            tree = ET.fromstring(f.read().decode('utf-8'))
-            fuck_namespace(tree)
+    channel = f['feed']['title']
 
-            channel = tree.find('./title').text
-            videos = tree.findall('./entry')
+    for entry in f['entries']:
 
-            for video in videos:
-                title = video.find('./title').text
-                url = video.find('./link').attrib['href']
-                thumbnail = video.find('./group/thumbnail').attrib['url']
+        published = entry['published']
+        published = published.split('+', 1)[0]
+        published = str(datetime.strptime(published, "%Y-%m-%dT%H:%M:%S").timestamp())
 
-                published = video.find('./published').text
-                published = published.split('+', 1)[0]
+        rss.append({
+            'channel': channel,
+            'title': entry['title'],
+            'summary': entry['summary'],
+            'url': entry['link'],
+            'image': entry['media_thumbnail'][0]['url'],
+            'published': published
+        })
 
-                published = str(datetime.strptime(published, "%Y-%m-%dT%H:%M:%S").timestamp())
-
-                rss.append({
-                    'channel'   : channel,
-                    'title'     : title,
-                    'url'       : url,
-                    'published' : published,
-                    'thumbnail' : thumbnail
-                    })
-            print(str(i) + " - " + channel)
-            i=i-1
-
-#pretty_print(rss)
-
-output=""
-d=' '
-
-for video in rss:
-    output+=video['channel'] + " -" + d + video['title'] + d + video['published'] + d + video['url'] + d + video['thumbnail'] + '\n'
-
-output=output.rstrip() # strip newline
-
-with open('cache', 'w') as f:
-    f.write(output)
+pretty_print(rss)

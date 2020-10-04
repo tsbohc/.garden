@@ -332,10 +332,10 @@ set_colors() {
     echo "$1" | sed 's@^[^0-9]*\([0-9]\+\).*@\1@'
   }
 
-  choice=$(ls $sc_dir/themes/ | fzf --height=10 --bind=esc:abort)
+  choice=$(ls $sc_dir/etc/xorg.d/xresources.d/colors/ | fzf --height=10 --bind=esc:abort)
 
   if [[ "$choice" != "" ]]; then
-    if ! grep -q "define" "$sc_dir/themes/$choice"; then
+    if ! grep -q "define" "$sc_dir/etc/xorg.d/xresources.d/colors/$choice"; then
       log "$i_info" "$yellow" "$choice" "is in regular .Xresources format"
       if ask "$sc_name" "convert to a sourceable bash script?"; then
         convert "$choice"

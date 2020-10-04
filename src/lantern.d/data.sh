@@ -59,7 +59,7 @@ source "$_LANTERN_PROJECT_ROOT/defaults.sh"
 
   # append new data
   # find all non-hidden folders in home
-  local home_dirs="$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -type d)"
+  local home_dirs="$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -not -path '*microwave*' -type d)"
 
   # find everything in them and append non-hidden files from home
   local home="$(while IFS=$"\n" read -r l; do

@@ -85,11 +85,11 @@ super + {h,j,k,l}
 
 # swap the node in the given direction or move a floating window
 super + shift + {h,j,k,l}
-  bspwm-agnostic-move m {h,j,k,l}
+  bspwm-smart-move-and-resize m {h,j,k,l}
 
 # resize the node
 super + alt + {h,j,k,l}
-  bspwm-agnostic-move r {h,j,k,l}
+  bspwm-smart-move-and-resize r {h,j,k,l}
 
 # focus the given desktop or send the node to the given desktop
 super + {_,shift + }{1-9,0}

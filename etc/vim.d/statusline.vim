@@ -47,15 +47,15 @@ let g:currentmode={
     \ }
 
 
-if system('get_xres font') =~? 'powerline'
- let s:statuslineseparator=""
- let statuslinesfr=""
- let statuslinesfl=""
-else
- let s:statuslineseparator="│"
- let statuslinesfr="▒"
- let statuslinesfl="▒"
-endif
+"if system('get_xres font') =~? 'powerline'
+let s:statuslineseparator=""
+let statuslinesfr=""
+let statuslinesfl=""
+"else
+" let s:statuslineseparator="│"
+" let statuslinesfr="▒"
+" let statuslinesfl="▒"
+"endif
 
 function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain when doing it w/ one line
   let command = 'hi ' . a:name

@@ -13,9 +13,15 @@
 background = #00ffffff
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
+
 foreground = #ffffffff
 foreground-alt = #ff666666
 foreground-alt2 = $ff333333
+
+;foreground = #ff000000
+;foreground-alt = #ffff3333
+;foreground-alt2 = $ff33ff33
+
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -59,10 +65,12 @@ font-0 = RobotoMono Nerd Font:style=Medium:size=10;2
 font-1 = RobotoMono Nerd Font:style=Medium:size=12;2
 font-2 = pixelsize=11;2
 
-modules-left = wttr
+modules-left = 
+;wttr
 ;mpd
 modules-center = workspace-blocks
-modules-right = xbacklight battery memory cpu nerd-clock date
+modules-right = xbacklight battery memory cpu nas-status nas-usage nerd-clock date
+
 ;eth
 ;xkeyboard 
 ;pulseaudio
@@ -283,6 +291,20 @@ format-disconnected = 
 ;format-disconnected = <label-disconnected>
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/nas-status]
+type = custom/script
+interval = 10
+
+exec = bash poly-nas get_status
+label = "%{A1:poly-nas toggle_power:}%output%%{A}"
+
+[module/nas-usage]
+type = custom/script
+interval = 1800
+
+exec = bash poly-nas get_usage
+label = %output%
 
 [module/wttr]
 type = custom/script

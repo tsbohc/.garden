@@ -12,9 +12,9 @@
 
 source ~/.zinit/bin/zinit.zsh
 
-#zinit light zdharma/fast-syntax-highlighting
 #zinit light b4b4r07/enhancd
 zinit light Aloxaf/fzf-tab
+zinit light zdharma/fast-syntax-highlighting
 #zinit light zsh-users/zsh-autosuggestions
 #zinit light changyuheng/zsh-interactive-cd # added margin
 
@@ -148,7 +148,7 @@ sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
 cd() { [ -n "$1" ] && builtin cd "$@" && la --group-directories-first || builtin cd ~ ; }
 
 # nvim as manpage viewer
-#m() { man "$1" | nvim -u ~/src/pager.vim ; }
+m() { man "$1" | nvim -u ~/src/pager.vim ; }
 
 ex() {
   if [ -f $1 ]; then
@@ -172,6 +172,12 @@ ex() {
   else
     echo "'$1' is not a valid file"
   fi
+}
+
+new-bash-script() {
+  touch "$1"
+  echo "#!/bin/bash" > "$1"
+  chmod +x "$1"
 }
 
 # git
