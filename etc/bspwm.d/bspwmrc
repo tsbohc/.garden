@@ -7,9 +7,6 @@
 # (_/ (        /
 #             '
 
-# TODO rename modules to bspwm-* and add to path
-
-# modules are located in the git repo, not symlinked to ~/.config/bspwm/modules
 con() { bspc config "$@"; }
 rul() { bspc rule -a "$@"; }
 ice() { pkill -x "$1"; { sleep 0.1; "$@"; } ; }
@@ -22,7 +19,7 @@ ice sxhkd &
 ice picom &
 ice polybar example &
 
-# custom sctripts
+# custom scripts
 ice bspwm-alternating-workspaces 6
 ice bspwm-double-borders &
 ice bspwm-polybar-workspaces-hook &
@@ -33,28 +30,31 @@ ice bspwm-terminal-chomp &
 # ------------------------------
 
 # borders
-con border_width          1
-con active_border_color   "#1d2021"
-con normal_border_color   "#1d2021"
-con focused_border_color  "#1d2021"
+con border_width                1
+con active_border_color         "#1d2021"
+con normal_border_color         "#1d2021"
+con focused_border_color        "#1d2021"
 
 # gaps
-con window_gap            10
+con window_gap                  10
 
 # windows
-con split_ratio           0.50
+con split_ratio                 0.50
 
 # single window layout
-con single_monocle         true
-con borderless_monocle     true
-con gapless_monocle        true
-con bottom_monocle_padding 0
+con single_monocle              true
+con borderless_monocle          true
+con gapless_monocle             true
+con bottom_monocle_padding      0
 
 # general
-con focus_follows_pointer true
-con directional_focus_tightness low # allow floating window to be focused
+con focus_follows_pointer       true
+con directional_focus_tightness low
 
-# client specific
+# ------------------------------
+#        client specific
+# ------------------------------
+
 rul \*:launcher state=floating focus=on
 rul \*:lantern state=floating
 rul \*:calendar-terminal state=floating

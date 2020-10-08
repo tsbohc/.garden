@@ -1,0 +1,427 @@
+#!/bin/bash
+
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+# hook progressbar to config lines 
+
+# ------------------------------
+#            config
+# ------------------------------
+
+
+# ------------------------------
+#            helpers
+# ------------------------------
+
+# {{{
+# Usage: parse_config <file> [<default array name>]
+
+# If no default array name is given, it defaults to 'config'.
+# If there are [section] headers in file, following entries will be
+#  put in array of that name.
+
+# Config arrays may exist already and will appended to or overwritten.
+# If preexisting array is not associative, function exits with error.
+# New arrays will be created as needed, and remain in the environment.
+parse_config(){
+    [[ -f $1 ]] || { echo "$1 is not a file." >&2;return 1;}
+    if [[ -n $2 ]]
+    then
+        local -n config_array=$2
+    else
+        local -n config_array=config
+    fi
+    declare -Ag ${!config_array} || return 1
+    local line key value section_regex entry_regex
+    section_regex="^[[:blank:]]*\[([[:alpha:]_][[:alnum:]_]*)\][[:blank:]]*(#.*)?$"
+    entry_regex="^[[:blank:]]*([[:alpha:]_][[:alnum:]_]*)[[:blank:]]*=[[:blank:]]*('[^']+'|\"[^\"]+\"|[^#[:blank:]]+)[[:blank:]]*(#.*)*$"
+    while read -r line
+    do
+        [[ -n $line ]] || continue
+        [[ $line =~ $section_regex ]] && {
+            local -n config_array=${BASH_REMATCH[1]}
+            declare -Ag ${!config_array} || return 1
+            continue
+        }
+        [[ $line =~ $entry_regex ]] || continue
+        key=${BASH_REMATCH[1]}
+        value=${BASH_REMATCH[2]#[\'\"]} # strip quotes
+        value=${value%[\'\"]}
+        config_array["${key}"]="${value}"
+    done < "$1"
+}
+
+# Usage: parse_config_vars <file>
+# No arrays, just read variables individually.
+# Preexisting variables will be overwritten.
+
+parse_config_vars(){
+    [[ -f $1 ]] || { echo "$1 is not a file." >&2;return 1;}
+    local line key value entry_regex
+    entry_regex="^[[:blank:]]*([[:alpha:]_][[:alnum:]_]*)[[:blank:]]*=[[:blank:]]*('[^']+'|\"[^\"]+\"|[^#[:blank:]]+)[[:blank:]]*(#.*)*$"
+    while read -r line
+    do
+        [[ -n $line ]] || continue
+        [[ $line =~ $entry_regex ]] || continue
+        key=${BASH_REMATCH[1]}
+        value=${BASH_REMATCH[2]#[\'\"]} # strip quotes
+        value=${value%[\'\"]}
+        declare -g "${key}"="${value}"
+    done < "$1"
+}
+# }}}
+
+# {{{
+calc(){ awk "BEGIN { print "$*" }" ; }
+round() { echo "$*" | awk '{ printf("%d", $1 + 0.5) }' ; }
+
+# {{{
+get_cpos() {
+  exec < /dev/tty
+  oldstty=$(stty -g)
+  stty raw -echo min 0
+  echo -en "\033[6n" > /dev/tty
+  IFS=';' read -r -d R -a pos
+  stty $oldstty
+  # change from one-based to zero based so they work with: tput cup $row $col
+  row=$((${pos[0]:2} - 1))    # strip off the esc-[
+  col=$((${pos[1]} - 1))
+  echo $row
+}
+# }}}
+
+#red="\x1b[31m"
+#green="\x1b[32m"
+#yellow="\x1b[33m"
+#blue="\x1b[34m"
+#gray="\x1b[90m"
+escape="\x1b[0m"
+
+default="\e[39m"
+black="\e[30m"
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+gray="\e[90m"
+
+l_gray="\e[37m"
+l_red="\e[91m"
+l_green="\e[92m"
+l_yellow="\e[93m"
+l_blue="\e[94m"
+l_magenta="\e[95m"
+l_cyan="\e[96m"
+white="\e[97m"
+
+b0="\e[1m["
+b1="/"      # empty
+b2="\e[1m/" # fill
+b3="\e[1m/" # head
+p_bar="$b0"
+# }}}
+
+# {{{
+get_abspath() { echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})" ; }
+# }}}
+
+p_bar_col=""
+
+# {{{
+update_progress() {
+  c_pos="$(get_cpos)"
+  # $1 - value, $2 - max value, $3 - length
+
+  if [[ "$p_bar_col" == "" ]]; then
+    p_bar_col="$(get_cpos)"
+  fi
+
+  tput cup "$p_bar_col" 0
+
+  echo "$4"
+
+  val_current=$1
+  val_max=$2
+  p_length=$3
+  p_current=$(round $(calc $val_current/$val_max*$p_length))
+  for i in $(seq 0 $((p_length-1))); do
+    if ((i < $((p_current-1)))); then
+      p_bar+="$l_cyan$b2$escape"
+    elif ((i == $((p_current-1)))); then
+      p_bar+="$l_cyan$b3$escape"
+    else
+      p_bar+="$gray$b1$escape"
+    fi
+  done
+  p_bar+="\e[1m]$escape $val_current/$val_max       "
+  echo -e "$p_bar"
+  p_bar="$b0"
+  tput cup "$c_pos" 0
+}
+# }}}
+
+# {{{
+welcome() {
+  echo -e "
+   ____    ___      __     _____     
+  /',__\  / __'\  /'__'\  /\ '__'\   
+ /\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \  
+ \/\____/\ \____/\ \__/.\_\  \ ,__/  
+  \/___/  \/___/  \/__/\/_/ \ \ \/   
+                             \ \_\   
+                              \/_/  "
+}
+# }}}
+
+tput civis
+clear
+welcome
+#echo "parsing config..."
+update_progress 0 1 33 "config"
+echo
+echo
+echo
+
+log() { # $1 - color, $2 - object, $3 - action
+  echo -e "${escape}${1}\e[1m[]${escape} ${2}:2 ${gray}${3}${escape}"
+}
+
+# {{{
+exe() {
+  if [[ "$3" != "" ]]; then
+    action="$3"
+  else
+    action="$2"
+  fi
+  log "$gray" "$1" "$action"
+  out=""
+  out_start_col=$(get_cpos)
+
+  $2 | while read -r l; do
+    out+=$'\n'"$l"
+    tput cup "$out_start_col" 0 && tput ed
+    echo -e "$out" | tail -n+2 | tail -n 5
+  done
+
+  tput cup "$((out_start_col-1))" 0
+  if [[ $? -eq 0 ]]; then
+    tput ed
+    log "$l_cyan" "$1" "$action"
+  else
+    log "$l_red" "$1" "$action"
+    echo "$out"
+    exit 1
+  fi
+}
+# }}}
+
+# {{{
+create_symlink() {
+  src=$1
+  dst=$2
+  if [[ "$dst" == "" ]]; then
+    log "$red" "$src" "broken destination!"
+    continue
+  fi
+  abs_src="${SCRIPTPATH}/$src"
+  abs_dst=$(get_abspath "$dst")
+
+  if [[ -f "$abs_src" ]] || [[ -d "$abs_src" ]]; then
+    if [[ ! -e "$abs_dst" && ! -L "$abs_dst" ]]; then # if both are okay, proceed normally
+      [[ ! -d "${abs_dst%/*}" ]] && exe "${abs_dst%/*}" "mkdir -p ${abs_dst%/*}"
+      exe "$src" "ln -s $abs_src $abs_dst"
+    else # resolve conflicts
+      if [[ -e "$abs_dst" && ! -L "$abs_dst" ]]; then
+        if ask "$src" "attempt to override a non-symlink $dst, confirm?"; then
+            rm -rf "$abs_dst"
+            exe "$src" "ln -s $abs_src $abs_dst"
+        else
+          log "$yellow" "$src" "skipping..."
+        fi
+      elif [[ -L "$abs_dst" ]]; then
+        if [[ "$(readlink "$abs_dst")" == "$abs_src" ]]; then
+          #log "$gray" "$src" "match ${abs_dst/$HOME/\~}"
+          #log "$gray" "ln" "$src match ${abs_dst/$HOME/\~}"
+          echo -n
+        else
+          exe "$src" "ln -sfn $abs_src $abs_dst" "ln -sfn ${abs_dst/$HOME/\~}"
+        fi
+      fi
+    fi
+  else
+    log "$red" "$src" "missing source file!"
+  fi
+}
+# }}}
+
+# spaces in paths will break this, but who has spaces in paths anyway?
+# take first word of a command and use that as the object or use section name?
+# or just first word of a comment
+read -d '' config << EOF
+link = true
+/etc/hosts = false
+
+# a -> b symlink, a is relative to script
+# ! hook
+
+# update /etc/hosts
+
+[/etc/hosts]
+! sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts # update
+
+[link]
+etc/      ->   ~/etc
+src/      ->   ~/src
+bin/      ->   ~/bin
+tmp/      ->   ~/tmp
+usr/      ->   ~/usr
+etc/bash.d/bash_profile            ->  ~/.bash_profile
+etc/bash.d/bashrc                  ->  ~/.bashrc
+etc/bash.d/aliases                 ->  ~/.aliases
+etc/zsh.d/zshenv                   ->  ~/.zshenv
+etc/zsh.d/zshrc                    ->  ~/.config/zsh/.zshrc
+etc/zsh.d/modules                  ->  ~/.config/zsh/modules
+etc/xorg.d/xinitrc                 ->  ~/.xinitrc
+etc/xorg.d/xresources.d/xresources ->  ~/.Xresources
+etc/bspwm.d/bspwmrc                ->  ~/.config/bspwm/bspwmrc
+etc/bspwm.d/sxhkdrc                ->  ~/.config/sxhkd/sxhkdrc
+etc/awesome.d/rc.lua               ->  ~/.config/awesome/rc.lua
+etc/awesome.d/modules              ->  ~/.config/awesome/modules
+etc/qtile.d/rc.py                  ->  ~/.config/qtile/config.py
+etc/polybar.d/rc                   ->  ~/.config/polybar/config
+etc/vim.d/vimrc                    ->  ~/.vimrc
+etc/vim.d/nvim_init.vim            ->  ~/.config/nvim/init.vim
+etc/vim.d/colors                   ->  ~/.config/nvim/colors
+etc/vim.d/spellcheck               ->  ~/.vim/spellcheck
+etc/vim.d/thesaurus                ->  ~/.vim/thesaurus
+etc/vifm.d/vifmrc                  ->  ~/.config/vifm/vifmrc
+etc/vifm.d/colors                  ->  ~/.config/vifm/colors
+etc/vifm.d/scripts                 ->  ~/.config/vifm/scripts
+etc/picom                          ->  ~/.config/picom.conf
+etc/zathurarc                      ->  ~/.config/zathura/zathurarc
+etc/dunstrc                        ->  ~/.config/dunst/dunstrc
+
+[vars]
+var1 = foo
+var2=bar
+
+[yay]
+exec = yay --needed --noconfirm
+
+[done]
+EOF
+
+declare -A SECTIONS
+
+current_section="config"
+counter=0
+config_lines="$(echo "$config" | wc -l)"
+while read -r l; do
+  #sleep 0.05
+  counter=$((counter+1))
+  update_progress $counter $config_lines 33 ""
+  [[ -n $l ]] || continue
+
+  section_regex="\[(.*)\]" # :\s*(.*)"
+  link_regex="(\S*)\s*->[[:blank:]]*(.*)"
+  variable_regex="(\S*)\s*=[[:blank:]]*(.*)"
+  comment_regex="^#\s*(.*)"
+  command_regex="^!\s(.*)\s*\#\s*(.*)"
+
+  #current_section_active="true"
+
+  if [[ "$l" =~ $comment_regex ]]; then
+    #echo -e "$gray# ${BASH_REMATCH[1]}$escape"
+    echo -n
+  elif [[ "$l" =~ $link_regex ]]; then
+    from="${BASH_REMATCH[1]}"
+    to="${BASH_REMATCH[2]}"
+    create_symlink "$from" "$to"
+  elif [[ "$l" =~ $section_regex ]]; then
+    #new_section="${BASH_REMATCH[1]}"
+    #new_section_status="${BASH_REMATCH[2]}"
+    #if [[ "$new_section_status" == "true" ]]; then
+    #SECTIONS["$new_section"]="$new_section_status"
+    #fi
+    #current_section_active="$new_section_status"
+
+    current_section="${BASH_REMATCH[1]}"
+    update_progress $counter $config_lines 33 "$new_section                              "
+
+  elif [[ "$l" =~ $variable_regex ]]; then
+    key="${BASH_REMATCH[1]}"
+    val="${BASH_REMATCH[2]}"
+    #echo "|$key| = |$val|"
+
+    #if [[ "$current_section" == "config" ]]; then
+      # TODO ass array sections 
+    #fi
+  elif [[ "$l" =~ $command_regex ]]; then
+    cmd="${BASH_REMATCH[1]}"
+    obj="$current_section"
+    act="${BASH_REMATCH[2]}"
+    exe "$obj" "$cmd" "$act"
+  fi
+done <<< "$config"
+
+#exe "curl" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts" "update /etc/hosts"
+
+
+
+
+
+
+
+
+
+#for section in "${!SECTIONS[@]}"; do
+#  echo "$section : ${SECTIONS[$section]}"
+#  if [[ "${SECTIONS[$section]}" == "true" ]]; then
+#    #for key in "${!SECTIONS[@]}"; do
+#    echo  
+#    #done
+#  fi
+#done
+
+
+
+    #current_section_active="true"
+    #if [[ "$key" == "active" ]]; then
+      #current_section_active="true"
+    #fi
+
+    #if [[ "$new_section" != "$current_section" ]]; then
+    #fi
+    #current_section_active="false"
+    #echo "|${BASH_REMATCH[1]}=${BASH_REMATCH[2]}|"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#p="xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool"
+#p=($p)
+#clean_bundle=""
+#for package in "${p[@]}"; do
+#  ! yay -Q $package > /dev/null 2>&1 && clean_bundle="$clean_bundle$package "
+#done
+#[[ "$clean_bundle" != "" ]] && exe yay -S --needed --noconfirm $clean_bundle
+
+#exe testr
+
+#for K in "${!ln_base[@]}"; do echo $K --- ${ln_base[$K]}; done
+
+tput cnorm

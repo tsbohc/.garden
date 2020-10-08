@@ -28,7 +28,7 @@ alert = #bd2c40
 
 [bar/example]
 enable-ipc = true
-monitor = ${env:MONITOR:DP-4}
+;monitor = ${env:MONITOR:DP-4}
 width = 100%
 height = 21
 ;offset-x = 1%
@@ -65,11 +65,10 @@ font-0 = RobotoMono Nerd Font:style=Medium:size=10;2
 font-1 = RobotoMono Nerd Font:style=Medium:size=12;2
 font-2 = pixelsize=11;2
 
-modules-left = 
-;wttr
+modules-left = wttr
 ;mpd
 modules-center = workspace-blocks
-modules-right = xbacklight battery memory cpu nas-status nas-usage nerd-clock date
+modules-right = xbacklight memory cpu nas-status nas-usage battery nerd-clock date
 
 ;eth
 ;xkeyboard 
@@ -403,29 +402,29 @@ battery = BAT0
 adapter = ADP1
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
+label-discharging = %percentage%%
+label-charging = %percentage%%
 
-format-discharging = <animation-discharging> <label-discharging>
+format-charging = "<animation-charging> <label-charging>"
+format-discharging = "<ramp-capacity> <label-discharging>"
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
+format-full-prefix = 
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-framerate = 1000
 
 [module/temperature]
 type = internal/temperature

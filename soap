@@ -1,10 +1,10 @@
 #!/bin/bash
 
 read -d '' bundles << EOF
-xorg:          xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool wmctrl
+xorg:          xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
 pulseaudio:    pulseaudio pulseaudio-alsa alsa-utils
 dev:           cmake lua jre-openjdk
-wm:            feh picom dunst notify-send.sh
+wm:            feh picom dunst notify-send.sh wmctrl wmutils
 bspwm:         bspwm lemonbar-xft-git ttf-unifont vifm sxhkd
 neovim:        neovim python2-pip python-pip xsel
 latex:         latex-mk texlive-most texlive-lang
