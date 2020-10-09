@@ -1,17 +1,91 @@
 #!/bin/bash
 
-SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-
-# hook progressbar to config lines 
-
 # ------------------------------
 #            config
 # ------------------------------
 
+# spaces in paths will break this, but who has spaces in paths anyway?
+# take first word of a command and use that as the object or use section name?
+# or just first word of a comment
+
+# {{{
+read -d '' config << EOF
+link = true
+/etc/hosts = false
+
+# a -> b symlink, a is relative to script
+# ! hook
+
+# update /etc/hosts
+
+[/etc/hosts]
+# ! sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts # update
+
+[base]
+etc/                               -> ~/etc
+src/                               -> ~/src
+bin/                               -> ~/bin
+tmp/                               -> ~/tmp
+usr/                               -> ~/usr
+
+[bash]
+etc/bash.d/bash_profile            -> ~/.bash_profile
+etc/bash.d/bashrc                  -> ~/.bashrc
+etc/bash.d/aliases                 -> ~/.aliases
+
+[zsh]
+etc/zsh.d/zshenv                   -> ~/.zshenv
+etc/zsh.d/zshrc                    -> ~/.config/zsh/.zshrc
+etc/zsh.d/modules                  -> ~/.config/zsh/modules
+
+[xorg]
+etc/xorg.d/xinitrc                 -> ~/.xinitrc
+etc/xorg.d/xresources.d/xresources -> ~/.Xresources
+
+[wm]
+etc/polybar.d/rc                   -> ~/.config/polybar/config
+etc/picom                          -> ~/.config/picom.conf
+
+[bspwm]
+etc/bspwm.d/bspwmrc                -> ~/.config/bspwm/bspwmrc
+etc/bspwm.d/sxhkdrc                -> ~/.config/sxhkd/sxhkdrc
+
+[awesome]
+etc/awesome.d/rc.lua               -> ~/.config/awesome/rc.lua
+etc/awesome.d/modules              -> ~/.config/awesome/modules
+
+[qtile]
+etc/qtile.d/rc.py                  -> ~/.config/qtile/config.py
+
+[vim]
+etc/vim.d/vimrc                    -> ~/.vimrc
+etc/vim.d/nvim_init.vim            -> ~/.config/nvim/init.vim
+etc/vim.d/colors                   -> ~/.config/nvim/colors
+etc/vim.d/spellcheck               -> ~/.vim/spellcheck
+etc/vim.d/thesaurus                -> ~/.vim/thesaurus
+
+[vifm]
+etc/vifm.d/vifmrc                  -> ~/.config/vifm/vifmrc
+etc/vifm.d/colors                  -> ~/.config/vifm/colors
+etc/vifm.d/scripts                 -> ~/.config/vifm/scripts
+
+[apps]
+etc/zathurarc                      -> ~/.config/zathura/zathurarc
+etc/dunstrc                        -> ~/.config/dunst/dunstrc
+# }}}
+
+[yay]
+exec = yay --needed --noconfirm
+
+[done]
+EOF
+# }}}
 
 # ------------------------------
 #            helpers
 # ------------------------------
+
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 # {{{
 # Usage: parse_config <file> [<default array name>]
@@ -185,7 +259,7 @@ echo
 echo
 
 log() { # $1 - color, $2 - object, $3 - action
-  echo -e "${escape}${1}\e[1m[]${escape} ${2}:2 ${gray}${3}${escape}"
+  echo -e "$escape${1}\e[1m[${escape}$2${1}\e[1m]$escape ${gray}${3}${escape}"
 }
 
 # {{{
@@ -242,8 +316,8 @@ create_symlink() {
         fi
       elif [[ -L "$abs_dst" ]]; then
         if [[ "$(readlink "$abs_dst")" == "$abs_src" ]]; then
-          #log "$gray" "$src" "match ${abs_dst/$HOME/\~}"
-          #log "$gray" "ln" "$src match ${abs_dst/$HOME/\~}"
+          #log "$gray" "$(basename "$src")" "match ${abs_dst/$HOME/\~}"
+          #log "$gray" "$current_section" "${abs_dst/$HOME/\~}"
           echo -n
         else
           exe "$src" "ln -sfn $abs_src $abs_dst" "ln -sfn ${abs_dst/$HOME/\~}"
@@ -251,84 +325,28 @@ create_symlink() {
       fi
     fi
   else
-    log "$red" "$src" "missing source file!"
+    log "$red" "$src" "missing source!"
   fi
 }
 # }}}
-
-# spaces in paths will break this, but who has spaces in paths anyway?
-# take first word of a command and use that as the object or use section name?
-# or just first word of a comment
-read -d '' config << EOF
-link = true
-/etc/hosts = false
-
-# a -> b symlink, a is relative to script
-# ! hook
-
-# update /etc/hosts
-
-[/etc/hosts]
-! sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts # update
-
-[link]
-etc/      ->   ~/etc
-src/      ->   ~/src
-bin/      ->   ~/bin
-tmp/      ->   ~/tmp
-usr/      ->   ~/usr
-etc/bash.d/bash_profile            ->  ~/.bash_profile
-etc/bash.d/bashrc                  ->  ~/.bashrc
-etc/bash.d/aliases                 ->  ~/.aliases
-etc/zsh.d/zshenv                   ->  ~/.zshenv
-etc/zsh.d/zshrc                    ->  ~/.config/zsh/.zshrc
-etc/zsh.d/modules                  ->  ~/.config/zsh/modules
-etc/xorg.d/xinitrc                 ->  ~/.xinitrc
-etc/xorg.d/xresources.d/xresources ->  ~/.Xresources
-etc/bspwm.d/bspwmrc                ->  ~/.config/bspwm/bspwmrc
-etc/bspwm.d/sxhkdrc                ->  ~/.config/sxhkd/sxhkdrc
-etc/awesome.d/rc.lua               ->  ~/.config/awesome/rc.lua
-etc/awesome.d/modules              ->  ~/.config/awesome/modules
-etc/qtile.d/rc.py                  ->  ~/.config/qtile/config.py
-etc/polybar.d/rc                   ->  ~/.config/polybar/config
-etc/vim.d/vimrc                    ->  ~/.vimrc
-etc/vim.d/nvim_init.vim            ->  ~/.config/nvim/init.vim
-etc/vim.d/colors                   ->  ~/.config/nvim/colors
-etc/vim.d/spellcheck               ->  ~/.vim/spellcheck
-etc/vim.d/thesaurus                ->  ~/.vim/thesaurus
-etc/vifm.d/vifmrc                  ->  ~/.config/vifm/vifmrc
-etc/vifm.d/colors                  ->  ~/.config/vifm/colors
-etc/vifm.d/scripts                 ->  ~/.config/vifm/scripts
-etc/picom                          ->  ~/.config/picom.conf
-etc/zathurarc                      ->  ~/.config/zathura/zathurarc
-etc/dunstrc                        ->  ~/.config/dunst/dunstrc
-
-[vars]
-var1 = foo
-var2=bar
-
-[yay]
-exec = yay --needed --noconfirm
-
-[done]
-EOF
 
 declare -A SECTIONS
 
 current_section="config"
 counter=0
 config_lines="$(echo "$config" | wc -l)"
+
+section_regex="\[(.*)\]" # :\s*(.*)"
+link_regex="(\S*)\s*->[[:blank:]]*(.*)"
+variable_regex="(\S*)\s*=[[:blank:]]*(.*)"
+comment_regex="^#\s*(.*)"
+command_regex="^!\s(.*)\s*\#\s*(.*)"
+
 while read -r l; do
   #sleep 0.05
   counter=$((counter+1))
   update_progress $counter $config_lines 33 ""
   [[ -n $l ]] || continue
-
-  section_regex="\[(.*)\]" # :\s*(.*)"
-  link_regex="(\S*)\s*->[[:blank:]]*(.*)"
-  variable_regex="(\S*)\s*=[[:blank:]]*(.*)"
-  comment_regex="^#\s*(.*)"
-  command_regex="^!\s(.*)\s*\#\s*(.*)"
 
   #current_section_active="true"
 
@@ -349,6 +367,7 @@ while read -r l; do
 
     current_section="${BASH_REMATCH[1]}"
     update_progress $counter $config_lines 33 "$new_section                              "
+    log "$l_cyan" "$current_section" ""
 
   elif [[ "$l" =~ $variable_regex ]]; then
     key="${BASH_REMATCH[1]}"
@@ -366,16 +385,7 @@ while read -r l; do
   fi
 done <<< "$config"
 
-#exe "curl" "sudo curl -S https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -o /etc/hosts" "update /etc/hosts"
-
-
-
-
-
-
-
-
-
+# {{{
 #for section in "${!SECTIONS[@]}"; do
 #  echo "$section : ${SECTIONS[$section]}"
 #  if [[ "${SECTIONS[$section]}" == "true" ]]; then
@@ -399,19 +409,6 @@ done <<< "$config"
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #p="xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool"
 #p=($p)
 #clean_bundle=""
@@ -423,5 +420,7 @@ done <<< "$config"
 #exe testr
 
 #for K in "${!ln_base[@]}"; do echo $K --- ${ln_base[$K]}; done
+
+# }}}
 
 tput cnorm

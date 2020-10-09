@@ -1,7 +1,5 @@
 #!/bin/bash
 
-o="$(curl --silent --compressed wttr.in/~59.9387318,30.3162286?format="%C:%f\n")"
-
 declare -A icons=(
   ["sunny"]=""
   ["clear"]=""
@@ -12,7 +10,13 @@ declare -A icons=(
   ["overcast"]=""
 )
 
-condition="$(awk -F":" '{ print tolower($1) }' <<< "$o")"
-feels_like="$(awk -F":" '{ print $2 }' <<< "$o")"
+if ping -q -w1 -c1 google.com &>/dev/null ; then
+  o="$(curl --silent --compressed wttr.in/~59.9387318,30.3162286?format="%C:%f\n")"
 
-echo "$condition ${icons[$condition]} "
+  condition="$(awk -F":" '{ print tolower($1) }' <<< "$o")"
+  feels_like="$(awk -F":" '{ print $2 }' <<< "$o")"
+
+  echo "$condition ${icons[$condition]} "
+else
+  echo "N/A"
+fi
