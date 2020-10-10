@@ -55,7 +55,7 @@ zle_highlight[(r)suffix:*]="suffix:fg=foreground"
 # ------------------------------
 
 # TODO shove those into an array
-__prompt_symbol="> "
+__prompt_symbol="λ "
 __prompt_success_color=green
 __prompt_failure_color=yellow
 __prompt_current_color=

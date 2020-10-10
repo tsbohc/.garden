@@ -1,0 +1,160 @@
+#!/bin/bash
+
+clear
+
+# soap.sh -- the modular dotfiles managemet bash lib
+
+black="\e[30m"
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+gray="\e[90m"
+
+bold="\e[1m"
+
+escape="\e[0m"
+
+# {{{
+#declare -a bars
+
+#read -d '' "$name" << EOF
+#$@
+#EOF
+
+#      if [[ "$is_active" == "y" ]]; then
+#        local c="${!bar}"
+#        if [[ "$c" != "" ]]; then
+#          c=${c%%[[:blank:]]}
+#          c=${c##[[:blank:]]}
+#          $hook $c
+#        else
+#          $hook $c
+#        fi
+
+#strip_newlines() {
+#  local v="$1"
+#  v=${v%%[[:blank:]]}
+#  v=${v##[[:blank:]]}
+#  echo "$v"
+#}
+
+# }}}
+
+# source soap.sh, define config like below and execute!
+
+# TODO
+# get fzf menu if no profile name is given
+# hook selection with fzf multiselect
+# + dir to midir
+# check if sudo is needed by looking for sudo in hooks? but i can't really check all function bodies can I? what if hooks with names containig "sudo" will flag forasksudo
+# when no profiles are made, just flag everything as active
+
+log() {
+  echo -e "$*"
+}
+
+# {{{
+bar() {
+  (( "$#" == 0 )) && return
+  name="$1" ; shift
+  declare -g $name="$*"
+  bars+=("$name")
+}
+
+tub() {
+  (( "$#" == 0 )) && return
+  name="$1" ; shift
+  declare -g $name="$@"
+  tubs+=("$name")
+}
+# }}}
+
+#            config
+# ------------------------------
+
+bar base "
+etc/    -> ~/etc
+src/    -> ~/src
+bin/    -> ~/bin
+tmp/    -> ~/tmp
+usr/    -> ~/usr
+"
+
+# force -Syu?
+yay() {
+  local packages
+  packages=($1)
+  #echo "called yay with |${packages[@]}|"
+}
+
+bar xorg "
+yay :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
+"
+
+bar bspwm "
+yay :: bspwm sxhkd
+etc/bspwm.d/bspwmrc -> ~/.config/bspwm/bspwmrc
+etc/bspwm.d/sxhkdrc -> ~/.config/sxhkd/sxhkdrc
+"
+
+bar anywm "
+etc/polybar.d/rc    -> ~/.config/polybar/config
+etc/picom           -> ~/.config/picom.conf
+"
+
+bar pip "
+pip :: pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect"
+
+pip() {
+  echo "called _pip()"
+}
+
+bar hosts "
+sudo curl https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts ::
+"
+
+tub default "base xorg bspwm"
+
+parse() { # $1 - line, $2 - is_active
+  local regex_link="(\S*)[[:blank:]]+->[[:blank:]]+(\S*)"
+  local regex_hook="(.*)[[:blank:]]+::[[:blank:]]*(.*)"
+
+  if [[ "$1" =~ $regex_link ]]; then
+    from="${BASH_REMATCH[1]}"
+    to="${BASH_REMATCH[2]}"
+    echo -e "$magenta$bold▪$escape ln $gray$(basename $from) $to$escape"
+    #create_symlink "$from" "$to"
+  elif [[ "$1" =~ $regex_hook ]]; then
+    cmd="${BASH_REMATCH[1]}"
+    arg="${BASH_REMATCH[2]}"
+    echo -e "$magenta$boldλ$escape $cmd $gray$arg$escape"
+    [[ "$arg" != "" ]] && $cmd "$arg" || $cmd
+  fi
+}
+
+soap() { # $1 - profile name
+  local profile="$1"
+  for bar in "${bars[@]}"; do
+    # active
+    if [[ "${!profile}" =~ "$bar" ]]; then
+      log "$cyan$bold[$escape $bar $cyan$bold]$escape"
+      #log "$cyan$bold[$escape $bar"
+
+      while read -r l; do
+        parse "$l"
+      done <<< "${!bar}"
+
+      echo
+
+    # inactive
+    else
+      log "$gray$bold[$escape $bar $gray$bold]$escape"
+    fi
+
+  done
+}
+
+soap default
