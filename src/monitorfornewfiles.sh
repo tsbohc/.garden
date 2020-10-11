@@ -6,7 +6,7 @@ $(find $HOME -maxdepth 1 -type f)"
 
 while true; do
   #touch $HOME/lastwatch
-  sleep 5
+  sleep 1
   new_entries=$(find $HOME -maxdepth 1 -type f -cnewer $HOME/lastwatch)
   if [[ "$new_entries" != "" ]]; then
     while read e; do

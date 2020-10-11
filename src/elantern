@@ -1,0 +1,64 @@
+#!/bin/bash
+
+clear
+
+# as the file is sourced, i'll have it available anywhere, that mean i can dump it after every launch and on sourcing chech if the variable exists, if not, load the file first (on spawning every new terminal)
+
+#home_dirs="$(find "$HOME" -mindepth 1 -maxdepth 1 -not -path '*/\.*' -not -path '*microwave*' -type d)"
+
+declare -A data
+declare -A _data
+
+data[rstarst]=0
+
+# add new data
+while IFS= read -r path; do
+  path=${path/$HOME/\~}
+  if [ ! ${data[$path]+woo} ]; then
+    _data[$path]=0
+    echo "add $path"
+    data[$path]=0
+  fi
+done <<< "$(find "$HOME" -name '.*' -prune -o -print)"
+#"$(find "$HOME" -maxdepth 1 -not -path '*/\.*' -type d)"
+
+# remove old data
+for path in "${!data[@]}"; do
+  if [ ! ${_data[$path]+abc} ]; then
+    echo "delete $path"
+    unset data["$path"]
+  fi
+done
+
+echo "------------------------------"
+for K in "${!data[@]}"; do echo $K -- ${data[$K]}; done
+#echo "------------------------------"
+#for K in "${!_data[@]}"; do echo $K -- ${_data[$K]}; done
+
+# 1
+# 2
+
+# 1
+# 3
+
+# 1 - don't care
+# 2 - delete
+# 3 - add
+
+# easy way to get files that should be removed from db
+#cat <<EOF > A
+#b
+#1
+#a
+#0
+#01
+#b
+#1
+#EOF
+#
+#cat <<EOF > B
+#0
+#1
+#EOF
+#
+#grep -Fvxf B A

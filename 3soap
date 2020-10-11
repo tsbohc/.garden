@@ -1,9 +1,18 @@
 #!/bin/bash
 
-clear
-
 # soap.sh -- the modular dotfiles managemet bash lib
 
+# TODO
+# --clean opt that will clean up inactive bars
+
+# get fzf menu if no profile name is given
+# hook selection with fzf multiselect
+# + dir to midir
+# check if sudo is needed by looking for sudo in hooks? but i can't really check all function bodies can I? what if hooks with names containig "sudo" will flag forasksudo
+# when no profiles are made, just flag everything as active
+# global indent variable?
+
+# {{{
 black="\e[30m"
 red="\e[31m"
 green="\e[32m"
@@ -16,41 +25,7 @@ gray="\e[90m"
 bold="\e[1m"
 
 escape="\e[0m"
-
-# {{{
-#declare -a bars
-
-#read -d '' "$name" << EOF
-#$@
-#EOF
-
-#      if [[ "$is_active" == "y" ]]; then
-#        local c="${!bar}"
-#        if [[ "$c" != "" ]]; then
-#          c=${c%%[[:blank:]]}
-#          c=${c##[[:blank:]]}
-#          $hook $c
-#        else
-#          $hook $c
-#        fi
-
-#strip_newlines() {
-#  local v="$1"
-#  v=${v%%[[:blank:]]}
-#  v=${v##[[:blank:]]}
-#  echo "$v"
-#}
-
 # }}}
-
-# source soap.sh, define config like below and execute!
-
-# TODO
-# get fzf menu if no profile name is given
-# hook selection with fzf multiselect
-# + dir to midir
-# check if sudo is needed by looking for sudo in hooks? but i can't really check all function bodies can I? what if hooks with names containig "sudo" will flag forasksudo
-# when no profiles are made, just flag everything as active
 
 log() {
   echo -e "$*"
@@ -72,7 +47,35 @@ tub() {
 }
 # }}}
 
-#            config
+#             hooks
+# ------------------------------
+
+# force -Syu?
+# {{{
+pkg() {
+  local packages
+  local missing_packages
+
+  packages=($@)
+
+  for package in "${packages[@]}"; do
+    ! yay -Qi "$package" >/dev/null 2>&1 && missing_packages+=($package)
+  done
+
+  if [[ "${#missing_packages[@]}" != "0" ]]; then
+    echo -e "  missing packages found $gray${missing_packages[@]}$escape"
+    yay -S --needed --noconfirm "${missing_packages[@]}"
+  fi
+}
+# }}}
+
+# {{{
+pypkg() {
+  echo "called pypkg()"
+}
+# }}}
+
+#             bars
 # ------------------------------
 
 bar base "
@@ -83,19 +86,12 @@ tmp/    -> ~/tmp
 usr/    -> ~/usr
 "
 
-# force -Syu?
-yay() {
-  local packages
-  packages=($1)
-  #echo "called yay with |${packages[@]}|"
-}
-
 bar xorg "
-yay :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
+pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
 "
 
 bar bspwm "
-yay :: bspwm sxhkd
+pkg :: bspwm sxhkd
 etc/bspwm.d/bspwmrc -> ~/.config/bspwm/bspwmrc
 etc/bspwm.d/sxhkdrc -> ~/.config/sxhkd/sxhkdrc
 "
@@ -105,18 +101,14 @@ etc/polybar.d/rc    -> ~/.config/polybar/config
 etc/picom           -> ~/.config/picom.conf
 "
 
-bar pip "
-pip :: pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect"
-
-pip() {
-  echo "called _pip()"
-}
+bar pypkgs "
+pypkg :: pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect"
 
 bar hosts "
-sudo curl https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts ::
+sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts
 "
 
-tub default "base xorg bspwm"
+tub default "base bspwm"
 
 parse() { # $1 - line, $2 - is_active
   local regex_link="(\S*)[[:blank:]]+->[[:blank:]]+(\S*)"
@@ -125,18 +117,39 @@ parse() { # $1 - line, $2 - is_active
   if [[ "$1" =~ $regex_link ]]; then
     from="${BASH_REMATCH[1]}"
     to="${BASH_REMATCH[2]}"
-    echo -e "$magenta$bold▪$escape ln $gray$(basename $from) $to$escape"
+    echo -e "$magenta$bold▪$escape $(basename $from) $gray$to$escape"
     #create_symlink "$from" "$to"
   elif [[ "$1" =~ $regex_hook ]]; then
     cmd="${BASH_REMATCH[1]}"
     arg="${BASH_REMATCH[2]}"
     echo -e "$magenta$boldλ$escape $cmd $gray$arg$escape"
-    [[ "$arg" != "" ]] && $cmd "$arg" || $cmd
+    [[ "$arg" != "" ]] && $cmd $arg || $cmd
   fi
 }
 
+# {{{
+welcome() {
+  echo -e "
+  ____    ___      __     _____     
+ /',__\  / __'\  /'__'\  /\ '__'\   
+/\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \  
+\/\____/\ \____/\ \__/.\_\  \ ,__/  
+ \/___/  \/___/  \/__/\/_/ \ \ \/   
+                            \ \_\   
+                             \/_/  "
+}
+# }}}
+
 soap() { # $1 - profile name
+  clear
+  welcome
   local profile="$1"
+
+  log "$magenta$boldλ$escape $profile ${gray}profile$escape"
+  echo -e "$cyan$bold[$escape ${!profile} $cyan$bold]$escape"
+  echo
+  # TODO give overview of the profile here, active inactive bars
+
   for bar in "${bars[@]}"; do
     # active
     if [[ "${!profile}" =~ "$bar" ]]; then
@@ -152,6 +165,8 @@ soap() { # $1 - profile name
     # inactive
     else
       log "$gray$bold[$escape $bar $gray$bold]$escape"
+      #echo "disabled"
+      echo
     fi
 
   done
