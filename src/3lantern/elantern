@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# if a folder is used, bump the scores of all files inside? could do this with find
+
+# -not -path '*microwave*'
+
+# {{{
+# a 40
+# b 23
+# c 12
+
+# a
+# c
+# d
+# e
+# f
+
+# loop through old (only store scores > 0)
+# check if path exists in new, if not remove, if yes, remove path from new
+
+# sort old
+# append new
+# }}}
+
+d=""
+db_path="$HOME/.config/lantern_data"
+
+# {{{
+  declare -a common_fzf_options=(
+    #--no-unicode
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --delimiter="$d"
+    --prompt="  "
+    --pointer="◇"
+    #--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15
+    #--preview="cat {2}{3}"
+    --height=5
+    --margin=0,2
+    --tiebreak=index
+    --with-nth=2..3 # visible fields
+    --nth=2         # search fields relative to the above
+    --bind=change:top
+  )
+# }}}
+
+[ -f "$db_path" ] && source "$db_path" || declare -A data
+declare -A _data
+
+# load
+manage() {
+
+  # add new
+  while IFS= read -r path; do
+    # path format
+    path=${path/$HOME/\~}
+
+    length="${path//[!\/]}"
+    length="${#length}"
+
+    if (( $length > 1 )); then
+      left="${path%/*}"
+      right="/${left##*/}/${path##*/}"
+      left="${left%/*}"
+    else
+      left="${path%/*}"
+      right="/${path##*/}"
+    fi
+
+    path=$left$d$right
+
+    _data["$path"]=0
+    if [ ! ${data["$path"]+woo} ]; then
+      #echo "add $path"
+      data["$path"]=0
+    fi
+  done <<< "$(find "$HOME" -name '.*' -prune -o -print)"
+  #"$(find "$HOME" -maxdepth 1 -not -path '*/\.*' -type d)"
+
+  # remove old & ouput
+  for path in "${!data[@]}"; do
+    if [ ! ${_data["$path"]+woo} ]; then
+      #echo "delete $path"
+      unset 'data["$path"]'
+    else
+      echo "${data["$path"]} $d$path";
+    fi
+  done | sort -k1,1nr -s
+}
+
+out="$(manage | fzf "${common_fzf_options[@]}")"
+#manage
+
+#echo "${!data[@]}"
+
+s="$(awk -F" $d" 'NR==1 { print $1 }' <<< "$out")"
+e="$(awk -F" $d" 'NR==1 { print $2 }' <<< "$out")"
+
+[[ "$e" != "" ]] && data["$e"]=$((s+1))
+
+# save
+declare -p data > "$db_path"
+
+e="${e/\~/$HOME}"
+e="${e/$d/}"
+
+echo "$e"

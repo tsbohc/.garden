@@ -54,9 +54,9 @@ for r in responces:
             'author': f['feed']['title'],
             'title': entry['title'],
             'summary': entry['summary'],
-            'published': published
+            'published': published,
             'link': entry['link'],
-            'thumbnail': entry['media_thumbnail'][0]['url'],
+            'thumbnail': entry['media_thumbnail'][0]['url']
         })
 
 #pretty_print(rss)

@@ -12,6 +12,8 @@
 # when no profiles are made, just flag everything as active
 # global indent variable?
 
+script_path="$(cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
+
 # {{{
 black="\e[30m"
 red="\e[31m"
@@ -27,9 +29,70 @@ bold="\e[1m"
 escape="\e[0m"
 # }}}
 
-log() {
-  echo -e "$*"
+_link="$bold▪$escape"
+_hook="$boldλ$escape"
+_comm="$bold#$escape"
+
+_1="$blue"
+_0="$magenta"
+
+_current_color=""
+_current_icon=""
+
+# {{{
+get_cpos() {
+  exec < /dev/tty
+  oldstty=$(stty -g)
+  stty raw -echo min 0
+  echo -en "\033[6n" > /dev/tty
+  IFS=';' read -r -d R -a pos
+  stty $oldstty
+  # change from one-based to zero based so they work with: tput cup $row $col
+  row=$((${pos[0]:2} - 1))    # strip off the esc-[
+  col=$((${pos[1]} - 1))
+  echo $row
 }
+# }}}
+
+log_bar() {
+  echo -e "$_current_color$bold[$escape $bold$1$escape $_current_color$bold]$escape"
+}
+
+log() {
+  echo -e "$1 $gray$2$escape"
+}
+
+get_abspath() { echo "$(realpath -m --no-symlinks ${1/"~"/$HOME})" ; }
+
+# {{{
+exe() {
+  local cmd arg
+  cmd="$1"
+  arg="$2"
+
+  # ???
+  #[[ "$arg" != "" ]] && $cmd $arg || $cmd
+
+  log "$gray$_current_icon$escape $cmd" ":: $arg"
+  out=""
+  out_start_col=$(get_cpos)
+
+  $cmd $arg | while read -r l; do
+    out+=$'\n'"$l"
+    [[ "$?" != "0" ]] && st="1"
+    tput cup "$out_start_col" 0 && tput ed
+    echo -e "$out" | tail -n+2 | tail -n 5
+  done
+
+  tput cup "$((out_start_col-1))" 0
+  if [[ "$st" == "0" ]]; then
+    log "$_current_color$_current_icon$escape $cmd" ":: $arg"
+  else
+    log "$red$_current_icon$escape $cmd" ":: $arg"
+    echo "$out"
+  fi
+}
+# }}}
 
 # {{{
 bar() {
@@ -38,7 +101,9 @@ bar() {
   declare -g $name="$*"
   bars+=("$name")
 }
+# }}}
 
+# {{{
 tub() {
   (( "$#" == 0 )) && return
   name="$1" ; shift
@@ -47,6 +112,7 @@ tub() {
 }
 # }}}
 
+# {{{
 #             hooks
 # ------------------------------
 
@@ -64,8 +130,10 @@ pkg() {
 
   if [[ "${#missing_packages[@]}" != "0" ]]; then
     echo -e "  missing packages found $gray${missing_packages[@]}$escape"
-    yay -S --needed --noconfirm "${missing_packages[@]}"
+    yay -S --noconfirm "${missing_packages[@]}"
   fi
+
+  [[ $? -eq 0 ]] && return 0 || return 1
 }
 # }}}
 
@@ -91,7 +159,8 @@ pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
 "
 
 bar bspwm "
-pkg :: bspwm sxhkd
+# setting up bspwm
+pkg :: bspwm sxhkd rstar
 etc/bspwm.d/bspwmrc -> ~/.config/bspwm/bspwmrc
 etc/bspwm.d/sxhkdrc -> ~/.config/sxhkd/sxhkdrc
 "
@@ -110,20 +179,44 @@ sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o
 
 tub default "base bspwm"
 
+# }}}
+
+manage_symlink() {
+  local from to a_from a_to
+  from="$1"
+  to="$2"
+
+  #echo -e "$_link $(basename $from) $gray-> $to$escape"
+  log "$gray$_current_icon$escape $(basename $from)" "-> $to"
+
+  #[[ "$to" == "" ]] && log "$_link $from" "broken destination!" ; return 1
+
+  a_from="$script_path/$from"
+  a_to="$(get_abspath "$to")"
+
+}
+
 parse() { # $1 - line, $2 - is_active
   local regex_link="(\S*)[[:blank:]]+->[[:blank:]]+(\S*)"
   local regex_hook="(.*)[[:blank:]]+::[[:blank:]]*(.*)"
+  local regex_comment="^#\s*(.*)"
 
-  if [[ "$1" =~ $regex_link ]]; then
+  if [[ "$1" =~ $regex_comment ]]; then
+    _current_icon="$_comm"
+    comment="${BASH_REMATCH[1]}"
+    echo -e "$_comm $comment$escape"
+  elif [[ "$1" =~ $regex_link ]]; then
+    _current_icon="$_link"
     from="${BASH_REMATCH[1]}"
     to="${BASH_REMATCH[2]}"
-    echo -e "$magenta$bold▪$escape $(basename $from) $gray$to$escape"
-    #create_symlink "$from" "$to"
+    manage_symlink "$from" "$to"
   elif [[ "$1" =~ $regex_hook ]]; then
+    _current_icon="$_hook"
     cmd="${BASH_REMATCH[1]}"
     arg="${BASH_REMATCH[2]}"
-    echo -e "$magenta$boldλ$escape $cmd $gray$arg$escape"
-    [[ "$arg" != "" ]] && $cmd $arg || $cmd
+    #log "$_hook $cmd" ":: $arg"
+    exe "$cmd" "$arg"
+    #[[ "$arg" != "" ]] && $cmd $arg || $cmd
   fi
 }
 
@@ -142,31 +235,33 @@ welcome() {
 
 soap() { # $1 - profile name
   clear
-  welcome
+  #welcome
   local profile="$1"
 
-  log "$magenta$boldλ$escape $profile ${gray}profile$escape"
-  echo -e "$cyan$bold[$escape ${!profile} $cyan$bold]$escape"
-  echo
+  #log "$magenta$boldλ$escape $profile ${gray}profile$escape"
+  #echo -e "$cyan$bold[$escape ${!profile} $cyan$bold]$escape"
+  #echo
   # TODO give overview of the profile here, active inactive bars
 
   for bar in "${bars[@]}"; do
     # active
     if [[ "${!profile}" =~ "$bar" ]]; then
-      log "$cyan$bold[$escape $bar $cyan$bold]$escape"
+      _current_color="$_1"
+      log_bar "$bar"
       #log "$cyan$bold[$escape $bar"
 
       while read -r l; do
         parse "$l"
       done <<< "${!bar}"
 
-      echo
+      #echo
 
     # inactive
     else
-      log "$gray$bold[$escape $bar $gray$bold]$escape"
+      _current_color="$_0"
+      log_bar "$bar"
       #echo "disabled"
-      echo
+      #echo
     fi
 
   done

@@ -1,0 +1,12 @@
+
+e="$(bash ~/src/3lantern/elantern)"
+
+if [[ ! "$e" == "" ]]; then
+  if [ -d "$e" ]; then
+    cd "$e"
+    print -s "cd "$e""
+  else
+    nvim "$e"
+    print -s "nvim "$e""
+  fi
+fi

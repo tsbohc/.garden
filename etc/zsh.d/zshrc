@@ -31,6 +31,7 @@ compinit -i
 # --- setopt ---
 setopt auto_cd # cd into directories if only path is given
 setopt no_case_glob # case-insensitive globbing
+setopt hist_ignore_space # [ ]print -s to history
 #unsetopt menu_complete
 #setopt auto_menu
 
@@ -57,12 +58,12 @@ zle_highlight[(r)suffix:*]="suffix:fg=foreground"
 # TODO shove those into an array
 # λ
 __prompt_symbol="◆ "
-__prompt_success_color=green
-__prompt_failure_color=yellow
+__prompt_success_color=blue
+__prompt_failure_color=magenta
 __prompt_current_color=
 
 ::prompt::current_dir() {
-  echo -n "%~"
+  echo -n "%B%~%b"
 }
 
 ::prompt::return_status() {
@@ -71,10 +72,10 @@ __prompt_current_color=
 
 ::prompt::git_status() {
   if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
-    echo -n ", %F{green}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
+    echo -n ", %B%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
     MODIFIED=$(git status --short | wc -l)
     if [ $MODIFIED -gt 0 ]; then
-      echo -n "+$MODIFIED"
+      echo -n "+$MODIFIED%b"
     fi
   fi
 }
@@ -109,14 +110,14 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 #             exports
 #  ------------------------------
 
-source ~/src/lantern.d/lantern
-
 # fzf
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2'
 
 # ------------------------------
 #            aliases
 # ------------------------------
+
+alias b='source ~/src/3lantern/zsh_lantern'
 
 alias v='nvim'
 alias :q='exit'

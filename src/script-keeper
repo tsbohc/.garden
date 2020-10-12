@@ -8,6 +8,6 @@ get_description() {
 
 while read p; do
   if [[ "$(file "$p")" =~ "shell script" ]]; then
-    echo "${p}"
+    echo "$(get_description ${p})"
   fi
 done <<< "$list"
