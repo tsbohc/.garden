@@ -1,36 +1,24 @@
 #!/bin/bash
 
-declare -a fzf_options=(
-    --no-unicode
-    --no-info
-    --no-multi
-    --no-sort
-    --reverse
-    --border
-    --delimiter=" "
-    --prompt="> "
-    --pointer=">"
-    --color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15
-    --margin=1,2
-    --with-nth=1,2
-    --expect "enter,esc"
-  )
+d=""
 
-# expect ctrl-r reload trick
+declare -a common_fzf_options=(
+  --no-info
+  --no-multi
+  --no-sort
+  --reverse
+  --delimiter="$d"
+  --prompt="  "
+  --pointer="◇"
+  --preview-window=wrap
+  --preview="viu -w 60 yttmb/{}.jpg ; echo ; cat out/{}"
+  #--with-nth=1..2 # visible fields
+  #--nth=2         # search fields relative to the above
+)
 
-out="$(cat cache | sort -t -k3 -n -r | fzf "${fzf_options[@]}")"
+python yt.py
+o="$(ls out -t | fzf "${common_fzf_options[@]}")"
 
-mapfile -t out <<< "$out"
-key="${out[0]}"
+url="$(awk 'END { print }' "out/$o")"
 
-case "$key" in
-  "enter")
-    url="$( awk -F" " '{ print $4 }' <<< "${out[1]}")"
-    [[ "$url" != "" ]] && mpv "$url"
-    ./$(basename $0)
-    ;;
-  "esc")
-    exit 0
-    ;;
-esac
-
+[[ "$url" != "" ]] && mpv "$url"

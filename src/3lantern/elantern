@@ -1,8 +1,14 @@
 #!/bin/bash
 
-# if a folder is used, bump the scores of all files inside? could do this with find
+# d: blazing fast fzf-powered ~/ browser
 
-# -not -path '*microwave*'
+# TODO
+# boost score by 10 on use, reduce random 10 entries by 10 (9?)
+# exclude list (-not -path '*microwave*')
+# if a folder is used, bump the scores of all files inside? could do this with find
+# tab menu (again)
+# reveal !!!
+# copy/move??
 
 # {{{
 # a 40
@@ -22,12 +28,14 @@
 # append new
 # }}}
 
+export LC_ALL=C # disable unicode to speed things up
+
 d=""
 db_path="$HOME/.config/lantern_data"
 
 # {{{
   declare -a common_fzf_options=(
-    #--no-unicode
+    --no-unicode
     --no-info
     --no-multi
     --no-sort
@@ -35,66 +43,66 @@ db_path="$HOME/.config/lantern_data"
     --delimiter="$d"
     --prompt="  "
     --pointer="◇"
-    #--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15
-    #--preview="cat {2}{3}"
-    --height=5
+    --color=spinner:0
+    --preview-window noborder
+    --preview-window down:80%
+    --preview='lantern-preview {2}{3}'
+    --height=60%
     --margin=0,2
-    --tiebreak=index
+    #--tiebreak=index
     --with-nth=2..3 # visible fields
     --nth=2         # search fields relative to the above
     --bind=change:top
   )
 # }}}
 
+# load
 [ -f "$db_path" ] && source "$db_path" || declare -A data
 declare -A _data
 
-# load
 manage() {
+# add new
+while IFS= read -r path; do
 
-  # add new
-  while IFS= read -r path; do
-    # path format
-    path=${path/$HOME/\~}
+  # maybe i should preformat input with awk?
 
-    length="${path//[!\/]}"
-    length="${#length}"
+  # format path
+  path=${path/$HOME/\~}
 
-    if (( $length > 1 )); then
-      left="${path%/*}"
-      right="/${left##*/}/${path##*/}"
-      left="${left%/*}"
-    else
-      left="${path%/*}"
-      right="/${path##*/}"
-    fi
+  length="${path//[!\/]}"
+  length="${#length}"
 
-    path=$left$d$right
+  if (( $length > 1 )); then
+    left="${path%/*}"
+    right="/${left##*/}/${path##*/}"
+    left="${left%/*}"
+  else
+    left="${path%/*}"
+    right="/${path##*/}"
+  fi
 
-    _data["$path"]=0
-    if [ ! ${data["$path"]+woo} ]; then
-      #echo "add $path"
-      data["$path"]=0
-    fi
-  done <<< "$(find "$HOME" -name '.*' -prune -o -print)"
-  #"$(find "$HOME" -maxdepth 1 -not -path '*/\.*' -type d)"
+  path=$left$d$right
 
-  # remove old & ouput
-  for path in "${!data[@]}"; do
-    if [ ! ${_data["$path"]+woo} ]; then
-      #echo "delete $path"
-      unset 'data["$path"]'
-    else
-      echo "${data["$path"]} $d$path";
-    fi
-  done | sort -k1,1nr -s
+  [[ "$path" == "" ]] && continue
+
+  _data["$path"]=0
+  if [ ! ${data["$path"]+woo} ]; then
+    data["$path"]=0
+  fi
+done <<< "$(find "$HOME" -name '.*' -prune -o -print)"
+
+# remove old & print
+for path in "${!data[@]}"; do
+  if [ ! ${_data["$path"]+woo} ]; then
+    unset 'data["$path"]'
+  else
+    echo "${data["$path"]} $d$path";
+  fi
+done | sort -k1,1nr -s
 }
 
+# deal with ouput
 out="$(manage | fzf "${common_fzf_options[@]}")"
-#manage
-
-#echo "${!data[@]}"
-
 s="$(awk -F" $d" 'NR==1 { print $1 }' <<< "$out")"
 e="$(awk -F" $d" 'NR==1 { print $2 }' <<< "$out")"
 
@@ -103,6 +111,7 @@ e="$(awk -F" $d" 'NR==1 { print $2 }' <<< "$out")"
 # save
 declare -p data > "$db_path"
 
+# clean up
 e="${e/\~/$HOME}"
 e="${e/$d/}"
 

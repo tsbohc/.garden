@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# d: a script to handle the contents of the lantern preview window
+
+e="$@"
+e="${e/\~/$HOME}"
+
+if [[ -d "$e" ]]; then
+  tree -L 2 -C -N --noreport "$e" | tail -n+2 | head --lines "$FZF_PREVIEW_LINES"
+else
+  f_o="$(file "$e" -b)"
+  if [[ "$f_o" =~ "image" ]]; then
+    viu -h "$FZF_PREVIEW_LINES" "$e"
+    #viu -w "$FZF_PREVIEW_COLUMNS" "$e"
+  elif [[ "$f_o" =~ "Audio" ]]; then
+    echo "$f_o"
+  else
+    head --lines "$FZF_PREVIEW_LINES" "$e"
+  fi
+fi

@@ -42,6 +42,8 @@ setopt prompt_subst # support $() in prompt
 setopt no_auto_menu
 setopt no_menu_complete
 
+unsetopt beep
+
 # history
 HISTFILE=~/.cache/histfile
 HISTSIZE=1000
