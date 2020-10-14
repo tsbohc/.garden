@@ -1,0 +1,7 @@
+[12] Does where the count appears make any difference in Vim commands?
+vim
+2020-10-13 03:26:51
+----------------------------
+`2daw` and `d2aw` both produce the same result - are they actually implemented the same or does Vim actually perform the actions differently?
+
+Also why doesn't `da2w` work too?

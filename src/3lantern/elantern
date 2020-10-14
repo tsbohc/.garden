@@ -6,9 +6,13 @@
 # boost score by 10 on use, reduce random 10 entries by 10 (9?)
 # exclude list (-not -path '*microwave*')
 # if a folder is used, bump the scores of all files inside? could do this with find
-# tab menu (again)
-# reveal !!!
+# tab menu (again) remove, execute
+# reveal !!! 
 # copy/move??
+
+# maybe tab puts you in a the highlighted directory?
+
+# wish we could tree view this
 
 # {{{
 # a 40
@@ -52,6 +56,7 @@ db_path="$HOME/.config/lantern_data"
     #--tiebreak=index
     --with-nth=2..3 # visible fields
     --nth=2         # search fields relative to the above
+    --expect="enter,tab"
     --bind=change:top
   )
 # }}}
@@ -103,8 +108,9 @@ done | sort -k1,1nr -s
 
 # deal with ouput
 out="$(manage | fzf "${common_fzf_options[@]}")"
-s="$(awk -F" $d" 'NR==1 { print $1 }' <<< "$out")"
-e="$(awk -F" $d" 'NR==1 { print $2 }' <<< "$out")"
+k="$(awk -F" $d" 'NR==1' <<< "$out")"
+s="$(awk -F" $d" 'NR==2 { print $1 }' <<< "$out")"
+e="$(awk -F" $d" 'NR==2 { print $2 }' <<< "$out")"
 
 [[ "$e" != "" ]] && data["$e"]=$((s+1))
 

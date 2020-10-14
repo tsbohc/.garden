@@ -1,0 +1,15 @@
+[0] How to neatly capture both the command and its output log into a file?
+commandline
+2020-10-11 18:15:40
+----------------------------
+This sounds like it should be easily doable, but I was not able to find any solution by Google search. May be I was not able to formulate the searches well.
+
+&amp;#x200B;
+
+Here is my usecase - In my work, I run benchmarking commands with different settings. Generally, I capture the output by piping it to tee (these run for long time, so tee is preferred instead of redirection to file). But lately I am seeing a need to capture the command also in log, so there is no confusion on the input parameters.
+
+What could be a neat way to do this, preferably by just command line and no script (I run the benchmarks on many different machines).
+
+&amp;#x200B;
+
+Thanks!

@@ -1,0 +1,11 @@
+[7] ASN :: BGP stats :: IPv4v6 :: Prefix :: ASPath :: Organization lookup tool
+commandline
+2020-10-11 22:52:45
+----------------------------
+BASH script to perform an autonomous system (AS) path trace for IPs or hostnames, optionally reporting detailed routing/registry data for each hop, such as  organization/network name, geographic location, etc.
+
+IP reputation is also reported when looking up single IP addresses. This can come in handy in OSINT or incident response scenarios. 
+
+It is also possible to search by *organization name* in order to retrieve a list of IPv4/6 network ranges related to a given company. A multiple choice menu with basic filtering capabilities will be presented if more than one organization  matches the search query.
+
+[https://github.com/nitefood/asn](https://github.com/nitefood/asn)

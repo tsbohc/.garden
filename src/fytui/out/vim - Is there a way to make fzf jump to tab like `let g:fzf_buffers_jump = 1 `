@@ -1,0 +1,5 @@
+[2] Is there a way to make fzf jump to tab like `let g:fzf_buffers_jump = 1 `
+vim
+2020-10-12 23:50:10
+----------------------------
+Is there a way to do `let g:fzf_buffers_jump = 1` but for tabs

@@ -1,0 +1,23 @@
+[6] Help using remind - SATISFY option
+commandline
+2020-10-11 23:42:26
+----------------------------
+Hi,
+
+I have recently come across the [remind](https://dianne.skoll.ca/projects/remind/) calendar application and am enjoying using it. However, I am having difficulty adding some events.
+
+In the uk (and probably else where), there is a bank holiday on the Monday following Christmas if Christmas falls on a weekend.
+
+I have the following:
+
+```
+REM 27 Dec SATISFY [$Uw == 1] MSG Christmas Day (substitute bank holiday)
+```
+
+Which I thought would add a reminder on the 27th if the 27th is a monday although I get:
+
+```
+path/to/file/uk-hollidays.rem(50): Can't compute trigger
+```
+
+If any of you use remind, could you point me in the right direction? Thanks in advance for any help.

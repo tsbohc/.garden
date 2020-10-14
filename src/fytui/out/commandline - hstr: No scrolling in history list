@@ -1,0 +1,13 @@
+[0] hstr: No scrolling in history list
+commandline
+2020-10-10 22:57:57
+----------------------------
+Hi,
+
+the list in hstr is not scrolling. If I'm at the end (last entry at bottom), the bar jumps to the top. The length of the list depends on the size of the terminal windows (konsols, KDE). I also crosschecked on a terminal (/dev/tty2). The same.
+
+[https://asciinema.org/a/yawo6nbbV7u6nSIykK8VTjCOH](https://asciinema.org/a/yawo6nbbV7u6nSIykK8VTjCOH)
+
+Any ideas how to fix this?
+
+System: Arch

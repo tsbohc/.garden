@@ -10,8 +10,10 @@ declare -a common_fzf_options=(
   --delimiter="$d"
   --prompt="  "
   --pointer="◇"
-  --preview-window=wrap
-  --preview="viu -w 60 yttmb/{}.jpg ; echo ; cat out/{}"
+  --preview-window=wrap:noborder:down
+  #--bind="enter:execute!cp out/{} current!"
+  --preview="cat out/{}"
+  #viu -w 60 yttmb/{}.jpg ; echo ; 
   #--with-nth=1..2 # visible fields
   #--nth=2         # search fields relative to the above
 )
@@ -19,6 +21,16 @@ declare -a common_fzf_options=(
 python yt.py
 o="$(ls out -t | fzf "${common_fzf_options[@]}")"
 
+[[ "$o" == "" ]] && exit
+
 url="$(awk 'END { print }' "out/$o")"
 
-[[ "$url" != "" ]] && mpv "$url"
+# feh --auto-reload
+
+if [[ "$url" =~ "youtube.com" ]]; then
+  mpv "$url"
+elif [[ "$url" =~ "i.redd.it" ]]; then
+  feh --scale-down --auto-zoom "$url"
+else
+  brave "$url"
+fi

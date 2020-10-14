@@ -1,0 +1,9 @@
+[3] How to Auto. Change terminals tab title to that of currently open file?
+commandline
+2020-10-10 16:27:25
+----------------------------
+iTerm2 user here.
+
+My goal is that when I open a file (regardless of editor, fwiw I use Micro) to automatically show the filename in the tab title and when I exit/quit the editor revert the tab title back to what is was. How do I acheieve this?
+
+note: I am aware this easy with vim/neovim but thats not what I use, I almost exclusively use Micro Editor and rarely Nano.

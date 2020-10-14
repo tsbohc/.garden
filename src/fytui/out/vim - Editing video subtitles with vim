@@ -1,0 +1,7 @@
+[39] Editing video subtitles with vim
+vim
+2020-10-12 21:51:13
+----------------------------
+Is there a plugin to aid subtitle editing in vim? Unfortunately, so far I was only able to find an [Emacs major mode](https://github.com/rndusr/subed/)...
+
+The main thing I am interested in is the ability to sync the current subtitle with a video (e.g. being played in mpv).

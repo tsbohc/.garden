@@ -1,0 +1,29 @@
+[37] Shellnium: Simple Selnium WebDriver for Bash
+commandline
+2020-10-11 21:41:43
+----------------------------
+Shellnium is the selenium webdriver for Bash.
+
+[https://github.com/Rasukarusan/shellnium](https://github.com/Rasukarusan/shellnium)
+
+We can write simply by bash.
+
+    #!/usr/bin/env bash
+    source ./selenium.sh
+    
+    main() {
+        # Open the URL
+        navigate_to 'https://google.co.jp'
+    
+        # Get the search box
+        local searchBox=$(find_element 'name' 'q')
+    
+        # send keys
+        send_keys $searchBox "animal\n"
+    }
+    main
+
+We can do the following using shellnium and applescript.  
+The demo is running in headless mode. It is displayed that the background of iTerm is being changed using AppleScript.
+
+https://i.redd.it/o7zyxr3l2gs51.gif
