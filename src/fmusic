@@ -5,33 +5,93 @@
 
 # tab to switch between albums and current playlist
 
+
+# send key combos to fzf to update preview?
+# ch
+
+# {{{
+# colors
+black="\e[30m"
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+gray="\e[90m"
+
+bold="\e[1m"
+
+escape="\e[0m"
+# }}}
+
+# get this prom mpc?
+library_path="$HOME/microwave/music/"
+
 d=""
 
-::mpc::update_queue() {
-  mpc clear &>/dev/null
-  mpc ls | mpc add &>/dev/null
+# {{{
+  declare -a common_fzf_options=(
+    --ansi
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --delimiter="$d"
+    #--height=60%
+    --bind=change:top
+    --preview="fm-pre {2}"
+    --preview-window='up:2:noborder'
+    --color="preview-fg:-1"
+    --margin=1,1
+    --bind "home:refresh-preview"
+  )
+# }}}
+
+w="$(xdotool getactivewindow)"
+
+fmu_update_preview() {
+  while true; do
+    sleep 1
+    [[ "$(xdotool getactivewindow)" != "$w" ]] && continue
+    xdotool key --clearmodifiers Home
+  done
 }
 
-::mpc::update_queue
+# background update key spam and cleanup
+fmu_update_preview &
+fmu_update_preview_pid="$!"
+trap "kill $fmu_update_preview_pid" EXIT
 
-a="$(mpc playlist --format "%artist% - %title% - %album%$d%position%" | fzf --delimiter="$d" --with-nth=1 --no-sort)"
+mpc consume on &>/dev/null
 
-a="$(awk -F"$d" 'NR==1 { print $2 }' <<< "$a")"
+list_albums() {
+  while IFS='/' read -r ar al; do
+    echo "$ar -$d $al"
+  done <<< "$(find "$library_path" -mindepth 2 -maxdepth 2 -type d -printf '%P\n')"
+}
 
-mpc play "$a"
+o="$(list_albums | fzf "${common_fzf_options[@]}" --no-clear)"
+ar="$(awk -F" -$d " '{ print $1 }' <<< "$o")"
+al="$(awk -F" -$d " '{ print $2 }' <<< "$o")"
 
+[[ "$o" == "" ]] && exit
 
+#echo "$ar - $al"
+mpc clear &>/dev/null
+mpc add "$ar/$al" &>/dev/null
 
+mpc_playlist() {
+  o="$(mpc playlist --format "%position%$d%track% %title%")"
+  echo "$o"
+}
 
+mpc_playlist | fzf "${common_fzf_options[@]}" --with-nth 2 --bind "enter:execute-silent^mpc play {1}^"
 
+#trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
+# kill background key spam
+#kill "$fmu_update_preview_pid"
+#wait $fmu_update_preview_pid 2>/dev/null
+#sleep 10
 
-
-
-
-# -----
-
-#path="$HOME/microwave/music/"
-#
-#while read -r p; do
-#done <<< "$(find "$path" -type f)"
-
+#echo -e $red◆ ; echo 00:12 ━━━━━━━━━━───────

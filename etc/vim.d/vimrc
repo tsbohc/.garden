@@ -144,7 +144,10 @@ function! HeaderComment()
 endfunction
 " }}}
 command! HeaderComment call HeaderComment()
-map <leader>c :call HeaderComment()
+map <leader>C :call HeaderComment()
+
+" correct last word
+imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
 
 " writing mode
 let g:writing_mode_enabled = 0

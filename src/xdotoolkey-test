@@ -1,0 +1,15 @@
+#!/bin/bash
+
+w="$(xdotool getactivewindow)"
+
+s() {
+  for i in {1..10}; do
+    sleep 1
+    [[ "$(xdotool getactivewindow)" != "$w" ]] && continue
+    xdotool key --clearmodifiers i
+  done
+}
+
+(s &)
+
+exit

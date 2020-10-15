@@ -206,7 +206,7 @@ bindkey "^g" gp
 # {{{
 ::fuzzy_history() {
   local output
-  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 200 | sort -r | awk '{ $1=""; print substr($0,2) }' | fzf --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 200 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
   echo "$output"
 }
 
@@ -216,7 +216,7 @@ bindkey "^g" gp
   zle reset-prompt
   if [ ! "$output" = "" ]; then
     BUFFER=""           # clear whatever is on the line
-    LBUFFER+=${output}  # append selection from fzf
+    LBUFFER+="${output}"  # append selection from fzf
   else
   fi
   return 0

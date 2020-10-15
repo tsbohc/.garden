@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# {{{
+# colors
+black="\e[30m"
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+gray="\e[90m"
+
+bold="\e[1m"
+
+escape="\e[0m"
+# }}}
+
+p_fill="$bold.$escape"
+p_empt="$gray.$escape"
+
+mpc_get_info() {
+  o="$(mpc)"
+  if [[ "$(wc -l <<< "$o")" == "1" ]]; then
+    echo "N/A"
+    return
+  else
+    percentage=$(mpc | grep -o "(.*%)")
+    percentage=${percentage:1:-2}
+    length=40
+    filled=$(( $(($percentage * $length)) / 100 ))
+
+    song_string=$(mpc current -f "[%artist% - %title%|%file%] ")
+    #song_time="$(grep -o "[0-9]*:[0-9]*/" <<< "$o")"
+    #song_time="${song_time::-1}"
+
+    p=""
+    for i in $(seq 0 $length); do
+      if (( "$i" <= "$filled" )); then
+        p+="$p_fill"
+      else
+        p+="$p_empt"
+      fi
+    done
+    echo "$song_string"
+    echo -e "$p"
+  fi
+}
+
+mpc_get_info
+
+music_percent() {
+# https://github.com/Druanae/better-progress-bar
+
+
+    [[ "$(mpc | wc -l)" == "1" ]] && return
+
+    completion_color="$escape$bold"
+    paused_color="$yellow"
+
+    delimiter=" - "
+
+    song_string=$(mpc current -f "[%artist%$delimiter%title%|%file%] ")
+    song_status=$(mpc status | awk -F "[][]" 'NR==2{print $2}')
+
+    percentage=$(mpc | grep -o "(.*%)")
+    percentage=${percentage:1:-2}
+
+    total_length=${#song_string}
+    n_colored=$(( $(($percentage * $total_length)) / 100 ))
+
+    output=""
+
+    if [[ "$song_status" == "paused" ]]
+    then
+
+        output="$paused_color$song_string"
+
+    else
+
+        output="$completion_color"
+
+        for (( index=0; index<$total_length; index++ ))
+        do
+
+            if [[ "$index" == "$n_colored" ]]
+            then
+                output="${output}$escape$gray"
+            fi
+
+            output="${output}${song_string:$index:1}"
+
+        done
+
+    fi
+
+    echo -e "$output$escape"
+
+}
+
+#music_percent
+
+#update_progress "$mpc_progress" 100 $FZF_PREVIEW_COLUMNS
