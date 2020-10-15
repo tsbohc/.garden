@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#exceptions=('.*' 'microwave')
+#find_exclude="("
+#for i in "${!exceptions[@]}"; do
+#  find_exclude+=" -name '${exceptions[$i]}'"
+#  (( $i+1 < ${#exceptions[@]} )) && find_exclude+=" -o"
+#done
+#find_exclude+=" )"
+#
+#echo "$find_exclude"
+#
+#find "$HOME" \ $find_exclude -prune -o -print
+
+
+  find "$HOME" \( \
+    -name '.*' \
+    -o -name 'microwave' \
+    -o -name 'godot' \
+    -o -name 'tsbohc.github.io' \
+  \) -prune -o -print

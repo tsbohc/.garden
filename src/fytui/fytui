@@ -27,7 +27,7 @@ url="$(awk 'END { print }' "out/$o")"
 
 # feh --auto-reload
 
-if [[ "$url" =~ "youtube.com" ]]; then
+if [[ "$url" =~ "youtube.com" || "$url" =~ "v.redd.it" ]]; then
   mpv "$url"
 elif [[ "$url" =~ "i.redd.it" ]]; then
   feh --scale-down --auto-zoom "$url"

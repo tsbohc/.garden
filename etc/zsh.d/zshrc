@@ -7,62 +7,16 @@
 #
 
 # ------------------------------
-#            plugins
-# ------------------------------
-
-source ~/.zinit/bin/zinit.zsh
-
-#zinit light b4b4r07/enhancd
-zinit light Aloxaf/fzf-tab
-zinit light zdharma/fast-syntax-highlighting
-#zinit light zsh-users/zsh-autosuggestions
-#zinit light changyuheng/zsh-interactive-cd # added margin
-
-# ------------------------------
-#           settings
-# ------------------------------
-
-autoload -Uz compinit ; compinit # completion
-
-zstyle ':completion:*:functions' ignored-patterns '_*' # don't auto-complete internal functions (ones prefixed with _)
-compinit -i
-
-# --- setopt ---
-setopt auto_cd # cd into directories if only path is given
-setopt no_case_glob # case-insensitive globbing
-setopt hist_ignore_space # [ ]print -s to history
-#unsetopt menu_complete
-#setopt auto_menu
-
-#zstyle ':completion:*' insert-tab false
-
-setopt prompt_subst # support $() in prompt
-
-setopt no_auto_menu
-setopt no_menu_complete
-
-unsetopt beep
-
-# history
-HISTFILE=~/.cache/histfile
-HISTSIZE=1000
-SAVEHIST=$HISTSIZE
-setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
-
-# remove that annoying bold slash
-zle_highlight[(r)suffix:*]="suffix:fg=foreground"
-
-# ------------------------------
 #            prompt
 # ------------------------------
 
 # TODO shove those into an array
-# λ
+
 __prompt_symbol="◆ "
 __prompt_success_color=blue
 __prompt_failure_color=magenta
-__prompt_current_color=
 
+# {{{
 ::prompt::current_dir() {
   echo -n "%B%~%b"
 }
@@ -82,9 +36,62 @@ __prompt_current_color=
 }
 
 PROMPT='$(::prompt::current_dir)$(::prompt::git_status) $(::prompt::return_status)'
+# }}}
+
+# ------------------------------
+#            plugins
+# ------------------------------
+
+source ~/.zinit/bin/zinit.zsh
+
+#zinit light b4b4r07/enhancd
+zinit light Aloxaf/fzf-tab
+zinit light zdharma/fast-syntax-highlighting
+#zinit light zsh-users/zsh-autosuggestions
+#zinit light changyuheng/zsh-interactive-cd # added margin
+
+# ------------------------------
+#           settings
+# ------------------------------
+
+autoload -Uz compinit ; compinit # completion
+
+zstyle ':completion:*:functions' ignored-patterns '::*'
+zstyle ':completion:*:functions' ignored-patterns '_*' # don't auto-complete internal functions (ones prefixed with _)
+
+compinit -i
+
+setopt auto_cd                   # cd into directories if only path is given
+setopt no_case_glob              # case-insensitive globbing
+setopt hist_ignore_space         # [ ]print -s to history
+#unsetopt menu_complete
+#setopt auto_menu
+
+#zstyle ':completion:*' insert-tab false
+
+setopt prompt_subst              # support $() in prompt
+
+setopt no_auto_menu
+setopt no_menu_complete
+
+unsetopt beep
+
+# history
+HISTFILE=~/.cache/histfile
+HISTSIZE=1000
+SAVEHIST=$HISTSIZE
+setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
+
+# remove that annoying bold slash at the end of paths
+zle_highlight[(r)suffix:*]="suffix:fg=foreground"
+
+export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2 --pointer="◇" --prompt="  "'
+
+# ------------------------------
+#            vi-mode
+# ------------------------------
 
 export KEYTIMEOUT=1 # make mode switching in vi mode quicker
-
 # {{{ cursor shape for prompt vi modes
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
@@ -107,13 +114,6 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 # }}}
 
-#  ------------------------------
-#             exports
-#  ------------------------------
-
-# fzf
-export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2'
-
 # ------------------------------
 #            aliases
 # ------------------------------
@@ -122,6 +122,8 @@ alias b='source ~/src/3lantern/zsh_lantern'
 
 alias v='nvim'
 alias :q='exit'
+alias :qw='exit'
+alias :q!='exit'
 alias please='sudo'
 
 # ls
@@ -138,17 +140,20 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # ask for confirmation
-alias cp="cp -i"
-alias mv='mv -i'
-alias rm='rm -i'
+alias cp="cp -iv"
+alias mv='mv -iv'
+alias rm='rm -iv'
 
-alias rrrr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
+alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
 
 # probably a bad idea
 sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
 
 # ls after cd except when going back to ~
-cd() { [ -n "$1" ] && builtin cd "$@" && la --group-directories-first || builtin cd ~ ; }
+cd() {
+  builtin cd "$@"
+  [ ! $(pwd) = "$HOME" ] && la --group-directories-first
+}
 
 # nvim as manpage viewer
 m() { man "$1" | nvim -u ~/src/pager.vim ; }
@@ -183,7 +188,8 @@ new-bash-script() {
   chmod +x "$1"
 }
 
-# git
+# git push via $EDITOR
+# {{{
 function gp() {
   if [ -z "$BUFFER" ]; then
     BUFFER="git add -A && git commit -v && git push"
@@ -192,12 +198,45 @@ function gp() {
   fi
   zle accept-line # <cr>
 }
+# }}}
 zle -N gp
 bindkey "^g" gp
 
-#  ------------------------------
-#        coloured manpages
-#  ------------------------------
+# simple fuzzy history
+# {{{
+::fuzzy_history() {
+  local output
+  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 200 | sort -r | awk '{ $1=""; print substr($0,2) }' | fzf --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+  echo "$output"
+}
+
+::fuzzy_history::keybind() {
+  local output
+  output="$(::fuzzy_history)"
+  zle reset-prompt
+  if [ ! "$output" = "" ]; then
+    BUFFER=""           # clear whatever is on the line
+    LBUFFER+=${output}  # append selection from fzf
+  else
+  fi
+  return 0
+}
+
+hh() {
+  local output
+  output="$(::fuzzy_history)"
+  if [ ! "$output" = "" ]; then
+    print -z "$output"
+  fi
+  return 0
+}
+# }}}
+zle -N ::fuzzy_history::keybind
+bindkey "^[[A" ::fuzzy_history::keybind
+
+# ------------------------------
+#       coloured manpages
+# ------------------------------
 
 export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\e[01;93m'       # begin bold
@@ -209,5 +248,3 @@ export LESS_TERMCAP_us=$'\e[38;5;255;2m'  # begin underline
 export LESS_TERMCAP_ue=$'\e[0m'           # end underline
 
 export LESS_TERMCAP_me=$'\e[0m'           # end mode
-
-source /home/sean/.config/broot/launcher/bash/br

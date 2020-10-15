@@ -99,6 +99,12 @@ syntax enable
 "           vim magic
 " ------------------------------
 
+" easy umlauts
+imap <c-o> ö
+imap <c-a> ä
+imap <c-u> ü
+imap <c-s> ß
+
 " hide CursorLine in insert mode
 autocmd InsertEnter * set nocul
 autocmd InsertLeave * set cul

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# organize music as
+# artist - album/{tracks}
+
+# tab to switch between albums and current playlist
+
+d=""
+
+::mpc::update_queue() {
+  mpc clear &>/dev/null
+  mpc ls | mpc add &>/dev/null
+}
+
+::mpc::update_queue
+
+a="$(mpc playlist --format "%artist% - %title% - %album%$d%position%" | fzf --delimiter="$d" --with-nth=1 --no-sort)"
+
+a="$(awk -F"$d" 'NR==1 { print $2 }' <<< "$a")"
+
+mpc play "$a"
+
+
+
+
+
+
+
+
+
+# -----
+
+#path="$HOME/microwave/music/"
+#
+#while read -r p; do
+#done <<< "$(find "$path" -type f)"
+

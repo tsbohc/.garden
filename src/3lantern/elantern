@@ -2,6 +2,10 @@
 
 # d: blazing fast fzf-powered ~/ browser
 
+# pass a function to prune instead of -print?
+# or
+# preformat input with awk?
+
 # TODO
 # boost score by 10 on use, reduce random 10 entries by 10 (9?)
 # exclude list (-not -path '*microwave*')
@@ -32,11 +36,18 @@
 # append new
 # }}}
 
-export LC_ALL=C # disable unicode to speed things up
+data_path="$HOME/.config/lantern_data"
+
+::lantern::find() {
+  find "$HOME" \( \
+    -name '.*' \
+    -o -name 'microwave' \
+    -o -name 'godot' \
+    -o -name 'tsbohc.github.io' \
+  \) -prune -o -print
+}
 
 d=""
-db_path="$HOME/.config/lantern_data"
-
 # {{{
   declare -a common_fzf_options=(
     --no-unicode
@@ -61,15 +72,15 @@ db_path="$HOME/.config/lantern_data"
   )
 # }}}
 
+export LC_ALL=C
+
 # load
-[ -f "$db_path" ] && source "$db_path" || declare -A data
+[ -f "$data_path" ] && source "$data_path" || declare -A data
 declare -A _data
 
-manage() {
+::lantern::manage() {
 # add new
 while IFS= read -r path; do
-
-  # maybe i should preformat input with awk?
 
   # format path
   path=${path/$HOME/\~}
@@ -94,7 +105,7 @@ while IFS= read -r path; do
   if [ ! ${data["$path"]+woo} ]; then
     data["$path"]=0
   fi
-done <<< "$(find "$HOME" -name '.*' -prune -o -print)"
+done <<< "$(::lantern::find)"
 
 # remove old & print
 for path in "${!data[@]}"; do
@@ -107,15 +118,21 @@ done | sort -k1,1nr -s
 }
 
 # deal with ouput
-out="$(manage | fzf "${common_fzf_options[@]}")"
+out="$(::lantern::manage | fzf "${common_fzf_options[@]}")"
+
 k="$(awk -F" $d" 'NR==1' <<< "$out")"
 s="$(awk -F" $d" 'NR==2 { print $1 }' <<< "$out")"
 e="$(awk -F" $d" 'NR==2 { print $2 }' <<< "$out")"
 
+# reveal
+if [[ "$k" == "tab" ]]; then
+  e="${e%/*}"
+fi
+
 [[ "$e" != "" ]] && data["$e"]=$((s+1))
 
 # save
-declare -p data > "$db_path"
+declare -p data > "$data_path"
 
 # clean up
 e="${e/\~/$HOME}"
