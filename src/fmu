@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# TODO
+# replace slash with backwards slash or two? or just remove it
+
+# launch another fzf from the current one? need to be in path
+# or launch itself but with function as a parameter
+
+source "$(ueberzug library)"
+
+set -a
+
+readonly BASH_BINARY="$(which bash)"
+readonly Cover_ID='preview'
+readonly Cover_FIFO="/tmp/fzf-$$-ueberzug"
+
+library_path="$HOME/microwave/music"
+d=""
+
+
+# {{{
+  declare -a fopt=(
+    --ansi
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --delimiter="$d"
+    #--height=60%
+    --bind=change:top
+    #--preview="echo {}"
+    --preview-window='left:20:noborder:wrap'
+    --color="preview-fg:-1"
+    --margin=1,1
+    #--no-clear
+    #--bind "pgup:refresh-preview"
+    #--bind "ctrl-p:execute-silent^mpc toggle^+refresh-preview"
+    #--bind "ctrl-n:execute-silent^mpc next^+refresh-preview"
+    #--bind "ctrl-e:execute-silent^mpc prev^+refresh-preview"
+    #--bind "esc:execute^$(basename $0) && exit^"
+    #--bind "ctrl-c:execute^exit^"
+  )
+# }}}
+
+# {{{
+# ueberzug
+start_ueberzug() {
+  mkfifo "$Cover_FIFO"
+  ImageLayer --silent <"$Cover_FIFO" &
+  exec 3>"$Cover_FIFO" # prevent EOF
+}
+
+stop_ueberzug() {
+  exec 3>&-
+  rm "$Cover_FIFO" &>/dev/null
+}
+
+display_cover() {
+  cover_path="$library_path/$@/cover.jpg"
+  if [[ ! -f "$cover_path" ]]; then
+    echo "$cover_path"
+    hide_cover
+    return
+  fi
+
+  >"${Cover_FIFO}" declare -A -p cmd=( \
+  [action]=add [identifier]="$Cover_ID" [x]="3" [y]="3" \
+  [max_width]="$FZF_PREVIEW_COLUMNS" \
+               [path]="$cover_path")
+}
+
+hide_cover() {
+  >"${Cover_FIFO}" declare -A -p cmd=( \
+  [action]=remove [identifier]="$Cover_ID")
+}
+# }}}
+
+list_albums() {
+  #beet list -af "\$album -$d \$primaryartist" # slow
+  while IFS='/' read -r artist album; do
+    echo "$album - $artist$d$artist/$album"
+    #printf '%-30s %s\n' "|$album|" "|$artist|"
+  done <<< "$(find "$library_path" -mindepth 2 -maxdepth 2 -type d -printf '%P\n')"
+}
+
+main() {
+  o="$(list_albums | fzf "${fopt[@]}")"
+
+  [[ "$o" == "" ]] && exit
+
+  al="$(awk -F"$d -$d " '{ print $1 }' <<< "$o")"
+  ar="$(awk -F"$d -$d " '{ print $2 }' <<< "$o")"
+
+  #beet list primaryartist:"$ar" album:"$al" -f "\$track \$title" | fzf "${fopt[@]}" # slowest
+  #time beet list ~/microwave/music/Lightfoils/Lightfoils -f "\$track \$title" # slow
+  #mpc ls -f "%track%" Lightfoils/Lightfoils # fast!
+}
+
+list_album_tracks() {
+  # $1 - path to album
+  path="$(awk -F"$d" '{ print $2 }' <<< "$1")"
+  mpc ls "$path" "%track% %title"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  trap "stop_ueberzug" EXIT
+  start_ueberzug
+
+  export -f display_cover
+  list_album_tracks "$(list_albums | \
+    SHELL="${BASH_BINARY}" \
+      fzf "${fopt[@]}" --with-nth 1 --preview "display_cover {2}")"
+fi

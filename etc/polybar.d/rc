@@ -325,7 +325,7 @@ label = "  %{T2}%output%%{T-}"
 type = internal/date
 interval = 60
 
-date-alt = " %B %d,"
+date-alt = " %A, %B %d,"
 
 time = "%I:%M %p"
 time-alt = "%I:%M %p"

@@ -152,7 +152,7 @@ sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
 # ls after cd except when going back to ~
 cd() {
   builtin cd "$@"
-  [ ! $(pwd) = "$HOME" ] && la --group-directories-first
+  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first
 }
 
 # nvim as manpage viewer

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+d=""
+
+#mpc playlist -f "%position%$d%album%$d[%albumartist%|%artist%]$d%track%$d%title%" | awk -v al="$al" -v ar="$ar" -v d="$d" -F"$d" '$2 == al && $3 == ar { print $1d$4" "$5 }'
+
+get_playlist() {
+  mpc playlist -f "%position%$d%album%$d[%albumartist%|%artist%]$d%track%$d%title%$d%file%"
+}
+
+extract_album() {
+
+  ar="rs"
+  al="Lightfoils"
+
+  if [[ "$ar" != "" && "$al" != "" ]]; then
+    while IFS="$d" read -r position album artist track title file; do
+      if [[ "$ar" == "$artist" && "$al" == "$album" ]]; then
+        echo "$position$d$track - $title$d$file"
+      fi
+    done <<< "$(get_playlist)"
+  #else
+
+  #  while IFS="$d" read -r position album artist track title file; do
+  #    #echo "$position - $album - $artist - $track - $title - $file"
+  #    echo "$position$d$track - $title$d$file"
+  #  done <<< "$(get_playlist)"
+  fi
+}
+
+extract_album

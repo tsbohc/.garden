@@ -25,25 +25,35 @@ mpc_get_info() {
     echo "N/A"
     return
   else
-    percentage=$(mpc | grep -o "(.*%)")
-    percentage=${percentage:1:-2}
-    length=40
-    filled=$(( $(($percentage * $length)) / 100 ))
+    #percentage=$(mpc | grep -o "(.*%)")
+    #percentage=${percentage:1:-2}
+    #length=40
+    #filled=$(( $(($percentage * $length)) / 100 ))
 
-    song_string=$(mpc current -f "[%artist% - %title%|%file%] ")
+    song_string=$(mpc current -f "[%title%|%file%]")
     #song_time="$(grep -o "[0-9]*:[0-9]*/" <<< "$o")"
     #song_time="${song_time::-1}"
 
-    p=""
-    for i in $(seq 0 $length); do
-      if (( "$i" <= "$filled" )); then
-        p+="$p_fill"
-      else
-        p+="$p_empt"
-      fi
-    done
-    echo "$song_string"
-    echo -e "$p"
+    # TODO
+    # generate album art for all albums in library, then just cat stuff
+
+    path_music="$(mpc current -f "%file%")"
+    path_music="$HOME/microwave/music/$path_music"
+    path_image="$HOME/src/ars.jpg"
+    ffmpeg -y -i "$path_music" -vf "scale=100:-1" "$path_image" &>/dev/null
+    viu -w "$FZF_PREVIEW_COLUMNS" "$path_image"
+    #jp2a "$path_image" --colors --size=20x10
+
+    #p=""
+    #for i in $(seq 0 $length); do
+    #  if (( "$i" <= "$filled" )); then
+    #    p+="$p_fill"
+    #  else
+    #    p+="$p_empt"
+    #  fi
+    #done
+    #echo "$song_string"
+    #echo -e "$p"
   fi
 }
 

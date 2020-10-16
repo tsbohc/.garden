@@ -1,0 +1,10 @@
+#!/bin/bash
+
+path_music="$(mpc current -f "%file%")"
+path_music="$HOME/microwave/music/$path_music"
+#path_music="$HOME/microwave/music/Lightfoils/Lightfoils/03 How It Is.mp3"
+path_image="$HOME/src/ars.jpg"
+#ffmpeg -y -i "$path_music" -vf "scale=15x" "$path_image" #&>/dev/null
+#ffmpeg -i "$path_music" -an -vcodec -vf "scale=50:-1" copy "$path_image"
+ffmpeg -y -i "$path_music" -vf "scale=100:-1" "$path_image" &>/dev/null
+viu -w 21 "$path_image"

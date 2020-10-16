@@ -1,0 +1,45 @@
+#!/bin/bash
+
+source "$(ueberzug library)"
+
+#set -a
+
+readonly BASH_BINARY="$(which bash)"
+readonly Cover_ID='preview'
+readonly Cover_FIFO="/tmp/fzf-$$-ueberzug"
+
+# {{{
+start_ueberzug() {
+  mkfifo "$Cover_FIFO"
+  ImageLayer --silent <"$Cover_FIFO" &
+  exec 3>"$Cover_FIFO" # prevent EOF
+}
+
+stop_ueberzug() {
+  exec 3>&-
+  rm "$Cover_FIFO" &>/dev/null
+}
+# }}}
+
+display_cover() {
+  >"${Cover_FIFO}" declare -A -p cmd=( \
+  [action]=add [identifier]="$Cover_ID" [x]="1" [y]="1" \
+               [max_width]="20" \
+               [path]="$@")
+}
+
+# broken?
+hide_cover() {
+  ImageLayer::remove [identifier]="$Cover_ID" \
+               >"$Cover_FIFO"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  trap "stop_ueberzug" EXIT
+  start_ueberzug
+
+  export -f display_cover
+  ls | \
+    SHELL="${BASH_BINARY}" \
+        fzf --preview "display_cover {}" --preview-window "left:20:noborder"
+fi

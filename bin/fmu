@@ -1,0 +1,150 @@
+#!/bin/bash
+
+# organize music as
+# artist - album/{tracks}
+
+# tab to switch between albums and current playlist
+
+
+# send key combos to fzf to update preview?
+# ch
+
+# {{{
+# colors
+black="\e[30m"
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+gray="\e[90m"
+
+bold="\e[1m"
+
+escape="\e[0m"
+# }}}
+
+# get this prom mpc?
+library_path="$HOME/microwave/music/"
+
+d=""
+
+# {{{
+  declare -a common_fzf_options=(
+    --ansi
+    --no-info
+    --no-multi
+    --no-sort
+    --reverse
+    --delimiter="$d"
+    #--height=60%
+    --bind=change:top
+    --preview="fm-pre"
+    --preview-window='left:20:noborder'
+    --color="preview-fg:-1"
+    --margin=1,1
+    --no-clear
+    #--bind "pgup:refresh-preview"
+    --bind "ctrl-p:execute-silent^mpc toggle^+refresh-preview"
+    --bind "ctrl-n:execute-silent^mpc next^+refresh-preview"
+    --bind "ctrl-e:execute-silent^mpc prev^+refresh-preview"
+    #--bind "esc:execute^$(basename $0) && exit^"
+    #--bind "ctrl-c:execute^exit^"
+  )
+# }}}
+
+# {{{
+#w="$(xdotool getactivewindow)"
+#
+#fmu_update_preview() {
+#  while true; do
+#    sleep 1
+#    [[ "$(xdotool getactivewindow)" != "$w" ]] && continue
+#    xdotool key --clearmodifiers Page_Up
+#  done
+#}
+#
+# background update key spam and cleanup
+#fmu_update_preview &
+#fmu_update_preview_pid="$!"
+#trap "kill $fmu_update_preview_pid" EXIT
+
+#[[ "$o" == "" ]] && exit
+
+#mpc clear &>/dev/null
+#mpc add "$ar/$al" &>/dev/null
+
+#mpc_playlist() {
+#  o="$(mpc playlist --format "%position%$d%track% %title%")"
+#  echo "$o"
+#}
+#
+#mpc_playlist | fzf "${common_fzf_options[@]}" --with-nth 2 --bind "enter:execute-silent^mpc play {1}^"
+# }}}
+
+update_queue() {
+  # add files that aren't in the queue
+  comm -13 <(mpc playlist -f "%file%" | sort) <(find "$library_path" -mindepth 2 -type f -printf '%P\n' | sort) | mpc add
+}
+
+[[ "$1" != "" ]] && update_queue
+
+list_albums() {
+  mpc playlist -f "%album% -$d [%albumartist%|%artist%]" | uniq
+}
+
+get_playlist() {
+  mpc playlist -f "%position%$d%album%$d[%albumartist%|%artist%]$d%track%$d%title%$d%file%"
+}
+
+extract_album() {
+  # $1 - ar, $2 - al
+
+  ar="$1"
+  al="$2"
+
+  [[ "$ar" == "" && "$al" == "" ]] && return
+
+  while IFS="$d" read -r position album artist track title file; do
+    if [[ "$ar" == "$artist" && "$al" == "$album" ]]; then
+      stars="$(mpc sticker "$file" get stars 2>/dev/null || echo -n 0)"
+      echo "$(printf "%02d" $track) $stars $title$d$position$d$file"
+    fi
+  done <<< "$(get_playlist)"
+}
+
+
+pick_album() {
+
+  o="$(list_albums | fzf "${common_fzf_options[@]}")"
+
+  [[ "$o" == "" ]] && exit
+
+  al="$(awk -F" -$d " '{ print $1 }' <<< "$o")"
+  ar="$(awk -F" -$d " '{ print $2 }' <<< "$o")"
+
+  extract_album "$ar" "$al" | fzf "${common_fzf_options[@]}" --with-nth 1 --bind "enter:execute-silent^mpc play {2}^+refresh-preview" #--bind "ctrl-1:execute-silent^mpc sticker {3} set stars 1"
+}
+
+pick_album
+
+# {{{
+#mpc playlist --format "%position%$d%artist% - %album% - %title%" | fzf "${common_fzf_options[@]}" --with-nth 2 --bind "enter:execute-silent^mpc play {1}^"
+
+#list_albums() {
+#  while IFS='/' read -r ar al; do
+#    echo "$al -$d $ar"
+#  done <<< "$(find "$library_path" -mindepth 2 -maxdepth 2 -type d -printf '%P\n')"
+#}
+#
+#o="$(list_albums | fzf "${common_fzf_options[@]}" --no-clear)"
+#
+#[[ "$o" == "" ]] && exit
+#
+#al="$(awk -F" -$d " '{ print $1 }' <<< "$o")"
+#ar="$(awk -F" -$d " '{ print $2 }' <<< "$o")"
+
+#mpc ls -f "%track% $d%title%"  "$ar/$al" | fzf "${common_fzf_options[@]}" --bind "enter:execute-silent^mpc searchplay {2}^+refresh-preview"
+# }}}
+

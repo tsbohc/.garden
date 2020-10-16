@@ -13,29 +13,31 @@
 if has('nvim')
   call plug#begin('~/.vim/bundle')
 
-  " general
-  Plug 'junegunn/fzf', { 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-
-  " coding
+  " code
   Plug 'Yggdroot/indentline'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
   Plug 'habamax/vim-godot'
   "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
-  " latex
-  Plug 'lervag/vimtex'
-
-  " writing
+  " write
   Plug 'dbmrq/vim-ditto'
   Plug 'ron89/thesaurus_query.vim'
   Plug 'reedes/vim-lexical'
   "Plug 'jooize/vim-colemak'
 
+  " latex
+  Plug 'lervag/vimtex'
+
   " style
   Plug 'morhetz/gruvbox'
   Plug 'sainnhe/sonokai'
   Plug 'ayu-theme/ayu-vim'
+
+  " general
+  Plug 'junegunn/fzf', { 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
 
   call plug#end()
 endif
@@ -255,12 +257,16 @@ inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>check_back_space() ? "\<TAB>" :
   \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+let g:UltiSnipsExpandTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " ------------------------------
 "       filetype specific
