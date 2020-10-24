@@ -1,7 +1,0 @@
-[20] How to disable showing ------ for empty line in difftool?
-vim
-2020-10-12 10:03:54
-----------------------------
-It's distracting and I can tell which empty lines were added/deleted by comparing line numbers on both pane. Thank you in advance!
-
-https://preview.redd.it/hno0mzocrjs51.png?width=912&amp;format=png&amp;auto=webp&amp;s=96434886768ed2fb4e8321788dc3d3e8054c484c

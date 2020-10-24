@@ -1,7 +1,0 @@
-[4] How to pipe youtube-dlc to mpv?
-commandline
-2020-10-12 04:42:11
-----------------------------
-[youtube-dlc](https://github.com/blackjack4494/youtube-dlc) is a youtube-dl fork with changes and support for additional sites. youtube-dl operates as an mpv backend by default at leas on Unix, just type `mpv URL`. How to use the fork instead, I don't know.
-
-This is likely a simple task, I don't have CLI experience much at all.

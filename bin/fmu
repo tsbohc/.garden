@@ -108,8 +108,8 @@ extract_album() {
 
   while IFS="$d" read -r position album artist track title file; do
     if [[ "$ar" == "$artist" && "$al" == "$album" ]]; then
-      stars="$(mpc sticker "$file" get stars 2>/dev/null || echo -n 0)"
-      echo "$(printf "%02d" $track) $stars $title$d$position$d$file"
+      #stars="$(mpc sticker "$file" get stars 2>/dev/null || echo -n 0)"
+      echo "$(printf "%02d" $track) $title$d$position$d$file"
     fi
   done <<< "$(get_playlist)"
 }

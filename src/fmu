@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # TODO
-# replace slash with backwards slash or two? or just remove it
+# !!!! mpc idle event to refresh cover?
+# mpc clear -q
 
-# launch another fzf from the current one? need to be in path
-# or launch itself but with function as a parameter
+# maybe get the dirname from here
+# mpc playlist -f "%file%" | uniq
 
 source "$(ueberzug library)"
 
@@ -14,9 +15,9 @@ readonly BASH_BINARY="$(which bash)"
 readonly Cover_ID='preview'
 readonly Cover_FIFO="/tmp/fzf-$$-ueberzug"
 
-library_path="$HOME/microwave/music"
+#library_path="$HOME/microwave/music"
+library_path="$HOME/music"
 d=""
-
 
 # {{{
   declare -a fopt=(
@@ -76,38 +77,44 @@ hide_cover() {
 # }}}
 
 list_albums() {
-  #beet list -af "\$album -$d \$primaryartist" # slow
-  while IFS='/' read -r artist album; do
-    echo "$album - $artist$d$artist/$album"
-    #printf '%-30s %s\n' "|$album|" "|$artist|"
-  done <<< "$(find "$library_path" -mindepth 2 -maxdepth 2 -type d -printf '%P\n')"
-}
+  #while IFS='/' read -r artist album; do
+  #  echo "$album - $artist$d$artist/$album"
+  #done <<< "$(find "$library_path" -mindepth 2 -maxdepth 2 -type d -printf '%P\n')"
 
-main() {
-  o="$(list_albums | fzf "${fopt[@]}")"
-
-  [[ "$o" == "" ]] && exit
-
-  al="$(awk -F"$d -$d " '{ print $1 }' <<< "$o")"
-  ar="$(awk -F"$d -$d " '{ print $2 }' <<< "$o")"
-
-  #beet list primaryartist:"$ar" album:"$al" -f "\$track \$title" | fzf "${fopt[@]}" # slowest
-  #time beet list ~/microwave/music/Lightfoils/Lightfoils -f "\$track \$title" # slow
-  #mpc ls -f "%track%" Lightfoils/Lightfoils # fast!
+  while IFS="$d" read -r display path; do
+    # TODO switch to sting sub
+    echo "$display$d$(dirname "$path")"
+  done <<< "$(mpc playlist -f "%album% - [%albumartist%|%artist]$d%file%")"
 }
 
 list_album_tracks() {
-  # $1 - path to album
+  # $1 - path to album, relative to library
+  album_path="$1"
+  while IFS="$d" read -r track title position file; do
+    # TODO switch to sting sub
+    if [[ "$(dirname "$file")" == "$album_path" ]]; then
+      echo "$(printf "%02d" $track) $title$d$position"
+    fi
+  done <<< "$(mpc playlist -f "%track%$d%title%$d%position%$d%file%")"
+}
+
+pick_album_track() {
   path="$(awk -F"$d" '{ print $2 }' <<< "$1")"
-  mpc ls "$path" "%track% %title"
+
+  list_album_tracks "$path" | \
+    SHELL="${BASH_BINARY}" \
+      fzf "${fopt[@]}" --bind "enter:execute-silent^mpc play {2}^" --preview "echo -n"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  #mpc clear
+  #mpc ls | mpc add
+
   trap "stop_ueberzug" EXIT
   start_ueberzug
 
   export -f display_cover
-  list_album_tracks "$(list_albums | \
+  pick_album_track "$(list_albums | \
     SHELL="${BASH_BINARY}" \
-      fzf "${fopt[@]}" --with-nth 1 --preview "display_cover {2}")"
+      fzf "${fopt[@]}" --no-clear --with-nth 1 --preview "display_cover {2}")"
 fi

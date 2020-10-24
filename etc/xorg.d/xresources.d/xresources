@@ -5,8 +5,7 @@
 !  ) /|_/ (_</_/_)_(_)(_/_/ (_(__</_/_)_
 ! (_/
 
-! theme : DO NOT REMOVE THIS TAG
-#include "/home/sean/blueberry/etc/xorg.d/xresources.d/colors/gruvbox"
+#include "etc/xorg.d/xresources.d/colors/.current"
 
 ! font
 xterm*faceName: Ubuntu

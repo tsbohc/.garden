@@ -147,12 +147,12 @@ alias rm='rm -iv'
 alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
 
 # probably a bad idea
-sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
+#sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
 
 # ls after cd except when going back to ~
 cd() {
   builtin cd "$@"
-  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first
+  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
 }
 
 # nvim as manpage viewer
@@ -215,9 +215,8 @@ bindkey "^g" gp
   output="$(::fuzzy_history)"
   zle reset-prompt
   if [ ! "$output" = "" ]; then
-    BUFFER=""           # clear whatever is on the line
+    BUFFER=""             # clear whatever is on the line
     LBUFFER+="${output}"  # append selection from fzf
-  else
   fi
   return 0
 }

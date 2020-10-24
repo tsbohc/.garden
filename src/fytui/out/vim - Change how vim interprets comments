@@ -1,5 +1,0 @@
-[15] Change how vim interprets comments
-vim
-2020-10-12 13:50:27
-----------------------------
-I’m fairly new to this, so bear with me. I’m taking an AArch64 assembly course and we often have(?) to use # to represent immediates, but vim interprets those #s as comments and makes every character that follows a different color. It’s not a big deal, just a minor annoyance, but if someone could point me in the right direction for how to fix this, it would be much appreciated.

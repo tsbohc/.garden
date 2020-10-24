@@ -38,6 +38,7 @@ if has('nvim')
   " general
   Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
+  Plug 'chrisbra/Colorizer'
 
   call plug#end()
 endif
@@ -47,27 +48,36 @@ endif
 " ------------------------------
 
 " rendering
-set encoding=utf-8
+" {{{
+set encoding=utf-8            " self-explanatory
 set nocompatible              " allow vim -u vimrc
 set ttyfast                   " fast redraws, not needed in nvim
 set synmaxcol=256             " max colums to use highlightig on
 "set t_Co=256                 " 256 color support
 set termguicolors             " true color support
+" }}}
 
 " wait times
+" {{{
 set ttimeout
 set ttimeoutlen=30
 set timeoutlen=3000
+" }}}
 
 " editor
+" {{{
 filetype indent on
 set number relativenumber     " relative numbers
 set cursorline                " hl current line
+set undofile                  " persistent undo/redo
+set virtualedit+=block        " do not restrict v-block to characters
 
 set showmatch                 " blink matching brace when a new one is inserted
 set matchtime=2               " return quicker
+" }}}
 
 " whitespace
+" {{{
 set wrap                      " wrap at the end of a line
 set scrolloff=10              " cursor padding in lines
 set tabstop=2
@@ -75,44 +85,79 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set noshiftround
+" }}}
 
-set formatoptions=tcqrn1
+" format
+" {{{
+set formatoptions-=o          " no autoinsert of comment char on o or O
+set formatoptions-=r          " no autoinsert of comment char on <CR> in insert mode
+set formatoptions+=j          " remove comment leader when Joining lines
+set formatoptions+=1          " if possible, break line before one letter word
+set formatoptions+=c          " auto-format comments
+set formatoptions-=t          " but don't auto-format text
+" }}}
 
 " invisible characters
+" {{{
 set listchars=trail:␣
 set list
+" }}}
 
 " search
-set incsearch                 " search as characters are entered
+" {{{
+set incsearch                 " search as characters are typed
+set inccommand=nosplit        " show substitute effects as characters are typed
 set hlsearch                  " highlight matches
 set ignorecase                " case-insensitive search
 set smartcase                 " case-sensitive if search contains uppercase
-nnoremap // :noh<return>
+" }}}
 
 set clipboard+=unnamedplus    " global clipboard, don't forget xsel
 
 " code folding
+" {{{
 filetype plugin indent on
 set foldenable
 set foldmethod=marker
 syntax enable
+" }}}
 
 " ------------------------------
 "           vim magic
 " ------------------------------
 
-" easy umlauts
-imap <c-o> ö
-imap <c-a> ä
-imap <c-u> ü
-imap <c-s> ß
+" stay visual when indenting
+xnoremap < <gv
+xnoremap > >gv
 
-" hide CursorLine in insert mode
-autocmd InsertEnter * set nocul
-autocmd InsertLeave * set cul
+" opinionated remaps
+nnoremap Y y$
+nnoremap zC zM
 
-" disable new line comment
-autocmd FileType * setlocal formatoptions-=cro
+" * while visual to search selected text
+" {{{
+function! s:VisualStarSearch(search_cmd)
+  let l:tmp = @"
+  normal! gvy
+  let @/ = '\V' . substitute(escape(@", a:search_cmd . '\'), '\n', '\\n', 'g')
+  let @" = l:tmp
+endfunction
+" }}}
+xmap * :<c-u>call <SID>VisualStarSearch('/')<CR>n<c-o>
+
+" prevent jumping to the next match when *
+nnoremap * *<c-o>
+" on hand substitution
+nnoremap gs :%s///g<Left><Left><Left>
+xnoremap gs :s///g<Left><Left><Left>
+nnoremap gss :%s///g<Left><Left>
+xnoremap gss :s///g<Left><Left>
+
+nnoremap / /\v
+vnoremap / /\v
+nnoremap ? ?\v
+vnoremap ? ?\v
+nnoremap // :noh<cr>
 
 " custom folding function
 " {{{
@@ -135,6 +180,23 @@ endfunction
 " }}}
 set foldtext=MyFoldText()
 
+" refactor bash if else
+" {{{
+function! BashIfSwap()
+  norm 0
+  norm dw
+  norm f;x
+  norm i &&
+  norm w
+  norm dw
+  norm J
+  norm j
+  norm dd
+endfunction
+" }}}
+command! BashIfSwap call BashIfSwap()
+map <leader>s :call BashIfSwap()<cr>
+
 " format current line as a nice commeht like the one above
 " {{{
 function! HeaderComment()
@@ -147,9 +209,6 @@ endfunction
 " }}}
 command! HeaderComment call HeaderComment()
 map <leader>C :call HeaderComment()
-
-" correct last word
-imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
 
 " writing mode
 let g:writing_mode_enabled = 0
@@ -182,12 +241,8 @@ endfunction
 " }}}
 command! WritingMode call WritingMode()
 
-" auto-update current buffer if it's been changed from somewhere else
-set autoread
-augroup autoRead
-  autocmd!
-  autocmd CursorHold * silent! checktime
-augroup END
+" correct last word
+imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install
@@ -207,9 +262,147 @@ function! SaveCurrentWord()
 endfunction
 " }}}
 
+" easy umlauts
+" {{{
+imap <c-o> ö
+imap <c-a> ä
+imap <c-u> ü
+imap <c-s> ß
+" }}}
+
+" reload config
+command! ReloadVimrc :source ~/etc/vim.d/vimrc
+
+" remember cursor position
+augroup remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g`\"" | endif
+augroup END
+
+" hide CursorLine in insert mode
+autocmd InsertEnter * set nocul
+autocmd InsertLeave * set cul
+
+" custom intro
+" {{{
+fun! Start()
+    " Don't run if: we have commandline arguments, we don't have an empty
+    " buffer, if we've not invoked as vim or gvim, or if we'e start in insert mode
+    if argc() || line2byte('$') != -1 || v:progname !~? '^[-gmnq]\=vim\=x\=\%[\.exe]$' || &insertmode
+        return
+    endif
+
+    " Start a new buffer ...
+    enew
+
+    " ... and set some options for it
+    setlocal
+        \ bufhidden=wipe
+        \ buftype=nofile
+        \ nobuflisted
+        \ nocursorcolumn
+        \ nocursorline
+        \ nolist
+        \ nonumber
+        \ noswapfile
+        \ norelativenumber
+
+    " Now we can just write to the buffer, whatever you want.
+    "call append('$', "")
+    "for line in split(system('echo arstarstsrt'), '\n')
+    "    call append('$', '        ' . l:line)
+    "endfor
+
+    call append('$', "                .")
+    call append('$', "          __   __)")
+    call append('$', "         (. | /o ______  __  _.")
+    call append('$', "            |/<_/ / / <_/ (_(__")
+    call append('$', "            |")
+
+
+    " No modifications to this buffer
+    setlocal nomodifiable nomodified
+
+    " When we go to insert mode start a new buffer, and start insert
+    nnoremap <buffer><silent> e :enew<CR>
+    nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
+    nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
+    nnoremap <buffer><silent> p :enew<cr> p
+endfun
+
+" Run after "doing all the startup stuff"
+"autocmd VimEnter * call Start()
+" }}}
+
 " ------------------------------
 "            keymaps
 " ------------------------------
+
+" fzf-vim
+nnoremap <C-F> :Files<cr>
+vnoremap <C-F> <esc>:Files<cr>
+inoremap <C-F> <esc>:Files<cr>
+
+" {{{
+" h j k l -> n e i o
+noremap n j
+noremap N J
+
+noremap e k
+noremap E K
+
+noremap i l
+noremap I L
+
+noremap l i
+noremap L I
+
+noremap j f
+noremap J F
+
+noremap k n
+noremap K N
+
+noremap f e
+noremap F E
+" }}}
+
+" {{{
+" n e s t
+" - s is gone
+" + i a bit closer
+"noremap n j
+"noremap e k
+"noremap s h
+"noremap t l
+"
+"noremap f e
+"noremap F E
+"noremap k n
+"noremap K N
+" }}}
+
+nnoremap <c-n> <c-d>
+nnoremap <c-e> <c-u>
+
+" vi-line movement
+nnoremap <expr> n v:count ? 'j' : 'gj'
+nnoremap <expr> e v:count ? 'k' : 'gk'
+
+" ----
+
+" colemak -> qwerty in normal mode
+"set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP
+"nnoremap <c-n> <c-d>
+"nnoremap <c-e> <c-u>
+"
+"nnoremap <c-p> <c-r>
+nnoremap U <c-r>
+
+" eeh
+nnoremap ; :
+"command Q q
+"command W w
 
 " hardmode
 " {{{
@@ -230,27 +423,11 @@ inoremap <PageDown> <nop>
 
 " easy split movement
 " {{{
-nnoremap <c-j> <c-w><c-j>
-nnoremap <c-k> <c-w><c-k>
-nnoremap <c-l> <c-w><c-l>
-nnoremap <c-h> <c-w><c-h>
+"nnoremap <c-j> <c-w><c-j>
+"nnoremap <c-k> <c-w><c-k>
+"nnoremap <c-l> <c-w><c-l>
+"nnoremap <c-h> <c-w><c-h>
 " }}}
-
-" vi-line movement
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
-
-" prevent jumping to the next match when searching with *
-nnoremap * *<c-o>
-
-" easy highlighted occurances replacement
-nnoremap <c-n> :%s///g<left><left>
-
-" colemak -> qwerty in normal mode
-set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP
-nnoremap <c-s> <c-d>
-nnoremap <c-p> <c-r>
-nnoremap <c-l> <c-u>
 
 " coc
 inoremap <silent><expr> <TAB>
@@ -258,7 +435,6 @@ inoremap <silent><expr> <TAB>
   \ <SID>check_back_space() ? "\<TAB>" :
   \ coc#refresh()
 "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -312,11 +488,6 @@ execute 'hi SpellCap guifg=#fb4934'
 exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
 let g:ditto_hlgroups = ['SpellDitto', ]
 
-" fzf-vim
-nnoremap <C-F> :Files<cr>
-vnoremap <C-F> <esc>:Files<cr>
-inoremap <C-F> <esc>:Files<cr>
-
 " vimtex
 let g:tex_flavor  = 'latex'
 let g:tex_conceal = ''
@@ -340,14 +511,10 @@ let g:onedark_color_overrides = {
 \ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
 \}
 
+" colorscheme
 try
-  " theme : DO NOT REMOVE THIS TAG
-colorscheme gruvbox
+  colorscheme .current
   catch
-  try
-    colorscheme termcolors
-    catch
-  endtry
 endtry
 
 " vim-ditto

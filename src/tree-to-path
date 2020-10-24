@@ -1,0 +1,23 @@
+#!/bin/bash
+
+p="~/etc/bspwm.d/modules/bspwm-shortcuts"
+
+# └ ┬
+
+p="${p//\~\//}"
+
+( IFS=:
+  f="y"
+  prev_len=1
+  for e in ${p//\//:}; do
+    s="$(printf "%-${prev_len}s" " ")"
+    #s="${s// /*}"
+    if [[ "$f" == "y" ]]; then
+      echo " $e"
+      f="n"
+    else
+      echo "$s└─ $e"
+      prev_len="$((prev_len + 3))"
+    fi
+  done
+)

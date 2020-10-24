@@ -1,0 +1,108 @@
+#!/bin/bash
+
+readonly BASH_BINARY="$(which bash)"
+set -a
+
+declare -A themes
+
+path_xres="$HOME/etc/xorg.d/xresources.d/colors"
+path_nvim="$HOME/etc/vim.d/colors"
+
+# {{{
+update_nvim() {
+  # signal all nvim instances to reload their configs via https://github.com/mhinz/neovim-remote
+  for path in $(nvr --nostart --serverlist); do
+    nvr -s --nostart --servername $path -cc 'source ~/etc/vim.d/vimrc'
+  done
+}
+# }}}
+
+# {{{
+update_terminal() {
+  # check out SeungheonOh/xrdm!
+  sequence=""
+  while read l; do
+    [[ $l != *"*."* ]] && continue
+    lineseg=( $l )
+    index=$(echo $l | sed -e "s/\s.*//" -e "s/^*.//" -e "s/color//" -e "s/:$//")
+    color=$(echo $l | sed -e "s/.*\s//")
+    # St only has partial support of Xterm Control Sequence(Most X-based term have this),
+    # instead it uses 256th color for BG, and 257th color for FG
+    # or whatever it is set to in config.h
+    if [ "$index" == "background" ]; then
+      sequence+="\033]11;${color}\007" # Background
+      sequence+="\033]17;${color}\007" # Background
+      sequence+="\033]17;${color}\007" # Background
+      sequence+="\033]708;${color}\007" # Border
+      sequence+="\033]4;257;${color}\007" # Background for ST wiredo
+    elif [ "$index" == "foreground" ]; then
+      sequence+="\033]10;${color}\007" # Foreground
+      sequence+="\033]19;${color}\007" # Foreground
+      sequence+="\033]4;256;${color}\007" # Foreground for ST wiredo
+    else
+      sequence+="\033]4;${index};${color}\007" # Colors
+    fi
+  done <<< "$(xrdb -query)"
+  for tty in /dev/pts/[0-9]*; do
+    printf "%b" "$sequence" > "$tty"
+  done
+}
+# }}}
+
+# {{{
+list_themes() {
+  for f in $path_xres/*; do
+    bn="$(basename "$f")"
+    themes["$bn"]=0
+  done
+
+  for f in $path_nvim/*.vim; do
+    bn="$(basename "$f")"
+    bn="${bn::-4}"
+    [ ${themes["$bn"]+woo} ] && themes["$bn"]=1
+  done
+
+  for x in "${!themes[@]}"; do 
+    if [[ "${themes[$x]}" == "1" ]]; then
+      echo "$x"
+    fi
+  done
+}
+# }}}
+
+apply_theme() {
+  choice="$1"
+  [[ "$choice" == "" ]] && return
+
+  /bin/cp -f "$path_xres/$choice" "$path_xres/.current"
+  /bin/cp -f "$path_nvim/$choice.vim" "$path_nvim/.current.vim"
+
+  xrdb ~/.Xresources
+
+  update_terminal
+  update_nvim
+}
+
+show_colour() {
+  perl -e 'foreach $a(@ARGV){print "\e[48;2;".join(";",unpack("C*",pack("H*",$a)))."m \e[49m"}' "$@"
+}
+
+preview_colour() {
+  while read l; do
+    index=$(echo $l | awk '{ print $2 }')
+    color=$(echo $l | awk '{ print substr($3,2) }')
+    if [[ "$index" =~ "COLOR" ]]; then
+      show_colour $color
+      show_colour $color
+      echo -n " "
+    fi
+  done <<< "$(cat $path_xres/$1)"
+}
+
+export -f apply_theme preview_colour
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  list_themes | \
+    SHELL="${BASH_BINARY}" \
+    fzf --preview-window="up:2:noborder" --reverse --no-info --preview="preview_colour {}" --bind="enter:execute-silent^apply_theme {}^" #--bind="up:up+execute-silent^apply_theme {}^,down:down+execute-silent^apply_theme {}^"
+fi

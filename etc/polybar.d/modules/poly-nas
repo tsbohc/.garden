@@ -9,7 +9,7 @@ rexec() {
 }
 
 get_status() {
-  if ping -c 1 -w 1 $address >/dev/null; then
+  if ping -c 1 -w 1 $address &>/dev/null; then
     echo -n "  "
   else
     echo -n "  "
@@ -17,7 +17,7 @@ get_status() {
 }
 
 get_usage() {
-  if ping -c 1 -w 1 $address >/dev/null; then
+  if ping -c 1 -w 1 $address &>/dev/null; then
     rexec df -H -x tmpfs -x devtmpfs -x vfat --output=source,pcent,used,avail,size --total | awk '($1 == "total") { print $3"/"$5 }'
     echo -n " "
   else
