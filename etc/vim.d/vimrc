@@ -153,10 +153,11 @@ xnoremap gs :s///g<Left><Left><Left>
 nnoremap gss :%s///g<Left><Left>
 xnoremap gss :s///g<Left><Left>
 
-nnoremap / /\v
-vnoremap / /\v
-nnoremap ? ?\v
-vnoremap ? ?\v
+" regex search
+"nnoremap / /\v
+"vnoremap / /\v
+"nnoremap ? ?\v
+"vnoremap ? ?\v
 nnoremap // :noh<cr>
 
 " custom folding function
@@ -526,6 +527,9 @@ hi clear SpellRare
 hi SpellRare guifg=#d3869b
 hi SpellDitto guifg=#83a598
 let g:ditto_hlgroups = ['SpellDitto']
+
+" hide ~ on non-existent lines
+highlight EndOfBuffer ctermfg=bg guifg=bg
 
 " ------------------------------
 "   sources (keep at the end)

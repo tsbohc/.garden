@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 import grequests
 import feedparser
@@ -19,8 +20,8 @@ youtube_channel_ids = [
 ]
 
 subreddits = [
-    #'unixporn'
-    #'commandline'
+    'unixporn',
+    'commandline',
     'vim'
     #''
 ]
@@ -83,7 +84,7 @@ for r in responces:
             rss.append({
                 'type': 'reddit',
                 'author': entry['subreddit'],
-                'title': entry['title'].replace('/', '|').replace("\'", "").replace("\"", "").replace("|", "::"),
+                'title': entry['title'],
                 'score': entry['ups'] - entry['downs'],
                 'summary': entry['selftext'],
                 'published': entry['created'],
@@ -106,16 +107,26 @@ if os.path.isdir("out"):
     shutil.rmtree("out")
 os.mkdir("out")
 
-# TODO individual directories for each file
 for i in rss:
     time.sleep(0.0001) # enough to allow sorting by date
 
-    post_folder = i["author"] + " - " + i["title"]
-    if not os.path.isdir("out/" + post_folder):
-        os.mkdir("out/" + post_folder)
+    folder = str(i['published']) + ' ' + i['title'].lower()
+    folder = re.sub("[^0-9a-zA-Z ]", "", folder).replace(' ', '-')
 
-    else:
-        continue
+    #if not os.path.isdir("out/" + folder):
+        #os.mkdir("out/" + folder)
+
+    content = f"""# {i['title']}
+{i['link']}
+{i['score']} | {i['published']}
+
+{i['summary']}"""
+
+    with open("out/" + folder + '.md', 'w') as f:
+        f.write(content)
+
+    #else:
+        #continue
 
 
 

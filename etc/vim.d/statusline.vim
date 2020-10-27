@@ -24,19 +24,21 @@ source /tmp/statusline_colors.vim
 "hi User6 ctermbg=fg ctermfg=bg
 
 " settings
+" 
+"  פֿ     ﱓ             
 let g:currentmode={
-    \ 'n'  : 'NORMAL',
+    \ 'n'  : '',
     \ 'no' : 'N Operator Pending',
-    \ 'v'  : 'VISUAL',
-    \ 'V'  : 'VLINE',
-    \ '^V' : 'VBLOCK',
+    \ 'v'  : '',
+    \ 'V'  : '',
+    \ '^V' : 'doesnt work see below',
     \ 's'  : 'Select',
     \ 'S'  : 'SLine',
     \ '^S' : 'SBlock',
-    \ 'i'  : 'INSERT',
-    \ 'R'  : 'REPLACE',
+    \ 'i'  : 'פֿ',
+    \ 'R'  : '',
     \ 'Rv' : 'VReplace',
-    \ 'c'  : 'COMMAND',
+    \ 'c'  : '',
     \ 'cv' : 'Vim Ex',
     \ 'ce' : 'Ex',
     \ 'r'  : 'Prompt',
@@ -51,10 +53,13 @@ let g:currentmode={
 let s:statuslineseparator=""
 let statuslinesfr=""
 let statuslinesfl=""
+"let s:statuslineseparator=""
+"let statuslinesfr=""
+"let statuslinesfl=""
 "else
-" let s:statuslineseparator="│"
-" let statuslinesfr="▒"
-" let statuslinesfl="▒"
+"let s:statuslineseparator="│"
+"let statuslinesfr="▒"
+"let statuslinesfl="▒"
 "endif
 
 function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain when doing it w/ one line
@@ -70,11 +75,8 @@ function! SetHighlight(name, fg, bg, bold) " for some reason nvim would complain
   endif
 endfunction
 
+" {{{
 " these are pretty slow on an old machine, prolly let it set defaults somewhere, or go back to generating a sourced file
-
-" a better idea would be to check if current bg is the same, and only generate colors if it isn't. a single query is not as bad as doing all of them every time
-
-" FIXME something is wrong somewhere and it requires a conversion for some reason, also on laptop this results in weird errors
 
 " pull colors from xrdb
 "let g:xres_hashless_background=system('get_xres background')
@@ -102,18 +104,19 @@ endfunction
 "let g:xres_lighter_background=system('rgb_to_hex ' . g:xres_lighter_background . '')
 "let g:xres_lighter_background=system('shade_hex ' . g:xres_hashless_background . ' 0.7')
 "let g:xres_lighter_background='#' . g:xres_hashless_background
+" }}}
 
 " set define highlights
-call SetHighlight("statusline_normal_bg", g:xres_background, g:xres_color12, 1)
+call SetHighlight("statusline_normal_bg", g:xres_background, g:xres_color12, 0)
 call SetHighlight("statusline_normal_separator", g:xres_color12, g:xres_lighter_background, 0)
 
-call SetHighlight("statusline_insert_bg", g:xres_background, g:xres_color10, 1)
+call SetHighlight("statusline_insert_bg", g:xres_background, g:xres_color10, 0)
 call SetHighlight("statusline_insert_separator", g:xres_color10, g:xres_lighter_background, 0)
 
-call SetHighlight("statusline_visual_bg", g:xres_background, g:xres_color11, 1)
+call SetHighlight("statusline_visual_bg", g:xres_background, g:xres_color11, 0)
 call SetHighlight("statusline_visual_separator", g:xres_color11, g:xres_lighter_background, 0)
 
-call SetHighlight("statusline_command_bg", g:xres_background, g:xres_color9, 1)
+call SetHighlight("statusline_command_bg", g:xres_background, g:xres_color9, 0)
 call SetHighlight("statusline_command_separator", g:xres_color9, g:xres_lighter_background, 0)
 
 call SetHighlight("User3", g:xres_foreground, g:xres_lighter_background, 0)
@@ -130,7 +133,7 @@ function! ChangeStatuslineColor()
   elseif mode() == 'i'
     hi! link User1 statusline_insert_bg
     hi! link User2 statusline_insert_separator
-  elseif (mode() =~# '\v(v|V)' || ModeCurrent() == 'VBLOCK')
+  elseif (mode() =~# '\v(v|V)' || ModeCurrent() == '')
     hi! link User1 statusline_visual_bg
     hi! link User2 statusline_visual_separator
   else
@@ -147,7 +150,7 @@ function! ModeCurrent() abort
   " use get() -> fails safely, since ^V doesn't seem to register
   " 3rd arg is used when return of mode() == 0, which is case with ^V
   " thus, ^V fails -> returns 0 -> replaced with 'V Block'
-  let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'VBLOCK'))
+  let l:modelist = get(g:currentmode, l:modecurrent, '')
   let l:current_status_mode = l:modelist
   return l:current_status_mode
 endfunction
@@ -155,20 +158,22 @@ endfunction
 function! StatusLineFileName()
   let full_file_path = expand('%')
   if full_file_path == ''
-    let full_file_path = '[new]'
+    let full_file_path = 'untitled'
   else
     let full_file_path = fnamemodify(expand('%'), ':~')
   endif
+  " if &modified
+  "   let full_file_path = full_file_path . ' *'
+  " endif
   return strlen(full_file_path) < winwidth(0)*0.55 ? full_file_path : expand('%f')
 endfunction
-
 
 function! StatusLineFileType()
   return &filetype
 endfunction
 
 function! StatusLineModified()
-  return &modified ? s:statuslineseparator . ' + ' : ''
+  return &modified ? '* ' : ''
 endfunction
 
 function! StatusLineReadonly()
@@ -196,14 +201,17 @@ set statusline=
 
 " left side
 set statusline+=%{ChangeStatuslineColor()}
-set statusline+=%1*\ %{ModeCurrent()}\ %2*%{statuslinesfr} " [1]_mode_[2]>
+set statusline+=%1*\ %{ModeCurrent()}\ %2* " [1]_mode_[2]>
+"set statusline+=%1*\ %{ModeCurrent()}\ %2*%{statuslinesfr} " [1]_mode_[2]>
 set statusline+=%3*\ %{StatusLineFileName()}\  " [3]_filename_
 set statusline+=%{StatusLineReadonly()}
 set statusline+=%{StatusLineModified()}
 set statusline+=%4*%{statuslinesfr}
 " right side
 set statusline+=%=
-set statusline+=\ %4*%{StatusLineFileType()} " filetype
+set statusline+=\ %4*%{StatusLineFileType()}:%c " filetype
 set statusline+=%7*%{CharacterCount()}
-set statusline+=\ %4*%{statuslinesfl}%3*\ %p%% " _[4]<[3]_percentage
-set statusline+=\ %5*%{statuslinesfl}%6*\ %l:%c\  " _[5]<[6]_line:column_
+
+set statusline+=\ %4*%{statuslinesfl}%3*\ %l/%L\  " _[4]<[3]_percentage
+"set statusline+=\ %4*%{statuslinesfl}%3*\ %p%% " _[4]<[3]_percentage
+"set statusline+=\ %5*%{statuslinesfl}%6*\ %l:%c\  " _[5]<[6]_line:column_

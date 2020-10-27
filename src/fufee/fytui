@@ -2,6 +2,10 @@
 
 d=""
 
+function sxiveh {
+  curl -o sxivimage -s "$@" ; sxiv sxivimage ; rm sxivimage
+}
+
 declare -a common_fzf_options=(
   --no-info
   --no-multi
@@ -10,27 +14,47 @@ declare -a common_fzf_options=(
   --delimiter="$d"
   --prompt="  "
   --pointer="◇"
-  --preview-window=wrap:noborder:down
-  #--bind="enter:execute!cp out/{} current!"
-  --preview="cat out/{}"
+  --preview-window=wrap:noborder:right
+  --bind="enter:execute!echo {3}!"
+  --preview="bat --color=always -p --theme 'Monokai Extended Origin' {2}"
   #viu -w 60 yttmb/{}.jpg ; echo ; 
-  #--with-nth=1..2 # visible fields
+  --with-nth=1 # visible fields
   #--nth=2         # search fields relative to the above
 )
 
-python yt.py
-o="$(ls out -t | fzf "${common_fzf_options[@]}")"
+#python yt.py
+#o="$(ls out -t | fzf "${common_fzf_options[@]}")"
 
-[[ "$o" == "" ]] && exit
+out_dir="$(pwd)/out/"
 
-url="$(awk 'END { print }' "out/$o")"
+main() {
+  for file in $out_dir* ; do
+    read -r line < $file
+    line2="$(awk 'NR == 2 {print; exit}' $file)"
+    echo "$line$d$file$d$line2"
+  done | fzf "${common_fzf_options[@]}"
+}
 
-# feh --auto-reload
+while read -r url; do
+  if [[ ! "$url" == "" ]]; then
+    if [[ "$url" =~ "youtube.com" || "$url" =~ "v.redd.it" ]]; then
+      mpv "$url"
+    elif [[ "$url" =~ "i.redd.it" ]]; then
+      sxiveh "$url"
+    #else
+    #  brave "$url"
+    fi
+  fi
+done <<< "$(main)"
+
+
+#url="$(awk 'END { print }' "out/$o")"
+url="$o"
 
 if [[ "$url" =~ "youtube.com" || "$url" =~ "v.redd.it" ]]; then
   mpv "$url"
 elif [[ "$url" =~ "i.redd.it" ]]; then
-  feh --scale-down --auto-zoom "$url"
+  sxiveh "$url"
 else
   brave "$url"
 fi
