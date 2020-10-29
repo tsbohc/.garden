@@ -15,8 +15,7 @@ readonly BASH_BINARY="$(which bash)"
 readonly Cover_ID='preview'
 readonly Cover_FIFO="/tmp/fzf-$$-ueberzug"
 
-#library_path="$HOME/microwave/music"
-library_path="$HOME/music"
+library_path="$HOME/microwave/music"
 d=""
 
 # {{{
@@ -65,7 +64,7 @@ display_cover() {
   fi
 
   >"${Cover_FIFO}" declare -A -p cmd=( \
-  [action]=add [identifier]="$Cover_ID" [x]="3" [y]="3" \
+  [action]=add [identifier]="$Cover_ID" [x]="3" [y]="2" \
   [max_width]="$FZF_PREVIEW_COLUMNS" \
                [path]="$cover_path")
 }
@@ -87,6 +86,12 @@ list_albums() {
   done <<< "$(mpc playlist -f "%album% - [%albumartist%|%artist]$d%file%")"
 }
 
+pick_album() {
+  list_albums | uniq | \
+      SHELL="${BASH_BINARY}" \
+        fzf "${fopt[@]}" --no-clear --with-nth 1 --preview "display_cover {2}"
+}
+
 list_album_tracks() {
   # $1 - path to album, relative to library
   album_path="$1"
@@ -103,18 +108,18 @@ pick_album_track() {
 
   list_album_tracks "$path" | \
     SHELL="${BASH_BINARY}" \
-      fzf "${fopt[@]}" --bind "enter:execute-silent^mpc play {2}^" --preview "echo -n"
+      fzf "${fopt[@]}" --with-nth 1 --bind "enter:execute-silent^mpc play {2}^" --bind "esc:execute^list_albums^" --preview "echo -n"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   #mpc clear
   #mpc ls | mpc add
+  ! mpc &>/dev/null && mpd
+  [[ "$(mpc playlist | wc -l)" == "0" ]] && mpc ls | mpc add
 
   trap "stop_ueberzug" EXIT
   start_ueberzug
 
-  export -f display_cover
-  pick_album_track "$(list_albums | \
-    SHELL="${BASH_BINARY}" \
-      fzf "${fopt[@]}" --no-clear --with-nth 1 --preview "display_cover {2}")"
+  export -f display_cover pick_album pick_album_track
+  pick_album_track "$(pick_album)"
 fi

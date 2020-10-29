@@ -1,6 +1,6 @@
 # Vim theory and reflections
 
-290 | 1555934774.0
+288 | 1555934774.0
 
 Why Vim?  Feel free to post your thoughts.  Mods if I'm over stepping, feel free to delete.
 

@@ -38,7 +38,7 @@ if has('nvim')
   " general
   Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
-  Plug 'chrisbra/Colorizer'
+  "Plug 'chrisbra/Colorizer'
 
   call plug#end()
 endif

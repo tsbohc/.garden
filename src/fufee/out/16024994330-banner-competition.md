@@ -1,6 +1,6 @@
 # Banner Competition!
 
-77 | 1602499433.0
+81 | 1602499433.0
 
 Hello Ricers! I've recently joined the mod team and noticed that this subreddit has no banner. For that reason, we will be holding a banner contest!
 
