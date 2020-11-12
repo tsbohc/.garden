@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# semantic dot file management with bash
+# soap.sh -- the modular dotfiles management bash lib
 
 # {{{
 # TODO
@@ -41,13 +41,14 @@ escape="\e[0m"
 
 # {{{
 welcome() {
-  echo -e "    ____    ___      __     _____     
-   /',__\  / __'\  /'__'\  /\ '__'\   
-  /\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \  
-  \/\____/\ \____/\ \__/.\_\  \ ,__/  
-   \/___/  \/___/  \/__/\/_/ \ \ \/   
-                              \ \_\   
-                               \/_/  "
+  echo -e "
+  ____    ___      __     _____     
+ /',__\  / __'\  /'__'\  /\ '__'\   
+/\__, '\/\ \L\ \/\ \L\.\_\ \ \L\ \  
+\/\____/\ \____/\ \__/.\_\  \ ,__/  
+ \/___/  \/___/  \/__/\/_/ \ \ \/   
+                            \ \_\   
+                             \/_/  "
 }
 # }}}
 
@@ -74,17 +75,17 @@ get_cpos() {
 
 # {{{
 log_bar() {
-  echo -e " $_current_color$bold◆$escape $bold$1$escape"
+  echo -e "$_current_color$bold[$escape $bold$1$escape $_current_color$bold]$escape"
 }
 # }}}
 
 # {{{
 log() {
-  echo -e "   $1 $gray$2$escape"
+  echo -e "$1 $gray$2$escape"
 }
 # }}}
 
-_link="$bold·$escape"
+_link="$bold•$escape"
 _hook="$boldλ$escape"
 _comm="$bold#$escape"
 
@@ -97,7 +98,7 @@ _current_icon=""
 _current_status=""
 
 # {{{
-ice() {
+bar() {
   (( "$#" == 0 )) && return
   name="$1" ; shift
   declare -g $name="$*"
@@ -106,11 +107,11 @@ ice() {
 # }}}
 
 # {{{
-profile() {
+tub() {
   (( "$#" == 0 )) && return
   name="$1" ; shift
   declare -g $name="$@"
-  profiles+=("$name")
+  tubs+=("$name")
 }
 # }}}
 
@@ -159,13 +160,13 @@ symlink() {
 
   if [[ "$_current_status" == "1" ]]; then
 
-    #log "$gray$_current_icon$escape $(basename $from)" "-> $to"
+    log "$gray$_current_icon$escape $(basename $from)" "-> $to"
     out_start_col="$(get_cpos)"
     out_start_col="$((out_start_col-1))"
 
     # source missing
     if [[ ! -e "$a_from" ]]; then
-      #tput cup "$out_start_col" 0
+      tput cup "$out_start_col" 0
       log "$_err$_current_icon$escape $(basename $from)" "-> $to"
       log "  ${a_from/$HOME/\~}" "not found !"
       return 1
@@ -177,19 +178,19 @@ symlink() {
       if [[ -L "$a_to" ]]; then
         # linked to source
         if [[ "$(readlink "$a_to")" == "$a_from" ]]; then
-          #tput cup "$out_start_col" 0
-          log "$_current_color$_current_icon$escape $(basename $from)" "= $to"
+          tput cup "$out_start_col" 0
+          log "$_current_color$_current_icon$escape $(basename $from)" "-> $to"
           return 0
         # not linked to source
         else
           ln -sfn "$a_from" "$a_to"
-          #tput cup "$out_start_col" 0
+          tput cup "$out_start_col" 0
           log "$_current_color$_current_icon$escape $(basename $from)" "-> $to"
           return 0
         fi
       # destination is not a symlink
       else
-        #tput cup "$out_start_col" 0
+        tput cup "$out_start_col" 0
         log "$_err$_current_icon$escape $(basename $from)" "-> $to"
         log "  ${a_to/$HOME/\~}" "already exists !"
         return 1
@@ -197,7 +198,7 @@ symlink() {
     # all clear
     else
       ln -s "$a_from" "$a_to"
-      #tput cup "$out_start_col" 0
+      tput cup "$out_start_col" 0
       log "$_current_color$_current_icon$escape $(basename $from)" "-> $to"
     fi
 
@@ -209,13 +210,13 @@ symlink() {
       if [[ -L "$a_to" ]]; then
         if [[ "$(readlink "$a_to")" == "$a_from" ]]; then
           rm -f "$a_to"
-          #tput cup "$out_start_col" 0
+          tput cup "$out_start_col" 0
           log "$_current_color$_current_icon$escape ${a_to/$HOME/\~}" ">/dev/null"
           return 0
         fi
       fi
     else
-      #tput cup "$out_start_col" 0
+      tput cup "$out_start_col" 0
       #log "$_current_color$_current_icon$escape ${a_to/$HOME/\~}" ">/dev/null"
       return 0
     fi
@@ -243,12 +244,12 @@ parse() { # $1 - line, $2 - is_active
 
 # {{{
 soap() { # $1 - profile name
-  #clear
+  clear
   #welcome
   local profile="$1"
 
-  for ice in "${bars[@]}"; do
-    if [[ "${!profile}" =~ "$ice" ]]; then
+  for bar in "${bars[@]}"; do
+    if [[ "${!profile}" =~ "$bar" ]]; then
       _current_color="$_1"
       _current_status="1"
     else
@@ -256,12 +257,11 @@ soap() { # $1 - profile name
       _current_status="0"
     fi
 
-    #echo -e "$_current_color$_hook$escape $ice"
-    log_bar "$ice"
+    log_bar "$bar"
     while read -r l; do
       parse "$l"
-    done <<< "${!ice}"
-    #echo
+    done <<< "${!bar}"
+    echo
   done
 }
 # }}}
@@ -301,59 +301,71 @@ pypkg() {
 #            config
 # ------------------------------
 
-ice xorg "
-pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool wmctrl wmutils
-pkg :: pulseaudio pulseaudio-alsa alsa-utils
+bar base "
+pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool
 etc/xorg.d/xinitrc                 -> ~/.xinitrc
 etc/xorg.d/xresources.d/xresources -> ~/.Xresources
-"
 
-ice home "
+pkg :: pulseaudio pulseaudio-alsa alsa-utils
+pkg :: wmctrl wmutils
+
+pkg :: picom
+etc/picom               -> ~/.config/picom.conf
+
+pkg :: polybar
+etc/polybar.d/rc        -> ~/.config/polybar/config
+
+pkg :: dunst notify-send.sh
+etc/dunstrc             -> ~/.config/dunst/dunstrc
+
+pkg :: zathura zathura-pdf-mupdf zathura-djvu
+etc/zathurarc           -> ~/.config/zathura/zathurarc
+
 etc/ -> ~/etc
 src/ -> ~/src
 bin/ -> ~/bin
-"
-
-ice picom "
-pkg :: picom
-etc/picom               -> ~/.config/picom.conf
-"
-
-ice polybar "
-pkg :: polybar
-etc/polybar.d/rc        -> ~/.config/polybar/config
-"
-
-ice dunst "
-pkg :: dunst notify-send.sh
-etc/dunstrc             -> ~/.config/dunst/dunstrc
-"
-
-ice zathura "
-pkg :: zathura zathura-pdf-mupdf zathura-djvu
-etc/zathurarc           -> ~/.config/zathura/zathurarc
-"
-
-ice hosts "
-#sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts
+tmp/ -> ~/tmp
+usr/ -> ~/usr
 "
 
 # shells
 
-ice bash "
+bar hosts "
+sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts
+"
+
+bar bash "
 etc/bash.d/bash_profile -> ~/.bash_profile
 etc/bash.d/bashrc       -> ~/.bashrc
 etc/bash.d/aliases      -> ~/.aliases
 "
 
-ice zsh "
+bar zsh "
 etc/zsh.d/zshenv        -> ~/.zshenv
 etc/zsh.d/zshrc         -> ~/.config/zsh/.zshrc
+#etc/zsh.d/modules       -> ~/.config/zsh/modules
+"
+
+# wms
+
+bar bspwm "
+pkg :: bspwm sxhkd
+etc/bspwm.d/bspwmrc     -> ~/.config/bspwm/bspwmrc
+etc/bspwm.d/sxhkdrc     -> ~/.config/sxhkd/sxhkdrc
+"
+
+bar awesomewm "
+etc/awesome.d/rc.lua    -> ~/.config/awesome/rc.lua
+etc/awesome.d/modules   -> ~/.config/awesome/modules
+"
+
+bar qtilewm "
+etc/qtile.d/rc.py       -> ~/.config/qtile/config.py
 "
 
 # vim
 
-ice vim "
+bar vim "
 pkg :: neovim xsel
 etc/vim.d/vimrc         -> ~/.vimrc
 etc/vim.d/nvim_init.vim -> ~/.config/nvim/init.vim
@@ -362,34 +374,17 @@ etc/vim.d/spellcheck    -> ~/.vim/spellcheck
 etc/vim.d/thesaurus     -> ~/.vim/thesaurus
 "
 
-# wms
-
-ice bspwm "
-pkg :: bspwm sxhkd
-etc/bspwm.d/bspwmrc     -> ~/.config/bspwm/bspwmrc
-etc/bspwm.d/sxhkdrc     -> ~/.config/sxhkd/sxhkdrc
-"
-
-ice awesomewm "
-etc/awesome.d/rc.lua    -> ~/.config/awesome/rc.lua
-etc/awesome.d/modules   -> ~/.config/awesome/modules
-"
-
-ice qtilewm "
-etc/qtile.d/rc.py       -> ~/.config/qtile/config.py
-"
-
-ice vifm "
+bar vifm "
 etc/vifm.d/vifmrc       -> ~/.config/vifm/vifmrc
 etc/vifm.d/colors       -> ~/.config/vifm/colors
 etc/vifm.d/scripts      -> ~/.config/vifm/scripts
 "
 
-ice pypkgs "
+bar pypkgs "
 pkg :: python-pip
 pypkg :: pynvim neovim-remote ueberzug Jinja2 markdown2 Pygments inflect
 "
 
-profile default "xorg picom polybar zathura dunst home bash zsh bspwm vim hosts"
+tub default "base bash zsh bspwm vim hosts"
 
 soap default

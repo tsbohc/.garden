@@ -6,200 +6,222 @@
 "
 " cursive lowercase and invita upper
 
+" {{{
 " ------------------------------
 "             plug
 " ------------------------------
 
-if has('nvim')
-  call plug#begin('~/.vim/bundle')
+"if has('nvim')
+"  call plug#begin('~/.vim/bundle')
 
-  " code
-  Plug 'Yggdroot/indentline'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-  Plug 'habamax/vim-godot'
-  "Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+  "" code
+  "Plug 'Yggdroot/indentline'
+  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  "Plug 'SirVer/ultisnips'
+  "Plug 'honza/vim-snippets'
+  "Plug 'habamax/vim-godot'
+  "Plug 'svermeulen/vimpeccable'
+  "Plug 'pigpigyyy/moonplus-vim'
+  ""Plug 'terryma/vim-multiple-cursors', { 'on': [] }
 
-  " write
-  Plug 'dbmrq/vim-ditto'
-  Plug 'ron89/thesaurus_query.vim'
-  Plug 'reedes/vim-lexical'
-  "Plug 'jooize/vim-colemak'
+  "" write
+  "Plug 'dbmrq/vim-ditto'
+  "Plug 'ron89/thesaurus_query.vim'
+  "Plug 'reedes/vim-lexical'
+  ""Plug 'jooize/vim-colemak'
 
-  " latex
-  Plug 'lervag/vimtex'
+  "" latex
+  "Plug 'lervag/vimtex'
 
-  " style
-  Plug 'morhetz/gruvbox'
-  Plug 'sainnhe/sonokai'
-  Plug 'ayu-theme/ayu-vim'
+  "" style
+  ""Plug 'morhetz/gruvbox'
+  "Plug 'sainnhe/sonokai'
+  "Plug 'ayu-theme/ayu-vim'
 
-  " general
-  Plug 'junegunn/fzf', { 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-  "Plug 'chrisbra/Colorizer'
+  "" general
+  "Plug 'junegunn/fzf', { 'do': './install --bin' }
+  "Plug 'junegunn/fzf.vim'
+  ""Plug 'chrisbra/Colorizer'
 
-  call plug#end()
-endif
+"  call plug#end()
+"endif
 
 " ------------------------------
 "           settings
 " ------------------------------
 
 " rendering
-" {{{
-set encoding=utf-8            " self-explanatory
-set nocompatible              " allow vim -u vimrc
-set ttyfast                   " fast redraws, not needed in nvim
-set synmaxcol=256             " max colums to use highlightig on
-"set t_Co=256                 " 256 color support
-set termguicolors             " true color support
-" }}}
+
+"set encoding=utf-8            " self-explanatory
+"set nocompatible              " allow vim -u vimrc
+"set ttyfast                   " fast redraws, not needed in nvim
+"set synmaxcol=256             " max colums to use highlightig on
+""set t_Co=256                 " 256 color support
+"set termguicolors             " true color support
+
 
 " wait times
-" {{{
-set ttimeout
-set ttimeoutlen=30
-set timeoutlen=3000
-" }}}
+
+"set ttimeout
+"set ttimeoutlen=30
+"set timeoutlen=3000
+
 
 " editor
-" {{{
-filetype indent on
-set number relativenumber     " relative numbers
-set cursorline                " hl current line
-set undofile                  " persistent undo/redo
-set virtualedit+=block        " do not restrict v-block to characters
-
-set showmatch                 " blink matching brace when a new one is inserted
-set matchtime=2               " return quicker
 " }}}
 
-" whitespace
+filetype indent on
 " {{{
-set wrap                      " wrap at the end of a line
-set scrolloff=10              " cursor padding in lines
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set noshiftround
+"set number relativenumber     " relative numbers
+"set cursorline                " hl current line
+"set undofile                  " persistent undo/redo
+"set virtualedit+=block        " do not restrict v-block to characters
+
+"set showmatch                 " blink matching brace when a new one is inserted
+"set matchtime=2               " return quicker
+
+
+" whitespace
+
+"set wrap                      " wrap at the end of a line
+"set scrolloff=10              " cursor padding in lines
+"set tabstop=2
+"set shiftwidth=2
+"set softtabstop=2
+"set expandtab
+"set noshiftround
+
+
+
+
+" invisible characters
+
+"set listchars=trail:␣
+"set list
+
+
+" search
+
+"set incsearch                 " search as characters are typed
+"set inccommand=nosplit        " show substitute effects as characters are typed
+"set hlsearch                  " highlight matches
+"set ignorecase                " case-insensitive search
+"set smartcase                 " case-sensitive if search contains uppercase
+
+
+"set clipboard+=unnamedplus    " global clipboard, don't forget xsel
+
 " }}}
 
 " format
-" {{{
+
 set formatoptions-=o          " no autoinsert of comment char on o or O
 set formatoptions-=r          " no autoinsert of comment char on <CR> in insert mode
 set formatoptions+=j          " remove comment leader when Joining lines
 set formatoptions+=1          " if possible, break line before one letter word
 set formatoptions+=c          " auto-format comments
 set formatoptions-=t          " but don't auto-format text
-" }}}
-
-" invisible characters
-" {{{
-set listchars=trail:␣
-set list
-" }}}
-
-" search
-" {{{
-set incsearch                 " search as characters are typed
-set inccommand=nosplit        " show substitute effects as characters are typed
-set hlsearch                  " highlight matches
-set ignorecase                " case-insensitive search
-set smartcase                 " case-sensitive if search contains uppercase
-" }}}
-
-set clipboard+=unnamedplus    " global clipboard, don't forget xsel
 
 " code folding
-" {{{
+
 filetype plugin indent on
 set foldenable
 set foldmethod=marker
 syntax enable
-" }}}
 
+
+lua require('vimrc')
+
+" {{{
 " ------------------------------
 "           vim magic
 " ------------------------------
 
+"function! SourceMyScripts()
+"  let file_list = split(globpath("~/blueberry/moonplus", "*.lua"), '\n')
+"
+"  for f in file_list
+"    lua require(f)
+"  endfor
+"endfunction
+"call SourceMyScripts()
+
 " stay visual when indenting
-xnoremap < <gv
-xnoremap > >gv
+"xnoremap < <gv
+"xnoremap > >gv
 
 " opinionated remaps
-nnoremap Y y$
-nnoremap zC zM
+"nnoremap Y y$
+"nnoremap zC zM
 
 " * while visual to search selected text
-" {{{
-function! s:VisualStarSearch(search_cmd)
-  let l:tmp = @"
-  normal! gvy
-  let @/ = '\V' . substitute(escape(@", a:search_cmd . '\'), '\n', '\\n', 'g')
-  let @" = l:tmp
-endfunction
-" }}}
-xmap * :<c-u>call <SID>VisualStarSearch('/')<CR>n<c-o>
+
+"function! s:VisualStarSearch(search_cmd)
+"  let l:tmp = @"
+"  normal! gvy
+"  let @/ = '\V' . substitute(escape(@", a:search_cmd . '\'), '\n', '\\n', 'g')
+"  let @" = l:tmp
+"endfunction
+"
+"xmap * :<c-u>call <SID>VisualStarSearch('/')<CR>n<c-o>
 
 " prevent jumping to the next match when *
-nnoremap * *<c-o>
+"nnoremap * *<c-o>
 " on hand substitution
-nnoremap gs :%s///g<Left><Left><Left>
-xnoremap gs :s///g<Left><Left><Left>
-nnoremap gss :%s///g<Left><Left>
-xnoremap gss :s///g<Left><Left>
+"nnoremap gs :%s///g<Left><Left><Left>
+"xnoremap gs :s///g<Left><Left><Left>
+"nnoremap gss :%s///g<Left><Left>
+"xnoremap gss :s///g<Left><Left>
 
 " regex search
-"nnoremap / /\v
-"vnoremap / /\v
-"nnoremap ? ?\v
-"vnoremap ? ?\v
-nnoremap // :noh<cr>
+""nnoremap / /\v
+""vnoremap / /\v
+""nnoremap ? ?\v
+""vnoremap ? ?\v
+"nnoremap <silent> // :noh<cr>
 
 " custom folding function
-" {{{
-function! MyFoldText()
-  " get the right fold size
-  let fold_lines = v:foldend - v:foldstart - 1
 
-  " get window width
-  let nucolwidth = &fdc + &number * &numberwidth
-  let window_width = winwidth(0) - nucolwidth
-
-  let next_line = getline(v:foldstart + 1)
-  let txt = "[+] " . next_line . " "
-
-  let line_count = " +" . fold_lines . "       "
-
-  let txt = txt . repeat(" ", window_width - len(txt) - len(line_count) - 1) . line_count . "     "
-  return txt
-endfunction
-" }}}
-set foldtext=MyFoldText()
+"function! MyFoldText()
+"  " get the right fold size
+"  let fold_lines = v:foldend - v:foldstart - 1
+"
+"  " get window width
+"  let nucolwidth = &fdc + &number * &numberwidth
+"  let window_width = winwidth(0) - nucolwidth
+"
+"  let next_line = getline(v:foldstart + 1)
+"  let txt = "[+] " . next_line . " "
+"
+"  let line_count = " +" . fold_lines . "       "
+"
+"  let txt = txt . repeat(" ", window_width - len(txt) - len(line_count) - 1) . line_count . "     "
+"  return txt
+"endfunction
+"
+"set foldtext=MyFoldText()
 
 " refactor bash if else
-" {{{
-function! BashIfSwap()
-  norm 0
-  norm dw
-  norm f;x
-  norm i &&
-  norm w
-  norm dw
-  norm J
-  norm j
-  norm dd
-endfunction
-" }}}
-command! BashIfSwap call BashIfSwap()
-map <leader>s :call BashIfSwap()<cr>
+
+"function! BashIfSwap()
+"  norm 0
+"  norm dw
+"  norm f;x
+"  norm i &&
+"  norm w
+"  norm dw
+"  norm J
+"  norm j
+"  norm dd
+"endfunction
+"
+"command! BashIfSwap call BashIfSwap()
+"map <leader>s :call BashIfSwap()<cr>
 
 " format current line as a nice commeht like the one above
-" {{{
+
+" }}}
+
 function! HeaderComment()
   let c = split(&commentstring, '%s')[0]
   call append(line('.')-1, c . " ------------------------------")
@@ -207,13 +229,13 @@ function! HeaderComment()
   call setline('.', c . " " . getline('.'))
   call append(line('.'), c . " ------------------------------")
 endfunction
-" }}}
+
 command! HeaderComment call HeaderComment()
 map <leader>C :call HeaderComment()
 
 " writing mode
 let g:writing_mode_enabled = 0
-" {{{
+
 function! WritingMode()
   if g:writing_mode_enabled
     set spell!
@@ -239,11 +261,11 @@ function! WritingMode()
     let g:writing_mode_enabled = 1
   endif
 endfunction
-" }}}
+
 command! WritingMode call WritingMode()
 
 " correct last word
-imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
+"imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
 
 " recompile suckless programs automagically
 autocmd BufWritePost config.h,config.def.h !sudo make install
@@ -251,8 +273,12 @@ autocmd BufWritePost config.h,config.def.h !sudo make install
 " run xrdb whenever Xdefaults or Xresources are updated
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
+" recompile moonplus
+"autocmd BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %
+"autocmd BufWritePost ~/.config/nvim/lua/*.mp silent :PackerCompile
+
 " pass cword to a bash script an echo the output
-" {{{
+
 function! SaveCurrentWord()
   let cword = expand("<cword>")
   let cword_command = 'output-test ' . cword
@@ -261,18 +287,16 @@ function! SaveCurrentWord()
   " maybe grep the thesaurus with inverted keyboard too
   " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
 endfunction
-" }}}
 
 " easy umlauts
-" {{{
-imap <c-o> ö
-imap <c-a> ä
-imap <c-u> ü
-imap <c-s> ß
-" }}}
+
+"imap <c-o> ö
+"imap <c-a> ä
+"imap <c-u> ü
+"imap <c-s> ß
 
 " reload config
-command! ReloadVimrc :source ~/etc/vim.d/vimrc
+"command! ReloadVimrc :source ~/etc/vim.d/vimrc
 
 " remember cursor position
 augroup remember-cursor-position
@@ -281,8 +305,8 @@ augroup remember-cursor-position
 augroup END
 
 " hide CursorLine in insert mode
-autocmd InsertEnter * set nocul
-autocmd InsertLeave * set cul
+"autocmd InsertEnter * set nocul
+"autocmd InsertLeave * set cul
 
 " custom intro
 " {{{
@@ -330,65 +354,74 @@ fun! Start()
     nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
     nnoremap <buffer><silent> p :enew<cr> p
 endfun
+" }}}
 
 " Run after "doing all the startup stuff"
 "autocmd VimEnter * call Start()
-" }}}
 
+" {{{
 " ------------------------------
 "            keymaps
 " ------------------------------
 
-" fzf-vim
-nnoremap <C-F> :Files<cr>
-vnoremap <C-F> <esc>:Files<cr>
-inoremap <C-F> <esc>:Files<cr>
-
-" {{{
-" h j k l -> n e i o
-noremap n j
-noremap N J
-
-noremap e k
-noremap E K
-
-noremap i l
-noremap I L
-
-noremap l i
-noremap L I
-
-noremap j f
-noremap J F
-
-noremap k n
-noremap K N
-
-noremap f e
-noremap F E
-" }}}
-
-" {{{
-" n e s t
-" - s is gone
-" + i a bit closer
+"" fzf-vim
+"nnoremap <C-F> :Files<cr>
+"vnoremap <C-F> <esc>:Files<cr>
+"inoremap <C-F> <esc>:Files<cr>
+"
+"
+"" h j k l -> n e i o
 "noremap n j
+"noremap N J
+"
 "noremap e k
-"noremap s h
-"noremap t l
+"noremap E K
+"
+"noremap i l
+"noremap I L
+"
+"noremap l i
+"noremap L I
+"
+"noremap j f
+"noremap J F
+"
+"noremap k n
+"noremap K N
 "
 "noremap f e
 "noremap F E
-"noremap k n
-"noremap K N
-" }}}
+"
+"
+"
+"" n e s t
+"" - s is gone
+"" + i a bit closer
+""noremap n j
+""noremap e k
+""noremap s h
+""noremap t l
+""
+""noremap f e
+""noremap F E
+""noremap k n
+""noremap K N
+"
+"
+""nnoremap <c-j> <c-d>
+""nnoremap <c-k> <c-u>
+"
+""nnoremap <c-n> <c-d>
+""nnoremap <c-e> <c-u>
+"
+"" vi-line movement
+"nnoremap <expr> n v:count ? 'j' : 'gj'
+"nnoremap <expr> e v:count ? 'k' : 'gk'
 
-nnoremap <c-n> <c-d>
-nnoremap <c-e> <c-u>
+"nnoremap s r
+"set langmap=nj,ek,il,
 
-" vi-line movement
-nnoremap <expr> n v:count ? 'j' : 'gj'
-nnoremap <expr> e v:count ? 'k' : 'gk'
+"set langremap
 
 " ----
 
@@ -398,36 +431,37 @@ nnoremap <expr> e v:count ? 'k' : 'gk'
 "nnoremap <c-e> <c-u>
 "
 "nnoremap <c-p> <c-r>
-nnoremap U <c-r>
+"nnoremap U <c-r>
 
 " eeh
-nnoremap ; :
+"nnoremap ; :
 "command Q q
 "command W w
 
 " hardmode
-" {{{
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-noremap <PageUp> <nop>
-noremap <PageDown> <nop>
 
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-inoremap <PageUp> <nop>
-inoremap <PageDown> <nop>
-" }}}
+"noremap <Up> <Nop>
+"noremap <Down> <Nop>
+"noremap <Left> <Nop>
+"noremap <Right> <Nop>
+"noremap <PageUp> <nop>
+"noremap <PageDown> <nop>
+"
+"inoremap <Up> <Nop>
+"inoremap <Down> <Nop>
+"inoremap <Left> <Nop>
+"inoremap <Right> <Nop>
+"inoremap <PageUp> <nop>
+"inoremap <PageDown> <nop>
+
 
 " easy split movement
-" {{{
+
+"nnoremap <c-h> <c-w><c-h>
 "nnoremap <c-j> <c-w><c-j>
 "nnoremap <c-k> <c-w><c-k>
 "nnoremap <c-l> <c-w><c-l>
-"nnoremap <c-h> <c-w><c-h>
+
 " }}}
 
 " coc
@@ -441,9 +475,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:UltiSnipsExpandTrigger="<s-tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" {{{
+"let g:UltiSnipsExpandTrigger="<s-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" }}}
 
 " ------------------------------
 "       filetype specific
@@ -453,7 +489,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
 " godot
-" {{{
 func! GDscriptSettings() abort
   let g:godot_executable = '/home/sean/godot/Godot_v3.2.3-stable_x11.64'
   setlocal tabstop=4
@@ -470,7 +505,7 @@ func! GDscriptSettings() abort
   vnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
   inoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
 endfunc
-" }}}
+
 augroup godot | au!
   au FileType gdscript call GDscriptSettings()
 augroup end
@@ -480,7 +515,7 @@ augroup end
 " ------------------------------
 
 " thesaurus_query
-nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
+"nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
 
 " vim-ditto
 hi clear SpellBad
@@ -489,34 +524,38 @@ execute 'hi SpellCap guifg=#fb4934'
 exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
 let g:ditto_hlgroups = ['SpellDitto', ]
 
+" {{{
+
 " vimtex
-let g:tex_flavor  = 'latex'
-let g:tex_conceal = ''
-"let g:vimtex_fold_manual = 1
-let g:vimtex_latexmk_continuous = 1
-"let g:vimtex_compiler_progname = 'nvr'
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_quickfix_latexlog = {'default' : 0}
+"let g:tex_flavor  = 'latex'
+"let g:tex_conceal = ''
+""let g:vimtex_fold_manual = 1
+"let g:vimtex_latexmk_continuous = 1
+""let g:vimtex_compiler_progname = 'nvr'
+"let g:vimtex_view_method = 'zathura'
+"let g:vimtex_quickfix_latexlog = {'default' : 0}
 
 " indent line
-let g:indentLine_char = '│'
+"let g:indentLine_char = '│'
 
 " gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_italicize_comments = '1'
-let g:gruvbox_italic = '1'
-let g:gruvbox_bold = '0'
+"let g:gruvbox_contrast_dark = 'hard'
+"let g:gruvbox_italicize_comments = '1'
+"let g:gruvbox_italic = '1'
+"let g:gruvbox_bold = '0'
 
 " onedark
-let g:onedark_color_overrides = {
-\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
-\}
+"let g:onedark_color_overrides = {
+"\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
+"\}
 
 " colorscheme
-try
-  colorscheme .current
-  catch
-endtry
+"try
+"  colorscheme .current
+"  catch
+"endtry
+"
+" }}}
 
 " vim-ditto
 hi clear SpellBad
@@ -535,5 +574,5 @@ highlight EndOfBuffer ctermfg=bg guifg=bg
 "   sources (keep at the end)
 " ------------------------------
 
-source ~/blueberry/etc/vim.d/statusline.vim
+"source ~/blueberry/etc/vim.d/statusline.vim
 

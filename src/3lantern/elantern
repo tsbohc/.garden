@@ -49,27 +49,27 @@ data_path="$HOME/.config/lantern_data"
 
 d=""
 # {{{
-  declare -a common_fzf_options=(
-    --no-unicode
-    --no-info
-    --no-multi
-    --no-sort
-    --reverse
-    --delimiter="$d"
-    --prompt="  "
-    --pointer="◇"
-    --color=spinner:0
-    --preview-window noborder
-    --preview-window down:80%
-    --preview='lantern-preview {2}{3}'
-    --height=60%
-    --margin=0,2
-    #--tiebreak=index
-    --with-nth=2..3 # visible fields
-    --nth=2         # search fields relative to the above
-    --expect="enter,tab"
-    --bind=change:top
-  )
+declare -a common_fzf_options=(
+  --no-unicode
+  --no-info
+  --no-multi
+  --no-sort
+  --reverse
+  --delimiter="$d"
+  --prompt="  "
+  --pointer="◇"
+  --color=spinner:0
+  --preview-window noborder
+  --preview-window down:80%
+  --preview='lantern-preview {2}{3}'
+  --height=60%
+  --margin=0,2
+  #--tiebreak=index
+  --with-nth=2..3 # visible fields
+  --nth=2         # search fields relative to the above
+  --expect="enter,tab"
+  --bind=change:top
+)
 # }}}
 
 export LC_ALL=C
