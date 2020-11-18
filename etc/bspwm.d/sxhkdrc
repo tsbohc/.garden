@@ -10,8 +10,8 @@
 # ------------------------------
 
 # launch lantern in window mode
-ctrl + @space
-  source ~/src/lantern.d/lantern && b 1
+#ctrl + @space
+#  source ~/src/lantern.d/lantern && b 1
 
 # switch keyboard layout
 super + space

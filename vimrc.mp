@@ -6,14 +6,24 @@
 '
 '           luautism~  ]]
 
+-- remember to change reload_vimrc to unload new requires
+-- or maybe even wrap require and store a dict somewhere
+
+-- lua assert?
+
 require('vimp')
-api = vim.api
+require('utils')
 
 -- TODO
+-- create my own bind.n etc functions with lua hooks
+
+-- {{{
+-- coc-word
 -- abbreviations!!!
+-- N E in visual
 -- chage gruvbox visual mode to the same hl group as cursorline
 -- bring back from the dead mouse scrolling and mouse generally
-
+-- add nocul on focuslost
 
 -- ice needs to check if packer options are passed
 -- eventually move this into a separate file w/ require
@@ -21,14 +31,15 @@ api = vim.api
 -- make <c-c> same as c in vblock
 
 -- filetype = vim.bo.filetype
+-- }}}
+
 Command = vim.cmd
 
 Normal = (command) ->
   Command 'norm! ' .. command
 
-g = vim.g
-v = vim.v
-fn = vim.fn
+autocmd = (callback) ->
+  Command 'autocmd ' .. callback
 
 o = setmetatable({}, {
   __call: (options) =>
@@ -44,9 +55,6 @@ o = setmetatable({}, {
   __newindex: (k, v) =>
     api.nvim_set_option(k, v)
 })
-
-colorscheme = (name) ->
-    Command 'colorscheme ' .. name
 
 --------------------------------
 --          plugins           --
@@ -65,6 +73,7 @@ plugins = (init) ->
     h!
 -- }}}
 
+-- {{{
 plugins ->
 
   -- code --
@@ -108,6 +117,7 @@ plugins ->
 
   -- general --
   ice 'junegunn/fzf.vim'
+-- }}}
 
 --------------------------------
 --          options           --
@@ -199,27 +209,13 @@ keyremap 'nvo', {
   'f': 'e'
 }
 
--- {{{
-ru = () ->
-  --cyrillic = [[ё"№;:?йцукенгшщзхъфывапролджэячсмитьбю.ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,]]
-  --colemak =  [[`@#$^&qwfpgjluy;[]arstdhneio'zxcvbkm,./QWFPGJLUY:{}|ARSTDHNEIO"ZXCVBKM<>?]]
-
-  --cyrillic = [[ё"№;:?йцукенгшщзхъфывапролджэячсмитьбю.ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,]]
-  --colemak =  [[`@#$^&qwfpgjluy;[]arstdhneio'zxcvbkm,./QWFPGJLUY:{}|ARSTDHNEIO"ZXCVBKM<>?]]
-  cyrillic = [[йцукенгшщхъфывапролджячсмитьЙЦУКЕНГШЩФЫВАПРОЛДЖЯЧСМИТЬБЮ,]]
-  colemak =  [[qwfpgjluy[]arstdhneiozxcvbkmQWFPGJLUYARSTDHNEIOZXCVBKM<>?]]
-  Command [[set langmap=ё"№\;:?йцукенгшщзхъфывапролджэячсмитьбю.йцукенгшщзхъ/фывапролджэячсмитьбю\,;qwfpgjluy[]arstdhneiozxcvbkmQWFPGJLUYARSTDHNEIOZXCVBKM<>?]]
-  --n = 1
-  --for c in string.gmatch(cyrillic, "[%z\1-\127\194-\244][\128-\191]*")
-  --  vimp.rbind 'c', c, string.sub(colemak, n, n)
-  --  n += 1
--- }}}
+bind.n '<C-Space>', -> print 'arst'
 
 -- opinionated
 bind.n 'zC', 'zM'
 bind.n 'Y', 'y$'
 bind.n ';', ':'
-bind.n 'U', '<c-r>'
+--bind.n 'U', '<c-r>'
 
 -- stay visual when indenting
 bind.x '<', '<gv'
@@ -287,6 +283,7 @@ unload_lua_namespace = (prefix) ->
 vimp.nnoremap '<leader>s', ->
   vimp.unmap_all()
   unload_lua_namespace('vimrc')
+  unload_lua_namespace('utils')
   Command('silent wa')
   require('vimrc')
   print 'reloaded vimrc'
@@ -323,25 +320,100 @@ _G.folding = () ->
   return l .. string.rep(' ', txt_len) .. r
 -- }}}
 
+
+
 -- statusline
 -- TODO:
--- check if autocmds update all windows -- don't think so
--- different function for inactive statusline
--- focuslost event! all inactive
--- highlight active window
--- light mode (only internal flags)
+-- flag formatting?
 
-statusline_events = {
-  'WinEnter','BufEnter','BufDelete','SessionLoadPost','FileChangedShellPost',
-  'CursorMoved'
-  'CursorMovedI'
-  'InsertEnter'
-  'InsertChange'
-  'InsertLeave'
-}
+_G.update_statusline = () ->
+  vim.wo.statusline = statusline(vim.fn.bufnr())
+
+undoredo = ''
+
+relative_undo = (action) ->
+  time = {
+    second: 1
+    minute: 60
+    hour: 60 * 60
+    day: 24 * 60 * 60
+    week: 7 * 24 * 60 * 60
+    month: 30.5 * 24 * 60 * 60
+    year: 365 * 24 * 60 * 60
+  }
+
+
+  get_undo_time = (undotree) ->
+    idx = undotree.seq_cur
+    --for i=1, #undotree.entries
+    --  if undotree.entries[i].seq == idx
+    --    return undotree.entries[i].time
+    for _, entry in pairs undotree.entries
+      if entry.seq == idx
+        return entry.time
+    return vim.fn.localtime()
+
+  get_relative_undo_time = ->
+    undotree = vim.fn.undotree()
+    if undotree.seq_cur == undotree.seq_last
+      return ''
+
+    plural = ''
+    d = vim.fn.localtime! - get_undo_time(undotree)
+    w = false
+
+    if d <= time.second
+      return 'moments ago'
+    elseif d < time.minute
+      return d .. ' seconds ago'
+    elseif d < time.hour
+      w = 'minute'
+    elseif d < time.day
+      w = 'hour'
+    elseif d < time.week
+      w = 'day'
+    elseif d < time.month
+      w = 'week'
+    elseif d < time.year
+      w = 'month'
+    else
+      return 'more than a year ago'
+
+    if w
+      n = math.floor(d / time[w])
+      if n > 1 then plural = 's' else plural = ''
+      return n .. ' ' .. w .. plural .. ' ago'
+
+  lplural = ''
+  lines_before = vim.fn.line('$')
+  vim.cmd ':silent ' .. action
+  lines_after = vim.fn.line('$')
+
+  d_lines = lines_after - lines_before
+  if math.abs(d_lines) > 1 lplural = 's' else lplural = ''
+
+  if d_lines > 0
+    --d_lines = ', ' .. d_lines .. ' line' .. lplural .. ' more'
+    d_lines = ', +' .. d_lines .. ' line' .. lplural
+  elseif d_lines < 0
+    --d_lines = ', ' .. math.abs(d_lines) .. ' line' .. lplural .. ' less'
+    d_lines = ', ' .. d_lines .. ' line' .. lplural
+  else
+    d_lines = ''
+
+  rel_time = get_relative_undo_time!
+
+  undoredo = rel_time .. d_lines
+  update_statusline!
+
+bind.n 'u', ->
+  relative_undo 'undo'
+
+bind.n 'U', ->
+  relative_undo 'redo'
 
 -- {{{
-_G.statusline = (bufnr) ->
+_G.statusline = (bufnr, inactive) ->
   -- {{{
   out = (data) ->
     _out = ''
@@ -399,15 +471,6 @@ _G.statusline = (bufnr) ->
       return m
     else
       return txt
-
-  modified = ->
-    if vim.bo.modified then 'modified' else ''
-
-  readonly = ->
-    if vim.bo.readonly then ' readonly ' else ''
-
-  filetype = ->
-    return vim.bo.filetype
   -- }}}
 
   -- just in case
@@ -416,23 +479,49 @@ _G.statusline = (bufnr) ->
   --else
   --  vim.w.aaa = bufnr
 
-  filepath = vim.fn.getbufinfo()[bufnr].name
+  info = vim.fn.getbufinfo()[bufnr]
+  info.readonly = vim.api.nvim_buf_get_option(bufnr, 'readonly')
+
+  modified = ->
+    if info.name != ''
+      --if info.changed == 1 then 'modified' else ''
+      return [[%{&modified?'modified':''}]]
+
+  readonly = ->
+    --r = vim.api.nvim_buf_get_option(bufnr, 'readonly')
+    --if r then ' readonly ' else ''
+    return [[%{&readonly?' readonly ':''}]]
+
+  dimmer = ->
+    if not inactive
+      return '%#CursorLine#'
+    else
+      return '%#LineNr#'
+
+  filetype = ->
+    return vim.bo.filetype
 
   fpath = ->
-    if filepath == ''
-      return ''
+    if info.name == ''
+      return 'unsaved'
     else
+      -- FIXME
       home = '/home/sean'
-      return string.gsub(filepath, home, '~')
+      return string.match(string.gsub(info.name, home, '~'), "(.*[/\\])")
 
   fname = ->
-    if filepath == ''
-      return '[ new ]'
+    if info.name == ''
+      return ''
     else
-      return '‹‹ ' .. string.match(filepath, "^.+/(.+)$") .. ' ››'
+      name = string.match(info.name, "^.+/(.+)$")
+      --if info.changed == 0
+      return '‹‹ ' .. name .. ' ››'
+      --else
+      --  return '›› ' .. name .. ' ‹‹'
 
-  test = ->
-    return 'foo'
+  if vim.bo.filetype == 'help'
+    --return dimmer! .. '‹‹ help ››' .. '%#LineNr#' .. '%=' .. dimmer! .. ' %p%% '
+    return '%#CursorLine#' .. ' help ' .. '%#LineNr#' .. '%=' .. '%#CursorLine#' .. ' %p%% '
 
   out {
     '%#CursorLine#'
@@ -440,46 +529,37 @@ _G.statusline = (bufnr) ->
     _
     fname!
     _
-    --test!
     '%#LineNr#'
     _
-    modified!
+    undoredo
+    _
+    --modified!
+    --_
     '%#Search#'
     readonly!
     '%#LineNr#'
     _
     '%='
-
+    '%<'
     fpath!
     _
-    --percent!
-    --_
 
     '%#CursorLine#'
     _
-    --bufnr
-    --_
-    --'::'
-    --_
-    '%p%%'
+    __prev_layout
+    _
+    '%2p%%'
     _
     '%#LineNr#'
   }
 -- }}}
 
-api.nvim_command 'augroup statusline_events'
-api.nvim_command 'autocmd!'
-for _, k in ipairs statusline_events
-  api.nvim_command 'autocmd ' .. k .. ' * lua vim.wo.statusline = statusline(vim.fn.bufnr())'
-api.nvim_command 'augroup END'
+au { 'BufEnter', 'BufLeave', 'CursorMoved', 'CursorMovedI' }, '*', ->
+  vim.wo.statusline = statusline(fn.bufnr())
 
 -- writing mode
-bind.n '<leader>w', ->
-  info = vim.fn.getbufinfo!
-  for n, buf in pairs info
-    print '--', n, buf
-    for k, v in pairs buf
-      print k, v
+bind.n '<leader>1', ->
+  print 'a'
 
 --------------------------------
 --          autocmd           --
@@ -487,19 +567,37 @@ bind.n '<leader>w', ->
 
 -- TODO: redo when proper api support
 
-autocmd = (callback) ->
-  Command 'autocmd ' .. callback
+au { 'InsertEnter', 'InsertLeave', 'BufLeave', 'FocusLost' }, '*', 'set nocul'
 
--- hide CursorLine in insert mode
-autocmd 'InsertEnter * set nocul'
-autocmd 'InsertLeave * set cul'
+au 'BufEnter', '*', ->
+  if fn.mode! != 'i'
+    cmd 'set cul'
+
+au 'FocusGained', '*', ->
+  if fn.mode! != 'i'
+    cmd 'set cul'
 
 -- briefly flash yanked text
-autocmd 'TextYankPost * silent! lua vim.highlight.on_yank { higroup = "Search", timeout = 100}'
+autocmd 'TextYankPost * silent! lua vim.highlight.on_yank { higroup = "Search", timeout = 100 }'
 
 -- recompile config
 autocmd 'BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %'
 --autocmd 'BufWritePost ~/.config/nvim/lua/*.mp silent :PackerCompile'
+
+-- layout switcher
+-- TODO:
+-- save language separately for each buffer? may be confusing
+-- intert mode mappings?
+global __prev_layout = 'us'
+
+au 'InsertLeave', '*', ->
+  __prev_layout = os.capture([[setxkbmap -query | awk '/layout/ { print $2 }']])
+  if __prev_layout == 'ru'
+    os.execute [[ setxkbmap us -variant colemak ]]
+
+au 'InsertEnter', '*', ->
+  if __prev_layout == 'ru'
+    os.execute [[ setxkbmap ru ]]
 
 --------------------------------
 --          plugins           --
@@ -510,3 +608,27 @@ return require('packer').startup ->
   use 'wbthomason/packer.nvim'
   for p, h in pairs ice_before
     use p
+
+
+-- {{{
+--statusline_au = (events) ->
+--  api.nvim_command 'augroup statusline_events'
+--  api.nvim_command 'autocmd!'
+--  for _, k in ipairs events
+--    api.nvim_command 'autocmd ' .. k .. ' * lua vim.wo.statusline = statusline(vim.fn.bufnr())'
+--  api.nvim_command 'augroup END'
+--
+--statusline_au {
+--  'BufEnter'
+--  'BufLeave'
+--  --'BufDelete','SessionLoadPost','FileChangedShellPost',
+--  'CursorMoved'
+--  'CursorMovedI'
+--  --'InsertEnter'
+--  --'InsertChange'
+--  --'InsertLeave'
+--}
+
+--api.nvim_command 'autocmd WinLeave * lua vim.wo.statusline = statusline(vim.fn.bufnr(), true)'
+--api.nvim_command 'autocmd WinEnter * lua vim.wo.statusline = statusline(vim.fn.bufnr())'
+-- }}}

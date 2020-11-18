@@ -574,5 +574,18 @@ highlight EndOfBuffer ctermfg=bg guifg=bg
 "   sources (keep at the end)
 " ------------------------------
 
+nmap <leader>h :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val,"name")')
+endfunc
+
+hi link moonObjAssign moonString
+hi link moonBoolean moonObject
+
 "source ~/blueberry/etc/vim.d/statusline.vim
+
+
 
