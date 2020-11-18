@@ -525,7 +525,6 @@ exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
 let g:ditto_hlgroups = ['SpellDitto', ]
 
 " {{{
-
 " vimtex
 "let g:tex_flavor  = 'latex'
 "let g:tex_conceal = ''
@@ -582,7 +581,7 @@ function! <SID>SynStack()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val,"name")')
 endfunc
 
-hi link moonObjAssign moonString
+hi link moonObjAssign NONE
 hi link moonBoolean moonObject
 
 "source ~/blueberry/etc/vim.d/statusline.vim

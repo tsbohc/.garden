@@ -6,16 +6,13 @@
 '
 '           luautism~  ]]
 
--- remember to change reload_vimrc to unload new requires
--- or maybe even wrap require and store a dict somewhere
-
--- lua assert?
-
-require('vimp')
 require('utils')
 
--- TODO
--- create my own bind.n etc functions with lua hooks
+-- dump internal vim command into current buffer
+-- :silent put =execute('autocmd')
+
+-- remember to change reload_vimrc to unload new requires
+-- or maybe even wrap require and store a dict somewhere
 
 -- {{{
 -- coc-word
@@ -33,21 +30,13 @@ require('utils')
 -- filetype = vim.bo.filetype
 -- }}}
 
-Command = vim.cmd
-
-Normal = (command) ->
-  Command 'norm! ' .. command
-
-autocmd = (callback) ->
-  Command 'autocmd ' .. callback
-
 o = setmetatable({}, {
   __call: (options) =>
     for k, v in pairs options
       if type(k) == 'number'
-        Command 'set ' .. v
+        V.exec 'set ' .. v
       else
-        Command 'set ' .. k .. '=' .. v
+        V.exec 'set ' .. k .. '=' .. v
 
   __index: (k) =>
     api.nvim_get_option(k)
@@ -112,6 +101,8 @@ plugins ->
     --g.gruvbox_italic = 1
     g.gruvbox_bold = 0
 
+  ice 'adigitoleo/vim-mellow'
+
   ice 'sainnhe/sonokai'
   ice 'ayu-theme/ayu-vim'
 
@@ -123,6 +114,7 @@ plugins ->
 --          options           --
 --------------------------------
 
+-- {{{
 o {
   -- rendering --
   'encoding':      'utf-8'       -- self-explanatory
@@ -144,6 +136,7 @@ o {
   'virtualedit':   'block'       -- do not restrict v-block to characters
   'undofile'                     -- persistent undo/redo
   'clipboard':     'unnamedplus' -- don't forget xsel!
+  'mouse':         'a'           -- blasphemy!
 
   -- invisibles --
   'listchars':     'trail:␣'
@@ -165,13 +158,13 @@ o {
   'noshowmode'                   -- do not show -- INSERT --, etc on lastline
   'laststatus':    2             -- always show statusline
   --'showtabline':   2
-  --'statusline':    '%!v:lua.statusline()'
 
   'foldtext':      'v:lua.folding()'
 }
+-- }}}
 
 -- TODO add check if file exists or try expect
-colorscheme 'gruvbox'
+V.colorscheme 'gruvbox'
 
 --------------------------------
 --          keybinds          --
@@ -179,23 +172,13 @@ colorscheme 'gruvbox'
 
 g.mapleader = ' '
 
-bind = {
-  n: (...) ->
-    vimp.nnoremap ...
-  x: (...) ->
-    vimp.xnoremap ...
-  i: (...) ->
-    vimp.inoremap ...
-}
-
+-- colemak remap
+-- {{{
 keyremap = (mode, data) ->
   for k, v in pairs data
     -- operator mode is what makes d5e and etc work properly!
-    vimp.bind mode, k, v
-    vimp.bind mode, string.upper(k), string.upper(v)
-
-    --api.nvim_set_keymap('', k, v, { noremap: true })
-    --api.nvim_set_keymap('', string.upper(k), string.upper(v), { noremap: true })
+    V.map mode, k, v
+    V.map mode, string.upper(k), string.upper(v)
 
 keyremap 'nvo', {
   'n': 'j'
@@ -208,68 +191,85 @@ keyremap 'nvo', {
   'j': 'f'
   'f': 'e'
 }
+-- }}}
 
-bind.n '<C-Space>', -> print 'arst'
+-- testing
+V.map '<C-Space>', -> print 'arst'
 
 -- opinionated
-bind.n 'zC', 'zM'
-bind.n 'Y', 'y$'
-bind.n ';', ':'
---bind.n 'U', '<c-r>'
+V.map.n 'zC', 'zM'
+V.map.n 'Y', 'y$'
+V.map.n ';', ':'
 
 -- stay visual when indenting
-bind.x '<', '<gv'
-bind.x '>', '>gv'
+V.map.x '<', '<gv'
+V.map.x '>', '>gv'
 
 -- search
-bind.n { 'silent' }, '//', ':noh<cr>'
-bind.n { 'silent' }, '*', '*N'
+V.map.n { 'silent' }, '//', ':noh<cr>'
+V.map.n { 'silent' }, '*', '*N'
 
 -- smart replace
-bind.n '<leader>r', ':%s///g<left><left>'
-bind.x '<leader>r', ':s///g<left><left>'
+V.map.n '<leader>r', ':%s///g<left><left>'
+V.map.x '<leader>r', ':s///g<left><left>'
 
 -- seach for selected text
-vimp.bind 'x', '*', ->
-  Normal 'gvy'
-  Command '/' .. api.nvim_eval '@"'
-  Normal '<c-o>'
+V.map.x '*', ->
+  V.norm 'gvy'
+  V.exec '/' .. V.eval '@"'
+  V.norm '<c-o>'
+
+-- undo with relative time
+V.map.n 'u', ->
+  V.exec ':silent undo'
+  G.undotime = V.getundotime!
+  V.redrawstatus!
+
+V.map.n 'U', ->
+  V.exec ':silent redo'
+  G.undotime = V.getundotime!
+  V.redrawstatus!
 
 -- smart line movement
-bind.n { 'override', 'expr' }, 'n', ->
+V.map.n { 'override', 'expr' }, 'n', ->
   if v.count > 0 then 'j' else 'gj'
 
-bind.n { 'override', 'expr' }, 'e', ->
+V.map.n { 'override', 'expr' }, 'e', ->
   if v.count > 0 then 'k' else 'gk'
 
-bind.n 'H', 'J'
+-- move J
+V.map.n 'H', 'J'
 
 -- scrolling
-bind.n { 'override' }, 'N', '<c-d>'
-bind.n { 'override' }, 'E', '<c-u>'
+-- {{{
+V.map 'nv', { 'override' }, 'N',   '<c-d>'
+V.map 'nv', { 'override' }, 'E',   '<c-u>'
+V.map 'nv', '<ScrollWheelUp>',     '<c-y>'
+V.map 'nv', '<ScrollWheelDown>',   '<c-e>'
+-- }}}
 
 -- split movement
 -- {{{
-bind.n '<c-h>',    '<c-w>h'
-bind.n '<c-n>',    '<c-w>j'
-bind.n '<c-e>',    '<c-w>k'
-bind.n '<c-i>',    '<c-w>l'
+V.map.n '<c-h>',    '<c-w>h'
+V.map.n '<c-n>',    '<c-w>j'
+V.map.n '<c-e>',    '<c-w>k'
+V.map.n '<c-i>',    '<c-w>l'
 -- }}}
 
 -- useful arrowkeys
 -- {{{
-bind.n '<left>',   '<c-w>h'
-bind.n '<down>',   '<c-w>j'
-bind.n '<up>',     '<c-w>k'
-bind.n '<right>',  '<c-w>l'
+V.map.n '<left>',   '<c-w>h'
+V.map.n '<down>',   '<c-w>j'
+V.map.n '<up>',     '<c-w>k'
+V.map.n '<right>',  '<c-w>l'
 -- }}}
 
 -- easy umlauts
 -- {{{
-bind.i '<c-o>', 'ö'
-bind.i '<c-a>', 'ä'
-bind.i '<c-u>', 'ü'
-bind.i '<c-s>', 'ß'
+V.map.i '<c-o>', 'ö'
+V.map.i '<c-a>', 'ä'
+V.map.i '<c-u>', 'ü'
+V.map.i '<c-s>', 'ß'
 -- }}}
 
 -- reload vimrc.lua
@@ -284,136 +284,47 @@ vimp.nnoremap '<leader>s', ->
   vimp.unmap_all()
   unload_lua_namespace('vimrc')
   unload_lua_namespace('utils')
-  Command('silent wa')
+  V.exec 'silent wa'
   require('vimrc')
   print 'reloaded vimrc'
-  Command 'silent noh'
+  V.exec 'silent noh'
 -- }}}
 
 --------------------------------
 --         vim magic          --
 --------------------------------
 
-_G.dump = (...) ->
+global dump = (...) ->
   objects = vim.tbl_map(vim.inspect, {...})
   print(unpack(objects))
 
 -- custom folding
 -- {{{
-_G.folding = () ->
+global folding = () ->
   fold_size = v.foldend - v.foldstart - 1
 
   --line = fn.getline v.foldstart
   --if string.len(line) <= 6
 
   line = fn.getline v.foldstart + 1
-  indent = string.match(line, "^%s*")
-  line = string.match(line, "^%s*(.-)%s*$")
+  indent = line\match("^%s*")
+  line = line\match("^%s*(.-)%s*$")
 
   window_width = tonumber(fn.winwidth(0)) - tonumber(api.nvim_eval '&number') * tonumber(api.nvim_eval '&numberwidth') - tonumber(api.nvim_eval '&foldcolumn')
 
   l = indent .. '+ ' .. line
   r= '' .. fold_size .. '+     '
 
-  txt_len = window_width - string.len(l .. r) + 1
+  txt_len = window_width - (l .. r)\len! + 1
 
-  return l .. string.rep(' ', txt_len) .. r
+  return l .. ' '\rep(txt_len) .. r
 -- }}}
-
-
 
 -- statusline
 -- TODO:
 -- flag formatting?
-
-_G.update_statusline = () ->
-  vim.wo.statusline = statusline(vim.fn.bufnr())
-
-undoredo = ''
-
-relative_undo = (action) ->
-  time = {
-    second: 1
-    minute: 60
-    hour: 60 * 60
-    day: 24 * 60 * 60
-    week: 7 * 24 * 60 * 60
-    month: 30.5 * 24 * 60 * 60
-    year: 365 * 24 * 60 * 60
-  }
-
-
-  get_undo_time = (undotree) ->
-    idx = undotree.seq_cur
-    --for i=1, #undotree.entries
-    --  if undotree.entries[i].seq == idx
-    --    return undotree.entries[i].time
-    for _, entry in pairs undotree.entries
-      if entry.seq == idx
-        return entry.time
-    return vim.fn.localtime()
-
-  get_relative_undo_time = ->
-    undotree = vim.fn.undotree()
-    if undotree.seq_cur == undotree.seq_last
-      return ''
-
-    plural = ''
-    d = vim.fn.localtime! - get_undo_time(undotree)
-    w = false
-
-    if d <= time.second
-      return 'moments ago'
-    elseif d < time.minute
-      return d .. ' seconds ago'
-    elseif d < time.hour
-      w = 'minute'
-    elseif d < time.day
-      w = 'hour'
-    elseif d < time.week
-      w = 'day'
-    elseif d < time.month
-      w = 'week'
-    elseif d < time.year
-      w = 'month'
-    else
-      return 'more than a year ago'
-
-    if w
-      n = math.floor(d / time[w])
-      if n > 1 then plural = 's' else plural = ''
-      return n .. ' ' .. w .. plural .. ' ago'
-
-  lplural = ''
-  lines_before = vim.fn.line('$')
-  vim.cmd ':silent ' .. action
-  lines_after = vim.fn.line('$')
-
-  d_lines = lines_after - lines_before
-  if math.abs(d_lines) > 1 lplural = 's' else lplural = ''
-
-  if d_lines > 0
-    --d_lines = ', ' .. d_lines .. ' line' .. lplural .. ' more'
-    d_lines = ', +' .. d_lines .. ' line' .. lplural
-  elseif d_lines < 0
-    --d_lines = ', ' .. math.abs(d_lines) .. ' line' .. lplural .. ' less'
-    d_lines = ', ' .. d_lines .. ' line' .. lplural
-  else
-    d_lines = ''
-
-  rel_time = get_relative_undo_time!
-
-  undoredo = rel_time .. d_lines
-  update_statusline!
-
-bind.n 'u', ->
-  relative_undo 'undo'
-
-bind.n 'U', ->
-  relative_undo 'redo'
-
 -- {{{
-_G.statusline = (bufnr, inactive) ->
+global statusline = (bufnr) ->
   -- {{{
   out = (data) ->
     _out = ''
@@ -473,19 +384,13 @@ _G.statusline = (bufnr, inactive) ->
       return txt
   -- }}}
 
-  -- just in case
-  --if vim.w.aaa != nil
-  --  bufnr = vim.w.aaa
-  --else
-  --  vim.w.aaa = bufnr
-
   info = vim.fn.getbufinfo()[bufnr]
   info.readonly = vim.api.nvim_buf_get_option(bufnr, 'readonly')
 
-  modified = ->
+  saved = ->
     if info.name != ''
       --if info.changed == 1 then 'modified' else ''
-      return [[%{&modified?'modified':''}]]
+      return [[%{&modified?'':',, saved'}]]
 
   readonly = ->
     --r = vim.api.nvim_buf_get_option(bufnr, 'readonly')
@@ -531,10 +436,9 @@ _G.statusline = (bufnr, inactive) ->
     _
     '%#LineNr#'
     _
-    undoredo
+    G.undotime
+    saved!
     _
-    --modified!
-    --_
     '%#Search#'
     readonly!
     '%#LineNr#'
@@ -546,7 +450,10 @@ _G.statusline = (bufnr, inactive) ->
 
     '%#CursorLine#'
     _
-    __prev_layout
+    if not G.previous_layout
+      return 'us'
+    else
+      return G.previous_layout
     _
     '%2p%%'
     _
@@ -554,81 +461,51 @@ _G.statusline = (bufnr, inactive) ->
   }
 -- }}}
 
-au { 'BufEnter', 'BufLeave', 'CursorMoved', 'CursorMovedI' }, '*', ->
-  vim.wo.statusline = statusline(fn.bufnr())
-
 -- writing mode
-bind.n '<leader>1', ->
+V.map.n '<leader>1', ->
   print 'a'
 
 --------------------------------
 --          autocmd           --
 --------------------------------
 
--- TODO: redo when proper api support
+-- update statusline
+V.au { 'BufEnter', 'BufLeave', 'CursorMoved', 'CursorMovedI' }, '*', ->
+  V.redrawstatus!
 
-au { 'InsertEnter', 'InsertLeave', 'BufLeave', 'FocusLost' }, '*', 'set nocul'
-
-au 'BufEnter', '*', ->
-  if fn.mode! != 'i'
-    cmd 'set cul'
-
-au 'FocusGained', '*', ->
-  if fn.mode! != 'i'
-    cmd 'set cul'
+-- use cursorline to show active windows and current mode
+V.au { 'InsertEnter', 'InsertLeave', 'BufLeave', 'FocusLost' }, '*', 'set nocul'
+V.au { 'BufEnter', 'FocusGained' }, '*', ->
+  if V.mode! != 'i'
+    V.exec 'set cul'
 
 -- briefly flash yanked text
-autocmd 'TextYankPost * silent! lua vim.highlight.on_yank { higroup = "Search", timeout = 100 }'
+V.au 'TextYankPost', '*', ->
+  vim.highlight.on_yank { higroup: "Search", timeout: 100 }
 
--- recompile config
-autocmd 'BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %'
---autocmd 'BufWritePost ~/.config/nvim/lua/*.mp silent :PackerCompile'
+-- recompile config, suppress output unless the compilation failed
+V.au 'BufWritePost', '~/.config/nvim/lua/*.mp', ->
+  out = V.capture '!moonp %'
+  if V.eval('v:shell_error') == 1
+    print out
 
--- layout switcher
--- TODO:
--- save language separately for each buffer? may be confusing
--- intert mode mappings?
-global __prev_layout = 'us'
-
-au 'InsertLeave', '*', ->
-  __prev_layout = os.capture([[setxkbmap -query | awk '/layout/ { print $2 }']])
-  if __prev_layout == 'ru'
+-- switch keyboard layout to us when in normal mode
+-- TODO: insert mode mappings?
+V.au 'InsertLeave', '*', ->
+  G.previous_layout = os.capture [[ setxkbmap -query | awk '/layout/ { print $2 }' ]]
+  if G.previous_layout == 'ru'
     os.execute [[ setxkbmap us -variant colemak ]]
 
-au 'InsertEnter', '*', ->
-  if __prev_layout == 'ru'
+V.au 'InsertEnter', '*', ->
+  if G.previous_layout == 'ru'
     os.execute [[ setxkbmap ru ]]
 
 --------------------------------
 --          plugins           --
 --------------------------------
 
-Command "packadd packer.nvim"
+V.exec 'packadd packer.nvim'
 return require('packer').startup ->
   use 'wbthomason/packer.nvim'
   for p, h in pairs ice_before
     use p
-
-
--- {{{
---statusline_au = (events) ->
---  api.nvim_command 'augroup statusline_events'
---  api.nvim_command 'autocmd!'
---  for _, k in ipairs events
---    api.nvim_command 'autocmd ' .. k .. ' * lua vim.wo.statusline = statusline(vim.fn.bufnr())'
---  api.nvim_command 'augroup END'
---
---statusline_au {
---  'BufEnter'
---  'BufLeave'
---  --'BufDelete','SessionLoadPost','FileChangedShellPost',
---  'CursorMoved'
---  'CursorMovedI'
---  --'InsertEnter'
---  --'InsertChange'
---  --'InsertLeave'
---}
-
---api.nvim_command 'autocmd WinLeave * lua vim.wo.statusline = statusline(vim.fn.bufnr(), true)'
---api.nvim_command 'autocmd WinEnter * lua vim.wo.statusline = statusline(vim.fn.bufnr())'
--- }}}
