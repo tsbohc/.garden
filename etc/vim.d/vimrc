@@ -567,7 +567,7 @@ hi SpellDitto guifg=#83a598
 let g:ditto_hlgroups = ['SpellDitto']
 
 " hide ~ on non-existent lines
-highlight EndOfBuffer ctermfg=bg guifg=bg
+"highlight EndOfBuffer ctermfg=bg guifg=bg
 
 " ------------------------------
 "   sources (keep at the end)
