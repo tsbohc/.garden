@@ -38,16 +38,21 @@ scrollbar?
 
 -- update statusline
 -- TODO: create those artificially from modules' events later
-V.au { 'BufEnter', 'BufLeave', 'BufWritePost', 'CursorMoved', 'CursorMovedI', 'InsertEnter', 'InsertLeave' }, '*', ->
-  V.redrawstatus!
-
 b = vim.b
 
-G.home = os.getenv('HOME')
+--G.home = os.getenv('HOME')
 
 global __modules = {}
+global S = {}
 
-global S = {
+process_module = (name) ->
+  out = __modules[name]!
+  if out
+    b[name] = out
+  else
+    b[name] = ''
+
+S = {
   mod: (event, name, command) ->
     if __modules[name]
       print 'S.mod: module with the name \'' .. name .. '\' already exists!'
@@ -56,18 +61,8 @@ global S = {
 
     __modules[name] = command
 
-    -- having pattern in user aus breaks them
-    -- FIXME!!
-    if type(event) == 'string'
-      if event\match('User ')
-        V.au event, '', ->
-          b[name] = __modules[name]!
-      else
-        V.au event, '*', ->
-          b[name] = __modules[name]!
-    else
-      V.au event, '*', ->
-        b[name] = __modules[name]!
+    V.au event, '*', ->
+      process_module name
 }
 
 S.mod 'User UndoRedo', 'undotime', ->
@@ -76,57 +71,55 @@ S.mod 'User UndoRedo', 'undotime', ->
 S.mod 'BufEnter', 'readonly', ->
   return [[%{&readonly?' readonly ':''}]]
 
-S.mod 'BufEnter,BufWritePost', 'filetype', ->
+S.mod { 'BufEnter', 'BufWritePost' }, 'filetype', ->
   return vim.bo.filetype
 
-S.mod 'BufEnter,BufWritePost', 'cwd', ->
-  b.info = vim.fn.getbufinfo()[b.bufnr]
-  if b.info.name == ''
-    path = os.capture('pwd')
-    return path\gsub(G.home, '~') .. '/'
-  else
-    return b.info.name\gsub(G.home, '~')\match('(.*[/\\])')
+S.mod { 'BufEnter', 'BufWritePost' }, 'cwd', ->
+  return fn.expand('%:p:~:h') .. '/'
 
-S.mod 'BufEnter,BufWritePost', 'filename', ->
-  b.info = vim.fn.getbufinfo()[b.bufnr]
-  if b.info.name == ''
-    return ''
-  else
-    name = string.match(b.info.name, "^.+/(.+)$")
+S.mod { 'BufEnter', 'BufWritePost' }, 'filename', ->
+  name = fn.expand('%:t')
+  if name != ''
     return '‹‹ ' .. name .. ' ››'
 
-S.mod 'User UndoRedo,BufEnter,BufWritePost', 'saved', ->
-  b.info = vim.fn.getbufinfo()[b.bufnr]
-  if b.info.name != ''
+S.mod { 'User UndoRedo', 'BufEnter', 'BufWritePost' }, 'saved', ->
+  name = fn.expand('%:t')
+  if name != ''
     return [[%{&modified?'':',, saved'}]]
 
--- pretty sure it's haunted
--- well, that's because G.previous_layout doesn't update until InsertLeave
-S.mod { 'InsertEnter', 'InsertLeave', 'TextChangedI', 'CursorMoved' }, 'layout', ->
-  --return os.capture [[ setxkbmap -query | awk '/layout/ { print $2 }' ]]
-  if not G.previous_layout
-    return 'us'
-  else
-    return G.previous_layout
+-- G.previous_layout doesn't update until InsertLeave
+S.mod { 'InsertEnter', 'InsertLeave' }, 'layout', ->
+  if G.previous_layout == 'ru'
+    return 'ru '
+
+--S.mod { 'BufEnter', 'TextChanged', 'TextChangedI' }, 'lines', ->
+--  return fn.line('$')
+
+-- lighter?
+b.lines = '%L'
+b.percentage = '%2p%%'
+
+V.au { 'BufEnter', 'BufLeave', 'BufWritePost', 'CursorMoved', 'CursorMovedI', 'InsertEnter', 'InsertLeave', 'TextChanged', 'TextChangedI' }, '*', ->
+  V.redrawstatus!
 
 -- format data before returning
 out = (data) ->
   _out = ''
   for _, k in pairs data
     _out ..= k
+
   return _out
 
-_ = ' '
-
-global statusline = (bufnr) ->
-  b.bufnr = bufnr
+global statusline = () ->
+  --b.bufnr = bufnr -- let's forget this nightmare
+  _ = [[ ]]
 
   --if vim.bo.filetype == 'help'
   --  return '%#CursorLine#' .. ' help ' .. '%#LineNr#' .. '%=' .. '%#CursorLine#' .. ' %p%% '
 
   out {
     '%#CursorLine#'
-    '%L'
+    b.lines
     _
     b.filename
     _
@@ -147,8 +140,7 @@ global statusline = (bufnr) ->
     '%#CursorLine#'
     _
     b.layout
-    _
-    '%2p%%'
+    b.percentage
     _
     '%#LineNr#'
   }

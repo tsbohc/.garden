@@ -7,7 +7,8 @@
 '           luautism~  ]]
 
 require('utils')
-require('statusline')
+
+-- map ctrl-backspace to db ??
 
 -- dump internal vim command into current buffer
 -- :silent put =execute('autocmd')
@@ -142,7 +143,7 @@ o {
   -- invisibles --
   'listchars':     'trail:␣'
   'list'
-  'fillchars':     'eob:'      -- hide end of buffer ~s
+  --'fillchars':     'eob:·'     -- do not set those to fileseparator etc, trust me
 
   -- search --
   'incsearch'                    -- search as characters are typed
@@ -167,6 +168,9 @@ o {
 
 -- TODO add check if file exists or try expect
 V.colorscheme 'gruvbox'
+
+-- remove '~'s
+V.exec [[ highlight EndOfBuffer ctermfg=bg guifg=bg ]]
 
 --------------------------------
 --          keybinds          --
@@ -284,6 +288,7 @@ vimp.nnoremap '<leader>s', ->
   vimp.unmap_all()
   unload_lua_namespace('vimrc')
   unload_lua_namespace('utils')
+  unload_lua_namespace('newstatus')
   V.exec 'silent wa'
   require('vimrc')
   print 'reloaded vimrc'
@@ -362,6 +367,8 @@ V.au 'Filetype', 'help', ->
 --------------------------------
 --          plugins           --
 --------------------------------
+
+require('newstatus')
 
 V.exec 'packadd packer.nvim'
 return require('packer').startup ->

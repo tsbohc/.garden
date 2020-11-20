@@ -1,5 +1,4 @@
 require('utils')
-require('statusline')
 local o = setmetatable({ }, {
 	__call = function(self, options)
 		for k, v in pairs(options) do
@@ -86,7 +85,6 @@ o({
 	['mouse'] = 'a',
 	['listchars'] = 'trail:␣',
 	'list',
-	['fillchars'] = 'eob:',
 	'incsearch',
 	['inccommand'] = 'nosplit',
 	'hlsearch',
@@ -102,6 +100,7 @@ o({
 	['foldtext'] = 'v:lua.folding()'
 })
 V.colorscheme('gruvbox')
+V.exec([[ highlight EndOfBuffer ctermfg=bg guifg=bg ]])
 g.mapleader = ' '
 local keyremap
 keyremap = function(mode, data)
@@ -202,6 +201,7 @@ vimp.nnoremap('<leader>s', function()
 	vimp.unmap_all()
 	unload_lua_namespace('vimrc')
 	unload_lua_namespace('utils')
+	unload_lua_namespace('newstatus')
 	V.exec('silent wa')
 	require('vimrc')
 	print('reloaded vimrc')
@@ -267,6 +267,7 @@ end)
 V.au('Filetype', 'help', function()
 	return V.exec('wincmd L')
 end)
+require('newstatus')
 V.exec('packadd packer.nvim')
 return require('packer').startup(function()
 	use('wbthomason/packer.nvim')

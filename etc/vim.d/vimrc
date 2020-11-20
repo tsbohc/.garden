@@ -131,6 +131,7 @@ syntax enable
 
 
 lua require('vimrc')
+"lua require('test')
 
 " {{{
 " ------------------------------
@@ -587,4 +588,6 @@ hi link moonBoolean moonObject
 "source ~/blueberry/etc/vim.d/statusline.vim
 
 
+"set statusline=
+"set statusline+=\ %L_____%L%=%L
 

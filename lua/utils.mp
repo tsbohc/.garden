@@ -6,6 +6,10 @@ require('vimp')
 -- we're exporting everything
 global *
 
+
+
+uuu = 'unset'
+
 api = vim.api
 g = vim.g
 b = vim.b
@@ -36,7 +40,7 @@ V = {
     vim.api.nvim_command 'colorscheme ' .. name
 
   redrawstatus: ->
-    vim.wo.statusline = statusline(vim.fn.bufnr())
+    vim.wo.statusline = statusline()
 }
 
 __autocmds = {}
@@ -46,31 +50,64 @@ V.exec 'augroup END'
 V.exec 'autocmd! ___autocmds'
 
 -- {{{
-V.au = (event, pattern, command) ->
-  if type(command) != 'string' and type(command) != 'function'
+-- TODO: user events check, multiple events in one line
+flatten = (t) ->
+  n = #t
+  res = ''
+  for i, v in ipairs t
+    res ..= v
+    if i < n
+      res ..= ','
+  return res
+
+check_for_user_events = (e) ->
+  if type(e) == 'string'
+    if e\match('User ')
+      return true
+  elseif type(e) == 'table'
+    for _, k in pairs e
+      if k\match('User ')
+        return true
+  return false
+
+V.au = (events, pattern, action) ->
+  if type(action) != 'string' and type(action) != 'function'
     return
+
+  debug = false
+
+  if type(action) == 'function'
+    id = #__autocmds + 1
+    __autocmds[id] = action
+
+    action = ':lua __autocmds[' .. id .. ']()'
 
   V.exec 'augroup ___autocmds'
 
-  if type(command) == 'function'
-    id = #__autocmds + 1
-    __autocmds[id] = command
+  if check_for_user_events(events)
+    if type(events) == 'string'
+      pattern = ''
+    elseif type(events) == 'table'
+      for i, k in pairs events
+        if k\match('User ')
+          V.exec 'autocmd ' .. k .. ' ' .. action
+          if debug
+            print 'autocmd ' .. k .. ' ' .. action
+          table.remove(events, i)
 
-    if type(event) == 'string'
-      V.exec 'autocmd ' .. event .. ' ' .. pattern .. ' lua __autocmds[' .. id .. ']()'
-    elseif type(event) == 'table'
-      for _, e in ipairs event
-        V.exec 'autocmd ' .. e .. ' ' .. pattern .. ' lua __autocmds[' .. id .. ']()'
+  if type(events) == 'table'
+    -- in case it was a table with one User au
+    if #events == 0
+      return
+    events = flatten(events)
 
-  elseif type(command) == 'string'
-
-    if type(event) == 'string'
-      V.exec 'autocmd ' .. event .. ' ' .. pattern .. ' ' .. command
-    elseif type(event) == 'table'
-      for _, e in ipairs event
-        V.exec 'autocmd ' .. e .. ' ' .. pattern .. ' ' .. command
+  V.exec 'autocmd ' .. events .. ' ' .. pattern .. ' ' .. action
+  if debug
+    print 'autocmd ' .. events .. ' ' .. pattern .. ' ' .. action
 
   V.exec 'augroup END'
+  if debug
+    print ' '
 -- }}}
 
 -- i am too dumb to wrap exprs myself
@@ -95,8 +132,11 @@ V.map = setmetatable({
 })
 
 -- relative undo time
+-- TODO
+-- what if i stored absolute time and added time passed since to it
+-- while updating the vim.b value every n seconds or so? depending on delta size
 -- {{{
-V.getundotime = (action) ->
+V.getundotime = () ->
   -- {{{
   time = {
     second: 1
@@ -118,13 +158,27 @@ V.getundotime = (action) ->
         return entry.time
     return vim.fn.localtime()
 
-  plural = ''
-  d = vim.fn.localtime! - get_undo_time(undotree.seq_cur)
-  w = false
+  d = 0
+  fname = vim.fn.expand('%:p')
 
-  if undotree.seq_cur == undotree.seq_last
-    return 'now'
-    --d = vim.fn.localtime! - get_undo_time(undotree.save_last)
+  -- pretty bad but works TODO
+
+  if undotree.seq_cur == undotree.seq_last and fname != ''
+    -- get last modified time if were at the latest point in history 
+    -- without any more recent changes
+    d1 = vim.fn.localtime! - tonumber(os.capture('stat -c %Y ' .. fname))
+    d2 = vim.fn.localtime! - get_undo_time(undotree.seq_cur)
+    if d1 < d2
+      d = d2
+    else
+      d = d1
+  elseif fname == ''
+    return 'unsaved'
+  else
+    d = vim.fn.localtime! - get_undo_time(undotree.seq_cur)
+
+  plural = ''
+  w = false
 
   if d <= time.second
     return 'moments ago'
@@ -165,9 +219,6 @@ V.getundotime = (action) ->
   --else
   --  d_lines = 'now'
 -- }}}
-
--- set initial
-b.undotime = V.getundotime!
 
 -- capture output of shell commands
 -- {{{

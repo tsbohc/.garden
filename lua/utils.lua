@@ -1,4 +1,5 @@
 require('vimp')
+uuu = 'unset'
 api = vim.api
 g = vim.g
 b = vim.b
@@ -26,38 +27,78 @@ V = {
 		return vim.api.nvim_command('colorscheme ' .. name)
 	end,
 	redrawstatus = function()
-		vim.wo.statusline = statusline(vim.fn.bufnr())
+		vim.wo.statusline = statusline()
 	end
 }
 __autocmds = { }
 V.exec('augroup ___autocmds')
 V.exec('augroup END')
 V.exec('autocmd! ___autocmds')
-V.au = function(event, pattern, command)
-	if type(command) ~= 'string' and type(command) ~= 'function' then
+flatten = function(t)
+	local n = #t
+	local res = ''
+	for i, v in ipairs(t) do
+		res = res .. v
+		if i < n then
+			res = res .. ','
+		end
+	end
+	return res
+end
+check_for_user_events = function(e)
+	if type(e) == 'string' then
+		if e:match('User ') then
+			return true
+		end
+	elseif type(e) == 'table' then
+		for _, k in pairs(e) do
+			if k:match('User ') then
+				return true
+			end
+		end
+	end
+	return false
+end
+V.au = function(events, pattern, action)
+	if type(action) ~= 'string' and type(action) ~= 'function' then
 		return
 	end
-	V.exec('augroup ___autocmds')
-	if type(command) == 'function' then
+	local debug = false
+	if type(action) == 'function' then
 		local id = #__autocmds + 1
-		__autocmds[id] = command
-		if type(event) == 'string' then
-			V.exec('autocmd ' .. event .. ' ' .. pattern .. ' lua __autocmds[' .. id .. ']()')
-		elseif type(event) == 'table' then
-			for _, e in ipairs(event) do
-				V.exec('autocmd ' .. e .. ' ' .. pattern .. ' lua __autocmds[' .. id .. ']()')
-			end
-		end
-	elseif type(command) == 'string' then
-		if type(event) == 'string' then
-			V.exec('autocmd ' .. event .. ' ' .. pattern .. ' ' .. command)
-		elseif type(event) == 'table' then
-			for _, e in ipairs(event) do
-				V.exec('autocmd ' .. e .. ' ' .. pattern .. ' ' .. command)
+		__autocmds[id] = action
+		action = ':lua __autocmds[' .. id .. ']()'
+	end
+	V.exec('augroup ___autocmds')
+	if check_for_user_events(events) then
+		if type(events) == 'string' then
+			pattern = ''
+		elseif type(events) == 'table' then
+			for i, k in pairs(events) do
+				if k:match('User ') then
+					V.exec('autocmd ' .. k .. ' ' .. action)
+					if debug then
+						print('autocmd ' .. k .. ' ' .. action)
+					end
+					table.remove(events, i)
+				end
 			end
 		end
 	end
-	return V.exec('augroup END')
+	if type(events) == 'table' then
+		if #events == 0 then
+			return
+		end
+		events = flatten(events)
+	end
+	V.exec('autocmd ' .. events .. ' ' .. pattern .. ' ' .. action)
+	if debug then
+		print('autocmd ' .. events .. ' ' .. pattern .. ' ' .. action)
+	end
+	V.exec('augroup END')
+	if debug then
+		return print(' ')
+	end
 end
 V.map = setmetatable({
 	n = function(...)
@@ -86,7 +127,7 @@ V.map = setmetatable({
 		return vimp.bind(...)
 	end
 })
-V.getundotime = function(action)
+V.getundotime = function()
 	local time = {
 		second = 1,
 		minute = 60,
@@ -107,12 +148,23 @@ V.getundotime = function(action)
 		end
 		return vim.fn.localtime()
 	end
-	local plural = ''
-	local d = vim.fn.localtime() - get_undo_time(undotree.seq_cur)
-	local w = false
-	if undotree.seq_cur == undotree.seq_last then
-		return 'now'
+	local d = 0
+	local fname = vim.fn.expand('%:p')
+	if undotree.seq_cur == undotree.seq_last and fname ~= '' then
+		local d1 = vim.fn.localtime() - tonumber(os.capture('stat -c %Y ' .. fname))
+		local d2 = vim.fn.localtime() - get_undo_time(undotree.seq_cur)
+		if d1 < d2 then
+			d = d2
+		else
+			d = d1
+		end
+	elseif fname == '' then
+		return 'unsaved'
+	else
+		d = vim.fn.localtime() - get_undo_time(undotree.seq_cur)
 	end
+	local plural = ''
+	local w = false
 	if d <= time.second then
 		return 'moments ago'
 	elseif d < time.minute then
@@ -140,7 +192,6 @@ V.getundotime = function(action)
 		return n .. ' ' .. w .. plural .. ' ago'
 	end
 end
-b.undotime = V.getundotime()
 os.capture = function(command, raw)
 	local f = assert(io.popen(command, 'r'))
 	io.input(f)
