@@ -136,6 +136,15 @@ V.map = setmetatable({
 -- what if i stored absolute time and added time passed since to it
 -- while updating the vim.b value every n seconds or so? depending on delta size
 -- {{{
+
+file_exists = (name) ->
+  f = io.open name, 'r'
+  if f ~= nil
+    io.close(f)
+    return true
+  else
+    return false
+
 V.getundotime = () ->
   -- {{{
   time = {
@@ -163,15 +172,19 @@ V.getundotime = () ->
 
   -- pretty bad but works TODO
 
-  if undotree.seq_cur == undotree.seq_last and fname != ''
+  if undotree.seq_cur == undotree.seq_last and fname != '' --and file_exists fname
     -- get last modified time if were at the latest point in history 
     -- without any more recent changes
-    d1 = vim.fn.localtime! - tonumber(os.capture('stat -c %Y ' .. fname))
-    d2 = vim.fn.localtime! - get_undo_time(undotree.seq_cur)
-    if d1 < d2
-      d = d2
+    modi = tonumber(os.capture('stat -c %Y ' .. fname))
+    if modi
+      d1 = vim.fn.localtime! - modi
+      d2 = vim.fn.localtime! - get_undo_time(undotree.seq_cur)
+      if d1 < d2
+        d = d2
+      else
+        d = d1
     else
-      d = d1
+      return 'unsaved'
   elseif fname == ''
     return 'unsaved'
   else

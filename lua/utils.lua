@@ -127,6 +127,15 @@ V.map = setmetatable({
 		return vimp.bind(...)
 	end
 })
+file_exists = function(name)
+	local f = io.open(name, 'r')
+	if f ~= nil then
+		io.close(f)
+		return true
+	else
+		return false
+	end
+end
 V.getundotime = function()
 	local time = {
 		second = 1,
@@ -151,12 +160,17 @@ V.getundotime = function()
 	local d = 0
 	local fname = vim.fn.expand('%:p')
 	if undotree.seq_cur == undotree.seq_last and fname ~= '' then
-		local d1 = vim.fn.localtime() - tonumber(os.capture('stat -c %Y ' .. fname))
-		local d2 = vim.fn.localtime() - get_undo_time(undotree.seq_cur)
-		if d1 < d2 then
-			d = d2
+		local modi = tonumber(os.capture('stat -c %Y ' .. fname))
+		if modi then
+			local d1 = vim.fn.localtime() - modi
+			local d2 = vim.fn.localtime() - get_undo_time(undotree.seq_cur)
+			if d1 < d2 then
+				d = d2
+			else
+				d = d1
+			end
 		else
-			d = d1
+			return 'unsaved'
 		end
 	elseif fname == '' then
 		return 'unsaved'

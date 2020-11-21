@@ -1,4 +1,5 @@
 require('utils')
+require('ss')
 local o = setmetatable({ }, {
 	__call = function(self, options)
 		for k, v in pairs(options) do
@@ -201,7 +202,7 @@ vimp.nnoremap('<leader>s', function()
 	vimp.unmap_all()
 	unload_lua_namespace('vimrc')
 	unload_lua_namespace('utils')
-	unload_lua_namespace('newstatus')
+	unload_lua_namespace('ss')
 	V.exec('silent wa')
 	require('vimrc')
 	print('reloaded vimrc')
@@ -224,6 +225,60 @@ folding = function()
 	local txt_len = window_width - (l .. r):len() + 1
 	return l .. (' '):rep(txt_len) .. r
 end
+StatusLine({
+	'%#CursorLine#',
+	'%L ',
+	{
+		'BufEnter, BufWritePost',
+		function()
+			local name = fn.expand('%:t')
+			if name ~= '' then
+				return '‹‹ ' .. name .. ' ›› '
+			end
+		end
+	},
+	'%#LineNr#',
+	{
+		'User UndoRedo, BufEnter, BufLeave, FocusLost, FocusGained, BufWritePost',
+		function()
+			return ' ' .. V.getundotime()
+		end
+	},
+	{
+		'User UndoRedo, BufEnter, BufWritePost',
+		function()
+			local name = fn.expand('%:t')
+			if name ~= '' then
+				return [[%{&modified?'':',, saved '}]]
+			end
+		end
+	},
+	'%#Search#',
+	{
+		'BufEnter',
+		function()
+			return [[%{&readonly?'  readonly ':''}]]
+		end
+	},
+	'%#LineNr#',
+	'%=%<',
+	{
+		'BufEnter, BufWritePost',
+		function()
+			return fn.expand('%:p:~:h') .. ' '
+		end
+	},
+	'%#CursorLine# ',
+	{
+		'InsertEnter, InsertLeave',
+		function()
+			if G.previous_layout == 'ru' then
+				return 'ru '
+			end
+		end
+	},
+	'%2p%% '
+})
 V.map.n('<leader>1', function()
 	return print('a')
 end)
@@ -267,7 +322,6 @@ end)
 V.au('Filetype', 'help', function()
 	return V.exec('wincmd L')
 end)
-require('newstatus')
 V.exec('packadd packer.nvim')
 return require('packer').startup(function()
 	use('wbthomason/packer.nvim')

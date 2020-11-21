@@ -7,6 +7,7 @@
 '           luautism~  ]]
 
 require('utils')
+require('ss')
 
 -- map ctrl-backspace to db ??
 
@@ -288,7 +289,7 @@ vimp.nnoremap '<leader>s', ->
   vimp.unmap_all()
   unload_lua_namespace('vimrc')
   unload_lua_namespace('utils')
-  unload_lua_namespace('newstatus')
+  unload_lua_namespace('ss')
   V.exec 'silent wa'
   require('vimrc')
   print 'reloaded vimrc'
@@ -324,6 +325,51 @@ global folding = () ->
 
   return l .. ' '\rep(txt_len) .. r
 -- }}}
+
+StatusLine {
+  '%#CursorLine#'
+  '%L '
+
+  { 'BufEnter, BufWritePost', ->
+    name = fn.expand('%:t')
+    if name != ''
+      return '‹‹ ' .. name .. ' ›› '
+  }
+
+  '%#LineNr#'
+
+  { 'User UndoRedo, BufEnter, BufLeave, FocusLost, FocusGained, BufWritePost', ->
+    ' ' ..  V.getundotime!
+  }
+
+  -- TODO move to getundotime
+  { 'User UndoRedo, BufEnter, BufWritePost', ->
+    name = fn.expand('%:t')
+    -- find a better way to check if file exists
+    if name != '' --and file_exists name
+      return [[%{&modified?'':',, saved '}]]
+  }
+
+  '%#Search#'
+  { 'BufEnter', -> [[%{&readonly?'  readonly ':''}]] }
+  '%#LineNr#'
+
+  '%=%<'
+
+  { 'BufEnter, BufWritePost', ->
+    fn.expand('%:p:~:h') .. ' ' --.. '/'
+  }
+
+  '%#CursorLine# '
+
+  { 'InsertEnter, InsertLeave', ->
+    if G.previous_layout == 'ru'
+      return 'ru '
+  }
+
+  '%2p%% '
+}
+
 
 -- writing mode
 V.map.n '<leader>1', ->
@@ -367,8 +413,6 @@ V.au 'Filetype', 'help', ->
 --------------------------------
 --          plugins           --
 --------------------------------
-
-require('newstatus')
 
 V.exec 'packadd packer.nvim'
 return require('packer').startup ->
