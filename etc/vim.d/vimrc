@@ -584,6 +584,7 @@ endfunc
 
 hi link moonObjAssign NONE
 hi link moonBoolean moonObject
+"hi link moonString2 NONE
 
 "source ~/blueberry/etc/vim.d/statusline.vim
 
