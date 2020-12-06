@@ -6,8 +6,6 @@ require('vimp')
 -- we're exporting everything
 global *
 
-
-
 uuu = 'unset'
 
 api = vim.api

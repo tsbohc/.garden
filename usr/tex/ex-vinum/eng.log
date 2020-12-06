@@ -1,45 +1,46 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.6.9)  8 JUL 2020 19:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.11.30)  1 DEC 2020 18:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **eng.tex
 (./eng.tex
-LaTeX2e <2019-10-01> patch level 1
-(/usr/share/texmf-dist/tex/latex/base/book.cls
-Document Class: book 2019/08/27 v1.4j Standard LaTeX document class
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03> (/usr/share/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2019/12/20 v1.4l Standard LaTeX document class
 (/usr/share/texmf-dist/tex/latex/base/bk11.clo
-File: bk11.clo 2019/08/27 v1.4j Standard LaTeX file (size option)
+File: bk11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 )
-\c@part=\count80
-\c@chapter=\count81
-\c@section=\count82
-\c@subsection=\count83
-\c@subsubsection=\count84
-\c@paragraph=\count85
-\c@subparagraph=\count86
-\c@figure=\count87
-\c@table=\count88
-\abovecaptionskip=\skip41
-\belowcaptionskip=\skip42
-\bibindent=\dimen102
+\c@part=\count167
+\c@chapter=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
 ) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2018/08/11 v1.3c Input encoding file
-\inpenc@prehook=\toks14
-\inpenc@posthook=\toks15
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
 ) (/usr/share/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2019/10/15 3.35 The Babel package
- (/usr/share/texmf-dist/tex/generic/babel/switch.def
-File: switch.def 2019/10/15 3.35 Babel switching mechanism
-) (/usr/share/texmf-dist/tex/generic/babel-russian/russianb.ldf
-Language: russian 2017/08/12 1.3j Russian support for the Babel system
+Package: babel 2020/05/13 3.44 The Babel package
  (/usr/share/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2019/10/15 3.35 Babel common definitions
-\babel@savecnt=\count89
-\U@D=\dimen103
+File: babel.def 2020/05/13 3.44 Babel common definitions
+\babel@savecnt=\count176
+\U@D=\dimen135
+\l@babelnohyphens=\language86
  (/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
-\bbl@dirlevel=\count90
+\bbl@readstream=\read2
 )
+\bbl@dirlevel=\count177
+ (/usr/share/texmf-dist/tex/generic/babel-russian/russianb.ldf
+Language: russian 2017/08/12 1.3j Russian support for the Babel system
+
 
 Package babel Warning: No Cyrillic font encoding has been loaded so far.
 (babel)                A font encoding should be declared before babel.
@@ -50,7 +51,7 @@ File: t2aenc.def 2005/09/27 v1.0i Cyrillic encoding definition file
 Now handling font encoding T2A ...
 ... processing UTF-8 mapping file for font encoding T2A
  (/usr/share/texmf-dist/tex/latex/base/t2aenc.dfu
-File: t2aenc.dfu 2019/07/11 v1.2j UTF-8 support for inputenc
+File: t2aenc.dfu 2019/11/14 v1.2k UTF-8 support for inputenc
    defining Unicode char U+00A4 (decimal 164)
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00AB (decimal 171)
@@ -251,239 +252,82 @@ File: t2aenc.dfu 2019/07/11 v1.2j UTF-8 support for inputenc
 Package babel Info: Making " an active character on input line 120.
 Package babel Info: Default for \cyrdash is provided on input line 157.
 )) (/usr/share/texmf-dist/tex/latex/tools/longtable.sty
-Package: longtable 2019/02/06 v4.12 Multi-page Table package (DPC)
-\LTleft=\skip43
-\LTright=\skip44
-\LTpre=\skip45
-\LTpost=\skip46
-\LTchunksize=\count91
-\LTcapwidth=\dimen104
-\LT@head=\box27
-\LT@firsthead=\box28
-\LT@foot=\box29
-\LT@lastfoot=\box30
-\LT@cols=\count92
-\LT@rows=\count93
-\c@LT@tables=\count94
-\c@LT@chunks=\count95
-\LT@p@ftn=\toks16
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip49
+\LTright=\skip50
+\LTpre=\skip51
+\LTpost=\skip52
+\LTchunksize=\count178
+\LTcapwidth=\dimen136
+\LT@head=\box45
+\LT@firsthead=\box46
+\LT@foot=\box47
+\LT@lastfoot=\box48
+\LT@cols=\count179
+\LT@rows=\count180
+\c@LT@tables=\count181
+\c@LT@chunks=\count182
+\LT@p@ftn=\toks17
 ) (/usr/share/texmf-dist/tex/latex/mdframed/mdframed.sty
 Package: mdframed 2013/07/01 1.9b: mdframed
- (/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+ (/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
  (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks17
-) (/usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-) (/usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
- (/usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-) (/usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
- (/usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)))) (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2019-10-28 L3 programming layer (loader) 
- (/usr/share/texmf-dist/tex/latex/l3kernel/expl3-code.tex
-Package: expl3 2019-10-28 L3 programming layer (code)
-\c_max_int=\count96
-\l_tmpa_int=\count97
-\l_tmpb_int=\count98
-\g_tmpa_int=\count99
-\g_tmpb_int=\count100
-\l__seq_internal_a_int=\count101
-\l__seq_internal_b_int=\count102
-\g__kernel_prg_map_int=\count103
-\c__ior_term_noprompt_ior=\count104
-\c_log_iow=\count105
-\l_iow_line_count_int=\count106
-\l__iow_line_target_int=\count107
-\l__iow_one_indent_int=\count108
-\l__iow_indent_int=\count109
-\c_zero_dim=\dimen105
-\c_max_dim=\dimen106
-\l_tmpa_dim=\dimen107
-\l_tmpb_dim=\dimen108
-\g_tmpa_dim=\dimen109
-\g_tmpb_dim=\dimen110
-\c_zero_skip=\skip47
-\c_max_skip=\skip48
-\l_tmpa_skip=\skip49
-\l_tmpb_skip=\skip50
-\g_tmpa_skip=\skip51
-\g_tmpb_skip=\skip52
-\c_zero_muskip=\muskip10
-\c_max_muskip=\muskip11
-\l_tmpa_muskip=\muskip12
-\l_tmpb_muskip=\muskip13
-\g_tmpa_muskip=\muskip14
-\g_tmpb_muskip=\muskip15
-\l_keys_choice_int=\count110
-\l__intarray_loop_int=\count111
-\c__intarray_sp_dim=\dimen111
-\g__intarray_font_int=\count112
-\c__fp_leading_shift_int=\count113
-\c__fp_middle_shift_int=\count114
-\c__fp_trailing_shift_int=\count115
-\c__fp_big_leading_shift_int=\count116
-\c__fp_big_middle_shift_int=\count117
-\c__fp_big_trailing_shift_int=\count118
-\c__fp_Bigg_leading_shift_int=\count119
-\c__fp_Bigg_middle_shift_int=\count120
-\c__fp_Bigg_trailing_shift_int=\count121
-\c__kernel_randint_max_int=\count122
-\g__fp_array_int=\count123
-\l__fp_array_loop_int=\count124
-\l__sort_length_int=\count125
-\l__sort_min_int=\count126
-\l__sort_top_int=\count127
-\l__sort_max_int=\count128
-\l__sort_true_max_int=\count129
-\l__sort_block_int=\count130
-\l__sort_begin_int=\count131
-\l__sort_end_int=\count132
-\l__sort_A_int=\count133
-\l__sort_B_int=\count134
-\l__sort_C_int=\count135
-\l__str_internal_int=\count136
-\c__str_replacement_char_int=\count137
-\l__tl_analysis_normal_int=\count138
-\l__tl_analysis_index_int=\count139
-\l__tl_analysis_nesting_int=\count140
-\l__tl_analysis_type_int=\count141
-\l__regex_internal_a_int=\count142
-\l__regex_internal_b_int=\count143
-\l__regex_internal_c_int=\count144
-\l__regex_balance_int=\count145
-\l__regex_group_level_int=\count146
-\l__regex_mode_int=\count147
-\c__regex_cs_in_class_mode_int=\count148
-\c__regex_cs_mode_int=\count149
-\l__regex_catcodes_int=\count150
-\l__regex_default_catcodes_int=\count151
-\c__regex_catcode_D_int=\count152
-\c__regex_catcode_S_int=\count153
-\c__regex_catcode_L_int=\count154
-\c__regex_catcode_O_int=\count155
-\c__regex_catcode_A_int=\count156
-\c__regex_all_catcodes_int=\count157
-\l__regex_show_lines_int=\count158
-\l__regex_min_state_int=\count159
-\l__regex_max_state_int=\count160
-\l__regex_left_state_int=\count161
-\l__regex_right_state_int=\count162
-\l__regex_capturing_group_int=\count163
-\l__regex_min_pos_int=\count164
-\l__regex_max_pos_int=\count165
-\l__regex_curr_pos_int=\count166
-\l__regex_start_pos_int=\count167
-\l__regex_success_pos_int=\count168
-\l__regex_curr_char_int=\count169
-\l__regex_curr_catcode_int=\count170
-\l__regex_last_char_int=\count171
-\l__regex_case_changed_char_int=\count172
-\l__regex_curr_state_int=\count173
-\l__regex_step_int=\count174
-\l__regex_min_active_int=\count175
-\l__regex_max_active_int=\count176
-\l__regex_replacement_csnames_int=\count177
-\l__regex_match_count_int=\count178
-\l__regex_min_submatch_int=\count179
-\l__regex_submatch_int=\count180
-\l__regex_zeroth_submatch_int=\count181
-\g__regex_trace_regex_int=\count182
-\c_empty_box=\box31
-\l_tmpa_box=\box32
-\l_tmpb_box=\box33
-\g_tmpa_box=\box34
-\g_tmpb_box=\box35
-\l__box_top_dim=\dimen112
-\l__box_bottom_dim=\dimen113
-\l__box_left_dim=\dimen114
-\l__box_right_dim=\dimen115
-\l__box_top_new_dim=\dimen116
-\l__box_bottom_new_dim=\dimen117
-\l__box_left_new_dim=\dimen118
-\l__box_right_new_dim=\dimen119
-\l__box_internal_box=\box36
-\l__coffin_internal_box=\box37
-\l__coffin_internal_dim=\dimen120
-\l__coffin_offset_x_dim=\dimen121
-\l__coffin_offset_y_dim=\dimen122
-\l__coffin_x_dim=\dimen123
-\l__coffin_y_dim=\dimen124
-\l__coffin_x_prime_dim=\dimen125
-\l__coffin_y_prime_dim=\dimen126
-\c_empty_coffin=\box38
-\l__coffin_aligned_coffin=\box39
-\l__coffin_aligned_internal_coffin=\box40
-\l_tmpa_coffin=\box41
-\l_tmpb_coffin=\box42
-\g_tmpa_coffin=\box43
-\g_tmpb_coffin=\box44
-\l__coffin_bounding_shift_dim=\dimen127
-\l__coffin_left_corner_dim=\dimen128
-\l__coffin_right_corner_dim=\dimen129
-\l__coffin_bottom_corner_dim=\dimen130
-\l__coffin_top_corner_dim=\dimen131
-\l__coffin_scaled_total_height_dim=\dimen132
-\l__coffin_scaled_width_dim=\dimen133
-\c__coffin_empty_coffin=\box45
-\l__coffin_display_coffin=\box46
-\l__coffin_display_coord_coffin=\box47
-\l__coffin_display_pole_coffin=\box48
-\l__coffin_display_offset_dim=\dimen134
-\l__coffin_display_x_dim=\dimen135
-\l__coffin_display_y_dim=\dimen136
-\g__char_data_ior=\read1
- (/usr/share/texmf-dist/tex/latex/l3kernel/l3deprecation.def
-File: l3deprecation.def 2019-04-06 v L3 Deprecated functions
-)) (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
-File: l3backend-pdfmode.def 2019-04-06 L3 backend support: PDF mode
+\KV@toks@=\toks18
+) (/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+) (/usr/share/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)) (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2020-06-03 L3 programming layer (loader) 
+ (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-06-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count183
 \l__pdf_internal_box=\box49
 ))
-Package: xparse 2019-10-11 L3 Experimental document command parser
+Package: xparse 2020-05-15 L3 Experimental document command parser
+ (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex
 \l__xparse_current_arg_int=\count184
 \g__xparse_grabber_int=\count185
 \l__xparse_m_args_int=\count186
 \l__xparse_v_nesting_int=\count187
-) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+)) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count188
-) (/usr/share/texmf-dist/tex/latex/oberdiek/zref-abspage.sty
-Package: zref-abspage 2018/11/21 v2.27 Module abspage for zref (HO)
- (/usr/share/texmf-dist/tex/latex/oberdiek/zref-base.sty
-Package: zref-base 2018/11/21 v2.27 Module base for zref (HO)
- (/usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2019/07/25 v0.30 Utility functions of pdfTeX for LuaTeX (HO)
- (/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+) (/usr/share/texmf-dist/tex/latex/zref/zref-abspage.sty
+Package: zref-abspage 2020-05-28 v2.31 Module abspage for zref (HO)
+ (/usr/share/texmf-dist/tex/latex/zref/zref-base.sty
+Package: zref-base 2020-05-28 v2.31 Module base for zref (HO)
+ (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/share/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-04 v0.32 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
 )
-Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-) (/usr/share/texmf-dist/tex/latex/oberdiek/auxhook.sty
-Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+) (/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+) (/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
-Package zref Info: New property list: main on input line 759.
-Package zref Info: New property: default on input line 760.
-Package zref Info: New property: page on input line 761.
-) (/usr/share/texmf-dist/tex/generic/oberdiek/atbegshi.sty
-Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package zref Info: New property list: main on input line 763.
+Package zref Info: New property: default on input line 764.
+Package zref Info: New property: page on input line 765.
+) (/usr/share/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
 \c@abspage=\count189
-Package zref Info: New property: abspage on input line 62.
+Package zref Info: New property: abspage on input line 66.
 ) (/usr/share/texmf-dist/tex/latex/needspace/needspace.sty
 Package: needspace 2010/09/12 v1.3d reserve vertical space
 ) (/usr/share/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+Package: color 2019/11/23 v1.2a Standard LaTeX Color (DPC)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
@@ -581,9 +425,9 @@ Package zref Info: New property: mdf@pagevalue on input line 895.
 ) (/usr/share/texmf-dist/tex/latex/comment/comment.sty
 \CommentStream=\write3
  Excluding comment 'comment') (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
  (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/10/08 v1.3c Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
  (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 ) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
@@ -593,18 +437,17 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 )
 \Gin@req@height=\dimen137
 \Gin@req@width=\dimen138
-)
-(/usr/share/texmf-dist/tex/latex/tools/array.sty
+) (/usr/share/texmf-dist/tex/latex/tools/array.sty
 Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \col@sep=\dimen139
 \ar@mcellbox=\box55
 \extrarowheight=\dimen140
-\NC@list=\toks18
+\NC@list=\toks19
 \extratabsurround=\skip120
 \backup@length=\skip121
 \ar@cellbox=\box56
 ) (/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
-Package: booktabs 2019/10/08 v1.6180339 publication quality tables
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen141
 \lightrulewidth=\dimen142
 \cmidrulewidth=\dimen143
@@ -622,7 +465,8 @@ Package: booktabs 2019/10/08 v1.6180339 publication quality tables
 \@thisruleclass=\count198
 \@lastruleclass=\count199
 \@thisrulewidth=\dimen153
-) (/usr/share/texmf-dist/tex/latex/tools/calc.sty
+)
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count266
 \calc@Bcount=\count267
@@ -641,8 +485,8 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
  (/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
-Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
-\everycr=\toks19
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks20
 \minrowclearance=\skip125
 )
 LaTeX Info: Redefining \color on input line 709.
@@ -657,16 +501,16 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 ) (/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
-Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@col@width=\dimen156
 \TX@old@table=\dimen157
 \TX@old@col=\dimen158
 \TX@target=\dimen159
 \TX@delta=\dimen160
 \TX@cols=\count270
-\TX@ftn=\toks20
+\TX@ftn=\toks21
 ) (/usr/share/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
+Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
 \c@tracingmulticols=\count271
 \mult@box=\box57
 \multicol@leftmargin=\dimen161
@@ -705,218 +549,89 @@ Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
 \@tempa=\box78
 \@tempa=\box79
 \@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
 \c@minrows=\count277
 \c@columnbadness=\count278
 \c@finalcolumnbadness=\count279
 \last@try=\dimen167
 \multicolovershoot=\dimen168
 \multicolundershoot=\dimen169
-\mult@nat@firstbox=\box81
-\colbreak@box=\box82
+\mult@nat@firstbox=\box101
+\colbreak@box=\box102
 \mc@col@check@num=\count280
 ) (/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2019/10/16 v2.13 Sectioning titles
-\ttl@box=\box83
+\ttl@box=\box103
 \beforetitleunit=\skip128
 \aftertitleunit=\skip129
 \ttl@plus=\dimen170
 \ttl@minus=\dimen171
-\ttl@toksa=\toks21
+\ttl@toksa=\toks22
 \titlewidth=\dimen172
 \titlewidthlast=\dimen173
 \titlewidthfirst=\dimen174
 ) (/usr/share/texmf-dist/tex/latex/cormorantgaramond/CormorantGaramond.sty
-Package: CormorantGaramond 2019/10/21 (Bob Tennent and autoinst) Style file for Cormorant Garamond fonts.
- (/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
-Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+Package: CormorantGaramond 2020/04/12 (Bob Tennent and autoinst) Style file for Cormorant Garamond fonts.
+ (/usr/share/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+) (/usr/share/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 ) (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
  (/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks22
-\XKV@tempa@toks=\toks23
+\XKV@toks=\toks23
+\XKV@tempa@toks=\toks24
 )
 \XKV@depth=\count281
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) (/usr/share/texmf-dist/tex/latex/base/textcomp.sty
-Package: textcomp 2018/08/11 v2.0j Standard LaTeX package
-Package textcomp Info: Sub-encoding information:
-(textcomp)               5 = only ISO-Adobe without \textcurrency
-(textcomp)               4 = 5 + \texteuro
-(textcomp)               3 = 4 + \textohm
-(textcomp)               2 = 3 + \textestimated + \textcurrency
-(textcomp)               1 = TS1 - \textcircled - \t
-(textcomp)               0 = TS1 (full)
-(textcomp)             Font families with sub-encoding setting implement
-(textcomp)             only a restricted character set as indicated.
-(textcomp)             Family '?' is the default used for unknown fonts.
-(textcomp)             See the documentation for details.
-Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
- (/usr/share/texmf-dist/tex/latex/base/ts1enc.def
-File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-Now handling font encoding TS1 ...
-... processing UTF-8 mapping file for font encoding TS1
- (/usr/share/texmf-dist/tex/latex/base/ts1enc.dfu
-File: ts1enc.dfu 2019/07/11 v1.2j UTF-8 support for inputenc
-   defining Unicode char U+00A2 (decimal 162)
-   defining Unicode char U+00A3 (decimal 163)
-   defining Unicode char U+00A4 (decimal 164)
-   defining Unicode char U+00A5 (decimal 165)
-   defining Unicode char U+00A6 (decimal 166)
-   defining Unicode char U+00A7 (decimal 167)
-   defining Unicode char U+00A8 (decimal 168)
-   defining Unicode char U+00A9 (decimal 169)
-   defining Unicode char U+00AA (decimal 170)
-   defining Unicode char U+00AC (decimal 172)
-   defining Unicode char U+00AE (decimal 174)
-   defining Unicode char U+00AF (decimal 175)
-   defining Unicode char U+00B0 (decimal 176)
-   defining Unicode char U+00B1 (decimal 177)
-   defining Unicode char U+00B2 (decimal 178)
-   defining Unicode char U+00B3 (decimal 179)
-   defining Unicode char U+00B4 (decimal 180)
-   defining Unicode char U+00B5 (decimal 181)
-   defining Unicode char U+00B6 (decimal 182)
-   defining Unicode char U+00B7 (decimal 183)
-   defining Unicode char U+00B9 (decimal 185)
-   defining Unicode char U+00BA (decimal 186)
-   defining Unicode char U+00BC (decimal 188)
-   defining Unicode char U+00BD (decimal 189)
-   defining Unicode char U+00BE (decimal 190)
-   defining Unicode char U+00D7 (decimal 215)
-   defining Unicode char U+00F7 (decimal 247)
-   defining Unicode char U+0192 (decimal 402)
-   defining Unicode char U+02C7 (decimal 711)
-   defining Unicode char U+02D8 (decimal 728)
-   defining Unicode char U+02DD (decimal 733)
-   defining Unicode char U+0E3F (decimal 3647)
-   defining Unicode char U+2016 (decimal 8214)
-   defining Unicode char U+2020 (decimal 8224)
-   defining Unicode char U+2021 (decimal 8225)
-   defining Unicode char U+2022 (decimal 8226)
-   defining Unicode char U+2030 (decimal 8240)
-   defining Unicode char U+2031 (decimal 8241)
-   defining Unicode char U+203B (decimal 8251)
-   defining Unicode char U+203D (decimal 8253)
-   defining Unicode char U+2044 (decimal 8260)
-   defining Unicode char U+204E (decimal 8270)
-   defining Unicode char U+2052 (decimal 8274)
-   defining Unicode char U+20A1 (decimal 8353)
-   defining Unicode char U+20A4 (decimal 8356)
-   defining Unicode char U+20A6 (decimal 8358)
-   defining Unicode char U+20A9 (decimal 8361)
-   defining Unicode char U+20AB (decimal 8363)
-   defining Unicode char U+20AC (decimal 8364)
-   defining Unicode char U+20B1 (decimal 8369)
-   defining Unicode char U+2103 (decimal 8451)
-   defining Unicode char U+2116 (decimal 8470)
-   defining Unicode char U+2117 (decimal 8471)
-   defining Unicode char U+211E (decimal 8478)
-   defining Unicode char U+2120 (decimal 8480)
-   defining Unicode char U+2122 (decimal 8482)
-   defining Unicode char U+2126 (decimal 8486)
-   defining Unicode char U+2127 (decimal 8487)
-   defining Unicode char U+212E (decimal 8494)
-   defining Unicode char U+2190 (decimal 8592)
-   defining Unicode char U+2191 (decimal 8593)
-   defining Unicode char U+2192 (decimal 8594)
-   defining Unicode char U+2193 (decimal 8595)
-   defining Unicode char U+2329 (decimal 9001)
-   defining Unicode char U+232A (decimal 9002)
-   defining Unicode char U+2422 (decimal 9250)
-   defining Unicode char U+25E6 (decimal 9702)
-   defining Unicode char U+25EF (decimal 9711)
-   defining Unicode char U+266A (decimal 9834)
-   defining Unicode char U+27E8 (decimal 10216)
-   defining Unicode char U+27E9 (decimal 10217)
-   defining Unicode char U+FEFF (decimal 65279)
-))
-LaTeX Info: Redefining \oldstylenums on input line 334.
-Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
-Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
-Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
-Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
-Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
-Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
-Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
-Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
-Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
-Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
-Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
-Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
-Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
-Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
-Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
-Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
-Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
-Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
-Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
-Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
-Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
-Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
-Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
-Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
-Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
-Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
-Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
-Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
-Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
-Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
-Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
-Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
-Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
-Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
-Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
-Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
-Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
-Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
-Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
-Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
-Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
-Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
-Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
-Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
-Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
-Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
-Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
-Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
-Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
-Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
-Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
-Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
-Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
-Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
-Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
-Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
-Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
-Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
-Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
-Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
-Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 ) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2018/08/11 v2.0j Standard LaTeX package
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
 ) (/usr/share/texmf-dist/tex/latex/fontaxes/fontaxes.sty
 Package: fontaxes 2014/03/23 v1.0d Font selection axes
 LaTeX Info: Redefining \upshape on input line 29.
 LaTeX Info: Redefining \itshape on input line 31.
 LaTeX Info: Redefining \slshape on input line 33.
+LaTeX Info: Redefining \swshape on input line 35.
 LaTeX Info: Redefining \scshape on input line 37.
-) (/usr/share/texmf-dist/tex/latex/mweights/mweights.sty
-Package: mweights 2017/03/30 (Bob Tennent) Support package for multiple-weight font packages. 
-LaTeX Info: Redefining \bfseries on input line 22.
-LaTeX Info: Redefining \mdseries on input line 30.
-LaTeX Info: Redefining \rmfamily on input line 38.
-LaTeX Info: Redefining \sffamily on input line 66.
-LaTeX Info: Redefining \ttfamily on input line 94.
+LaTeX Info: Redefining \sscshape on input line 39.
+LaTeX Info: Redefining \ulcshape on input line 41.
+LaTeX Info: Redefining \textsw on input line 47.
+LaTeX Info: Redefining \textssc on input line 48.
+LaTeX Info: Redefining \textulc on input line 49.
 )
-LaTeX Info: Redefining \oldstylenums on input line 165.
+LaTeX Info: Redefining \oldstylenums on input line 133.
 ) (/usr/share/texmf-dist/tex/latex/epigraph/epigraph.sty
-Package: epigraph 2009/09/02 v1.5c typesetting epigraphs
+Package: epigraph 2020/01/02 v1.5e typesetting epigraphs
+ (/usr/share/texmf-dist/tex/latex/nextpage/nextpage.sty
+Package: nextpage 2009/09/03 v1.1a additional page commands
+)
 \beforeepigraphskip=\skip130
 \afterepigraphskip=\skip131
 \epigraphwidth=\skip132
 \epigraphrule=\skip133
 ) (/usr/share/texmf-dist/tex/latex/lettrine/lettrine.sty
-File: lettrine.sty 2019-04-06 v2.22 (Daniel Flipo)
+File: lettrine.sty 2020-03-14 v2.23 (Daniel Flipo)
  (/usr/share/texmf-dist/tex/generic/minifp/minifp.sty
 Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack-based programing language.
 \MFP@loopctr=\count282
@@ -927,8 +642,8 @@ Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack-
 \DefaultNindent=\dimen176
 \DefaultSlope=\dimen177
 \DiscardVskip=\dimen178
-\L@lbox=\box84
-\L@tbox=\box85
+\L@lbox=\box104
+\L@tbox=\box105
 \c@L@lines=\count285
 \c@L@depth=\count286
 \L@Pindent=\dimen179
@@ -946,14 +661,13 @@ Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack-
 \LettrineWidth=\dimen191
 \LettrineHeight=\dimen192
 \LettrineDepth=\dimen193
-\Llist@everypar=\toks24
+\Llist@everypar=\toks25
 
 Loading lettrine.cfg
 (/usr/share/texmf-dist/tex/latex/lettrine/lettrine.cfg)) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2018/04/16 v5.8 Page Geometry
- (/usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
-Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
-Package ifvtex Info: VTeX not detected.
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 \Gm@cnth=\count287
 \Gm@cntv=\count288
@@ -966,7 +680,7 @@ Package ifvtex Info: VTeX not detected.
 \Gm@layoutheight=\dimen199
 \Gm@layouthoffset=\dimen256
 \Gm@layoutvoffset=\dimen257
-\Gm@dimlist=\toks25
+\Gm@dimlist=\toks26
 ) (/usr/share/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footers
 \f@nch@headwidth=\skip134
@@ -979,14 +693,14 @@ Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footers
 \f@nch@O@olf=\skip141
 \f@nch@O@orf=\skip142
 ) (/usr/share/texmf-dist/tex/latex/koma-script/tocbasic.sty
-Package: tocbasic 2019/10/12 v3.27 KOMA-Script package (handling toc-files)
+Package: tocbasic 2020/04/19 v3.30 KOMA-Script package (handling toc-files)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2019/10/12 v3.27 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
+Package: scrbase 2020/04/19 v3.30 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2019/10/12 v3.27 KOMA-Script package (loading files)
+Package: scrlfile 2020/04/19 v3.30 KOMA-Script package (loading files)
 ))
 \scr@dte@tocline@numberwidth=\skip143
-\scr@dte@tocline@numbox=\box86
+\scr@dte@tocline@numbox=\box106
 )
 \scr@dte@chapter@maxnumwidth=\skip144
  Excluding comment 'en' Include comment 'ru' (./eng.aux
@@ -994,15 +708,15 @@ LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 5.
  (/usr/share/texmf-dist/tex/latex/cyrillic/t2acmr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 ))
-\openout1 = `eng.aux'.
-
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
 LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
 LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
@@ -1010,51 +724,39 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
 LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 117.
- (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    ... okay on input line 117.
 LaTeX Font Info:    Trying to load font information for OT1+CormorantGaramond-LF on input line 117.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/OT1CormorantGaramond-LF.fd
-File: OT1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for OT1/CormorantGaramond-LF.
+File: OT1CormorantGaramond-LF.fd 2019/12/11 (autoinst) Font definitions for OT1/CormorantGaramond-LF.
 )
-LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/m/n' in size <10.95> not available
-(Font)              Font shape `OT1/CormorantGaramond-LF/regular/n' tried instead on input line 117.
+LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/m/n' aliased to
+(Font)              `OT1/CormorantGaramond-LF/regular/n' on input line 117.
 LaTeX Font Info:    Font shape `OT1/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 10.95pt on input line 117.
 LaTeX Font Info:    Trying to load font information for T2A+CormorantGaramond-LF on input line 117.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/T2ACormorantGaramond-LF.fd
-File: T2ACormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for T2A/CormorantGaramond-LF.
+File: T2ACormorantGaramond-LF.fd 2019/12/11 (autoinst) Font definitions for T2A/CormorantGaramond-LF.
 )
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 117.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 117.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 10.95pt on input line 117.
-\AtBeginShipoutBox=\box87
+\AtBeginShipoutBox=\box107
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count290
 \scratchdimen=\dimen258
-\scratchbox=\box88
+\scratchbox=\box108
 \nofMPsegments=\count291
 \nofMParguments=\count292
-\everyMPshowfont=\toks26
+\everyMPshowfont=\toks27
 \MPscratchCnt=\count293
 \MPscratchDim=\dimen259
 \MPnumerator=\count294
 \makeMPintoPDFobject=\count295
-\everyMPtoPDFconversion=\toks27
-) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
- (/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-)
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
+\everyMPtoPDFconversion=\toks28
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
@@ -1095,16 +797,16 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <17.28> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 118.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 118.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 17.28pt on input line 118.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <17.28> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 118.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/n' on input line 118.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
 (Font)              scaled to size 17.28pt on input line 118.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 118.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 118.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 12.0pt on input line 118.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1117,22 +819,22 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 121.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 20.74pt on input line 121.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 121.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/n' on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
 (Font)              scaled to size 20.74pt on input line 121.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <20.74> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 121.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/sc' on input line 121.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
 (Font)              scaled to size 20.74pt on input line 121.
  (./eng.toc
 Package tocbasic Info: Using my definition of `\numberline' on input line 2.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/n' on input line 2.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
 (Font)              scaled to size 10.95pt on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1145,183 +847,100 @@ Package tocbasic Info: Using my definition of `\numberline' on input line 41.
 Package tocbasic Info: Using my definition of `\numberline' on input line 42.
 )
 \tf@toc=\write4
-\openout4 = `eng.toc'.
-
  [2]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 1.
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 1.
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 10.0pt on input line 1.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/it' in size <10> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/it' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/it' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/it' on input line 1.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/it' will be
 (Font)              scaled to size 10.0pt on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 1.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/sc' in size <10.95> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/sc' tried instead on input line 3.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/sc' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/sc' on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/sc' will be
 (Font)              scaled to size 10.95pt on input line 3.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <18.88338> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 18.88338pt on input line 3.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' in size <29.41336> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/regular/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 3.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
-(Font)              scaled to size 29.41336pt on input line 3.
+(Font)              scaled to size 29.48222pt on input line 3.
 Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (E);
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.88336pt (E);
 (lettrine.sty)             reported on input line 3.
 )
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/n' tried instead on input line 148.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/n' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/n' on input line 148.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/n' will be
 (Font)              scaled to size 12.0pt on input line 148.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <12> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 148.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/sc' on input line 148.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
 (Font)              scaled to size 12.0pt on input line 148.
-LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' in size <14.4> not available
-(Font)              Font shape `T2A/CormorantGaramond-LF/bold/sc' tried instead on input line 148.
+LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' aliased to
+(Font)              `T2A/CormorantGaramond-LF/bold/sc' on input line 148.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
 (Font)              scaled to size 14.4pt on input line 148.
- Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [3]
+ Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [3]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
-Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
+Including 'ru' comment. Straight input of comment.cut. (./comment.cut
 Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Рќ);
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.88336pt (Рќ);
 (lettrine.sty)             reported on input line 1.
-) Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut)
+) Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut)
 Underfull \hbox (badness 10000) in paragraph at lines 3--234
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Ростом чуть ни-же че-ло-ве-ка.
  []
 
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut [4]) Excluding 'en' comment.
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut [4]) Excluding 'en' comment.
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
-Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
+Including 'ru' comment. Straight input of comment.cut. (./comment.cut
 Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Рљ);
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.88336pt (Рљ);
 (lettrine.sty)             reported on input line 1.
-) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) [5] Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment.
+) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) [5] Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment.
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
 
 Overfull \hbox (3.41638pt too wide) in paragraph at lines 362--416
   [] 
  []
 
-Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [6]
+Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [6]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 5.
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut
 Package lettrine.sty Info: Targeted height = 18.88338pt
-(lettrine.sty)             (no accent, loversize=0),
-(lettrine.sty)             Lettrine height = 17.95683pt (Р‘);
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.88336pt (Р‘);
 (lettrine.sty)             reported on input line 1.
 
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
 [][] \T2A/CormorantGaramond-LF/regular/n/10.95 обо-зна-ча-ют-ся
  []
 
-) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut)
+) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut)
 Overfull \hbox (1.70819pt too wide) in paragraph at lines 514--529
  []
  []
 
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut)
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut)
 LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 546.
  (/usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
-File: TS1CormorantGaramond-LF.fd 2019/10/21 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
+File: TS1CormorantGaramond-LF.fd 2019/12/11 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
 )
-LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/b/n' in size <10.95> not available
-(Font)              Font shape `TS1/CormorantGaramond-LF/bold/n' tried instead on input line 546.
+LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/b/n' aliased to
+(Font)              `TS1/CormorantGaramond-LF/bold/n' on input line 546.
 LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/bold/n' will be
 (Font)              scaled to size 10.95pt on input line 546.
 
@@ -1329,16 +948,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--547
 \T2A/CormorantGaramond-LF/regular/n/10.95 Максимальный за-пас здо-ро-вья
  []
 
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
 \T2A/CormorantGaramond-LF/regular/n/10.95 Модифаеры ис-поль-зу-ют-ся что-бы
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 1--2
+Underfull \hbox (badness 5274) in paragraph at lines 1--2
 \T2A/CormorantGaramond-LF/regular/n/10.95 пло-хо пер-со-наж вла-де-ет тем или
  []
 
@@ -1347,58 +963,19 @@ Overfull \hbox (1.70819pt too wide) in paragraph at lines 563--575
  [] 
  []
 
-Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut
+Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
 \T2A/CormorantGaramond-LF/regular/n/10.95 Игроки мо-гу вза-и-мо-дей-ство-вать
  []
 
-[8]) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) [9]
+[8]) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. Including 'ru' comment. Straight input of comment.cut. (./comment.cut) [9]
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 6.
 
 Underfull \hbox (badness 10000) in alignment at lines 736--773
 [] [] [] []
  []
 
-Including 'ru' comment.
-\openout3 = `comment.cut'.
-
- Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [10]
+Including 'ru' comment. Straight input of comment.cut. (./comment.cut) Excluding 'en' comment. [10]
 Overfull \hbox (3.41638pt too wide) in paragraph at lines 789--843
   [] 
  []
@@ -1421,7 +998,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 912--913
  []
 
 [12]
-Underfull \hbox (badness 7397) in paragraph at lines 982--983
+Underfull \hbox (badness 7451) in paragraph at lines 982--983
 []\T2A/CormorantGaramond-LF/regular/it/10.95 Приветствую, доб-рые пут-ни-ки.
  []
 
@@ -1479,17 +1056,17 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1111--1112
  []
 
 
-Underfull \hbox (badness 7888) in paragraph at lines 1114--1115
+Underfull \hbox (badness 8170) in paragraph at lines 1114--1115
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Круглая ком-на-та, по бо-кам
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 1117--1118
+Underfull \hbox (badness 6775) in paragraph at lines 1117--1118
 \T2A/CormorantGaramond-LF/regular/n/10.95 лон-ны, меж них гор-ки ко-
  []
 
 
-Underfull \hbox (badness 6300) in paragraph at lines 1117--1118
+Underfull \hbox (badness 5924) in paragraph at lines 1117--1118
 \T2A/CormorantGaramond-LF/regular/n/10.95 стей. На стене раз-ма-зан-ная
  []
 
@@ -1510,22 +1087,27 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1124--1125
  []
 
 
-Underfull \hbox (badness 6364) in paragraph at lines 1127--1128
+Underfull \hbox (badness 6396) in paragraph at lines 1127--1128
 \T2A/CormorantGaramond-LF/regular/n/10.95 На дру-гой сто-роне лест-ни-
  []
 
 
-Underfull \hbox (badness 6608) in paragraph at lines 1128--1129
+Underfull \hbox (badness 5288) in paragraph at lines 1127--1128
+\T2A/CormorantGaramond-LF/regular/n/10.95 сто-ле круж-ка лит-ра так на
+ []
+
+
+Underfull \hbox (badness 6808) in paragraph at lines 1128--1129
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Проходит ри-ту-ал. Весь пол
  []
 
 
-Underfull \hbox (badness 5022) in paragraph at lines 1128--1129
+Underfull \hbox (badness 5231) in paragraph at lines 1128--1129
 \T2A/CormorantGaramond-LF/regular/n/10.95 тем-ных фи-гур сто-ят во-круг
  []
 
 
-Underfull \hbox (badness 8113) in paragraph at lines 1130--1131
+Underfull \hbox (badness 10000) in paragraph at lines 1130--1131
 \T2A/CormorantGaramond-LF/regular/n/10.95 бы-ло бес-по-ря-доч-но ски-ну-то
  []
 
@@ -1541,17 +1123,17 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 1138--1139
  []
 
 
-Underfull \hbox (badness 6893) in paragraph at lines 1148--1149
+Underfull \hbox (badness 6995) in paragraph at lines 1148--1149
 \T2A/CormorantGaramond-LF/regular/n/10.95 не вид-но. по ком-на-те рас-
  []
 
 
-Underfull \hbox (badness 6910) in paragraph at lines 1148--1149
+Underfull \hbox (badness 6641) in paragraph at lines 1148--1149
 \T2A/CormorantGaramond-LF/regular/n/10.95 став-ле-ны све-чи и об-ра-зу-ют
  []
 
 
-Underfull \hbox (badness 6016) in paragraph at lines 1149--1150
+Underfull \hbox (badness 6047) in paragraph at lines 1149--1150
 []\T2A/CormorantGaramond-LF/regular/n/10.95 Раздается скре-жет, а по-том
  []
 
@@ -1572,15 +1154,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 1167--1168
 
 [20] (./eng.aux) ) 
 Here is how much of TeX's memory you used:
- 18453 strings out of 492167
- 327315 string characters out of 6131559
- 453583 words of memory out of 5000000
- 22520 multiletter control sequences out of 15000+600000
- 638697 words of font info for 62 fonts, out of 8000000 for 9000
+ 8564 strings out of 480478
+ 137835 string characters out of 5905958
+ 477270 words of memory out of 5000000
+ 24308 multiletter control sequences out of 15000+600000
+ 653256 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 52i,12n,71p,826b,555s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_43yltf.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_oqfidh.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_7lhnpv.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_ppb7ce.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on eng.pdf (20 pages, 3264656 bytes).
+ 44i,11n,70p,826b,548s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_v7t4yx.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_czjvuz.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_726bjo.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_l5f566.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Italic.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
+Output written on eng.pdf (20 pages, 3273199 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  65 compressed objects within 1 object stream

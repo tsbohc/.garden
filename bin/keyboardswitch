@@ -1,8 +1,7 @@
 #!/bin/bash
-
-if [ $(setxkbmap -print | awk -F'+' '/xkb_symbols/ {print $2}') != 'ru' ]; then
-  setxkbmap ru
-  dunstify "keyboard" "switched to RU" -r 23437187 -t 2000
+if [[ $(setxkbmap -print | awk -F'+' '/xkb_symbols/ {print $2}') =~ 'us' ]]; then
+  setxkbmap ru -variant rulemak
+  dunstify "keyboard" "switched to RU (rulemak)" -r 23437187 -t 2000
 else
   setxkbmap us -variant colemak
   dunstify "keyboard" "switched to US (colemak)" -r 23437187 -t 2000

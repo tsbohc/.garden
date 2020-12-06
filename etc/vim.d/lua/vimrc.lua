@@ -17,57 +17,6 @@ local o = setmetatable({ }, {
 		return api.nvim_set_option(k, v)
 	end
 })
-local ice_before = { }
-local ice
-ice = function(name, hook)
-	if hook == nil then
-		hook = function() end
-	end
-	ice_before[name] = hook
-end
-local plugins
-plugins = function(init)
-	init()
-	for p, h in pairs(ice_before) do
-		h()
-	end
-end
-plugins(function()
-	ice('neoclide/coc.nvim')
-	ice('SirVer/ultisnips', function()
-		g.UltiSnipsExpandTrigger = '<s-tab>'
-		g.UltiSnipsJumpForwardTrigger = '<c-b>'
-		g.UltiSnipsJumpBackwardTrigger = '<c-z>'
-	end)
-	ice('honza/vim-snippets')
-	ice('svermeulen/vimpeccable')
-	ice('pigpigyyy/moonplus-vim')
-	ice('habamax/vim-godot')
-	ice('Yggdroot/indentline', function()
-		g.indentLine_char = '│'
-	end)
-	ice('dbmrq/vim-ditto')
-	ice('ron89/thesaurus_query.vim')
-	ice('reedes/vim-lexical')
-	ice('lervag/vimtex', function()
-		g.tex_flavor = 'latex'
-		g.tex_conceal = ''
-		g.vimtex_latexmk_continuous = 1
-		g.vimtex_view_method = 'zathura'
-		g.vimtex_quickfix_latexlog = {
-			['default'] = 0
-		}
-	end)
-	ice('morhetz/gruvbox', function()
-		g.gruvbox_contrast_dark = 'hard'
-		g.gruvbox_italicize_comments = 1
-		g.gruvbox_bold = 0
-	end)
-	ice('adigitoleo/vim-mellow')
-	ice('sainnhe/sonokai')
-	ice('ayu-theme/ayu-vim')
-	return ice('junegunn/fzf.vim')
-end)
 o({
 	['encoding'] = 'utf-8',
 	'nocompatible',
@@ -319,13 +268,6 @@ V.au('InsertEnter', '*', function()
 		return os.execute([[ setxkbmap ru ]])
 	end
 end)
-V.au('Filetype', 'help', function()
+return V.au('Filetype', 'help', function()
 	return V.exec('wincmd L')
-end)
-V.exec('packadd packer.nvim')
-return require('packer').startup(function()
-	use('wbthomason/packer.nvim')
-	for p, h in pairs(ice_before) do
-		use(p)
-	end
 end)

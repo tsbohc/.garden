@@ -8,7 +8,6 @@
 
 require('utils')
 require('ss')
---require('test')
 
 -- map ctrl-backspace to db ??
 
@@ -53,66 +52,66 @@ o = setmetatable({}, {
 --          plugins           --
 --------------------------------
 
+---- {{{
+--ice_before = {}
+--ice = (name, hook) ->
+--  if hook == nil
+--    hook = () ->
+--  ice_before[name] = hook
+--
+--plugins = (init) ->
+--  init!
+--  for p, h in pairs ice_before
+--    h!
+---- }}}
+
 -- {{{
-ice_before = {}
-ice = (name, hook) ->
-  if hook == nil
-    hook = () ->
-  ice_before[name] = hook
-
-plugins = (init) ->
-  init!
-  for p, h in pairs ice_before
-    h!
--- }}}
-
--- {{{
-plugins ->
-
-  -- code --
-  ice 'neoclide/coc.nvim'
-  ice 'SirVer/ultisnips', ->
-    g.UltiSnipsExpandTrigger = '<s-tab>'
-    g.UltiSnipsJumpForwardTrigger = '<c-b>'
-    g.UltiSnipsJumpBackwardTrigger = '<c-z>'
-
-  ice 'honza/vim-snippets'
-  ice 'svermeulen/vimpeccable'
-
-  ice 'pigpigyyy/moonplus-vim'
-  ice 'habamax/vim-godot'
-
-  ice 'Yggdroot/indentline', ->
-    g.indentLine_char = '│'
-
-  -- write --
-  ice 'dbmrq/vim-ditto'
-  ice 'ron89/thesaurus_query.vim'
-  ice 'reedes/vim-lexical'
-
-  -- latex --
-  ice 'lervag/vimtex', ->
-    g.tex_flavor = 'latex'
-    g.tex_conceal = ''
-    g.vimtex_latexmk_continuous = 1
-    g.vimtex_view_method = 'zathura'
-    g.vimtex_quickfix_latexlog = { 'default': 0 }
-
-  -- style --
-  ice 'morhetz/gruvbox', ->
-    g.gruvbox_contrast_dark = 'hard'
-    g.gruvbox_italicize_comments = 1
-    --g.gruvbox_italic = 1
-    g.gruvbox_bold = 0
-
-  ice 'adigitoleo/vim-mellow'
-
-  ice 'sainnhe/sonokai'
-  ice 'ayu-theme/ayu-vim'
-
-  -- general --
-  ice 'junegunn/fzf.vim'
--- }}}
+--plugins ->
+--
+--  -- code --
+--  ice 'neoclide/coc.nvim'
+--  ice 'SirVer/ultisnips', ->
+--    g.UltiSnipsExpandTrigger = '<s-tab>'
+--    g.UltiSnipsJumpForwardTrigger = '<c-b>'
+--    g.UltiSnipsJumpBackwardTrigger = '<c-z>'
+--
+--  ice 'honza/vim-snippets'
+--  ice 'svermeulen/vimpeccable'
+--
+--  ice 'pigpigyyy/moonplus-vim'
+--  ice 'habamax/vim-godot'
+--
+--  ice 'Yggdroot/indentline', ->
+--    g.indentLine_char = '│'
+--
+--  -- write --
+--  ice 'dbmrq/vim-ditto'
+--  ice 'ron89/thesaurus_query.vim'
+--  ice 'reedes/vim-lexical'
+--
+--  -- latex --
+--  ice 'lervag/vimtex', ->
+--    g.tex_flavor = 'latex'
+--    g.tex_conceal = ''
+--    g.vimtex_latexmk_continuous = 1
+--    g.vimtex_view_method = 'zathura'
+--    g.vimtex_quickfix_latexlog = { 'default': 0 }
+--
+--  -- style --
+--  ice 'morhetz/gruvbox', ->
+--    g.gruvbox_contrast_dark = 'hard'
+--    g.gruvbox_italicize_comments = 1
+--    --g.gruvbox_italic = 1
+--    g.gruvbox_bold = 0
+--
+--  ice 'adigitoleo/vim-mellow'
+--
+--  ice 'sainnhe/sonokai'
+--  ice 'ayu-theme/ayu-vim'
+--
+--  -- general --
+--  ice 'junegunn/fzf.vim'
+---- }}}
 
 --------------------------------
 --          options           --
@@ -171,7 +170,7 @@ o {
 -- TODO add check if file exists or try expect
 V.colorscheme 'gruvbox'
 
--- remove oeb '~'s
+-- remove '~'s
 V.exec [[ highlight EndOfBuffer ctermfg=bg guifg=bg ]]
 
 --------------------------------
@@ -371,6 +370,7 @@ StatusLine {
   '%2p%% '
 }
 
+
 -- writing mode
 V.map.n '<leader>1', ->
   print 'a'
@@ -414,8 +414,8 @@ V.au 'Filetype', 'help', ->
 --          plugins           --
 --------------------------------
 
-V.exec 'packadd packer.nvim'
-return require('packer').startup ->
-  use 'wbthomason/packer.nvim'
-  for p, h in pairs ice_before
-    use p
+--V.exec 'packadd packer.nvim'
+--return require('packer').startup ->
+--  use 'wbthomason/packer.nvim'
+--  for p, h in pairs ice_before
+--    use p

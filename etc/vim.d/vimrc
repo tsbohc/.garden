@@ -129,7 +129,10 @@ set foldenable
 set foldmethod=marker
 syntax enable
 
+"lua << EOF
+"EOF
 
+lua require('init')
 lua require('vimrc')
 "lua require('test')
 
