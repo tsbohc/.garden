@@ -132,6 +132,12 @@ syntax enable
 "lua << EOF
 "EOF
 
+set shortmess-=F " show messages during FileType autocmds
+
+" autoset ft as text
+autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
+" reevaluate ft on saving?
+
 lua require('init')
 lua require('vimrc')
 "lua require('test')
