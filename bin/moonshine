@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# $1 -- full path to file
+
+relative_to="$HOME/blueberry/etc/nvim.d/moon"
+output_parent="$HOME/.config/nvim/lua"
+
+source_relative="/"
+source_relative+="$(realpath --relative-to="$relative_to" "$1")"
+
+output_dir="$(dirname "$output_parent$source_relative")"
+output_name="$(basename "$output_parent$source_relative")"
+output_name="${output_name%.*}.lua"
+
+#echo "$output_dir"
+#echo "$output_name"
+
+mkdir -p "$output_dir"
+moonp "$1" -o "$output_dir/$output_name"
