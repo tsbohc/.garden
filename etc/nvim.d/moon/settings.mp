@@ -6,7 +6,13 @@
 '                       |/
 --]]
 
-set = A.set
+set = V.set
+
+vim.cmd 'filetype on'              -- determine filetype
+vim.cmd 'syntax enable'            -- remember current color settings
+
+V.colorscheme 'gruvbox'
+V.exec 'highlight EndOfBuffer ctermfg=bg guifg=bg' -- TODO
 
 -- rendering --
 set.encoding 'utf-8'               -- self-explanatory
@@ -65,6 +71,8 @@ set.noshowmode!                    -- do not show -- INSERT --, etc on lastline
 set.laststatus 2                   -- always show statusline
 
 -- folding --
+set.foldenable!
+set.foldmethod 'marker'
 set.foldtext 'v:lua.folding()'
 
 return

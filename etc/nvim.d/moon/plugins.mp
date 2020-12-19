@@ -10,17 +10,24 @@
 P = require 'lib/PluginManager'
 g = vim.g
 
-vim.cmd [[filetype on]]
-
 ft = {}
-ft.text = 'text,md'
+ft.text = 'txt,md'
 
 --------------------------------
 --          plugins           --
 --------------------------------
 
-P.add 'neoclide/coc.nvim'
+--P.add 'neoclide/coc.nvim'
 
+-- lsp & treesitter
+P.add 'neovim/nvim-lspconfig'
+P.add 'nvim-treesitter/nvim-treesitter'
+
+-- completion
+P.add 'nvim-lua/completion-nvim'
+P.add 'steelsojka/completion-buffers'
+
+-- snippets
 P.add 'SirVer/ultisnips', ->
   g.UltiSnipsExpandTrigger = '<s-tab>'
   g.UltiSnipsJumpForwardTrigger = '<c-b>'

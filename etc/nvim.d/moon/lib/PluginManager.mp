@@ -18,8 +18,8 @@ M.git = (repo, callback) ->
       'clone'
       GITHUB .. repo .. '.git'
       dir
-    --}, vim.schedule_wrap ->
-    }, ->
+    }, vim.schedule_wrap ->
+    --}, ->
       Log 'clone', repo
       callback!
       handle\close!

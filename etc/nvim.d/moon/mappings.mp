@@ -9,7 +9,7 @@
 arrowkeys? move current line/indent?
 --]]
 
-map = A.map
+map = V.map
 
 Expr = 'expr'
 Remap = 'remap'
@@ -83,20 +83,20 @@ map.x '<leader>r', ':s///g<left><left>'
 
 -- seach for selected text
 map.x '*', ->
-  A.norm 'gvy'
-  A.exec '/' .. A.eval '@"'
-  A.norm '<c-o>'
+  V.norm 'gvy'
+  V.exec '/' .. V.eval '@"'
+  V.norm '<c-o>'
 
 -------------
 
 -- undo with relative time
 map.n 'u', ->
-  A.exec ':silent undo'
-  --A.exec ':doautocmd User UndoRedo'
+  V.exec ':silent undo'
+  --V.exec ':doautocmd User UndoRedo'
 
 map.n 'U', ->
-  A.exec ':silent redo'
-  --A.exec ':doautocmd User UndoRedo'
+  V.exec ':silent redo'
+  --V.exec ':doautocmd User UndoRedo'
 
 -- stay visual when indenting
 map.x '<', '<gv'

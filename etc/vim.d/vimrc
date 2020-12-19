@@ -70,7 +70,7 @@
 " editor
 " }}}
 
-filetype indent on
+"filetype indent on
 " {{{
 "set number relativenumber     " relative numbers
 "set cursorline                " hl current line
@@ -124,23 +124,45 @@ set formatoptions-=t          " but don't auto-format text
 
 " code folding
 
-filetype plugin indent on
-set foldenable
-set foldmethod=marker
-syntax enable
-
-"lua << EOF
-"EOF
+"filetype plugin indent on
+"set foldenable
+"set foldmethod=marker
+"syntax enable
 
 set shortmess-=F " show messages during FileType autocmds
 
-" autoset ft as text
-autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
-" reevaluate ft on saving?
-
 lua require('init')
-lua require('vimrc')
-"lua require('test')
+
+lua << EOF
+vim.g.completion_chain_complete_list = {
+  { complete_items = { 'lsp', 'snippet', 'buffers' } },
+  { mode = { '<c-p>' } },
+  { mode = { '<c-n>' } }
+}
+EOF
+
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_auto_change_source = 1
+
+"let g:completion_trigger_character = ['.', '::']
+let g:completion_matching_smart_case = 1
+"let g:completion_trigger_on_delete = 1
+
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" completion toggle
+imap <tab> <Plug>(completion_smart_tab)
+imap <s-tab> <Plug>(completion_smart_s_tab)
+
+"" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+"
+"" Avoid showing message extra message when using completion
+set shortmess+=c
 
 " {{{
 " ------------------------------
@@ -278,10 +300,10 @@ command! WritingMode call WritingMode()
 "imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
 
 " recompile suckless programs automagically
-autocmd BufWritePost config.h,config.def.h !sudo make install
+"autocmd BufWritePost config.h,config.def.h !sudo make install
 
 " run xrdb whenever Xdefaults or Xresources are updated
-autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
+"autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 " recompile moonplus
 "autocmd BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %
@@ -289,14 +311,14 @@ autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 " pass cword to a bash script an echo the output
 
-function! SaveCurrentWord()
-  let cword = expand("<cword>")
-  let cword_command = 'output-test ' . cword
-  let cwordout = system(cword_command)
-  echom cwordout
-  " maybe grep the thesaurus with inverted keyboard too
-  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
-endfunction
+"function! SaveCurrentWord()
+"  let cword = expand("<cword>")
+"  let cword_command = 'output-test ' . cword
+"  let cwordout = system(cword_command)
+"  echom cwordout
+"  " maybe grep the thesaurus with inverted keyboard too
+"  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
+"endfunction
 
 " easy umlauts
 
@@ -313,6 +335,7 @@ augroup remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g`\"" | endif
 augroup END
+
 
 " hide CursorLine in insert mode
 "autocmd InsertEnter * set nocul
@@ -475,15 +498,15 @@ endfun
 " }}}
 
 " coc
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+"inoremap <silent><expr> <TAB>
+"  \ pumvisible() ? "\<C-n>" :
+"  \ <SID>check_back_space() ? "\<TAB>" :
+"  \ coc#refresh()
+""inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"function! s:check_back_space() abort
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
 
 " {{{
 "let g:UltiSnipsExpandTrigger="<s-tab>"

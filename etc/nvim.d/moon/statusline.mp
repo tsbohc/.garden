@@ -2,28 +2,30 @@
 
 -- TODO: add ft
 
+-- {{{
 CursorMoved = 'CursorMoved'
 InsertEnter = 'InsertEnter'
 InsertLeave = 'InsertLeave'
 BufReadPost = 'BufReadPost'
 BufEnter = 'BufEnter'
 BufWritePost = 'BufWritePost'
+-- }}}
 
-add = A.linemanager.add
-initialize = A.linemanager.init
+add = V.linemanager.add
+initialize = V.linemanager.init
 
 -- total lines
 add { 0, 0, 0, 1, hl: 'CursorLine' }, '%L'
 
 -- filename
-add BufEnter, BufWritePost, CursorMoved, { 0, 0, 0, 1, hl: 'CursorLine' }, ->
+add BufEnter, BufWritePost, { 0, 0, 0, 1, hl: 'CursorLine' }, ->
   fname = vim.fn.expand('%:t')
   if fname != ''
     return '‹‹ ' .. fname .. ' ››'
 
 -- saved
 add BufEnter, { 1, 0, 0, 0 }, ->
-  name = fn.expand('%:t')
+  name = vim.fn.expand('%:t')
   -- TODO find a better way to check if file exists
   if name != '' --and file_exists name
     return [[%{&modified?'':'saved'}]]
@@ -37,8 +39,12 @@ add BufEnter, { 1, 0, 1, 1, hl: 'Search' }, ->
 add '%=%<'
 
 -- file location
-add BufEnter, BufWritePost, { 0, 0, 0, 0 }, ->
+add BufEnter, BufWritePost, ->
   return vim.fn.expand('%:p:~:h')
+
+-- filetype
+add BufReadPost, BufWritePost, { 1, 0, 0, 0 }, ->
+  return vim.bo.filetype
 
 -- scroll percentage
 add { 1, 0, 1, 1, hl: 'CursorLine' }, '%2p%%'

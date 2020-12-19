@@ -1,5 +1,6 @@
 __id = 0
 
+global __autocmds = {}
 cmd = vim.api.nvim_command
 
 flatten = (t) ->

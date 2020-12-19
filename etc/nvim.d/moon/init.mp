@@ -7,21 +7,14 @@
 
 --[[ TODO
 
-[x] separate *.mp and compiled *.lua directories
 [ ] clean up dead lua files if *.mp is missing
 
-[ ] treesitter and lsp and fuzzy completion
+[ ] fuzzy completion
 
 [ ] startscreen
 
 [ ] switch to NEST navigation, t is a dead key rn!!
     what about WM navigation though?
-
-[x] modularize V
-    V = {}
-    V.test = require 'V/test'
-
-    and keep config split for easier debugging
 
 [ ] check if moonp -m minimified is worth it
 
@@ -31,36 +24,66 @@
 
 --]]
 
-global A = require 'V'
+--global A = require 'V'
 
-A.exec = (command) ->
+global V = {}
+
+V.set         = require 'V.set'
+V.map         = require 'V.map'
+V.au          = require 'V.au'
+V.linemanager = require 'V.linemanager'
+
+V.exec = (command) ->
   vim.api.nvim_command command
 
-A.norm = (command) ->
+V.norm = (command) ->
   vim.api.nvim_command 'norm! ' .. command
 
-A.capture = (command) ->
+V.capture = (command) ->
   return vim.api.nvim_exec command, true
 
-A.eval = (string) ->
+V.eval = (string) ->
   vim.api.nvim_eval string
 
+V.fn = vim.fn
+
+--V.mode = ->
+
 -- add check if file exists or try expect
-A.colorscheme = (name) ->
+V.colorscheme = (name) ->
   vim.api.nvim_command 'colorscheme ' .. name
 
-A.definecmd = (name, action) ->
+V.definecmd = (name, action) ->
   -- maybe even take name as IndexAsMethod
   print name, action
 
--- A.fs = TODO isfile/isdir with vim.loop
+-- V.fs = TODO isfile/isdir with vim.loop
 
--- TODO get rid of this
-require 'utils'
+--dofile '/home/sean/.config/nvim/lua/plugins.lua'
 
-dofile '/home/sean/.config/nvim/lua/plugins.lua'
-
+require 'startscreen'
+require 'plugins'
 require 'settings'
 require 'mappings'
 require 'statusline'
---require 'autocmds' TODO
+require 'autocmds'
+
+global folding = () ->
+  fold_size = v.foldend - v.foldstart - 1
+
+  --line = fn.getline v.foldstart
+  --if string.len(line) <= 6
+
+  line = fn.getline v.foldstart + 1
+  indent = line\match("^%s*")
+  line = line\match("^%s*(.-)%s*$")
+
+  window_width = tonumber(fn.winwidth(0)) - tonumber(api.nvim_eval '&number') * tonumber(api.nvim_eval '&numberwidth') - tonumber(api.nvim_eval '&foldcolumn')
+
+  l = indent .. '+ ' .. line
+  r= '' .. fold_size .. '+     '
+
+  txt_len = window_width - (l .. r)\len! + 1
+
+  return l .. ' '\rep(txt_len) .. r
+

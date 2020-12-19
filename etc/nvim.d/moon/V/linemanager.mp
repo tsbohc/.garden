@@ -78,16 +78,18 @@ M.add = (...) ->
   if events
     for _, e in ipairs events
       __events[e] = true
-    events['BufReadPost'] = true
+    events['BufEnter'] = true
 
   if type(hook) == 'string'
-    output = style hook, options
-    cache id, output
+    V.au { 'BufEnter' }, '*', ->
+      -- initial cache only
+      output = hook
+      output = style output, options
+      cache id, output
   elseif type(hook) == 'function'
     if events
-      A.au events, '*', ->
+      V.au events, '*', ->
         output = hook!
-        --print 'a', hook
         output = style output, options
         cache id, output
     else
@@ -95,12 +97,12 @@ M.add = (...) ->
 
 
 M.init = () ->
-  __events['BufReadPost'] = true -- initial draw
+  --__events['BufRead'] = true -- initial draw
   events = {}
   for e, _ in pairs __events
     table.insert(events, e)
 
-  A.au events, '*', ->
+  V.au events, '*', ->
     M.redraw!
 
 
