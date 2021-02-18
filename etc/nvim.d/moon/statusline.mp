@@ -11,8 +11,8 @@ BufEnter = 'BufEnter'
 BufWritePost = 'BufWritePost'
 -- }}}
 
-add = V.linemanager.add
-initialize = V.linemanager.init
+add = V.sl.add
+initialize = V.sl.init
 
 -- total lines
 add { 0, 0, 0, 1, hl: 'CursorLine' }, '%L'

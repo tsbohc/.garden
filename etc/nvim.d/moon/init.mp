@@ -20,18 +20,16 @@
 
 [ ] replace system calls with vim.loop api
 
-[ ] find a place for globals like g = vim.g
-
 --]]
 
 --global A = require 'V'
 
 global V = {}
 
-V.set         = require 'V.set'
-V.map         = require 'V.map'
-V.au          = require 'V.au'
-V.linemanager = require 'V.linemanager'
+V.set = require 'V.set'
+V.map = require 'V.map'
+V.au  = require 'V.au'
+V.sl  = require 'V.sl'
 
 V.exec = (command) ->
   vim.api.nvim_command command
@@ -58,8 +56,6 @@ V.definecmd = (name, action) ->
   print name, action
 
 -- V.fs = TODO isfile/isdir with vim.loop
-
---dofile '/home/sean/.config/nvim/lua/plugins.lua'
 
 require 'startscreen'
 require 'plugins'

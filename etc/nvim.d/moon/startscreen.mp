@@ -93,6 +93,8 @@ startscreen = () ->
 
   vim.api.nvim_exec(
 [[
+nnoremap <buffer><silent> p :enew <bar> :norm p<CR>
+nnoremap <buffer><silent> P :enew <bar> :norm P<CR>
 nnoremap <buffer><silent> l :enew <bar> startinsert<CR>
 nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
 nnoremap <buffer><silent> a :enew <bar> startinsert<CR>

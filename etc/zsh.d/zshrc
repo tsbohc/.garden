@@ -6,6 +6,8 @@
 # (__ /
 #
 
+export NNN_FCOLORS='c1e20c0a00600ef7c6d6abc4'
+
 # ------------------------------
 #            prompt
 # ------------------------------
@@ -145,6 +147,7 @@ alias mv='mv -iv'
 alias rm='rm -iv'
 
 alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
+alias font-grep='fc-list | grep'
 
 # probably a bad idea
 #sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }

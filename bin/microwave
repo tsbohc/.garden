@@ -1,0 +1,10 @@
+#!/bin/bash
+
+TOK='1407261874:AAGnM5SPbtLtJam1yBmxqFIIjWqZoN-uUwo'
+CHA='-1001189588146'
+
+text='mlady'
+
+URL="https://api.telegram.org/bot$TOK/sendMessage?chat_id=$CHA&text=$text"
+
+curl "$URL" >/dev/null
