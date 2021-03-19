@@ -302,7 +302,7 @@ pypkg() {
 # ------------------------------
 
 ice xorg "
-pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool wmctrl wmutils
+pkg :: xorg-server xorg-xinit xorg-xsetroot xterm xtitle xdo xdotool wmctrl wmutils-git
 pkg :: pulseaudio pulseaudio-alsa alsa-utils
 etc/xorg.d/xinitrc                 -> ~/.xinitrc
 etc/xorg.d/xresources.d/xresources -> ~/.Xresources

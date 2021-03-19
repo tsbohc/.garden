@@ -122,6 +122,8 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 alias b='source ~/src/3lantern/zsh_lantern'
 
+alias yt-dl-best='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
+
 alias v='nvim'
 alias :q='exit'
 alias :qw='exit'

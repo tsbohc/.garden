@@ -6,147 +6,91 @@
 "
 " cursive lowercase and invita upper
 
-" {{{
-" ------------------------------
-"             plug
-" ------------------------------
+if has('nvim')
+  call plug#begin('~/.vim/bundle')
 
-"if has('nvim')
-"  call plug#begin('~/.vim/bundle')
+  "Plug 'neovim/nvim-lspconfig'
+  "Plug 'nvim-lua/completion-nvim'
 
-  "" code
-  "Plug 'Yggdroot/indentline'
-  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  "Plug 'SirVer/ultisnips'
-  "Plug 'honza/vim-snippets'
-  "Plug 'habamax/vim-godot'
-  "Plug 'svermeulen/vimpeccable'
-  "Plug 'pigpigyyy/moonplus-vim'
-  ""Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+  Plug 'haorenW1025/completion-nvim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/playground'
+  Plug 'nvim-treesitter/completion-treesitter'
+  Plug 'steelsojka/completion-buffers'
 
-  "" write
-  "Plug 'dbmrq/vim-ditto'
-  "Plug 'ron89/thesaurus_query.vim'
-  "Plug 'reedes/vim-lexical'
-  ""Plug 'jooize/vim-colemak'
+  Plug 'guns/vim-sexp'
+  Plug 'tpope/vim-sensible'
+  "Plug 'tpope/vim-sexp-mappings-for-regular-people'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
+  Plug 'bakpakin/fennel.vim'
+  Plug 'Olical/conjure'
+  Plug 'Yggdroot/indentLine'
 
-  "" latex
-  "Plug 'lervag/vimtex'
+  Plug 'Olical/aniseed'
 
-  "" style
-  ""Plug 'morhetz/gruvbox'
-  "Plug 'sainnhe/sonokai'
-  "Plug 'ayu-theme/ayu-vim'
+  Plug 'arcticicestudio/nord-vim'
+  Plug 'sainnhe/forest-night'
+  Plug 'morhetz/gruvbox'
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'reedes/vim-colors-pencil'
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'rakr/vim-two-firewatch'
+  Plug 'jnurmine/Zenburn'
+  Plug 'jacoborus/tender.vim'
+  Plug 'dracula/vim'
+  Plug 'tomasr/molokai'
+  Plug 'joshdick/onedark.vim'
+  Plug 'drewtempelmeyer/palenight.vim'
+  Plug 'franbach/miramare'
+  Plug 'sainnhe/sonokai'
+  Plug 'arzg/vim-substrata'
+  Plug 'nekonako/xresources-nvim'
 
-  "" general
-  "Plug 'junegunn/fzf', { 'do': './install --bin' }
-  "Plug 'junegunn/fzf.vim'
-  ""Plug 'chrisbra/Colorizer'
+  Plug 'pigpigyyy/moonplus-vim'
 
-"  call plug#end()
-"endif
+  call plug#end()
+endif
 
-" ------------------------------
-"           settings
-" ------------------------------
+let g:aniseed#env = v:true
 
-" rendering
+nnoremap <Space> <Nop>
+let maplocalleader=" "
 
-"set encoding=utf-8            " self-explanatory
-"set nocompatible              " allow vim -u vimrc
-"set ttyfast                   " fast redraws, not needed in nvim
-"set synmaxcol=256             " max colums to use highlightig on
-""set t_Co=256                 " 256 color support
-"set termguicolors             " true color support
+let g:sexp_filetypes = "fennel"
 
+" FIXME:
 
-" wait times
-
-"set ttimeout
-"set ttimeoutlen=30
-"set timeoutlen=3000
-
-
-" editor
-" }}}
-
-"filetype indent on
-" {{{
-"set number relativenumber     " relative numbers
-"set cursorline                " hl current line
-"set undofile                  " persistent undo/redo
-"set virtualedit+=block        " do not restrict v-block to characters
-
-"set showmatch                 " blink matching brace when a new one is inserted
-"set matchtime=2               " return quicker
-
-
-" whitespace
-
-"set wrap                      " wrap at the end of a line
-"set scrolloff=10              " cursor padding in lines
-"set tabstop=2
-"set shiftwidth=2
-"set softtabstop=2
-"set expandtab
-"set noshiftround
+nmap <f10> :call SynStack()<CR>
+function! SynStack()
+    if !exists("*synstack")
+        echo 'none found'
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val,"name")')
+endfunc
 
 
 
 
-" invisible characters
-
-"set listchars=trail:␣
-"set list
 
 
-" search
-
-"set incsearch                 " search as characters are typed
-"set inccommand=nosplit        " show substitute effects as characters are typed
-"set hlsearch                  " highlight matches
-"set ignorecase                " case-insensitive search
-"set smartcase                 " case-sensitive if search contains uppercase
 
 
-"set clipboard+=unnamedplus    " global clipboard, don't forget xsel
 
-" }}}
 
-" format
 
-set formatoptions-=o          " no autoinsert of comment char on o or O
-set formatoptions-=r          " no autoinsert of comment char on <CR> in insert mode
-set formatoptions+=j          " remove comment leader when Joining lines
-set formatoptions+=1          " if possible, break line before one letter word
-set formatoptions+=c          " auto-format comments
-set formatoptions-=t          " but don't auto-format text
 
-" code folding
 
-"filetype plugin indent on
-"set foldenable
-"set foldmethod=marker
-"syntax enable
 
-set shortmess-=F " show messages during FileType autocmds
+" sources are pulled separately, switched when previous one returns nothing
+let g:completion_chain_complete_list = [
+    \{'complete_items': ['ts']},
+    \{'complete_items': ['buffers']},
+    \{'mode': '<c-p>'},
+    \{'mode': '<c-n>'}
+\]
 
-lua require('init')
-
-lua << EOF
-vim.g.completion_chain_complete_list = {
-  { complete_items = { 'lsp', 'snippet', 'buffers' } },
-  { mode = { '<c-p>' } },
-  { mode = { '<c-n>' } }
-}
-EOF
-
-let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_auto_change_source = 1
-
-"let g:completion_trigger_character = ['.', '::']
-let g:completion_matching_smart_case = 1
-"let g:completion_trigger_on_delete = 1
 
 autocmd BufEnter * lua require'completion'.on_attach()
 
@@ -154,474 +98,893 @@ autocmd BufEnter * lua require'completion'.on_attach()
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" completion toggle
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+"let g:completion_enable_auto_popup = 0
+
+" triggering completion
 imap <tab> <Plug>(completion_smart_tab)
 imap <s-tab> <Plug>(completion_smart_s_tab)
 
-"" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-"
-"" Avoid showing message extra message when using completion
-set shortmess+=c
+
+" treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+}
+EOF
+
+syntax enable
+set termguicolors
+
+let g:forest_night_background = 'soft'
+let g:forest_night_enable_italic = 1
+
+let g:gruvbox_italicize_comments = '1'
+let g:gruvbox_italic = '1'
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_bold=0
+
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+
+let g:miramare_enable_bold = 1
+let g:miramare_enable_italic = 1
+let g:miramare_enable_italic_string = 0
+"colorscheme miramare " very coffee, kinda like it
+
+let g:sonokai_enable_italic = 1
+let g:sonokai_style = 'shusia'
+"colorscheme miramare
+"colorscheme two-firewatch
+colorscheme forest-night
+"colorscheme gruvbox
+
+" changes to forest-night
+highlight! link TSConstant Fg
+highlight! link TSFuncBuiltin Aqua
+highlight! link TSFuncMacro Aqua
+highlight! link TSFunction Aqua
+highlight! link TSString Green
+highlight! link vimTodo Green
+
+"let g:indentLine_color_gui = s:palette.bg4[0] "in theme
+
+"let g:indentLine_setColors = 0
+let g:indentLine_defaultGroup = 'Comment'
+"let g:indentLine_color_term = 2
+"let g:indentLine_color_term = 239
+let g:indentLine_char = '│'
+
 
 " {{{
-" ------------------------------
-"           vim magic
-" ------------------------------
+nnoremap n j
+vnoremap n j
+onoremap n j
 
-"function! SourceMyScripts()
-"  let file_list = split(globpath("~/blueberry/moonplus", "*.lua"), '\n')
-"
-"  for f in file_list
-"    lua require(f)
-"  endfor
-"endfunction
-"call SourceMyScripts()
+nnoremap N J
+vnoremap N J
+onoremap N J
 
-" stay visual when indenting
-"xnoremap < <gv
-"xnoremap > >gv
+nnoremap e k
+vnoremap e k
+onoremap e k
 
-" opinionated remaps
-"nnoremap Y y$
-"nnoremap zC zM
+nnoremap E K
+vnoremap E K
+onoremap E K
 
-" * while visual to search selected text
+nnoremap i l
+vnoremap i l
+onoremap i l
 
-"function! s:VisualStarSearch(search_cmd)
-"  let l:tmp = @"
-"  normal! gvy
-"  let @/ = '\V' . substitute(escape(@", a:search_cmd . '\'), '\n', '\\n', 'g')
-"  let @" = l:tmp
-"endfunction
-"
-"xmap * :<c-u>call <SID>VisualStarSearch('/')<CR>n<c-o>
+nnoremap I L
+vnoremap I L
+onoremap I L
 
-" prevent jumping to the next match when *
-"nnoremap * *<c-o>
-" on hand substitution
-"nnoremap gs :%s///g<Left><Left><Left>
-"xnoremap gs :s///g<Left><Left><Left>
-"nnoremap gss :%s///g<Left><Left>
-"xnoremap gss :s///g<Left><Left>
+nnoremap l i
+vnoremap l i
+onoremap l i
 
-" regex search
-""nnoremap / /\v
-""vnoremap / /\v
-""nnoremap ? ?\v
-""vnoremap ? ?\v
-"nnoremap <silent> // :noh<cr>
+nnoremap L I
+vnoremap L I
+onoremap L I
 
-" custom folding function
+nnoremap k n
+vnoremap k n
+onoremap k n
 
-"function! MyFoldText()
-"  " get the right fold size
-"  let fold_lines = v:foldend - v:foldstart - 1
-"
-"  " get window width
-"  let nucolwidth = &fdc + &number * &numberwidth
-"  let window_width = winwidth(0) - nucolwidth
-"
-"  let next_line = getline(v:foldstart + 1)
-"  let txt = "[+] " . next_line . " "
-"
-"  let line_count = " +" . fold_lines . "       "
-"
-"  let txt = txt . repeat(" ", window_width - len(txt) - len(line_count) - 1) . line_count . "     "
-"  return txt
-"endfunction
-"
-"set foldtext=MyFoldText()
+nnoremap K N
+vnoremap K N
+onoremap K N
 
-" refactor bash if else
+nnoremap j f
+vnoremap j f
+onoremap j f
 
-"function! BashIfSwap()
-"  norm 0
-"  norm dw
-"  norm f;x
-"  norm i &&
-"  norm w
-"  norm dw
-"  norm J
-"  norm j
-"  norm dd
-"endfunction
-"
-"command! BashIfSwap call BashIfSwap()
-"map <leader>s :call BashIfSwap()<cr>
+nnoremap J F
+vnoremap J F
+onoremap J F
 
-" format current line as a nice commeht like the one above
+nnoremap f e
+vnoremap f e
+onoremap f e
 
-" }}}
-
-function! HeaderComment()
-  let c = split(&commentstring, '%s')[0]
-  call append(line('.')-1, c . " ------------------------------")
-  :center 29
-  call setline('.', c . " " . getline('.'))
-  call append(line('.'), c . " ------------------------------")
-endfunction
-
-command! HeaderComment call HeaderComment()
-map <leader>C :call HeaderComment()
-
-" writing mode
-let g:writing_mode_enabled = 0
-
-function! WritingMode()
-  if g:writing_mode_enabled
-    set spell!
-    DittoOff
-    " autocmd! CWord
-    let g:writing_mode_enabled = 0
-  else
-    call lexical#init({
-      \ 'spell': 1,
-      \ 'spellang': ['en', 'geographic'],
-      \ 'dictionary': ['~/Downloads/cut.txt',
-      \                '/usr/share/dict/words',
-      \               ],
-      \ 'thesaurus': ['~/.vim/thesaurus/mthesaur.txt',
-      \              ],
-      \ 'spellfile': ['~/.vim/spellcheck/geograpgic.utf-8.add',
-      \              ],
-      \ })
-    DittoOn
-    " augroup CWord
-    "   autocmd CursorMoved * call SaveCurrentWord()
-    " augroup END
-    let g:writing_mode_enabled = 1
-  endif
-endfunction
-
-command! WritingMode call WritingMode()
-
-" correct last word
-"imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
-
-" recompile suckless programs automagically
-"autocmd BufWritePost config.h,config.def.h !sudo make install
-
-" run xrdb whenever Xdefaults or Xresources are updated
-"autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
-
-" recompile moonplus
-"autocmd BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %
-"autocmd BufWritePost ~/.config/nvim/lua/*.mp silent :PackerCompile
-
-" pass cword to a bash script an echo the output
-
-"function! SaveCurrentWord()
-"  let cword = expand("<cword>")
-"  let cword_command = 'output-test ' . cword
-"  let cwordout = system(cword_command)
-"  echom cwordout
-"  " maybe grep the thesaurus with inverted keyboard too
-"  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
-"endfunction
-
-" easy umlauts
-
-"imap <c-o> ö
-"imap <c-a> ä
-"imap <c-u> ü
-"imap <c-s> ß
-
-" reload config
-"command! ReloadVimrc :source ~/etc/vim.d/vimrc
-
-" remember cursor position
-augroup remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g`\"" | endif
-augroup END
+nnoremap F E
+vnoremap F E
+onoremap F E
 
 
-" hide CursorLine in insert mode
-"autocmd InsertEnter * set nocul
-"autocmd InsertLeave * set cul
+nnoremap <expr> N '<c-d>'
+vnoremap <expr> N '<c-d>'
 
-" custom intro
-" {{{
-fun! Start()
-    " Don't run if: we have commandline arguments, we don't have an empty
-    " buffer, if we've not invoked as vim or gvim, or if we'e start in insert mode
-    if argc() || line2byte('$') != -1 || v:progname !~? '^[-gmnq]\=vim\=x\=\%[\.exe]$' || &insertmode
-        return
-    endif
+nnoremap <expr> E '<c-u>'
+vnoremap <expr> E '<c-u>'
 
-    " Start a new buffer ...
-    enew
-
-    " ... and set some options for it
-    setlocal
-        \ bufhidden=wipe
-        \ buftype=nofile
-        \ nobuflisted
-        \ nocursorcolumn
-        \ nocursorline
-        \ nolist
-        \ nonumber
-        \ noswapfile
-        \ norelativenumber
-
-    " Now we can just write to the buffer, whatever you want.
-    "call append('$', "")
-    "for line in split(system('echo arstarstsrt'), '\n')
-    "    call append('$', '        ' . l:line)
-    "endfor
-
-    call append('$', "                .")
-    call append('$', "          __   __)")
-    call append('$', "         (. | /o ______  __  _.")
-    call append('$', "            |/<_/ / / <_/ (_(__")
-    call append('$', "            |")
+nnoremap <expr> U '<c-r>'
+vnoremap <expr> U '<c-r>'
 
 
-    " No modifications to this buffer
-    setlocal nomodifiable nomodified
+"get join lines back
+nnoremap <c-j> J 
+"nnoremap <c-e> K
 
-    " When we go to insert mode start a new buffer, and start insert
-    nnoremap <buffer><silent> e :enew<CR>
-    nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
-    nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
-    nnoremap <buffer><silent> p :enew<cr> p
-endfun
-" }}}
+nnoremap <c-h> <c-w>h
+nnoremap <c-n> <c-w>j
+nnoremap <c-e> <c-w>k
+nnoremap <c-i> <c-w>l
 
-" Run after "doing all the startup stuff"
-"autocmd VimEnter * call Start()
 
-" {{{
-" ------------------------------
-"            keymaps
-" ------------------------------
 
-"" fzf-vim
-"nnoremap <C-F> :Files<cr>
-"vnoremap <C-F> <esc>:Files<cr>
-"inoremap <C-F> <esc>:Files<cr>
-"
-"
-"" h j k l -> n e i o
-"noremap n j
-"noremap N J
-"
-"noremap e k
-"noremap E K
-"
-"noremap i l
-"noremap I L
-"
-"noremap l i
-"noremap L I
-"
-"noremap j f
-"noremap J F
-"
-"noremap k n
-"noremap K N
-"
-"noremap f e
-"noremap F E
+nnoremap H 0
+vnoremap H 0
+onoremap H 0
+
+nnoremap I $
+vnoremap I $
+onoremap I $
+"}}}
+
+" TODO wrapping vi-selection with quote on pressing it
+
+
+
+" operations
+"nmap <buffer> <f  <Plug>(sexp_swap_list_backward)
+"nmap <buffer> >f  <Plug>(sexp_swap_list_forward)
+
+"nmap <buffer> <e  <Plug>(sexp_swap_element_backward)
+"nmap <buffer> >e  <Plug>(sexp_swap_element_forward)
+
+
+
+" cheat sheet
+"(    - jump around
+
+"B    - prev element head
+"W    - next element head
+"F    - next element tail
+
+"daf  - delete around form
+"dif  - delete inside form
+"ds   - delete surroundings
+
+"dae  - delete around element
+"dae  - delete inside element
+
+"sf(  - surround form and place cursor at the head
+"se(  - surround element and place cursor at the head
+
+"<L  - insert in the head of the form
+">L  - insert at the tail of the form
+
+">(  - emit from the head
+">)  - emit from the tail
+"<(  - chomp prev
+"<)  - chomp next
+
+">f  - move form forward
+"<e  - move element backward
+
+let g:sexp_mappings = {
+    \ 'sexp_outer_list':                'af',
+    \ 'sexp_inner_list':                'if',
+    \ 'sexp_outer_top_list':            'aF',
+    \ 'sexp_inner_top_list':            'iF',
+    \ 'sexp_outer_string':              '',
+    \ 'sexp_inner_string':              '',
+    \ 'sexp_outer_element':             'ae',
+    \ 'sexp_inner_element':             'ie',
+    \ 'sexp_move_to_prev_bracket':      '(',
+    \ 'sexp_move_to_next_bracket':      ')',
+    \ 'sexp_move_to_prev_element_head': 'B',
+    \ 'sexp_move_to_next_element_head': 'W',
+    \ 'sexp_move_to_prev_element_tail': 'gF',
+    \ 'sexp_move_to_next_element_tail': 'F',
+    \ 'sexp_flow_to_prev_close':        '',
+    \ 'sexp_flow_to_next_open':         '',
+    \ 'sexp_flow_to_prev_open':         '',
+    \ 'sexp_flow_to_next_close':        '',
+    \ 'sexp_flow_to_prev_leaf_head':    '',
+    \ 'sexp_flow_to_next_leaf_head':    '',
+    \ 'sexp_flow_to_prev_leaf_tail':    '',
+    \ 'sexp_flow_to_next_leaf_tail':    '',
+    \ 'sexp_move_to_prev_top_element':  '[[',
+    \ 'sexp_move_to_next_top_element':  ']]',
+    \ 'sexp_select_prev_element':       '',
+    \ 'sexp_select_next_element':       '',
+    \ 'sexp_indent':                    '==',
+    \ 'sexp_indent_top':                '=-',
+    \ 'sexp_round_head_wrap_list':      'sf(',
+    \ 'sexp_round_tail_wrap_list':      'sf)',
+    \ 'sexp_square_head_wrap_list':     'sf[',
+    \ 'sexp_square_tail_wrap_list':     'sf]',
+    \ 'sexp_curly_head_wrap_list':      'sf{',
+    \ 'sexp_curly_tail_wrap_list':      'sf}',
+    \ 'sexp_round_head_wrap_element':   'se(',
+    \ 'sexp_round_tail_wrap_element':   'se)',
+    \ 'sexp_square_head_wrap_element':  'se[',
+    \ 'sexp_square_tail_wrap_element':  'se]',
+    \ 'sexp_curly_head_wrap_element':   'se{',
+    \ 'sexp_curly_tail_wrap_element':   'se}',
+    \ 'sexp_insert_at_list_head':       '<L',
+    \ 'sexp_insert_at_list_tail':       '>L',
+    \ 'sexp_splice_list':               'ds',
+    \ 'sexp_convolute':                 '',
+    \ 'sexp_raise_list':                '',
+    \ 'sexp_raise_element':             '',
+    \ 'sexp_swap_list_backward':        '<f',
+    \ 'sexp_swap_list_forward':         '>f',
+    \ 'sexp_swap_element_backward':     '<e',
+    \ 'sexp_swap_element_forward':      '>e',
+    \ 'sexp_emit_head_element':         '>(',
+    \ 'sexp_emit_tail_element':         '>)',
+    \ 'sexp_capture_prev_element':      '<(',
+    \ 'sexp_capture_next_element':      '<)',
+    \ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+" everything commented out
 "
 "
 "
-"" n e s t
-"" - s is gone
-"" + i a bit closer
-""noremap n j
-""noremap e k
-""noremap s h
-""noremap t l
+""" ------------------------------
+"""             plug
+""" ------------------------------
 ""
-""noremap f e
-""noremap F E
-""noremap k n
-""noremap K N
-"
-"
-""nnoremap <c-j> <c-d>
-""nnoremap <c-k> <c-u>
-"
-""nnoremap <c-n> <c-d>
-""nnoremap <c-e> <c-u>
-"
-"" vi-line movement
-"nnoremap <expr> n v:count ? 'j' : 'gj'
-"nnoremap <expr> e v:count ? 'k' : 'gk'
-
-"nnoremap s r
-"set langmap=nj,ek,il,
-
-"set langremap
-
-" ----
-
-" colemak -> qwerty in normal mode
-"set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP
-"nnoremap <c-n> <c-d>
-"nnoremap <c-e> <c-u>
-"
-"nnoremap <c-p> <c-r>
-"nnoremap U <c-r>
-
-" eeh
-"nnoremap ; :
-"command Q q
-"command W w
-
-" hardmode
-
-"noremap <Up> <Nop>
-"noremap <Down> <Nop>
-"noremap <Left> <Nop>
-"noremap <Right> <Nop>
-"noremap <PageUp> <nop>
-"noremap <PageDown> <nop>
-"
-"inoremap <Up> <Nop>
-"inoremap <Down> <Nop>
-"inoremap <Left> <Nop>
-"inoremap <Right> <Nop>
-"inoremap <PageUp> <nop>
-"inoremap <PageDown> <nop>
-
-
-" easy split movement
-
-"nnoremap <c-h> <c-w><c-h>
-"nnoremap <c-j> <c-w><c-j>
-"nnoremap <c-k> <c-w><c-k>
-"nnoremap <c-l> <c-w><c-l>
-
-" }}}
-
-" coc
-"inoremap <silent><expr> <TAB>
-"  \ pumvisible() ? "\<C-n>" :
-"  \ <SID>check_back_space() ? "\<TAB>" :
-"  \ coc#refresh()
-""inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-
-" {{{
-"let g:UltiSnipsExpandTrigger="<s-tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" }}}
-
-" ------------------------------
-"       filetype specific
-" ------------------------------
-
-" python
-au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-
-" godot
-func! GDscriptSettings() abort
-  let g:godot_executable = '/home/sean/godot/Godot_v3.2.3-stable_x11.64'
-  setlocal tabstop=4
-  setlocal expandtab
-  setlocal shiftwidth=4
-  setlocal softtabstop=4
-
-  nnoremap <buffer> <F4> :GodotRunLast<CR>
-  nnoremap <buffer> <C-J> :GodotRun<CR>
-  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
-  nnoremap <buffer> <F7> :GodotRunFZF<CR>
-
-  nnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
-  vnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
-  inoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
-endfunc
-
-augroup godot | au!
-  au FileType gdscript call GDscriptSettings()
-augroup end
-
-" ------------------------------
-"         plug specific
-" ------------------------------
-
-" thesaurus_query
-"nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
-
-" vim-ditto
-hi clear SpellBad
-hi SpellBad ctermfg=red guifg=#fb4934
-execute 'hi SpellCap guifg=#fb4934'
-exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
-let g:ditto_hlgroups = ['SpellDitto', ]
-
-" {{{
-" vimtex
-"let g:tex_flavor  = 'latex'
-"let g:tex_conceal = ''
-""let g:vimtex_fold_manual = 1
-"let g:vimtex_latexmk_continuous = 1
-""let g:vimtex_compiler_progname = 'nvr'
-"let g:vimtex_view_method = 'zathura'
-"let g:vimtex_quickfix_latexlog = {'default' : 0}
-
-" indent line
-"let g:indentLine_char = '│'
-
-" gruvbox
-"let g:gruvbox_contrast_dark = 'hard'
-"let g:gruvbox_italicize_comments = '1'
-"let g:gruvbox_italic = '1'
-"let g:gruvbox_bold = '0'
-
-" onedark
-"let g:onedark_color_overrides = {
-"\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
-"\}
-
-" colorscheme
-"try
-"  colorscheme .current
-"  catch
-"endtry
-"
-" }}}
-
-" vim-ditto
-hi clear SpellBad
-hi SpellBad ctermfg=red guifg=#fb4934
-hi clear SpellCap
-hi SpellCap guifg=#fabd2f
-hi clear SpellRare
-hi SpellRare guifg=#d3869b
-hi SpellDitto guifg=#83a598
-let g:ditto_hlgroups = ['SpellDitto']
-
-" hide ~ on non-existent lines
-"highlight EndOfBuffer ctermfg=bg guifg=bg
-
-" ------------------------------
-"   sources (keep at the end)
-" ------------------------------
-
-nmap <leader>h :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-    if !exists("*synstack")
-        return
-    endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val,"name")')
-endfunc
-
-hi link moonObjAssign NONE
-hi link moonBoolean moonObject
-hi link moonShortHandAssign NONE
-"hi link moonString2 NONE
-
-"source ~/blueberry/etc/vim.d/statusline.vim
-
-
-"set statusline=
-"set statusline+=\ %L_____%L%=%L
-
+""if has('nvim')
+""  call plug#begin('~/.vim/bundle')
+""
+""  "" code
+""  "Plug 'Yggdroot/indentline'
+""  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+""  "Plug 'SirVer/ultisnips'
+""  "Plug 'honza/vim-snippets'
+""  "Plug 'habamax/vim-godot'
+""  "Plug 'svermeulen/vimpeccable'
+""  "Plug 'pigpigyyy/moonplus-vim'
+""  ""Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+""
+""  "" write
+""  "Plug 'dbmrq/vim-ditto'
+""  "Plug 'ron89/thesaurus_query.vim'
+""  "Plug 'reedes/vim-lexical'
+""  ""Plug 'jooize/vim-colemak'
+""
+""  "" latex
+""  "Plug 'lervag/vimtex'
+""
+""  "" style
+""  ""Plug 'morhetz/gruvbox'
+""  "Plug 'sainnhe/sonokai'
+""  "Plug 'ayu-theme/ayu-vim'
+""
+""  "" general
+""  "Plug 'junegunn/fzf', { 'do': './install --bin' }
+""  "Plug 'junegunn/fzf.vim'
+""  ""Plug 'chrisbra/Colorizer'
+""  Plug 'sainnhe/forest-night'
+""
+""  call plug#end()
+""endif
+""
+""let g:forest_night_background = 'soft'
+""
+""" ------------------------------
+"""           settings
+""" ------------------------------
+""
+""" rendering
+""
+"""set encoding=utf-8            " self-explanatory
+"""set nocompatible              " allow vim -u vimrc
+"""set ttyfast                   " fast redraws, not needed in nvim
+"""set synmaxcol=256             " max colums to use highlightig on
+""""set t_Co=256                 " 256 color support
+"""set termguicolors             " true color support
+""
+""
+""" wait times
+""
+"""set ttimeout
+"""set ttimeoutlen=30
+"""set timeoutlen=3000
+""
+""
+""" editor
+""" }}}
+""
+"""filetype indent on
+""" {{{
+"""set number relativenumber     " relative numbers
+"""set cursorline                " hl current line
+"""set undofile                  " persistent undo/redo
+"""set virtualedit+=block        " do not restrict v-block to characters
+""
+"""set showmatch                 " blink matching brace when a new one is inserted
+"""set matchtime=2               " return quicker
+""
+""
+""" whitespace
+""
+"""set wrap                      " wrap at the end of a line
+"""set scrolloff=10              " cursor padding in lines
+"""set tabstop=2
+"""set shiftwidth=2
+"""set softtabstop=2
+"""set expandtab
+"""set noshiftround
+""
+""
+""
+""
+""" invisible characters
+""
+"""set listchars=trail:␣
+"""set list
+""
+""
+""" search
+""
+"""set incsearch                 " search as characters are typed
+"""set inccommand=nosplit        " show substitute effects as characters are typed
+"""set hlsearch                  " highlight matches
+"""set ignorecase                " case-insensitive search
+"""set smartcase                 " case-sensitive if search contains uppercase
+""
+""
+""
+""" }}}
+""
+""" format
+""
+""set formatoptions-=o          " no autoinsert of comment char on o or O
+""set formatoptions-=r          " no autoinsert of comment char on <CR> in insert mode
+""set formatoptions+=j          " remove comment leader when Joining lines
+""set formatoptions+=1          " if possible, break line before one letter word
+""set formatoptions+=c          " auto-format comments
+""set formatoptions-=t          " but don't auto-format text
+""
+""" code folding
+""
+"""filetype plugin indent on
+"""set foldenable
+"""set foldmethod=marker
+"""syntax enable
+""
+""set shortmess-=F " show messages during FileType autocmds
+""
+""lua require('init')
+""
+""lua << EOF
+""vim.g.completion_chain_complete_list = {
+""  { complete_items = { 'lsp', 'snippet', 'buffers' } },
+""  { mode = { '<c-p>' } },
+""  { mode = { '<c-n>' } }
+""}
+""EOF
+""
+""let g:completion_enable_snippet = 'UltiSnips'
+""let g:completion_auto_change_source = 1
+""
+"""let g:completion_trigger_character = ['.', '::']
+""let g:completion_matching_smart_case = 1
+"""let g:completion_trigger_on_delete = 1
+""
+""autocmd BufEnter * lua require'completion'.on_attach()
+""
+""" Use <Tab> and <S-Tab> to navigate through popup menu
+""inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+""inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+""
+""" completion toggle
+""imap <tab> <Plug>(completion_smart_tab)
+""imap <s-tab> <Plug>(completion_smart_s_tab)
+""
+"""" Set completeopt to have a better completion experience
+""set completeopt=menuone,noinsert,noselect
+"""
+"""" Avoid showing message extra message when using completion
+""set shortmess+=c
+""
+""" {{{
+""" ------------------------------
+"""           vim magic
+""" ------------------------------
+""
+"""function! SourceMyScripts()
+"""  let file_list = split(globpath("~/blueberry/moonplus", "*.lua"), '\n')
+"""
+"""  for f in file_list
+"""    lua require(f)
+"""  endfor
+"""endfunction
+"""call SourceMyScripts()
+""
+""" stay visual when indenting
+"""xnoremap < <gv
+"""xnoremap > >gv
+""
+""" opinionated remaps
+"""nnoremap Y y$
+"""nnoremap zC zM
+""
+""" * while visual to search selected text
+""
+"""function! s:VisualStarSearch(search_cmd)
+"""  let l:tmp = @"
+"""  normal! gvy
+"""  let @/ = '\V' . substitute(escape(@", a:search_cmd . '\'), '\n', '\\n', 'g')
+"""  let @" = l:tmp
+"""endfunction
+"""
+"""xmap * :<c-u>call <SID>VisualStarSearch('/')<CR>n<c-o>
+""
+""" prevent jumping to the next match when *
+"""nnoremap * *<c-o>
+""" on hand substitution
+"""nnoremap gs :%s///g<Left><Left><Left>
+"""xnoremap gs :s///g<Left><Left><Left>
+"""nnoremap gss :%s///g<Left><Left>
+"""xnoremap gss :s///g<Left><Left>
+""
+""" regex search
+""""nnoremap / /\v
+""""vnoremap / /\v
+""""nnoremap ? ?\v
+""""vnoremap ? ?\v
+"""nnoremap <silent> // :noh<cr>
+""
+""" custom folding function
+""
+"""function! MyFoldText()
+"""  " get the right fold size
+"""  let fold_lines = v:foldend - v:foldstart - 1
+"""
+"""  " get window width
+"""  let nucolwidth = &fdc + &number * &numberwidth
+"""  let window_width = winwidth(0) - nucolwidth
+"""
+"""  let next_line = getline(v:foldstart + 1)
+"""  let txt = "[+] " . next_line . " "
+"""
+"""  let line_count = " +" . fold_lines . "       "
+"""
+"""  let txt = txt . repeat(" ", window_width - len(txt) - len(line_count) - 1) . line_count . "     "
+"""  return txt
+"""endfunction
+"""
+"""set foldtext=MyFoldText()
+""
+""" refactor bash if else
+""
+"""function! BashIfSwap()
+"""  norm 0
+"""  norm dw
+"""  norm f;x
+"""  norm i &&
+"""  norm w
+"""  norm dw
+"""  norm J
+"""  norm j
+"""  norm dd
+"""endfunction
+"""
+"""command! BashIfSwap call BashIfSwap()
+"""map <leader>s :call BashIfSwap()<cr>
+""
+""" format current line as a nice commeht like the one above
+""
+""" }}}
+""
+""function! HeaderComment()
+""  let c = split(&commentstring, '%s')[0]
+""  call append(line('.')-1, c . " ------------------------------")
+""  :center 29
+""  call setline('.', c . " " . getline('.'))
+""  call append(line('.'), c . " ------------------------------")
+""endfunction
+""
+""command! HeaderComment call HeaderComment()
+""map <leader>C :call HeaderComment()
+""
+""" writing mode
+""let g:writing_mode_enabled = 0
+""
+""function! WritingMode()
+""  if g:writing_mode_enabled
+""    set spell!
+""    DittoOff
+""    " autocmd! CWord
+""    let g:writing_mode_enabled = 0
+""  else
+""    call lexical#init({
+""      \ 'spell': 1,
+""      \ 'spellang': ['en', 'geographic'],
+""      \ 'dictionary': ['~/Downloads/cut.txt',
+""      \                '/usr/share/dict/words',
+""      \               ],
+""      \ 'thesaurus': ['~/.vim/thesaurus/mthesaur.txt',
+""      \              ],
+""      \ 'spellfile': ['~/.vim/spellcheck/geograpgic.utf-8.add',
+""      \              ],
+""      \ })
+""    DittoOn
+""    " augroup CWord
+""    "   autocmd CursorMoved * call SaveCurrentWord()
+""    " augroup END
+""    let g:writing_mode_enabled = 1
+""  endif
+""endfunction
+""
+""command! WritingMode call WritingMode()
+""
+""" correct last word
+"""imap <c-x> <esc>b 1z= e :call feedkeys('a') <cr>
+""
+""" recompile suckless programs automagically
+"""autocmd BufWritePost config.h,config.def.h !sudo make install
+""
+""" run xrdb whenever Xdefaults or Xresources are updated
+"""autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
+""
+""" recompile moonplus
+"""autocmd BufWritePost ~/.config/nvim/lua/*.mp silent !moonp %
+"""autocmd BufWritePost ~/.config/nvim/lua/*.mp silent :PackerCompile
+""
+""" pass cword to a bash script an echo the output
+""
+"""function! SaveCurrentWord()
+"""  let cword = expand("<cword>")
+"""  let cword_command = 'output-test ' . cword
+"""  let cwordout = system(cword_command)
+"""  echom cwordout
+"""  " maybe grep the thesaurus with inverted keyboard too
+"""  " ideally i'd want to print a list with numbers, and if a type m1 or something it replaces cword with that numbered word
+"""endfunction
+""
+""" easy umlauts
+""
+"""imap <c-o> ö
+"""imap <c-a> ä
+"""imap <c-u> ü
+"""imap <c-s> ß
+""
+""" reload config
+"""command! ReloadVimrc :source ~/etc/vim.d/vimrc
+""
+""" remember cursor position
+""augroup remember-cursor-position
+""  autocmd!
+""  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g`\"" | endif
+""augroup END
+""
+""
+""" hide CursorLine in insert mode
+"""autocmd InsertEnter * set nocul
+"""autocmd InsertLeave * set cul
+""
+""" custom intro
+""" {{{
+""fun! Start()
+""    " Don't run if: we have commandline arguments, we don't have an empty
+""    " buffer, if we've not invoked as vim or gvim, or if we'e start in insert mode
+""    if argc() || line2byte('$') != -1 || v:progname !~? '^[-gmnq]\=vim\=x\=\%[\.exe]$' || &insertmode
+""        return
+""    endif
+""
+""    " Start a new buffer ...
+""    enew
+""
+""    " ... and set some options for it
+""    setlocal
+""        \ bufhidden=wipe
+""        \ buftype=nofile
+""        \ nobuflisted
+""        \ nocursorcolumn
+""        \ nocursorline
+""        \ nolist
+""        \ nonumber
+""        \ noswapfile
+""        \ norelativenumber
+""
+""    " Now we can just write to the buffer, whatever you want.
+""    "call append('$', "")
+""    "for line in split(system('echo arstarstsrt'), '\n')
+""    "    call append('$', '        ' . l:line)
+""    "endfor
+""
+""    call append('$', "                .")
+""    call append('$', "          __   __)")
+""    call append('$', "         (. | /o ______  __  _.")
+""    call append('$', "            |/<_/ / / <_/ (_(__")
+""    call append('$', "            |")
+""
+""
+""    " No modifications to this buffer
+""    setlocal nomodifiable nomodified
+""
+""    " When we go to insert mode start a new buffer, and start insert
+""    nnoremap <buffer><silent> e :enew<CR>
+""    nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
+""    nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
+""    nnoremap <buffer><silent> p :enew<cr> p
+""endfun
+""" }}}
+""
+""" Run after "doing all the startup stuff"
+"""autocmd VimEnter * call Start()
+""
+""" {{{
+""" ------------------------------
+"""            keymaps
+""" ------------------------------
+""
+"""" fzf-vim
+"""nnoremap <C-F> :Files<cr>
+"""vnoremap <C-F> <esc>:Files<cr>
+"""inoremap <C-F> <esc>:Files<cr>
+"""
+"""
+"""" h j k l -> n e i o
+"""noremap n j
+"""noremap N J
+"""
+"""noremap e k
+"""noremap E K
+"""
+"""noremap i l
+"""noremap I L
+"""
+"""noremap l i
+"""noremap L I
+"""
+"""noremap j f
+"""noremap J F
+"""
+"""noremap k n
+"""noremap K N
+"""
+"""noremap f e
+"""noremap F E
+"""
+"""
+"""
+"""" n e s t
+"""" - s is gone
+"""" + i a bit closer
+""""noremap n j
+""""noremap e k
+""""noremap s h
+""""noremap t l
+""""
+""""noremap f e
+""""noremap F E
+""""noremap k n
+""""noremap K N
+"""
+"""
+""""nnoremap <c-j> <c-d>
+""""nnoremap <c-k> <c-u>
+"""
+""""nnoremap <c-n> <c-d>
+""""nnoremap <c-e> <c-u>
+"""
+"""" vi-line movement
+"""nnoremap <expr> n v:count ? 'j' : 'gj'
+"""nnoremap <expr> e v:count ? 'k' : 'gk'
+""
+"""nnoremap s r
+"""set langmap=nj,ek,il,
+""
+"""set langremap
+""
+""" ----
+""
+""" colemak -> qwerty in normal mode
+"""set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP
+"""nnoremap <c-n> <c-d>
+"""nnoremap <c-e> <c-u>
+"""
+"""nnoremap <c-p> <c-r>
+"""nnoremap U <c-r>
+""
+""" eeh
+"""nnoremap ; :
+"""command Q q
+"""command W w
+""
+""" hardmode
+""
+"""noremap <Up> <Nop>
+"""noremap <Down> <Nop>
+"""noremap <Left> <Nop>
+"""noremap <Right> <Nop>
+"""noremap <PageUp> <nop>
+"""noremap <PageDown> <nop>
+"""
+"""inoremap <Up> <Nop>
+"""inoremap <Down> <Nop>
+"""inoremap <Left> <Nop>
+"""inoremap <Right> <Nop>
+"""inoremap <PageUp> <nop>
+"""inoremap <PageDown> <nop>
+""
+""
+""" easy split movement
+""
+"""nnoremap <c-h> <c-w><c-h>
+"""nnoremap <c-j> <c-w><c-j>
+"""nnoremap <c-k> <c-w><c-k>
+"""nnoremap <c-l> <c-w><c-l>
+""
+""" }}}
+""
+""" coc
+"""inoremap <silent><expr> <TAB>
+"""  \ pumvisible() ? "\<C-n>" :
+"""  \ <SID>check_back_space() ? "\<TAB>" :
+"""  \ coc#refresh()
+""""inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"""function! s:check_back_space() abort
+"""  let col = col('.') - 1
+"""  return !col || getline('.')[col - 1]  =~# '\s'
+"""endfunction
+""
+""" {{{
+"""let g:UltiSnipsExpandTrigger="<s-tab>"
+"""let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"""let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+""" }}}
+""
+""" ------------------------------
+"""       filetype specific
+""" ------------------------------
+""
+""" python
+""au FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+""
+""" godot
+""func! GDscriptSettings() abort
+""  let g:godot_executable = '/home/sean/godot/Godot_v3.2.3-stable_x11.64'
+""  setlocal tabstop=4
+""  setlocal expandtab
+""  setlocal shiftwidth=4
+""  setlocal softtabstop=4
+""
+""  nnoremap <buffer> <F4> :GodotRunLast<CR>
+""  nnoremap <buffer> <C-J> :GodotRun<CR>
+""  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
+""  nnoremap <buffer> <F7> :GodotRunFZF<CR>
+""
+""  nnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+""  vnoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+""  inoremap <C-F> :call fzf#run(fzf#wrap({'source': 'find . -name *.gd'}))<cr>
+""endfunc
+""
+""augroup godot | au!
+""  au FileType gdscript call GDscriptSettings()
+""augroup end
+""
+""" ------------------------------
+"""         plug specific
+""" ------------------------------
+""
+""" thesaurus_query
+"""nnoremap zw :ThesaurusQueryReplaceCurrentWord<CR>
+""
+""" vim-ditto
+""hi clear SpellBad
+""hi SpellBad ctermfg=red guifg=#fb4934
+""execute 'hi SpellCap guifg=#fb4934'
+""exec 'hi SpellDitto guifg=#fabd2f ctermfg=red'
+""let g:ditto_hlgroups = ['SpellDitto', ]
+""
+""" {{{
+""" vimtex
+"""let g:tex_flavor  = 'latex'
+"""let g:tex_conceal = ''
+""""let g:vimtex_fold_manual = 1
+"""let g:vimtex_latexmk_continuous = 1
+""""let g:vimtex_compiler_progname = 'nvr'
+"""let g:vimtex_view_method = 'zathura'
+"""let g:vimtex_quickfix_latexlog = {'default' : 0}
+""
+""" indent line
+"""let g:indentLine_char = '│'
+""
+""" gruvbox
+"""let g:gruvbox_contrast_dark = 'hard'
+"""let g:gruvbox_italicize_comments = '1'
+"""let g:gruvbox_italic = '1'
+"""let g:gruvbox_bold = '0'
+""
+""" onedark
+"""let g:onedark_color_overrides = {
+"""\ "black": {'gui': '#282c34', 'cterm': '0', 'cterm16': '0' }
+"""\}
+""
+""" colorscheme
+"""try
+"""  colorscheme .current
+"""  catch
+"""endtry
+"""
+""" }}}
+""
+""" vim-ditto
+""hi clear SpellBad
+""hi SpellBad ctermfg=red guifg=#fb4934
+""hi clear SpellCap
+""hi SpellCap guifg=#fabd2f
+""hi clear SpellRare
+""hi SpellRare guifg=#d3869b
+""hi SpellDitto guifg=#83a598
+""let g:ditto_hlgroups = ['SpellDitto']
+""
+""" hide ~ on non-existent lines
+"""highlight EndOfBuffer ctermfg=bg guifg=bg
+""
+""" ------------------------------
+"""   sources (keep at the end)
+""" ------------------------------
+""
+""nmap <leader>h :call <SID>SynStack()<CR>
+""function! <SID>SynStack()
+""    if !exists("*synstack")
+""        return
+""    endif
+""    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val,"name")')
+""endfunc
+""
+""hi link moonObjAssign NONE
+""hi link moonBoolean moonObject
+""hi link moonShortHandAssign NONE
+"""hi link moonString2 NONE
+""
+"""source ~/blueberry/etc/vim.d/statusline.vim
+""
+""
+"""set statusline=
+"""set statusline+=\ %L_____%L%=%L
+""

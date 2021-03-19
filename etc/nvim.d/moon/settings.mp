@@ -11,7 +11,7 @@ set = V.set
 vim.cmd 'filetype on'              -- determine filetype
 vim.cmd 'syntax enable'            -- remember current color settings
 
-V.colorscheme 'gruvbox'
+V.colorscheme 'forest-night'
 V.exec 'highlight EndOfBuffer ctermfg=bg guifg=bg' -- TODO
 
 -- rendering --

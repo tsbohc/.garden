@@ -47,7 +47,11 @@ super + Escape
 
 # launch terminal emulator and force tiled
 super + Return
-  bspc desktop -l tiled ; alacritty
+  bspc desktop -l tiled ; st
+
+# in case of trouble
+super + shift + Return
+  xterm
 
 # toggle polybar
 super + d

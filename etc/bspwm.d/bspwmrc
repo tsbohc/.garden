@@ -31,9 +31,9 @@ ice bspwm-terminal-chomp &
 
 # borders
 con border_width                1
-con active_border_color         "#1d2021"
-con normal_border_color         "#1d2021"
-con focused_border_color        "#1d2021"
+con active_border_color         "#00ff00"
+con normal_border_color         "#00ff00"
+con focused_border_color        "#00ff00"
 
 # gaps
 con window_gap                  10
