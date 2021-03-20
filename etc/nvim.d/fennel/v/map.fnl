@@ -1,16 +1,12 @@
+;(map.n <c-h> <c-w>h)
+
+; smart v-line movement
+;(map.n expr :n #(if (> vim.v.count 0) :j :gj))
+;(map.n expr :e #(if (> vim.v.count 0) :k :gk))
+
 (module v-map
   {require {a aniseed.core
             gcit lib.get-callable-index-table}})
-
-;(defn- pop [t index]
-;  "pop element on index from the table and return it"
-;  (when t
-;    (tset t index nil)))
-;
-;(defn- poplast [t]
-;  "pop last element from the table and return it"
-;  (when t
-;    (tset t (a.count t) nil)))
 
 (defn- callback [modes ...]
   "define mappings"

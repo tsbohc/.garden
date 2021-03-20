@@ -1,65 +1,56 @@
-(module settings)
+(module config.settings
+  {require-macros [lib.my-macros]})
 
-;; okay, THIS is the wacky shit I've always wanted to do
-(macro > [option value]
-  `(V.set ,option ,value))
-
-;
-;; this is an even better idea
-;; why -'s though then?
-;(o- :number)
-;(b- :number)
-;(w- :number)
+; now this is the wacky shit i've always wanted to do
 
 ; rendering ;
-(> :encoding :utf-8)              ; self-explanatory
-; FIXME: why does this even error w/ no- prefix?
-;(> :nocompatible)                  ; allow vim -u vimc
-(> :synmaxcol 256)                 ; max colums to use highlighting on
-(> :termguicolors)                 ; true color support
+(s- encoding "utf-8")              ; self-explanatory
+(s- synmaxcol 256)                 ; max colums to use highlighting on
+(s- termguicolors)                 ; true color support
 
 ; ui ;
-(> :number)                        ; show ruler
-(> :relativenumber)                ; relative ruler
-(> :cursorline)                    ; highlight current line
-(> :showmatch)                     ; blink matching brace when a new one is inserted
-(> :matchtime 2)                   ; blink quicker
+(s- number)                        ; show ruler
+(s- relativenumber)                ; relative ruler
+(s- cursorline)                    ; highlight current line
+(s- showmatch)                     ; blink matching brace when a new one is inserted
+(s- matchtime 2)                   ; blink quicker
 
 ; behaviour ;
-(> :scrolloff 10)                  ; cursor padding in window
-(> :nowrap)                        ; do not wrap at the end of a line TODO: filetype au istext iscode
-(> :virtualedit "block")           ; do not restrict v-block to characters
-
-;vim.cmd [[set undofile]]
-;(> :undofile                      ; persistent undo/redo
-
-(> :clipboard "unnamedplus")       ; don't forget xsel!
-(> :mouse "a")                     ; blasphemy!
-
-; invisibles ;
-(> :listchars "trail:␣")
-(> :list)
-;(> :fillchars "eob:~")             ; do not set those to fileseparator etc, trust me
-
-; search ;
-(> :incsearch)                     ; search as characters are typed
-(> :inccommand "nosplit")          ; show substitute effects as characters are typed
-(> :hlsearch)                      ; highlight matches
-(> :ignorecase)                    ; case-insensitive search
-(> :smartcase)                     ; case-sensitive if search contains uppercase
-
-; spacing ;
-(> :tabstop 2)
-(> :shiftwidth 2)
-(> :softtabstop 2)
-(> :expandtab)
-;(> :noshiftround)                  ; round indent to multiples of shiftwidth
+(s- scrolloff 10)                  ; cursor padding in window
+(s- nowrap)                        ; do not wrap at the end of a line TODO: filetype au istext iscode
+(s- virtualedit "block")           ; do not restrict v-block to characters
+(s- undofile)                      ; persistent undo/redo
+(s- clipboard "unnamedplus")       ; don't forget xsel!
+(s- mouse "a")                     ; blasphemy!
 
 ; status lines ;
-;(> :noshowmode                    ; do not show ; INSERT ;, etc on lastline
-(> :laststatus 2)                  ; always show statusline
+(s- noshowmode)                    ; do not show -- INSERT --, etc on statusline
+(s- laststatus 2)                  ; always show statusline
 
 ; folding ;
-(> :foldenable)
-(> :foldmethod "marker")
-;(> :foldtext "v:lua.folding()"
+(s- foldenable)
+(s- foldmethod "marker")
+;(s- foldtext "v:lua.folding()"
+
+; search ;
+(s- incsearch)                     ; search as characters are typed
+(s- inccommand "nosplit")          ; show substitute effects as characters are typed
+(s- hlsearch)                      ; highlight matches
+(s- ignorecase)                    ; case-insensitive search
+(s- smartcase)                     ; case-sensitive if search contains uppercase
+
+; spacing ;
+(s- tabstop 2)
+(s- shiftwidth 2)
+(s- softtabstop 2)
+(s- expandtab)
+;(s- :noshiftround)                  ; round indent to multiples of shiftwidth
+
+; invisibles ;
+(s- listchars "trail:␣")
+(s- list)
+;(s- :fillchars "eob:~")             ; do not set those to fileseparator etc, trust me
+
+; unsorted ;
+;(s- compatible false)              ; allow vim -u vimc
+
