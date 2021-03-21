@@ -42,7 +42,7 @@ super + alt + {q,r}
   bspc {quit,wm -r}
 
 # reload sxhkd config
-super + Escape
+super + shift + Escape
   pkill -USR1 -x sxhkd
 
 # launch terminal emulator and force tiled

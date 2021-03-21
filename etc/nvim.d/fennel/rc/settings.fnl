@@ -1,7 +1,19 @@
-(module config.settings
-  {require-macros [lib.my-macros]})
+(module rc.settings
+  {require {s zest.set}
+   require-macros [zest.set-macros]})
 
-; now this is the wacky shit i've always wanted to do
+
+
+; why not this tho?
+;(macro s- [o ...]
+;  `(z.set ,(tostring o) ...))
+;
+;(macro n- [modes ...]
+;  (let [params [...]
+;        rs (table.remove params)
+;        ls (table.remove params)]
+;    `(do
+;       (m.map ,(tostring modes) ,(tostring ls) ,(tostring rs)))))
 
 ; rendering ;
 (s- encoding "utf-8")              ; self-explanatory
@@ -14,6 +26,10 @@
 (s- cursorline)                    ; highlight current line
 (s- showmatch)                     ; blink matching brace when a new one is inserted
 (s- matchtime 2)                   ; blink quicker
+(s- shortmess
+    (.. "c" ; completion messages
+        "I" ; intro message
+        ))
 
 ; behaviour ;
 (s- scrolloff 10)                  ; cursor padding in window
@@ -24,7 +40,7 @@
 (s- mouse "a")                     ; blasphemy!
 
 ; status lines ;
-(s- noshowmode)                    ; do not show -- INSERT --, etc on statusline
+;(s- noshowmode)                    ; do not show -- INSERT --, etc on statusline
 (s- laststatus 2)                  ; always show statusline
 
 ; folding ;
