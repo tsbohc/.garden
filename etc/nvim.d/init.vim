@@ -24,12 +24,14 @@ require('packer').startup(function()
 
   -- fennel
   use 'Olical/aniseed'
+  use 'Olical/conjure'
   use 'bakpakin/fennel.vim'
 
   use 'guns/vim-sexp'
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
 
+  use 'pigpigyyy/moonplus-vim'
 end)
 
 require'nvim-treesitter.configs'.setup {
@@ -39,6 +41,9 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+nnoremap <Space> <Nop>
+let maplocalleader=" "
 
 let g:aniseed#env = v:true
 "lua require("aniseed.env").init()
@@ -102,83 +107,83 @@ highlight! link vimTodo Green
 
 
 " {{{
-nnoremap n j
-vnoremap n j
-onoremap n j
-
-nnoremap N J
-vnoremap N J
-onoremap N J
-
-nnoremap e k
-vnoremap e k
-onoremap e k
-
-nnoremap E K
-vnoremap E K
-onoremap E K
-
-nnoremap i l
-vnoremap i l
-onoremap i l
-
-nnoremap I L
-vnoremap I L
-onoremap I L
-
-nnoremap l i
-vnoremap l i
-onoremap l i
-
-nnoremap L I
-vnoremap L I
-onoremap L I
-
-nnoremap k n
-vnoremap k n
-onoremap k n
-
-nnoremap K N
-vnoremap K N
-onoremap K N
-
-nnoremap j f
-vnoremap j f
-onoremap j f
-
-nnoremap J F
-vnoremap J F
-onoremap J F
-
-nnoremap f e
-vnoremap f e
-onoremap f e
-
-nnoremap F E
-vnoremap F E
-onoremap F E
-
-
-nnoremap <expr> N '<c-d>'
-vnoremap <expr> N '<c-d>'
-
-nnoremap <expr> E '<c-u>'
-vnoremap <expr> E '<c-u>'
-
-nnoremap <expr> U '<c-r>'
-vnoremap <expr> U '<c-r>'
-
-
-"get join lines back
-nnoremap <c-j> J
-"nnoremap <c-e> K
-
-nnoremap <c-h> <c-w>h
-nnoremap <c-n> <c-w>j
-nnoremap <c-e> <c-w>k
-nnoremap <c-i> <c-w>l
-" }}}
-
+"nnoremap n j
+"vnoremap n j
+"onoremap n j
+"
+"nnoremap N J
+"vnoremap N J
+"onoremap N J
+"
+"nnoremap e k
+"vnoremap e k
+"onoremap e k
+"
+"nnoremap E K
+"vnoremap E K
+"onoremap E K
+"
+"nnoremap i l
+"vnoremap i l
+"onoremap i l
+"
+"nnoremap I L
+"vnoremap I L
+"onoremap I L
+"
+"nnoremap l i
+"vnoremap l i
+"onoremap l i
+"
+"nnoremap L I
+"vnoremap L I
+"onoremap L I
+"
+"nnoremap k n
+"vnoremap k n
+"onoremap k n
+"
+"nnoremap K N
+"vnoremap K N
+"onoremap K N
+"
+"nnoremap j f
+"vnoremap j f
+"onoremap j f
+"
+"nnoremap J F
+"vnoremap J F
+"onoremap J F
+"
+"nnoremap f e
+"vnoremap f e
+"onoremap f e
+"
+"nnoremap F E
+"vnoremap F E
+"onoremap F E
+"
+"
+"nnoremap <expr> N '<c-d>'
+"vnoremap <expr> N '<c-d>'
+"
+"nnoremap <expr> E '<c-u>'
+"vnoremap <expr> E '<c-u>'
+"
+"nnoremap <expr> U '<c-r>'
+"vnoremap <expr> U '<c-r>'
+"
+"
+""get join lines back
+"nnoremap <c-j> J
+""nnoremap <c-e> K
+"
+"nnoremap <c-h> <c-w>h
+"nnoremap <c-n> <c-w>j
+"nnoremap <c-e> <c-w>k
+"nnoremap <c-i> <c-w>l
+"" }}}
+"
 
 " cheat sheet
 "(    - jump around

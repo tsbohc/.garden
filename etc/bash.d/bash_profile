@@ -2,6 +2,6 @@
 # ~/.bash_profile
 #
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+#[[ -f ~/.bashrc ]] && . ~/.bashrc
 
-source /home/sean/.config/broot/launcher/bash/br
+#source /home/sean/.config/broot/launcher/bash/br

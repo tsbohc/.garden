@@ -1,6 +1,24 @@
 (module init
   {require {settings rc.settings
-            mappings rc.mappings}})
+            mappings rc.keymaps}})
+
+(global Z
+  {
+   :norm
+   (fn [cmd]
+     (vim.api.nvim_command (.. "norm! " cmd)))
+
+   :exec
+   (fn [cmd]
+     (vim.api.nvim_command cmd))
+
+   :eval
+   (fn [str]
+     (vim.api.nvim_eval str))
+   })
+
+(fn Z.norm [c]
+  (vim.api.nvim_command (.. "norm! " c)))
 
 
 ; {{{

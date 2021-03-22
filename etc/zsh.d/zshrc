@@ -52,6 +52,10 @@ zinit light zdharma/fast-syntax-highlighting
 #zinit light zsh-users/zsh-autosuggestions
 #zinit light changyuheng/zsh-interactive-cd # added margin
 
+eval "$(lua $HOME/.local/z.lua --init zsh enhanced once fzf)"
+_ZL_DATA="$HOME/.cache/zluadb"
+_ZL_EXCLUDE_DIRS="$HOME/.cache"
+
 # ------------------------------
 #           settings
 # ------------------------------
