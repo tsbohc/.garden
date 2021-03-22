@@ -25,18 +25,18 @@
           (tset opts :noremap false)
           (tset opts o true))))
 
+    ; it's very important to have :call v:lua.functions() for non-expressions
     (if (z.string? rhs)
       (set-keymaps modes opts lhs rhs)
       (let [id (new-id)
-            cm (reg-fn id rhs)]
+            cm (if opts.expr
+                 (reg-fn id rhs)
+                 (.. ":call " (reg-fn id rhs) "<cr>"))]
+
         (set-keymaps modes opts lhs cm)))))
 
 (tset _G :_Z {})
 (tset _G :_Z :maps {})
-
-(tset _G :expr :expr)
-(tset _G :silent :silent)
-(tset _G :remap :remap)
 
 (let [k (z.index-as-method map-keys)]
   (fn k.leader [key]

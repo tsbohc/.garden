@@ -20,9 +20,9 @@
         value (if (nil? value) true value)]
     (if scope
       (set-option-in-scope scope option value)
-      (= (string.sub option 1 2) :no)
+      (= (: option :sub 1 2) :no)
       (do
-        (let [option (string.sub option 3)
+        (let [option (: option :sub 3)
               scope (get-scope option)
               value false]
           (if scope

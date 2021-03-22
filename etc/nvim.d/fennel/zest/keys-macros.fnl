@@ -1,10 +1,14 @@
 {
- :keys.tidy-up
+ ;:keys.tidy-up
+ ;(fn []
+ ;  `(do
+ ;     (tset _G :expr nil)
+ ;     (tset _G :silent nil)
+ ;     (tset _G :remap nil)))
+
+ :keys.begin
  (fn []
-   `(do
-      (tset _G :expr nil)
-      (tset _G :silent nil)
-      (tset _G :remap nil)))
+   `(local (,(sym :expr) ,(sym :silent) ,(sym :remap)) (values :expr :silent :remap)))
 
  :get-cmd
  (fn [id]

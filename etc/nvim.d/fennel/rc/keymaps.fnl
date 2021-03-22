@@ -7,6 +7,9 @@
 ; -- land of opinionated navigation --
 ; ------------  --/-<@  --------------
 
+; init helpers
+(keys.begin)
+
 ; first off
 (k.leader " ")
 
@@ -33,6 +36,9 @@
 ; consistency
 (k.n :Y :y$)
 
+; fixes
+(k.n :<c-j> :J)
+
 ; ------------------------------------
 ; --      search and replace        --
 ; ------------  --/-<@  --------------
@@ -46,15 +52,7 @@
 (k.x :<leader>r ::s///g<left><left>)   ; same but in current v-selection
 
 ; search for selected text
-(k.x :* #(do
-           (Z.norm "gvy")
-           (Z.exec (.. "/" (Z.eval "@\"")))
-           (Z.norm "<c-o>")))
-
-;(k.x :*
-;  V.norm 'gvy'
-;  V.exec '/' .. V.eval '@"'
-;  V.norm '<c-o>')
+(k.x :* #(do (Z.norm "gvy") (Z.exec (.. "/" (Z.eval "@\""))) (Z.norm "<c-o>")))
 
 ; undo-redo
 (k.n :U :<c-r>)
@@ -84,5 +82,3 @@
 
 (k.nvo :f :e)
 (k.nvo :F :E)
-
-(keys.tidy-up)
