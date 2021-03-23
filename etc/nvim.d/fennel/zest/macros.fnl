@@ -19,23 +19,50 @@
     (table.insert a `,(tostring (. xs i))))
   a)
 
-; au
-
+; au -- should stay a wrapper?
 (fn au- [events filetypes action]
   "autocmd input parser"
-  (var t [])
-  (tset t 1 (if (= (type events) :table)
+  (let [t [(if (= (type events) :table)
              (tab-tostring events)
-             [(sym-tostring events)]))
-  (tset t 2 (if (= (type filetypes) :table)
+             [(sym-tostring events)])
+           (if (= (type filetypes) :table)
              (tab-tostring filetypes)
-             [(sym-tostring filetypes)]))
-  (tset t 3 action)
-  `(au.set-au ,(unpack t)))
+             [(sym-tostring filetypes)])
+           action]]
+    `(au.set-au ,(unpack t))))
 
-; keys
-; TODO: redo with a parser like autocmds
+; se -- compiles down to nvim_set_option!
+(fn get-scope [option]
+  (if (pcall vim.api.nvim_get_option_info option)
+    (. (vim.api.nvim_get_option_info option) :scope)
+    false))
 
+(fn set-option [scope option value]
+  (match scope
+    :global `(vim.api.nvim_set_option       ,option ,value)
+    :win    `(vim.api.nvim_win_set_option 0 ,option ,value)
+    :buf    `(vim.api.nvim_buf_set_option 0 ,option ,value)
+    _       `(print (.. "zest.se- invalid scope '" ,scope "' for option '" ,option "'"))))
+
+(fn se- [option value]
+  (let [option (sym-tostring option)
+        value (if (= (type value) :number) value
+                (= value nil) true
+                (sym-tostring value))
+        scope (get-scope option)]
+    (if scope
+      `,(set-option scope option value)
+      (if (= (: option :sub 1 2) :no)
+        (let [option (: option :sub 3)
+              scope (get-scope option)
+              value false]
+          (if scope
+            `,(set-option scope option value)
+            `(print (.. "zest.se- option '" ,option "' not found"))))
+        `(print (.. "zest.se- option '" ,option "' not found"))))))
+
+; keys TODO: redo with a parser like autocmds
+; or even compile down to nvim builtins like set
 (fn keys-begin []
   `(local (,(sym :expr) ,(sym :silent) ,(sym :remap)) (values :expr :silent :remap)))
 
@@ -59,13 +86,13 @@
 
 ; TODO: could i possible preparse the input to the point where i just return
 ; [scope option value]? no-opts included?
-(fn se- [option value]
-  `(se.set-option ,(tostring option) ,value))
+;(fn se- [option value]
+;  `(se.set-option ,(tostring option) ,value))
 
 {
+ : se-
  : au-
  : keys-begin
  : reg-fn
  : def-cmd
- : se-
  }

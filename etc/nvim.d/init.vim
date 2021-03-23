@@ -32,6 +32,8 @@ require('packer').startup(function()
   use 'tpope/vim-surround'
 
   use 'pigpigyyy/moonplus-vim'
+
+  --use 'Yggdroot/indentLine'
 end)
 
 require'nvim-treesitter.configs'.setup {
@@ -105,6 +107,7 @@ highlight! link TSFunction Aqua
 highlight! link TSString Green
 highlight! link vimTodo Green
 
+"let g:indentLine_char = '│'
 
 " {{{
 "nnoremap n j

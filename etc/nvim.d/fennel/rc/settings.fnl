@@ -2,19 +2,6 @@
   {require {se zest.set}
    require-macros [zest.macros]})
 
-
-
-; why not this tho?
-;(macro se- [o ...]
-;  `(z.set ,(tostring o) ...))
-;
-;(macro n- [modes ...]
-;  (let [params [...]
-;        rs (table.remove params)
-;        ls (table.remove params)]
-;    `(do
-;       (m.map ,(tostring modes) ,(tostring ls) ,(tostring rs)))))
-
 ; rendering ;
 (se- encoding "utf-8")              ; self-explanatory
 (se- synmaxcol 256)                 ; max colums to use highlighting on
@@ -26,10 +13,9 @@
 (se- cursorline)                    ; highlight current line
 (se- showmatch)                     ; blink matching brace when a new one is inserted
 (se- matchtime 2)                   ; blink quicker
-(se- shortmess
-    (.. "c" ; completion messages
-        "I" ; intro message
-        ))
+(se- shortmess "cI")
+; c completion messages
+; I intro message
 
 ; behaviour ;
 (se- scrolloff 10)                  ; cursor padding in window
@@ -69,4 +55,3 @@
 
 ; unsorted ;
 ;(se- compatible false)              ; allow vim -u vimc
-

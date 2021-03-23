@@ -13,7 +13,6 @@ flatten = (t) ->
   return res
 
 M = (...) ->
-  -- TODO: assert checks for nils, hook types
   local events, ft, hook
   opts = {...}
 
@@ -34,7 +33,6 @@ M = (...) ->
   id = 'au' .. __id
 
   flat_events = flatten events
-  --print flat_events
 
   cmd 'augroup ' .. id
   cmd 'autocmd!'
@@ -44,9 +42,6 @@ M = (...) ->
   else
     cmd 'au ' .. flat_events .. ' ' .. ft .. ' ' .. hook
   cmd 'augroup end'
-
-  --print id
-  --print 'au ' .. flat_events .. ' ' .. ft .. ' ' .. ':lua __autocmds.' .. id .. '()'
 
 
 return M

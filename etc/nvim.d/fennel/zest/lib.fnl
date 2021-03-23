@@ -26,6 +26,12 @@
 (defn function? [x]
   (= "function" (type x)))
 
+(defn bool? [x]
+  (= "boolean" (type x)))
+
+(defn number? [x]
+  (= (type x) "number"))
+
 (defn count [xs]
   (if (table? xs)
     (do

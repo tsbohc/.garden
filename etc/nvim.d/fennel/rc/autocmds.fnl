@@ -1,6 +1,5 @@
 (module rc.autocmds
   {require {au zest.au
-            se zest.set
             z zest.lib}
    require-macros [zest.macros]})
 

@@ -1,8 +1,0 @@
-
-
-/* Start:/bitrix/templates/ap_consult/components/bitrix/news.list/team_popup/style.css?160775115950*/
-.team-all__wrap .each p::after{
-	display : none;
-}
-/* End */
-/* /bitrix/templates/ap_consult/components/bitrix/news.list/team_popup/style.css?160775115950 */

@@ -52,7 +52,7 @@
 (k.x :<leader>r ::s///g<left><left>)   ; same but in current v-selection
 
 ; search for selected text
-(k.x :* #(do (Z.norm "gvy") (Z.exec (.. "/" (Z.eval "@\""))) (Z.norm "<c-o>")))
+(k.x :* #(do (z.norm "gvy") (z.exec (.. "/" (z.eval "@\""))) (z.norm "<c-o>")))
 
 ; undo-redo
 (k.n :U :<c-r>)
