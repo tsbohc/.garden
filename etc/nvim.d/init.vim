@@ -185,6 +185,11 @@ highlight! link vimTodo Green
 "" }}}
 "
 
+"augroup testgroup
+"    autocmd!
+"    autocmd BufWrite * :echom "Cats"
+"augroup END
+
 " cheat sheet
 "(    - jump around
 
@@ -271,6 +276,8 @@ let g:sexp_mappings = {
     \ 'sexp_capture_next_element':      '<)',
     \ }
 
+set autoread
+au FocusGained,BufEnter * :checktime
 
 fun! Runcmd(cmd)
     silent! exe "noautocmd botright pedit ".a:cmd

@@ -1,16 +1,12 @@
 (module zest.keys
   {require {z zest.lib}
-   require-macros [zest.keys-macros]})
+   require-macros [zest.macros]})
+
+(var _id 0)
 
 (defn- set-keymaps [modes options lhs rhs]
-  ;(print (.. modes ": '" lhs "' - '" rhs "'"))
-  ;(print (vim.inspect options))
   (each [mode (modes:gmatch ".")]
     (vim.api.nvim_set_keymap mode lhs rhs options)))
-
-(defn- new-id []
-  (let [id (.. "map" (z.count _G._Z.maps))]
-    id))
 
 (defn- map-keys [modes ...]
   (let [params [...]
@@ -28,15 +24,11 @@
     ; it's very important to have :call v:lua.functions() for non-expressions
     (if (z.string? rhs)
       (set-keymaps modes opts lhs rhs)
-      (let [id (new-id)
-            cm (if opts.expr
-                 (reg-fn id rhs)
-                 (.. ":call " (reg-fn id rhs) "<cr>"))]
+      (let [cm (if opts.expr
+                 (reg-fn rhs)
+                 (.. ":call " (reg-fn rhs) "<cr>"))]
 
         (set-keymaps modes opts lhs cm)))))
-
-(tset _G :_Z {})
-(tset _G :_Z :maps {})
 
 (let [k (z.index-as-method map-keys)]
   (fn k.leader [key]

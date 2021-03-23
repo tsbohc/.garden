@@ -1,21 +1,19 @@
 (module init
-  {require {settings rc.settings
-            mappings rc.keymaps
-            test rc.test}})
+  {require {z zest.lib}})
 
-;        .
-;  __   __)
-; (. | /. ______  __  _.
-;    |/<_/ / / <_/ (_(__
-;    |
-;
+; prep
+(global _Z {})
+(tset _Z :fn {})
 
+; TODO: put this somewhere else
 (global Z
   {
    :norm
    (fn [cmd]
      (vim.api.nvim_command (.. "norm! " cmd)))
 
+   ; i should really index as fn this so that
+   ; (Z.exec.wimcmd :L) and etc worked
    :exec
    (fn [cmd]
      (vim.api.nvim_command cmd))
@@ -25,15 +23,6 @@
      (vim.api.nvim_eval str))
    })
 
-(fn Z.norm [c]
-  (vim.api.nvim_command (.. "norm! " c)))
-
-; {{{
-;(fn get-callable-index-table [callback]
-;  "translates callback(parameter) to table.parameter()"
-;  (setmetatable
-;    {} {:__index
-;        (fn [self index]
-;          (tset self index (fn [...] (callback index ...)))
-;          (rawget self index))}))
-; }}}
+; load everything
+(->> (z.glob (.. z.config-path "/lua/rc/*.lua"))
+     (z.run! #(require (string.gsub $1 ".*/(.-)/(.-)%.lua" "%1.%2"))))

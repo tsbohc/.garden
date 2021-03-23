@@ -1,14 +1,14 @@
 (module rc.keymaps
   {require {z zest.lib
             k zest.keys}
-   require-macros [zest.keys-macros]})
+   require-macros [zest.macros]})
 
 ; ------------------------------------
 ; -- land of opinionated navigation --
 ; ------------  --/-<@  --------------
 
 ; init helpers
-(keys.begin)
+(keys-begin)
 
 ; first off
 (k.leader " ")

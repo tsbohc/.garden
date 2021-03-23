@@ -1,5 +1,19 @@
 (module zest.lib)
 
+(def config-path (vim.fn.stdpath "config"))
+
+(defn glob [path]
+  (vim.fn.glob path true true true))
+
+(defn exec [cmd]
+  (vim.api.nvim_command cmd))
+
+(defn norm [cmd]
+  (vim.api.nvim_command (.. "norm! " cmd)))
+
+(defn eval [str]
+  (vim.api.nvim_eval str))
+
 (defn nil? [x]
   (= nil x))
 
@@ -40,6 +54,10 @@
     xs)
   result)
 
+(defn flatten [t delimiter]
+  "flattens a table into a string separated by delimiter"
+  (string.gsub (reduce #(.. $1 $2 delimiter) "" t) ".?$" ""))
+
 (defn merge! [base ...]
   "merge into the first table"
   (reduce
@@ -75,11 +93,14 @@
 (defn full? [xs]
   (not= 0 (count xs)))
 
+; TODO: rename get-callable-index-table
 (defn index-as-method [callback]
-  (var t (setmetatable {} {:__index (fn [self index]
-                                      (tset self index
-                                            (fn [...] (callback index ...)))
-                                      (rawget self index))}))t)
+  "translates callback(parameter) to table.parameter()"
+  (setmetatable
+    {} {:__index
+        (fn [self index]
+          (tset self index (fn [...] (callback index ...)))
+          (rawget self index))}))
 
 ; think I should go the function! route, cause it would make passed functions
 ; accessible through :func-name
