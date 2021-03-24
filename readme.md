@@ -18,15 +18,18 @@ init.fnl                               init.lua
 (se- nowrap)                 -zest->   vim.api.nvim_win_set_option(0, "wrap", false)
 (se- virtualedit "block")              vim.api.nvim_set_option("virtualedit", "block")
 ```
-and so on:
+featuring key mapping to lua function:
 ```lua
+(k.nvo [expr] :k #(if (> vim.v.count 0) :k :gk))
 (k.nvo [expr] :j #(if (> vim.v.count 0) :j :gj))
-
+```
+autocommands:
+```lua
 (au- [InsertLeave BufEnter FocusGained] *
      #(if (not= (vim.fn.mode) :i)
         (se- cursorline)))
 ```
-Including my own event-based statusline:
+and my event-based statusline:
 ```lua
 (sl- [BufEnter BufWritePost] [0 0 1 1 :CursorLine]
      #(let [fname (vim.fn.expand "%:t")]
@@ -34,7 +37,7 @@ Including my own event-based statusline:
           (.. "‹‹ " fname " ››")
           " ‹ new › ")))
 ```
-Data is updated on specified events and cached, while the statusline function simple retrieves it.
+Data is updated on specified events and cached, while the statusline function simply retrieves it.
 
 ## bspwm
 WM of choice, made own with scripts based around `bspc subscribe`.
