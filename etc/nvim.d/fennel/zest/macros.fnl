@@ -31,6 +31,26 @@
            action]]
     `(au.set-au ,(unpack t))))
 
+; sl -- statusline
+(fn sl- [a b c]
+  "events options action"
+  (match (table.maxn [a b c])
+    1 (let [t [false false a]]
+        `(sl.add ,(unpack t)))
+    2 (if (= (type b) :string)
+        (let [t [false a b]]
+          `(sl.add ,(unpack t)))
+        (let [t [(if (= (type a) :table)
+                   (tab-tostring a)
+                   [(sym-tostring a)])
+                 false b]]
+          `(sl.add ,(unpack t))))
+    3 (let [t [(if (= (type a) :table)
+                 (tab-tostring a)
+                 [(sym-tostring a)])
+               b c]]
+        `(sl.add ,(unpack t)))))
+
 ; se -- compiles down to nvim_set_option!
 (fn get-scope [option]
   (if (pcall vim.api.nvim_get_option_info option)
@@ -46,9 +66,9 @@
 
 (fn se- [option value]
   (let [option (sym-tostring option)
-        value (if (= (type value) :number) value
-                (= value nil) true
-                (sym-tostring value))
+        value (if (= value nil)
+                true
+                value)
         scope (get-scope option)]
     (if scope
       `,(set-option scope option value)
@@ -82,16 +102,10 @@
        (vim.api.nvim_command cmd#)
        f#)))
 
-; set
-
-; TODO: could i possible preparse the input to the point where i just return
-; [scope option value]? no-opts included?
-;(fn se- [option value]
-;  `(se.set-option ,(tostring option) ,value))
-
 {
  : se-
  : au-
+ : sl-
  : keys-begin
  : reg-fn
  : def-cmd

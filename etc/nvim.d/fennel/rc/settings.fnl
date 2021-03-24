@@ -13,9 +13,10 @@
 (se- cursorline)                    ; highlight current line
 (se- showmatch)                     ; blink matching brace when a new one is inserted
 (se- matchtime 2)                   ; blink quicker
-(se- shortmess "cI")
-; c completion messages
-; I intro message
+(se- shortmess                      ; disable messages
+     (.. "I" ; intro
+         "c" ; completion
+         ))
 
 ; behaviour ;
 (se- scrolloff 10)                  ; cursor padding in window
@@ -26,7 +27,7 @@
 (se- mouse "a")                     ; blasphemy!
 
 ; status lines ;
-;(se- noshowmode)                    ; do not show -- INSERT --, etc on statusline
+(se- noshowmode)                    ; do not show -- INSERT --, etc on statusline
 (se- laststatus 2)                  ; always show statusline
 
 ; folding ;

@@ -3,6 +3,7 @@
 
 (global _Z {})
 (tset _Z :fn {})
+(tset _Z :sl {})
 
 ; load everything
 (->> (z.glob (.. z.config-path "/lua/rc/*.lua"))

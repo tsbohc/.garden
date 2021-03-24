@@ -5,6 +5,7 @@
 (defn glob [path]
   (vim.fn.glob path true true true))
 
+; TODO: these should prolly be macros?
 (defn exec [cmd]
   (vim.api.nvim_command cmd))
 
@@ -14,6 +15,8 @@
 (defn eval [str]
   (vim.api.nvim_eval str))
 
+(def fn- vim.fn)
+
 (defn nil? [x]
   (= nil x))
 
@@ -22,6 +25,14 @@
 
 (defn table? [x]
   (= "table" (type x)))
+
+(defn sequential? [xs]
+  (var i 0)
+  (each [_ (pairs xs)]
+    (set i (+ i 1))
+    (if (nil? (. xs i))
+      (lua "return false")))
+  true)
 
 (defn function? [x]
   (= "function" (type x)))
@@ -60,9 +71,35 @@
     xs)
   result)
 
+(defn concat [...]
+  "Concatenates the sequential table arguments together."
+  (let [result []]
+    (run! (fn [xs]
+            (run!
+              (fn [x]
+                (table.insert result x))
+              xs))
+      [...])
+    result))
+
+(defn uniq [xs]
+  "returns the passed seq table with duplicates removed"
+  (let [uniq []
+        hash {}]
+    (each [_ v (ipairs xs)]
+      (when (not (. hash v))
+        (tset hash v true)
+        (table.insert uniq v)))
+    uniq))
+
 (defn flatten [t delimiter]
-  "flattens a table into a string separated by delimiter"
-  (string.gsub (reduce #(.. $1 $2 delimiter) "" t) ".?$" ""))
+  "flattens a table into a string separated by delimiter
+   if a string was passed, just return it"
+  (let [delimiter (or delimiter "")]
+    (if (string? t) t
+      (if (not= delimiter "")
+        (string.gsub (reduce #(.. $1 $2 delimiter) "" t) ".?$" "")
+        (reduce #(.. $1 $2 delimiter) "" t)))))
 
 (defn merge! [base ...]
   "merge into the first table"
