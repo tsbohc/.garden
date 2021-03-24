@@ -1,49 +1,38 @@
-<h1 align="center">.files</h1>
+```
+.                                            /)                    
+├── bin - scripts              _   _   __  _(/  _ __               
+├── etc - config            o (_/_(_(_/ (_(_(__(/_/ (_             
+├── src - sandbox            .-/                                   
+└── tmp - graveyard         (_/                                    
+```
+## nvim
+#### init.lua
+Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles lua, with the help of [aniseed](https://github.com/Olical/aniseed).
 
-<table align="right">
-  <tr>
-    <td><code><b>bin/</b></code></td>
-    <td>scripts</td>
-  </tr>
-  <tr>
-    <td><code><b>etc/</b></code></td>
-    <td>config files</td>
-  </tr>
-  <tr>
-    <td><code><b>src/</b></code></td>
-    <td>code sandbox</td>
-  </tr>
-  <tr>
-    <td><code><b>tmp/</b></code></td>
-    <td>to be removed</td>
-  </tr>
-  <tr>
-    <td><code><b>usr/</b></code></td>
-    <td>extras</td>
-  </tr>
-</table>
+#### zest.fnl
+A library with a primary goal of making nvim configuration feel first class in fennel.  Takes advantage of `macros` to turn syntactic sugar into nvim's bultins at compile-time:
+```lua
+init.fnl                                init.lua
 
-Dotfiles can be a collection of raw, functional forks. They can be finely tuned and very personal. Or something in between. 
+(se- scrolloff 10)                      vim.api.nvim_win_set_option(0, "scrolloff", 10)
+(se- nowrap)                -zest->     vim.api.nvim_win_set_option(0, "wrap", false)
+(se- virtualedit block)                 vim.api.nvim_set_option("virtualedit", "block")
+```
 
-Here, I like to learn by doing. Although it may be crude, awfully written pieces of code, each one of them is a lesson learned.
+and so on:
 
-Enjoy your stay.
+```lua
+(k.nvo [expr] :j #(if (> vim.v.count 0) :j :gj))
 
-<br>
+(au- [InsertLeave BufEnter FocusGained] *
+     #(if (not= (vim.fn.mode) :i)
+        (se- cursorline)))
+```
+
+## bspwm
+WM of choice, made own with scripts based around `bspc subscribe`.
 
 ## soap
+A bite-sized framework for managing .files with symlinks and hooks. There're plans for a rewrite.
 
-Soap is the third rewrite of my personal config bootstrap script. It was designed to be a learning project and a way to reality check my current level of bash. It's been with me since day one of using linux
-
-Soap reads simple instructions from the top of the file and takes care of the rest. currently it has no extra dependencies and is able to
-
-- symlink and be kinda smart about it
-- set up nvim and plug
-- install arch and pip packages
-- sync itself to and from the repo
-- log pretty things w/ exit statuses and partial live command output
-
-## lantern
-An app launcher/file browser that attempts to provide relevant suggestions by tracking frequency of use. When adding new entries, lantern assigns tags by guessing the best way to act on a file. Any entry can be tabbed to show a list of actions. Lantern can be launched in an existing terminal or spawn itself in a new window.
-
-powered by fzf, inspired by quicksilver
+### WIP
