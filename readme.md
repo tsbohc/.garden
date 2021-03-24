@@ -1,9 +1,9 @@
 ```
-.                                         /)                    
-├── bin - scripts           _   _   __  _(/  _ __               
-├── etc - config         o (_/_(_(_/ (_(_(__(/_/ (_             
-├── src - sandbox         .-/                                   
-└── tmp - graveyard      (_/                                    
+.                                                       /)                    
+├── bin - scripts                         _   _   __  _(/  _ __               
+├── etc - config                       o (_/_(_(_/ (_(_(__(/_/ (_             
+├── src - sandbox                       .-/                                   
+└── tmp - graveyard                    (_/                                    
 ```
 ## nvim
 #### init.lua
@@ -12,11 +12,11 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles l
 #### zest.fnl
 An opinionated library with a primary goal of making nvim configuration feel first class in fennel. Takes advantage of `macros` to turn syntactic sugar into nvim's bultins at compile-time:
 ```lua
-init.fnl                                init.lua
+init.fnl                               init.lua
 
-(se- scrolloff 10)                      vim.api.nvim_win_set_option(0, "scrolloff", 10)
-(se- nowrap)                 --zest->   vim.api.nvim_win_set_option(0, "wrap", false)
-(se- virtualedit "block")               vim.api.nvim_set_option("virtualedit", "block")
+(se- scrolloff 10)                     vim.api.nvim_win_set_option(0, "scrolloff", 10)
+(se- nowrap)                 -zest->   vim.api.nvim_win_set_option(0, "wrap", false)
+(se- virtualedit "block")              vim.api.nvim_set_option("virtualedit", "block")
 ```
 and so on:
 ```lua
@@ -27,7 +27,7 @@ and so on:
         (se- cursorline)))
 ```
 Including my own event-based statusline:
-```
+```lua
 (sl- [BufEnter BufWritePost] [0 0 1 1 :CursorLine]
      #(let [fname (vim.fn.expand "%:t")]
         (if (not= fname "")
