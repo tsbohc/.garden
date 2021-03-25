@@ -7,13 +7,13 @@
 ; init helpers
 (keys-begin)
 
+; first off
+(k.localleader " ")
+(k.leader " ")
+
 ; ------------------------------------
 ; -- land of opinionated navigation --
 ; ------------  --/-<@  --------------
-
-; first off
-(k.leader " ")
-(k.localleader " ")
 
 ; smart v-line movement
 (k.nvo [expr] :e #(if (> vim.v.count 0) :k :gk))
@@ -84,3 +84,4 @@
 
 (k.nvo :f :e)
 (k.nvo :F :E)
+

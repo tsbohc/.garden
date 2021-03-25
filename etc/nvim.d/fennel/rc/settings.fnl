@@ -14,20 +14,19 @@
 (se- showmatch)                     ; blink matching brace when a new one is inserted
 (se- matchtime 2)                   ; blink quicker
 (se- shortmess                      ; disable messages
-     (.. "I" ; intro
-         "c" ; completion
-         ))
+     (.. "I"   ; intro
+         "c")) ; completion
 
 ; behaviour ;
 (se- scrolloff 10)                  ; cursor padding in window
-(se- nowrap)                        ; do not wrap at the end of a line TODO: filetype au istext iscode
+(se- nowrap)                        ; do not wrap long lines
 (se- virtualedit "block")           ; do not restrict v-block to characters
 (se- undofile)                      ; persistent undo/redo
 (se- clipboard "unnamedplus")       ; don't forget xsel!
 (se- mouse "a")                     ; blasphemy!
 
 ; status lines ;
-(se- noshowmode)                    ; do not show -- INSERT --, etc on statusline
+(se- noshowmode)                    ; do not show -- INSERT -- etc on statusline
 (se- laststatus 2)                  ; always show statusline
 
 ; folding ;

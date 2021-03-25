@@ -1,6 +1,5 @@
 (module rc.autocmds
-  {require {au zest.au
-            z zest.lib}
+  {require {au zest.au z zest.lib}
    require-macros [zest.macros]})
 
 ; show/hide cursorline based on window focus and mode
@@ -11,7 +10,7 @@
      #(if (not= (vim.fn.mode) :i)
         (se- cursorline)))
 
-; flash yanks
+; flash on yank
 (au- TextYankPost *
      #(vim.highlight.on_yank {:higroup "Search" :timeout 100}))
 

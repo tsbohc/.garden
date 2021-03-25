@@ -3,8 +3,8 @@
 source workspace-data
 
 c_1="%{F#ffffff}"
-c_2="%{F#666666}"
-c_3="%{F#333333}"
+c_2="%{F#888888}"
+c_3="%{F#888888}"
 c_r="%{F-}"
 
 focused="$(_get_focused_workspace)"
