@@ -50,7 +50,7 @@ WM of choice, made own with scripts based around `bspc subscribe`.
 A bite-sized framework for managing .files with symlinks and hooks. There're plans for a rewrite and adding variable insertion.
 
 ## addendum
-- I'm not a programmer by trade, but I like writing code. As such, it is very opinionated.
+- I'm not a programmer by trade, but I like writing code. As such, it is very [opinionated](https://i.redd.it/se5rfanqhqx11.jpg).
 - Feel free to look around, fork, and praise or yell at me in an issue!
 - Giving credit is appreciated.
 
