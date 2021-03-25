@@ -44,8 +44,8 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-nnoremap <Space> <Nop>
-let maplocalleader=" "
+"nnoremap <Space> <Nop>
+"let maplocalleader=" "
 
 let g:aniseed#env = v:true
 "lua require("aniseed.env").init()

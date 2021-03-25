@@ -3,15 +3,17 @@
             k zest.keys}
    require-macros [zest.macros]})
 
+; TODO: redo with macros
+; init helpers
+(keys-begin)
+
 ; ------------------------------------
 ; -- land of opinionated navigation --
 ; ------------  --/-<@  --------------
 
-; init helpers
-(keys-begin)
-
 ; first off
 (k.leader " ")
+(k.localleader " ")
 
 ; smart v-line movement
 (k.nvo [expr] :e #(if (> vim.v.count 0) :k :gk))

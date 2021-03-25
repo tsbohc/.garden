@@ -33,4 +33,6 @@
 (let [k (z.index-as-method map-keys)]
   (fn k.leader [key]
     (set vim.g.mapleader key))
+  (fn k.localleader [key]
+    (set vim.g.maplocalleader key))
   k)

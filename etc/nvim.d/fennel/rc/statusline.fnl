@@ -26,14 +26,3 @@
 (sl- [1 0 1 1 :CursorLine] "%2p%%")
 
 (sl.init)
-
-
-
-; don't like this style of addind elements: harder to move stuff around and etc
-;(sl-
-;  [{:e [:BufEnter]
-;    :f [1 0 1 1]
-;    :h :Search
-;    :a #(if vim.bo.readonly "readonly")}
-;
-;   ])
