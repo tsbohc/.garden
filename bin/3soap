@@ -335,7 +335,7 @@ etc/zathurarc           -> ~/.config/zathura/zathurarc
 "
 
 ice hosts "
-#sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts
+sudo curl :: https://raw.githubusercontent.com/stevenblack/hosts/master/hosts -o /etc/hosts
 "
 
 # shells

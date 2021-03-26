@@ -33,6 +33,7 @@ require('packer').startup(function()
 
   use 'pigpigyyy/moonplus-vim'
 
+  --use 'cespare/vim-toml'
   --use 'Yggdroot/indentLine'
 end)
 
