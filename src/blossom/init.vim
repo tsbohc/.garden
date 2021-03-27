@@ -113,7 +113,7 @@ let g:gruvbox_contrast_dark = "hard"
 
 let g:miramare_enable_bold = 0
 
-colorscheme everforest
+colorscheme {@:-colorscheme-:@}
 
 
 

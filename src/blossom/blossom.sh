@@ -1,13 +1,6 @@
 #!/bin/bash
 
-# name: blossom!
-
-  # parse normal array as assoc (needs an even number check)
-  #for ((i=1; i<="$#"; i=i+2)) ; do
-  #  v=$((i+1))
-  #  echo "${!i} : ${!v}"
-  #done
-
+# goals
 # extensible: binary is source code
 # programmable: config is source code
 # portable: one file with no dependencies
@@ -18,30 +11,17 @@
 # deal with orphans: clean up in the background
 # tell not do: dry mode option
 
-# logging mockup
-# how do i show commands inside a function?
+# notes:
+# declare -A $name - failed because assigning a key throws an error, same with eval
 
-# declare -f? seems like a lot of work though... maybe?
-# - get the excerpt with function
-# - strip first and last lines
-# - print as module body?
-
-# --verbose
+# logging mockup:
 
 # + bspwm < everforest
 #    yay -S bspwm sxhkd
 #    . bspwmrc ~/.config/bspwm/bspwmrc
 #    . sxhkdrc ~/.config/sxhkd/sxhkdrc
-#
-# - zathura
 
-# normal
-
-# + bspwm < everforest
-# - zathura
-
-
-function inspect {
+inspect() {
   # print associative array k, v pairs
   local -n ref=$1
   echo
@@ -51,146 +31,142 @@ function inspect {
   done
 }
 
-# {{{
-## eval is like... magic. fuck the evileval, I want to do some stupid shit
-## i want to see how far i can push it
-## https://stackoverflow.com/questions/44379252/dynamic-variable-names-for-an-array-in-bash
-## fuck associative arrays, better use a normal one with some delimiter
-#
-## binary is source code
-## has to be portable (bash) and 1 file
-#
-## notes:
-## declare -A $name - failed because assigning a key throws an error, same with eval
-#
-#
-#current_module=""
-#
-#module() {
-#  (( "$#" == 0 )) && return
-#  name="$1" ; shift
-#  #declare -g ${name}
-#  #$name+=("w")
-#  current_module="$name"
-#  #bars+=("$name")
-#}
-#
-#link() {
-#  echo "$1 -> $2"
-#}
-#
-#.() {
-#  # store instructions with function name
-#  # this essentially makes them commands
-#  # it'll preserve order this way, with other .-like funcs
-#  eval "$current_module+=('link $1 $2')"
-#  #eval "$(printf %s+=%q "$current_module"
-#}
-#
-#
-#module test
-##~ yay -Syu bspwm sxhkd # ~ stores the input as a command
-#. bspwmrc ~/.config/bspwm/bspwmrc
-#. sxhkdrc ~/.config/sxhkd/sxhkdrc
-#
-#inspect test
-#
-## simply loop through modules (stored in bars in soap) and evaluate instructions
-##eval '${'$current_module'['0']}'
-#
-#
-#
-# }}}
+declare -a _VARSETS
+declare -a _MODULES
+declare -a _CURRENT_VARSETS
 
-.() {
-  # compile file and link "compiled/$1 -> $2"
-  # need to check if _CURRENT_VARSETS are in _VARSETS
-
-  # maybe i should create a dictionary file (multiline string) and give it to awk?
-  # or just run sed many times?
-
-  echo
-  echo "$1 -> $2"
-  for varset in "${_CURRENT_VARSETS[@]}" ; do
-    declare -n varset_ref="$varset"
-    for ((i=0; i<${#varset_ref[@]}; i=i+2)) ; do
-      v=$((i+1))
-      echo "{@:-${varset_ref[$i]}-:@}   ->   ${varset_ref[$v]}"
-    done
+refresh () {
+  for word in "$@" ; do
+    case "$word" in
+      nvim)
+        # TODO: needs a dependency check: pip3 install neovim-remote
+        # {{{
+        # signal all nvim instances to reload their configs via https://github.com/mhinz/neovim-remote
+        for path in $(nvr --nostart --serverlist); do
+          nvr -s --nostart --servername "$path" -cc 'source ~/.config/nvim/init.vim'
+        done
+        # }}}
+        ;;
+      bspwm)
+        # {{{
+        setxkbmap us
+        bspc wm -r
+        sleep 1 # shortcuts will be messed up unless we do this
+        setxkbmap us -variant colemak
+        # }}}
+        ;;
+      xres)
+        # {{{
+        # thanks: SeungheonOh/xrdm
+        xrdb -merge ~/.Xresources
+        sequence=""
+        while read l; do
+          [[ $l != *"*."* ]] && continue
+          lineseg=( $l )
+          index=$(echo $l | sed -e "s/\s.*//" -e "s/^*.//" -e "s/color//" -e "s/:$//")
+          color=$(echo $l | sed -e "s/.*\s//")
+          # St only has partial support of Xterm Control Sequence(Most X-based term have this),
+          # instead it uses 256th color for BG, and 257th color for FG
+          # or whatever it is set to in config.h
+          if [ "$index" == "background" ]; then
+            sequence+="\033]11;${color}\007" # Background
+            sequence+="\033]17;${color}\007" # Background
+            sequence+="\033]17;${color}\007" # Background
+            sequence+="\033]708;${color}\007" # Border
+            sequence+="\033]4;257;${color}\007" # Background for ST wiredo
+          elif [ "$index" == "foreground" ]; then
+            sequence+="\033]10;${color}\007" # Foreground
+            sequence+="\033]19;${color}\007" # Foreground
+            sequence+="\033]4;256;${color}\007" # Foreground for ST wiredo
+          else
+            sequence+="\033]4;${index};${color}\007" # Colors
+          fi
+        done <<< "$(xrdb -query)"
+        for tty in /dev/pts/[0-9]*; do
+          printf "%b" "$sequence" > "$tty"
+        done
+        # }}}
+        ;;
+    esac
   done
 }
 
-declare -a _VARSETS
-declare -a _MODULES
-
-declare -a _CURRENT_VARSETS
-
-# ------------
-# varset
-# ------------
-
 varset() {
   n="$#"
-  (( $n < 2 )) && echo "varset expected k v pairs" && return
-  [[ $((n%2)) == 0 ]] && echo "varset expected even number of k and v" && return
-
+  (( $n < 2 )) && echo 'varset expected k v pairs' && return
+  [[ $(( n%2 )) == 0 ]] && echo 'varset expected even number of k and v' && return
   declare -n ref="$1" ; shift
-  # create an array from arguments
-  ref=( "$@" )
-  # add name of the array to varsets
-  _VARSETS+=("${!ref}")
-
+  ref=( "$@" ) # create an array from arguments
+  _VARSETS+=( "${!ref}" ) # add name of the array to varsets
 }
-
-# this is better
-varset everforest \
-  background "292c3e" \
-  foreground "ebebeb"
-
-varset varset_test \
-  foo bar
-
-# use variables to reference varsets!
-colorscheme="everforest"
-
-#inspect $colorscheme
 
 inject() {
   # set a global to pass info to link function
+  echo "${FUNCNAME[1]} < $@"
   _CURRENT_VARSETS=( "$@" )
 }
 
-mod:module_test() {
-  inject $colorscheme varset_test
-  #echo "hook-before"
-  . bspwmrc ~/.config/bspwm/bspwmrc
-  . sxhkdrc ~/.config/sxhkd/sxhkdrc
-  #echo "hook-after"
+..() {
+  # need to check if _CURRENT_VARSETS are in _VARSETS
+
+  cp ~/blueberry/src/blossom/"$1" ~/blueberry/src/blossom/compiled/"$1"
+
+  for varset in "${_CURRENT_VARSETS[@]}" ; do
+    declare -n varset_ref="$varset"
+    for ((i=0; i<${#varset_ref[@]}; i=i+2)) ; do
+      fr="{@:-${varset_ref[$i]}-:@}"
+      to="${varset_ref[$((i+1))]}"
+      # this is pretty inefficient, but will do for now
+      sed -i -e "s/${fr}/${to}/g" ~/blueberry/src/blossom/compiled/"$1"
+    done
+  done
+
+  ln -sfn ~/blueberry/src/blossom/compiled/"$1" "$2"
 }
 
-# get all function definitions
-#declare -f
+varset gruvbox \
+  colorscheme 'gruvbox' \
+  foreground 'ebdbb2' background '1d2021' \
+  color0     '1d2021' color8     '928374' \
+  color1     'cc241d' color9     'fb4934' \
+  color2     '98971a' color10    'b8bb26' \
+  color3     'd79921' color11    'fabd2f' \
+  color4     '458588' color12    '83a598' \
+  color5     'b16286' color13    'd3869b' \
+  color6     '689d6a' color14    '8ec07c' \
+  color7     'a89984' color15    'ebdbb2'
 
-# get a function name
-#ref="mod.test"
+varset everforest \
+  colorscheme 'everforest' \
+  foreground 'd8caac' background '323d43' \
+  color0     '868d80' color8     '868d80' \
+  color1     'e68183' color9     'e68183' \
+  color2     'a7c080' color10    'a7c080' \
+  color3     'd9bb80' color11    'd9bb80' \
+  color4     '89beba' color12    '89beba' \
+  color5     'd3a0bc' color13    'd3a0bc' \
+  color6     '87c095' color14    '87c095' \
+  color7     'd8caac' color15    'd8caac'
 
-# execute it by reference
-#$ref
+colorscheme='everforest'
 
+mod:xres() {
+  inject $colorscheme
+  .. Xresources ~/.Xresources
+  refresh xres
+}
 
+mod:nvim() {
+  inject $colorscheme
+  .. init.vim ~/.config/nvim/init.vim
+  refresh nvim
+}
 
-
-# cli mockup
-
-# loop through args and install each module
-#soap -i bspwm test
-
-# remove modules
-# soap -r test
-
-# sync module (install active, remove inactive)
-# soap -s bspwm
-
+mod:bspwm() {
+  #setxkbmap us
+  #bspc wm -r
+  refresh bspwm
+}
 
 get-modules() {
   while read -r line ; do
@@ -207,24 +183,6 @@ get-modules
 #inspect _MODULES
 #inspect _VARSETS
 
-
-
-mod:module_test
-
-
-
-
-
-
-
-
-
-
-
-#this works but somewhat limited (names) and funky syntactically
-#declare -A injtest=(
-#  [background]=292c3e
-#  [foreground]=ebebeb
-#)
-#
-#inspect injtest
+mod:xres
+#mod:nvim
+mod:bspwm
