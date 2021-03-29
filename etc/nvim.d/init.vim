@@ -21,6 +21,8 @@ require('packer').startup(function()
   use 'cideM/yui'
   use 'davidosomething/vim-colors-meh'
   use 'sainnhe/sonokai'
+  use 'hardselius/warlock'
+  use 'arcticicestudio/nord-vim'
 
   -- colodev
   use 'rktjmp/lush.nvim'
@@ -109,12 +111,14 @@ let g:everforest_enable_italic = 1
 let g:everforest_better_performance = 1
 
 let g:gruvbox_bold = 0
-let g:gruvbox_contrast_dark = "hard"
+"let g:gruvbox_contrast_dark = "me"
 
 let g:miramare_enable_bold = 0
 
-colorscheme everforest
+colorscheme colo
 
+"lua package.loaded['colo'] = nil
+"lua require('lush')(require('colo'))
 
 
 

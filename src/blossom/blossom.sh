@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# todo:
+# varset from path (just variable value), 1 per line?
+
 # goals
 # extensible: binary is source code
 # programmable: config is source code
@@ -34,6 +37,8 @@ inspect() {
 declare -a _VARSETS
 declare -a _MODULES
 declare -a _CURRENT_VARSETS
+
+_COMPILE_TARGET="$HOME/.config/blossom/compiled" # no end slash!!
 
 refresh () {
   for word in "$@" ; do
@@ -109,7 +114,9 @@ inject() {
 ..() {
   # need to check if _CURRENT_VARSETS are in _VARSETS
 
-  cp ~/blueberry/src/blossom/"$1" ~/blueberry/src/blossom/compiled/"$1"
+  [ -d "$_COMPILE_TARGET" ] || mkdir -p "$_COMPILE_TARGET"
+
+  cp "~/blueberry/src/blossom/$1" "$_COMPILE_TARGET/$1"
 
   for varset in "${_CURRENT_VARSETS[@]}" ; do
     declare -n varset_ref="$varset"
@@ -117,11 +124,11 @@ inject() {
       fr="{@:-${varset_ref[$i]}-:@}"
       to="${varset_ref[$((i+1))]}"
       # this is pretty inefficient, but will do for now
-      sed -i -e "s/${fr}/${to}/g" ~/blueberry/src/blossom/compiled/"$1"
+      sed -i -e "s/${fr}/${to}/g" "$_COMPILE_TARGET/$1"
     done
   done
 
-  ln -sfn ~/blueberry/src/blossom/compiled/"$1" "$2"
+  ln -sfn "$_COMPILE_TARGET/$1" "$2"
 }
 
 varset gruvbox \
@@ -148,7 +155,19 @@ varset everforest \
   color6     '87c095' color14    '87c095' \
   color7     'd8caac' color15    'd8caac'
 
-colorscheme='everforest'
+varset colo \
+  colorscheme 'colo' \
+  foreground 'C6C2B9' background '322f30' \
+  color0     'C6C2B9' color8     'C6C2B9' \
+  color1     'C6C2B9' color9     'C6C2B9' \
+  color2     'C6C2B9' color10    'C6C2B9' \
+  color3     'C6C2B9' color11    'C6C2B9' \
+  color4     'C6C2B9' color12    'C6C2B9' \
+  color5     'C6C2B9' color13    'C6C2B9' \
+  color6     'C6C2B9' color14    'C6C2B9' \
+  color7     'C6C2B9' color15    'C6C2B9'
+
+colorscheme='colo'
 
 mod:xres() {
   inject $colorscheme
