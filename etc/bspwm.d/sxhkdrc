@@ -47,7 +47,7 @@ super + shift + Escape
 
 # launch terminal emulator and force tiled
 super + Return
-  bspc desktop -l tiled ; st
+  bspc desktop -l tiled ; alacritty
 
 # in case of trouble
 super + shift + Return

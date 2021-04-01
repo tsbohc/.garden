@@ -46,11 +46,8 @@ PROMPT='$(::prompt::current_dir)$(::prompt::git_status) $(::prompt::return_statu
 
 source ~/.zinit/bin/zinit.zsh
 
-#zinit light b4b4r07/enhancd
 zinit light Aloxaf/fzf-tab
-zinit light zdharma/fast-syntax-highlighting
-#zinit light zsh-users/zsh-autosuggestions
-#zinit light changyuheng/zsh-interactive-cd # added margin
+#zinit light zdharma/fast-syntax-highlighting
 
 eval "$(lua $HOME/.local/z.lua --init zsh enhanced once fzf)"
 _ZL_DATA="$HOME/.cache/zluadb"

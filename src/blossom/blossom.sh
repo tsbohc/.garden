@@ -37,8 +37,10 @@ inspect() {
 declare -a _VARSETS
 declare -a _MODULES
 declare -a _CURRENT_VARSETS
+declare -A _LIBRARY
 
-_COMPILE_TARGET="$HOME/.config/blossom/compiled" # no end slash!!
+_CONFIG_SOURCE="$HOME/.garden/etc"
+_COMPILE_TARGET="$HOME/.config/blossom" # no end slash!!
 
 refresh () {
   for word in "$@" ; do
@@ -116,7 +118,12 @@ inject() {
 
   [ -d "$_COMPILE_TARGET" ] || mkdir -p "$_COMPILE_TARGET"
 
-  cp "~/blueberry/src/blossom/$1" "$_COMPILE_TARGET/$1"
+  if [ ! "${_LIBRARY[$1]+woo}" ] ; then
+    echo "$1 not found!"
+    return
+  fi
+
+  cp "${_LIBRARY[$1]}" "$_COMPILE_TARGET/$1"
 
   for varset in "${_CURRENT_VARSETS[@]}" ; do
     declare -n varset_ref="$varset"
@@ -133,7 +140,7 @@ inject() {
 
 varset gruvbox \
   colorscheme 'gruvbox' \
-  foreground 'ebdbb2' background '1d2021' \
+  foreground 'ebdbb2' background '32302f' \
   color0     '1d2021' color8     '928374' \
   color1     'cc241d' color9     'fb4934' \
   color2     '98971a' color10    'b8bb26' \
@@ -157,17 +164,17 @@ varset everforest \
 
 varset colo \
   colorscheme 'colo' \
-  foreground 'C6C2B9' background '322f30' \
-  color0     'C6C2B9' color8     'C6C2B9' \
-  color1     'C6C2B9' color9     'C6C2B9' \
-  color2     'C6C2B9' color10    'C6C2B9' \
-  color3     'C6C2B9' color11    'C6C2B9' \
-  color4     'C6C2B9' color12    'C6C2B9' \
-  color5     'C6C2B9' color13    'C6C2B9' \
-  color6     'C6C2B9' color14    'C6C2B9' \
-  color7     'C6C2B9' color15    'C6C2B9'
+  foreground 'c6c2b9' background '322f30' \
+  color0     'c6c2b9' color8     'c6c2b9' \
+  color1     'c6c2b9' color9     'c6c2b9' \
+  color2     'c6c2b9' color10    'c6c2b9' \
+  color3     'c6c2b9' color11    'c6c2b9' \
+  color4     'c6c2b9' color12    'c6c2b9' \
+  color5     'c6c2b9' color13    'c6c2b9' \
+  color6     'c6c2b9' color14    'c6c2b9' \
+  color7     'c6c2b9' color15    'c6c2b9'
 
-colorscheme='colo'
+colorscheme='gruvbox'
 
 mod:xres() {
   inject $colorscheme
@@ -187,21 +194,43 @@ mod:bspwm() {
   refresh bspwm
 }
 
-get-modules() {
-  while read -r line ; do
-    if [[ "$line" == "declare -f mod:"* ]] ; then
-      # could be a bad idea?
-      mod_name="${line:15}"
-      _MODULES+=( "$mod_name" )
-    fi
-  done < <(declare -F)
+mod:alacritty() {
+  inject $colorscheme
+  .. alacritty.yml ~/.config/alacritty/alacritty.yml
 }
 
-get-modules
+#mod:alacritty() {
+#  install alacritty
+#  link alacritty $colorscheme
+#
+#}
+
+#get-modules() {
+#  while read -r line ; do
+#    if [[ "$line" == "declare -f mod:"* ]] ; then
+#      # could be a bad idea?
+#      mod_name="${line:15}"
+#      _MODULES+=( "$mod_name" )
+#    fi
+#  done < <(declare -F)
+#}
+#
+#get-modules
+
+while read -r path ; do
+  filename="${path##*/}"
+  #echo "$filename"
+  [ ${_LIBRARY["$filename"]+woo} ] && echo "warning $filename"
+  _LIBRARY["$filename"]="$path"
+done < <(find "$_CONFIG_SOURCE" -type f)
+
+#inspect _LIBRARY
 
 #inspect _MODULES
 #inspect _VARSETS
 
-mod:xres
+#mod:xres
 #mod:nvim
-mod:bspwm
+#mod:bspwm
+mod:alacritty
+

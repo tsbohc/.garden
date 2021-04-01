@@ -45,17 +45,24 @@ require('packer').startup(function()
 
   use 'pigpigyyy/moonplus-vim'
 
+  -- latex
+  use 'lervag/vimtex'
+
   --use 'cespare/vim-toml'
   --use 'Yggdroot/indentLine'
 end)
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
+  --ensure_installed = "maintained",
   highlight = {
     enable = true,
   },
 }
 EOF
+
+let g:tex_flavor = 'latex'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_quickfix_mode = 0
 
 "nnoremap <Space> <Nop>
 "let maplocalleader=" "
@@ -111,11 +118,11 @@ let g:everforest_enable_italic = 1
 let g:everforest_better_performance = 1
 
 let g:gruvbox_bold = 0
-"let g:gruvbox_contrast_dark = "me"
+let g:gruvbox_contrast_dark = "soft"
 
 let g:miramare_enable_bold = 0
 
-colorscheme colo
+colorscheme lush_template
 
 "lua package.loaded['colo'] = nil
 "lua require('lush')(require('colo'))

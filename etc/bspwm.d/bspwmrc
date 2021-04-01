@@ -25,12 +25,14 @@ ice bspwm-double-borders &
 ice bspwm-polybar-workspaces-hook &
 ice bspwm-terminal-chomp &
 
+feh --bg-fill ~/Downloads/roujin-z-1.jpg
+
 # ------------------------------
 #          wm settings
 # ------------------------------
 
 # borders
-con border_width                1
+con border_width                0
 con active_border_color         "#00ff00"
 con normal_border_color         "#00ff00"
 con focused_border_color        "#00ff00"

@@ -46,19 +46,19 @@ local lush = require('lush')
 local hsl = lush.hsl
 
 local a = {}
-a.bg_dark    = hsl(347, 6, 16)
-a.background = hsl(347, 3, 19)
+a.bg_dark    = hsl(347, 6, 14)
+a.background = hsl(347, 4, 18)
 a.bg_string  = hsl(347, 3, 19)
-a.foreground = hsl(43, 10, 75)
+a.foreground = hsl(43, 24, 75)
 a.red        = hsl(359, 67, 71)
 a.orange     = hsl(18, 65, 69)
 a.yellow     = hsl(40, 54, 73)
-a.green      = hsl(120, 30, 64)
+a.green      = hsl(120, 31, 64)
 a.cyan       = hsl(163, 31, 64)
 a.blue       = hsl(193, 29, 64)
 a.purple     = hsl(327, 37, 73)
-a.grey       = hsl(347, 10, 50)
-a.light_grey = hsl(347, 8, 35)
+a.grey       = hsl(347, 9, 55)
+a.light_grey = hsl(347, 8, 40)
 
 local theme = lush(function()
   return {
@@ -74,7 +74,7 @@ local theme = lush(function()
     -- styling for that group (meaning they mostly get styled as Normal)
     -- or leave them commented to apply vims default colouring or linking.
 
-    Comment      { fg = a.background.de(20).li(20), gui = "italic" }, -- any comment
+    Comment      { fg = a.background.de(50).li(17), gui = "italic" }, -- any comment
     -- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
     -- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
     -- Cursor       { }, -- character under the cursor
@@ -109,7 +109,7 @@ local theme = lush(function()
     NormalFloat  { fg = a.foreground, bg = a.bg_dark }, -- Normal text in floating windows.
     -- NormalNC     { }, -- normal text in non-current windows
     Pmenu        { fg = a.foreground, bg = a.bg_dark}, -- Popup menu: normal item.
-    PmenuSel     { fg = a.foreground, bg = a.grey }, -- Popup menu: selected item.
+    PmenuSel     { fg = a.bg_dark, bg = a.grey }, -- Popup menu: selected item.
     PmenuSbar    { }, -- Popup menu: scrollbar.
     PmenuThumb   { }, -- Popup menu: Thumb of the scrollbar.
     -- Question     { }, -- |hit-enter| prompt and yes/no questions

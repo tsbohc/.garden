@@ -45,8 +45,8 @@ fi
 (( "$b" < "$b_min" )) && b="$b_min"
 
 # notify
-t_bar=$(hbar "$t" "$t_max" 14 "─" "┘" "─")
-notify-send.sh "redshift" "${t}K $t_bar $(( "${b}0" + "$x_b" ))" -r 93437187 -t 2000
+#t_bar=$(hbar "$t" "$t_max" 14 "─" "┘" "─")
+#notify-send.sh "redshift" "${t}K $t_bar $(( "${b}0" + "$x_b" ))" -r 93437187 -t 2000
 
 # overwrite file contents
 > "$temp_file"
