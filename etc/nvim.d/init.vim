@@ -23,6 +23,7 @@ require('packer').startup(function()
   use 'sainnhe/sonokai'
   use 'hardselius/warlock'
   use 'arcticicestudio/nord-vim'
+  -- use 'jaredgorski/fogbell.vim' -- too much contrast, little distinction
 
   -- colodev
   use 'rktjmp/lush.nvim'

@@ -17,8 +17,28 @@ inspect() {
 }
 # }}}
 
+declare -a _VARSETS
 declare -a _MODULES
-declare -A LIBRARY
+declare -A DESTINATIONS
+declare -A _LIBRARY
+
+# {{{ varset
+varset() {
+  # so, basically this creates an assoc array with by splitting values past first
+  # into k,v pairs. thus the name of the array is the first passed parameter
+  n="$#"
+  (( $n < 2 )) && echo 'varset expected k v pairs' && return
+  [[ $(( n%2 )) == 0 ]] && echo 'varset expected even number of k and v' && return
+  declare -n ref="$1" 
+  declare -gA "$1"
+  shift
+  params=( "$@" ) # create an array from arguments
+  for ((i=0; i<$#; i=i+2)) ; do
+    ref["${params[$i]}"]="${params[$((i+1))]}"
+  done
+  _VARSETS+=( "${!ref}" ) # add name of the array to varsets
+}
+# }}}
 
 # {{{ install/remove
 action=""
@@ -33,6 +53,10 @@ r() {
   "$@"
 }
 # }}}
+
+yay-() {
+  echo "yay $@"
+}
 
 # should get-installed and get-removed and add + or - befor module name
 # {{{ list-modules
@@ -58,8 +82,39 @@ install?() {
 }
 
 ..() {
+  # need to check if _CURRENT_VARSETS are in _VARSETS
+
+  # TODO: move somewhere else
+  [ -d "$_COMPILE_TARGET" ] || mkdir -p "$_COMPILE_TARGET"
+
+  if [ ! "${_LIBRARY[$1]+woo}" ] ; then
+    echo "$1 not found!"
+    return
+  fi
+
+  fn_fr="$1"
+  path_to="$2"
+  [[ "${path_to:0:1}" == '^' ]] && path_to="$HOME/.config${path_to:1}"
+
+  shift # takes a number?
+  shift
+  _CURRENT_VARSETS=( "$@" )
+
   if install? ; then
-    echo "ln -s $1"
+
+    cp "${_LIBRARY[$fn_fr]}" "$_COMPILE_TARGET/$fn_fr"
+
+    for varset in "${_CURRENT_VARSETS[@]}" ; do
+      declare -n varset_ref="$varset"
+      for k in "${!varset_ref[@]}" ; do
+        fr="{@:-$k-:@}"
+        to="${varset_ref[$k]}"
+        sed -i -e "s/${fr}/${to}/g" "$_COMPILE_TARGET/$fn_fr"
+      done
+    done
+
+    ln -sfn "$_COMPILE_TARGET/$fn_fr" "$path_to"
+
   else
     echo "remove ln $1"
   fi
@@ -68,30 +123,61 @@ install?() {
 # config code
 # --------------
 
-# spaces are not accounted for, because who has spaces in their config paths?
-LIBRARY=(
-  ["alacritty"]="alacritty.yml ~/.config/alacritty/alacritty.yml"
-  ["bspwm"]="bspwmrc ~/.config/bspwm/bspwmrc"
-  ["sxhkd"]="sxhkdrc ~/.config/sxhkd/sxhkdrc"
-)
+_COMPILE_TARGET="$HOME/.config/blossom" # no end slash!! shouldn't really be an option
+_CONFIG_SOURCE="$HOME/.garden/etc" # no end slash!!
 
-colorscheme="my_colors"
+varset kohi \
+  foreground 'E2E0DF' background '2b2b2c' \
+  color0     '2b2b2c' color8     '616161' \
+  color1     'E78485' color9     'E78485' \
+  color2     '93BE93' color10    '93BE93' \
+  color3     'ECC679' color11    'ECC679' \
+  color4     '8CB7CA' color12    '8CB7CA' \
+  color5     'D4A1BD' color13    'D4A1BD' \
+  color6     '87C0B0' color14    '87C0B0' \
+  color7     'B4B3B1' color15    'E2E0DF'
+
+colorscheme="kohi"
 
 @alacritty() {
-  #yay- alacritty
-  .. alacritty [$colorscheme]
+  yay- alacritty
+  .. alacritty ^/alacritty/alacritty.yml $colorscheme
 }
 
 @bspwm() {
   yay- bspwm sxhkd
-  .. bspwm [$colorscheme]
-  .. sxhkd
+  .. bspwmrc ^/bspwm/bspwmrc $colorscheme
+  .. sxhkdrc ^/sxhkd/sxhkdrc
+}
+
+@xorg() {
+  #.. xinitrc ~/.xinitrc
+  .. xresources ~/.Xresources $colorscheme
+}
+
+@picom() {
+  yay- picom
+  .. picom ^/picom.conf
+}
+
+@polybar() {
+  .. polybar ^/polybar/config
+}
+
+@zathura() {
+  yay- zathura zathura-pdf-mupdf zathura-djvu
+  .. zathurarc $colorscheme
+}
+
+@latex() {
+  echo
 }
 
 
 # init
 # --------------
 
+# process options
 action="$1" ; shift
 
 case $action in
@@ -100,6 +186,17 @@ case $action in
   *) exit ;;
 esac
 
+# parse the config tree into an assoc array of filename:filepath
+while read -r path ; do
+  filename="${path##*/}"
+  if [ ${_LIBRARY["$filename"]+woo} ] ; then
+    echo "more than one $filename in config path!"
+    exit
+  fi
+  _LIBRARY["$filename"]="$path"
+done < <(find "$_CONFIG_SOURCE" -type f)
+
+# process modules given in the parameters
 if [[ "$#" > 0 ]] ; then
   for m in "$@" ; do
     "@"$m
