@@ -1,230 +1,36 @@
 #!/bin/bash
+# {{{
+# cherry is a .files management api that features templating and database querying
+# blossom is its accompanying configuration framework inspired by vim plugin managers
 
-# maybe i shoud split file compilation and modules into two programs?
-# or even just have modules and varsets as files? that could be inconvenient though
-# definitely split varsets into files, with
-# foreground 252525
-# ... etc
+# go further than variables into code chunk injection?
+# like what wm to start in xinitrc
 
-# {{{ query
-query() {
-  # retrive data from varsets, if varset is not given, return value from $colorscheme
-  if (( "$#" == 1 )) ; then
-    declare -n ref="$colorscheme"
-    echo "${ref[$1]}"
-  elif (( "$#" == 2 )) ; then
-    declare -n ref="$1"
-    echo "${ref[$2]}"
-  fi
-}
+# --clean
+# look through links db and remove whatever is not in ly
+# --query
+# get values form colors or specified varset
 # }}}
 
-# {{{ inspect
-inspect() {
-  # print associative array k, v pairs
-  local -n ref=$1
-  echo
-  echo "inspect: $1"
-  for k in "${!ref[@]}" ; do
-    echo "$k : ${ref[$k]}"
-  done
-}
-# }}}
+source cherry; blossom() {
+  colors="whoah"
 
-declare -a _VARSETS
-declare -a _MODULES
-declare -A DESTINATIONS
-declare -A _LIBRARY
+  # term
+  wi $colors; lyn alacritty
 
-# {{{ varset
-varset() {
-  # so, basically this creates an assoc array with by splitting values past first
-  # into k,v pairs. thus the name of the array is the first passed parameter
-  n="$#"
-  (( $n < 2 )) && echo 'varset expected k v pairs' && return
-  [[ $(( n%2 )) == 0 ]] && echo 'varset expected even number of k and v' && return
-  declare -n ref="$1"
-  declare -gA "$1"
-  shift
-  params=( "$@" ) # create an array from arguments
-  for ((i=0; i<$#; i=i+2)) ; do
-    ref["${params[$i]}"]="${params[$((i+1))]}"
-  done
-  _VARSETS+=( "${!ref}" ) # add name of the array to varsets
-}
-# }}}
+  # wm
+  #yay -S bspwm sxhkd
+  lyn bspwm
+  lyn sxhkd
 
-# {{{ install/remove
-action=""
-i() {
-  action="i"
-  "$@"
+  # other
+  #ex module
 }
 
-r() {
-  action="r"
-  "$@"
-}
-# }}}
-
-require() {
-  echo "yay $@"
+module() {
+  echo "i'm a module"
 }
 
-# should get-installed and get-removed and add + or - befor module name
-# {{{ list-modules
-list-modules() {
-  _MODULES=()
-  while read -r line ; do
-    if [[ "$line" == "declare -f @"* ]] ; then
-      # could be a bad idea?
-      mod_name="${line/"declare -f @"/""}"
-      _MODULES+=("$mod_name")
-    fi
-  done < <(declare -F)
-  printf "%s\n" "${_MODULES[@]}"
-}
-# }}}
+# parse options here
 
-install?() {
-  if [[ "$action" == "i" ]] ; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-link() {
-  # need to check if _CURRENT_VARSETS are in _VARSETS
-
-  # TODO: move somewhere else
-  [ -d "$_COMPILE_TARGET" ] || mkdir -p "$_COMPILE_TARGET"
-
-  if [ ! "${_LIBRARY[$1]+woo}" ] ; then
-    echo "$1 not found!"
-    return
-  fi
-
-  fn_fr="$1"
-  path_to="$2"
-  [[ "${path_to:0:1}" == '^' ]] && path_to="$HOME/.config${path_to:1}"
-
-  shift # takes a number?
-  shift
-  _CURRENT_VARSETS=( "$@" )
-
-  if install? ; then
-
-    cp "${_LIBRARY[$fn_fr]}" "$_COMPILE_TARGET/$fn_fr"
-
-    for varset in "${_CURRENT_VARSETS[@]}" ; do
-      declare -n varset_ref="$varset"
-      for k in "${!varset_ref[@]}" ; do
-        fr="{@:-$k-:@}"
-        to="${varset_ref[$k]}"
-        sed -i -e "s/${fr}/${to}/g" "$_COMPILE_TARGET/$fn_fr"
-      done
-    done
-
-    ln -sfn "$_COMPILE_TARGET/$fn_fr" "$path_to"
-
-  else
-    echo "remove ln $1"
-  fi
-}
-
-# config code
-# --------------
-
-_COMPILE_TARGET="$HOME/.config/blossom" # no end slash!! shouldn't really be an option
-_CONFIG_SOURCE="$HOME/.garden/etc" # no end slash!!
-
-varset kohi \
-  foreground 'E4D6C8' background '2b2b2c' \
-  color0     '2b2b2c' color8     '616161' \
-  color1     'E78485' color9     'E78485' \
-  color2     '93BE93' color10    '93BE93' \
-  color3     'ECC679' color11    'ECC679' \
-  color4     '8CB7CA' color12    '8CB7CA' \
-  color5     'D4A1BD' color13    'D4A1BD' \
-  color6     '87C0B0' color14    '87C0B0' \
-  color7     'B4B3B1' color15    'E4D6C8'
-
-colorscheme="kohi"
-
-@alacritty() {
-  require alacritty
-  inject $colorscheme
-  link alacritty ^/alacritty/alacritty.yml
-}
-
-@test() {
-  echo "test"
-}
-
-@another() {
-  echo "another"
-}
-
-# init
-# --------------
-
-__blossom_mod_data="$(declare -f)"
-export __blossom_mod_data
-
-__blossom-fzf-preview() {
-  # subshell hell
-  echo "$__blossom_mod_data" | sed -n "/^@$1 ()/,/^}/p" | sed '1,2d;$d' | awk '{$1=$1;print}'
-}
-
-export -f __blossom-fzf-preview
-
-_fzf() {
-  SHELL="${BASH_BINARY}" \
-    fzf -m \
-      --bind 'tab:toggle+clear-query' \
-      --preview '__blossom-fzf-preview {}' \
-      --preview-window=right:75%:sharp \
-      --no-info \
-      --reverse \
-      --height=10
-}
-
-# process options
-action="$1" ; shift
-
-case $action in
-  -i|--install) action="i" ;;
-  -r|--remove) action="r" ;;
-  -q|--query)
-    query "$@"
-    exit
-    ;;
-  *) exit ;;
-esac
-
-# parse the config tree into an assoc array of filename:filepath
-while read -r path ; do
-  filename="${path##*/}"
-  if [ ${_LIBRARY["$filename"]+woo} ] ; then
-    echo "more than one $filename in config path!"
-    exit
-  fi
-  _LIBRARY["$filename"]="$path"
-done < <(find "$_CONFIG_SOURCE" -type f)
-
-# process modules given in the parameters
-if [[ "$#" > 0 ]] ; then
-  for m in "$@" ; do
-    "@"$m
-  done
-else
-  selection="$(list-modules | _fzf)"
-  if [[ "${#selection}" > 0 ]] ; then
-    while read -r m ; do
-      "@"$m
-    done <<< "$selection"
-  else
-    echo "nothing to do"
-  fi
-fi
+blossom

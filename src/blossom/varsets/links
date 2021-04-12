@@ -1,0 +1,4 @@
+! vim: set ft=xdefaults:
+alacritty: alacritty.yml   ^/alacritty/alacritty.yml
+bspwm:     bspwmrc         ^/bspwm/bspwmrc
+sxhkd:     sxhkdrc         ^/sxhkd/sxhkdrc
