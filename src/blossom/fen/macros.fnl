@@ -64,14 +64,14 @@
       (table.insert t command)))
   t)
 
-(fn shell [...]
-  `(do
-     (var r# 0)
-     (each [_# command# (ipairs (prep ,...))]
-       (with-open [handle# (io.popen command#)]
-                  (let [result# (handle#:read "*a")]
-                    (set r# result#))))
-     r#))
+;(fn shell [...]
+;  `(do
+;     (var r# 0)
+;     (each [_# command# (ipairs (prep ,...))]
+;       (with-open [handle# (io.popen command#)]
+;                  (let [result# (handle#:read "*a")]
+;                    (set r# result#))))
+;     r#))
 
 {:sym-tostring sym-tostring
  :tab-tostring tab-tostring

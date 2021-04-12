@@ -1,9 +1,23 @@
 #!/bin/bash
 
-# blossom -i module1 module2 ... -- install
-# blossom -r module1 module2 ... -- remove
-# blossom -i                     -- install interactively
-# blossom -r                     -- remove interactively
+# maybe i shoud split file compilation and modules into two programs?
+# or even just have modules and varsets as files? that could be inconvenient though
+# definitely split varsets into files, with
+# foreground 252525
+# ... etc
+
+# {{{ query
+query() {
+  # retrive data from varsets, if varset is not given, return value from $colorscheme
+  if (( "$#" == 1 )) ; then
+    declare -n ref="$colorscheme"
+    echo "${ref[$1]}"
+  elif (( "$#" == 2 )) ; then
+    declare -n ref="$1"
+    echo "${ref[$2]}"
+  fi
+}
+# }}}
 
 # {{{ inspect
 inspect() {
@@ -29,7 +43,7 @@ varset() {
   n="$#"
   (( $n < 2 )) && echo 'varset expected k v pairs' && return
   [[ $(( n%2 )) == 0 ]] && echo 'varset expected even number of k and v' && return
-  declare -n ref="$1" 
+  declare -n ref="$1"
   declare -gA "$1"
   shift
   params=( "$@" ) # create an array from arguments
@@ -45,7 +59,6 @@ action=""
 i() {
   action="i"
   "$@"
-
 }
 
 r() {
@@ -54,7 +67,7 @@ r() {
 }
 # }}}
 
-yay-() {
+require() {
   echo "yay $@"
 }
 
@@ -81,7 +94,7 @@ install?() {
   fi
 }
 
-..() {
+link() {
   # need to check if _CURRENT_VARSETS are in _VARSETS
 
   # TODO: move somewhere else
@@ -127,7 +140,7 @@ _COMPILE_TARGET="$HOME/.config/blossom" # no end slash!! shouldn't really be an 
 _CONFIG_SOURCE="$HOME/.garden/etc" # no end slash!!
 
 varset kohi \
-  foreground 'E2E0DF' background '2b2b2c' \
+  foreground 'E4D6C8' background '2b2b2c' \
   color0     '2b2b2c' color8     '616161' \
   color1     'E78485' color9     'E78485' \
   color2     '93BE93' color10    '93BE93' \
@@ -135,54 +148,58 @@ varset kohi \
   color4     '8CB7CA' color12    '8CB7CA' \
   color5     'D4A1BD' color13    'D4A1BD' \
   color6     '87C0B0' color14    '87C0B0' \
-  color7     'B4B3B1' color15    'E2E0DF'
+  color7     'B4B3B1' color15    'E4D6C8'
 
 colorscheme="kohi"
 
 @alacritty() {
-  yay- alacritty
-  .. alacritty ^/alacritty/alacritty.yml $colorscheme
+  require alacritty
+  inject $colorscheme
+  link alacritty ^/alacritty/alacritty.yml
 }
 
-@bspwm() {
-  yay- bspwm sxhkd
-  .. bspwmrc ^/bspwm/bspwmrc $colorscheme
-  .. sxhkdrc ^/sxhkd/sxhkdrc
+@test() {
+  echo "test"
 }
 
-@xorg() {
-  #.. xinitrc ~/.xinitrc
-  .. xresources ~/.Xresources $colorscheme
+@another() {
+  echo "another"
 }
-
-@picom() {
-  yay- picom
-  .. picom ^/picom.conf
-}
-
-@polybar() {
-  .. polybar ^/polybar/config
-}
-
-@zathura() {
-  yay- zathura zathura-pdf-mupdf zathura-djvu
-  .. zathurarc $colorscheme
-}
-
-@latex() {
-  echo
-}
-
 
 # init
 # --------------
+
+__blossom_mod_data="$(declare -f)"
+export __blossom_mod_data
+
+__blossom-fzf-preview() {
+  # subshell hell
+  echo "$__blossom_mod_data" | sed -n "/^@$1 ()/,/^}/p" | sed '1,2d;$d' | awk '{$1=$1;print}'
+}
+
+export -f __blossom-fzf-preview
+
+_fzf() {
+  SHELL="${BASH_BINARY}" \
+    fzf -m \
+      --bind 'tab:toggle+clear-query' \
+      --preview '__blossom-fzf-preview {}' \
+      --preview-window=right:75%:sharp \
+      --no-info \
+      --reverse \
+      --height=10
+}
 
 # process options
 action="$1" ; shift
 
 case $action in
-  -i|-install) action="i" ;;
-  -r|-remove) action="r" ;;
+  -i|--install) action="i" ;;
+  -r|--remove) action="r" ;;
+  -q|--query)
+    query "$@"
+    exit
+    ;;
   *) exit ;;
 esac
 
@@ -202,7 +219,7 @@ if [[ "$#" > 0 ]] ; then
     "@"$m
   done
 else
-  selection="$(list-modules | fzf -m --bind 'tab:toggle+clear-query')"
+  selection="$(list-modules | _fzf)"
   if [[ "${#selection}" > 0 ]] ; then
     while read -r m ; do
       "@"$m

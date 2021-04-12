@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.4.1)  2 APR 2021 00:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.4.1)  6 APR 2021 16:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -496,16 +496,16 @@ LaTeX Info: Redefining \selectfont on input line 60.
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
-* paper: a4paper
+* paper: a5paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: twoside 
-* h-part:(L,W,R)=(43.36243pt, 510.78302pt, 43.36243pt)
-* v-part:(T,H,B)=(43.36243pt, 751.09564pt, 50.58878pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=510.78302pt
-* \textheight=751.09564pt
+* h-part:(L,W,R)=(43.36243pt, 334.37593pt, 43.36243pt)
+* v-part:(T,H,B)=(43.36243pt, 503.55667pt, 50.58878pt)
+* \paperwidth=421.10078pt
+* \paperheight=597.50787pt
+* \textwidth=334.37593pt
+* \textheight=503.55667pt
 * \oddsidemargin=-28.90756pt
 * \evensidemargin=-28.90756pt
 * \topmargin=-60.78136pt
@@ -513,7 +513,7 @@ LaTeX Info: Redefining \selectfont on input line 60.
 * \headsep=19.8738pt
 * \topskip=11.0pt
 * \footskip=27.46295pt
-* \marginparwidth=106.0pt
+* \marginparwidth=51.0pt
 * \marginparsep=7.0pt
 * \columnsep=10.0pt
 * \skip\footins=10.0pt plus 4.0pt minus 2.0pt
@@ -539,6 +539,11 @@ LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' aliased to
 (Font)              `T2A/CormorantGaramond-LF/bold/sc' on input line 61.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
 (Font)              scaled to size 20.74pt on input line 61.
+
+Overfull \hbox (9.738pt too wide) in paragraph at lines 63--64
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 √облины по-хи-ща-ют дочь куз-не-ца. ќни хо-т€т при-не-сти ее в жерт-ву в гроб-ни-це 
+ []
+
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/m/n' aliased to
 (Font)              `T2A/CormorantGaramond-LF/regular/n' on input line 64.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/regular/n' will be
@@ -555,6 +560,11 @@ LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/b/sc' aliased to
 (Font)              `T2A/CormorantGaramond-LF/bold/sc' on input line 64.
 LaTeX Font Info:    Font shape `T2A/CormorantGaramond-LF/bold/sc' will be
 (Font)              scaled to size 14.4pt on input line 64.
+
+Underfull \hbox (badness 1472) in paragraph at lines 69--70
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 ¬нутри, за ужи-ном несколь-ко кре-сть€н об-суж-да-ют со-бы-ти€ 
+ []
+
 LaTeX Font Info:    Trying to load font information for TS1+CormorantGaramond-LF on input line 73.
 (/usr/share/texmf-dist/tex/latex/cormorantgaramond/TS1CormorantGaramond-LF.fd
 File: TS1CormorantGaramond-LF.fd 2019/12/11 (autoinst) Font definitions for TS1/CormorantGaramond-LF.
@@ -565,20 +575,62 @@ LaTeX Font Info:    Font shape `TS1/CormorantGaramond-LF/regular/n' will be
 (Font)              scaled to size 10.95pt on input line 73.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] (./goblins.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (0.91232pt too wide) in paragraph at lines 95--96
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 „ерез час-два пу-ти по-сле ле-са, иг-ро-ки уви-д€т древ-нее ка-мен-ное со-ору-же-ние 
+ []
+
+
+Overfull \hbox (2.33589pt too wide) in paragraph at lines 101--102
+\T2A/CormorantGaramond-LF/regular/n/10.95 что при-бли-жа-ет-с€ опас-ность. ƒва стра-жа у во-рот гроб-ни-цы уй-дут внутрь.  
+ []
+
+
+Overfull \hbox (19.86682pt too wide) in paragraph at lines 107--108
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 “олстые де-ре-в€н-ные две-ри гроб-ни-цы бы-ли за-пе-ча-та-ны. —ей-час они про-лом-ле-ны 
+ []
+
+
+Overfull \hbox (2.78485pt too wide) in paragraph at lines 109--110
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 ≈сли при-слу-шать-с€, то мож-но услы-шать чант до-но-с€-щий-с€ глу-бо-ко из-нут-ри.  
+ []
+
+
+Overfull \hbox (6.23409pt too wide) in paragraph at lines 114--115
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Ќеколько го-бли-нов 3-5. ¬ за-ви-си-мо-сти от то-го что со стра-жа-ми и пат-ру-лем  
+ []
+
+
+Overfull \hbox (17.78625pt too wide) in paragraph at lines 118--119
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 ѕо се-ре-дине ча-ша в ко-то-рой раз-жи-га-ли огонь. ” сте-ны ал-тарь дл€ под-но-ше-ний. 
+ []
+
+[2]
+Overfull \hbox (2.88339pt too wide) in paragraph at lines 140--141
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 Ѕагбер. ≈с-ли кто-то из груп-пы упа-дет, он на ло-ман-ном че-ло-ве-чьем ска-жет, 
+ []
+
+[3]
+Overfull \hbox (24.13722pt too wide) in paragraph at lines 147--148
+[]\T2A/CormorantGaramond-LF/regular/n/10.95 ѕотайна€ дверь от-кро-ет-с€ ес-ли ска-зать ста-туе "сло-во"или "кл€т-ва"или про-из-не-сти 
+ []
+
+[4] [5
+
+] (./goblins.aux) ) 
 Here is how much of TeX's memory you used:
- 4255 strings out of 479383
- 66604 string characters out of 5875831
- 377047 words of memory out of 5000000
- 21323 multiletter control sequences out of 15000+600000
+ 4257 strings out of 479383
+ 66642 string characters out of 5875831
+ 367046 words of memory out of 5000000
+ 21325 multiletter control sequences out of 15000+600000
  446330 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,10n,79p,544b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,11n,79p,544b,247s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_v7t4yx.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_l5f566.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cormorantgaramond/cgrm_czjvuz.enc}</usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Bold.pfb></usr/share/texmf-dist/fonts/type1/catharsis/cormorantgaramond/CormorantGaramond-Regular.pfb>
-Output written on goblins.pdf (3 pages, 86221 bytes).
+Output written on goblins.pdf (5 pages, 86871 bytes).
 PDF statistics:
- 27 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 33 PDF objects out of 1000 (max. 8388607)
+ 23 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

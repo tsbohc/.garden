@@ -1,60 +1,36 @@
 #!/bin/bash
 
-#outer='0x050505'  # outer
-#inner1='0x665c54'  # focused
-#inner2='0x3c3836'  # normal
+outer='0x2b2b2c'  # outer
+inner1='0xECC679'  # focused
+inner2='0x58585a'  # normal
 
-outer='0x323d43'  # outer
-inner1='0xa7c080'  # focused
-inner2='0x868d80'  # normal
-
-iwidth=2
-owidth=6
+iwidth=1
+owidth=1
 
 bspc config border_width $((iwidth + owidth))
-bspc config active_border_color "#${outer:2}"
-bspc config normal_border_color "#${outer:2}"
-bspc config focused_border_color "#${outer:2}"
+bspc config active_border_color "#${inner2:2}"
+bspc config normal_border_color "#${inner2:2}"
+bspc config focused_border_color "#${inner2:2}"
 
-draw() { chwb2 -I "$inner" -O "$outer" -i "$iwidth" -o "$owidth" "$@" >/dev/null 2>&1 ; }
+draw() { chwb2 -I "$inner" -O "$outer" -i "$iwidth" -o "$owidth" "$@" ; }
 
-bspc subscribe node_geometry node_focus | while read -r event; do
+bspc subscribe node_focus | while read -r event; do
+  event_name="$(awk '{ print $1 }' <<< "$event")"
+  #wid="$(awk '{ print $4 }' <<< "$event")"
+  wid="$(bspc query -N -n .local.descendant_of.window.leaf.!fullscreen)"
+  last_wid="$(bspc query -N -n last.!fullscreen)"
+
   if [[ "$event_name" == "node_focus" ]]; then
-    wid="$(awk '{ print $4 }' <<< "$event")"
     inner="$inner1"
     draw "$wid"
-done
 
-#outer='0x323d43'  # outer
-#inner1='0xa7c080'  # focused
-#inner2='0x868d80'  # normal
-#
-#iwidth=2
-#owidth=6
-#
-#bspc config border_width $((iwidth + owidth))
-#bspc config active_border_color "#${outer:2}"
-#bspc config normal_border_color "#${outer:2}"
-#bspc config focused_border_color "#${outer:2}"
-#
-#draw() { chwb2 -I "$inner" -O "$outer" -i "$iwidth" -o "$owidth" "$@" >/dev/null 2>&1 ; }
-#
-#bspc subscribe node_geometry node_focus | while read -r event; do
-#  event_name="$(awk '{ print $1 }' <<< "$event")"
-#  wid="$(awk '{ print $4 }' <<< "$event")"
-#  last_wid="$(bspc query -N -n last)"
-#
-#  if [[ "$event_name" == "node_focus" ]]; then
-#    inner="$inner1"
-#    draw "$wid"
-#
-#    inner="$inner2"
-#    draw "$last_wid"
-#  elif [[ "$event_name" == "node_geometry" ]]; then
-#    inner="$inner2"
-#    draw "$wid"
-#
-#    inner="$inner1"
-#    draw "$last_wid"
-#  fi
-#done
+    inner="$inner2"
+    draw "$last_wid"
+  elif [[ "$event_name" == "node_geometry" ]]; then
+    inner="$inner2"
+    draw "$wid"
+
+    #inner="$inner1"
+    #draw "$last_wid"
+  fi
+done

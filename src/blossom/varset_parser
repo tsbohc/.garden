@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# varset syntax is basically xresources, which makes it easy to adapt themes
+# and gives us syntax highlighting!
+
+set-colorscheme() {
+  # set colorscheme through a verbal semantic
+  colorscheme="$1"
+}
+
+load-varset() {
+  # load varset $1 into a respective assoc array
+  declare -n ref="$1"
+  declare -gA "$1"
+
+  while IFS=: read key value ; do
+    [[ "${key:0:1}" == "!" ]] && continue
+    value="${value#"${value%%[![:space:]]*}"}"
+    ref["$key"]="$value"
+  done < varsets/"$1"
+}
+
+query() {
+  # retrieve value of key $1 from varset $colorscheme
+  #          value of key $2 from varset $1
+  if (( "$#" == 1 )) ; then
+    declare -n ref="$colorscheme"
+  else
+    declare -n ref="$1" ; shift
+  fi
+  echo "${ref["$1"]}"
+}
+
+set-colorscheme whoah
+
+load-varset "$colorscheme"
+query color1
+
+

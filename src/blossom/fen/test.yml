@@ -1,0 +1,10 @@
+alacritty:
+  require:
+    - alacritty
+  link:
+    - alacritty
+    - ^/alacritty/alacritty.yml
+  inject: kohi
+  run: |
+    echo foo
+    echo bar
