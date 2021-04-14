@@ -8,3 +8,8 @@ alacritty:
   run: |
     echo foo
     echo bar
+
+alacritty:
+  link:
+    - alacritty.yml
+    - ^/alacritty/alacritty.yml

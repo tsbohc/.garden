@@ -1,15 +1,77 @@
+(require-macros :macros)
+(global inspect (require :inspect))
+
+
+(var cherry (require :cherry))
+(cherry.begin
+  #(print "wooo"))
+
+; cherry
+; --------------
+
+(var cherry {})
+
+(fn link [link-id varsets]
+  (print link-id)
+  (print (inspect varsets)))
+
+(var LINKS
+  {:alacritty ["alacritty.yml" "^/alacritty.alacritty.yml"]})
+
+; blossom
+; --------------
+
+(fn cherry.blossom []
+  (global colo "kohi")
+
+  (lyn alacritty [colo]
+       (sh [yay -S alacritty]
+           [echo "installed alacritty"]))
+
+  (lyn bspwm)
+  (lyn sxhkd)
+
+
+  )
+
+;(cherry.blossom)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;(require-macros :macros)
 ;(var z (require :lib))
-(global inspect (require :inspect))
-(global yaml (require :lyaml))
-
-(fn load-config []
-  (with-open [f (io.open "test.yml" :rb)]
-             (yaml.load (f:read "*all"))))
-
-(var config (load-config))
-
-(print (inspect config))
+;(global yaml (require :lyaml))
+;
+;(fn load-config []
+;  (with-open [f (io.open "test.yml" :rb)]
+;             (yaml.load (f:read "*all"))))
+;
+;(var config (load-config))
+;
+;(print (inspect config))
 
 ;(var VARSETS
 ;  [:fg {:v "E4D6C8" :s "kohi"}])

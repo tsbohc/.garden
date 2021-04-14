@@ -1,0 +1,174 @@
+#!/bin/bash
+
+# TODO: create if needed
+_COMPILE_TARGET="$HOME/.config/blossom" # no end slash!!
+_CONFIG_SOURCE="$HOME/.garden/etc" # no end slash!!
+declare -A _LIBRARY
+
+. varset
+
+action="query"
+current_varsets=()
+clean_whitelist=()
+
+# {{{ inspect
+inspect() {
+  # print associative array k, v pairs
+  local -n ref=$1
+  echo
+  echo "inspect: $1"
+  for k in "${!ref[@]}" ; do
+    echo "$k : ${ref[$k]}"
+  done
+}
+# }}}
+
+# {{{
+install?() {
+  [[ "$action" == "install" ]] && return 0 || return 1
+}
+
+clean?() {
+  [[ "$action" == "clean" ]] && return 0 || return 1
+}
+
+query?() {
+  [[ "$action" == "query" ]] && return 0 || return 1
+}
+# }}}
+
+wi() {
+  if install? || query?; then
+    current_varsets=( "$@" )
+    for varset in "${current_varsets[@]}"; do
+      varset::load "$varset"
+    done
+  fi
+}
+
+# {{{ paths
+path::source() {
+  local link_data=(${links["$1"]}) # no quotes to expand string into array
+  echo "${_LIBRARY["${link_data[0]}"]}"
+}
+
+path::compile() {
+  local link_data=(${links["$1"]}) # no quotes to expand string into array
+  local source_filename="${link_data[0]}"
+  echo "$_COMPILE_TARGET/"$source_filename""
+}
+
+path::target() {
+  local link_data=(${links["$1"]}) # no quotes to expand string into array
+  local target="${link_data[1]}"
+  [[ "${target:0:1}" == '^' ]] && target="$HOME/.config${target:1}"
+  echo "$target"
+}
+# }}}
+
+compile-config() {
+  local source="$1"
+  local target="$2"
+
+  # copy config file into blossom compile directory
+  cp "$source" "$target"
+
+  # perform substitution in place on the copy
+  for varset in "${current_varsets[@]}"; do
+    declare -n varset_ref="$varset"
+    for key in "${!varset_ref[@]}"; do
+      find="{@:-$key-:@}"
+      subs="${varset_ref["$key"]}"
+      sed -i -e "s/${find}/${subs}/g" "$target"
+    done
+  done
+
+  # clear current_varsets
+  current_varsets=()
+}
+
+create-symlink() {
+  local source="$1"
+  local target="$2"
+
+  ln -sf "$source" "$target"
+}
+
+lyn() {
+  if install?; then
+    # TODO: check if link is defined & source file exists & etc
+
+    local source="$(path::source "$1")"
+    local target="$(path::target "$1")"
+    local compile="$(path::compile "$1")"
+
+    echo "compile-config $source $compile with ${current_varsets[@]}"
+    compile-config "$source" "$compile"
+    echo "create-symlink $compile $target"
+    create-symlink "$compile" "$target"
+
+  elif clean?; then
+    clean_whitelist+=( "$1" )
+  fi
+}
+
+# wrap for logging and consistency
+ex() {
+  echo "run module $1"
+}
+
+# init
+# -----------
+
+. blossomrc
+
+before() {
+  # parse the config file tree into an assoc array of filename:filepath
+  if install? || clean?; then
+    varset::load links
+    while read -r path ; do
+      filename="${path##*/}"
+      if [ ${_LIBRARY["$filename"]+woo} ] ; then
+        echo "more than one $filename in config path!"
+        exit
+      fi
+      _LIBRARY["$filename"]="$path"
+    done < <(find "$_CONFIG_SOURCE" -type f)
+  fi
+}
+
+after() {
+  if clean?; then
+    for link in "${!links[@]}"; do
+      local target="$(path::target "$link")"
+      local compile="$(path::compile "$link")"
+      if [[ ! "${clean_whitelist[@]}" =~ "$link" ]]; then
+        if [[ -f "$compile" ]] && [[ "$(readlink "$target")" == "$compile" ]]; then
+          # TODO: list all files to be removed, then ask for confirmation
+          echo "remove $compile"
+          rm "$compile"
+          echo "remove $target"
+          rm "$target"
+        fi
+      fi
+    done
+
+  elif query?; then
+    (( "$#" == 1 )) && varset::query "$colo" "$1" || varset::query "$1" "$2"
+  fi
+}
+
+# process options
+option="$1" ; shift
+
+case $option in
+  -i|--install) action="install" ;;
+  -c|--clean) action="clean" ;;
+  -q|--query) action="query" ;;
+  *) exit ;;
+esac
+
+before
+cherry::blossom
+after "$@"
+

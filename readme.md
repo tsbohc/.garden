@@ -14,7 +14,7 @@
 Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles lua, with the help of [aniseed](https://github.com/Olical/aniseed).
 
 #### zest.fnl
-An opinionated library with a primary aim of making nvim configuration feel at home in fennel. Takes advantage of `macros` to turn syntactic sugar into nvim's bultins at compile-time:
+An opinionated library with a primary aim of making nvim configuration feel at home in fennel. It takes advantage of `macros` to turn syntactic sugar into nvim's bultins at compile-time:
 ```lua
 init.fnl                               init.lua
 

@@ -1,11 +1,13 @@
 #!/bin/bash
 
-# varset syntax is basically xresources, which makes it easy to adapt themes
-# and gives us syntax highlighting!
-
 varset::load() {
   # load varset $1 into a respective assoc array
   declare -n ref="$1"
+
+  # return if varset already loaded, bash 5.0+
+  # https://stackoverflow.com/questions/26925905/in-bash-test-if-associative-array-is-declared
+  [[ ${!ref@a} = A ]] && return
+
   declare -gA "$1"
 
   while IFS=: read key value ; do
@@ -16,8 +18,32 @@ varset::load() {
   done < varsets/"$1"
 }
 
+assert_var() {
+   if [[ -z ${!1+x} ]]; then
+      echo 'NOT EXISTS!'
+   else
+      echo 'EXISTS!'
+   fi
+}
+
 varset::query() {
-  # retrieve value of key $2 from varset $1
-  declare -n ref="$1"
-  echo "${ref["$2"]}"
+  # retrieve value of key $2 from varset $1 or value $1 from $colo
+
+  # parse arguments
+  local varset
+  local query
+
+  if (( "$#" == 1 )); then
+    declare -n ref="$colo"
+    query="$1"
+  else
+    declare -n ref="$1"
+    query="$2"
+  fi
+
+  # load queried varset
+  varset::load "${!ref}"
+
+  # return queried value
+  echo "${ref["$query"]}"
 }

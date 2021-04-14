@@ -1,36 +1,43 @@
 #!/bin/bash
-# {{{
-# cherry is a .files management api that features templating and database querying
-# blossom is its accompanying configuration framework inspired by vim plugin managers
 
-# go further than variables into code chunk injection?
-# like what wm to start in xinitrc
+ENV="$HOME/.garden/etc"
+colo="kohi"
 
-# --clean
-# look through links db and remove whatever is not in ly
-# --query
-# get values form colors or specified varset
-# }}}
+cherry-blossom() {
 
-source cherry; blossom() {
-  colors="whoah"
-
-  # term
-  wi $colors; lyn alacritty
-
-  # wm
-  #yay -S bspwm sxhkd
+  with $colo; lyn alacritty
   lyn bspwm
   lyn sxhkd
 
-  # other
-  #ex module
+  #lyn xinitrc ~/.xinitrc
 }
 
-module() {
-  echo "i'm a module"
+cherry-library() {
+  local CONF="$HOME/.config"
+
+  # id          source file      symlink target
+  - alacritty  "alacritty.yml"  "$CONF/alacritty/alacritty.yml"
+  - bspwm      "bspwmrc"        "$CONF/bspwm/bspwmrc"
+  - sxhkd      "sxhkdrc"        "$CONF/sxhkd/sxhkdrc"
 }
 
-# parse options here
-
-blossom
+#shell() {
+#  case "$1" in
+#    bash)
+#      lyn bashrc ~/.bashrc
+#      lyn aliases ~/.aliases
+#      ;;
+#    zsh)
+#      lyn zshrc ~/.zshrc
+#      ;;
+#  esac
+#}
+#
+#dtenv() {
+#  case "$1" in
+#    bspwm)
+#      lyn bspwmrc ^/bspwm/bspwmrc
+#      lyn sxhkdrc ^/sxhkd/sxhkdrc
+#      ;;
+#  esac
+#}
