@@ -1,0 +1,40 @@
+#!/bin/bash
+
+source ./binds
+
+#read -e
+
+hook() {
+  echo "hook"
+}
+
+#loop() {
+#  echo "loopin"
+#}
+#
+
+#prompt=""
+#take() {
+#  read -i "$prompt" -n 1 -e
+#  n=${#prompt}
+#  n=$((n+1))
+#  prompt="$REPLY"
+#}
+#
+#while : ; do
+#  take
+#done
+
+
+# backspace?
+
+prompt=""
+n=1
+while read -i "$prompt" -n "$n" -e; do
+  prompt="$REPLY"
+  n=${#prompt}
+  n=$((n+1))
+  #echo " :: $prompt = $n / ${#prompt}"
+  hook
+done
+

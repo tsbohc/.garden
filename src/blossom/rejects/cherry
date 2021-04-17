@@ -62,7 +62,7 @@ varset() {
 
     declare -gA "$1"
 
-    while IFS=: read key value ; do
+    while IFS=: read key value; do
       [ -z "$key" ] && continue
       [[ "${key:0:1}" == "!" ]] && continue
       value="${value#"${value%%[![:space:]]*}"}"
@@ -234,7 +234,7 @@ case $option in
     __install dry
 
     echo
-    read -p "  okay to install? y/n | "
+    read -p "  install? y/n | "
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       __install
     else
@@ -264,7 +264,7 @@ case $option in
 
     echo
 
-    read -p "  okay to remove? y/n | "
+    read -p "  remove? y/n | "
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       for path in "${TO_REMOVE[@]}"; do
         rm "$path"

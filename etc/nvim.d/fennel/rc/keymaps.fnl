@@ -20,8 +20,10 @@
 (k.nvo [expr] :n #(if (> vim.v.count 0) :j :gj))
 
 ; vertical
-(k.nv :N :<c-d>)
-(k.nv :E :<c-u>)
+(k.n :N :<c-d>)
+(k.n :E :<c-u>)
+(k.v :N :<Nop>)
+(k.v :E :<Nop>)
 
 ; horizontal
 (k.nv :H :0)
@@ -62,6 +64,10 @@
 ; stay visual when indenting
 (k.x :< :<gv)
 (k.x :> :>gv)
+
+;(k.n :<leader>h
+;     #(let [cword (vim.fn.expand "<cword>")]
+;        ))
 
 ; colemak
 ;(k.nvo :n :j)

@@ -1,4 +1,3 @@
-! vim: set ft=xdefaults:
 background: 141314
 foreground: ccc2a6
 !black
@@ -25,3 +24,5 @@ color14:    585858
 !white
 color7:     9a875f
 color15:    917154
+
+! vim: set ft=xdefaults:

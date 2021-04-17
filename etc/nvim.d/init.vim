@@ -23,6 +23,9 @@ require('packer').startup(function()
   use 'sainnhe/sonokai'
   use 'hardselius/warlock'
   use 'arcticicestudio/nord-vim'
+  use 'danishprakash/vim-yami'
+  use 'huyvohcmc/atlas.vim'
+  use 'nikolvs/vim-sunbather'
   -- use 'jaredgorski/fogbell.vim' -- too much contrast, little distinction
 
   -- colodev
@@ -312,6 +315,10 @@ let g:sexp_mappings = {
     \ 'sexp_capture_prev_element':      '<(',
     \ 'sexp_capture_next_element':      '<)',
     \ }
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 set autoread
 au FocusGained,BufEnter * :checktime

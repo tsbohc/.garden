@@ -111,10 +111,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Fira Code
+    family: {@:-font-:@}
 
     # The `style` can be specified to pick a specific face.
-    style: medium
+    style: {@:-font_style-:@}
 
   # Bold font face
   bold:
@@ -122,10 +122,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    family: {@:-font_bold-:@}
 
     # The `style` can be specified to pick a specific face.
-    style: semibold
+    style: {@:-font_bold_style-:@}
 
   # Italic font face
   italic:
@@ -133,21 +133,21 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    family: {@:-font_italic-:@}
 
     # The `style` can be specified to pick a specific face.
-    style: medium
+    style: {@:-font_italic_style-:@}
 
   # Bold italic font face
-  bold_italic:
+  #bold_italic:
     # Font family
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    #family: {@:-font_bold-:@}
 
     # The `style` can be specified to pick a specific face.
-    style: Bold Italic
+    #style: Bold Italic
 
   # Point size
   size: 12.0
@@ -173,7 +173,7 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night)
 colors:
@@ -197,9 +197,9 @@ colors:
   #
   # Allowed values are CellForeground and CellBackground, which reference the
   # affected cell, or hexadecimal colors like #ff00ff.
-  #cursor:
-  #  text: CellBackground
-  #  cursor: CellForeground
+  cursor:
+    text: '#{@:-background-:@}'
+    cursor: '#{@:-foreground-:@}'
 
   # Vi mode cursor colors
   #

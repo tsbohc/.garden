@@ -1,13 +1,29 @@
 #!/bin/bash
 
+# TODO:
+# make script install itself in bin or something!
+# also that bloody fold function already
+
+# support defaults somehow?
+# redo clean in a simpler way? maybe not
+# global varset? define varset with eof
+# fzf preview instead of std out?
+
+# with "font_size=10"; lyn alacritty
+
 ENV="$HOME/.garden/etc"
+
 colo="kohi"
+font="fira"
 
 cherry-blossom() {
+  ++ $colo $font; lyn alacritty
 
-  with $colo; lyn alacritty
   lyn bspwm
   lyn sxhkd
+
+  #+ $colo $font font_size=12
+  #lyn alacritty
 
   #lyn xinitrc ~/.xinitrc
 }
@@ -20,6 +36,8 @@ cherry-library() {
   - bspwm      "bspwmrc"        "$CONF/bspwm/bspwmrc"
   - sxhkd      "sxhkdrc"        "$CONF/sxhkd/sxhkdrc"
 }
+
+# usage ideas
 
 #shell() {
 #  case "$1" in
@@ -40,4 +58,293 @@ cherry-library() {
 #      lyn sxhkdrc ^/sxhkd/sxhkdrc
 #      ;;
 #  esac
+#}
+
+# {{{
+# cherry is a .files management api that features templating and database querying
+# blossom is its accompanying configuration framework inspired by vim plugin managers
+
+# go further than variables into code chunk injection?
+# like what wm to start in xinitrc
+# }}}
+
+# i should have done clean in a dumber way
+# just look at everything in ~/.config
+# find symlinks
+# remove those that point to $COMPILE_PATH
+# and the respective files in $COMPILE_PATH
+
+# {{{ inspect
+inspect() {
+  # print associative array k, v pairs
+  local -n ref=$1
+  echo
+  echo "inspect: $1"
+  for k in "${!ref[@]}" ; do
+    echo "$k : ${ref[$k]}"
+  done
+}
+# }}}
+
+include() {
+  "$@"
+}
+
+error() {
+  echo -e "${FUNCNAME[1]}: $1"
+  echo -e "$2"
+  exit 1
+}
+
+red='\e[31m'
+green='\e[32m'
+blue='\e[34m'
+reset='\e[0m'
+cross="$red×$reset"
+arrow="$green›$reset"
+with="$blue+$reset"
+
+log() {
+  indent_level="$1"; shift
+  for ((i=0; i<$indent_level; i++)); do echo -n " "; done
+  echo -e "$*"
+}
+
+# {{{ varset
+varset() {
+  varset::load() {
+    # load varset $1 into a respective assoc array
+    declare -n ref="$1"
+
+    # return if varset already loaded, bash 5.0+
+    # https://stackoverflow.com/questions/26925905/in-bash-test-if-associative-array-is-declared
+    [[ ${!ref@a} = A ]] && return
+
+    declare -gA "$1"
+
+    while IFS=: read key value; do
+      [ -z "$key" ] && continue
+      [[ "${key:0:1}" == "!" ]] && continue
+      value="${value#"${value%%[![:space:]]*}"}"
+      ref["$key"]="$value"
+    done < varsets/"$1"
+  }
+
+  varset::query() {
+    # retrieve value of key $2 from varset $1 or value $1 from $colo
+
+    # parse arguments
+    local varset
+    local query
+
+    if (( "$#" == 1 )); then
+      declare -n ref="$colo"
+      query="$1"
+    else
+      declare -n ref="$1"
+      query="$2"
+    fi
+
+    # load queried varset
+    varset::load "${!ref}"
+
+    # return queried value
+    echo "${ref["$query"]}"
+  }
+}
+# }}}
+
+COMPILE_PATH="$HOME/.config/blossom"
+CACHE_FILE="$HOME/.config/.blossom_cache"
+
+declare -A SOURCES
+declare -A TARGETS
+
+-() {
+  SOURCES[$1]="$2"
+  TARGETS[$1]="$3"
+}
+
+
+install() {
+  include varset
+  local CURRENT_VARSETS=()
+
+  [[ ! -e "$CACHE_FILE" ]] && touch "$CACHE_FILE"
+
+  ++() {
+    for varset in "$@"; do
+      varset::load "$varset"
+    done
+    CURRENT_VARSETS=( "$@" )
+  }
+
+  lyn() {
+    # {{{ argparse
+    (( $# > 2 )) && error "$*" "wrong number of arguments"
+    local source
+    local link_target
+    local compile_target
+
+    _find() {
+      find "$ENV" -type f -wholename "*$1" -print -quit
+    }
+
+    if (( "$#" == 1)); then
+      if [ "${SOURCES[$1]+woo}" ]; then
+        source="$(_find "${SOURCES["$1"]}")"
+        link_target="${TARGETS["$1"]}"
+      else
+        error "$*" "no link data for this id"
+      fi
+    elif (( "$#" == 2 )); then
+      source="$(_find "$1")"
+      link_target="$2"
+    fi
+    [[ ! -e "$source" ]] && error "$*" "source doesn't exist"
+    compile_target="$COMPILE_PATH/${source##*/}"
+    # }}}
+
+    if [[ "$dry" ]]; then
+      if [[ "${#CURRENT_VARSETS[@]}" -eq 0 ]]; then
+        log 2 "${source/$ENV\//} $arrow ${link_target/$HOME/\~}"
+      else
+        log 2 "${source/$ENV\//} $with ${CURRENT_VARSETS[@]} $arrow ${link_target/$HOME/\~}"
+      fi
+      CURRENT_VARSETS=()
+      return
+    fi
+
+    # copy config file into blossom compile directory
+    cp "$source" "$compile_target"
+
+    # perform substitution in place on the copy
+    for varset in "${CURRENT_VARSETS[@]}"; do
+      declare -n varset_ref="$varset"
+      for key in "${!varset_ref[@]}"; do
+        find="{@:-$key-:@}"
+        subs="${varset_ref["$key"]}"
+        sed -i -e "s/${find}/${subs}/g" "$compile_target"
+      done
+    done
+
+    CURRENT_VARSETS=()
+
+    # create a symlink to the destination
+    ln -sf "$compile_target" "$link_target"
+
+    # serialize link targets
+    echo "$link_target" >> "$CACHE_FILE"
+  }
+}
+
+declare -A WHITE_LIST
+declare -a TO_REMOVE
+
+clean() {
+
+  ++() {
+    echo -n
+  }
+
+  lyn() {
+    # {{{ argparse
+    (( $# > 2 )) && error "$*" "wrong number of arguments"
+    local link_target
+
+    if (( "$#" == 1)); then
+      if [ "${TARGETS[$1]+woo}" ]; then
+        link_target="${TARGETS["$1"]}"
+      else
+        error "$*" "no link data for this id"
+      fi
+    elif (( "$#" == 2 )); then
+      link_target="$2"
+    fi
+    # }}}
+    WHITE_LIST["$link_target"]="a"
+  }
+}
+
+__install() {
+  if [[ "$1" == "dry" ]]; then
+    dry='true'
+  else
+    dry=''
+  fi
+
+  include install
+  cherry-library
+  echo
+  cherry-blossom
+
+  # remove dupes from cache
+  # https://stackoverflow.com/a/32995760
+  if [[ ! "$dry" ]]; then
+    echo "$(awk '!seen[$0]++' "$CACHE_FILE")" > "$CACHE_FILE"
+  fi
+}
+
+option="$1" ; shift
+
+case $option in
+  -i|--install)
+    __install dry
+
+    echo
+    read -p "  install? y/n | "
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      __install
+    else
+      log 2 "aborting..."
+    fi
+    ;;
+
+  -c|--clean)
+    include clean
+    cherry-library
+    cherry-blossom
+
+    [[ ! -e "$CACHE_FILE" ]] && error "no cache file found"
+
+    echo
+    while read link_target; do
+      [[ "$link_target" == "" ]] && continue
+      if [[ ! "${WHITE_LIST["$link_target"]+x}" ]]; then
+        if [[ -L "$link_target" ]]; then
+          compiled_file="$(readlink "$link_target")"
+          TO_REMOVE+=( "$link_target" "$compiled_file" )
+          log 2 "$cross ${link_target/$HOME/\~}"
+          log 2 "$cross ${compiled_file/$HOME/\~}"
+        fi
+      fi
+    done < "$CACHE_FILE"
+
+    echo
+
+    read -p "  remove? y/n | "
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      for path in "${TO_REMOVE[@]}"; do
+        rm "$path"
+      done
+      rm "$CACHE_FILE"
+    else
+      log 2 "aborting..."
+    fi
+    echo
+    ;;
+
+  -q|--query) # this is great, nothing extra is done
+    include varset
+    varset::query "$@"
+    ;;
+  *) exit 0 ;;
+esac
+
+
+#copy_function() {
+#  # copy function $1 to function $2
+#  declare -F "$1" > /dev/null || return 1
+#  local func="$(declare -f "$1")"
+#  eval "${2}(${func#*\(}"
 #}

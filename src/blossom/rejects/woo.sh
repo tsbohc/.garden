@@ -1,8 +1,8 @@
 t() {
-  echo "$3"
+  echo "$@"
 }
 
-t a b [a b c d]
+t a b - a b c d
 
 
 #te() {
