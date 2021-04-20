@@ -1,3 +1,9 @@
+{%
+  target "~/.config/alacritty/alacritty.yml"
+  inject(colorscheme, { font_size = font_size })
+  install("alacritty")
+%}
+
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 # Import additional configuration files

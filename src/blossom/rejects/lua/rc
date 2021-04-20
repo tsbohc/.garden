@@ -1,0 +1,29 @@
+#{@!-
+#=> "~/.config/rc"
+#=> "~/.config/alacritty/alacritty.yml"
+#-!@}
+
+------
+{@!-
+local function test(a)
+  return(a)
+end
+
+return test("woo")
+-!@}
+------
+
+{@!-
+  aoristoe
+-!@}
+
+i'm a config file!
+
+doing normal config things
+
+here's a variable:
+
+test_var: {{test_var}}
+
+and two on the same line:
+something: {{test_var}} = {{test_var}}

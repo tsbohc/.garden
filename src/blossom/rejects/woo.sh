@@ -1,8 +1,32 @@
-t() {
-  echo "$@"
-}
+#varset() {
+#  echo "called test with $*"
+#}
+#
+alacritty=(
+  template colo test ,
+    arst
+)
 
-t a b - a b c d
+echo "${alacritty[@]}"
+
+
+template should have
+1. source file
+2. variables data: filenames, table literals
+3. destination path
+
+# works!
+#test() {
+#  echo "$@"
+#}
+#
+#test one two test=10
+
+#t() {
+#  echo "$@"
+#}
+#
+#t a b - a b c d
 
 
 #te() {

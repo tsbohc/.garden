@@ -1,40 +1,70 @@
-(require-macros :macros)
 (global inspect (require :inspect))
 
+(var colo "kohi")
+(var font "fira")
+(var font-size 12)
 
-(var cherry (require :cherry))
-(cherry.begin
-  #(print "wooo"))
+(fn alacritty [varsets links]
+  (print (inspect varsets))
+  (print (inspect links)))
 
-; cherry
-; --------------
+(fn req [a]
+  a)
 
-(var cherry {})
+(alacritty
+  [colo font { : font-size }]
+  [:alacritty.yml "~/.config/alacritty/alacritty.yml"])
 
-(fn link [link-id varsets]
-  (print link-id)
-  (print (inspect varsets)))
+(alacritty
+  (l- "alacritty.yml" (.. conf "alacritty/alacritty.yml")))
+  (<= colo "literal" { : font-size })
 
-(var LINKS
-  {:alacritty ["alacritty.yml" "^/alacritty.alacritty.yml"]})
+(doto "alacritty"
+  (: :link "alacritty.yml" (.. conf "alacritty/alacritty.yml")))
 
-; blossom
-; --------------
+;(blossom #(let [font_size 12]
+;  (alacritty [colo font  {: font_size }]
+;             [:alacritty.yml :~/.config/alacritty/alacritty.yml])
+;
+;  ))
 
-(fn cherry.blossom []
-  (global colo "kohi")
-
-  (lyn alacritty [colo]
-       (sh [yay -S alacritty]
-           [echo "installed alacritty"]))
-
-  (lyn bspwm)
-  (lyn sxhkd)
-
-
-  )
-
-;(cherry.blossom)
+;(require-macros :macros)
+;(global inspect (require :inspect))
+;
+;
+;(var cherry (require :cherry))
+;(cherry.begin
+;  #(print "wooo"))
+;
+;; cherry
+;; --------------
+;
+;(var cherry {})
+;
+;(fn link [link-id varsets]
+;  (print link-id)
+;  (print (inspect varsets)))
+;
+;(var LINKS
+;  {:alacritty ["alacritty.yml" "^/alacritty.alacritty.yml"]})
+;
+;; blossom
+;; --------------
+;
+;(fn cherry.blossom []
+;  (global colo "kohi")
+;
+;  (lyn alacritty [colo]
+;       (sh [yay -S alacritty]
+;           [echo "installed alacritty"]))
+;
+;  (lyn bspwm)
+;  (lyn sxhkd)
+;
+;
+;  )
+;
+;;(cherry.blossom)
 
 
 

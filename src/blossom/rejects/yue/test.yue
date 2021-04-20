@@ -1,0 +1,81 @@
+global inspect = require "inspect"
+
+--macro sh = (...) ->
+--  "shell '#{...}'"
+--
+---- fails on single quotes
+----$sh yay -S "alacritty"
+--
+---- maybe should make it a class construct snill and just call names
+---- in initializing function
+--
+--global M = {}
+--global config = "~/.config/"
+--
+--class Module
+--  new: (name) =>
+--    @varsets = {}
+--    @name = name
+--    @register!
+--
+--  link: (f, t) =>
+--    @source = f
+--    @target = t
+--
+--  inject: (...) =>
+--    for _, item in ipairs({...})
+--      -- if string, then load varset into a dict here
+--      table.insert @varsets, item
+--
+--  register: =>
+--    M[@name] = self
+--
+--
+--macro petal = (block) ->
+--  name = string.sub(block, 1, 9)
+--  b = string.sub(block, 10)
+--  "with Module '#{name}'#{b}"
+--
+--font_size = 10
+--colo = "kohi"
+--
+--$petal alacritty
+--  \link "alacritty.yml", config .. "alacritty/alacritty.yml"
+--  \inject "test", :font_size, colo
+--  -- shell is hard to put here though
+--
+--
+--print inspect M.alacritty.varsets
+
+--blossom.begin ->
+--  conf = "~/.config/"
+
+  --alacritty {
+  --  varset colo, "test", :font_size
+  --  link "alacritty.yml",
+  --        conf .. "alacritty/alacritty.yml"
+  --  $sh yay -S alacritty
+  --}
+
+
+--with Module "alacritty"
+--  .s, .t = "alacritty.yml", conf .. "alacritty/alacritty.yml"
+--  .inject = colo, "test", :font_size
+
+
+-- could run this with env maybe?
+with alacritty!
+  \link "alacritty.yml", config .. "alacritty/alacritty.yml"
+  \inject "test", :font_size, colo
+
+
+alacritty {
+  via "yml": "config",
+    { :font_size }
+}
+
+
+
+
+
+return

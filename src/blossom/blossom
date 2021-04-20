@@ -37,6 +37,7 @@ cherry-library() {
   - sxhkd      "sxhkdrc"        "$CONF/sxhkd/sxhkdrc"
 }
 
+
 # usage ideas
 
 #shell() {

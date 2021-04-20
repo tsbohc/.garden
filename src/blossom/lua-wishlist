@@ -1,0 +1,187 @@
+
+syntax:
+
+petal alacritty {
+  link {
+    alacritty.yml
+    [conf]/alacritty/alacritty.yml
+  }
+
+  inject {
+    [colo] literal-varset-ref #font-size
+  }
+
+  exec {
+    yay -S xorg
+    echo "foo"
+  }
+}
+
+
+petal alacritty
+  link
+    alacritty.yml {conf}/alacritty/alacritty.yml
+  exec
+    yay -S "alacritty"
+    echo "foo"
+
+
+petal alacritty
+
+petal short
+  xinitrc =>  ~/.xinitrc
+    < {colo} varset-ref :font-size
+
+  test    =>  ~/.config/testrc
+    < varset-ref
+
+  exec
+    yay -S "alacritty"
+    echo "foo"
+
+-- i should probably reject colons everywhere and make
+  inject {colo} literal-varset-ref #font-size
+
+-- same as
+  inject
+    {colo}
+    literal-varset-ref #font-size
+
+-- that is, separate list of args by either space or indent
+
+
+
+
+
+
+  --xinitrc => {conf}/xinitrc
+  --+ {colo} varset-ref #font-size
+  --\ yay -S short
+  --xinitrc >> {conf}/xinitrc
+  --xinitrc % {conf}/xinitrc
+  --xinitrc > {conf}/xinitrc
+
+
+  & {colo} varset-ref
+
+  --&& {colo} varset-ref
+  --|> yay -S short
+  --$ yay -S short
+  --> yay -S short
+
+---
+
+indentation based
+
+all normal text is as strings, unless denoted as a variable
+
+>> is an operator, { ">>": { "alacritty.yml", "~/.config/alacritty/alacritty.yml" } }
+
+---
+
+should read config and build dictionaries based on it
+
+---
+
+templates 
+
+this file itself is a template
+first, insert a special varset into here
+then, parse the config and generate objects
+print if necessary
+do stuff
+
+- should support default values!
+  {some-value:10}
+- lua code?
+  {%
+    if _get_env("EDITOR") == "nvim" then
+      return "some string to insert in place"
+    else
+      return some-variable-to-insert
+    end
+   %}
+
+i could probably support code by having the insert function simply return whatever
+is between the {} in the context of current varsets
+
+
+maybe i shouldn't bother with having inject and link scoped and just have global varsets
+available? this'll clean up coutless "$colo" and all that
+
+load_varset "kohi"
+
+without specifying that kohi is required anywhere
+
+
+
+what if
+
+-- lua implementation
+alacritty.petal:
+
+{@!-
+  p.target = "~/.config/alacritty/alacritty.yml"
+  p:inject { colorscheme, { font_size = font_size } }
+  p:install("alacritty")
+-!@}
+...
+
+
+-- i can do string replace on this
+{@!-
+  => "~/.config/alacritty/alacritty.yml"
+  install("alacritty")
+-!@}
+
+!!!!!
+remove explicit inject entirely, specify values to inject as
+  {@:-{colo}.color1-:@} and {{font}.family}
+
+--{@#-
+--  yay -S alacritty
+---#@}
+
+-- or a header instead
+alacritty.petal:
+
+target = "~/.config/alacritty/alacritty.yml"
+include colorscheme, v.font_size
+install "alacritty"
+--/-<@
+...
+
+when config is processed, {% ... %} is evaluated, global colorscheme variable (= "kohi") is inserted and then
+the "inject kohi" is processed, and the application knows that it should load 'kohi' before compiling
+
+install is a function that calls
+  yay -S
+on its argument string
+and contains a check for a global do_install? scriptable from the app itself
+
+!!! and packages can be installed w/ ''use "alacritty"'', which will find all petals
+in the folder and process them
+
+
+
+blossom(function()
+  -- or maybe have an override for global config like
+  defaults = { inject = true, install = true }
+
+  alacritty { install = false } -- override defaults
+end)
+
+---- custom implementation
+--
+--downsides:
+--  have to implement own parser
+--  no ability to to perform check as easily
+--  practically throwing lua out of the window when it's right there
+--upsides:
+--  no quoting? ehh
+--
+--{%
+--  => ~/.config/alacritty/alacritty.yml
+--  && #{colorscheme}
+--  $$ yay -S alacritty
+--%}

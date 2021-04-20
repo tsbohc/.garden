@@ -47,10 +47,19 @@ require('packer').startup(function()
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
 
-  use 'pigpigyyy/moonplus-vim'
+  -- moonscript
+  --use 'pigpigyyy/moonplus-vim'
+  --use 'leafo/moonscript-vim'
+  use 'pigpigyyy/yuescript-vim'
 
   -- latex
   use 'lervag/vimtex'
+
+  -- nim
+  use 'alaviss/nim.nvim'
+
+  use 'SirVer/ultisnips'
+  use 'honza/vim-snippets'
 
   --use 'cespare/vim-toml'
   --use 'Yggdroot/indentLine'
@@ -77,6 +86,7 @@ let g:aniseed#env = v:true
 " {{{
 " sources are pulled separately, switched when previous one returns nothing
 let g:completion_chain_complete_list = [
+    \{'complete_items': ['UltiSnips']},
     \{'complete_items': ['ts']},
     \{'complete_items': ['buffers']},
     \{'mode': '<c-p>'},
@@ -99,6 +109,13 @@ set completeopt=menuone,noinsert,noselect
 " triggering completion
 imap <tab> <Plug>(completion_smart_tab)
 imap <s-tab> <Plug>(completion_smart_s_tab)
+
+let g:completion_enable_snippet = 'UltiSnips'
+
+let g:UltiSnipsExpandTrigger="<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
 " }}}
 
 
@@ -112,6 +129,11 @@ imap <s-tab> <Plug>(completion_smart_s_tab)
 "    \ :unlet _s<Bar>
 "    \ :call setpos('.', _save_pos)<Bar>
 "    \ :unlet _save_pos<CR><CR>
+
+"syntax include @sh syntax/sh.vim
+"syntax region snipSh start="\[\[" end="\]\]" contains=@sh
+"hi link Snip SpecialComment
+
 
 set clipboard=unnamedplus
 syntax enable
@@ -324,7 +346,7 @@ set autoread
 au FocusGained,BufEnter * :checktime
 
 fun! Runcmd(cmd)
-    silent! exe "noautocmd botright pedit ".a:cmd
+    silent! exe "topleft vertical pedit previewwindow ".a:cmd
     noautocmd wincmd P
     set buftype=nofile
     exe "noautocmd r! ".a:cmd
@@ -332,9 +354,66 @@ fun! Runcmd(cmd)
 endfun
 com! -nargs=1 Runcmd :call Runcmd("<args>")
 
-fun! FennelCompile()
+fun! MyRun()
   exe "w"
-  call Runcmd("fennel --compile " . expand('%:p'))
+  :silent call Runcmd("lua " . expand('%:p'))
+  " FIXME: this bug is completely retarded
+  exe "colo lush_template"
 endfun
-com! FennelCompile :call FennelCompile()
-nnoremap <c-c> :call FennelCompile()<cr>
+
+"com! MyRun :call MyRun()
+nnoremap <c-c> :call MyRun()<cr>
+
+"fun! FennelCompile()
+"  exe "w"
+"  call Runcmd("fennel --compile " . expand('%:p'))
+"endfun
+"com! FennelCompile :call FennelCompile()
+"nnoremap <c-c> :call FennelCompile()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""" RUN CURRENT FILE """""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Execute current file
+"nnoremap <F5> :call ExecuteFile()<CR>
+"
+"" Will attempt to execute the current file based on the `&filetype`
+"" You need to manually map the filetypes you use most commonly to the
+"" correct shell command.
+"function! ExecuteFile()
+"  let filetype_to_command = {
+"  \   'javascript': 'node',
+"  \   'coffee': 'coffee',
+"  \   'python': 'python',
+"  \   'html': 'open',
+"  \   'sh': 'sh'
+"  \ }
+"  let cmd = get(filetype_to_command, &filetype, &filetype)
+"  call RunShellCommand(cmd." %s")
+"endfunction
+"
+"" Enter any shell command and have the output appear in a new buffer
+"" For example, to word count the current file:
+""
+""   :Shell wc %s
+""
+"" Thanks to: http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
+"command! -complete=shellcmd -nargs=+ Shell call RunShellCommand(<q-args>)
+"function! RunShellCommand(cmdline)
+"  echo a:cmdline
+"  let expanded_cmdline = a:cmdline
+"  for part in split(a:cmdline, ' ')
+"     if part[0] =~ '\v[%#<]'
+"        let expanded_part = fnameescape(expand(part))
+"        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+"     endif
+"  endfor
+"  botright new
+"  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+"  call setline(1, 'You entered:    ' . a:cmdline)
+"  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+"  call setline(3,substitute(getline(2),'.','=','g'))
+"  execute '$read !'. expanded_cmdline
+"  setlocal nomodifiable
+"  1
+"endfunction
