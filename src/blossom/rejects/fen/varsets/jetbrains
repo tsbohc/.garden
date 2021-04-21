@@ -1,0 +1,13 @@
+font:                   JetBrains Mono
+font_style:             Medium
+
+font_bold:              JetBrains Mono
+font_bold_style:        Bold
+
+font_italic:            JetBrains Mono
+font_italic_style:      Medium Italic
+
+font_bold_italic:       JetBrains Mono
+font_bold_italic_style: Bold Italic
+
+! vim: set ft=xdefaults:

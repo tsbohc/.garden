@@ -1,5 +1,51 @@
 global inspect = require "inspect"
 
+global _L =
+  varsets: {}
+
+get = (node_path) ->
+  v = _G
+  for w in node_path:gmatch "[%w_]+" do
+    if v == nil
+      return nil
+    else
+      v = v[w]
+  return v
+
+withOpen = (path, mode, fn) ->
+  file = io.open path, mode
+  fn file
+  file\close!
+
+loadVarset = (name) ->
+  if _L.varsets[name] == nil
+    _L.varsets[name] = {}
+
+    with io.open "varsets/" .. name, "r"
+      for line in file\lines! do
+        if not line\match"%s*!" and line != ""
+          key, value = line\match("(%w+):%s*(%w+)")
+          _L.varsets[name][key] = value
+
+
+loadVarset "kohi"
+print inspect _L
+
+--global a =
+--  woo: 42
+--
+--print get "a.woo"
+
+
+
+
+
+
+
+
+
+
+
 --macro sh = (...) ->
 --  "shell '#{...}'"
 --
@@ -64,18 +110,18 @@ global inspect = require "inspect"
 
 
 -- could run this with env maybe?
-with alacritty!
-  \link "alacritty.yml", config .. "alacritty/alacritty.yml"
-  \inject "test", :font_size, colo
-
-
-alacritty {
-  via "yml": "config",
-    { :font_size }
-}
-
-
-
-
-
-return
+--with alacritty!
+--  \link "alacritty.yml", config .. "alacritty/alacritty.yml"
+--  \inject "test", :font_size, colo
+--
+--
+--alacritty {
+--  via "yml": "config",
+--    { :font_size }
+--}
+--
+--
+--
+--
+--
+--return

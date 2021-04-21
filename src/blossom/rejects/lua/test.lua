@@ -74,12 +74,13 @@ syntax = {
 
 varsets = {}
 
-function varsetLoad(varset)
-  if varsets[varset] ~= nil then
-    return
-  else
-    varsets[varset] = {}
-  end
+
+-------------- varset --------------
+
+Varset = {}
+function Varset.load(varset)
+  if not varsets[varset] == nil then return end
+  varsets[varset] = {}
 
   with("varsets/" .. varset, "r", function(f)
     for line in f:lines() do
@@ -92,9 +93,21 @@ function varsetLoad(varset)
   end)
 end
 
+function Varset.get(node_path)
 
-pattern = {}
-function pattern.parse(str)
+end
+
+
+
+
+
+
+(print (inspect (varset :kohi)))
+
+-------------- template --------------
+
+Template = {}
+function Template.parse(str)
   local varsets = Set.new()
   local patterns = {}
 
@@ -117,7 +130,7 @@ function pattern.parse(str)
       -- grab varset's name
       local varset = parsed:match("(%a+)%.")
       if varset ~= nil then
-        varsetLoad(varset)
+        Varset.load(varset)
         parsed = get("varsets." .. parsed)
       end
 
@@ -139,9 +152,11 @@ colo = "whoah"
 
 local f = assert(io.open("testrc", "rb"))
 local content = f:read("*all")
-patterns = pattern.parse(content)
+patterns = Template.parse(content)
+
 print(inspect(patterns))
 print(inspect(varsets))
+
 f:close()
 
 --local function slurp(path)
@@ -211,11 +226,39 @@ f:close()
 
 
 
+find all petals in ENV directory
+  loop over petals -- petal.install
+    open path
+    determine target
+
+    loop over patterns file contents -- petal.patterns
+      parse pattern                  -- pattern.parse
+      compile pattern                -- pattern.compile
+        figure out varset name
+        load varset when needed      -- varset.load
+        retrieve value from varset   -- Varset.get_value
+        put into the table of key =pattern, value =compiled -- pattern.store
+    replace based on dict in file string -- petal.compile
+      write the output to compiled dir
+    symlink the file to destination       -- petal.symlink
 
 
+petals = {
+  { 
+    name = "file-name",
+    source = "source-path",
+    target = "output-target",
+    data = { "pattern" = "compiled pattern", ... },
+    -- do i need this? do i store string names or tables?
+    -- probably tables? but i've already compiled patterns so why?
+    -- varsets = { }
+  },
+  ...
+}
 
-
-
+detect when petal is modified
+  install petal
+    warn in the vim split when something goes wrong
 
 
 

@@ -47,6 +47,8 @@ require('packer').startup(function()
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
 
+  use 'andymass/vim-matchup'
+
   -- moonscript
   --use 'pigpigyyy/moonplus-vim'
   --use 'leafo/moonscript-vim'
@@ -62,7 +64,7 @@ require('packer').startup(function()
   use 'honza/vim-snippets'
 
   --use 'cespare/vim-toml'
-  --use 'Yggdroot/indentLine'
+  use 'Yggdroot/indentLine'
 end)
 
 require'nvim-treesitter.configs'.setup {
@@ -82,6 +84,7 @@ let g:vimtex_quickfix_mode = 0
 
 let g:aniseed#env = v:true
 "lua require("aniseed.env").init()
+
 
 " {{{
 " sources are pulled separately, switched when previous one returns nothing
@@ -134,6 +137,13 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "syntax region snipSh start="\[\[" end="\]\]" contains=@sh
 "hi link Snip SpecialComment
 
+augroup testgroup
+  autocmd!
+  autocmd BufRead *.fnl :set lispwords+=when-not
+  autocmd BufRead *.fnl :syntax keyword TSString arst
+augroup END
+
+
 
 set clipboard=unnamedplus
 syntax enable
@@ -154,8 +164,8 @@ colorscheme lush_template
 "lua require('lush')(require('colo'))
 
 
-
-"let g:indentLine_char = '│'
+let g:indentLine_setColors = 0 "do not override Conceal hl group
+let g:indentLine_char = "·"
 
 " {{{
 "nnoremap n j
@@ -283,13 +293,13 @@ augroup END
 let g:sexp_filetypes = "fennel"
 let g:sexp_mappings = {
     \ 'sexp_outer_list':                'af',
-    \ 'sexp_inner_list':                'if',
+    \ 'sexp_inner_list':                'mf',
     \ 'sexp_outer_top_list':            'aF',
-    \ 'sexp_inner_top_list':            'iF',
-    \ 'sexp_outer_string':              '',
-    \ 'sexp_inner_string':              '',
+    \ 'sexp_inner_top_list':            'mF',
+    \ 'sexp_outer_string':              'as',
+    \ 'sexp_inner_string':              'ms',
     \ 'sexp_outer_element':             'ae',
-    \ 'sexp_inner_element':             'ie',
+    \ 'sexp_inner_element':             'me',
     \ 'sexp_move_to_prev_bracket':      '(',
     \ 'sexp_move_to_next_bracket':      ')',
     \ 'sexp_move_to_prev_element_head': 'B',
@@ -356,7 +366,8 @@ com! -nargs=1 Runcmd :call Runcmd("<args>")
 
 fun! MyRun()
   exe "w"
-  :silent call Runcmd("lua " . expand('%:p'))
+  ":silent call Runcmd("lua " . expand('%:p'))
+  :silent call Runcmd("fennel --metadata " . expand('%:p'))
   " FIXME: this bug is completely retarded
   exe "colo lush_template"
 endfun

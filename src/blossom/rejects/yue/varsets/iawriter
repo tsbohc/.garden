@@ -1,0 +1,13 @@
+font:                   iA Writer Mono S
+font_style:
+
+font_bold:              iA Writer Mono S
+font_bold_style:
+
+font_italic:            iA Writer Mono S
+font_italic_style:
+
+font_bold_italic:       iA Writer Mono S
+font_bold_italic_style:
+
+! vim: set ft=xdefaults:

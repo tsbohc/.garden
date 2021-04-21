@@ -1,140 +1,133 @@
+; variables are not meant to be modified
+; do not define vars inside functions
+; -- not using local, var, or set in functions
+
+; pure functions mutate nothing outside their scope & they're deterministic
+; fns that return value should be called that (message) returns a message, not (new-message)
+; functional programming encourages composing complex functions out of smaller ones
+; fns up to around 10 lines long
+
+; top level -- functions with side-effects that use
+; bottom level -- pure functions
+
+; -- naming conventions --
+; (varset)  - returns a varset
+; (my-fun!) - impure function (those with side-effects)
+; (bool?)   - functions that return a boolean
+
+; xs        - [v1 v2 v3 ...]
+; xt        - {:k1 v1 :k2 v2 ...}
+; s         - string
+; x y       - numbers
+; i index   - indexes
+; n         - size
+; f g h     - functions
+; re        - regular expression
+
+; override (. xt :key)
+; to support (. xt :a.b.c) ? seems dumb now that i think about it
+
 (global inspect (require :inspect))
 
-(var colo "kohi")
-(var font "fira")
-(var font-size 12)
+; {{{ lib
+(macro when-not [cond ...]
+  `(when (not ,cond)
+     ,...))
 
-(fn alacritty [varsets links]
-  (print (inspect varsets))
-  (print (inspect links)))
+(macro if-not [cond ...]
+  `(if (not ,cond)
+     ,...))
 
-(fn req [a]
-  a)
+(macro tset- [xs key val]
+  `(when (= nil (. ,xs ,key))
+     (tset ,xs ,key ,val)
+     true))
 
-(alacritty
-  [colo font { : font-size }]
-  [:alacritty.yml "~/.config/alacritty/alacritty.yml"])
+; closure-like definitions, i'm not using var or global
+(macro def [name value]
+  `(local ,name ,value))
 
-(alacritty
-  (l- "alacritty.yml" (.. conf "alacritty/alacritty.yml")))
-  (<= colo "literal" { : font-size })
+(macro defn [name ...]
+  `(fn ,name ,...))
 
-(doto "alacritty"
-  (: :link "alacritty.yml" (.. conf "alacritty/alacritty.yml")))
+; because idk
+(macro != [...]
+  `(not= ,...))
 
-;(blossom #(let [font_size 12]
-;  (alacritty [colo font  {: font_size }]
-;             [:alacritty.yml :~/.config/alacritty/alacritty.yml])
-;
-;  ))
+; we're never using modulo in this
+(macro % [tab key val]
+  (if (not= nil val)
+    `(tset ,tab ,key ,val)
+    `(table.insert ,tab ,key)))
 
-;(require-macros :macros)
-;(global inspect (require :inspect))
-;
-;
-;(var cherry (require :cherry))
-;(cherry.begin
-;  #(print "wooo"))
-;
-;; cherry
-;; --------------
-;
-;(var cherry {})
-;
-;(fn link [link-id varsets]
-;  (print link-id)
-;  (print (inspect varsets)))
-;
-;(var LINKS
-;  {:alacritty ["alacritty.yml" "^/alacritty.alacritty.yml"]})
-;
-;; blossom
-;; --------------
-;
-;(fn cherry.blossom []
-;  (global colo "kohi")
-;
-;  (lyn alacritty [colo]
-;       (sh [yay -S alacritty]
-;           [echo "installed alacritty"]))
-;
-;  (lyn bspwm)
-;  (lyn sxhkd)
-;
-;
-;  )
-;
-;;(cherry.blossom)
+;(macro if-let)
+;(macro when-let)
 
+(defn lit [s]
+  "literalize string for regular expressions"
+  (s:gsub
+    "[%(%)%.%%%+%-%*%?%[%]%^%$]"
+    (fn [c] (.. "%" c))))
 
+(defn nil? [v]
+  (= v nil))
+; }}}
 
+(defn pretty-print [...]
+  (print (inspect ...)))
 
+(global grammar
+  {:p {:l "{@:-" :r "-:@}"}
+   :e {:l "{@!-" :r "-!@}"}
+   :v {:l "{"    :r    "}"}})
 
+; --- varset ---
 
+(defn varset [name]
+  "return a varset table by [name]"
+  (with-open
+    [file (io.open (.. "varsets/" name) "r")]
+    (let [comment-re "%s*!"
+          keyval-re  "(%w+):%s*(%w+)"
+          xt {}]
+      (each [line (file:lines)]
+        (when-not (or (line:match comment-re) (= line ""))
+          (let [(key val) (line:match keyval-re)]
+            (% xt key val))))
+      xt)))
 
+; --- template ---
 
+(defn template [path]
+  "return file contents of template at [path] as a string"
+  (with-open
+    [file (io.open path "r")]
+    (let [s (file:read "*a")]
+      s)))
 
+(defn compile-pattern [pattern]
+  pattern)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;(require-macros :macros)
-;(var z (require :lib))
-;(global yaml (require :lyaml))
-;
-;(fn load-config []
-;  (with-open [f (io.open "test.yml" :rb)]
-;             (yaml.load (f:read "*all"))))
-;
-;(var config (load-config))
-;
-;(print (inspect config))
-
-;(var VARSETS
-;  [:fg {:v "E4D6C8" :s "kohi"}])
-;
-;(fn get-var [varname]
-;  (. VARSETS :test))
-;
-;(fn def-set [name xs]
-;  (each ))
-;
-;(def-set :kohi
-;  {:fg "E4D6C8" :bg "2b2b2c"})
+(defn patterns [template]
+  "return a table of patterns from [template] string"
+  (let [l (lit (. grammar :p :l))
+        r (lit (. grammar :p :r))
+        pattern-re (.. l "(.-)" r)
+        xs {}]
+    (each [pattern (template:gmatch pattern-re)]
+      ; TODO: process patterns here
+      ; or not?
+      (% xs (compile-pattern pattern)))
+    xs))
 
 
+(-> :testrc
+    (template)
+    (patterns)
+    (pretty-print)
+    )
 
-;(fn index-as-method [callback]
-;  "translates callback(parameter) to table.parameter()"
-;  (setmetatable
-;    {} {:__index
-;        (fn [self index]
-;          (tset self index (fn [...] (callback index ...)))
-;          (rawget self index))}))
-;
-;(fn shell [command ...]
-;  (with-open [handle (io.popen (.. command " " (z.flatten [...] " ")))]
-;             (let [result (handle:read "*a")]
-;               result)))
-;
-;(var sh (index-as-method shell))
-;
-;; ideally, i want this:
-;;(sh.yay -S wooo)
-;; and piping with (->>) macro
-;; but, quoting stuff will be awful due to "" being lost
-;
-;
+
+;(-> :kohi
+;    (varset)
+;    (pretty-print)
