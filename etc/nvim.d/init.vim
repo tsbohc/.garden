@@ -31,12 +31,18 @@ require('packer').startup(function()
   -- colodev
   use 'rktjmp/lush.nvim'
 
-  -- tree-sitter & completion
+  -- lsp
+  use 'neovim/nvim-lspconfig'
+
+  -- tree-sitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'nvim-treesitter/playground'
-  use 'nvim-lua/completion-nvim'
-  use 'nvim-treesitter/completion-treesitter'
-  use 'steelsojka/completion-buffers'
+
+  -- completion
+  use 'hrsh7th/nvim-compe'
+  --use 'nvim-lua/completion-nvim'
+  --use 'nvim-treesitter/completion-treesitter'
+  --use 'steelsojka/completion-buffers'
 
   -- fennel
   use 'Olical/aniseed'
@@ -47,7 +53,8 @@ require('packer').startup(function()
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
 
-  use 'andymass/vim-matchup'
+  --use 'neoclide/coc.nvim'
+  --use 'andymass/vim-matchup'
 
   -- moonscript
   --use 'pigpigyyy/moonplus-vim'
@@ -63,6 +70,8 @@ require('packer').startup(function()
   use 'SirVer/ultisnips'
   use 'honza/vim-snippets'
 
+  use 'habamax/vim-godot'
+
   --use 'cespare/vim-toml'
   use 'Yggdroot/indentLine'
 end)
@@ -73,53 +82,150 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
+
+require'lspconfig'.gdscript.setup{}
+
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 3;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    nvim_lsp = true;
+    --nvim_lua = true;
+    ultisnips = true;
+  };
+}
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.api.nvim_eval([[ UltiSnips#CanJumpForwards() ]]) == 1 then
+    return t "<cmd>call UltiSnips#JumpForwards()<CR>"
+  else
+    return t "<Tab>"
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.api.nvim_eval([[ UltiSnips#CanJumpBackwards() ]]) == 1 then
+    return t "<cmd>call UltiSnips#JumpBackwards()<CR>"
+  --elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+  --  return t "<Plug>(vsnip-jump-prev)"
+  else
+    return t "<S-Tab>"
+  end
+end
+_G.enter_with_snippets = function()
+  local autocompleteOpen = vim.fn.pumvisible() == 1
+
+  if vim.api.nvim_eval([[ UltiSnips#CanExpandSnippet() ]]) == 1 then
+    if autocompleteOpen then
+      vim.fn['compe#close']('<C-e>')
+    end
+    return t "<cmd>call UltiSnips#ExpandSnippet()<CR>"
+  else
+    return vim.fn['compe#confirm']("\n")
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<CR>", "v:lua.enter_with_snippets()", {expr = true, silent = true, noremap = true})
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with( vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false, underline = true, signs = true, } ) 
+vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]] 
+vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 EOF
 
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_quickfix_mode = 0
 
-"nnoremap <Space> <Nop>
-"let maplocalleader=" "
+" req by nvim-compe
+set completeopt=menuone,noselect
+"inoremap <silent><expr> <C-Space> compe#complete()
+"inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+"inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+"inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+"inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
+
+"nnoremap <silent>S     <cmd>lua vim.lsp.buf.hover()<CR>
 
 let g:aniseed#env = v:true
 "lua require("aniseed.env").init()
 
 
 " {{{
-" sources are pulled separately, switched when previous one returns nothing
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['UltiSnips']},
-    \{'complete_items': ['ts']},
-    \{'complete_items': ['buffers']},
-    \{'mode': '<c-p>'},
-    \{'mode': '<c-n>'}
-\]
-
-let g:completion_auto_change_source = 1
-
-autocmd BufEnter * lua require'completion'.on_attach()
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-"let g:completion_enable_auto_popup = 0
-
-" triggering completion
-imap <tab> <Plug>(completion_smart_tab)
-imap <s-tab> <Plug>(completion_smart_s_tab)
-
-let g:completion_enable_snippet = 'UltiSnips'
-
-let g:UltiSnipsExpandTrigger="<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
+"" sources are pulled separately, switched when previous one returns nothing
+"let g:completion_chain_complete_list = [
+"    \{'complete_items': ['lsp']},
+"    \{'complete_items': ['UltiSnips']},
+"    \{'complete_items': ['ts']},
+"    \{'complete_items': ['buffers']},
+"    \{'mode': '<c-p>'},
+"    \{'mode': '<c-n>'}
+"\]
+"
+"let g:completion_auto_change_source = 1
+"
+"autocmd BufEnter * lua require'completion'.on_attach()
+"
+"" Use <Tab> and <S-Tab> to navigate through popup menu
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"
+"" Set completeopt to have a better completion experience
+"set completeopt=menuone,noinsert,noselect
+"
+""let g:completion_enable_auto_popup = 0
+"
+"" triggering completion
+"imap <tab> <Plug>(completion_smart_tab)
+"imap <s-tab> <Plug>(completion_smart_s_tab)
+"
+"let g:completion_enable_snippet = 'UltiSnips'
 " }}}
+
+let g:UltiSnipsExpandTrigger="<c-cr>"
+let g:UltiSnipsJumpForwardTrigger="<c-tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
+
 
 
 " remove trailing whitespaces
@@ -149,14 +255,14 @@ set clipboard=unnamedplus
 syntax enable
 set termguicolors
 
-let g:everforest_background = 'soft'
-let g:everforest_enable_italic = 1
-let g:everforest_better_performance = 1
-
-let g:gruvbox_bold = 0
-let g:gruvbox_contrast_dark = "soft"
-
-let g:miramare_enable_bold = 0
+"let g:everforest_background = 'soft'
+"let g:everforest_enable_italic = 1
+"let g:everforest_better_performance = 1
+"
+"let g:gruvbox_bold = 0
+"let g:gruvbox_contrast_dark = "soft"
+"
+"let g:miramare_enable_bold = 0
 
 colorscheme lush_template
 
@@ -166,6 +272,8 @@ colorscheme lush_template
 
 let g:indentLine_setColors = 0 "do not override Conceal hl group
 let g:indentLine_char = "·"
+
+
 
 " {{{
 "nnoremap n j
@@ -245,22 +353,34 @@ let g:indentLine_char = "·"
 "nnoremap <c-i> <c-w>l
 "" }}}
 
+func! GodotSettings() abort
+  set tabstop=4 shiftwidth=4 expandtab
+  nnoremap <buffer> <F4> :GodotRunLast<CR>
+  nnoremap <buffer> <F5> :GodotRun<CR>
+  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
+  nnoremap <buffer> <F7> :GodotRunFZF<CR>
+endfunc
+augroup godot | au!
+    au FileType gdscript call GodotSettings()
+augroup end
 
-fun! Everf()
-  " changes to everforest
-  highlight! link TSConstant Fg
-  highlight! link TSFuncBuiltin Aqua
-  highlight! link TSFuncMacro Aqua
-  highlight! link TSFunction Aqua
-  highlight! link TSString Green
-  "highlight! link TSPunctSpecial Yellow
-  highlight! link vimTodo Green
-endfun
 
-augroup everforest_changes
-    autocmd!
-    autocmd BufRead,BufNewFile * :call Everf()
-augroup END
+"fun! Everf()
+"  " changes to everforest
+"  highlight! link TSConstant Fg
+"  highlight! link TSFuncBuiltin Aqua
+"  highlight! link TSFuncMacro Aqua
+"  highlight! link TSFunction Aqua
+"  highlight! link TSString Green
+"  "highlight! link TSPunctSpecial Yellow
+"  highlight! link vimTodo Green
+"endfun
+"
+"augroup everforest_changes
+"    autocmd!
+"    autocmd BufRead,BufNewFile * :call Everf()
+"augroup END
+
 
 " cheat sheet
 "(    - jump around
@@ -356,11 +476,11 @@ set autoread
 au FocusGained,BufEnter * :checktime
 
 fun! Runcmd(cmd)
-    silent! exe "topleft vertical pedit previewwindow ".a:cmd
-    noautocmd wincmd P
-    set buftype=nofile
-    exe "noautocmd r! ".a:cmd
-    noautocmd wincmd p
+  silent! exe "topleft vertical pedit previewwindow ".a:cmd
+  noautocmd wincmd P
+  set buftype=nofile
+  exe "noautocmd r! ".a:cmd
+  noautocmd wincmd p
 endfun
 com! -nargs=1 Runcmd :call Runcmd("<args>")
 

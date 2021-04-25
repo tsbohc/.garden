@@ -34,24 +34,108 @@ p.yellow_bg = hsl(35, 8, 19)
 p.red = hsl(345, 100, 70)
 p.red_bg = hsl(345, 10, 19)
 p.pure = hsl(213, 60, 85)
+
 p.pure_bg = hsl(213, 10, 21)
 p.snow = hsl(0, 0, 85)
 
 p.chalk = hsl(48, 0, 77) -- gruv 88
-p.ash = hsl(30, 0, 48) -- gruv 51
+--p.chalk = hsl(120, 25, 95) -- gruv 88
+p.ash = hsl(30, 0, 49) -- gruv 51
 p.coal = hsl(0, 0, 33)
-p.raven = hsl(0, 0, 29)
+p.raven = hsl(0, 0, 30)
 p.abyss = hsl(0, 0, 16) -- gruv 16
 
 p.func = p.pure
 p.keyword = p.ash
 p.var = p.chalk
 
+---- titanstone
+--hsl(26, 3, 49)
+--hsl(0, 5, 46)
+--hsl(214, 9, 36)
+--hsl(240, 14, 26)
+--
+---- ink
+--hsl(292, 6, 24)
+--
+---- hollow
+--hsl(72, 38,97)
+--
+---- paperback-2
+--hsl(126, 8, 74) -- amazing color
+--
+---- 1bit monitor glow
+--hsl(180, 1, 14)
+--hsl(120, 25, 95)
+--
+---- robots are people too
+--hsl(264, 11, 27)
+--
+--hsl(199, 41, 76)
+--
+---- cretatceous
+--hsl(140, 3, 20)
+--hsl(180, 4, 28)
+--hsl(47, 14, 69)
+--hsl(45, 19, 63)
+--hsl(45, 8, 62)
+--hsl(22, 9, 43)
+--
+---- triton 16
+-- hsl(335, 14, 83)
+--
+----
+--hsl(313, 8, 30)
+--
+---- keeby
+--hsl(81, 16, 76)
+--hsl(170, 8, 57)
+--hsl(208, 10, 40)
+--hsl(240, 13, 23)
+
+---- poison
+--hsl(240, 1, 16)
+--hsl(202, 5, 28)
+--hsl(176, 42, 32)
+--hsl(142, 24, 46)
+--hsl(104, 28, 56)
+--
+p.abyss = hsl(240, 1, 16)
+p.coal = hsl(202, 5, 28)
+p.raven = hsl(207, 5, 31)
+p.ash = hsl(202, 3, 50) -- don't like this one
+p.chalk = hsl(120, 10, 85) 
+--hsl(142, 24, 46)
+--hsl(104, 28, 56)
+--p.pure = hsl(104, 32, 73) -- pure 56
+p.pure = hsl(104, 28, 76) -- pure 56
+--p.pure = hsl(124, 32, 73) -- pure 56
+--p.yellow = hsl(176, 47, 73)
+
+-- triton 16
+--hsl(285, 16, 74)
+--hsl(282, 11, 57)
+--hsl(209, 27, 66)
+--
+p.red = hsl(285, 16, 74)
+--p.yellow = hsl(282, 11, 57)
+p.yellow = hsl(209, 29, 72)
+
+----platinum
+--hsl(150, 34, 91)
+--hsl(140, 16, 70)
+--hsl(156, 20, 39)
+--
+--p.pure = hsl(140, 22, 73)
+--p.pure = hsl(140, 32, 73)
+
+
 local theme = lush(function()
  return {
+
     Comment      { fg = p.raven, gui = 'italic' }, -- any comment
-    -- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
-    Conceal      { fg = p.raven}, -- placeholder characters substituted for concealed text (see 'conceallevel')
+    ColorColumn  { bg = p.abyss.li(1)}, -- used for the columns set with 'colorcolumn'
+    Conceal      { fg = p.abyss.li(7)}, -- placeholder characters substituted for concealed text (see 'conceallevel')
     -- Cursor       { }, -- character under the cursor
     -- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
@@ -91,7 +175,7 @@ local theme = lush(function()
     Question     { fg = p.green }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     Search       { IncSearch }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
-    -- SpecialKey   { }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
+    SpecialKey   { fg = p.raven}, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
     -- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise. 
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
@@ -105,7 +189,7 @@ local theme = lush(function()
     Visual       { bg = p.abyss.li(6) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg   { fg = p.red }, -- warning messages
-    Whitespace   { fg = p.abyss.li(7) }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    Whitespace   { Conceal }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     -- WildMenu     { }, -- current match in 'wildmenu' completion    
 
     -- These groups are not listed as default vim groups,
@@ -116,14 +200,28 @@ local theme = lush(function()
 
     Constant       { fg = p.var }, -- (preferred) any constant
     String         { fg = p.ash }, --   a string constant: "this is a string"
-    -- Character      { }, --  a character constant: 'c', '\n'
+    Character      { fg = p.pure}, --  a character constant: 'c', '\n'
     -- Number         { }, --   a number constant: 234, 0xff
     -- Boolean        { }, --  a boolean constant: TRUE, false
     -- Float          { }, --    a floating point constant: 2.3e10
 
     Xdefaultspunct  { fg = p.ash },
     Xdefaultsvalue  { fg = p.ash },
+    SnipLeadingSpaces { bg = p.abyss.li(3) },
+
     Vimoption       { fg = p.chalk },
+    NimStructure    { fg = p.ash },
+
+    MoonInterpDelim { fg = p.coal.li(6) },
+    YueInterpDelim  { fg = p.coal.li(6) },
+
+    MoonExtendedOp  { fg = p.ash },
+    YueExtendedOp   { fg = p.ash },
+
+    MoonAssignOp    { fg = p.ash },
+    YueAssignOp     { fg = p.ash },
+
+    YueSpecialVar   { fg = p.pure },
 
     Netrwclassify   { fg = p.ash },
     NetrwPlain      { fg = p.ash },
@@ -139,10 +237,10 @@ local theme = lush(function()
     Keyword        { Statement }, --  any other keyword
     Exception      { Statement }, --  try, catch, throw
 
-    -- PreProc        { }, -- (preferred) generic Preprocessor
-    -- Include        { }, --  preprocessor #include
+    Include        { fg = p.ash, gui = 'italic' }, --  preprocessor #include
+    PreProc        { fg = p.ash }, -- (preferred) generic Preprocessor
     -- Define         { }, --   preprocessor #define
-    -- Macro          { }, --    same as Define
+    Macro          { fg = p.pure }, --    same as Define
     -- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
 
     Type           { fg = p.chalk }, -- (preferred) int, long, char, etc.
@@ -219,14 +317,14 @@ local theme = lush(function()
     -- TSConstant           { };    -- For constants
     -- TSConstBuiltin       { };    -- For constant that are built in the language: `nil` in Lua.
     -- TSConstMacro         { };    -- For constants that are defined by macros: `NULL` in C.
-    -- TSError              { fg = p.red };    -- For syntax/parser errors.
+    TSError              { fg = p.red };    -- For syntax/parser errors.
     -- TSException          { };    -- For exception related keywords.
     -- TSField              { fg = p.var };    -- For fields.
     -- TSFloat              { };    -- For floats.
     -- TSFunction           { Function };    -- For function (calls and definitions).
     TSFuncBuiltin        { fg = p.snow };    -- For builtin functions: `table.insert` in Lua.
     -- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
-    -- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
+    TSInclude            { Include };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
     -- TSKeyword            { Statement };    -- For keywords that don't fall in previous categories.
      TSKeywordOperator      { Statement };    -- keywords "in"
     -- TSKeywordFunction    { };    -- For keywords used to define a fuction.

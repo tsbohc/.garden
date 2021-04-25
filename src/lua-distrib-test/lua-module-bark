@@ -1,0 +1,6 @@
+#!/usr/bin/env lua
+package.path = debug.getinfo(2, "S").source:sub(2):match("(.*/)") .. "?.lua;" .. package.path
+
+m = require("mod")
+
+m.bark("wooo")
