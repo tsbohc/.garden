@@ -1,0 +1,950 @@
+#!/usr/bin/env lua
+package.preload["sandbox"] = package.preload["sandbox"] or function(...)
+  local fetch = require("fetch")
+  local sandbox = {}
+  sandbox.target = function(s)
+    return "", {target = s}
+  end
+  sandbox.get = function(s)
+    return fetch(s)
+  end
+  sandbox.getenv = function(s)
+    return os.getenv(s)
+  end
+  return sandbox
+end
+package.preload["fetch"] = package.preload["fetch"] or function(...)
+  local core = require("core")
+  local fs = require("fs")
+  local fetch = {}
+  fetch["from-env"] = function(s)
+    return os.getenv(("UMAI_" .. s))
+  end
+  local function _varset_list()
+    local path = fetch["from-env"]("VAR")
+    local file = assert(io.popen(("find " .. path .. " -type f"), "r"))
+    local function close_handlers_0_(ok_0_, ...)
+      file:close()
+      if ok_0_ then
+        return ...
+      else
+        return error(..., 0)
+      end
+    end
+    local function _0_()
+      local xs = {}
+      for line in file:lines() do
+        local function _2_()
+          local _1_0 = line:gsub((path .. "/"), "")
+          return _1_0
+        end
+        table.insert(xs, _2_())
+      end
+      return xs
+    end
+    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+  end
+  local function _varset_load(name)
+    local path = fetch["from-env"]("VAR")
+    local file = assert(io.open((path .. "/" .. name), "r"))
+    local function close_handlers_0_(ok_0_, ...)
+      file:close()
+      if ok_0_ then
+        return ...
+      else
+        return error(..., 0)
+      end
+    end
+    local function _0_()
+      local comment_re = "%s*!"
+      local keyval_re = "(%w+):%s*(%w+)"
+      local xt = {}
+      for line in file:lines() do
+        if not (line:match(comment_re) or (line == "")) then
+          local key, val = line:match(keyval_re)
+          xt[key] = val
+        end
+      end
+      return xt
+    end
+    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+  end
+  local varset_list = core.memoize(_varset_list)
+  local varset_load = core.memoize(_varset_load)
+  fetch["from-var"] = function(s)
+    local name = s:match("(%w+)%.")
+    local path = s:match("%.([%w.]+)")
+    if (nil ~= name) then
+      if core["has?"](varset_list(), name) then
+        return core["get-dp"](varset_load(name), path)
+      else
+        return error(("varset '" .. name .. "' doesn't exist"))
+      end
+    end
+  end
+  fetch.fetch = function(s)
+    local v = (fetch["from-env"](s) or fetch["from-var"](s))
+    if core["nil?"](v) then
+      return error(("value of token '" .. s .. "' could not be found."))
+    else
+      return v
+    end
+  end
+  local function _0_(_, ...)
+    return fetch.fetch(...)
+  end
+  setmetatable(fetch, {__call = _0_})
+  return fetch
+end
+package.preload["render"] = package.preload["render"] or function(...)
+  local core = require("core")
+  local fetch = require("fetch")
+  local lexis = require("lexis")
+  local sandbox = require("sandbox")
+  local render = {}
+  local function inject_3f(s)
+    if s:find(lexis["token-re"]) then
+      return true
+    else
+      return false
+    end
+  end
+  local function inject_single(s)
+    local key = s:match(lexis["token-re"])
+    local val = fetch(key)
+    local _0_0 = s:gsub(lexis["token-esc"](key), val)
+    return _0_0
+  end
+  render.inject = function(s)
+    if inject_3f(s) then
+      return render.inject(inject_single(s))
+    else
+      return s
+    end
+  end
+  render.evaluate = function(s)
+    local f = nil
+    local function _0_()
+      if not s:find("return ") then
+        return ("return " .. s)
+      else
+        return s
+      end
+    end
+    f = load(_0_())
+    core.setfenv(f, sandbox)
+    return f()
+  end
+  local function render_single(s)
+    local hs = (s:sub(1, 3) .. s:sub(-3))
+    local cs = s:sub(4, -4)
+    local _0_0 = hs
+    if (_0_0 == lexis.statement) then
+      if cs:find(lexis["expression-re"]) then
+        return render.inject(cs)
+      else
+        return render.evaluate(cs)
+      end
+    else
+      local _ = _0_0
+      return s
+    end
+  end
+  render.render = function(xs)
+    local data = {}
+    local meta = {}
+    for _, s in ipairs(xs) do
+      local d, m = render_single(s)
+      table.insert(data, d)
+      core["merge!"](meta, m)
+    end
+    return {data = table.concat(data), meta = meta}
+  end
+  local function _0_(_, ...)
+    return render.render(...)
+  end
+  setmetatable(render, {__call = _0_})
+  return render
+end
+package.preload["lexis"] = package.preload["lexis"] or function(...)
+  local g = {["s-l"] = "{% ", ["s-r"] = " %}", ["t-l"] = "{", ["t-r"] = "}"}
+  local lexis = {["expression-re"] = ("(" .. (g["t-l"]):escape() .. "[%w._%-{}]+" .. (g["t-r"]):escape() .. ")"), ["statement-re"] = ("(" .. (g["s-l"]):escape() .. ".-" .. (g["s-r"]):escape() .. ")"), ["token-re"] = ((g["t-l"]):escape() .. "([%w._%-]+)" .. (g["t-r"]):escape()), expression = (g["t-l"] .. g["t-r"]), statement = (g["s-l"] .. g["s-r"])}
+  lexis["token-esc"] = function(s)
+    return ((g["t-l"]):escape() .. s .. (g["t-r"]):escape())
+  end
+  return lexis
+end
+package.preload["parse"] = package.preload["parse"] or function(...)
+  local core = require("core")
+  local lexis = require("lexis")
+  local parse = {}
+  parse.parse = function(s)
+    local s0 = s
+    local done_3f = false
+    local xs = {}
+    while not done_3f do
+      local x, y = s0:find(lexis["statement-re"])
+      if (nil ~= x) then
+        table.insert(xs, s0:sub(1, (x - 1)))
+        table.insert(xs, s0:sub(x, y))
+        s0 = s0:sub((y + 1))
+      end
+      if (nil == x) then
+        done_3f = true
+      end
+    end
+    if (core.count(s0) > 0) then
+      table.insert(xs, s0)
+    end
+    return xs
+  end
+  local function _0_(_, ...)
+    return parse.parse(...)
+  end
+  setmetatable(parse, {__call = _0_})
+  return parse
+end
+package.preload["lib.setfenv"] = package.preload["lib.setfenv"] or function(...)
+  local function setfenv(fn, env)
+    local i = 1
+    while true do
+      local name = debug.getupvalue(fn, i)
+      if name == "_ENV" then
+        debug.upvaluejoin(fn, i, (function()
+          return env
+        end), 1)
+        break
+      elseif not name then
+        break
+      end
+  
+      i = i + 1
+    end
+  
+    return fn
+  end
+  
+  return setfenv
+end
+package.preload["lib.memoize"] = package.preload["lib.memoize"] or function(...)
+  local memoize = {
+    _VERSION     = 'memoize v2.0',
+    _DESCRIPTION = 'Memoized functions in Lua',
+    _URL         = 'https://github.com/kikito/memoize.lua',
+    _LICENSE     = [[
+      MIT LICENSE
+      Copyright (c) 2018 Enrique García Cota
+      Permission is hereby granted, free of charge, to any person obtaining a
+      copy of this software and associated documentation files (the
+      "Software"), to deal in the Software without restriction, including
+      without limitation the rights to use, copy, modify, merge, publish,
+      distribute, sublicense, and/or sell copies of the Software, and to
+      permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
+      The above copyright notice and this permission notice shall be included
+      in all copies or substantial portions of the Software.
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+      OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+      IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+      CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+      TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+      SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    ]]
+  }
+  -- Inspired by http://stackoverflow.com/questions/129877/how-do-i-write-a-generic-memoize-function
+  
+  -- Lua 5.3 compatibility
+  local unpack = unpack or table.unpack
+  
+  -- private stuff
+  
+  local function is_callable(f)
+    local tf = type(f)
+    if tf == 'function' then return true end
+    if tf == 'table' then
+      local mt = getmetatable(f)
+      return type(mt) == 'table' and is_callable(mt.__call)
+    end
+    return false
+  end
+  
+  local function cache_get(cache, params)
+    local node = cache
+    for i=1, #params do
+      node = node.children and node.children[params[i]]
+      if not node then return nil end
+    end
+    return node.results
+  end
+  
+  local function cache_put(cache, params, results)
+    local node = cache
+    local param
+    for i=1, #params do
+      param = params[i]
+      node.children = node.children or {}
+      node.children[param] = node.children[param] or {}
+      node = node.children[param]
+    end
+    node.results = results
+  end
+  
+  -- public function
+  
+  function memoize.memoize(f, cache)
+    cache = cache or {}
+  
+    if not is_callable(f) then
+      error(string.format(
+              "Only functions and callable tables are memoizable. Received %s (a %s)",
+               tostring(f), type(f)))
+    end
+  
+    return function (...)
+      local params = {...}
+  
+      local results = cache_get(cache, params)
+      if not results then
+        results = { f(...) }
+        cache_put(cache, params, results)
+      end
+  
+      return unpack(results)
+    end
+  end
+  
+  setmetatable(memoize, { __call = function(_, ...) return memoize.memoize(...) end })
+  
+  return memoize
+end
+package.preload["lib.inspect"] = package.preload["lib.inspect"] or function(...)
+  local inspect ={
+    _VERSION = 'inspect.lua 3.1.0',
+    _URL     = 'http://github.com/kikito/inspect.lua',
+    _DESCRIPTION = 'human-readable representations of tables',
+    _LICENSE = [[
+      MIT LICENSE
+      Copyright (c) 2013 Enrique García Cota
+      Permission is hereby granted, free of charge, to any person obtaining a
+      copy of this software and associated documentation files (the
+      "Software"), to deal in the Software without restriction, including
+      without limitation the rights to use, copy, modify, merge, publish,
+      distribute, sublicense, and/or sell copies of the Software, and to
+      permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
+      The above copyright notice and this permission notice shall be included
+      in all copies or substantial portions of the Software.
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+      OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+      IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+      CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+      TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+      SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    ]]
+  }
+  
+  local tostring = tostring
+  
+  inspect.KEY       = setmetatable({}, {__tostring = function() return 'inspect.KEY' end})
+  inspect.METATABLE = setmetatable({}, {__tostring = function() return 'inspect.METATABLE' end})
+  
+  local function rawpairs(t)
+    return next, t, nil
+  end
+  
+  -- Apostrophizes the string if it has quotes, but not aphostrophes
+  -- Otherwise, it returns a regular quoted string
+  local function smartQuote(str)
+    if str:match('"') and not str:match("'") then
+      return "'" .. str .. "'"
+    end
+    return '"' .. str:gsub('"', '\\"') .. '"'
+  end
+  
+  -- \a => '\\a', \0 => '\\0', 31 => '\31'
+  local shortControlCharEscapes = {
+    ["\a"] = "\\a",  ["\b"] = "\\b", ["\f"] = "\\f", ["\n"] = "\\n",
+    ["\r"] = "\\r",  ["\t"] = "\\t", ["\v"] = "\\v"
+  }
+  local longControlCharEscapes = {} -- \a => nil, \0 => \000, 31 => \031
+  for i=0, 31 do
+    local ch = string.char(i)
+    if not shortControlCharEscapes[ch] then
+      shortControlCharEscapes[ch] = "\\"..i
+      longControlCharEscapes[ch]  = string.format("\\%03d", i)
+    end
+  end
+  
+  local function escape(str)
+    return (str:gsub("\\", "\\\\")
+               :gsub("(%c)%f[0-9]", longControlCharEscapes)
+               :gsub("%c", shortControlCharEscapes))
+  end
+  
+  local function isIdentifier(str)
+    return type(str) == 'string' and str:match( "^[_%a][_%a%d]*$" )
+  end
+  
+  local function isSequenceKey(k, sequenceLength)
+    return type(k) == 'number'
+       and 1 <= k
+       and k <= sequenceLength
+       and math.floor(k) == k
+  end
+  
+  local defaultTypeOrders = {
+    ['number']   = 1, ['boolean']  = 2, ['string'] = 3, ['table'] = 4,
+    ['function'] = 5, ['userdata'] = 6, ['thread'] = 7
+  }
+  
+  local function sortKeys(a, b)
+    local ta, tb = type(a), type(b)
+  
+    -- strings and numbers are sorted numerically/alphabetically
+    if ta == tb and (ta == 'string' or ta == 'number') then return a < b end
+  
+    local dta, dtb = defaultTypeOrders[ta], defaultTypeOrders[tb]
+    -- Two default types are compared according to the defaultTypeOrders table
+    if dta and dtb then return defaultTypeOrders[ta] < defaultTypeOrders[tb]
+    elseif dta     then return true  -- default types before custom ones
+    elseif dtb     then return false -- custom types after default ones
+    end
+  
+    -- custom types are sorted out alphabetically
+    return ta < tb
+  end
+  
+  -- For implementation reasons, the behavior of rawlen & # is "undefined" when
+  -- tables aren't pure sequences. So we implement our own # operator.
+  local function getSequenceLength(t)
+    local len = 1
+    local v = rawget(t,len)
+    while v ~= nil do
+      len = len + 1
+      v = rawget(t,len)
+    end
+    return len - 1
+  end
+  
+  local function getNonSequentialKeys(t)
+    local keys, keysLength = {}, 0
+    local sequenceLength = getSequenceLength(t)
+    for k,_ in rawpairs(t) do
+      if not isSequenceKey(k, sequenceLength) then
+        keysLength = keysLength + 1
+        keys[keysLength] = k
+      end
+    end
+    table.sort(keys, sortKeys)
+    return keys, keysLength, sequenceLength
+  end
+  
+  local function countTableAppearances(t, tableAppearances)
+    tableAppearances = tableAppearances or {}
+  
+    if type(t) == 'table' then
+      if not tableAppearances[t] then
+        tableAppearances[t] = 1
+        for k,v in rawpairs(t) do
+          countTableAppearances(k, tableAppearances)
+          countTableAppearances(v, tableAppearances)
+        end
+        countTableAppearances(getmetatable(t), tableAppearances)
+      else
+        tableAppearances[t] = tableAppearances[t] + 1
+      end
+    end
+  
+    return tableAppearances
+  end
+  
+  local copySequence = function(s)
+    local copy, len = {}, #s
+    for i=1, len do copy[i] = s[i] end
+    return copy, len
+  end
+  
+  local function makePath(path, ...)
+    local keys = {...}
+    local newPath, len = copySequence(path)
+    for i=1, #keys do
+      newPath[len + i] = keys[i]
+    end
+    return newPath
+  end
+  
+  local function processRecursive(process, item, path, visited)
+    if item == nil then return nil end
+    if visited[item] then return visited[item] end
+  
+    local processed = process(item, path)
+    if type(processed) == 'table' then
+      local processedCopy = {}
+      visited[item] = processedCopy
+      local processedKey
+  
+      for k,v in rawpairs(processed) do
+        processedKey = processRecursive(process, k, makePath(path, k, inspect.KEY), visited)
+        if processedKey ~= nil then
+          processedCopy[processedKey] = processRecursive(process, v, makePath(path, processedKey), visited)
+        end
+      end
+  
+      local mt  = processRecursive(process, getmetatable(processed), makePath(path, inspect.METATABLE), visited)
+      if type(mt) ~= 'table' then mt = nil end -- ignore not nil/table __metatable field
+      setmetatable(processedCopy, mt)
+      processed = processedCopy
+    end
+    return processed
+  end
+  
+  
+  
+  -------------------------------------------------------------------
+  
+  local Inspector = {}
+  local Inspector_mt = {__index = Inspector}
+  
+  function Inspector:puts(...)
+    local args   = {...}
+    local buffer = self.buffer
+    local len    = #buffer
+    for i=1, #args do
+      len = len + 1
+      buffer[len] = args[i]
+    end
+  end
+  
+  function Inspector:down(f)
+    self.level = self.level + 1
+    f()
+    self.level = self.level - 1
+  end
+  
+  function Inspector:tabify()
+    self:puts(self.newline, string.rep(self.indent, self.level))
+  end
+  
+  function Inspector:alreadyVisited(v)
+    return self.ids[v] ~= nil
+  end
+  
+  function Inspector:getId(v)
+    local id = self.ids[v]
+    if not id then
+      local tv = type(v)
+      id              = (self.maxIds[tv] or 0) + 1
+      self.maxIds[tv] = id
+      self.ids[v]     = id
+    end
+    return tostring(id)
+  end
+  
+  function Inspector:putKey(k)
+    if isIdentifier(k) then return self:puts(k) end
+    self:puts("[")
+    self:putValue(k)
+    self:puts("]")
+  end
+  
+  function Inspector:putTable(t)
+    if t == inspect.KEY or t == inspect.METATABLE then
+      self:puts(tostring(t))
+    elseif self:alreadyVisited(t) then
+      self:puts('<table ', self:getId(t), '>')
+    elseif self.level >= self.depth then
+      self:puts('{...}')
+    else
+      if self.tableAppearances[t] > 1 then self:puts('<', self:getId(t), '>') end
+  
+      local nonSequentialKeys, nonSequentialKeysLength, sequenceLength = getNonSequentialKeys(t)
+      local mt                = getmetatable(t)
+  
+      self:puts('{')
+      self:down(function()
+        local count = 0
+        for i=1, sequenceLength do
+          if count > 0 then self:puts(',') end
+          self:puts(' ')
+          self:putValue(t[i])
+          count = count + 1
+        end
+  
+        for i=1, nonSequentialKeysLength do
+          local k = nonSequentialKeys[i]
+          if count > 0 then self:puts(',') end
+          self:tabify()
+          self:putKey(k)
+          self:puts(' = ')
+          self:putValue(t[k])
+          count = count + 1
+        end
+  
+        if type(mt) == 'table' then
+          if count > 0 then self:puts(',') end
+          self:tabify()
+          self:puts('<metatable> = ')
+          self:putValue(mt)
+        end
+      end)
+  
+      if nonSequentialKeysLength > 0 or type(mt) == 'table' then -- result is multi-lined. Justify closing }
+        self:tabify()
+      elseif sequenceLength > 0 then -- array tables have one extra space before closing }
+        self:puts(' ')
+      end
+  
+      self:puts('}')
+    end
+  end
+  
+  function Inspector:putValue(v)
+    local tv = type(v)
+  
+    if tv == 'string' then
+      self:puts(smartQuote(escape(v)))
+    elseif tv == 'number' or tv == 'boolean' or tv == 'nil' or
+           tv == 'cdata' or tv == 'ctype' then
+      self:puts(tostring(v))
+    elseif tv == 'table' then
+      self:putTable(v)
+    else
+      self:puts('<', tv, ' ', self:getId(v), '>')
+    end
+  end
+  
+  -------------------------------------------------------------------
+  
+  function inspect.inspect(root, options)
+    options       = options or {}
+  
+    local depth   = options.depth   or math.huge
+    local newline = options.newline or '\n'
+    local indent  = options.indent  or '  '
+    local process = options.process
+  
+    if process then
+      root = processRecursive(process, root, {}, {})
+    end
+  
+    local inspector = setmetatable({
+      depth            = depth,
+      level            = 0,
+      buffer           = {},
+      ids              = {},
+      maxIds           = {},
+      newline          = newline,
+      indent           = indent,
+      tableAppearances = countTableAppearances(root)
+    }, Inspector_mt)
+  
+    inspector:putValue(root)
+  
+    return table.concat(inspector.buffer)
+  end
+  
+  setmetatable(inspect, { __call = function(_, ...) return inspect.inspect(...) end })
+  
+  return inspect
+end
+package.preload["core"] = package.preload["core"] or function(...)
+  do
+    local function escape(s)
+      local _0_0 = nil
+      local function _1_(c)
+        return ("%" .. c)
+      end
+      _0_0 = s:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", _1_)
+      return _0_0
+    end
+    local function fragmentate(s, pattern, xs)
+      local xs0 = (xs or {})
+      local from, to, token = s:find(pattern)
+      if token then
+        local raw = s:sub(1, (from - 1))
+        local s0 = s:sub((to + 1))
+        table.insert(xs0, raw)
+        table.insert(xs0, token)
+        return fragmentate(s0, pattern, xs0)
+      else
+        if (s ~= "") then
+          table.insert(xs0, s)
+        end
+        return xs0
+      end
+    end
+    local mt = getmetatable("")
+    mt["__index"]["escape"] = escape
+    mt["__index"]["fragmentate"] = fragmentate
+  end
+  local core = {}
+  core["nil?"] = function(x)
+    return (nil == x)
+  end
+  core["table?"] = function(x)
+    return ("table" == type(x))
+  end
+  core["seq?"] = function(xs)
+    local i = 0
+    for _ in pairs(xs) do
+      i = (i + 1)
+      if (nil == xs[i]) then
+        return false
+      end
+    end
+    return true
+  end
+  core["has?"] = function(xt, y)
+    if core["seq?"](xt) then
+      for _, v in ipairs(xt) do
+        if (v == y) then
+          return true
+        end
+      end
+    else
+      if (nil ~= xt[y]) then
+        return true
+      end
+    end
+    return false
+  end
+  core["even?"] = function(n)
+    return ((n % 2) == 0)
+  end
+  core["odd?"] = function(n)
+    return not core["even?"](n)
+  end
+  core.count = function(xs)
+    if core["table?"](xs) then
+      local maxn = 0
+      for k, v in pairs(xs) do
+        maxn = (maxn + 1)
+      end
+      return maxn
+    elseif not xs then
+      return 0
+    else
+      return #xs
+    end
+  end
+  core["run!"] = function(f, xs)
+    if xs then
+      local nxs = core.count(xs)
+      if (nxs > 0) then
+        for i = 1, nxs do
+          f(xs[i])
+        end
+        return nil
+      end
+    end
+  end
+  core.map = function(f, xs)
+    local result = {}
+    local function _0_(x)
+      local mapped = f(x)
+      local function _1_()
+        if (0 == select("#", mapped)) then
+          return nil
+        else
+          return mapped
+        end
+      end
+      return table.insert(result, _1_())
+    end
+    core["run!"](_0_, xs)
+    return result
+  end
+  core.reduce = function(f, init, xs)
+    local result = init
+    local function _0_(x)
+      result = f(result, x)
+      return nil
+    end
+    core["run!"](_0_, xs)
+    return result
+  end
+  core["merge!"] = function(base, ...)
+    local function _0_(acc, m)
+      if m then
+        for k, v in pairs(m) do
+          acc[k] = v
+        end
+      end
+      return acc
+    end
+    return core.reduce(_0_, (base or {}), {...})
+  end
+  core.merge = function(...)
+    return core["merge!"]({}, ...)
+  end
+  core.get = function(xt, k, d)
+    local res = nil
+    if core["table?"](xt) then
+      res = xt[k]
+    else
+    res = nil
+    end
+    if core["nil?"](res) then
+      return d
+    else
+      return res
+    end
+  end
+  core["get-in"] = function(xt, ks, d)
+    local res = nil
+    local function _0_(acc, k)
+      if core["table?"](acc) then
+        return core.get(acc, k)
+      end
+    end
+    res = core.reduce(_0_, xt, ks)
+    if core["nil?"](res) then
+      return d
+    else
+      return res
+    end
+  end
+  core["get-dp"] = function(xt, s, d)
+    local ks = {}
+    for w in s:gmatch("[%w_]+") do
+      table.insert(ks, w)
+    end
+    return core["get-in"](xt, ks, d)
+  end
+  core.inspect = require("lib.inspect")
+  core.memoize = require("lib.memoize")
+  core.setfenv = require("lib.setfenv")
+  return core
+end
+local fs = nil
+package.preload["fs"] = package.preload["fs"] or function(...)
+  local fs = {}
+  fs.read = function(path)
+    local file = assert(io.open(path, "r"))
+    local function close_handlers_0_(ok_0_, ...)
+      file:close()
+      if ok_0_ then
+        return ...
+      else
+        return error(..., 0)
+      end
+    end
+    local function _0_()
+      return file:read("*a")
+    end
+    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+  end
+  fs.write = function(path, content)
+    local file = assert(io.open(path, "w"))
+    local function close_handlers_0_(ok_0_, ...)
+      file:close()
+      if ok_0_ then
+        return ...
+      else
+        return error(..., 0)
+      end
+    end
+    local function _0_()
+      return file:write(content)
+    end
+    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+  end
+  fs.copy = function(source, target)
+    local content = fs.read(source)
+    return fs.write(target, content)
+  end
+  fs.move = function(source, target)
+    return os.rename(source, target)
+  end
+  fs.remove = function(path)
+    return os.remove(path)
+  end
+  fs["exists?"] = function(path)
+    return fs.move(path, path)
+  end
+  fs.mkdir = function(path)
+    return os.execute(("mkdir -p " .. path))
+  end
+  fs.link = function(source, target)
+    return os.execute(("ln -sf " .. source .. " " .. target))
+  end
+  fs.basename = function(path)
+    return path:match(".*/(.-)$")
+  end
+  fs.realpath = function(path)
+    local file = assert(io.popen(("realpath " .. path)))
+    local function close_handlers_0_(ok_0_, ...)
+      file:close()
+      if ok_0_ then
+        return ...
+      else
+        return error(..., 0)
+      end
+    end
+    local function _0_()
+      local out = file:read("*a")
+      local _1_0 = out:gsub("\n", "")
+      return _1_0
+    end
+    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+  end
+  return fs
+end
+fs = require("fs")
+local core = require("core")
+local parse = require("parse")
+local render = require("render")
+local fetch = require("fetch")
+local function pretty(...)
+  return print(core.inspect(...))
+end
+local cache = (os.getenv("HOME") .. "/.config/umai/")
+if not fs["exists?"](cache) then
+  fs.mkdir(cache)
+end
+local function templates()
+  local file = assert(io.popen(("find " .. fetch["from-env"]("ENV") .. " -name '*.umai' -type f"), "r"))
+  local function close_handlers_0_(ok_0_, ...)
+    file:close()
+    if ok_0_ then
+      return ...
+    else
+      return error(..., 0)
+    end
+  end
+  local function _1_()
+    local xt = {}
+    for line in file:lines() do
+      table.insert(xt, line)
+    end
+    return xt
+  end
+  return close_handlers_0_(xpcall(_1_, (package.loaded.fennel or debug).traceback))
+end
+local function make_21(rendered)
+  if core["has?"](rendered.meta, "target") then
+    local content = rendered.data
+    local path = (cache .. fs.basename(rendered.meta.target))
+    fs.write(path, content)
+    return fs.link(path, rendered.meta.target)
+  else
+    return error("cannot install, no target is specified")
+  end
+end
+local function install(path)
+  print(("installing: " .. path))
+  return make_21(render(parse(fs.read(fs.realpath(path)))))
+end
+local function install_all()
+  return core.map(install, templates())
+end
+if (nil ~= arg[1]) then
+  for _, a in ipairs(arg) do
+    install(a)
+  end
+  return nil
+else
+  return install_all()
+end

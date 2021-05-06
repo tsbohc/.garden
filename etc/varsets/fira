@@ -1,0 +1,13 @@
+! vim: set ft=xdefaults:
+
+font:                   Fira Code Medium
+font_style:
+
+font_bold:              Fira Code Semibold
+font_bold_style:
+
+font_italic:            Fira Code Medium
+font_italic_style:
+
+font_bold_italic:       Fira Code Semibold
+font_bold_italic_style:

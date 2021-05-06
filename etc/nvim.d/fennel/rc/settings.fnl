@@ -53,5 +53,8 @@
 (se- list)
 ;(se- :fillchars "eob:~")             ; do not set those to fileseparator etc, trust me
 
+(def-cmd Testt [a]
+  (print (.. "hi, " a)))
+
 ; unsorted ;
 ;(se- compatible false)              ; allow vim -u vimc

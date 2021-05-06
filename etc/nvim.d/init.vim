@@ -26,6 +26,9 @@ require('packer').startup(function()
   use 'danishprakash/vim-yami'
   use 'huyvohcmc/atlas.vim'
   use 'nikolvs/vim-sunbather'
+  use 'arzg/vim-substrata'
+
+  use 'tsbohc/limestone'
   -- use 'jaredgorski/fogbell.vim' -- too much contrast, little distinction
 
   -- colodev
@@ -37,6 +40,14 @@ require('packer').startup(function()
   -- tree-sitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'nvim-treesitter/playground'
+
+  -- telescope
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+  }
+
+  use 'junegunn/fzf.vim'
 
   -- completion
   use 'hrsh7th/nvim-compe'
@@ -65,12 +76,13 @@ require('packer').startup(function()
   use 'lervag/vimtex'
 
   -- nim
-  use 'alaviss/nim.nvim'
-
   use 'SirVer/ultisnips'
   use 'honza/vim-snippets'
 
   use 'habamax/vim-godot'
+
+  --use 'airblade/vim-gitgutter'
+  use 'mhinz/vim-signify'
 
   --use 'cespare/vim-toml'
   use 'Yggdroot/indentLine'
@@ -89,7 +101,7 @@ require'compe'.setup {
   enabled = true;
   autocomplete = true;
   debug = false;
-  min_length = 3;
+  min_length = 1;
   preselect = 'enable';
   throttle_time = 80;
   source_timeout = 200;
@@ -103,8 +115,10 @@ require'compe'.setup {
     path = true;
     buffer = true;
     nvim_lsp = true;
+    calc = true;
     --nvim_lua = true;
     ultisnips = true;
+    nvim_treesitter = true;
   };
 }
 
@@ -166,7 +180,65 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with( vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false, underline = true, signs = true, } ) 
 vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]] 
 vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
+
+-- telescope
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
+    prompt_position = "bottom",
+    prompt_prefix = "> ",
+    selection_caret = "> ",
+    entry_prefix = "  ",
+    initial_mode = "insert",
+    selection_strategy = "reset",
+    sorting_strategy = "descending",
+    layout_strategy = "vertical",
+    layout_defaults = {
+      horizontal = {
+        mirror = false,
+      },
+      vertical = {
+        mirror = false,
+      },
+    },
+    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+    file_ignore_patterns = {},
+    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+    shorten_path = true,
+    winblend = 0,
+    width = 0.75,
+    preview_cutoff = 120,
+    results_height = 0.4,
+    results_width = 0.8,
+    border = {},
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+    color_devicons = true,
+    use_less = true,
+    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
+    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+
+    -- Developer configurations: Not meant for general override
+    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+  }
+}
+
+
 EOF
+
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+nnoremap <leader>ts :lua require'telescope.builtin'.treesitter{}<cr>
 
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
@@ -227,6 +299,9 @@ let g:UltiSnipsJumpForwardTrigger="<c-tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
 
 
+" squeezes multiple blank lines into 1 blank line
+" :%s/\(\n\n\)\n\+/\1/
+
 
 " remove trailing whitespaces
 " Remap for destroying trailing whitespace cleanly
@@ -264,7 +339,7 @@ set termguicolors
 "
 "let g:miramare_enable_bold = 0
 
-colorscheme lush_template
+colorscheme limestone
 
 "lua package.loaded['colo'] = nil
 "lua require('lush')(require('colo'))
@@ -274,6 +349,14 @@ let g:indentLine_setColors = 0 "do not override Conceal hl group
 let g:indentLine_char = "·"
 
 
+let g:signify_sign_add               = '›'
+let g:signify_sign_delete            = '×'
+let g:signify_sign_delete_first_line = '×'
+let g:signify_sign_change            = '·'
+let g:signify_sign_change_delete     = '·'
+
+let g:signify_sign_show_count = 0
+"let g:signify_sign_show_text = 0
 
 " {{{
 "nnoremap n j

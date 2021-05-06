@@ -69,6 +69,6 @@ def convert(fname, swidth, boffset, inv):
         print('')
 
 
-convert('phos1.jpg', 29, 40, 1)
+convert('l1.jpg', 190, 40, 1)
 
 
