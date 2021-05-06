@@ -59,6 +59,7 @@ require('packer').startup(function()
   use 'Olical/aniseed'
   use 'Olical/conjure'
   use 'bakpakin/fennel.vim'
+  use { 'eraserhd/parinfer-rust', run = "cargo build --release" }
 
   use 'guns/vim-sexp'
   use 'tpope/vim-repeat'
@@ -572,7 +573,7 @@ fun! MyRun()
   ":silent call Runcmd("lua " . expand('%:p'))
   :silent call Runcmd("fennel --metadata " . expand('%:p'))
   " FIXME: this bug is completely retarded
-  exe "colo lush_template"
+  exe "colo limestone"
 endfun
 
 "com! MyRun :call MyRun()
