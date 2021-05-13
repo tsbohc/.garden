@@ -5,8 +5,7 @@
 ;    |
 ;
 
-(require-macros :zest.g-macros)
-(require-macros :zest.pa-macros)
+(require-macros :zest.macros)
 
 ; TODO: check if those are needed
 (g- python_host_prog :/usr/bin/python2)
@@ -17,12 +16,18 @@
 (packer.startup (fn []
   (pa- wbthomason/packer.nvim)
 
-  (pa- /home/sean/code/zest)
+  (pa- /home/sean/code/zest
+       :zest (fn []
+         (g- :zest#env "/home/sean/.garden/etc/nvim.d/fnl")
+         (g- :zest#dev true)))
   (pa- /home/sean/code/limestone)
 
   (pa- neovim/nvim-lspconfig)
   (pa- nvim-treesitter/nvim-treesitter
-       :run ":TSUpdate")
+       :run ":TSUpdate"
+       :zest (fn []
+         (let [ts (require :nvim-treesitter.configs)]
+           (ts.setup {:highlight {:enable true}}))))
 
   (pa- hrsh7th/nvim-compe
        :zest (fn []
@@ -57,6 +62,3 @@
 
 (require :rc.options)
 (require :rc.keymaps)
-
-
-

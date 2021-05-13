@@ -1,6 +1,7 @@
-(require-macros :zest.se-macros)
+(require-macros :zest.macros)
 
-; colorscheme
+; colors
+(viml- "syntax enable")
 (colo- limestone)
 
 ; rendering
@@ -23,6 +24,7 @@
 (se- nowrap)                        ; do not wrap long lines
 (se- virtualedit "block")           ; do not restrict v-block to characters
 (se- undofile)                      ; persistent undo/redo
+(se- autoread)                      ; reload when file changes externally
 (se- clipboard "unnamedplus")       ; don't forget xsel!
 (se- mouse "a")                     ; blasphemy!
 (se- completeopt

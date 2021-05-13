@@ -17,14 +17,6 @@ local lush = require('lush')
 local hsl = lush.hsl
 local p = {}
 
---p.pure = hsl(215, 74, 85)
-p.test = hsl(306, 100, 63)
-
---p.pure = hsl(0, 0, 100)
---p.snow = hsl(0, 0, 69)
---p.foam = hsl(0, 0, 55)
---p.ash = hsl(0, 0, 41)
-
 p.green = hsl(122, 32, 74)
 p.green_bg = hsl(122, 4, 19)
 
@@ -49,85 +41,8 @@ p.func = p.pure
 p.keyword = p.ash
 p.var = p.chalk
 
----- titanstone
---hsl(26, 3, 49)
---hsl(0, 5, 46)
---hsl(214, 9, 36)
---hsl(240, 14, 26)
---
----- ink
---hsl(292, 6, 24)
---
----- hollow
---hsl(72, 38,97)
---
----- paperback-2
---hsl(126, 8, 74) -- amazing color
---
----- 1bit monitor glow
---hsl(180, 1, 14)
---hsl(120, 25, 95)
---
----- robots are people too
---hsl(264, 11, 27)
---
---hsl(199, 41, 76)
---
----- cretatceous
---hsl(140, 3, 20)
---hsl(180, 4, 28)
---hsl(47, 14, 69)
---hsl(45, 19, 63)
---hsl(45, 8, 62)
---hsl(22, 9, 43)
---
----- triton 16
--- hsl(335, 14, 83)
---
-----
---hsl(313, 8, 30)
---
----- keeby
---hsl(81, 16, 76)
---hsl(170, 8, 57)
---hsl(208, 10, 40)
---hsl(240, 13, 23)
-
----- poison
---hsl(240, 1, 16)
---hsl(202, 5, 28)
---hsl(176, 42, 32)
---hsl(142, 24, 46)
---hsl(104, 28, 56)
---
-p.abyss = hsl(240, 1, 16)
-p.coal = hsl(202, 5, 28)
-p.raven = hsl(207, 5, 31)
-p.ash = hsl(202, 3, 50) -- don't like this one
-p.chalk = hsl(120, 10, 85) 
---hsl(142, 24, 46)
---hsl(104, 28, 56)
---p.pure = hsl(104, 32, 73) -- pure 56
-p.pure = hsl(104, 28, 76) -- pure 56
---p.pure = hsl(124, 32, 73) -- pure 56
---p.yellow = hsl(176, 47, 73)
-
--- triton 16
---hsl(285, 16, 74)
---hsl(282, 11, 57)
---hsl(209, 27, 66)
---
 p.red = hsl(285, 16, 74)
---p.yellow = hsl(282, 11, 57)
 p.yellow = hsl(209, 29, 72)
-
-----platinum
---hsl(150, 34, 91)
---hsl(140, 16, 70)
---hsl(156, 20, 39)
---
---p.pure = hsl(140, 22, 73)
---p.pure = hsl(140, 32, 73)
 
 
 local theme = lush(function()

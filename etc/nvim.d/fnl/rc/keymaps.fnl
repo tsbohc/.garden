@@ -1,7 +1,6 @@
-(require-macros :zest.ki-macros)
-(require-macros :zest.no-macros)
+(require-macros :zest.macros)
 
-(mapleader- " ")
+(lead- " ")
 
 ; ------------------------------------
 ; -- land of opinionated navigation --
@@ -45,7 +44,10 @@
 (li- [x] <leader>r ":s///g<left><left>")   ; same but in current v-selection
 
 ; search for selected text
-;(k.x * (do (z.norm "gvy") (z.exec (.. "/" (z.eval "@\""))) (z.norm "<c-o>")))
+(ki- [x] :* (fn []
+  (norm- "gvy")
+  (exec- (.. "/" (eval- "@\"")))
+  (norm- "<c-o>")))
 
 ; undo-redo
 (li- [n] U <c-r>)
@@ -64,18 +66,3 @@
 (li- [nvo] J F)
 (li- [nvo] f e)
 (li- [nvo] F E)
-
-;```
-;(each [_ k (ipairs [:h :j :k :l])]
-;  (ki- [n] (.. "<c-" k ">") (.. "<c-w>" k)))
-
-;(no- dd)
-
-;(li- [nvo] U o) ; - bind U to o
-;```
-
-;(ki- [n] "<C-M>" (fn [] (rint "woooo")))
-;(ki- [n] "<C-M>" (no- D))
-;(ki- [n] "<C-M>" (vim.api.nvim_command "norm! D"))
-
-;(li- [n] <C-M> ":echo 'hello'")
