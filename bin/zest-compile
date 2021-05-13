@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# $1 -- full path to file
+# $2 -- zenv
+
+relative_to="$2"
+output_parent="$HOME/.config/nvim/lua"
+
+source_relative="/"
+source_relative+="$(realpath --relative-to="$relative_to" "$1")"
+
+output_dir="$(dirname "$output_parent$source_relative")"
+output_name="$(basename "$output_parent$source_relative")"
+output_name="${output_name%.*}.lua"
+
+mkdir -p "$output_dir"
+fennel --add-fennel-path "/home/sean/.local/share/nvim/site/pack/packer/start/zest/fnl/?.fnl" --compile "$1" > "$output_dir/$output_name"

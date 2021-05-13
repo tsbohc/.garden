@@ -1,6 +1,9 @@
 (module init
   {require {z zest.lib}})
 
+(local lush (require :lush))
+(print lush)
+
 (global _Z {})
 (tset _Z :fn {})
 (tset _Z :sl {})

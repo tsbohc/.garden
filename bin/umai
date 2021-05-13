@@ -13,15 +13,25 @@ package.preload["sandbox"] = package.preload["sandbox"] or function(...)
   end
   return sandbox
 end
+package.preload["expose"] = package.preload["expose"] or function(...)
+  local expose = {}
+  expose["state"] = {}
+  expose.set = function(k, v)
+    expose.state[k] = v
+    return nil
+  end
+  return expose
+end
 package.preload["fetch"] = package.preload["fetch"] or function(...)
   local core = require("core")
   local fs = require("fs")
+  local expose = require("expose")
   local fetch = {}
   fetch["from-env"] = function(s)
     return os.getenv(("UMAI_" .. s))
   end
   local function _varset_list()
-    local path = fetch["from-env"]("VAR")
+    local path = fetch["from-env"]("VARSETS_DIR")
     local file = assert(io.popen(("find " .. path .. " -type f"), "r"))
     local function close_handlers_0_(ok_0_, ...)
       file:close()
@@ -44,8 +54,9 @@ package.preload["fetch"] = package.preload["fetch"] or function(...)
     end
     return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
   end
+  local varset_list = core.memoize(_varset_list)
   local function _varset_load(name)
-    local path = fetch["from-env"]("VAR")
+    local path = fetch["from-env"]("VARSETS_DIR")
     local file = assert(io.open((path .. "/" .. name), "r"))
     local function close_handlers_0_(ok_0_, ...)
       file:close()
@@ -69,9 +80,11 @@ package.preload["fetch"] = package.preload["fetch"] or function(...)
     end
     return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
   end
-  local varset_list = core.memoize(_varset_list)
   local varset_load = core.memoize(_varset_load)
-  fetch["from-var"] = function(s)
+  fetch["from-expose"] = function(s)
+    return core["get-dp"](expose.state, s)
+  end
+  fetch["from-varset"] = function(s)
     local name = s:match("(%w+)%.")
     local path = s:match("%.([%w.]+)")
     if (nil ~= name) then
@@ -83,7 +96,7 @@ package.preload["fetch"] = package.preload["fetch"] or function(...)
     end
   end
   fetch.fetch = function(s)
-    local v = (fetch["from-env"](s) or fetch["from-var"](s))
+    local v = (fetch["from-expose"](s) or fetch["from-env"](s) or fetch["from-varset"](s))
     if core["nil?"](v) then
       return error(("value of token '" .. s .. "' could not be found."))
     else
@@ -102,51 +115,56 @@ package.preload["render"] = package.preload["render"] or function(...)
   local lexis = require("lexis")
   local sandbox = require("sandbox")
   local render = {}
-  local function inject_3f(s)
-    if s:find(lexis["token-re"]) then
-      return true
-    else
-      return false
-    end
-  end
   local function inject_single(s)
-    local key = s:match(lexis["token-re"])
+    local key = s:match(lexis["expression-re"])
     local val = fetch(key)
-    local _0_0 = s:gsub(lexis["token-esc"](key), val)
-    return _0_0
+    local l = (lexis["e-l"]):escape()
+    local r = (lexis["e-r"]):escape()
+    return s:gsub((l .. key .. r), val)
   end
-  render.inject = function(s)
-    if inject_3f(s) then
-      return render.inject(inject_single(s))
+  local function inject(s)
+    if s:find(lexis["expression-re"]) then
+      return inject(inject_single(s))
     else
       return s
     end
   end
-  render.evaluate = function(s)
-    local f = nil
-    local function _0_()
-      if not s:find("return ") then
-        return ("return " .. s)
-      else
-        return s
+  local function evaluate(s)
+    if ("Lua 5.1" == _VERSION) then
+      local f = nil
+      local function _0_()
+        if not s:find("return ") then
+          return ("return " .. s)
+        else
+          return s
+        end
       end
+      f = loadstring(_0_())
+      setfenv(f, sandbox)
+      return f()
+    else
+      local f = nil
+      local function _0_()
+        if not s:find("return ") then
+          return ("return " .. s)
+        else
+          return s
+        end
+      end
+      f = load(_0_())
+      core.setfenv(f, sandbox)
+      return f()
     end
-    f = load(_0_())
-    core.setfenv(f, sandbox)
-    return f()
   end
-  local function render_single(s)
-    local hs = (s:sub(1, 3) .. s:sub(-3))
-    local cs = s:sub(4, -4)
-    local _0_0 = hs
-    if (_0_0 == lexis.statement) then
-      if cs:find(lexis["expression-re"]) then
-        return render.inject(cs)
+  render.single = function(s)
+    if s:find(lexis["statement-re"]) then
+      local cs = s:sub(((lexis["s-l"]):len() + 1), (-1 * ((lexis["s-r"]):len() + 1)))
+      if s:find(lexis["expression-re"]) then
+        return inject(cs)
       else
-        return render.evaluate(cs)
+        return evaluate(cs)
       end
     else
-      local _ = _0_0
       return s
     end
   end
@@ -154,7 +172,7 @@ package.preload["render"] = package.preload["render"] or function(...)
     local data = {}
     local meta = {}
     for _, s in ipairs(xs) do
-      local d, m = render_single(s)
+      local d, m = render.single(s)
       table.insert(data, d)
       core["merge!"](meta, m)
     end
@@ -167,11 +185,9 @@ package.preload["render"] = package.preload["render"] or function(...)
   return render
 end
 package.preload["lexis"] = package.preload["lexis"] or function(...)
-  local g = {["s-l"] = "{% ", ["s-r"] = " %}", ["t-l"] = "{", ["t-r"] = "}"}
-  local lexis = {["expression-re"] = ("(" .. (g["t-l"]):escape() .. "[%w._%-{}]+" .. (g["t-r"]):escape() .. ")"), ["statement-re"] = ("(" .. (g["s-l"]):escape() .. ".-" .. (g["s-r"]):escape() .. ")"), ["token-re"] = ((g["t-l"]):escape() .. "([%w._%-]+)" .. (g["t-r"]):escape()), expression = (g["t-l"] .. g["t-r"]), statement = (g["s-l"] .. g["s-r"])}
-  lexis["token-esc"] = function(s)
-    return ((g["t-l"]):escape() .. s .. (g["t-r"]):escape())
-  end
+  local lexis = {["e-l"] = "{", ["e-r"] = "}", ["s-l"] = "{% ", ["s-r"] = " %}"}
+  lexis["statement-re"] = ("(" .. (lexis["s-l"]):escape() .. ".-" .. (lexis["s-r"]):escape() .. ")")
+  lexis["expression-re"] = ((lexis["e-l"]):escape() .. "([%w._%-]+)" .. (lexis["e-r"]):escape())
   return lexis
 end
 package.preload["parse"] = package.preload["parse"] or function(...)
@@ -650,35 +666,13 @@ package.preload["lib.inspect"] = package.preload["lib.inspect"] or function(...)
   return inspect
 end
 package.preload["core"] = package.preload["core"] or function(...)
-  do
-    local function escape(s)
-      local _0_0 = nil
-      local function _1_(c)
-        return ("%" .. c)
-      end
-      _0_0 = s:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", _1_)
-      return _0_0
+  local function _0_(s)
+    local function _1_(c)
+      return ("%" .. c)
     end
-    local function fragmentate(s, pattern, xs)
-      local xs0 = (xs or {})
-      local from, to, token = s:find(pattern)
-      if token then
-        local raw = s:sub(1, (from - 1))
-        local s0 = s:sub((to + 1))
-        table.insert(xs0, raw)
-        table.insert(xs0, token)
-        return fragmentate(s0, pattern, xs0)
-      else
-        if (s ~= "") then
-          table.insert(xs0, s)
-        end
-        return xs0
-      end
-    end
-    local mt = getmetatable("")
-    mt["__index"]["escape"] = escape
-    mt["__index"]["fragmentate"] = fragmentate
+    return s:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", _1_)
   end
+  getmetatable("")["__index"]["escape"] = _0_
   local core = {}
   core["nil?"] = function(x)
     return (nil == x)
@@ -742,31 +736,31 @@ package.preload["core"] = package.preload["core"] or function(...)
   end
   core.map = function(f, xs)
     local result = {}
-    local function _0_(x)
+    local function _1_(x)
       local mapped = f(x)
-      local function _1_()
+      local function _2_()
         if (0 == select("#", mapped)) then
           return nil
         else
           return mapped
         end
       end
-      return table.insert(result, _1_())
+      return table.insert(result, _2_())
     end
-    core["run!"](_0_, xs)
+    core["run!"](_1_, xs)
     return result
   end
   core.reduce = function(f, init, xs)
     local result = init
-    local function _0_(x)
+    local function _1_(x)
       result = f(result, x)
       return nil
     end
-    core["run!"](_0_, xs)
+    core["run!"](_1_, xs)
     return result
   end
   core["merge!"] = function(base, ...)
-    local function _0_(acc, m)
+    local function _1_(acc, m)
       if m then
         for k, v in pairs(m) do
           acc[k] = v
@@ -774,7 +768,7 @@ package.preload["core"] = package.preload["core"] or function(...)
       end
       return acc
     end
-    return core.reduce(_0_, (base or {}), {...})
+    return core.reduce(_1_, (base or {}), {...})
   end
   core.merge = function(...)
     return core["merge!"]({}, ...)
@@ -794,12 +788,12 @@ package.preload["core"] = package.preload["core"] or function(...)
   end
   core["get-in"] = function(xt, ks, d)
     local res = nil
-    local function _0_(acc, k)
+    local function _1_(acc, k)
       if core["table?"](acc) then
         return core.get(acc, k)
       end
     end
-    res = core.reduce(_0_, xt, ks)
+    res = core.reduce(_1_, xt, ks)
     if core["nil?"](res) then
       return d
     else
@@ -871,10 +865,13 @@ package.preload["fs"] = package.preload["fs"] or function(...)
     return os.execute(("ln -sf " .. source .. " " .. target))
   end
   fs.basename = function(path)
-    return path:match(".*/(.-)$")
+    return path:match(".*[/\\](.-)$")
+  end
+  fs.dirname = function(path)
+    return path:match("(.*[/\\])")
   end
   fs.realpath = function(path)
-    local file = assert(io.popen(("realpath " .. path)))
+    local file = assert(io.popen(("realpath " .. path), "r"))
     local function close_handlers_0_(ok_0_, ...)
       file:close()
       if ok_0_ then
@@ -897,15 +894,28 @@ local core = require("core")
 local parse = require("parse")
 local render = require("render")
 local fetch = require("fetch")
+local expose = require("expose")
 local function pretty(...)
   return print(core.inspect(...))
 end
-local cache = (os.getenv("HOME") .. "/.config/umai/")
-if not fs["exists?"](cache) then
-  fs.mkdir(cache)
+local function make_21(rendered)
+  if core["has?"](rendered.meta, "target") then
+    local content = rendered.data
+    local target = rendered.meta.target
+    local cache = (os.getenv("HOME") .. "/.config/umai/" .. fs.basename(target))
+    fs.mkdir(fs.dirname(cache))
+    fs.write(cache, content)
+    return fs.link(cache, target)
+  else
+    return error("cannot install, no target is specified")
+  end
 end
-local function templates()
-  local file = assert(io.popen(("find " .. fetch["from-env"]("ENV") .. " -name '*.umai' -type f"), "r"))
+local function install_21(path)
+  print((":: " .. path))
+  return make_21(render(parse(fs.read(path))))
+end
+local function nvim_rtp()
+  local file = assert(io.popen("nvim --headless -c 'set runtimepath' -c 'q'", "r"))
   local function close_handlers_0_(ok_0_, ...)
     file:close()
     if ok_0_ then
@@ -914,37 +924,55 @@ local function templates()
       return error(..., 0)
     end
   end
-  local function _1_()
-    local xt = {}
-    for line in file:lines() do
-      table.insert(xt, line)
+  local function _0_()
+    local out = file:read("*a")
+    local _1_0 = out:gsub("\n", "")
+    return _1_0
+  end
+  return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+end
+local function get_lush_rtp()
+  local r = false
+  do
+    local rtp = ("," .. nvim_rtp() .. ",")
+    for e in rtp:gmatch("([^,]+)") do
+      if e:find("lush.nvim$") then
+        local e0 = e:gsub("~", os.getenv("HOME"))
+        local e1 = (e0 .. "/lua/?.lua")
+        r = e1
+      end
     end
-    return xt
   end
-  return close_handlers_0_(xpcall(_1_, (package.loaded.fennel or debug).traceback))
+  return r
 end
-local function make_21(rendered)
-  if core["has?"](rendered.meta, "target") then
-    local content = rendered.data
-    local path = (cache .. fs.basename(rendered.meta.target))
-    fs.write(path, content)
-    return fs.link(path, rendered.meta.target)
-  else
-    return error("cannot install, no target is specified")
+local function get_theme_rtp()
+  local r = false
+  do
+    local rtp = ("," .. nvim_rtp() .. ",")
+    for e in rtp:gmatch("([^,]+)") do
+      if e:find("limestone") then
+        local e0 = e:gsub("~", os.getenv("HOME"))
+        local e1 = (e0 .. "/lua/lush_theme/?.lua")
+        r = e1
+      end
+    end
   end
+  return r
 end
-local function install(path)
-  print(("installing: " .. path))
-  return make_21(render(parse(fs.read(fs.realpath(path)))))
+package.path = (package.path .. ";" .. get_lush_rtp())
+package.path = (package.path .. ";" .. get_theme_rtp())
+local limestone = require("limestone")
+local function get_colors_from_lush()
+  local r = {}
+  for k, v in pairs(limestone.X.lush) do
+    r[k] = (v.hex):gsub("#", "")
+  end
+  return r
 end
-local function install_all()
-  return core.map(install, templates())
-end
+expose.set("kohi", get_colors_from_lush())
 if (nil ~= arg[1]) then
   for _, a in ipairs(arg) do
-    install(a)
+    install_21(a)
   end
   return nil
-else
-  return install_all()
 end
