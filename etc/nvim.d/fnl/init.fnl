@@ -7,19 +7,14 @@
 
 (require-macros :zest.macros)
 
-; TODO: check if those are needed
 (g- python_host_prog :/usr/bin/python2)
 (g- python3_host_prog :/usr/bin/python3)
 
 (local packer (require :packer))
-
 (packer.startup (fn []
   (pa- wbthomason/packer.nvim)
 
-  (pa- /home/sean/code/zest
-       :zest (fn []
-         (g- :zest#env "/home/sean/.garden/etc/nvim.d/fnl")
-         (g- :zest#dev true)))
+  (pa- /home/sean/code/zest)
   (pa- /home/sean/code/limestone)
 
   (pa- neovim/nvim-lspconfig)
@@ -35,6 +30,7 @@
 
   (pa- rktjmp/lush.nvim)
 
+
   ;(pa- morhetz/gruvbox
   ;     :config (fn []
   ;       (g- gruvbox_bold 0)
@@ -46,6 +42,11 @@
          (g- vimtex_view_method "zathura")
          (g- vimtex_quickfix_mode 0)))
 
+  (pa- folke/which-key.nvim
+       :config (fn []
+         (let [c (require :which-key)]
+           (c.setup {}))))
+
   ; lisp
   (pa- bakpakin/fennel.vim :ft ["fennel"])
   (pa- guns/vim-sexp
@@ -55,10 +56,15 @@
   (pa- Yggdroot/indentLine
        :config (fn []
          (g- indentLine_setColors 0)
-         (g- indentLine_char "·")))
+         (g- indentLine_char "·")
+         (g- indentLine_fileTypeExclude ["markdown"])))
 
   (pa- tweekmonster/startuptime.vim)
 ))
 
 (require :rc.options)
 (require :rc.keymaps)
+
+(cm- SquishWhitespace (fn []
+  (exec- ":%s/\\(\\n\\n\\)\\n\\+/\\1/")
+  (exec- ":noh")))

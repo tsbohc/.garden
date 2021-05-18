@@ -1,4 +1,4 @@
-(require-macros :zest.ki-macros)
+(require-macros :zest.macros)
 (local compe (require :compe))
 
 (compe.setup

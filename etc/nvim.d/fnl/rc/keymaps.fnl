@@ -37,7 +37,7 @@
 ; ------------  --/-<@  --------------
 
 ; general
-(li- [n :silent] // ":noh<cr>")
+(li- [nv :silent] // ":noh<cr>")
 (li- [n :silent] * *N) ; check if there's an entry above?
 
 (li- [n] <leader>r ":%s///g<left><left>")  ; replace searched text
@@ -47,7 +47,7 @@
 (ki- [x] :* (fn []
   (norm- "gvy")
   (exec- (.. "/" (eval- "@\"")))
-  (norm- "<c-o>")))
+  (norm- "N")))
 
 ; undo-redo
 (li- [n] U <c-r>)

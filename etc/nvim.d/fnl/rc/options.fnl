@@ -2,7 +2,7 @@
 
 ; colors
 (viml- "syntax enable")
-(colo- limestone)
+(colo- :limestone)
 
 ; rendering
 (se- encoding "utf-8")              ; self-explanatory
@@ -48,7 +48,7 @@
 
 ; spacing
 (se- tabstop 2)
-(se- shiftwidth 2)
+(se- shiftwidth 4)
 (se- softtabstop 2)
 (se- expandtab)
 ;(se- :noshiftround)                  ; round indent to multiples of shiftwidth

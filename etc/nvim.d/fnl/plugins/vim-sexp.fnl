@@ -1,4 +1,4 @@
-(require-macros :zest.g-macros)
+(require-macros :zest.macros)
 
 (g- sexp_filetypes "fennel")
 
