@@ -12,8 +12,8 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles l
 
 ```clojure
 ; options
-(se- scrolloff 10)                  ; cursor padding in window
-(se- nowrap)                        ; do not wrap long lines
+(se- scrolloff 10)
+(se- nowrap)
 
 ; smart v-line movement
 (ki- [nvo :expr] :e (fn [] (if (> vim.v.count 0) :k :gk)))

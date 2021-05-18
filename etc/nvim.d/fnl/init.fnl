@@ -30,7 +30,6 @@
 
   (pa- rktjmp/lush.nvim)
 
-
   ;(pa- morhetz/gruvbox
   ;     :config (fn []
   ;       (g- gruvbox_bold 0)
@@ -66,5 +65,7 @@
 (require :rc.keymaps)
 
 (cm- SquishWhitespace (fn []
-  (exec- ":%s/\\(\\n\\n\\)\\n\\+/\\1/")
+  (exec- ":%s/\\(\\n\\n\\)\\n\\+/\\1/e") ; e at the end supresses "pattern not found"
   (exec- ":noh")))
+
+(cm- [-nargs=1] Greet (fn [name] (print (.. "hello, " name "!"))) [<f-args>])
