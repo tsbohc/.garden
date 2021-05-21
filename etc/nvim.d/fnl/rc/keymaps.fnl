@@ -28,8 +28,7 @@
 
 ; consistency
 (li- [n] Y y$)
-
-; fixes
+(li- [n] U <c-r>)
 (li- [n] <c-j> J)
 
 ; ------------------------------------
@@ -44,15 +43,12 @@
 (li- [x] <leader>r ":s///g<left><left>")   ; same but in current v-selection
 
 ; search for selected text
-(ki- [x] :* (fn []
+(ki- [x] "*" (fn []
   (norm- "gvy")
   (exec- (.. "/" (eval- "@\"")))
   (norm- "N")))
 
-; undo-redo
-(li- [n] U <c-r>)
-
-; stay visual when indenting
+; stay in visual mode when indenting
 (li- [x] < <gv)
 (li- [x] > >gv)
 

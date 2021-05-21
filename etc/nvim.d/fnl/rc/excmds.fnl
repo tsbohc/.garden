@@ -1,0 +1,9 @@
+(require-macros :zest.macros)
+
+(cm- SquishWhitespace
+     (fn []
+       ; e at the end supresses "pattern not found"
+       (exec- ":%s/\\(\\n\\n\\)\\n\\+/\\1/e")
+       (exec- ":noh")))
+
+;(cm- [-nargs=1] Greet (fn [name] (print (.. "hello, " name "!"))) [<f-args>])

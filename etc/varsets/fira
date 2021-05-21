@@ -1,7 +1,7 @@
 ! vim: set ft=xdefaults:
 
-font:                   Fira Code Medium
-font_style:
+font_normal:            Fira Code Medium
+font_normal_style:
 
 font_bold:              Fira Code Semibold
 font_bold_style:

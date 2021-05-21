@@ -1,9 +1,50 @@
 #!/usr/bin/env lua
+package.preload["make"] = package.preload["make"] or function(...)
+  local fs = require("fs")
+  local core = require("core")
+  local function pretty(...)
+    return print(core.inspect(...))
+  end
+  local make = {}
+  local hook = {}
+  local cache_path = (os.getenv("HOME") .. "/.config/umai/")
+  fs.mkdir(cache_path)
+  local function cache(path, data)
+    local cache_target = (cache_path .. path:gsub("[~/]", "_"))
+    fs.write(cache_target, data)
+    return cache_target
+  end
+  hook.softlink = function(v, data)
+    return fs.link(cache(v, data), v)
+  end
+  hook.shell = function(v)
+    return os.execute(v)
+  end
+  make.make = function(rendered)
+    local data = rendered.data
+    local meta = rendered.meta
+    for _, m in ipairs(meta) do
+      local f = hook[m[1]]
+      local v = m[2]
+      if f then
+        f(v, data)
+      else
+        print(("err: hook '" .. m[1] .. "' is undefined"))
+      end
+    end
+    return nil
+  end
+  local function _0_(_, ...)
+    return make.make(...)
+  end
+  setmetatable(make, {__call = _0_})
+  return make
+end
 package.preload["sandbox"] = package.preload["sandbox"] or function(...)
   local fetch = require("fetch")
   local sandbox = {}
-  sandbox.target = function(s)
-    return "", {target = s}
+  local function meta(k, v)
+    return "", {k, v}
   end
   sandbox.get = function(s)
     return fetch(s)
@@ -11,26 +52,14 @@ package.preload["sandbox"] = package.preload["sandbox"] or function(...)
   sandbox.getenv = function(s)
     return os.getenv(s)
   end
-  return sandbox
-end
-package.preload["args"] = package.preload["args"] or function(...)
-  local args = {["FILES!"] = {}}
-  args.parse = function(xs)
-    local prev = ""
-    for i, val in ipairs(xs) do
-      if prev:find("%-%-%S+") then
-        args[prev:sub(3)] = val
-      else
-        if not val:find("%-%-%S+") then
-          table.insert(args["FILES!"], val)
-        end
-      end
-      prev = val
+  local function _0_(self, k, v)
+    local function _1_(v0)
+      return meta(k, v0)
     end
-    args["parse"] = nil
-    return nil
+    return _1_
   end
-  return args
+  setmetatable(sandbox, {__index = _0_})
+  return sandbox
 end
 package.preload["expose"] = package.preload["expose"] or function(...)
   local expose = {}
@@ -47,61 +76,70 @@ package.preload["fetch"] = package.preload["fetch"] or function(...)
   local expose = require("expose")
   local args = require("args")
   local fetch = {}
-  fetch["from-env"] = function(s)
-    return os.getenv(("UMAI_" .. s))
-  end
   fetch["from-arg"] = function(s)
-    return args[s]
+    return args.vars[s]
   end
   local function _varset_list()
-    local path = (fetch["from-arg"]("VARSETS!") or fetch["from-env"]("VARSETS!"))
-    local file = assert(io.popen(("find " .. path .. " -type f"), "r"))
-    local function close_handlers_0_(ok_0_, ...)
-      file:close()
-      if ok_0_ then
-        return ...
-      else
-        return error(..., 0)
-      end
-    end
-    local function _0_()
-      local xs = {}
-      for line in file:lines() do
-        local function _2_()
-          local _1_0 = line:gsub((path .. "/"), "")
-          return _1_0
+    local path = args.varsets
+    if path then
+      local file = assert(io.popen(("find " .. path .. " -type f"), "r"))
+      local function close_handlers_0_(ok_0_, ...)
+        file:close()
+        if ok_0_ then
+          return ...
+        else
+          return error(..., 0)
         end
-        table.insert(xs, _2_())
       end
-      return xs
+      local function _0_()
+        local xs = {}
+        for line in file:lines() do
+          local function _2_()
+            local _1_0 = line:gsub((path .. "/"), "")
+            return _1_0
+          end
+          table.insert(xs, _2_())
+        end
+        return xs
+      end
+      return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
     end
-    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
   end
   local varset_list = core.memoize(_varset_list)
   local function _varset_load(name)
-    local path = fetch["from-env"]("VARSETS_DIR")
-    local file = assert(io.open((path .. "/" .. name), "r"))
-    local function close_handlers_0_(ok_0_, ...)
-      file:close()
-      if ok_0_ then
-        return ...
-      else
-        return error(..., 0)
-      end
+    local path = args.varsets
+    local path0 = nil
+    if ("/" == path:sub(-1)) then
+      path0 = path:sub(1, -1)
+    else
+      path0 = path
     end
-    local function _0_()
-      local comment_re = "%s*!"
-      local keyval_re = "(%w+):%s*(%w+)"
-      local xt = {}
-      for line in file:lines() do
-        if not (line:match(comment_re) or (line == "")) then
-          local key, val = line:match(keyval_re)
-          xt[key] = val
+    if path0 then
+      local file = assert(io.open((path0 .. "/" .. name), "r"))
+      local function close_handlers_0_(ok_0_, ...)
+        file:close()
+        if ok_0_ then
+          return ...
+        else
+          return error(..., 0)
         end
       end
-      return xt
+      local function _1_()
+        local comment_re = "!"
+        local key_re = "(.+):"
+        local val_re = ":%s*(.+)"
+        local xt = {}
+        for line in file:lines() do
+          if not (line:match(comment_re) or (line == "")) then
+            local key = line:match(key_re)
+            local val = (line:match(val_re) or "")
+            xt[key] = val
+          end
+        end
+        return xt
+      end
+      return close_handlers_0_(xpcall(_1_, (package.loaded.fennel or debug).traceback))
     end
-    return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
   end
   local varset_load = core.memoize(_varset_load)
   fetch["from-expose"] = function(s)
@@ -109,17 +147,13 @@ package.preload["fetch"] = package.preload["fetch"] or function(...)
   end
   fetch["from-varset"] = function(s)
     local name = s:match("(%w+)%.")
-    local path = s:match("%.([%w.]+)")
+    local path = s:match("%.([%S.]+)")
     if (nil ~= name) then
-      if core["has?"](varset_list(), name) then
-        return core["get-dp"](varset_load(name), path)
-      else
-        return error(("varset '" .. name .. "' doesn't exist"))
-      end
+      return core["get-dp"](varset_load(name), path)
     end
   end
   fetch.fetch = function(s)
-    local v = (fetch["from-arg"](s) or fetch["from-env"](s) or fetch["from-expose"](s) or fetch["from-varset"](s))
+    local v = (fetch["from-arg"](s) or fetch["from-expose"](s) or fetch["from-varset"](s))
     if core["nil?"](v) then
       return error(("value of token '" .. s .. "' could not be found."))
     else
@@ -153,17 +187,31 @@ package.preload["render"] = package.preload["render"] or function(...)
     end
   end
   local function evaluate(s)
-    local f = nil
-    local function _0_()
-      if not s:find("return ") then
-        return ("return " .. s)
-      else
-        return s
+    if ("Lua 5.1" == _VERSION) then
+      local f = nil
+      local function _0_()
+        if not s:find("return ") then
+          return ("return " .. s)
+        else
+          return s
+        end
       end
+      f = loadstring(_0_())
+      setfenv(f, sandbox)
+      return f()
+    else
+      local f = nil
+      local function _0_()
+        if not s:find("return ") then
+          return ("return " .. s)
+        else
+          return s
+        end
+      end
+      f = load(_0_())
+      core.setfenv(f, sandbox)
+      return f()
     end
-    f = load(_0_())
-    core.setfenv(f, sandbox)
-    return f()
   end
   render.single = function(s)
     if s:find(lexis["statement-re"]) then
@@ -183,7 +231,7 @@ package.preload["render"] = package.preload["render"] or function(...)
     for _, s in ipairs(xs) do
       local d, m = render.single(s)
       table.insert(data, d)
-      core["merge!"](meta, m)
+      table.insert(meta, m)
     end
     return {data = table.concat(data), meta = meta}
   end
@@ -198,36 +246,6 @@ package.preload["lexis"] = package.preload["lexis"] or function(...)
   lexis["statement-re"] = ("(" .. (lexis["s-l"]):escape() .. ".-" .. (lexis["s-r"]):escape() .. ")")
   lexis["expression-re"] = ((lexis["e-l"]):escape() .. "([%w._%-]+)" .. (lexis["e-r"]):escape())
   return lexis
-end
-package.preload["parse"] = package.preload["parse"] or function(...)
-  local core = require("core")
-  local lexis = require("lexis")
-  local parse = {}
-  parse.parse = function(s)
-    local s0 = s
-    local done_3f = false
-    local xs = {}
-    while not done_3f do
-      local x, y = s0:find(lexis["statement-re"])
-      if (nil ~= x) then
-        table.insert(xs, s0:sub(1, (x - 1)))
-        table.insert(xs, s0:sub(x, y))
-        s0 = s0:sub((y + 1))
-      end
-      if (nil == x) then
-        done_3f = true
-      end
-    end
-    if (core.count(s0) > 0) then
-      table.insert(xs, s0)
-    end
-    return xs
-  end
-  local function _0_(_, ...)
-    return parse.parse(...)
-  end
-  setmetatable(parse, {__call = _0_})
-  return parse
 end
 package.preload["lib.setfenv"] = package.preload["lib.setfenv"] or function(...)
   local function setfenv(fn, env)
@@ -732,6 +750,9 @@ package.preload["core"] = package.preload["core"] or function(...)
       return #xs
     end
   end
+  core["empty?"] = function(xs)
+    return (0 == core.count(xs))
+  end
   core["run!"] = function(f, xs)
     if xs then
       local nxs = core.count(xs)
@@ -821,7 +842,36 @@ package.preload["core"] = package.preload["core"] or function(...)
   core.setfenv = require("lib.setfenv")
   return core
 end
-local fs = nil
+package.preload["parse"] = package.preload["parse"] or function(...)
+  local core = require("core")
+  local lexis = require("lexis")
+  local parse = {}
+  parse.parse = function(s)
+    local s0 = s
+    local done_3f = false
+    local xs = {}
+    while not done_3f do
+      local x, y = s0:find(lexis["statement-re"])
+      if (nil ~= x) then
+        table.insert(xs, s0:sub(1, (x - 1)))
+        table.insert(xs, s0:sub(x, y))
+        s0 = s0:sub((y + 1))
+      end
+      if (nil == x) then
+        done_3f = true
+      end
+    end
+    if (core.count(s0) > 0) then
+      table.insert(xs, s0)
+    end
+    return xs
+  end
+  local function _0_(_, ...)
+    return parse.parse(...)
+  end
+  setmetatable(parse, {__call = _0_})
+  return parse
+end
 package.preload["fs"] = package.preload["fs"] or function(...)
   local fs = {}
   fs.read = function(path)
@@ -898,35 +948,109 @@ package.preload["fs"] = package.preload["fs"] or function(...)
   end
   return fs
 end
-fs = require("fs")
-local core = require("core")
+local args = nil
+package.preload["args"] = package.preload["args"] or function(...)
+  local args = {files = {}, vars = {}, varsets = ""}
+  local usage = "umai - .files management and templating\n\nusage:\n  umai [--varsets <path>] [-key val ...] - <template> ..."
+  args.parse = function(xs)
+    if (("--help" == xs[1]) or ("-h" == xs[1])) then
+      print(usage)
+      os.exit()
+    end
+    local key = ""
+    local files_3f = false
+    for _, val in ipairs(xs) do
+      if not files_3f then
+        if (key == "--varsets") then
+          args["varsets"] = val
+        elseif key:find("%-%S+") then
+          args.vars[key:sub(2)] = val
+        elseif (key == "-") then
+          files_3f = true
+          table.insert(args.files, val)
+        end
+      else
+        table.insert(args.files, val)
+      end
+      key = val
+    end
+    args["parse"] = nil
+    return nil
+  end
+  return args
+end
+args = require("args")
+local fs = require("fs")
 local parse = require("parse")
 local render = require("render")
-local fetch = require("fetch")
+local make = require("make")
+local core = require("core")
 local expose = require("expose")
-local args = require("args")
+local fetch = require("fetch")
 local function pretty(...)
   return print(core.inspect(...))
 end
-local function make_21(rendered)
-  if core["has?"](rendered.meta, "target") then
-    local content = rendered.data
-    local target = rendered.meta.target
-    local cache = (os.getenv("HOME") .. "/.config/umai/" .. fs.basename(target))
-    fs.mkdir(fs.dirname(cache))
-    fs.write(cache, content)
-    return fs.link(cache, target)
-  else
-    return error("cannot install, no target is specified")
-  end
-end
 local function install_21(path)
-  print((":: " .. path))
-  return make_21(render(parse(fs.read(path))))
+  return make(render(parse(fs.read(path))))
 end
+local function nvim_rtp()
+  local file = assert(io.popen("nvim --headless -c 'set runtimepath' -c 'q'", "r"))
+  local function close_handlers_0_(ok_0_, ...)
+    file:close()
+    if ok_0_ then
+      return ...
+    else
+      return error(..., 0)
+    end
+  end
+  local function _0_()
+    local out = file:read("*a")
+    local _1_0 = out:gsub("\n", "")
+    return _1_0
+  end
+  return close_handlers_0_(xpcall(_0_, (package.loaded.fennel or debug).traceback))
+end
+local function get_lush_rtp()
+  local r = false
+  do
+    local rtp = ("," .. nvim_rtp() .. ",")
+    for e in rtp:gmatch("([^,]+)") do
+      if e:find("lush.nvim$") then
+        local e0 = e:gsub("~", os.getenv("HOME"))
+        local e1 = (e0 .. "/lua/?.lua")
+        r = e1
+      end
+    end
+  end
+  return r
+end
+local function get_theme_rtp()
+  local r = false
+  do
+    local rtp = ("," .. nvim_rtp() .. ",")
+    for e in rtp:gmatch("([^,]+)") do
+      if e:find("limestone") then
+        local e0 = e:gsub("~", os.getenv("HOME"))
+        local e1 = (e0 .. "/lua/lush_theme/?.lua")
+        r = e1
+      end
+    end
+  end
+  return r
+end
+package.path = (package.path .. ";" .. get_lush_rtp())
+package.path = (package.path .. ";" .. get_theme_rtp())
+local limestone = require("limestone")
+local function get_colors_from_lush()
+  local r = {}
+  for k, v in pairs(limestone.X.lush) do
+    r[k] = (v.hex):gsub("#", "")
+  end
+  return r
+end
+expose.set("limestone", get_colors_from_lush())
 args.parse({...})
-pretty(args)
-for _, v in ipairs(args["FILES!"]) do
-  print(v)
+for _, v in ipairs(args.files) do
+  install_21(v)
 end
 return nil

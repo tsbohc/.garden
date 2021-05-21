@@ -1,5 +1,5 @@
-font:                   JetBrains Mono
-font_style:             Medium
+font_normal:            JetBrains Mono
+font_normal_style:      Medium
 
 font_bold:              JetBrains Mono
 font_bold_style:        Bold
