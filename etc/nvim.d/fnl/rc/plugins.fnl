@@ -7,6 +7,8 @@
   (pa- /home/sean/code/zest)
   (pa- /home/sean/code/limestone)
 
+  ;(pa- tpope/vim-surround)
+
   (pa- neovim/nvim-lspconfig)
   (pa- nvim-treesitter/nvim-treesitter
        :run ":TSUpdate"
