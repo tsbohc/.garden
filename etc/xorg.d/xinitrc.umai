@@ -1,13 +1,15 @@
 #!/bin/sh
 
+{% softlink "~/.xinitrc" %}
+
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
 
 [[ -f $sysresources ]] && xrdb -merge $sysresources
-[[ -f "$userresources" ]] && xrdb -merge "$userresources"
 [[ -f $sysmodmap ]] && xmodmap $sysmodmap
+[[ -f "$userresources" ]] && xrdb -merge "$userresources"
 [[ -f "$usermodmap" ]] && xmodmap "$usermodmap"
 
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
@@ -21,10 +23,10 @@ fi
 #[[ -f ~/.bash_profile ]] && . ~/.bash_profile
 
 # path
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-[ -d "$HOME/etc/polybar.d/modules" ] && PATH="$HOME/etc/polybar.d/modules:$PATH"
-[ -d "$HOME/etc/bspwm.d/modules" ] && PATH="$HOME/etc/bspwm.d/modules:$PATH"
+#[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+#[ -d "$HOME/etc/polybar.d/modules" ] && PATH="$HOME/etc/polybar.d/modules:$PATH"
+#[ -d "$HOME/etc/bspwm.d/modules" ] && PATH="$HOME/etc/bspwm.d/modules:$PATH"
 
-feh --no-fehbg --bg-fill ~/.wallpaper
-xsetroot -cursor_name left_ptr # cursor-fix
-exec bspwm # launch wm
+#feh --no-fehbg --bg-fill ~/.wallpaper
+#xsetroot -cursor_name left_ptr
+exec bspwm
