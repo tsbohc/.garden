@@ -32,6 +32,15 @@ augroup testgroup
   "autocmd BufRead *.fnl :syntax keyword TSString arst
 augroup END
 
+"augroup zest
+"    autocmd!
+"    autocmd BufReadPost * :echo "wooo"
+"augroup END
+"
+"augroup zest
+"    autocmd BufReadPost * :echo "waaah"
+"augroup END
+
 "hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
 "hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
 "hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline

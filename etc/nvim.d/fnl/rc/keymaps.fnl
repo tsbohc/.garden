@@ -2,6 +2,14 @@
 
 (lead- " ")
 
+; TODO
+; ds] should select "a]", strip [] and replace selection
+; :h text-objects, just shove them into the config dict
+
+; TODO
+; (un)comment plugin
+; i'm mostly commenting out paragraphs so, <leader>cp
+
 ; wrap all lines vs wrap each line?
 ; limestone italic selected in completion menu?
 
@@ -40,10 +48,11 @@
       _ (.. c s c))))
 
 (def-pseudo-operator "s" surround
-  {:w  "iw"
-   :W  "iW"
+  {"w" "iw"
+   "W" "iW"
    "(" "i)"
    ")" "a)"})
+
 
 ; don't like to lose control over what keybinding means, like 'sw' should be same as 'siw', sexp-style
 ;(ki- [n :silent] :s ":set operatorfunc=v:lua.surround<cr>g@")
@@ -107,8 +116,11 @@
 (fn smart-line-move [d]
   (if (> vim.v.count 0) d (.. "g" d)))
 
-(ki- [nvo :expr] :e (partial smart-line-move :k))
-(ki- [nvo :expr] :n (partial smart-line-move :j))
+(ki- [nv :expr] :e (partial smart-line-move :k))
+(ki- [nv :expr] :n (partial smart-line-move :j))
+
+(li- [o] e k)
+(li- [o] n j)
 
 ; vertical
 (li- [n] N <c-d>)
