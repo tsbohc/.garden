@@ -11,12 +11,6 @@
    "{" {:k "c" :d {"{" "}"} :v -1}
    "}" {:k "c" :d {"{" "}"} :v  1}})
 
-; search should return a table with symbol it found and its position
-
-; (parsearch {"(" ")" "[" "]" "{" "}"} -1 :b)
-
-; form-specific
-
 (fn re [xt only-open?]
   "convert 'xt' of parens to a very non-magic re"
   (let [acc []]

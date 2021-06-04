@@ -37,17 +37,18 @@
         :outer
         ; on the same line, select until the next non-whitespace character
         ; or previous, if we're at the end of a line or there's no whitespace to the right
-        (let [line-len (vim.fn.strwidth (vim.fn.getline "."))
-              at-end? (or (= (. y 3) line-len) (not= (M.char 1) " "))]
+        (do
           (M.set-cu y)
-          (when (and (not at-end?)
-                     (not= 0 (vim.fn.search "\\S" "zW" (vim.fn.line "."))))
-            (norm- "h"))
-          (norm- "v")
-          (M.set-cu x)
-          (when (and at-end?
-                     (not= 0 (vim.fn.search "\\S" "bW" (vim.fn.line "."))))
-            (norm- "l")))
+          (let [line-len (vim.fn.strwidth (vim.fn.getline "."))
+                at-end? (or (= (. y 3) line-len) (not= (M.char 1) " "))]
+            (when (and (not at-end?)
+                       (not= 0 (vim.fn.search "\\S" "zW" (vim.fn.line "."))))
+              (norm- "h"))
+            (norm- "v")
+            (M.set-cu x)
+            (when (and at-end?
+                       (not= 0 (vim.fn.search "\\S" "bW" (vim.fn.line "."))))
+              (norm- "l"))))
         _
         (do
           (M.set-cu y)
