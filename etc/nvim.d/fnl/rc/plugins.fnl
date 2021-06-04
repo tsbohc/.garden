@@ -7,6 +7,8 @@
   (pa- /home/sean/code/zest)
   (pa- /home/sean/code/limestone)
 
+  ;(pa- wellle/targets.vim)
+
   ;(pa- tpope/vim-surround)
 
   (pa- neovim/nvim-lspconfig)

@@ -3,8 +3,8 @@
 (g- sexp_filetypes "fennel")
 
 (g- sexp_mappings
-    {:sexp_outer_list                "af"
-     :sexp_inner_list                "mf"
+    {:sexp_outer_list                ""
+     :sexp_inner_list                ""
      :sexp_outer_top_list            "aF"
      :sexp_inner_top_list            "mF"
      :sexp_outer_string              "as"

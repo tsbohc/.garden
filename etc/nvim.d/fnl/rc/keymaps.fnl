@@ -166,8 +166,8 @@
 (li- [x] > >gv)
 
 ; colemak
-(li- [nvo] i l)
-(li- [nvo] l i)
+(li- [nv] i l)
+(li- [nv] l i)
 (li- [nvo] L I)
 (li- [nvo] k n)
 (li- [nvo] K N)
