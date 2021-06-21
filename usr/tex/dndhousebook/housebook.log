@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  21 JUN 2021 06:58
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  21 JUN 2021 19:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -23,7 +23,7 @@ File: bk11.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-) (/usr/share/texmf-dist/tex/latex/fontspec/fontspec.sty (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+) (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.sty (/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
 Package: expl3 2021-02-18 L3 programming layer (loader) 
  (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2021-03-18 L3 backend support: XeTeX
@@ -36,7 +36,11 @@ File: l3backend-xetex.def 2021-03-18 L3 backend support: XeTeX
 \g__pdf_backend_object_int=\count188
 \g__pdf_backend_annotation_int=\count189
 \g__pdf_backend_link_int=\count190
-)) (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-2020-10-01.sty (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex)))
+)) (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-2020-10-01.sty (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex)))
+Package: lipsum 2021-03-03 v2.3 150 paragraphs of Lorem Ipsum dummy text
+ (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
+File: lipsum.ltd.tex 2021-03-03 v2.3 The Lorem ipsum dummy text
+)) (/usr/share/texmf-dist/tex/latex/fontspec/fontspec.sty
 Package: fontspec 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTeX
  (/usr/share/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
 Package: fontspec-xetex 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTeX
@@ -538,96 +542,455 @@ Package graphics Info: Driver file: xetex.def on input line 105.
 Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
 \ESO@tempdima=\dimen174
 \ESO@tempdimb=\dimen175
-) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2020/10/09 version 4.42 text color boxes
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks24
+\pgfutil@tempdima=\dimen176
+\pgfutil@tempdimb=\dimen177
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box97
+)
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2020/12/27 v3.1.8b (3.1.8b)
+))
+Package: pgf 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks25
+\pgfkeys@temptoks=\toks26
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks27
+))
+\pgf@x=\dimen178
+\pgf@y=\dimen179
+\pgf@xa=\dimen180
+\pgf@ya=\dimen181
+\pgf@xb=\dimen182
+\pgf@yb=\dimen183
+\pgf@xc=\dimen184
+\pgf@yc=\dimen185
+\pgf@xd=\dimen186
+\pgf@yd=\dimen187
+\w@pgf@writea=\write3
+\r@pgf@reada=\read3
+\c@pgf@counta=\count286
+\c@pgf@countb=\count287
+\c@pgf@countc=\count288
+\c@pgf@countd=\count289
+\t@pgf@toka=\toks28
+\t@pgf@tokb=\toks29
+\t@pgf@tokc=\toks30
+\pgf@sys@id@count=\count290
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2020/12/27 v3.1.8b (3.1.8b)
+)
+Driver file for pgf: pgfsys-xetex.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+File: pgfsys-xetex.def 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+File: pgfsys-dvipdfmx.def 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2020/12/27 v3.1.8b (3.1.8b)
+)
+\pgfsys@objnum=\count291
+))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfsyssoftpath@smallbuffer@items=\count292
+\pgfsyssoftpath@bigbuffer@items=\count293
+) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+)) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen188
+\pgfmath@count=\count294
+\pgfmath@box=\box98
+\pgfmath@toks=\toks31
+\pgfmath@stack@operand=\toks32
+\pgfmath@stack@operation=\toks33
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count295
+))
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@picminx=\dimen189
+\pgf@picmaxx=\dimen190
+\pgf@picminy=\dimen191
+\pgf@picmaxy=\dimen192
+\pgf@pathminx=\dimen193
+\pgf@pathmaxx=\dimen194
+\pgf@pathminy=\dimen195
+\pgf@pathmaxy=\dimen196
+\pgf@xx=\dimen197
+\pgf@xy=\dimen198
+\pgf@yx=\dimen199
+\pgf@yy=\dimen256
+\pgf@zx=\dimen257
+\pgf@zy=\dimen258
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@path@lastx=\dimen259
+\pgf@path@lasty=\dimen260
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@shorten@end@additional=\dimen261
+\pgf@shorten@start@additional=\dimen262
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfpic=\box99
+\pgf@hbox=\box100
+\pgf@layerbox@main=\box101
+\pgf@picture@serial@count=\count296
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgflinewidth=\dimen263
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@pt@x=\dimen264
+\pgf@pt@y=\dimen265
+\pgf@pt@temp=\dimen266
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfarrowsep=\dimen267
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@max=\dimen268
+\pgf@sys@shading@range@num=\count297
+\pgf@shadingcount=\count298
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfexternal@startupbox=\box102
+)) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+))) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfnodeparttextbox=\box103
+) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@nodesepstart=\dimen269
+\pgf@nodesepend=\dimen270
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2020/12/27 v3.1.8b (3.1.8b)
+)) (/usr/share/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks34
+\verbatim@line=\toks35
+\verbatim@in@stream=\read4
+) (/usr/share/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+ (/usr/share/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+)
+\@envbody=\toks36
+) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count299
+)
+\tcb@titlebox=\box104
+\tcb@upperbox=\box105
+\tcb@lowerbox=\box106
+\tcb@phantombox=\box107
+\c@tcbbreakpart=\count300
+\c@tcblayer=\count301
+\c@tcolorbox@number=\count302
+\tcb@temp=\box108
+\tcb@temp=\box109
+\tcb@temp=\box110
+\tcb@temp=\box111
+\tcb@out=\write4
+\tcb@record@out=\write5
+ (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
+Library (tcolorbox): 'tcbraster.code.tex' version '4.42'
+\c@tcbrastercolumn=\count303
+\c@tcbrasterrow=\count304
+\c@tcbraster=\count305
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
+Library (tcolorbox): 'tcbskins.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen271
+\pgffor@skip=\dimen272
+\pgffor@stack=\toks37
+\pgffor@toks=\toks38
+)) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@plot@mark@count=\count306
+\pgfplotmarksize=\dimen273
+)
+\tikz@lastx=\dimen274
+\tikz@lasty=\dimen275
+\tikz@lastxsaved=\dimen276
+\tikz@lastysaved=\dimen277
+\tikz@lastmovetox=\dimen278
+\tikz@lastmovetoy=\dimen279
+\tikzleveldistance=\dimen280
+\tikzsiblingdistance=\dimen281
+\tikz@figbox=\box112
+\tikz@figbox@bg=\box113
+\tikz@tempbox=\box114
+\tikz@tempbox@bg=\box115
+\tikztreelevel=\count307
+\tikznumberofchildren=\count308
+\tikznumberofcurrentchild=\count309
+\tikz@fig@count=\count310
+ (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfmatrixcurrentrow=\count311
+\pgfmatrixcurrentcolumn=\count312
+\pgf@matrix@numberofcolumns=\count313
+)
+\tikz@expandcount=\count314
+ (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+)))
+\tcb@waterbox=\box116
+ (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
+Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '4.42'
+)) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/generic/oberdiek/pdfcol.sty
+Package: pdfcol 2019/12/29 v1.6 Handle new color stacks for pdfTeX (HO)
+ (/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdfcol Info: Interface disabled because of missing PDF mode of pdfTeX.
+)
+Package pdfcol Info: pdfTeX's color stacks are not available.
+\tcb@testbox=\box117
+\tcb@totalupperbox=\box118
+\tcb@totallowerbox=\box119
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
+Library (tcolorbox): 'tcbhooks.code.tex' version '4.42'
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
+Library (tcolorbox): 'tcbtheorems.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/09/23 v2.17i AMS math features
+\@mathmargin=\skip56
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks39
+\ex@=\dimen282
+)) (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen283
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count315
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count316
+\leftroot@=\count317
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count318
+\DOTSCASE@=\count319
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box120
+\strutbox@=\box121
+\big@size=\dimen284
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count320
+\c@MaxMatrixCols=\count321
+\dotsspace@=\muskip16
+\c@parentequation=\count322
+\dspbrk@lvl=\count323
+\tag@help=\toks40
+\row@=\count324
+\column@=\count325
+\maxfields@=\count326
+\andhelp@=\toks41
+\eqnshift@=\dimen285
+\alignsep@=\dimen286
+\tagshift@=\dimen287
+\tagwidth@=\dimen288
+\totwidth@=\dimen289
+\lineht@=\dimen290
+\@envbody=\toks42
+\multlinegap=\skip57
+\multlinetaggap=\skip58
+\mathdisplay@stack=\toks43
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+)) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
+Library (tcolorbox): 'tcbfitting.code.tex' version '4.42'
+\tcbfitdim=\dimen291
+\tcb@lowerfitdim=\dimen292
+\tcb@upperfitdim=\dimen293
+\tcb@cur@hbadness=\count327
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbxparse.code.tex
+Library (tcolorbox): 'tcbxparse.code.tex' version '4.42'
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
+Library (tcolorbox): 'tcblistingsutf8.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
+Library (tcolorbox): 'tcblistings.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count328
+\lst@gtempboxa=\box122
+\lst@token=\toks44
+\lst@length=\count329
+\lst@currlwidth=\dimen294
+\lst@column=\count330
+\lst@pos=\count331
+\lst@lostspace=\dimen295
+\lst@width=\dimen296
+\lst@newlines=\count332
+\lst@lineno=\count333
+\lst@maxwidth=\dimen297
+ (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count334
+\lst@skipnumbers=\count335
+\lst@framebox=\box123
+) (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+ (/usr/share/texmf-dist/tex/latex/tcolorbox/tcblistingscore.code.tex
+Library (tcolorbox): 'tcblistingscore.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/latex/tcolorbox/tcbprocessing.code.tex
+Library (tcolorbox): 'tcbprocessing.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+) (/usr/share/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+))
+\c@tcblisting=\count336
+))
+Package tcolorbox Info: Library `listingsutf8' is compatible with pdftex only. Library `listings` is loaded instead. on input line 29.
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
+Library (tcolorbox): 'tcbexternal.code.tex' version '4.42'
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
+Library (tcolorbox): 'tcbmagazine.code.tex' version '4.42'
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbvignette.code.tex
+Library (tcolorbox): 'tcbvignette.code.tex' version '4.42'
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfadings.code.tex
+File: tikzlibraryfadings.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
+File: pgflibraryfadings.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+))) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
+Library (tcolorbox): 'tcbposter.code.tex' version '4.42'
+)) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\enitkv@toks@=\toks24
-\labelindent=\skip56
-\enit@outerparindent=\dimen176
-\enit@toks=\toks25
-\enit@inbox=\box97
-\enit@count@id=\count286
-\enitdp@description=\count287
+\enitkv@toks@=\toks45
+\labelindent=\skip59
+\enit@outerparindent=\dimen298
+\enit@toks=\toks46
+\enit@inbox=\box124
+\enit@count@id=\count337
+\enitdp@description=\count338
 ) (./housebook.aux)
 \openout1 = `housebook.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 120.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
 
 Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 (fontspec)             this).
 
 \symlegacymaths=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 78.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 78.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 78.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 78.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 78.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 78.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 78.
-LaTeX Font Info:    Redeclaring math accent \check on input line 78.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 78.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 78.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \colon on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 78.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 78.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 78.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 120.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 120.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 120.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 120.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 120.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 120.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 120.
+LaTeX Font Info:    Redeclaring math accent \check on input line 120.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 120.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 120.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 120.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 120.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 120.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 78.
+(Font)              `operators' in the math version `normal' on input line 120.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/Alegreya(0)/m/n on input line 78.
+(Font)                  OT1/cmr/m/n --> TU/Alegreya(0)/m/n on input line 120.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 78.
+(Font)              `operators' in the math version `bold' on input line 120.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/m/n on input line 78.
+(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/m/n on input line 120.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/m/n on input line 78.
+(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/m/n on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/Alegreya(0)/m/it on input line 78.
+(Font)                  OT1/cmr/m/it --> TU/Alegreya(0)/m/it on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/b/n on input line 78.
+(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/b/n on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 78.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 78.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 120.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/b/n on input line 78.
+(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/b/n on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/Alegreya(0)/b/it on input line 78.
+(Font)                  OT1/cmr/bx/it --> TU/Alegreya(0)/b/it on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 78.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 120.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 78.
-LaTeX Info: Redefining \th on input line 78.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 120.
+LaTeX Info: Redefining \th on input line 120.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -663,19 +1026,46 @@ LaTeX Info: Redefining \th on input line 78.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+\c@lstlisting=\count339
 Глава 1.
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
-(Font)              scaled to size 20.74pt on input line 84.
+(Font)              scaled to size 20.74pt on input line 126.
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 20.74pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 20.74pt on input line 84.
+(Font)              scaled to size 20.74pt on input line 126.
 Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 20.74pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 20.74pt on input line 84.
+(Font)              scaled to size 20.74pt on input line 126.
 Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 20.74pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
+(Font)              scaled to size 10.95pt on input line 131.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+
+Underfull \hbox (badness 7576) in paragraph at lines 131--132
+ []\TU/Alegreya(0)/b/n/10.95 DM\TU/Alegreya(0)/m/n/10.95 : Замок старый и весь проржавел, тебе
+ []
+
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
+(Font)              scaled to size 12.0pt on input line 142.
+Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 142.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 12.0pt on input line 142.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 14.4pt on input line 156.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 14.4pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+Глава 2.
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 8.0pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 6.0pt
@@ -692,62 +1082,63 @@ Requested font "cmsy8" at 8.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
 Requested font "cmsy6" at 6.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+Requested font "cmex10" at 10.95pt
+ -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+Requested font "cmex8" at 8.0pt
+ -> /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+Requested font "cmex7" at 6.0pt
+ -> /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 Requested font "cmr10" at 10.95pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 Requested font "cmr8" at 8.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 Requested font "cmr6" at 6.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 131.
-Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 131.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 12.0pt on input line 131.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 14.4pt on input line 131.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 14.4pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
-[]\TU/Alegreya(0)/m/n/10.95 Переместиться на расстояние, в сумме не
- []
-
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/it' will be
-(Font)              scaled to size 10.95pt on input line 136.
-Requested font "[Alegreya-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-BoldItalic.otf
-
-Underfull \hbox (badness 10000) in paragraph at lines 136--137
-[]\TU/Alegreya(0)/m/n/10.95 Совершить одно \TU/Alegreya(0)/b/it/10.95 действие\TU/Alegreya(0)/m/n/10.95 . Движение можно
+Underfull \hbox (badness 10000) in paragraph at lines 238--238
+\TU/Alegreya(0)/m/n/10.95 quis, viverra ac, nunc. Praesent eget sem vel leo
  []
 
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/sl' in size <10.95> not available
-(Font)              Font shape `TU/Alegreya(0)/m/it' tried instead on input line 145.
+(Font)              Font shape `TU/Alegreya(0)/m/it' tried instead on input line 238.
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/it' will be
-(Font)              scaled to size 10.95pt on input line 145.
+(Font)              scaled to size 10.95pt on input line 238.
 Requested font "[Alegreya-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Italic.otf
 File: bg.png Graphic file (type bmp)
 <bg.png>
 [1
 
-] (./housebook.aux) ) 
-Here is how much of TeX's memory you used:
- 6736 strings out of 476919
- 153789 string characters out of 5827674
- 551576 words of memory out of 5000000
- 26629 multiletter control sequences out of 15000+600000
- 406433 words of font info for 69 fonts, out of 8000000 for 9000
- 1348 hyphenation exceptions out of 8191
- 81i,10n,124p,479b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
+]
+Underfull \hbox (badness 10000) in paragraph at lines 238--238
+[]\TU/Alegreya(0)/m/n/10.95 Nam dui ligula, fringilla a, euismod sodales,
+ []
 
-Output written on housebook.pdf (1 page).
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--238
+\TU/Alegreya(0)/m/n/10.95 ullamcorper vestibulum turpis. Pellentesque cursus
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 238--238
+\TU/Alegreya(0)/m/n/10.95 Vivamus viverra fermentum felis. Donec nonummy
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--238
+\TU/Alegreya(0)/m/n/10.95 Aliquam pellentesque, augue quis sagittis posuere,
+ []
+
+File: bg.png Graphic file (type bmp)
+<bg.png>
+[2] (./housebook.aux) ) 
+Here is how much of TeX's memory you used:
+ 23782 strings out of 476919
+ 535300 string characters out of 5827674
+ 1246176 words of memory out of 5000000
+ 43336 multiletter control sequences out of 15000+600000
+ 407099 words of font info for 71 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 101i,10n,124p,452b,979s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on housebook.pdf (2 pages).

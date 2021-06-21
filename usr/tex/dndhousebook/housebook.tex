@@ -1,4 +1,7 @@
 \documentclass[a4paper,11pt]{book}
+
+    \usepackage{lipsum}
+
     % fonts and languages
     \usepackage{fontspec}
     \usepackage[utf8]{inputenc}
@@ -13,16 +16,18 @@
     % indent first paragraph
     %\usepackage{indentfirst}
 
+
     % good tables
     \usepackage{tabularx}
 
-    \newcolumntype{R}{>{\centering\arraybackslash}X}
+    \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+    \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
     \newcolumntype{C}{>{\centering\arraybackslash}X}
 
     % alternate rows on tables
     \usepackage[table]{xcolor}
 
-    \definecolor{lightgray}{HTML}{e0e0e0}
+    \definecolor{lightgray}{HTML}{f5f5f5}
     \let\oldtabularx\tabularx
     \let\endoldtabularx\endtabularx
     \renewenvironment{tabularx}{
@@ -39,11 +44,48 @@
 \usepackage{eso-pic}
 
 
+
+    % boxed text
+    \usepackage[most]{tcolorbox}
+    \usepackage{tikz}
+
+    \newenvironment{Frame}{%
+        \begin{tcolorbox}[%
+            notitle, sharp corners, colback=white!98!black,
+            frame hidden,
+            borderline west = {0.1pt}{0pt}{black},
+            borderline east = {0.1pt}{0pt}{black},
+            %borderline north = {0.5pt}{0pt}{black!70!white},
+            %borderline south = {0.5pt}{0pt}{black!70!white},
+            boxrule=0.5pt, boxsep=0pt, enhanced,
+            %shadow={0pt}{0pt}{-2pt}{opacity=0.1,black}
+            fuzzy shadow={0pt}{0pt}{-1pt}{0.6pt}{opacity=0.04,white!70!black}
+        ]%
+        \setlength{\leftskip}{0.7em}
+        \setlength{\parindent}{-\leftskip}
+    }{%
+        \end{tcolorbox}
+    }
+
+    %\newenvironment{Frame}[1][]{%
+    %    \begin{mdframed}[%
+    %        linecolor=gray,
+    %        linewidth=0.5pt,
+    %        backgroundcolor=white,
+    %        topline=false,
+    %        bottomline=false,
+    %        shadow={3pt}{-3pt}{0pt}{opacity=1,black}
+    %    ]%
+    %}{%
+    %    \end{mdframed}
+    %}
+
+
     % wider rows in tables
     \renewcommand{\arraystretch}{1.2}
 
 \usepackage{enumitem}
-\setlist[itemize]{itemsep=-0.2em, topsep=1em, leftmargin=1em}
+\setlist[itemize]{itemsep=-0.2em, topsep=0em, leftmargin=1em}
 
 % titles
 \titlespacing*{\chapter}{0pt}{12pt plus 4pt minus 4pt}{8pt plus 1pt minus 1pt}
@@ -73,7 +115,7 @@
   {\large}          % before-code
 
 % remove hyphenation
-\hyphenpenalty=10000
+\hyphenpenalty=8000
 
 \begin{document}
 
@@ -81,7 +123,69 @@
 
 \begin{multicols}{2}
 
+\chapter{Ruleset}
+
+D\&D -- не видеоигра. Взаимодействие с миром здесь приближено к реальному. Например:
+
+\begin{Frame}
+\textbf{DM}: Замок старый и весь проржавел, тебе придется постараться.
+
+\textbf{TH}: А что если я использую масло от своей лампы?
+
+\textbf{DM}: Хорошая идеа! Можешь бросать с преимуществом.
+\end{Frame}
+
+%Используйте свое окружение, задавайте конкретизирующие воспросы и подходите к решению проблем со смекалкой.
+
+Многие обыденные предметы (особенно те, что у вас в рюкзаке) могут значительно повлиять на успех того или иного действия.
+
+\subsection{Combat}
+
+В бою, не думайте о мече как о наборе чисел который заставляет здоровье врагов уменьшаться.
+
+Выбирайте куда целиться, и какой удар нанести: режущий, колящий или вообще рукоятью:
+
+\begin{Frame}
+\textbf{WA}: Я перехватываю меч за лезвие и наношу удар крестовиной, целясь ему в голову... 20!
+
+\textbf{DM}: Ты попадаешь в его шлем и раздается звонкий гул. Оглушенный, он теряет равновесие и падает на колени.
+\end{Frame}
+
+Продуманные действия могут дать преимущество и способствуют более динамичному, интересному (и кровавому) бою!
+
+\section{Alignment}
+
+За моим столом, это способ объяснить свои действия, а не их характеризация. Плохие герои могут совершать хорошие поступки, пускай и из своих корыстных побуждений.
+
+Рассмотрим пример с Робин Гудом:
+
+\begin{itemize}
+    \item \textbf{good}
+    \begin{itemize}
+        \item \textbf{lawful}: Я верен истинному королю, поэтому помогаю его людям и противостою ложному королю.
+        \item \textbf{chaotic}: Я ворую золото у богатых и отдаю его бедным, потому что они более несчастны.
+    \end{itemize}
+    \item \textbf{evil}
+    \begin{itemize}
+        \item \textbf{lawful}: Я хочу отомстить нынешнему королю, и верен коду разбойников.
+        \item \textbf{chaotic}: Я отдаю золото бедным чтобы усугубить отношения между королем и людьми, что приведет к народному восстанию.
+    \end{itemize}
+\end{itemize}
+
+
+\section{Critical Damage}
+
 \chapter{Sensible Weather}
+
+Frankly, weather has been neglected in the official D\&D ruleset. This is an attempt to add some meaningful decision making, without making it too much of a hassle for the players.
+
+\begin{itemize}
+    \item \textbf{Precipitation}: if resting without cover, you must succeed constitution save (DC 12 or 16) to gain the benefits of a long rest.
+    \item \textbf{Snow}: advantage on tracking footprints.
+    \item \textbf{Rain}: disadvatage on checks related to climding or keeping balance.
+\end{itemize}
+
+\section{Weather Conditions}
 
 To determine the starting weather conditions, roll 1d8 with a -1 or -2 modifier in cold climate, or a +1 or +2 modifier in hot climate:
 
@@ -128,20 +232,9 @@ Then, roll 1d4 to determine wind speed, with its modifier:
 
 Whenever appropriate (e.g once a day), roll 1d8 on the weather change table to determine the next weather condition.
 
-\section{Weather Conditions}
-Etiam quis lacinia augue. Nulla porttitor lacus ut laoreet eleifend. Nam vitae odio nisi. Nam non magna in mi congue rutrum:
 
-\begin{itemize}
-  \item Переместиться на расстояние, в сумме не превышающее скорость.
-  \item Совершить одно \textbf{\textit{действие}}. Движение можно совершить до и/или после действия.
-  \item Совершить одно бонусное действие.
-  \item Взаимодействовать с одним объектом: открыть дверь, взять предмет со стола...
-  \item Произнести короткую фразу.
-\end{itemize}
-
-Quisque dapibus vulputate lectus, id euismod odio tristique at. Mauris sit amet accumsan metus. Sed feugiat elementum tempor. Morbi ultricies lacinia dui ac iaculis. Nullam eleifend odio nec felis aliquet feugiat. Cras nec pretium massa, nec bibendum elit. Morbi tincidunt est sit amet felis finibus, ut accumsan lacus fermentum. Praesent et est in metus interdum pharetra a in enim. Phasellus ac odio congue, faucibus sapien id, congue ex. Vivamus at enim metus.
-
-\pagebreak
+\bigskip
+\lipsum
 
 \end{multicols}
 \end{document}
