@@ -5,6 +5,7 @@
   (pa- wbthomason/packer.nvim)
 
   (pa- /home/sean/code/zest)
+  ;(pa- /home/sean/code/test)
   (pa- /home/sean/code/limestone)
 
   ;(pa- wellle/targets.vim)
@@ -34,8 +35,15 @@
   (pa- lervag/vimtex
        :config (fn []
          (g- tex_flavor "latex")
+         (g- vimtex_compiler_latexmk
+             {:executable "latexmk"
+              :options ["-xelatex"
+                        "-file-line-error"
+                        "-synctex=1"
+                        "-interaction=nonstopmode"]})
          (g- vimtex_view_method "zathura")
-         (g- vimtex_quickfix_mode 0)))
+         (g- vimtex_quickfix_mode 0)
+         (g- tex_conceal "")))
 
   (pa- folke/which-key.nvim
        :config (fn []

@@ -1,0 +1,147 @@
+\documentclass[a4paper,11pt]{book}
+    % fonts and languages
+    \usepackage{fontspec}
+    \usepackage[utf8]{inputenc}
+    \usepackage[russian]{babel}
+    \usepackage{Alegreya}
+    % general document formatting
+    \usepackage[margin=1.4cm]{geometry}
+    \usepackage{titlesec} % titles customization
+    % columns
+    \usepackage{multicol}
+    \setlength\columnsep{0.7cm}
+    % indent first paragraph
+    %\usepackage{indentfirst}
+
+    % good tables
+    \usepackage{tabularx}
+
+    \newcolumntype{R}{>{\centering\arraybackslash}X}
+    \newcolumntype{C}{>{\centering\arraybackslash}X}
+
+    % alternate rows on tables
+    \usepackage[table]{xcolor}
+
+    \definecolor{lightgray}{HTML}{e0e0e0}
+    \let\oldtabularx\tabularx
+    \let\endoldtabularx\endtabularx
+    \renewenvironment{tabularx}{
+        \bigskip
+        \noindent
+        \rowcolors{2}{}{lightgray}
+        \oldtabularx
+        } {
+        \endoldtabularx
+        \medskip
+        }
+
+\usepackage{graphicx}
+\usepackage{eso-pic}
+
+
+    % wider rows in tables
+    \renewcommand{\arraystretch}{1.2}
+
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=-0.2em, topsep=1em, leftmargin=1em}
+
+% titles
+\titlespacing*{\chapter}{0pt}{12pt plus 4pt minus 4pt}{8pt plus 1pt minus 1pt}
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 4pt}{10pt plus 1pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 2pt}{4pt plus 0pt minus 0pt}
+
+\titleclass{\chapter}{straight}
+
+\titleformat{\chapter}
+  {\huge\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {}                % before-code
+  [{\titlerule[0.1pt]}]
+
+\titleformat{\section}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\Large}          % before-code
+  [{\titlerule[0.1pt]}]
+
+\titleformat{\subsection}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\large}          % before-code
+
+% remove hyphenation
+\hyphenpenalty=10000
+
+\begin{document}
+
+\AddToShipoutPictureBG{\includegraphics[height=\paperheight]{bg.png}}
+
+\begin{multicols}{2}
+
+\chapter{Sensible Weather}
+
+To determine the starting weather conditions, roll 1d8 with a -1 or -2 modifier in cold climate, or a +1 or +2 modifier in hot climate:
+
+\begin{tabularx}{\linewidth}{ c l c X }
+    \textbf{d8} & \textbf{condition} & \textbf{wind} & \textbf{temperature} \\
+   -1 & blizzard      & +2 & severely cold \\
+    0 & snow          & +1 & very cold     \\
+    1 & thunderstorm  & +1 & cold          \\
+    2 & rain          & +1 & cold          \\
+    3 & cold front    & +0 & cool          \\
+    4 & overcast      & +0 & cool          \\
+    5 & cloudy        & +0 & warm          \\
+    6 & partly cloudy & +0 & warm          \\
+    7 & clear sky     & -1 & hot           \\
+    8 & warm front    & -1 & hot           \\
+    9 & draught       & -1 & very hot      \\
+   10 & heatwave      & -2 & severely hot  \\
+\end{tabularx}
+
+Then, roll 1d4 to determine wind speed, with its modifier:
+
+\begin{tabularx}{11em}[t]{ c X }
+    \textbf{d4} & \textbf{wind speed} \\
+   -1 & none      \\
+    0 & none          \\
+    1 & light  \\
+    2 & weak          \\
+    3 & medium    \\
+    4 & strong      \\
+    5 & very strong        \\
+    6 & extremely strong \\
+\end{tabularx}
+\begin{tabularx}{11em}[t]{ c X }
+    \textbf{d8} & \textbf{change} \\
+    1 & down on the list  \\
+    2 & more precipitation    \\
+    3 & stronger wind      \\
+    4 & similar        \\
+    5 & reroll \\
+    6 & weaker wind     \\
+    7 & less precipitation    \\
+    8 & up on the list      \\
+\end{tabularx}
+
+Whenever appropriate (e.g once a day), roll 1d8 on the weather change table to determine the next weather condition.
+
+\section{Weather Conditions}
+Etiam quis lacinia augue. Nulla porttitor lacus ut laoreet eleifend. Nam vitae odio nisi. Nam non magna in mi congue rutrum:
+
+\begin{itemize}
+  \item Переместиться на расстояние, в сумме не превышающее скорость.
+  \item Совершить одно \textbf{\textit{действие}}. Движение можно совершить до и/или после действия.
+  \item Совершить одно бонусное действие.
+  \item Взаимодействовать с одним объектом: открыть дверь, взять предмет со стола...
+  \item Произнести короткую фразу.
+\end{itemize}
+
+Quisque dapibus vulputate lectus, id euismod odio tristique at. Mauris sit amet accumsan metus. Sed feugiat elementum tempor. Morbi ultricies lacinia dui ac iaculis. Nullam eleifend odio nec felis aliquet feugiat. Cras nec pretium massa, nec bibendum elit. Morbi tincidunt est sit amet felis finibus, ut accumsan lacus fermentum. Praesent et est in metus interdum pharetra a in enim. Phasellus ac odio congue, faucibus sapien id, congue ex. Vivamus at enim metus.
+
+\pagebreak
+
+\end{multicols}
+\end{document}

@@ -1,0 +1,165 @@
+\documentclass[a4paper,landscape,12pt]{book}
+
+% {{{
+
+\usepackage{fontspec}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[document]{ragged2e}
+\usepackage[table]{xcolor}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{titlesec} % titles customization
+\usepackage{Alegreya}
+%\usepackage{CormorantGaramond}
+\usepackage[margin=1cm]{geometry}
+
+% no sb
+%\renewcommand{\bfdefault}{sb}
+
+%\usepackage{fontspec}
+%\newfontfamily\subsubsectionfont[Path=/home/sean/.local/share/fonts]{AlegreyaSC-Medium.ttf}
+
+% titles
+\titlespacing*{\chapter}{0pt}{12pt plus 4pt minus 4pt}{8pt plus 1pt minus 1pt}
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 4pt}{10pt plus 1pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 2pt}{4pt plus 0pt minus 0pt}
+
+\titleclass{\chapter}{straight}
+
+\titleformat{\chapter}
+  {\huge\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {} % before-code
+  [{\titlerule[0.1pt]}]
+
+\titleformat{\section}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\Large}          % before-code
+  [{\titlerule[0.1pt]}]
+
+\titleformat{\subsection}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\large}          % before-code
+
+% remove hyphenation
+\hyphenpenalty=10000
+
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=-0.2em, topsep=3pt, leftmargin=1.5em}
+
+\newlength\mylength
+\setlength\mylength{\dimexpr.5\columnwidth-2\tabcolsep-0.5\arrayrulewidth\relax}
+% }}}
+
+\begin{document}
+\begin{multicols}{3}
+\thispagestyle{empty}
+
+\setlength{\parindent}{0.5em}
+\setlength{\parskip}{1pt}
+
+\section{Твой Ход}
+За один ход можно:
+\begin{itemize}
+  \item Переместиться на расстояние, в сумме не превышающее скорость.
+  \item Совершить одно \textbf{\textit{действие}}. Движение можно совершить до и/или после действия.
+  \item Совершить одно бонусное действие.
+  \item Взаимодействовать с одним объектом: открыть дверь, взять предмет со стола...
+  \item Произнести короткую фразу.
+\end{itemize}
+
+\subsection{Действия}
+\begin{itemize}
+    \item \textbf{\textit{Атака}} или \textbf{\textit{Заклинание}}.
+    \item \textbf{Засада} \textit{(скрытность)}: см. \textbf{\textit{засада}}.
+    \item \textbf{Помощь}: дает преимущество другому игроку.
+    \item \textbf{Рывок}: удваивает скорость.
+    \item \textbf{Отступление}: передвижение не провоцирует атаки возможности.
+    \item \textbf{Уклонение}: преимущество на спасброски \textit{ловкости}, помеха на броски атаки по вам.
+    \item \textbf{Поиск} \textit{(внимательность} или \textit{анализ)}: обнаружить что-то.
+    \item \textbf{Захват} \textit{(атлетика)}: обездвижить существо или оттолкнуть его на 5ft.
+    \item \textbf{Лечение} \textit{(медицина)}: стабилизирует существо, +1 hp после 1d4 часов.
+    \item \textbf{Импров}: выламывание дверей, обезоруживание, перекаты...
+    %\item \textbf{Обезоруживание} \textit{(атака} против \textit{атлетики} или \textit{акробатики)}: выбить оружие из рук противника.
+\end{itemize}
+
+\subsection{Инициатива}
+\begin{itemize}
+    \item \textbf{Ролл}: d20 + \textit{mod ловкости}.
+\end{itemize}
+
+\subsection{Атака}
+\begin{itemize}
+    \item \textbf{Бросок Атаки}: d20 + \textit{mod силы} или \textit{ловкости} + \textit{бонус мастерства}.
+    \item \textbf{Бросок Урона}: кость урона + \textit{mod силы} или \textit{ловкости}.
+\end{itemize}
+
+\subsection{Заклинание}
+\begin{itemize}
+    \item \textbf{Сложность Спасброска}: 8 + \textit{mod заклинательности} + \textit{бонус мастерства}.
+    \item \textbf{Бросок Атаки}: d20 + \textit{mod заклинательности} + \textit{бонус мастерства}
+\end{itemize}
+
+\subsection{Засада}
+\begin{itemize}
+    \item Вы не можете спрятаться пока на вас смотрят.
+    \item Спрятавшись, вы получаете преимущество на атаку против тех, кто вас не видет.
+    \item Атака всегда выдает ваше местоположение.
+    \item Существа, коротых вы застанете врасплох, пропускают первый ход боя.
+\end{itemize}
+
+\section{Отдых}
+\textbf{Короткий}, около часа.
+\begin{itemize}
+    \item Вы восстанавливаете здоровье равное hd + \textit{mod выносливость} за каждый потраченный hd.
+\end{itemize}
+
+\textbf{Длинный}, больше 8 часов.
+\begin{itemize}
+    \item Вы восстанавливаете все потраченное hp и 1/2 max hd.
+    \item Вы можете стоять настороже до 2-х часов.
+    \item Только один длинный отдых за сутки.
+\end{itemize}
+
+\section{Окружение}
+\begin{itemize}
+    \item \textbf{Полумрак}: помеха при проверках \textit{внимательности}. -5 passive \textit{внимательность}.
+    \item \textbf{Тьма}: помеха при атаке, автопровал всех проверок зрения.
+    \item \textbf{Укрытие}: 1/2 -- +2 (3/4 -- +5) к AC и спасброскам \textit{ловкости}.
+\end{itemize}
+
+\section{Истощение}
+Усталость негативно сказывается на бросках атаки, проверках и спасбросках:
+\vspace{\baselineskip}
+
+\rowcolors{2}{white}{gray!10}
+\begin{tabular}{ c c p{5.8cm} }
+    \textbf{1} & 1d4 & -- \\[2pt]
+    \textbf{2} & 1d6 & Скорость уменьшается вдвое. \\[2pt]
+    \textbf{3} & 1d8 & Только действие или бонусное действие за один ход. \\[2pt]
+    \textbf{4} & 1d10 & max hp уменьшается вдвое. \\[2pt]
+    \textbf{5} & 1d12 & Скорость падает до 5. \\[2pt]
+\end{tabular}
+
+\section{Смерть}
+При достижении 0 hp вы теряете сознание.\textsuperscript{1} Восстановите hp чтобы придти в себя.
+
+Если вы начинаете ход с 0 hp, совершите спасбросок смерти (DC 10):
+
+\begin{itemize}
+    \item 3 успеха: стабильное состояние, без сознания. 3 провала: смерть.
+    \item 1 -- два провала, 20 -- +1 hp.
+    \item Получение урона равно провалу (двум за критический урон).
+\end{itemize}
+
+\setlength{\parindent}{0pt}
+1. Если остаток урона превышает ваше max hp, вы умираете мгновенно.
+
+\end{multicols}
+\end{document}

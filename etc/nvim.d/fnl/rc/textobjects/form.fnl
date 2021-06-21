@@ -27,6 +27,7 @@
       (tset counts (. p q :k) (* -1 v)))
     counts))
 
+; todo change to search with 'c' flag
 (fn par-oncu [xt]
   "check if a paren from 'xt' is under the cursor and return data like search"
   (let [c (b.char)]

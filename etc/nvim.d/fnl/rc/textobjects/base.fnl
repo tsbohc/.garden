@@ -10,8 +10,8 @@
     (vim.fn.strcharpart (l:sub n n) 0 1)))
 
 (fn M.search [re ...]
-  "search for very non-magic 're'"
-  (let [p (vim.fn.searchpos (.. "\\V" re) ...)]
+  "search for 're' and return character under cursor and position"
+  (let [p (vim.fn.searchpos re ...)]
     (match p [0 0] nil _ {:c (M.char) :p [0 (. p 1) (. p 2) 0]})))
 
 (fn M.get-cu []

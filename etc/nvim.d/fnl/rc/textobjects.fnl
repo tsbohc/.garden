@@ -7,7 +7,27 @@
 (local b (require :rc.textobjects.base))
 (local textobject b.textobject)
 
+
+
+;(local _quote (require :rc.textobjects.quote))
+
+;(ki- [n] "<c-m>" (fn [] (_quote ["\"" "'"])))
+
 ; {f} form
+
+; 1. cursor at the edge of a form
+; |                |
+; ( ... ) or ( ... )
+; ^^^^^^^    ^^^^^^^
+; 2. cursor inside a form
+;         |
+; ( ... ( ... ( ... ) ... ))
+;       ^^^^^^^^^^^^^^^^^^^
+; 3. cursor outside a form
+;           |
+; ( ... ) ... ( ... )
+;             ^^^^^^^
+
 (local form (require :rc.textobjects.form))
 
 (te- "if" (fn [] (textobject (form) :inner)))

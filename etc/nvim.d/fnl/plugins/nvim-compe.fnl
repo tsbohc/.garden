@@ -21,6 +21,7 @@
     :nvim_lsp true
     :calc true
     :ultisnips true
+    :omni true
     :nvim_treesitter true}})
 
 (fn rtc [s]
