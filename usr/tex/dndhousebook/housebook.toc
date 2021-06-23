@@ -1,0 +1,19 @@
+\babel@toc {russian}{}
+\contentsline {chapter}{\numberline {1}Foreword}{2}{}%
+\contentsline {subsection}{Combat}{2}{}%
+\contentsline {subsection}{Rule of Cool}{2}{}%
+\contentsline {chapter}{\numberline {2}House Rules}{2}{}%
+\contentsline {section}{Ability Scores}{2}{}%
+\contentsline {section}{Alignment}{2}{}%
+\contentsline {section}{Bottled Vitum}{2}{}%
+\contentsline {section}{Skill Trials}{2}{}%
+\contentsline {section}{Misc}{2}{}%
+\contentsline {subsection}{Rest}{2}{}%
+\contentsline {subsection}{Critical Damage}{3}{}%
+\contentsline {chapter}{\numberline {3}Magic Items}{3}{}%
+\contentsline {section}{Stone of Detection}{3}{}%
+\contentsline {section}{Staff of Nustered}{3}{}%
+\contentsline {section}{Mentha Gracilis}{3}{}%
+\contentsline {section}{Lockpick of Secrets}{3}{}%
+\contentsline {chapter}{\numberline {4}Sensible Weather}{4}{}%
+\contentsline {section}{Weather Conditions}{4}{}%

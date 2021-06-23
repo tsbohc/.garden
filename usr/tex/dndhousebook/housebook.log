@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  21 JUN 2021 19:50
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  23 JUN 2021 05:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -84,8 +84,8 @@ File: russianb.ldf 2021/01/10 1.3m Russian support for the Babel system
 Language: russian 2020/09/09 1.3k Russian support for the Babel system
 Package babel Info: Making " an active character on input line 124.
 Package babel Info: Default for \cyrdash is provided on input line 163.
-)) (/usr/share/texmf-dist/tex/latex/alegreya/Alegreya.sty
-Package: Alegreya 2019/10/12 (Bob Tennent) Supports Alegreya and AlegreyaSC fonts for all LaTeX engines. 
+)) (/usr/share/texmf-dist/tex/latex/alegreya/AlegreyaSans.sty
+Package: AlegreyaSans 2019/10/12 (Bob Tennent) Supports AlegreyaSans fonts for all LaTeX engines. 
  (/usr/share/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
  (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
@@ -103,6 +103,368 @@ Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
 \XKV@depth=\count270
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
+Requested font "[AlegreyaSans-Regular.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Regular.otf
+Requested font "[AlegreyaSans-Regular.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Regular.otf
+Requested font "[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Regular.otf
+Requested font "[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Bold.otf
+Requested font "[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Italic.otf
+Requested font "[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-BoldItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(0)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Ligatures=TeX,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont =
+(fontspec)             *-Regular,ItalicFont = *-Italic,BoldFont =
+(fontspec)             *-Bold,BoldItalicFont = *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+
+Package fontspec Info: Font family 'AlegreyaSans(1)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont =
+(fontspec)             *-Regular,ItalicFont = *-Italic,BoldFont =
+(fontspec)             *-Bold,BoldItalicFont = *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+
+Package fontspec Info: Font family 'AlegreyaSans(2)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,OldStyle},UprightFont =
+(fontspec)             *-Regular,ItalicFont = *-Italic,BoldFont =
+(fontspec)             *-Bold,BoldItalicFont = *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+
+
+Package fontspec Info: Font family 'AlegreyaSans(3)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Monospaced,OldStyle},UprightFont =
+(fontspec)             *-Regular,ItalicFont = *-Italic,BoldFont =
+(fontspec)             *-Bold,BoldItalicFont = *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+tnum;+onum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+tnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+tnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+tnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+tnum;+onum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+tnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+tnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+tnum;+onum;+smcp;mapping=tex-text;"
+
+
+Package fontspec Info: Font family 'AlegreyaSans(4)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers = {Proportional,
+(fontspec)             OldStyle},UprightFont = *-Regular,ItalicFont =
+(fontspec)             *-Italic,BoldFont = *-Bold,BoldItalicFont =
+(fontspec)             *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+onum;+smcp;mapping=tex-text;"
+
+
+Package fontspec Info: Font family 'AlegreyaSans(5)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Monospaced,Lining},UprightFont = *-Regular,ItalicFont
+(fontspec)             = *-Italic,BoldFont = *-Bold,BoldItalicFont =
+(fontspec)             *-BoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+tnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+tnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+tnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+tnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+tnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+tnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+tnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BoldItalic.otf]/OT:script=latn;language=dflt;+tnum;+lnum;+smcp;mapping=tex-text;"
+
+Requested font "[AlegreyaSans-Black.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Black.otf
+Requested font "[AlegreyaSans-Black.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Black.otf
+Requested font "[AlegreyaSans-Black.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Black.otf
+Requested font "[AlegreyaSans-BlackItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-BlackItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(6)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont = *-Black,ItalicFont
+(fontspec)             = *-BlackItalic,BoldFont = *-Black,BoldItalicFont =
+(fontspec)             *-BlackItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Black.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Black.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Black.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Black.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BlackItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BlackItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BlackItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-BlackItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+Requested font "[AlegreyaSans-ExtraBold.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-ExtraBold.otf
+Requested font "[AlegreyaSans-ExtraBold.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-ExtraBold.otf
+Requested font "[AlegreyaSans-ExtraBold.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-ExtraBold.otf
+Requested font "[AlegreyaSans-ExtraBoldItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-ExtraBoldItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(7)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont =
+(fontspec)             *-ExtraBold,ItalicFont = *-ExtraBoldItalic,BoldFont =
+(fontspec)             *-ExtraBold,BoldItalicFont = *-ExtraBoldItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ExtraBoldItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+Requested font "[AlegreyaSans-Thin.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Thin.otf
+Requested font "[AlegreyaSans-Thin.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Thin.otf
+Requested font "[AlegreyaSans-Thin.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Thin.otf
+Requested font "[AlegreyaSans-ThinItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-ThinItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(8)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont = *-Thin,ItalicFont =
+(fontspec)             *-ThinItalic,BoldFont = *-Thin,BoldItalicFont =
+(fontspec)             *-ThinItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Thin.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Thin.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Thin.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Thin.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ThinItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ThinItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ThinItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-ThinItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+Requested font "[AlegreyaSans-Light.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Light.otf
+Requested font "[AlegreyaSans-Light.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Light.otf
+Requested font "[AlegreyaSans-Light.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Light.otf
+Requested font "[AlegreyaSans-LightItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-LightItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(9)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont = *-Light,ItalicFont
+(fontspec)             = *-LightItalic,BoldFont = *-Light,BoldItalicFont =
+(fontspec)             *-LightItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Light.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Light.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Light.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Light.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-LightItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-LightItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-LightItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-LightItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+Requested font "[AlegreyaSans-Medium.otf]/OT" at 10.94997pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Medium.otf
+Requested font "[AlegreyaSans-Medium.otf]/OT" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Medium.otf
+Requested font "[AlegreyaSans-Medium.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Medium.otf
+Requested font "[AlegreyaSans-MediumItalic.otf]/OT:script=latn;language=dflt;" at 10.95003pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-MediumItalic.otf
+
+Package fontspec Info: Font family 'AlegreyaSans(10)' created for font
+(fontspec)             'AlegreyaSans' with options [Ligatures = TeX,Extension
+(fontspec)             = .otf,Scale = 1,Numbers =
+(fontspec)             {Proportional,Lining},UprightFont = *-Medium,ItalicFont
+(fontspec)             = *-MediumItalic,BoldFont = *-Medium,BoldItalicFont =
+(fontspec)             *-MediumItalic].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Medium.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Medium.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Medium.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-Medium.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-MediumItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-MediumItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-MediumItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"[AlegreyaSans-MediumItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
+
+) (/usr/share/texmf-dist/tex/latex/alegreya/Alegreya.sty
+Package: Alegreya 2019/10/12 (Bob Tennent) Supports Alegreya and AlegreyaSC fonts for all LaTeX engines. 
 Requested font "[Alegreya-Regular.otf]/OT" at 10.94997pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 Requested font "[Alegreya-Regular.otf]/OT" at 10.95003pt
@@ -387,6 +749,8 @@ Package fontspec Info: Font family 'Alegreya(8)' created for font 'Alegreya'
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
 (fontspec)             <->s*[1]"[Alegreya-MediumItalic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;"
 
+LaTeX Info: Redefining \textsu on input line 293.
+LaTeX Info: Redefining \textin on input line 294.
 ) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
  (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -484,6 +848,45 @@ Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
 \mult@nat@firstbox=\box93
 \colbreak@box=\box94
 \mc@col@check@num=\count283
+) (/usr/share/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has chapter divisions on input line 51.
+\cftparskip=\skip53
+\cftbeforetoctitleskip=\skip54
+\cftaftertoctitleskip=\skip55
+\cftbeforepartskip=\skip56
+\cftpartnumwidth=\skip57
+\cftpartindent=\skip58
+\cftbeforechapskip=\skip59
+\cftchapindent=\skip60
+\cftchapnumwidth=\skip61
+\cftbeforesecskip=\skip62
+\cftsecindent=\skip63
+\cftsecnumwidth=\skip64
+\cftbeforesubsecskip=\skip65
+\cftsubsecindent=\skip66
+\cftsubsecnumwidth=\skip67
+\cftbeforesubsubsecskip=\skip68
+\cftsubsubsecindent=\skip69
+\cftsubsubsecnumwidth=\skip70
+\cftbeforeparaskip=\skip71
+\cftparaindent=\skip72
+\cftparanumwidth=\skip73
+\cftbeforesubparaskip=\skip74
+\cftsubparaindent=\skip75
+\cftsubparanumwidth=\skip76
+\cftbeforeloftitleskip=\skip77
+\cftafterloftitleskip=\skip78
+\cftbeforefigskip=\skip79
+\cftfigindent=\skip80
+\cftfignumwidth=\skip81
+\c@lofdepth=\count284
+\c@lotdepth=\count285
+\cftbeforelottitleskip=\skip82
+\cftafterlottitleskip=\skip83
+\cftbeforetabskip=\skip84
+\cfttabindent=\skip85
+\cfttabnumwidth=\skip86
 ) (/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
  (/usr/share/texmf-dist/tex/latex/tools/array.sty
@@ -492,8 +895,8 @@ Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \ar@mcellbox=\box95
 \extrarowheight=\dimen166
 \NC@list=\toks21
-\extratabsurround=\skip53
-\backup@length=\skip54
+\extratabsurround=\skip87
+\backup@length=\skip88
 \ar@cellbox=\box96
 )
 \TX@col@width=\dimen167
@@ -501,7 +904,7 @@ Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \TX@old@col=\dimen169
 \TX@target=\dimen170
 \TX@delta=\dimen171
-\TX@cols=\count284
+\TX@cols=\count286
 \TX@ftn=\toks22
 ) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
@@ -514,9 +917,9 @@ File: xetex.def 2021/03/18 v5.0k Graphics/color driver for xetex
 ) (/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
 \everycr=\toks23
-\minrowclearance=\skip55
+\minrowclearance=\skip89
 )
-\rownum=\count285
+\rownum=\count287
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
 Package xcolor Info: Model `RGB' extended on input line 1364.
 Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
@@ -525,7 +928,18 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
-) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks24
+\pgfutil@tempdima=\dimen172
+\pgfutil@tempdimb=\dimen173
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box97
+) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2020/12/27 v3.1.8b (3.1.8b)
+))
+Package: pgf 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
  (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
@@ -536,26 +950,9 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 105.
 )
-\Gin@req@height=\dimen172
-\Gin@req@width=\dimen173
-) (/usr/share/texmf-dist/tex/latex/eso-pic/eso-pic.sty
-Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
-\ESO@tempdima=\dimen174
-\ESO@tempdimb=\dimen175
-) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
-Package: tcolorbox 2020/10/09 version 4.42 text color boxes
- (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks24
-\pgfutil@tempdima=\dimen176
-\pgfutil@tempdimb=\dimen177
- (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box97
-)
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
-Package: pgfrcs 2020/12/27 v3.1.8b (3.1.8b)
-))
-Package: pgf 2020/12/27 v3.1.8b (3.1.8b)
- (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+\Gin@req@height=\dimen174
+\Gin@req@width=\dimen175
+) (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
  (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks25
@@ -563,26 +960,26 @@ Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
  (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
 \pgfkeys@tmptoks=\toks27
 ))
-\pgf@x=\dimen178
-\pgf@y=\dimen179
-\pgf@xa=\dimen180
-\pgf@ya=\dimen181
-\pgf@xb=\dimen182
-\pgf@yb=\dimen183
-\pgf@xc=\dimen184
-\pgf@yc=\dimen185
-\pgf@xd=\dimen186
-\pgf@yd=\dimen187
+\pgf@x=\dimen176
+\pgf@y=\dimen177
+\pgf@xa=\dimen178
+\pgf@ya=\dimen179
+\pgf@xb=\dimen180
+\pgf@yb=\dimen181
+\pgf@xc=\dimen182
+\pgf@yc=\dimen183
+\pgf@xd=\dimen184
+\pgf@yd=\dimen185
 \w@pgf@writea=\write3
 \r@pgf@reada=\read3
-\c@pgf@counta=\count286
-\c@pgf@countb=\count287
-\c@pgf@countc=\count288
-\c@pgf@countd=\count289
+\c@pgf@counta=\count288
+\c@pgf@countb=\count289
+\c@pgf@countc=\count290
+\c@pgf@countd=\count291
 \t@pgf@toka=\toks28
 \t@pgf@tokb=\toks29
 \t@pgf@tokc=\toks30
-\pgf@sys@id@count=\count290
+\pgf@sys@id@count=\count292
  (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2020/12/27 v3.1.8b (3.1.8b)
 )
@@ -594,63 +991,63 @@ File: pgfsys-dvipdfmx.def 2020/12/27 v3.1.8b (3.1.8b)
  (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2020/12/27 v3.1.8b (3.1.8b)
 )
-\pgfsys@objnum=\count291
+\pgfsys@objnum=\count293
 ))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgfsyssoftpath@smallbuffer@items=\count292
-\pgfsyssoftpath@bigbuffer@items=\count293
+\pgfsyssoftpath@smallbuffer@items=\count294
+\pgfsyssoftpath@bigbuffer@items=\count295
 ) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 )) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2020/12/27 v3.1.8b (3.1.8b)
  (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen188
-\pgfmath@count=\count294
+\pgfmath@dimen=\dimen186
+\pgfmath@count=\count296
 \pgfmath@box=\box98
 \pgfmath@toks=\toks31
 \pgfmath@stack@operand=\toks32
 \pgfmath@stack@operation=\toks33
-) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count295
-))
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex)))
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count297
+)) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@picminx=\dimen189
-\pgf@picmaxx=\dimen190
-\pgf@picminy=\dimen191
-\pgf@picmaxy=\dimen192
-\pgf@pathminx=\dimen193
-\pgf@pathmaxx=\dimen194
-\pgf@pathminy=\dimen195
-\pgf@pathmaxy=\dimen196
-\pgf@xx=\dimen197
-\pgf@xy=\dimen198
-\pgf@yx=\dimen199
-\pgf@yy=\dimen256
-\pgf@zx=\dimen257
-\pgf@zy=\dimen258
+\pgf@picminx=\dimen187
+\pgf@picmaxx=\dimen188
+\pgf@picminy=\dimen189
+\pgf@picmaxy=\dimen190
+\pgf@pathminx=\dimen191
+\pgf@pathmaxx=\dimen192
+\pgf@pathminy=\dimen193
+\pgf@pathmaxy=\dimen194
+\pgf@xx=\dimen195
+\pgf@xy=\dimen196
+\pgf@yx=\dimen197
+\pgf@yy=\dimen198
+\pgf@zx=\dimen199
+\pgf@zy=\dimen256
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@path@lastx=\dimen259
-\pgf@path@lasty=\dimen260
+\pgf@path@lastx=\dimen257
+\pgf@path@lasty=\dimen258
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@shorten@end@additional=\dimen261
-\pgf@shorten@start@additional=\dimen262
+\pgf@shorten@end@additional=\dimen259
+\pgf@shorten@start@additional=\dimen260
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 \pgfpic=\box99
 \pgf@hbox=\box100
 \pgf@layerbox@main=\box101
-\pgf@picture@serial@count=\count296
+\pgf@picture@serial@count=\count298
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgflinewidth=\dimen263
+\pgflinewidth=\dimen261
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@pt@x=\dimen264
-\pgf@pt@y=\dimen265
-\pgf@pt@temp=\dimen266
+\pgf@pt@x=\dimen262
+\pgf@pt@y=\dimen263
+\pgf@pt@temp=\dimen264
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
@@ -659,12 +1056,12 @@ File: pgfcoreobjects.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 File: pgfcorepathprocessing.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgfarrowsep=\dimen267
+\pgfarrowsep=\dimen265
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@max=\dimen268
-\pgf@sys@shading@range@num=\count297
-\pgf@shadingcount=\count298
+\pgf@max=\dimen266
+\pgf@sys@shading@range@num=\count299
+\pgf@shadingcount=\count300
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2020/12/27 v3.1.8b (3.1.8b)
  (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
@@ -685,87 +1082,93 @@ File: pgfmoduleshapes.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 File: pgfmoduleplot.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 ) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@nodesepstart=\dimen269
-\pgf@nodesepend=\dimen270
+\pgf@nodesepstart=\dimen267
+\pgf@nodesepend=\dimen268
 ) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2020/12/27 v3.1.8b (3.1.8b)
-)) (/usr/share/texmf-dist/tex/latex/tools/verbatim.sty
+)) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen269
+\pgffor@skip=\dimen270
+\pgffor@stack=\toks34
+\pgffor@toks=\toks35
+)) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2020/12/27 v3.1.8b (3.1.8b)
+ (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgf@plot@mark@count=\count301
+\pgfplotmarksize=\dimen271
+)
+\tikz@lastx=\dimen272
+\tikz@lasty=\dimen273
+\tikz@lastxsaved=\dimen274
+\tikz@lastysaved=\dimen275
+\tikz@lastmovetox=\dimen276
+\tikz@lastmovetoy=\dimen277
+\tikzleveldistance=\dimen278
+\tikzsiblingdistance=\dimen279
+\tikz@figbox=\box104
+\tikz@figbox@bg=\box105
+\tikz@tempbox=\box106
+\tikz@tempbox@bg=\box107
+\tikztreelevel=\count302
+\tikznumberofchildren=\count303
+\tikznumberofcurrentchild=\count304
+\tikz@fig@count=\count305
+ (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+\pgfmatrixcurrentrow=\count306
+\pgfmatrixcurrentcolumn=\count307
+\pgf@matrix@numberofcolumns=\count308
+)
+\tikz@expandcount=\count309
+ (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2020/12/27 v3.1.8b (3.1.8b)
+))) (/usr/share/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
+\ESO@tempdima=\dimen280
+\ESO@tempdimb=\dimen281
+) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2020/10/09 version 4.42 text color boxes
+ (/usr/share/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks34
-\verbatim@line=\toks35
+\every@verbatim=\toks36
+\verbatim@line=\toks37
 \verbatim@in@stream=\read4
 ) (/usr/share/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
  (/usr/share/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
-\@envbody=\toks36
+\@envbody=\toks38
 ) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count299
+\etb@tempcnta=\count310
 )
-\tcb@titlebox=\box104
-\tcb@upperbox=\box105
-\tcb@lowerbox=\box106
-\tcb@phantombox=\box107
-\c@tcbbreakpart=\count300
-\c@tcblayer=\count301
-\c@tcolorbox@number=\count302
-\tcb@temp=\box108
-\tcb@temp=\box109
-\tcb@temp=\box110
-\tcb@temp=\box111
+\tcb@titlebox=\box108
+\tcb@upperbox=\box109
+\tcb@lowerbox=\box110
+\tcb@phantombox=\box111
+\c@tcbbreakpart=\count311
+\c@tcblayer=\count312
+\c@tcolorbox@number=\count313
+\tcb@temp=\box112
+\tcb@temp=\box113
+\tcb@temp=\box114
+\tcb@temp=\box115
 \tcb@out=\write4
 \tcb@record@out=\write5
  (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
 Library (tcolorbox): 'tcbraster.code.tex' version '4.42'
-\c@tcbrastercolumn=\count303
-\c@tcbrasterrow=\count304
-\c@tcbraster=\count305
+\c@tcbrastercolumn=\count314
+\c@tcbrasterrow=\count315
+\c@tcbraster=\count316
 ) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
 Library (tcolorbox): 'tcbskins.code.tex' version '4.42'
-(/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
-Package: pgffor 2020/12/27 v3.1.8b (3.1.8b)
- (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen271
-\pgffor@skip=\dimen272
-\pgffor@stack=\toks37
-\pgffor@toks=\toks38
-)) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
-Package: tikz 2020/12/27 v3.1.8b (3.1.8b)
- (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
-File: pgflibraryplothandlers.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgf@plot@mark@count=\count306
-\pgfplotmarksize=\dimen273
-)
-\tikz@lastx=\dimen274
-\tikz@lasty=\dimen275
-\tikz@lastxsaved=\dimen276
-\tikz@lastysaved=\dimen277
-\tikz@lastmovetox=\dimen278
-\tikz@lastmovetoy=\dimen279
-\tikzleveldistance=\dimen280
-\tikzsiblingdistance=\dimen281
-\tikz@figbox=\box112
-\tikz@figbox@bg=\box113
-\tikz@tempbox=\box114
-\tikz@tempbox@bg=\box115
-\tikztreelevel=\count307
-\tikznumberofchildren=\count308
-\tikznumberofcurrentchild=\count309
-\tikz@fig@count=\count310
- (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
-File: pgfmodulematrix.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgfmatrixcurrentrow=\count311
-\pgfmatrixcurrentcolumn=\count312
-\pgf@matrix@numberofcolumns=\count313
-)
-\tikz@expandcount=\count314
- (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
-File: tikzlibrarytopaths.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-)))
 \tcb@waterbox=\box116
- (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
+(/usr/share/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
 Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '4.42'
 )) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
 Library (tcolorbox): 'tcbbreakable.code.tex' version '4.42'
@@ -788,7 +1191,7 @@ Library (tcolorbox): 'tcbhooks.code.tex' version '4.42'
 Library (tcolorbox): 'tcbtheorems.code.tex' version '4.42'
 (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2020/09/23 v2.17i AMS math features
-\@mathmargin=\skip56
+\@mathmargin=\skip90
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -803,13 +1206,13 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 ) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count315
+\inf@bad=\count317
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count316
-\leftroot@=\count317
+\uproot@=\count318
+\leftroot@=\count319
 LaTeX Info: Redefining \overline on input line 399.
-\classnum@=\count318
-\DOTSCASE@=\count319
+\classnum@=\count320
+\DOTSCASE@=\count321
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
@@ -818,15 +1221,15 @@ LaTeX Info: Redefining \cdots on input line 620.
 \big@size=\dimen284
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count320
-\c@MaxMatrixCols=\count321
+\macc@depth=\count322
+\c@MaxMatrixCols=\count323
 \dotsspace@=\muskip16
-\c@parentequation=\count322
-\dspbrk@lvl=\count323
+\c@parentequation=\count324
+\dspbrk@lvl=\count325
 \tag@help=\toks40
-\row@=\count324
-\column@=\count325
-\maxfields@=\count326
+\row@=\count326
+\column@=\count327
+\maxfields@=\count328
 \andhelp@=\toks41
 \eqnshift@=\dimen285
 \alignsep@=\dimen286
@@ -835,8 +1238,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \totwidth@=\dimen289
 \lineht@=\dimen290
 \@envbody=\toks42
-\multlinegap=\skip57
-\multlinetaggap=\skip58
+\multlinegap=\skip91
+\multlinetaggap=\skip92
 \mathdisplay@stack=\toks43
 LaTeX Info: Redefining \[ on input line 2923.
 LaTeX Info: Redefining \] on input line 2924.
@@ -845,7 +1248,7 @@ Library (tcolorbox): 'tcbfitting.code.tex' version '4.42'
 \tcbfitdim=\dimen291
 \tcb@lowerfitdim=\dimen292
 \tcb@upperfitdim=\dimen293
-\tcb@cur@hbadness=\count327
+\tcb@cur@hbadness=\count329
 ) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbxparse.code.tex
 Library (tcolorbox): 'tcbxparse.code.tex' version '4.42'
 ) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
@@ -853,22 +1256,22 @@ Library (tcolorbox): 'tcblistingsutf8.code.tex' version '4.42'
 (/usr/share/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
 Library (tcolorbox): 'tcblistings.code.tex' version '4.42'
 (/usr/share/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count328
+\lst@mode=\count330
 \lst@gtempboxa=\box122
 \lst@token=\toks44
-\lst@length=\count329
+\lst@length=\count331
 \lst@currlwidth=\dimen294
-\lst@column=\count330
-\lst@pos=\count331
+\lst@column=\count332
+\lst@pos=\count333
 \lst@lostspace=\dimen295
 \lst@width=\dimen296
-\lst@newlines=\count332
-\lst@lineno=\count333
+\lst@newlines=\count334
+\lst@lineno=\count335
 \lst@maxwidth=\dimen297
  (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count334
-\lst@skipnumbers=\count335
+\c@lstnumber=\count336
+\lst@skipnumbers=\count337
 \lst@framebox=\box123
 ) (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2020/03/24 1.8d listings configuration
@@ -887,7 +1290,7 @@ Package pdftexcmds Info: \pdfdraftmode not found.
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
 Package shellesc Info: Restricted shell escape enabled on input line 77.
 ))
-\c@tcblisting=\count336
+\c@tcblisting=\count338
 ))
 Package tcolorbox Info: Library `listingsutf8' is compatible with pdftex only. Library `listings` is loaded instead. on input line 29.
 ) (/usr/share/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
@@ -905,92 +1308,92 @@ Library (tcolorbox): 'tcbposter.code.tex' version '4.42'
 )) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \enitkv@toks@=\toks45
-\labelindent=\skip59
+\labelindent=\skip93
 \enit@outerparindent=\dimen298
 \enit@toks=\toks46
 \enit@inbox=\box124
-\enit@count@id=\count337
-\enitdp@description=\count338
+\enit@count@id=\count339
+\enitdp@description=\count340
 ) (./housebook.aux)
 \openout1 = `housebook.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 120.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 186.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 186.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 186.
+LaTeX Font Info:    ... okay on input line 186.
 
 Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 (fontspec)             this).
 
 \symlegacymaths=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 120.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 120.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 120.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 120.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 120.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 120.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 120.
-LaTeX Font Info:    Redeclaring math accent \check on input line 120.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 120.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 120.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 120.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 120.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 186.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 186.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 186.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 186.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 186.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 186.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 186.
+LaTeX Font Info:    Redeclaring math accent \check on input line 186.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 186.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 186.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 186.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 186.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 186.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 120.
+(Font)              `operators' in the math version `normal' on input line 186.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/Alegreya(0)/m/n on input line 120.
+(Font)                  OT1/cmr/m/n --> TU/Alegreya(0)/m/n on input line 186.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 120.
+(Font)              `operators' in the math version `bold' on input line 186.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/m/n on input line 120.
+(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/m/n on input line 186.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/m/n on input line 120.
+(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/m/n on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/Alegreya(0)/m/it on input line 120.
+(Font)                  OT1/cmr/m/it --> TU/Alegreya(0)/m/it on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/b/n on input line 120.
+(Font)                  OT1/cmr/bx/n --> TU/Alegreya(0)/b/n on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 120.
+(Font)                  OT1/cmss/m/n --> TU/AlegreyaSans(0)/m/n on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 120.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 186.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/b/n on input line 120.
+(Font)                  TU/Alegreya(0)/m/n --> TU/Alegreya(0)/b/n on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/Alegreya(0)/b/it on input line 120.
+(Font)                  OT1/cmr/bx/it --> TU/Alegreya(0)/b/it on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 120.
+(Font)                  OT1/cmss/bx/n --> TU/AlegreyaSans(0)/b/n on input line 186.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 120.
-LaTeX Info: Redefining \th on input line 120.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 186.
+LaTeX Info: Redefining \th on input line 186.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1026,48 +1429,26 @@ LaTeX Info: Redefining \th on input line 120.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count339
-Глава 1.
+\c@lstlisting=\count341
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
-(Font)              scaled to size 20.74pt on input line 126.
-Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 20.74pt
+(Font)              scaled to size 24.88pt on input line 190.
+Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 24.88pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 20.74pt on input line 126.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 20.74pt
+(Font)              scaled to size 24.88pt on input line 190.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 24.88pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 20.74pt on input line 126.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 20.74pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+(./housebook.toc
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 10.95pt on input line 131.
+(Font)              scaled to size 10.95pt on input line 2.
 Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-
-Underfull \hbox (badness 7576) in paragraph at lines 131--132
- []\TU/Alegreya(0)/b/n/10.95 DM\TU/Alegreya(0)/m/n/10.95 : Замок старый и весь проржавел, тебе
- []
-
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 142.
-Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 142.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 12.0pt on input line 142.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 12.0pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 14.4pt on input line 156.
-Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 14.4pt
- -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
-Глава 2.
+(Font)              scaled to size 8.0pt on input line 2.
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 8.0pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
+(Font)              scaled to size 6.0pt on input line 2.
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 6.0pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 Requested font "cmmi10" at 10.95pt
@@ -1094,51 +1475,142 @@ Requested font "cmr8" at 8.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 Requested font "cmr6" at 6.0pt
  -> /usr/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+)
+\tf@toc=\write6
+\openout6 = `housebook.toc'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
-\TU/Alegreya(0)/m/n/10.95 quis, viverra ac, nunc. Praesent eget sem vel leo
+File: bg.png Graphic file (type bmp)
+<bg.png>
+ [1
+
+]
+Глава 1.
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 24.88pt on input line 193.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 24.88pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/AlegreyaSans(2)/m/n' will be
+(Font)              scaled to size 10.95pt on input line 197.
+Requested font "[AlegreyaSans-Regular.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;" at 10.95pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Regular.otf
+LaTeX Font Info:    Font shape `TU/AlegreyaSans(2)/b/n' will be
+(Font)              scaled to size 10.95pt on input line 198.
+Requested font "[AlegreyaSans-Bold.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;" at 10.95pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
+(Font)              scaled to size 12.0pt on input line 207.
+Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 207.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 12.0pt on input line 207.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 12.0pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 14.4pt on input line 207.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 14.4pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+Глава 2.
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
+(Font)              scaled to size 17.28pt on input line 233.
+Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 17.28pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
+(Font)              scaled to size 17.28pt on input line 233.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 17.28pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
+(Font)              scaled to size 17.28pt on input line 233.
+Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 17.28pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
+
+Underfull \hbox (badness 6825) in paragraph at lines 273--274
+[]\TU/Alegreya(0)/b/n/10.95 Chaotic Evil\TU/Alegreya(0)/m/n/10.95 : Я краду золото у богатых чтобы
  []
 
-LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/sl' in size <10.95> not available
-(Font)              Font shape `TU/Alegreya(0)/m/it' tried instead on input line 238.
+LaTeX Font Info:    Font shape `TU/AlegreyaSans(2)/m/it' will be
+(Font)              scaled to size 10.95pt on input line 276.
+Requested font "[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;" at 10.95pt
+ -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Italic.otf
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--278
+\TU/Alegreya(0)/m/n/10.95 Фляга из матового, тускло-зеленого стекла,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--278
+\TU/Alegreya(0)/m/n/10.95 полная бодрящего напитка. Максимальное
+ []
+
+
+Underfull \hbox (badness 5274) in paragraph at lines 279--280
+\TU/Alegreya(0)/m/n/10.95 становить hd + мoд. выносливости (мин. 1)
+ []
+
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/it' will be
-(Font)              scaled to size 10.95pt on input line 238.
+(Font)              scaled to size 10.95pt on input line 313.
 Requested font "[Alegreya-Italic.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 10.95pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Italic.otf
 File: bg.png Graphic file (type bmp)
 <bg.png>
-[1
+[2]
+Глава 3.
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
+\TU/Alegreya(0)/m/n/10.95 Индекс магических предметов сотворенных
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 340--342
+\TU/Alegreya(0)/m/n/10.95 Деревянный посох, на конце увенчанный
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 340--342
+\TU/Alegreya(0)/m/n/10.95 крыглым туманным кристаллом, бережно
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 370--370
+\TU/Alegreya(0)/m/n/10.95 quis, viverra ac, nunc. Praesent eget sem vel leo
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 370--370
 []\TU/Alegreya(0)/m/n/10.95 Nam dui ligula, fringilla a, euismod sodales,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
+Underfull \hbox (badness 10000) in paragraph at lines 370--370
 \TU/Alegreya(0)/m/n/10.95 ullamcorper vestibulum turpis. Pellentesque cursus
  []
 
 
-Underfull \hbox (badness 5667) in paragraph at lines 238--238
+Underfull \hbox (badness 5667) in paragraph at lines 370--370
 \TU/Alegreya(0)/m/n/10.95 Vivamus viverra fermentum felis. Donec nonummy
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
-\TU/Alegreya(0)/m/n/10.95 Aliquam pellentesque, augue quis sagittis posuere,
  []
 
 File: bg.png Graphic file (type bmp)
 <bg.png>
-[2] (./housebook.aux) ) 
-Here is how much of TeX's memory you used:
- 23782 strings out of 476919
- 535300 string characters out of 5827674
- 1246176 words of memory out of 5000000
- 43336 multiletter control sequences out of 15000+600000
- 407099 words of font info for 71 fonts, out of 8000000 for 9000
- 1348 hyphenation exceptions out of 8191
- 101i,10n,124p,452b,979s stack positions out of 5000i,500n,10000p,200000b,80000s
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 370--370
+\TU/Alegreya(0)/m/n/10.95 Aliquam pellentesque, augue quis sagittis posuere,
+ []
 
-Output written on housebook.pdf (2 pages).
+Глава 4.
+File: bg.png Graphic file (type bmp)
+<bg.png>
+[4] (./housebook.aux) ) 
+Here is how much of TeX's memory you used:
+ 24554 strings out of 476919
+ 556238 string characters out of 5827674
+ 1278145 words of memory out of 5000000
+ 44051 multiletter control sequences out of 15000+600000
+ 407355 words of font info for 103 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 113i,12n,124p,399b,1024s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on housebook.pdf (4 pages).

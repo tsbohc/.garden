@@ -1,0 +1,311 @@
+\documentclass[a4paper,11pt]{book}
+
+    \usepackage{lipsum}
+
+    % fonts and languages
+    \usepackage{fontspec}
+    \usepackage[utf8]{inputenc}
+    \usepackage[russian]{babel}
+    \usepackage{Alegreya}
+    % general document formatting
+    \usepackage[margin=1.4cm]{geometry}
+    \usepackage{titlesec} % titles customization
+    % columns
+    \usepackage{multicol}
+    \setlength\columnsep{0.7cm}
+    % indent first paragraph
+    %\usepackage{indentfirst}
+
+
+    % good tables
+    \usepackage{tabularx}
+
+    \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+    \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+    \newcolumntype{C}{>{\centering\arraybackslash}X}
+
+    % alternate rows on tables
+    \usepackage[table]{xcolor}
+
+    \definecolor{lightgray}{HTML}{fafafa}
+    \let\oldtabularx\tabularx
+    \let\endoldtabularx\endtabularx
+    \renewenvironment{tabularx}{
+        \bigskip
+        \noindent
+        \rowcolors{2}{}{lightgray}
+        \oldtabularx
+        } {
+        \endoldtabularx
+        \medskip
+        }
+
+\usepackage{graphicx}
+\usepackage{eso-pic}
+
+
+\setlength{\parindent}{1.5em}
+
+    % boxed text
+    \usepackage[most]{tcolorbox}
+    \usepackage{tikz}
+
+    \newenvironment{Frame}{%
+        \smallskip
+        \begin{tcolorbox}[%
+            notitle, sharp corners, colback=white!98!black,
+            frame hidden,
+            borderline west = {0.2pt}{0pt}{black},
+            borderline east = {0.2pt}{0pt}{black},
+            %borderline north = {0.5pt}{0pt}{black!70!white},
+            %borderline south = {0.5pt}{0pt}{black!70!white},
+            boxrule=0.5pt, boxsep=0pt, enhanced,
+            %shadow={0pt}{0pt}{-2pt}{opacity=0.1,black}
+            fuzzy shadow={0pt}{0pt}{-1.5pt}{0.75pt}{opacity=0.05,white!70!black}
+        ]%
+        \setlength{\leftskip}{0.7em}
+        \setlength{\parindent}{-\leftskip}
+    }{%
+        \end{tcolorbox}
+        \smallskip
+    }
+
+    %\newenvironment{Frame}[1][]{%
+    %    \begin{mdframed}[%
+    %        linecolor=gray,
+    %        linewidth=0.5pt,
+    %        backgroundcolor=white,
+    %        topline=false,
+    %        bottomline=false,
+    %        shadow={3pt}{-3pt}{0pt}{opacity=1,black}
+    %    ]%
+    %}{%
+    %    \end{mdframed}
+    %}
+
+
+    % wider rows in tables
+    \renewcommand{\arraystretch}{1.2}
+
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=-0.2em, topsep=0.5em, leftmargin=1em}
+\setlist[enumerate]{itemsep=-0.2em, topsep=0.5em, leftmargin=1em}
+
+% titles
+\titlespacing*{\chapter}{0pt}{12pt plus 4pt minus 4pt}{8pt plus 1pt minus 1pt}
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 4pt}{10pt plus 1pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 2pt}{4pt plus 0pt minus 0pt}
+
+\titleclass{\chapter}{straight}
+
+\titleformat{\chapter}
+  {\Huge\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {}                % before-code
+  [{\titlerule[0.2pt]}]
+
+\titleformat{\section}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\LARGE}          % before-code
+  [{\titlerule[0.2pt]}]
+
+\titleformat{\subsection}
+  {\large\bfseries\scshape} % format
+  {}                % label
+  {0pt}             % sep
+  {\Large}          % before-code
+
+% remove hyphenation
+\hyphenpenalty=8000
+
+\begin{document}
+
+\AddToShipoutPictureBG{\includegraphics[height=\paperheight]{bg.png}}
+
+\begin{multicols}{2}
+
+\chapter{Foreword}
+
+D\&D -- не видеоигра. Глубина взаимодействия с миром здесь приближена к реальности:
+
+\begin{Frame}
+\textbf{DM}: Замок старый и весь проржавел, тебе придется постараться.
+
+\textbf{TH}: А что если я использую масло от своей лампы чтобы его немного расшевелить?
+
+\textbf{DM}: Хорошая идея-- можешь бросать с преимуществом.
+\end{Frame}
+
+Многие обыденные предметы (особенно те, что у вас в рюкзаке) могут значительно повлиять на исход ситуации.
+
+\subsection{Combat}
+
+В бою, не думайте о мече как о наборе чисел который заставляет здоровье врагов уменьшаться.
+
+Выбирайте куда целиться, и какой удар нанести: режущий, колящий или вообще рукоятью:
+
+\begin{Frame}
+\textbf{WA}: Я перехватываю меч за лезвие и наношу удар крестовиной, целясь ему в голову... 20!
+
+\textbf{DM}: Ты попадаешь в его шлем и раздается звонкий *тунк*. Оглушенный, он теряет равновесие и падает на колени.
+\end{Frame}
+
+То же самое применимо как к стрелковому оружию, так и к магии.
+
+Продуманные действия дают преимущество над врагом и способствуют более динамичному, интересному (и кровавому) бою!
+
+\subsection{Rule of Cool}
+
+DM готов проигнорировать здравый смысл, если это способствует крутому моменту в игре. Иногда.
+
+\chapter{House Rules}
+
+Правила, приведенные ниже, существенно меняют некоторые механики игры.
+
+Прочитайте эту главу внимательно.
+
+\section{Ability Scores}
+
+Для определения характеристик на этапе создания персонажа используется следующий метод:
+
+\begin{enumerate}
+    \item Бросаем 3d10, записываем наибольший ролл, повторяем 6 раз.
+    \item Распределяем [6 5 4 3 2 1] по 1 значению на каждый ролл из предыдущего шага.
+    \item Свободно присваиваем полученные значения характеристикам.
+\end{enumerate}
+
+%\subsection{Analysis}
+%
+%Total scores average at 68.85, ranging from 59 to 78 within >1\% probability. This is an overall power decrease of 6.28\% compared to 4d6 drop the lowest, which averages at 73.47, ranging from 61 to 86 within >1\% probability. Also, the variablity between characters is reduced by 4 points, ensuring more consistent groups.
+%
+%%Estimated distribution:
+%%
+%%\begin{tabularx}{\linewidth}{ c C C C C C C }
+%%    \textbf{a.s} & \textbf{value} & \textbf{\%} & \textbf{value} & \textbf{\%} & \textbf{value} & \textbf{\%} \\
+%%    1. & 16 & 85\% & 15 & 13\% & 14 & 2\%  \\
+%%    2. & 15 & 52\% & 14 & 36\% & 13 & 10\% \\
+%%    3. & 13 & 43\% & 12 & 26\% & 14 & 20\% \\
+%%    4. & 11 & 34\% & 12 & 27\% & 10 & 22\% \\
+%%    5. &  9 & 28\% & 10 & 23\% &  8 & 22\% \\
+%%    6. &  6 & 22\% &  7 & 22\% &  5 & 18\% \\
+%%\end{tabularx}
+%
+%Rolls are capped at 16 to accomodate for racials without introducing stat caps. Hitting 85\% with a +2 racial allows one to hit 20 in a score on level 4. On the other hand, flaws are more prevalent, ranging from 2-3 on average.
+%
+%Such distribution should help separate players by areas of expertise and let each one have their time under the spotlight.
+
+\section{Alignment}
+
+За моим столом, это способ объяснить свои действия, а не их характеризация. Плохие герои могут совершать хорошие поступки, пускай и из своих корыстных побуждений.
+
+Рассмотрим это на примере Робин Гуда:
+
+\begin{itemize}
+    \item \textbf{Lawful Good}: Я верен истинному королю, поэтому помогаю его людям.
+    \item \textbf{Chaotic Good}: Я ворую золото у богатых и отдаю его бедным, потому что они нуждаются в нем больше.
+    \item \textbf{Lawful Evil}: Я хочу отомстить нынешнему королю, и верен коду разбойников.
+    \item \textbf{Chaotic Evil}: Я краду золото у богатых чтобы усугубить их отношения с королем, что приведет к народному восстанию.
+\end{itemize}
+
+\section{Bottled Vitae}
+\textit{Магический предмет, редкий}
+\smallskip
+
+Фляга из матового, тускло-зеленого стекла, полная \textit{Vitae}-- бодрящего напитка любимого среди блуждающих душ этого мира.
+
+\textbf{Забвение.} Во время отдыха, вы можете потратить один или более зарядов чтобы восстановить здоровье равное HD + мо. Выносливости. Число зарядов
+
+\textbf{Абстиненция.} Продолжительный отдых не восстанавливае здоровье. Бутылка наполняется половиной максимального количества зарядов.
+
+\section{Skill Trials}
+
+Иногда, для достижения определенной цели группе необходимо решить несколько задач. В таких случаях, DM устраивает \textit{испытание}-- серию проверок характеристик в которых зачастую участвует вся группа.
+
+Например, для успешного побега из темницы необходимо:
+
+\begin{itemize}
+    \item \textbf{Выбраться из камеры}: достав ключи, взломав замок или использовав магию?
+    \item \textbf{Замести следы}: спрятать тело? смыть следы крови? запутать преследователей?
+    \item \textbf{Сбежать незамеченным}: пуститься прочь сломя голову или медленно красться через тени?
+\end{itemize}
+
+Специализация в убеждении даст преимущество при попытке обмануть стража, ловкость рук-- во взломе замка, etc.
+
+У каждого героя будет свой подход. В их интересах-- играть на стороне своих сильных сторон.
+
+\section{Misc}
+
+\subsection{Critical Damage}
+При выпадении нат. 20, урон равен сумме броска урона и его максимальному урону.
+
+На примере двуручного меча: 2d6 + 12.
+
+\chapter{Lipsum}
+\lipsum
+
+\chapter{Sensible Weather}
+
+Frankly, weather has been neglected in the official D\&D ruleset. This is an attempt to add some meaningful decision making, without making it too much of a hassle for the players.
+
+\begin{itemize}
+    \item \textbf{Precipitation}: if resting without cover, you must succeed constitution save (DC 12 or 16) to gain the benefits of a long rest.
+    \item \textbf{Snow}: advantage on tracking footprints.
+    \item \textbf{Rain}: disadvatage on checks related to climding or keeping balance.
+\end{itemize}
+
+\section{Weather Conditions}
+
+To determine the starting weather conditions, roll 1d8 with a -1 or -2 modifier in cold climate, or a +1 or +2 modifier in hot climate:
+
+\begin{tabularx}{\linewidth}{ c l c X }
+    \textbf{d8} & \textbf{condition} & \textbf{wind} & \textbf{temperature} \\
+   -1 & blizzard      & +2 & severely cold \\
+    0 & snow          & +1 & very cold     \\
+    1 & thunderstorm  & +1 & cold          \\
+    2 & rain          & +1 & cold          \\
+    3 & cold front    & +0 & cool          \\
+    4 & overcast      & +0 & cool          \\
+    5 & cloudy        & +0 & warm          \\
+    6 & partly cloudy & +0 & warm          \\
+    7 & clear sky     & -1 & hot           \\
+    8 & warm front    & -1 & hot           \\
+    9 & draught       & -1 & very hot      \\
+   10 & heatwave      & -2 & severely hot  \\
+\end{tabularx}
+
+Then, roll 1d4 to determine wind speed, with its modifier:
+
+\begin{tabularx}{11em}[t]{ c X }
+    \textbf{d4} & \textbf{wind speed} \\
+   -1 & none      \\
+    0 & none          \\
+    1 & light  \\
+    2 & weak          \\
+    3 & medium    \\
+    4 & strong      \\
+    5 & very strong        \\
+    6 & extremely strong \\
+\end{tabularx}
+\begin{tabularx}{11em}[t]{ c X }
+    \textbf{d8} & \textbf{change} \\
+    1 & down on the list  \\
+    2 & more precipitation    \\
+    3 & stronger wind      \\
+    4 & similar        \\
+    5 & reroll \\
+    6 & weaker wind     \\
+    7 & less precipitation    \\
+    8 & up on the list      \\
+\end{tabularx}
+
+Whenever appropriate (e.g once a day), roll 1d8 on the weather change table to determine the next weather condition.
+
+
+\bigskip
+\lipsum
+
+\end{multicols}
+\end{document}
