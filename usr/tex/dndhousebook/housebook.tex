@@ -58,8 +58,14 @@
 
     % italic command
     \newcommand{\ii}[1]
-    {{\AlegreyaSansOsF
+    {{
+      \AlegreyaSansOsF
       \itshape
+      #1}}{}
+
+    \newcommand{\bb}[1]
+    {{\AlegreyaSansOsF
+      \bfseries
       #1}}{}
 
     \newcommand{\sans}[1]
@@ -75,6 +81,8 @@
         }
     }
 
+    \usepackage{pgfplots}
+    \usepackage{filecontents}
     \usepackage{tikz}
 
     % highlight command
@@ -178,10 +186,12 @@
     {\large\bfseries\scshape} % format
     {}                % label
     {0pt}             % sep
-    {\Large}          % before-code
+    {\large}          % before-code
 
 % remove hyphenation
 \hyphenpenalty=8000
+
+\newcommand{\threestars}{\begin{center}\vspace{-12pt}$ {\cdot}\,{\cdot}\,{\cdot} $\vspace{-7pt}\end{center}}
 
 \begin{document}
 \begin{multicols}{2}
@@ -202,9 +212,9 @@ D\&D -- не видеоигра. Глубина взаимодействия с 
 \textbf{DM}: Хорошая идея-- можешь бросать с преимуществом.
 \end{Conversation}
 
-Многие обыденные предметы (особенно те, что у вас в рюкзаке) могут значительно повлиять на исход ситуации.
+Многие обыденные предметы (особенно те, что у вас в рюкзаке) могут значительно повлиять на исход событий.
 
-\subsection{Combat}
+\threestars
 
 В бою, не думайте о мече как о наборе чисел который заставляет здоровье врагов уменьшаться.
 
@@ -240,6 +250,29 @@ DM готов проигнорировать здравый смысл, если
     \item Свободно присваиваем полученные значения характеристикам.
 \end{enumerate}
 
+%\begin{filecontents*}{mydata.csv}
+%A,B,C
+%1,4,a
+%2,3,b
+%3,5,c
+%4,1,d
+%5,3,e
+%\end{filecontents*}
+%
+%\pgfplotstableread[col sep=comma,]{mydata.csv}\datatable
+%
+%\begin{tikzpicture}
+%    \begin{axis}[
+%        width = \linewidth,
+%        ybar,
+%        xtick=data,
+%        xticklabels from table={\datatable}{C},
+%        ]
+%
+%        \addplot table [x=A, y=B] {\datatable};
+%    \end{axis}
+%\end{tikzpicture}
+
 %\subsection{Analysis}
 %
 %Total scores average at 68.85, ranging from 59 to 78 within >1\% probability. This is an overall power decrease of 6.28\% compared to 4d6 drop the lowest, which averages at 73.47, ranging from 61 to 86 within >1\% probability. Also, the variablity between characters is reduced by 4 points, ensuring more consistent groups.
@@ -262,23 +295,34 @@ DM готов проигнорировать здравый смысл, если
 
 \section{Alignment}
 
-За моим столом, это способ объяснить свои действия, а не их характеризация. Плохие герои могут совершать хорошие поступки, пускай и из своих корыстных побуждений.
+За моим столом, это способ объяснить свои действия, а не их характеризация.
+
+\begin{itemize}
+    \item \textbf{Lawful}: Принцип, логика. Соблюдение личного или иного кода.
+    \item \textbf{Chaotic}: Импульс, чувства. Доверие своему эмоциональному интеллекту.
+    \item \textbf{Neutral}: Нужда, независимость. Политика невмешательства.
+\end{itemize}
+
+Плохие герои могут совершать хорошие поступки, пускай и из своих корыстных побуждений.
 
 Рассмотрим это на примере Робин Гуда:
 
-\begin{itemize}
-    \item \textbf{Lawful Good}: Я верен истинному королю, поэтому помогаю его людям.
-    \item \textbf{Chaotic Good}: Я ворую золото у богатых и отдаю его бедным, потому что они нуждаются в нем больше.
-    \item \textbf{Lawful Evil}: Я хочу отомстить нынешнему королю, и верен коду разбойников.
-    \item \textbf{Chaotic Evil}: Я краду золото у богатых чтобы усугубить их отношения с королем, что приведет к народному восстанию.
-\end{itemize}
+\begin{tabularx}{\linewidth}{ c L }
+    \textbf{Al.} & \textbf{Мотивация} \\
+    \textbf{LG}  & Я помогаю бедным так как это справедливо. \\
+    \textbf{CG}  & Я помогаю бедным потому что они несчастны. \\
+    \textbf{LE}  & Я верен коду разбойников и жажду мести. \\
+    \textbf{CE}  & Я хочу добиться народного восстания. \\
+\end{tabularx}
+
+Нейтральные персонажи крайне редки. Прежде чем создавать нейтрального персонажа, посоветуйтесь с DM.
 
 \begin{Item}{Bottled Vitum}{Бутылка Витума -- Волшебный предмет}
     Фляга из матового, тускло-зеленого стекла, полная бодрящего напитка. Максимальное число зарядов равно уровню персонажа.
 
-    \textbf{Забвение.} Во время отдыха, вы можете потратить один или более зарядов чтобы восстановить hd + мoд. выносливости (мин. 1) здоровья за каждый.
+    \textbf{Забвение.} Во время отдыха, вы можете потратить один или более зарядов чтобы восстановить \sans{hd} + \ii{мoд. Выносливости} \sans{(мин. 1)} здоровья за каждый.
 
-    \textbf{Абстиненция.} После продолжительного отдыха пополняется на 1/2 уровень персонажа зарядов. Продолжительный отдых не восстанавливает здоровье.
+    \textbf{Абстиненция.} После продолжительного отдыха пополняется на 1/2 уровня персонажа зарядов. Продолжительный отдых не восстанавливает здоровье.
 
     \begin{tabularx}{\linewidth}{ c L }
         \textbf{hd} & \textbf{Классы} \\
@@ -288,6 +332,21 @@ DM готов проигнорировать здравый смысл, если
         d12 & Варвар
     \end{tabularx}
 \end{Item}
+
+\section{Misc}
+
+\subsection{Darkvision}
+
+Герои, обладающие \ii{Теневым Зрением}, способны различать очертания предметов в \ii{Темноте} в радиусе 10ft. За пределами этого радиуса -- кромешная тьма.
+
+\subsection{Arrows \& Bolts}
+
+Подразумевается, что после боя персонажи собирают потраченные стрелы и болты. Таким образом, мы не ведем учет их количества, за исключением особых вариаций.
+
+\subsection{Critical Damage}
+Если при атаке оружием выпадает нат. 20, критический урон равен сумме броска урона и его максимальному урону.
+
+На примере двуручного меча: 2d6 + 12.
 
 \section{Skill Trials}
 
@@ -307,19 +366,42 @@ DM готов проигнорировать здравый смысл, если
 %
 %У каждого героя будет свой подход. В их интересах-- играть на стороне своих сильных сторон.
 
-\section{Misc}
 
-\subsection{Rest}
-Продолжительный отдых не восстанавливает здоровье. Во время отдыха можно использовать \textit{Bottled Vitum}
+\section{Lipsum}
+\lipsum
+\pagebreak
 
-\subsection{Critical Damage}
-При выпадении нат. 20, урон равен сумме броска урона и его максимальному урону.
+\chapter{Alchemy}
 
-На примере двуручного меча: 2d6 + 12.
+\begin{Item}{Guttur Inludere}{Насмехающаяся Пасть -- Растение, 1d4 (2+)}
+    Цветы внешне напоминают раскрытый рот. Питается насекомыми. Периодически выкрикивает разного рода ругательства.
+
+    \textbf{Насмешка.} Вскоре после употребления, съевший испытывает сильное желание выругаться, использовав \ii{Злую Насмешку}.
+\end{Item}
+
+
+\begin{Item}{Mentha Glacies}{Ледяная мята -- Растение, 1d4 (2+)}
+    Особый вид мяты. Листья слегка обжигают холодом при прикосновении. Обладает невероятно свежим ароматом.
+
+    \textbf{Ледяное Дыхание.} Листок, употребленный в сыром виде, позволяет вам использовать \ii{Ледяное Дыхание}: 2d4 урона, конус 15ft.
+\end{Item}
+
+
+\begin{Item}{Caspicum Calidus}{Огненный перец -- Растение, редкое}
+
+\end{Item}
+
 
 
 \chapter{Magic Items}
 Индекс магических предметов сотворенных искренне вашим DM.
+
+
+\begin{Item}{Torn Scroll of Lightning}{Порванный Свиток Молний -- Свиток}
+    Прочитав этот свиток, вы можете использовать заклинание Молния: линия 100' на 5'; 8d6, 1/2 при успехе спасброска Ловкость.
+
+    \textbf{Порванный.} На свитке сохранился неполный текст заклинания. После прочтения, использующему наносится 2d6 урона.
+\end{Item}
 
 \begin{Item}{Stone of Detection}{Камень Определения -- Волшебный предмет}
     Этот обычный на вид камень сферической формы скрывает в себе большой потенциал в области определения.
@@ -349,24 +431,34 @@ DM готов проигнорировать здравый смысл, если
 
 Можно спрятать в ветвях дерева, и сделать так, что в ночном лесу слабо освещена одна из крон.
 
-\begin{Item}{Mentha Gracilis}{Ментха Грацилис -- Растение, редкое}
-    Растение, с виду напоминающее мяту. Листья обжигают холодом при прикосновении. Обладает невероятно свежим ароматом. Имеет 1d4 (мин. 2) листьев.
-
-    \textbf{Ледяное Дыхание.} Листок, употребленный в сыром виде, позволяет вам использовать Ледяное Дыхание: 1d6 урона, конус 10ft.
-
-    \textbf{Ингредиент.} Каждого листка хватает на одно зелье, что повышает урон до 2d4. Вероятно, существуют и другие рецепты.
-\end{Item}
-
-Там, где растет Mentha Gracilis, температура ощутимо ниже. По кому-то может пробежать дрожь.
-
-Для приготовления зелья можно использовать испытание. Другие рецепты включают яд и т.д.
 
 \begin{Item}{Lockpick of Secrets}{Отмычка Тайн -- Зачарованный инструмент}
 \end{Item}
 
 
-\bigskip
-\lipsum
+%\begin{Item}{Animated Shield}{ -- Зачарованный предмет}
+%\end{Item}
++1 AC but able to two hand?
+Blanket that allows to sleep in armor
+
+
+make this a ring, a throw it into a well on the island. regain 1d4 charges per day up to max.
+
+Sapphire of Safeguarding
+Rare, requires attunement
+This shield-shaped sapphire attaches to the back of a shield. When attached in this way, it allows the shield bearer, as a reaction, to transfer half the damage of a successful attack against one of their allies within 30' to the shield bearer. The sapphire can use this power up to three times per day.
+
+
+I just got a shield of awareness (gives advantage on intiative). Considering most pallys have +0 initiative, its very helpful. Not really OP as going earlier in initiative isn't always good.
+
+
+
+on a side note, I should add kunai (only thrown, penalized like other ranged weapons at point blank, more damage?)
+
+and the moonlight greatsword
+
+bigskip
+lipsum
 
 \chapter{Sensible Weather}
 
