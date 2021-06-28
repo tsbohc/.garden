@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1624811122 "housebook.tex" "housebook.pdf" "housebook" 1624811125
+["pdflatex"] 1624850094 "housebook.tex" "housebook.pdf" "housebook" 1624850098
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1617738065 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1617738065 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1617738065 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -209,12 +209,13 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1617738065 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1623333281 5486151 b3f13810761058cae242f73a2c835ba0 ""
   "bg.png" 1624242218 459871 ee249fc4d809b0188d138d0929fd88ee ""
-  "housebook.aux" 1624811125 2202 b91de5da16060c6234474a442703ffd0 "pdflatex"
-  "housebook.tex" 1624811120 23099 46386f4f1845ce481c9b819fa2639d40 ""
-  "housebook.toc" 1624811125 1150 d15b9da437c7a1fda38b30636a924b2e "pdflatex"
-  "mydata.csv" 1624810654 48 43852a68139042879b9136ad0e28d821 "pdflatex"
+  "housebook.aux" 1624850098 2469 35b1b6bfab20ec32a213ed44d32b8939 "pdflatex"
+  "housebook.tex" 1624850094 29239 09fe880d1191c5826132fcf5eefc0791 ""
+  "housebook.toc" 1624850098 1294 600da3f0c7fbc05bf406b10d51766c15 "pdflatex"
+  "mydata.csv" 1624847806 1056 640b1f48b5b39c09ddfee925aeea51be ""
+  "wabils.csv" 1624848441 1316 5fe2aedb33d739ceabab75766dfd831d ""
   (generated)
   "housebook.aux"
-  "housebook.toc"
   "housebook.pdf"
+  "housebook.toc"
   "housebook.log"

@@ -1,0 +1,27 @@
+\babel@toc {russian}{}
+\contentsline {chapter}{\numberline {1}Foreword}{2}{}%
+\contentsline {subsection}{Rule of Cool}{2}{}%
+\contentsline {chapter}{\numberline {2}House Rules}{2}{}%
+\contentsline {section}{Ability Scores}{2}{}%
+\contentsline {section}{Alignment}{2}{}%
+\contentsline {section}{Bottled Vitum}{2}{}%
+\contentsline {section}{Misc}{2}{}%
+\contentsline {subsection}{Darkvision}{2}{}%
+\contentsline {subsection}{Arrows \& Bolts}{3}{}%
+\contentsline {subsection}{Critical Damage}{3}{}%
+\contentsline {section}{Skill Trials}{3}{}%
+\contentsline {section}{Lipsum}{3}{}%
+\contentsline {chapter}{\numberline {3}Alchemy}{4}{}%
+\contentsline {section}{Guttur Inludere}{4}{}%
+\contentsline {section}{Mentha Glacies}{4}{}%
+\contentsline {section}{Caspicum Calidus}{4}{}%
+\contentsline {chapter}{\numberline {4}Magic Items}{4}{}%
+\contentsline {section}{Torn Scroll of Lightning}{4}{}%
+\contentsline {section}{Stone of Detection}{4}{}%
+\contentsline {section}{Staff of Nustered}{4}{}%
+\contentsline {section}{Lockpick of Secrets}{4}{}%
+\contentsline {chapter}{\numberline {5}Sensible Weather}{5}{}%
+\contentsline {section}{Weather Conditions}{5}{}%
+\contentsline {chapter}{\numberline {6}Math}{6}{}%
+\contentsline {section}{Ability Scores}{6}{}%
+\contentsline {subsection}{Wicked Array}{6}{}%

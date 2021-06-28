@@ -50,7 +50,6 @@
         \medskip
         }
 
-
     % background
     \AtBeginDocument{
         \AddToShipoutPictureBG{\includegraphics[height=\paperheight]{bg.png}}
@@ -82,6 +81,7 @@
     }
 
     \usepackage{pgfplots}
+
     \usepackage{filecontents}
     \usepackage{tikz}
 
@@ -193,6 +193,26 @@
 
 \newcommand{\threestars}{\begin{center}\vspace{-12pt}$ {\cdot}\,{\cdot}\,{\cdot} $\vspace{-7pt}\end{center}}
 
+% axis on top
+\makeatletter \newcommand{\pgfplotsdrawaxis}{\pgfplots@draw@axis} \makeatother
+
+\pgfplotsset{axis line on top/.style={
+  axis line style=transparent,
+  ticklabel style=transparent,
+  tick style=transparent,
+  axis on top=false,
+  after end axis/.append code={
+    \pgfplotsset{
+      axis line style=opaque,
+      ticklabel style=opaque,
+      tick style=opaque,
+      grid=none
+    }
+    \pgfplotsdrawaxis
+  }
+  }
+}
+
 \begin{document}
 \begin{multicols}{2}
 
@@ -250,28 +270,7 @@ DM готов проигнорировать здравый смысл, если
     \item Свободно присваиваем полученные значения характеристикам.
 \end{enumerate}
 
-%\begin{filecontents*}{mydata.csv}
-%A,B,C
-%1,4,a
-%2,3,b
-%3,5,c
-%4,1,d
-%5,3,e
-%\end{filecontents*}
-%
-%\pgfplotstableread[col sep=comma,]{mydata.csv}\datatable
-%
-%\begin{tikzpicture}
-%    \begin{axis}[
-%        width = \linewidth,
-%        ybar,
-%        xtick=data,
-%        xticklabels from table={\datatable}{C},
-%        ]
-%
-%        \addplot table [x=A, y=B] {\datatable};
-%    \end{axis}
-%\end{tikzpicture}
+
 
 %\subsection{Analysis}
 %
@@ -524,5 +523,197 @@ Whenever appropriate (e.g once a day), roll 1d8 on the weather change table to d
 %\end{Item}
 
 
+
+\pagebreak
 \end{multicols}
+\chapter{Math}
+
+Эта глава посвящена рационализации тех или иных решений с точки зрения математики.
+
+И графикам. Красивым графикам. Кто не любит красивые лиловые графики?
+
+\smallskip
+\threestars
+
+\pgfplotstableread[col sep=comma,]{mydata.csv}\datatable
+
+\definecolor{mycolora}{HTML}{d1bbdf}
+\definecolor{mycolorb}{HTML}{c0d8b4}
+\definecolor{mycolorc}{HTML}{e6bab9}
+\definecolor{mycolord}{HTML}{a3d9d9}
+\definecolor{mycolore}{HTML}{a5c8e2}
+\definecolor{mycolorf}{HTML}{e1c8ab}
+
+\noindent
+\begin{tikzpicture}[font=\AlegreyaSansOsF]
+    \begin{axis}[
+        height = \axisdefaultheight*0.7,
+        width = \textwidth,
+        %axis lines=middle,
+        %axis lines=center,
+        %ylabel={Chance, \%},
+        %xlabel={Scores Total},
+        title=\sans{\textbf{WA Score Total}},
+        axis line on top,
+        ymin=0,
+        ymax=10,
+        ymajorgrids = true,
+        xmin=0,
+        xmax=30,
+        axis background/.style={fill=white!98!black},
+        ybar = 0pt,
+        bar width=14pt,
+        xtick=data,
+        xticklabels from table={\datatable}{C},
+        tick label style={/pgf/number format/assume math mode=true}, % very important for font settings
+        yticklabel={\pgfmathprintnumber{\tick}\%},
+        ]
+
+        \addplot [
+            fill = white!80!gray,
+            draw = none
+        ] table [y=D] {\datatable};
+
+        \addplot [
+            fill = white!83!blue,
+            draw = none
+        ] table [y=B] {\datatable};
+    \end{axis}
+\end{tikzpicture}
+
+\begin{multicols}{2}
+
+\section{Ability Scores}
+
+Характеристики имеют потолок в 20, что вполне достижимо с 4d6 (3 высоких), щепоткой удачи (9.72\%) и расовым бонусом в +2.
+
+Это лишает игрока прогрессии в основном стате на первом же уровне.
+
+\threestars
+
+Стандартный Набор [15, 14, 13, 12, 10, 8] (72 итого) соответствует моему представлению о начинающем искателе приключений и отражает его главную особенность: недостаток опыта.
+
+Однако, бросать кости -- весело, а получать готовый набор чисел -- попросту скучно.
+
+\subsection{Wicked Array}
+
+Выше приведена диаграмма распределения 3d10 (1 высокий) + [6, 5, 4, 3, 2, 1] (21) на фоне 4d6 (3 высоких).
+
+Среднее (68.85) падает на 4.6 (6.3\%). Девиация сокращается на 6 в пределах >1\%.
+
+\begin{itemize}
+    \item Добавочный набор позволяет либо акцентировать разницу между сильными и слабыми сторонами, либо уровнять их.
+    \item Пониженная девиация способствует более сбалансированным группам.
+    \item Сохраняет броски костей, снижает их значимость.
+\end{itemize}
+
+% {{{
+%\noindent
+%\begin{tikzpicture}
+%    \begin{axis}[
+%        height = \axisdefaultheight*0.7,
+%        width = \linewidth,
+%        %axis lines=middle,
+%        %axis lines=center,
+%        %ylabel={Chance, \%},
+%        %xlabel={Scores Total},
+%        %title=\sans{\textbf{Wicked Array Score Total}},
+%        axis line on top,
+%        ymin=-7,
+%        ymax=7,
+%        ymajorgrids = true,
+%        %xmin=4,
+%        %xmax=34,
+%        axis background/.style={fill=white!98!black},
+%        ybar = 0pt,
+%        bar width=14pt,
+%        tick label style={/pgf/number format/assume math mode=true}, % very important for font settings
+%        yticklabel={\pgfmathprintnumber{\tick}\%},
+%        symbolic x coords={4d6,SA},
+%        ]
+%        \addplot coordinates
+%            {(4d6,-6) (SA,-4)};
+%    \end{axis}
+%\end{tikzpicture}
+% }}}
+
+\end{multicols}
+
+\pgfplotstableread[col sep=comma,]{wabils.csv}\wabilstable
+
+\noindent
+\begin{tikzpicture}[font=\AlegreyaSansOsF]
+    \begin{axis}[
+        height = \axisdefaultheight*0.7,
+        width = \textwidth,
+        %axis lines=middle,
+        %axis lines=center,
+        %ylabel={Chance, \%},
+        %xlabel={Scores Total},
+        title=\sans{\textbf{WA Score Destribution}},
+        axis line on top,
+        ymin=0,
+        ymax=90,
+        ymajorgrids = true,
+        xmajorgrids = true,
+        xmin=1,
+        xmax=17,
+        axis background/.style={fill=white!98!black},
+        %ybar = 0pt,
+        %bar width=14pt,
+        %xtick=data,
+        %xticklabels from table={\datatable}{C},
+        no markers,
+        every axis plot/.append style={ultra thick},
+        tick label style={/pgf/number format/assume math mode=true}, % very important for font settings
+        yticklabel={\pgfmathprintnumber{\tick}\%},
+        ]
+
+        \addplot [
+            smooth,
+            mycolora
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A1, y=V1] {\wabilstable};
+
+        \addplot [
+            smooth,
+            mycolorb
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A2, y=V2] {\wabilstable};
+
+        \addplot [
+            smooth,
+            mycolorc
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A3, y=V3] {\wabilstable};
+
+        \addplot [
+            smooth,
+            mycolord
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A4, y=V4] {\wabilstable};
+
+        \addplot [
+            smooth,
+            mycolore
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A5, y=V5] {\wabilstable};
+
+        \addplot [
+            smooth,
+            mycolorf
+            %fill = white!83!blue,
+            %draw = none
+        ] table [x=A6, y=V6] {\wabilstable};
+    \end{axis}
+\end{tikzpicture}
+
+
+\newpage
+
 \end{document}
