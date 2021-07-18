@@ -7,6 +7,13 @@
 (local b (require :rc.textobjects.base))
 (local textobject b.textobject)
 
+; {l} line
+(te- :il "g_v^")
+(te- :al "$v0")
+
+; {g} global
+(te- :ig "GVgg")
+(te- :ag "GVgg")
 
 
 ;(local _quote (require :rc.textobjects.quote))
@@ -281,13 +288,6 @@
 ;
 ;; text-objects
 ;
-;; {l} line
-;(te- :il "g_v^")
-;(te- :al "$v0")
-;
-;; {g} global
-;(te- :ig "GVgg")
-;(te- :ag "GVgg")
 ;
 ;; {q} quoted
 ;

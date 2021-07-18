@@ -1,6 +1,5 @@
 (require-macros :zest.macros)
-
-(lead- " ")
+(import-macros {:def-keymap def-ki-} :zest.macros)
 
 ; TODO
 ; ds] should select "a]", strip [] and replace selection
@@ -13,45 +12,47 @@
 ; wrap all lines vs wrap each line?
 ; limestone italic selected in completion menu?
 
-(fn pseudo_operator [f t motion]
-  (let [r (eval- "@@")]
-    (match t
-      :char (norm- (.. "v" motion "y"))
-      _ (norm- (.. "`<" t "`>y")))
-    (let [context (eval- "@@")
-          output (f context)]
-      (when output
-        (vim.fn.setreg "@" output (vim.fn.getregtype "@"))
-        (norm- "gv\"0p"))
-      (vim.fn.setreg "@@" r (vim.fn.getregtype "@@")))))
+(lead- " ")
 
-(fn def-pseudo-operator [key f motions]
-  (local id (.. key "_operator"))
-  (tset _G id
-        (fn [t motion]
-          (pseudo_operator f t motion)))
-  (each [k v (pairs motions)]
-    (ki- [n :silent] (.. key k) (.. ":call v:lua." id "('char', '" v "')<cr>")))
-  (ki- [v :silent] key (.. ":<c-u>call v:lua." id "(visualmode())<cr>")))
-
-(fn surround [s]
-  (let [c (vim.fn.nr2char (vim.fn.getchar))]
-    (match c
-      "(" (.. "("  s  ")")
-      ")" (.. "( " s " )")
-      "[" (.. "["  s  "]")
-      "]" (.. "[ " s " ]")
-      "{" (.. "{"  s  "}")
-      "}" (.. "{ " s " }")
-      "<" (.. "<"  s  ">")
-      ">" (.. "< " s " >")
-      _ (.. c s c))))
-
-(def-pseudo-operator "s" surround
-  {"w" "iw"
-   "W" "iW"
-   "(" "i)"
-   ")" "a)"})
+;(fn pseudo_operator [f t motion]
+;  (let [r (eval- "@@")]
+;    (match t
+;      :char (norm- (.. "v" motion "y"))
+;      _ (norm- (.. "`<" t "`>y")))
+;    (let [context (eval- "@@")
+;          output (f context)]
+;      (when output
+;        (vim.fn.setreg "@" output (vim.fn.getregtype "@"))
+;        (norm- "gv\"0p"))
+;      (vim.fn.setreg "@@" r (vim.fn.getregtype "@@")))))
+;
+;(fn def-pseudo-operator [key f motions]
+;  (local id (.. key "_operator"))
+;  (tset _G id
+;        (fn [t motion]
+;          (pseudo_operator f t motion)))
+;  (each [k v (pairs motions)]
+;    (ki- [n :silent] (.. key k) (.. ":call v:lua." id "('char', '" v "')<cr>")))
+;  (ki- [v :silent] key (.. ":<c-u>call v:lua." id "(visualmode())<cr>")))
+;
+;(fn surround [s]
+;  (let [c (vim.fn.nr2char (vim.fn.getchar))]
+;    (match c
+;      "(" (.. "("  s  ")")
+;      ")" (.. "( " s " )")
+;      "[" (.. "["  s  "]")
+;      "]" (.. "[ " s " ]")
+;      "{" (.. "{"  s  "}")
+;      "}" (.. "{ " s " }")
+;      "<" (.. "<"  s  ">")
+;      ">" (.. "< " s " >")
+;      _ (.. c s c))))
+;
+;(def-pseudo-operator "s" surround
+;  {"w" "iw"
+;   "W" "iW"
+;   "(" "i)"
+;   ")" "a)"})
 
 
 ; don't like to lose control over what keybinding means, like 'sw' should be same as 'siw', sexp-style
@@ -112,31 +113,39 @@
 ; -- land of opinionated navigation --
 ; ------------  --/-<@  --------------
 
-; smart v-line movement
-(fn smart-line-move [d]
-  (if (> vim.v.count 0) d (.. "g" d)))
+;(def-ki- [nv :expr]
+;  "smart v-line movement"
+;  :e (fn [] (if (> vim.v.count 0) :k :gk))
+;  :n (fn [] (if (> vim.v.count 0) :j :gj)))
 
-(ki- [nv :expr] :e (partial smart-line-move :k))
-(ki- [nv :expr] :n (partial smart-line-move :j))
+; smart v-line movement
+(ki-fn :e [nv :expr] (if (> vim.v.count 0) :k :gk))
+(ki-fn :n [nv :expr] (if (> vim.v.count 0) :j :gj))
 
 (li- [o] e k)
 (li- [o] n j)
 
-; vertical
-(li- [n] N <c-d>)
-(li- [n] E <c-u>)
+(def-ki- [n :l]
+  "vertical screen movement"
+  N <c-d>
+  E <c-u>)
 
-; horizontal
-(li- [nv] H 0)
-(li- [nv] I $)
-(li- [nv] <ScrollWheelUp> <c-y>)
-(li- [nv] <ScrollWheelDown> <c-e>)
+(def-ki- [nv :l]
+  "horizontal line movement"
+  H 0
+  I $)
 
-; split-wise
-(li- [n] <c-h> <c-w>h)
-(li- [n] <c-n> <c-w>j)
-(li- [n] <c-e> <c-w>k)
-(li- [n] <c-i> <c-w>l)
+(def-ki- [nv :l]
+  "mousewheel blasphemy"
+  <ScrollWheelUp>   <c-y>
+  <ScrollWheelDown> <c-e>)
+
+(def-ki- [n :l]
+  "simple split movement"
+  <c-h> <c-w>h
+  <c-n> <c-w>j
+  <c-e> <c-w>k
+  <c-i> <c-w>l)
 
 ; consistency
 (li- [n] Y y$)
@@ -151,6 +160,7 @@
 (li- [nv :silent] // ":noh<cr>")
 (li- [n :silent] * *N) ; check if there's an entry above?
 
+; TODO (: %s///g<left><left>) instead maybe? macro it? see about escaping "s
 (li- [n] <leader>r ":%s///g<left><left>")  ; replace searched text
 (li- [x] <leader>r ":s///g<left><left>")   ; same but in current v-selection
 
@@ -161,17 +171,21 @@
     (exec- (.. "/" (eval- "@\"")))
     (norm- "N")))
 
-; stay in visual mode when indenting
-(li- [x] < <gv)
-(li- [x] > >gv)
+(def-ki- [x :l]
+  "stay in visual mode after indenting"
+  < <gv
+  > >gv)
 
 ; colemak
 (li- [nv] i l)
 (li- [nv] l i)
-(li- [nvo] L I)
-(li- [nvo] k n)
-(li- [nvo] K N)
-(li- [nvo] j f)
-(li- [nvo] J F)
-(li- [nvo] f e)
-(li- [nvo] F E)
+
+(def-ki- [nvo :l]
+  L I
+  k n
+  K N
+  j f
+  J F
+  f e
+  F E)
+

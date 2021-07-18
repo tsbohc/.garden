@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  28 JUN 2021 06:14
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.6.10)  17 JUL 2021 15:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1566,128 +1566,133 @@ Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+sm
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
 Глава 2.
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/m/n' will be
-(Font)              scaled to size 17.28pt on input line 263.
+(Font)              scaled to size 17.28pt on input line 267.
 Requested font "[Alegreya-Regular.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 17.28pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Regular.otf
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 263.
+(Font)              scaled to size 17.28pt on input line 267.
 Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;mapping=tex-text;" at 17.28pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
 LaTeX Font Info:    Font shape `TU/Alegreya(0)/b/sc' will be
-(Font)              scaled to size 17.28pt on input line 263.
+(Font)              scaled to size 17.28pt on input line 267.
 Requested font "[Alegreya-Bold.otf]/OT:script=latn;language=dflt;+pnum;+lnum;+smcp;mapping=tex-text;" at 17.28pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/Alegreya-Bold.otf
 LaTeX Font Info:    Font shape `TU/AlegreyaSans(2)/m/it' will be
-(Font)              scaled to size 10.95pt on input line 319.
+(Font)              scaled to size 10.95pt on input line 323.
 Requested font "[AlegreyaSans-Italic.otf]/OT:script=latn;language=dflt;+pnum;+onum;mapping=tex-text;" at 10.95pt
  -> /usr/share/texmf-dist/fonts/opentype/huerta/alegreya/AlegreyaSans-Italic.otf
 
-Underfull \hbox (badness 10000) in paragraph at lines 319--321
+Underfull \hbox (badness 10000) in paragraph at lines 323--325
 \TU/Alegreya(0)/m/n/10.95 Фляга из матового, тускло-зеленого стекла,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 319--321
+Underfull \hbox (badness 10000) in paragraph at lines 323--325
 \TU/Alegreya(0)/m/n/10.95 полная бодрящего напитка. Максимальное
- []
-
-
-Underfull \hbox (badness 7012) in paragraph at lines 324--325
-\TU/Alegreya(0)/m/n/10.95 дыха пополняется на 1/2 уровня персонажа
  []
 
 File: bg.png Graphic file (type bmp)
 <bg.png>
 [2]
-Underfull \hbox (badness 5091) in paragraph at lines 346--347
+Underfull \hbox (badness 5091) in paragraph at lines 350--351
 \TU/Alegreya(0)/m/n/10.95 тический урон равен сумме броска урона и его
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--371
+Underfull \hbox (badness 10000) in paragraph at lines 375--375
 \TU/Alegreya(0)/m/n/10.95 quis, viverra ac, nunc. Praesent eget sem vel leo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--371
+Underfull \hbox (badness 10000) in paragraph at lines 375--375
 []\TU/Alegreya(0)/m/n/10.95 Nam dui ligula, fringilla a, euismod sodales,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--371
+Underfull \hbox (badness 10000) in paragraph at lines 375--375
 \TU/Alegreya(0)/m/n/10.95 ullamcorper vestibulum turpis. Pellentesque cursus
  []
 
 
-Underfull \hbox (badness 5667) in paragraph at lines 371--371
+Underfull \hbox (badness 5667) in paragraph at lines 375--375
 \TU/Alegreya(0)/m/n/10.95 Vivamus viverra fermentum felis. Donec nonummy
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--371
+Underfull \hbox (badness 10000) in paragraph at lines 375--375
 \TU/Alegreya(0)/m/n/10.95 Aliquam pellentesque, augue quis sagittis posuere,
  []
 
 File: bg.png Graphic file (type bmp)
 <bg.png>
 [3]
-Глава 3.
-
-Underfull \hbox (badness 10000) in paragraph at lines 378--379
+Underfull \hbox (badness 10000) in paragraph at lines 381--382
 []\TU/Alegreya(0)/b/n/10.95 Насмешка. \TU/Alegreya(0)/m/n/10.95 Вскоре после употребления,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 378--379
+Underfull \hbox (badness 10000) in paragraph at lines 381--382
 \TU/Alegreya(0)/m/n/10.95 съевший испытывает сильное желание
  []
 
 
-Underfull \hbox (badness 5359) in paragraph at lines 382--384
+Underfull \hbox (badness 5359) in paragraph at lines 385--387
 \TU/Alegreya(0)/m/n/10.95 Особый вид мяты. Листья слегка обжигают
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 389--390
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
 
- []
-
-Глава 4.
-
-Underfull \hbox (badness 10000) in paragraph at lines 396--397
-\TU/Alegreya(0)/m/n/10.95 Индекс магических предметов сотворенных
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 421--423
-\TU/Alegreya(0)/m/n/10.95 Деревянный посох, на конце увенчанный
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 421--423
-\TU/Alegreya(0)/m/n/10.95 крыглым туманным кристаллом, бережно
  []
 
 File: bg.png Graphic file (type bmp)
 <bg.png>
 [4]
-Глава 5.
+Глава 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 408--409
+[]\TU/Alegreya(0)/b/n/10.95 Подготовка ингредиентов. \TU/Alegreya(0)/m/n/10.95 Очистка, измельче-
+ []
+
 File: bg.png Graphic file (type bmp)
 <bg.png>
 [5]
+Глава 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 418--419
+\TU/Alegreya(0)/m/n/10.95 Индекс магических предметов сотворенных
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 442--444
+\TU/Alegreya(0)/m/n/10.95 Деревянный посох, на конце увенчанный
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 442--444
+\TU/Alegreya(0)/m/n/10.95 крыглым туманным кристаллом, бережно
+ []
+
+Глава 5.
+File: bg.png Graphic file (type bmp)
+<bg.png>
+[6]
+File: bg.png Graphic file (type bmp)
+<bg.png>
+ [7]
 Глава 6.
 PGFPlots: reading {mydata.csv}
 PGFPlots: reading {wabils.csv}
 File: bg.png Graphic file (type bmp)
 <bg.png>
-[6] (./housebook.aux) ) 
+[8] (./housebook.aux) ) 
 Here is how much of TeX's memory you used:
- 35074 strings out of 476919
- 908133 string characters out of 5827674
- 1684144 words of memory out of 5000000
- 54431 multiletter control sequences out of 15000+600000
+ 35072 strings out of 476919
+ 908094 string characters out of 5827674
+ 1684145 words of memory out of 5000000
+ 54429 multiletter control sequences out of 15000+600000
  407339 words of font info for 101 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  102i,12n,124p,705b,2047s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on housebook.pdf (6 pages).
+Output written on housebook.pdf (8 pages).

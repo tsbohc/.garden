@@ -16,13 +16,16 @@
    :documentation true
 
    :source
-   {:path true
+   {
+    :path true
+    :treesitter true
     :buffer true
     :nvim_lsp true
     :calc true
     :ultisnips true
     :omni true
-    :nvim_treesitter true}})
+    :love true
+    }})
 
 (fn rtc [s]
   (vim.api.nvim_replace_termcodes s true true true))

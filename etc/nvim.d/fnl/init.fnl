@@ -13,6 +13,7 @@
 ; (se^ "prepend" v)
 ; (se< "remove" v)
 
+(require :zest) ; put init stuff here, or rather in zest.setup
 (require-macros :zest.macros)
 
 (g- python_host_prog :/usr/bin/python2)
@@ -21,12 +22,47 @@
 ;(print (opt- number?))
 ;(print (vim.inspect vim.opt.number))
 
+(require :rc.love-compe)
+
 (require :rc.plugins)
 (require :rc.options)
 (require :rc.keymaps)
 (require :rc.aucmds)
 (require :rc.excmds)
 (require :rc.textobjects)
+
+(op- "s" (fn [s]
+  (let [c (vim.fn.nr2char (vim.fn.getchar))]
+    (match c
+      "\"" (.. "\"" s "\"")
+      "'" (.. "'"  s  "'")
+      "(" (.. "( " s " )")
+      ")" (.. "("  s  ")")
+      "[" (.. "[ " s " ]")
+      "]" (.. "["  s  "]")
+      "{" (.. "{ " s " }")
+      "}" (.. "{"  s  "}")
+      "<" (.. "< " s " >")
+      ">" (.. "<"  s  ">")))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;(se- set-value)
 ;(se? get-value)
@@ -41,6 +77,20 @@
 ;(se- number-)  ; remove
 ;(se- number^)  ; prepend
 
+
+;(fn surround-op [s]
+;  (let [c (vim.fn.nr2char (vim.fn.getchar))]
+;    (match c
+;      "\"" (.. "\"" s "\"")
+;      "'" (.. "'"  s  "'")
+;      "(" (.. "( " s " )")
+;      ")" (.. "("  s  ")")
+;      "[" (.. "[ " s " ]")
+;      "]" (.. "["  s  "]")
+;      "{" (.. "{ " s " }")
+;      "}" (.. "{"  s  "}")
+;      "<" (.. "< " s " >")
+;      ">" (.. "<"  s  ">"))))
 
 ; (fn make-me-suffer [s]
 ;   (var i 0)

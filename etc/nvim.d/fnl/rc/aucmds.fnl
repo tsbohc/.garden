@@ -33,3 +33,28 @@
 
 ;(au- [FileType] "fennel"
 ;     (fn [] (se- lispwords (.. vim.o.lispwords (table.concat [:when-not :if-not] ",")))))
+
+(au- [FileType] "fennel"
+     (fn [] (so- iskeyword- ".")))
+
+; dumb stuff
+
+;(fn get-cu []
+;  "get cursor position"
+;  (vim.fn.getpos "."))
+;
+;(fn set-cu [p]
+;  "set cursor position"
+;  (vim.fn.setpos "." p)
+;  nil)
+;
+;(au- [InsertCharPre] "*"
+;     (fn []
+;       (let [trigger-chars {" " true "," true "." true}]
+;         (when (. trigger-chars vim.v.char)
+;           (local cu-end (get-cu))
+;           (vim.api.nvim_command "norm! B")
+;           (local cu-beg (get-cu))
+;           (let [cword (vim.fn.expand "<cWORD>")]
+;             (print cword)
+;             (set-cu cu-end))))))

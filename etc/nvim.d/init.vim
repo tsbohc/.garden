@@ -28,7 +28,7 @@
 
 augroup testgroup
   autocmd!
-  autocmd BufRead *.fnl :set lispwords+=when-not
+  autocmd BufRead *.fnl :set lispwords+=when-not,ecs
   "autocmd BufRead *.fnl :syntax keyword TSString arst
 augroup END
 
@@ -174,9 +174,25 @@ fun! Zct()
   :silent call Runcmd("fennel --compile --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata " . expand('%:p'))
 endfun
 
+fun! LoveRun()
+    execute "silent !fennel --compile main.fnl > main.lua"
+    execute "silent !love ."
+endfun
+
 "com! MyRun :call MyRun()
 nnoremap <c-c> :call MyRun()<cr>
 nnoremap <c-t> :call Zct()<cr>
+nnoremap <c-l> :call LoveRun()<cr>
+
+"function SetLovePrefs()
+"  setlocal dictionary+=~/.garden/etc/nvim.d/love-dict/love.dict
+"  "setlocal iskeyword+=.
+"endfunction
+"
+"augroup love
+"    au!
+"    autocmd FileType fnl call SetLovePrefs()
+"augroup END
 
 " * while visual to search selected text
 "function! s:VisualStarSearch(search_cmd)

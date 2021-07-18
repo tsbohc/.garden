@@ -8,8 +8,9 @@
   ;(pa- /home/sean/code/test)
   (pa- /home/sean/code/limestone)
 
-  ;(pa- wellle/targets.vim)
+  (pa- junegunn/fzf.vim)
 
+  ;(pa- wellle/targets.vim)
   ;(pa- tpope/vim-surround)
 
   (pa- neovim/nvim-lspconfig)
@@ -27,10 +28,10 @@
 
   (pa- rktjmp/lush.nvim)
 
-  (pa- morhetz/gruvbox
-       :config (fn []
-         (g- gruvbox_bold 0)
-         (g- gruvbox_contrast_dark :soft)))
+  ;(pa- morhetz/gruvbox
+  ;     :config (fn []
+  ;       (g- gruvbox_bold 0)
+  ;       (g- gruvbox_contrast_dark :soft)))
 
   (pa- lervag/vimtex
        :config (fn []
