@@ -5,43 +5,10 @@
 ;    |
 ;
 
-; (print (vim.inspect (vim.opt.listchars:get)))
-
-; (se= "set" v) ; or se-
-; (se? "get" v) ; or ge- or se?
-; (se> "append" v)
-; (se^ "prepend" v)
-; (se< "remove" v)
-
-(require :zest) ; put init stuff here, or rather in zest.setup or better yet, in the plugin itself
 (require-macros :zest.macros)
-
-;(require :neozest)
 
 (g- python_host_prog :/usr/bin/python2)
 (g- python3_host_prog :/usr/bin/python3)
-
-;(print (opt- number?))
-;(print (vim.inspect vim.opt.number))
-
-(tset _G :ZEST (or _G.ZEST {:keymap {}}))
-(require-macros :neozest.macros)
-
-
-;(setoption wooo:append 1)
-
-;(local msg "1aaa that feeling when > < ! @ #%)(@#$")
-;(local e "<c-m>")
-;(local m "m")
-
-;(fn es [s] (s:gsub "%W" (fn [c] (string.format "_%02X_" (string.byte c)))))
-;(print (.. "'" (es msg) "'"))
-
-;(keymap-function (.. "<c-" m ">") [n] (print "woo")) ; only takes a literal string
-;(keymap-function e [n] (print "woo")) ; only takes a literal string
-;(keymap-function "<c-m>" [n] (print "woo")) ; only takes a literal string
-;(keymap-expression e [n] (.. ":echo '" msg "'<cr>"))
-;(keymap-literal m [n] 0)
 
 (require :rc.love-compe)
 
@@ -53,7 +20,7 @@
 (require :rc.textobjects)
 
 
-;(print (vim.inspect _G.ZEST))
+
 
 1
 
@@ -314,4 +281,38 @@
 ; ; sib" -> surround block with "
 
 ; ; s
+
+
+
+;(setoption wooo:append 1)
+
+;(local msg "1aaa that feeling when > < ! @ #%)(@#$")
+;(local e "<c-m>")
+;(local m "m")
+
+;(fn es [s] (s:gsub "%W" (fn [c] (string.format "_%02X_" (string.byte c)))))
+;(print (.. "'" (es msg) "'"))
+
+;(keymap-function (.. "<c-" m ">") [n] (print "woo")) ; only takes a literal string
+;(keymap-function e [n] (print "woo")) ; only takes a literal string
+;(keymap-function "<c-m>" [n] (print "woo")) ; only takes a literal string
+;(keymap-expression e [n] (.. ":echo '" msg "'<cr>"))
+;(keymap-literal m [n] 0)
+
+
+; (print (vim.inspect (vim.opt.listchars:get)))
+
+; (se= "set" v) ; or se-
+; (se? "get" v) ; or ge- or se?
+; (se> "append" v)
+; (se^ "prepend" v)
+; (se< "remove" v)
+
+;(require :zest) ; put init stuff here, or rather in zest.setup or better yet, in the plugin itself
+;(require-macros :zest.macros)
+;(print (opt- number?))
+;(print (vim.inspect vim.opt.number))
+
+;(tset _G :ZEST (or _G.ZEST {:keymap  {} :autocmd {}}))
+;(require-macros :zest.new-macros)
 

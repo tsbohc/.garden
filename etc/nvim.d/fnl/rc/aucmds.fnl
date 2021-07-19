@@ -1,41 +1,54 @@
-(require-macros :zest.macros)
+(import-macros
+  {:setoption so-
+   :def-augroup au.gr-
+   :def-autocmd au.no-
+   :def-autocmd-fn au.fn-
+   :def-augroup-dirty def-augroup-dirty}
+  :zest.new-macros)
 
-; show/hide cursorline based on window focus and mode
-(au- [InsertEnter BufLeave FocusLost] "*"
-     (fn [] (se- nocursorline)))
+(au.gr- :smart-cursorline
+  ; show/hide cursorline based on window focus and mode
+  (au.fn- "*" [InsertEnter BufLeave FocusLost]
+    (so- cursorline false))
+  (au.fn- "*" [InsertLeave BufEnter FocusGained]
+    (if (not= (vim.fn.mode) :i)
+      (so- cursorline))))
 
-(au- [InsertLeave BufEnter FocusGained] "*"
-     (fn [] (if (not= (vim.fn.mode) :i) (se- cursorline))))
+(au.gr- :restore-position
+  ; restore last position in file
+  (au.fn- "*" [BufReadPost]
+    (when (and (> (vim.fn.line "'\"") 1)
+               (<= (vim.fn.line "'\"") (vim.fn.line "$")))
+      (vim.cmd "normal! g'\""))))
 
-; flash yanked text
-(au- [TextYankPost] "*"
-     (fn [] (vim.highlight.on_yank {:higroup "Search" :timeout 100})))
+(au.gr- :flash-yank
+  ; flash yanked text
+  (au.fn- "*" [TextYankPost]
+    (vim.highlight.on_yank {:higroup "Search" :timeout 100})))
 
-; restore last position in file
-(au- [BufReadPost] "*"
-     (fn []
-       (when (and (>= (vim.fn.line "'\"") 1)
-                  (<= (vim.fn.line "'\"") (vim.fn.line "$"))
-                  (not (vim.bo.filetype:find "commit")))
-         (norm- "`\""))))
+(au.gr- :split-settings
+  ; resize splits automatically
+  (au.no- "*" [VimResized]
+    "wincmd =")
+  ; open help in vsplit
+  (au.no- "help" [FileType]
+    "wincmd L"))
 
-; open help in a vertical buffer
-(au- [FileType] "help"
-     (fn [] (exec- "wincmd L")))
-
-; default ft to 'text'
-;(au- [BufEnter] "*"
-;     (fn [] (if (= vim.bo.filetype "") (set vim.bo.filetype "text"))))
-
-; enable wrap in non-programming fts
-(au- [FileType] "text,latex,markdown,tex,context,plaintex"
-     (fn [] (se- wrap)))
+(au.gr- :filetype-settings
+  ; enable wrap for text filetypes
+  (au.no- "text,latex,markdown,tex,context,plaintex" [FileType] "set wrap")
+  ; tweaks for fennel and vimrc
+  (au.fn- "fennel" [FileType]
+    (so- iskeyword:remove ".")
+    (so- lispwords:append [:au.no- :au.fn- :au.gr-
+                           :ki.no- :ki.fn-
+                           :so-])))
 
 ;(au- [FileType] "fennel"
 ;     (fn [] (se- lispwords (.. vim.o.lispwords (table.concat [:when-not :if-not] ",")))))
 
-(au- [FileType] "fennel"
-     (fn [] (so- iskeyword- ".")))
+;(au- [FileType] "fennel"
+;     (fn [] (so- iskeyword- ".")))
 
 ; dumb stuff
 
@@ -58,3 +71,8 @@
 ;           (let [cword (vim.fn.expand "<cWORD>")]
 ;             (print cword)
 ;             (set-cu cu-end))))))
+
+
+; default ft to 'text'
+;(au- [BufEnter] "*"
+;     (fn [] (if (= vim.bo.filetype "") (set vim.bo.filetype "text"))))

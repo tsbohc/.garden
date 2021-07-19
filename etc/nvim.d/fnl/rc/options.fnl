@@ -1,57 +1,57 @@
 (require-macros :zest.macros)
-(import-macros {:setoption $} :neozest.macros)
+(import-macros {:set-option so-} :zest.new-macros)
 
 ; colors
 (viml- "syntax enable")
 (colo- :limestone)
 
 ; rendering
-($ encoding "utf-8")
-($ synmaxcol 256)
-($ termguicolors)
+(so- encoding "utf-8")
+(so- synmaxcol 256)
+(so- termguicolors)
 
 ; ui
-($ number)
-($ relativenumber)
-($ cursorline)
-($ showmatch)
-($ matchtime 2)
-($ shortmess:append "Ic")
+(so- number)
+(so- relativenumber)
+(so- cursorline)
+(so- showmatch)
+(so- matchtime 2)
+(so- shortmess:append "Ic")
 
 ; behaviour
-($ scrolloff 10)
-($ wrap false)
-($ virtualedit "block")
-($ undofile)
-($ autoread)
-($ clipboard "unnamedplus") ; don't forget xsel!
-($ mouse "a")
-($ completeopt:append ["menuone" "noselect"])
+(so- scrolloff 10)
+(so- wrap false)
+(so- virtualedit "block")
+(so- undofile)
+(so- autoread)
+(so- clipboard "unnamedplus") ; don't forget xsel!
+(so- mouse "a")
+(so- completeopt:append ["menuone" "noselect"])
 
 ; status lines
-($ showmode false)
-($ laststatus 2)
+(so- showmode false)
+(so- laststatus 2)
 
 ; search
-($ incsearch)
-($ inccommand "nosplit")
-($ hlsearch)
-($ ignorecase)
-($ smartcase)
+(so- incsearch)
+(so- inccommand "nosplit")
+(so- hlsearch)
+(so- ignorecase)
+(so- smartcase)
 
 ; folding
-($ foldenable)
-($ foldmethod "marker")
+(so- foldenable)
+(so- foldmethod "marker")
 ;(se- foldtext "v:lua.folding()"
 
 ; spacing
-($ tabstop 2)
-($ shiftwidth 4)
-($ softtabstop 2)
-($ expandtab)
+(so- tabstop 2)
+(so- shiftwidth 4)
+(so- softtabstop 2)
+(so- expandtab)
 ;(se- :noshiftround)
 
 ; invisibles
-($ listchars {:trail "␣"})
-($ list)
+(so- listchars {:trail "␣"})
+(so- list)
 ;(se- :fillchars "eob:~") ; do not set those to fileseparator etc, trust me

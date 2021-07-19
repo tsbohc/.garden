@@ -1,8 +1,11 @@
 (require-macros :zest.macros)
-(import-macros {:keymap-function ki.fn-
-                :keymap-normal   ki.no-} :neozest.macros)
+(import-macros {:def-keymap-fn ki.fn-
+                :def-keymap    ki.no-} :zest.new-macros)
 
 (lead- " ")
+
+(each [_ k (ipairs [:h :j :k :l])]
+  (ki.no- (.. "<c-" k ">") [nv]  (.. "<c-w>" k)))
 
 (ki.fn- :<c-m> [n]
   (print "working on zest.nvim!"))

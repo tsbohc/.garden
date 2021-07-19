@@ -1,40 +1,37 @@
-(require-macros :zest.macros)
+(import-macros {:packer-use-wrapper p-
+                :let-g              g-} :zest.new-macros)
 
-(local packer (require :packer))
-(packer.startup (fn []
-  (pa- wbthomason/packer.nvim)
+(fn plugins []
+  (p- :wbthomason/packer.nvim)
 
-  (pa- /home/sean/code/zest)
-  (pa- /home/sean/code/neozest)
-  (pa- /home/sean/code/limestone)
+  (p- :/home/sean/code/zest)
+  (let [z (require :zest)]
+    (z.setup))
 
-  (pa- junegunn/fzf.vim)
+  (p- :/home/sean/code/limestone)
+
+  (p- :junegunn/fzf.vim)
 
   ;(pa- wellle/targets.vim)
   ;(pa- tpope/vim-surround)
 
-  (pa- neovim/nvim-lspconfig)
-  (pa- nvim-treesitter/nvim-treesitter
-       :run ":TSUpdate"
-       :zest (fn []
-         (let [ts (require :nvim-treesitter.configs)]
-           (ts.setup {:highlight {:enable true}}))))
+  (p- :neovim/nvim-lspconfig)
 
-  (pa- nvim-treesitter/playground)
+  (p- :nvim-treesitter/nvim-treesitter
+      {:run ":TSUpdate"})
+  (let [ts (require :nvim-treesitter.configs)]
+    (ts.setup {:highlight {:enable true}}))
 
-  (pa- hrsh7th/nvim-compe
-       :zest (fn []
-         (require :plugins.nvim-compe)))
+  (p- :nvim-treesitter/playground)
 
-  (pa- rktjmp/lush.nvim)
+  (p- :hrsh7th/nvim-compe)
+  (require :plugins.nvim-compe)
 
-  ;(pa- morhetz/gruvbox
-  ;     :config (fn []
-  ;       (g- gruvbox_bold 0)
-  ;       (g- gruvbox_contrast_dark :soft)))
+  (p- :rktjmp/lush.nvim)
 
-  (pa- lervag/vimtex
-       :config (fn []
+  (p- :lervag/vimtex
+      {:config
+       (fn []
          (g- tex_flavor "latex")
          (g- vimtex_compiler_latexmk
              {:executable "latexmk"
@@ -44,24 +41,29 @@
                         "-interaction=nonstopmode"]})
          (g- vimtex_view_method "zathura")
          (g- vimtex_quickfix_mode 0)
-         (g- tex_conceal "")))
+         (g- tex_conceal ""))})
 
-  (pa- folke/which-key.nvim
-       :config (fn []
+  (p- :folke/which-key.nvim
+      {:config
+       (fn []
          (let [c (require :which-key)]
-           (c.setup {}))))
+           (c.setup {})))})
 
   ; lisp
-  (pa- bakpakin/fennel.vim :ft ["fennel"])
-  (pa- guns/vim-sexp
-       :zest (fn []
-         (require :plugins.vim-sexp)))
+  (p- :bakpakin/fennel.vim
+      {:ft ["fennel"]})
 
-  (pa- Yggdroot/indentLine
-       :config (fn []
+  (p- :guns/vim-sexp)
+  (require :plugins.vim-sexp)
+
+  (p- :Yggdroot/indentLine
+      {:config
+       (fn []
          (g- indentLine_setColors 0)
          (g- indentLine_char "·")
-         (g- indentLine_fileTypeExclude ["markdown"])))
+         (g- indentLine_fileTypeExclude ["markdown"]))})
 
-  (pa- tweekmonster/startuptime.vim)
-))
+  (p- :tweekmonster/startuptime.vim))
+
+(let [p (require :packer)]
+  (p.startup plugins))
