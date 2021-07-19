@@ -8,22 +8,28 @@
 ## nvim
 
 #### init.lua
-Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles lua, via [zest](https://github.com/tsbohc/zest.nvim).
+Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles to lua, via [zest](https://github.com/tsbohc/zest.nvim).
 
 ```clojure
 ; options
-(se- scrolloff 10)
-(se- nowrap)
+(so- cursorline)
+(so- completeopt:append ["menuone" "noselect"])
+(so- listchars {:trail "␣"})
 
 ; smart v-line movement
-(ki- [nvo :expr] :e (fn [] (if (> vim.v.count 0) :k :gk)))
-(ki- [nvo :expr] :n (fn [] (if (> vim.v.count 0) :j :gj)))
+(ki.fn- :e [nv :expr] (if (> vim.v.count 0) "k" "gk"))
+(ki.fn- :n [nv :expr] (if (> vim.v.count 0) "j" "gj"))
+
+; mousewheel blasphemy
+(ki.no- [nv]
+  {:<ScrollWheelUp>   "<c-y>"
+   :<ScrollWheelDown> "<c-e>"})
 
 ; search for selected text
-(ki- [x] :* (fn []
+(ki.fn- :* [x]
   (norm- "gvy")
   (exec- (.. "/" (eval- "@\"")))
-  (norm- "N")))
+  (norm- "N"))
 ```
 
 ## addendum
