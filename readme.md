@@ -16,20 +16,20 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles t
 (so- completeopt:append ["menuone" "noselect"])
 (so- listchars {:trail "␣"})
 
-; smart v-line movement
+; keybinds
 (ki.fn- :e [nv :expr] (if (> vim.v.count 0) "k" "gk"))
 (ki.fn- :n [nv :expr] (if (> vim.v.count 0) "j" "gj"))
 
-; mousewheel blasphemy
 (ki.no- [nv]
   {:<ScrollWheelUp>   "<c-y>"
    :<ScrollWheelDown> "<c-e>"})
 
-; search for selected text
-(ki.fn- :* [x]
-  (norm- "gvy")
-  (exec- (.. "/" (eval- "@\"")))
-  (norm- "N"))
+; autocmds
+(au.gr- :restore-position
+  (au.fn- "*" [BufReadPost]
+    (when (and (> (vim.fn.line "'\"") 1)
+               (<= (vim.fn.line "'\"") (vim.fn.line "$")))
+      (vim.cmd "normal! g'\""))))
 ```
 
 ## addendum

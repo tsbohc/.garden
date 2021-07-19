@@ -1,10 +1,8 @@
 (import-macros
-  {:setoption so-
-   :def-augroup au.gr-
-   :def-autocmd au.no-
-   :def-autocmd-fn au.fn-
-   :def-augroup-dirty def-augroup-dirty}
-  :zest.new-macros)
+  {:setoption      so-
+   :def-augroup    au.gr-
+   :def-autocmd    au.no-
+   :def-autocmd-fn au.fn-} :zest.new-macros)
 
 (au.gr- :smart-cursorline
   ; show/hide cursorline based on window focus and mode
