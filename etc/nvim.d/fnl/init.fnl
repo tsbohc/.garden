@@ -13,14 +13,35 @@
 ; (se^ "prepend" v)
 ; (se< "remove" v)
 
-(require :zest) ; put init stuff here, or rather in zest.setup
+(require :zest) ; put init stuff here, or rather in zest.setup or better yet, in the plugin itself
 (require-macros :zest.macros)
+
+;(require :neozest)
 
 (g- python_host_prog :/usr/bin/python2)
 (g- python3_host_prog :/usr/bin/python3)
 
 ;(print (opt- number?))
 ;(print (vim.inspect vim.opt.number))
+
+(tset _G :ZEST (or _G.ZEST {:keymap {}}))
+(require-macros :neozest.macros)
+
+
+;(setoption wooo:append 1)
+
+;(local msg "1aaa that feeling when > < ! @ #%)(@#$")
+;(local e "<c-m>")
+;(local m "m")
+
+;(fn es [s] (s:gsub "%W" (fn [c] (string.format "_%02X_" (string.byte c)))))
+;(print (.. "'" (es msg) "'"))
+
+;(keymap-function (.. "<c-" m ">") [n] (print "woo")) ; only takes a literal string
+;(keymap-function e [n] (print "woo")) ; only takes a literal string
+;(keymap-function "<c-m>" [n] (print "woo")) ; only takes a literal string
+;(keymap-expression e [n] (.. ":echo '" msg "'<cr>"))
+;(keymap-literal m [n] 0)
 
 (require :rc.love-compe)
 
@@ -31,19 +52,24 @@
 (require :rc.excmds)
 (require :rc.textobjects)
 
-(op- "s" (fn [s]
-  (let [c (vim.fn.nr2char (vim.fn.getchar))]
-    (match c
-      "\"" (.. "\"" s "\"")
-      "'" (.. "'"  s  "'")
-      "(" (.. "( " s " )")
-      ")" (.. "("  s  ")")
-      "[" (.. "[ " s " ]")
-      "]" (.. "["  s  "]")
-      "{" (.. "{ " s " }")
-      "}" (.. "{"  s  "}")
-      "<" (.. "< " s " >")
-      ">" (.. "<"  s  ">")))))
+
+;(print (vim.inspect _G.ZEST))
+
+1
+
+;(op- "s" (fn [s]
+;  (let [c (vim.fn.nr2char (vim.fn.getchar))]
+;    (match c
+;      "\"" (.. "\"" s "\"")
+;      "'" (.. "'"  s  "'")
+;      "(" (.. "( " s " )")
+;      ")" (.. "("  s  ")")
+;      "[" (.. "[ " s " ]")
+;      "]" (.. "["  s  "]")
+;      "{" (.. "{ " s " }")
+;      "}" (.. "{"  s  "}")
+;      "<" (.. "< " s " >")
+;      ">" (.. "<"  s  ">")))))
 
 
 

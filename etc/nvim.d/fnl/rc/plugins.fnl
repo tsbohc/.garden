@@ -5,7 +5,7 @@
   (pa- wbthomason/packer.nvim)
 
   (pa- /home/sean/code/zest)
-  ;(pa- /home/sean/code/test)
+  (pa- /home/sean/code/neozest)
   (pa- /home/sean/code/limestone)
 
   (pa- junegunn/fzf.vim)
