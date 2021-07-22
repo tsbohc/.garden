@@ -24,11 +24,11 @@
 
 (require-macros :zest.macros)
 
-(vim.api.nvim_command
-  (v-lua-format
-    ":com -nargs=* Mycmd :call %s(<f-args>)"
-    (fn [...]
-      (print ...))))
+;(vim.api.nvim_command
+;  (v-lua-format
+;    ":com -nargs=* Mycmd :call %s(<f-args>)"
+;    (fn [...]
+;      (print ...))))
 
 42
 

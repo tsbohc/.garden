@@ -1,5 +1,6 @@
-(import-macros {:packer-use-wrapper p-
-                :let-g              g-} :zest.macros)
+(import-macros
+  {:packer-use-wrapper p-
+   :let-g              g-} :zest.macros)
 
 (fn plugins []
   (p- :wbthomason/packer.nvim)
@@ -10,6 +11,7 @@
     (z.setup))
 
   (p- :/home/sean/code/limestone)
+  (p- :morhetz/gruvbox)
 
   (p- :junegunn/fzf.vim)
 

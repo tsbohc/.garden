@@ -3,7 +3,7 @@
    :def-augroup    au.gr-
    :def-autocmd    au.no-
    :def-autocmd-fn au.fn-
-   :v-lua v-lua} :zest.macros)
+   :v-lua          v-lua} :zest.macros)
 
 (set _G.sl {})
 (local hl-reset :LineNr)

@@ -1,57 +1,61 @@
-(require-macros :zest.old-macros)
-(import-macros {:set-option so-} :zest.macros)
+(import-macros
+  {:opt-set     s:=
+   :opt-get     s:?
+   :opt-append  s:+
+   :opt-prepend s:^
+   :opt-remove  s:-} :zest.macros)
 
 ; colors
-(viml- "syntax enable")
-(colo- :limestone)
+(vim.cmd ":syntax enable")
+(vim.cmd ":colo limestone")
 
 ; rendering
-(so- encoding "utf-8")
-(so- synmaxcol 256)
-(so- termguicolors)
+(s:= encoding "utf-8")
+(s:= synmaxcol 256)
+(s:= termguicolors)
 
 ; ui
-(so- number)
-(so- relativenumber)
-(so- cursorline)
-(so- showmatch)
-(so- matchtime 2)
-(so- shortmess:append "IcT")
+(s:= number)
+(s:= relativenumber)
+(s:= cursorline)
+(s:= showmatch)
+(s:= matchtime 2)
+(s:+ shortmess "IcT")
 
 ; behaviour
-(so- scrolloff 10)
-(so- wrap false)
-(so- virtualedit "block")
-(so- undofile)
-(so- autoread)
-(so- clipboard "unnamedplus") ; don't forget xsel!
-(so- mouse "a")
-(so- completeopt:append ["menuone" "noselect"])
+(s:= scrolloff 10)
+(s:= wrap false)
+(s:= virtualedit "block")
+(s:= undofile)
+(s:= autoread)
+(s:= clipboard "unnamedplus") ; don't forget xsel!
+(s:= mouse "a")
+(s:+ completeopt ["menuone" "noselect"])
 
 ; status lines
-(so- showmode false)
-(so- laststatus 2)
+(s:= showmode false)
+(s:= laststatus 2)
 
 ; search
-(so- incsearch)
-(so- inccommand "nosplit")
-(so- hlsearch)
-(so- ignorecase)
-(so- smartcase)
+(s:= incsearch)
+(s:= inccommand "nosplit")
+(s:= hlsearch)
+(s:= ignorecase)
+(s:= smartcase)
 
 ; folding
-(so- foldenable)
-(so- foldmethod "marker")
+(s:= foldenable)
+(s:= foldmethod "marker")
 ;(se- foldtext "v:lua.folding()"
 
 ; spacing
-(so- tabstop 2)
-(so- shiftwidth 4)
-(so- softtabstop 2)
-(so- expandtab)
+(s:= tabstop 2)
+(s:= shiftwidth 2)
+(s:= softtabstop 2)
+(s:= expandtab)
 ;(se- :noshiftround)
 
 ; invisibles
-(so- listchars {:trail "␣"})
-(so- list)
+(s:= listchars {:trail "␣"})
+(s:= list)
 ;(se- :fillchars "eob:~") ; do not set those to fileseparator etc, trust me

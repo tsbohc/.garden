@@ -11,6 +11,11 @@
 (fn my-fold-fn [])
 (set-option foldtext (.. (v-lua my-fold-fn) "()"))
 
+(print "opt-*-* -----------------------------------------------")
+
+(opt-append listchars {:space "␣"})
+(opt-local-get number)
+
 (print "v-lua-format -----------------------------------------------")
 
 (vim.api.nvim_command
