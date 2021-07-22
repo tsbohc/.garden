@@ -1,6 +1,4 @@
 local ecs = require("lib.concord")
-local QuadTree = require("lib.quadtree")
-local tree = QuadTree(0, 0, 1024, 1024)
 local core = {}
 core["nil?"] = function(x)
   return (nil == x)
@@ -116,7 +114,6 @@ end
 local function distance_between(f, t)
   return distance(f.position.x, f.position.y, t.position.x, t.position.y)
 end
-local flock = {}
 local function _0_(c, x, y, s)
   return shallow_merge(c, {special = (s or false), x = (x or 0), y = (y or 0)})
 end
@@ -138,7 +135,8 @@ ecs.component("cohesion")
 ecs.component("alignment")
 ecs.component("fear")
 ecs.component("drawable")
-local DrawSystem = ecs.system({pool = {"position", "velocity", "drawable"}})
+local flock = {}
+local DrawSystem = ecs.system({pool = {"position", "drawable"}})
 DrawSystem.draw = function(s)
   for _, e in ipairs(s.pool) do
     if e.position.special then
@@ -167,9 +165,17 @@ MoveSystem.update = function(s, dt)
     end
     e.position.x = (e.position.x + (e.velocity.x * dt))
     e.position.y = (e.position.y + (e.velocity.y * dt))
-    if ((e.position.x < 10) or (e.position.y < 10) or (e.position.x > 1014) or (e.position.y > 1014)) then
-      e.velocity.x = ( - e.velocity.x)
-      e.velocity.y = ( - e.velocity.y)
+    if (e.position.x < -3) then
+      e.position.x = 1027
+    end
+    if (e.position.y < -3) then
+      e.position.y = 1027
+    end
+    if (e.position.x > 1027) then
+      e.position.x = -3
+    end
+    if (e.position.y > 1027) then
+      e.position.y = -3
     end
   end
   return nil
@@ -184,8 +190,8 @@ end
 local FieldofviewSystem = ecs.system({pool = {"fieldofview", "position"}})
 FieldofviewSystem.update = function(s, dt)
   for _, e in ipairs(s.pool) do
-    for i, t in ipairs(tree:search((e.position.x - e.fieldofview.r), (e.position.y - e.fieldofview.r), (e.position.x + e.fieldofview.r), (e.position.y + e.fieldofview.r))) do
-      if (t.position and (e ~= t) and (distance_between(e, t) < e.fieldofview.r)) then
+    for i, t in ipairs(flock) do
+      if ((e ~= t) and (distance_between(e, t) < e.fieldofview.r)) then
         e.fieldofview.vision[i] = {position = {x = t.position.x, y = t.position.y}, velocity = {x = t.velocity.x, y = t.velocity.y}}
       else
         e.fieldofview.vision[i] = nil
@@ -198,11 +204,6 @@ FieldofviewSystem.draw = function(s)
   for _, e in ipairs(s.pool) do
     if e.position.special then
       love.graphics.circle("line", e.position.x, e.position.y, e.fieldofview.r)
-      for _0, v in pairs(e.fieldofview.vision) do
-        if v then
-          love.graphics.circle("line", v.position.x, v.position.y, 10)
-        end
-      end
     end
   end
   return nil
@@ -320,30 +321,31 @@ FearSystem.update = function(s, dt)
 end
 local world = ecs.world()
 world:addSystems(FieldofviewSystem, SeparationSystem, CohesionSystem, AlignmentSystem, FearSystem, MoveSystem, DrawSystem)
-do
-  local e = nil
-  do
-    local _4_0 = ecs.entity(world)
-    _4_0:give("drawable", 1, 1, 1)
-    _4_0:give("position", 512, 512, true)
-    _4_0:give("velocity", math.random(-50, 50), math.random(-50, 50))
-    _4_0:give("fieldofview")
-    e = _4_0
-  end
-  tree:insert(e)
+local function _5_(...)
+  local _4_0 = ecs.entity(world)
+  _4_0:give("drawable", 1, 1, 1)
+  _4_0:give("position", 512, 512, true)
+  _4_0:give("fieldofview")
+  _4_0:give("separation")
+  _4_0:give("cohesion")
+  _4_0:give("fear")
+  _4_0:give("alignment")
+  return _4_0
 end
-for i = 1, 100 do
-  local x = math.random(10, 1014)
-  local y = math.random(10, 1014)
-  local e = nil
-  do
-    local _4_0 = ecs.entity(world)
-    _4_0:give("drawable")
-    _4_0:give("position", x, y)
-    _4_0:give("velocity", math.random(-50, 50), math.random(-50, 50))
-    e = _4_0
+table.insert(flock, _5_(...))
+for i = 1, 150 do
+  local function _7_(...)
+    local _6_0 = ecs.entity(world)
+    _6_0:give("drawable")
+    _6_0:give("position", math.random(10, 1014), math.random(10, 1014))
+    _6_0:give("fieldofview")
+    _6_0:give("separation")
+    _6_0:give("cohesion")
+    _6_0:give("fear")
+    _6_0:give("alignment")
+    return _6_0
   end
-  tree:insert(e)
+  table.insert(flock, _7_(...))
 end
 love.conf = function(t)
   t.console = true

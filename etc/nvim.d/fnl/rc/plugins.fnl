@@ -1,10 +1,11 @@
 (import-macros {:packer-use-wrapper p-
-                :let-g              g-} :zest.new-macros)
+                :let-g              g-} :zest.macros)
 
 (fn plugins []
   (p- :wbthomason/packer.nvim)
 
   (p- :/home/sean/code/zest)
+
   (let [z (require :zest)]
     (z.setup))
 
@@ -14,6 +15,8 @@
 
   ;(pa- wellle/targets.vim)
   ;(pa- tpope/vim-surround)
+
+  (p- :ggandor/lightspeed.nvim)
 
   (p- :neovim/nvim-lspconfig)
 
@@ -43,11 +46,11 @@
          (g- vimtex_quickfix_mode 0)
          (g- tex_conceal ""))})
 
-  (p- :folke/which-key.nvim
-      {:config
-       (fn []
-         (let [c (require :which-key)]
-           (c.setup {})))})
+  ;(p- :folke/which-key.nvim
+  ;    {:config
+  ;     (fn []
+  ;       (let [c (require :which-key)]
+  ;         (c.setup {})))})
 
   ; lisp
   (p- :bakpakin/fennel.vim

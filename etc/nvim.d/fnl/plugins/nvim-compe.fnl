@@ -15,17 +15,14 @@
    :max_menu_width 100
    :documentation true
 
-   :source
-   {
-    :path true
-    :treesitter true
-    :buffer true
-    :nvim_lsp true
-    :calc true
-    :ultisnips true
-    :omni true
-    :love true
-    }})
+   :source {:path true
+            :treesitter true
+            :buffer true
+            :nvim_lsp true
+            :calc true
+            :ultisnips true
+            :omni true
+            :love true}})
 
 (fn rtc [s]
   (vim.api.nvim_replace_termcodes s true true true))

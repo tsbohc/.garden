@@ -5,24 +5,32 @@
 ;    |
 ;
 
-(require-macros :zest.macros)
+(import-macros {:let-g g-} :zest.macros)
 
 (g- python_host_prog :/usr/bin/python2)
 (g- python3_host_prog :/usr/bin/python3)
 
-(require :rc.love-compe)
+;(fn hl-link [ls rs]
+;  (vim.api.nvim_command (.. "hi! link " ls " " rs)))
 
+(require :rc.love-compe)
 (require :rc.plugins)
 (require :rc.options)
 (require :rc.keymaps)
 (require :rc.aucmds)
 (require :rc.excmds)
 (require :rc.textobjects)
+(require :rc.statusline)
 
+(require-macros :zest.macros)
 
+(vim.api.nvim_command
+  (v-lua-format
+    ":com -nargs=* Mycmd :call %s(<f-args>)"
+    (fn [...]
+      (print ...))))
 
-
-1
+42
 
 ;(op- "s" (fn [s]
 ;  (let [c (vim.fn.nr2char (vim.fn.getchar))]

@@ -1,8 +1,8 @@
 (import-macros
-  {:setoption      so-
+  {:set-option     so-
    :def-augroup    au.gr-
    :def-autocmd    au.no-
-   :def-autocmd-fn au.fn-} :zest.new-macros)
+   :def-autocmd-fn au.fn-} :zest.macros)
 
 (au.gr- :smart-cursorline
   ; show/hide cursorline based on window focus and mode
@@ -26,8 +26,9 @@
 
 (au.gr- :split-settings
   ; resize splits automatically
-  (au.no- "*" [VimResized]
-    "wincmd =")
+  (au.fn- "*" [VimResized]
+    (when (> (length (vim.fn.tabpagebuflist)) 1)
+      (vim.api.nvim_command "wincmd =")))
   ; open help in vsplit
   (au.no- "help" [FileType]
     "wincmd L"))
@@ -38,9 +39,15 @@
   ; tweaks for fennel and vimrc
   (au.fn- "fennel" [FileType]
     (so- iskeyword:remove ".")
-    (so- lispwords:append [:au.no- :au.fn- :au.gr-
+    (so- lispwords:append [:string.*
+                           :table.*
+                           :au.no- :au.fn- :au.gr-
                            :ki.no- :ki.fn-
                            :so-])))
+
+
+;(sl.fn- [BufEnter BufWritePost] {:f [1 0 0 0] :h "Search"}
+;  "wooo")
 
 ;(au- [FileType] "fennel"
 ;     (fn [] (se- lispwords (.. vim.o.lispwords (table.concat [:when-not :if-not] ",")))))
@@ -74,3 +81,4 @@
 ; default ft to 'text'
 ;(au- [BufEnter] "*"
 ;     (fn [] (if (= vim.bo.filetype "") (set vim.bo.filetype "text"))))
+

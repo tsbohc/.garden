@@ -32,6 +32,65 @@ augroup testgroup
   "autocmd BufRead *.fnl :syntax keyword TSString arst
 augroup END
 
+" junegunn
+" ----------------------------------------------------------------------------
+" Syntax highlighting in code snippets
+" ----------------------------------------------------------------------------
+"function! s:syntax_include(lang, b, e, inclusive)
+"  let syns = split(globpath(&rtp, "syntax/".a:lang.".vim"), "\n")
+"  if empty(syns)
+"    return
+"  endif
+"
+"  if exists('b:current_syntax')
+"    let csyn = b:current_syntax
+"    unlet b:current_syntax
+"  endif
+"
+"  let z = "'" " Default
+"  for nr in range(char2nr('a'), char2nr('z'))
+"    let char = nr2char(nr)
+"    if a:b !~ char && a:e !~ char
+"      let z = char
+"      break
+"    endif
+"  endfor
+"
+"  silent! exec printf("syntax include @%s %s", a:lang, syns[0])
+"  if a:inclusive
+"    exec printf('syntax region %sSnip start=%s\(\)\(%s\)\@=%s ' .
+"                \ 'end=%s\(%s\)\@<=\(\)%s contains=@%s containedin=ALL',
+"                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+"  else
+"    exec printf('syntax region %sSnip matchgroup=Snip start=%s%s%s ' .
+"                \ 'end=%s%s%s contains=@%s containedin=ALL',
+"                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+"  endif
+"
+"  if exists('csyn')
+"    let b:current_syntax = csyn
+"  endif
+"endfunction
+"
+"function! s:file_type_handler()
+"  if &ft =~ 'jinja' && &ft != 'jinja'
+"    call s:syntax_include('jinja', '{{', '}}', 1)
+"    call s:syntax_include('jinja', '{%', '%}', 1)
+"  elseif &ft == 'mkd' || &ft == 'markdown'
+"    let map = { 'bash': 'sh' }
+"    for lang in ['ruby', 'yaml', 'vim', 'sh', 'bash', 'python', 'java', 'c', 'sql', 'gnuplot']
+"      call s:syntax_include(get(map, lang, lang), '```'.lang, '```', 0)
+"    endfor
+"
+"    highlight def link Snip Folded
+"
+"    setlocal textwidth=78
+"    setlocal completefunc=emoji#complete
+"  endif
+"endfunction
+"
+"au FileType,ColorScheme * call <SID>file_type_handler()
+
 "augroup zest
 "    autocmd!
 "    autocmd BufReadPost * :echo "wooo"
@@ -182,7 +241,7 @@ endfun
 "com! MyRun :call MyRun()
 nnoremap <c-c> :call MyRun()<cr>
 nnoremap <c-t> :call Zct()<cr>
-nnoremap <c-l> :call LoveRun()<cr>
+"nnoremap <c-l> :call LoveRun()<cr>
 
 "function SetLovePrefs()
 "  setlocal dictionary+=~/.garden/etc/nvim.d/love-dict/love.dict

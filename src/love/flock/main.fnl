@@ -1,7 +1,4 @@
 (local ecs (require :lib.concord))
-(local QuadTree (require :lib.quadtree))
-
-(local tree (QuadTree 0 0 1024 1024))
 
 ; -- core --
 ; {{{
@@ -119,10 +116,6 @@
 (fn distance-between [f t]
   (distance f.position.x f.position.y t.position.x t.position.y))
 
-; -- main --
-
-(local flock [])
-
 ; -- components --
 
 (ecs.component :position
@@ -157,8 +150,10 @@
 
 ; -- systems --
 
+(local flock [])
+
 ; TODO second pool with velocity for traingle alignment
-(local DrawSystem (ecs.system {:pool [:position :velocity :drawable]}))
+(local DrawSystem (ecs.system {:pool [:position :drawable]}))
 (fn DrawSystem.draw [s]
   (each [_ e (ipairs s.pool)]
     (if e.position.special
@@ -175,12 +170,10 @@
     (when (< e.velocity.y -100) (set e.velocity.y -100))
     (+= e.position.x (* e.velocity.x dt))
     (+= e.position.y (* e.velocity.y dt))
-    (when (or (< e.position.x 10)
-              (< e.position.y 10)
-              (> e.position.x 1014)
-              (> e.position.y 1014))
-      (set e.velocity.x (- e.velocity.x))
-      (set e.velocity.y (- e.velocity.y)))))
+    (when (< e.position.x -3) (set e.position.x 1027))
+    (when (< e.position.y -3) (set e.position.y 1027))
+    (when (> e.position.x 1027) (set e.position.x -3))
+    (when (> e.position.y 1027) (set e.position.y -3))))
 
 (fn MoveSystem.draw [s]
   (each [_ e (ipairs s.pool)]
@@ -192,29 +185,21 @@
 (local FieldofviewSystem (ecs.system {:pool [:fieldofview :position]}))
 (fn FieldofviewSystem.update [s dt]
   (each [_ e (ipairs s.pool)]
-    (each [i t (ipairs (tree:search (- e.position.x e.fieldofview.r)
-                                    (- e.position.y e.fieldofview.r)
-                                    (+ e.position.x e.fieldofview.r)
-                                    (+ e.position.y e.fieldofview.r)))]
-      (if (and t.position
-               (not= e t)
+    (each [i t (ipairs flock)]
+      (if (and (not= e t)
                (< (distance-between e t) e.fieldofview.r))
         (tset e.fieldofview.vision i {:position {:x t.position.x :y t.position.y}
                                       :velocity {:x t.velocity.x :y t.velocity.y}})
-        (tset e.fieldofview.vision i nil))
-
-      ;(if (not t.position)
-      ;  (each [k v (pairs t)]
-      ;    (print k v)))
-      )))
+        (tset e.fieldofview.vision i nil)))))
 
 (fn FieldofviewSystem.draw [s]
   (each [_ e (ipairs s.pool)]
     (when e.position.special
       (love.graphics.circle :line e.position.x e.position.y e.fieldofview.r)
-      (each [_ v (pairs e.fieldofview.vision)]
-        (when v
-          (love.graphics.circle :line v.position.x v.position.y 10))))))
+      ;(each [_ v (pairs e.fieldofview.vision)]
+      ;  (when v
+      ;    (love.graphics.circle :line v.position.x v.position.y 10)))
+      )))
 
 (local speed 5)
 
@@ -323,32 +308,30 @@
 
 ; -- entities --
 
-(let [e (doto (ecs.entity world)
-              (: :give :drawable 1 1 1)
-              (: :give :position 512 512 true)
-              (: :give :velocity (math.random -50 50) (math.random -50 50))
-              (: :give :fieldofview)
-              ;(: :give :separation)
-              ;(: :give :cohesion)
-              ;(: :give :fear)
-              ;(: :give :alignment)
-              )]
-  (tree:insert e))
+(table.insert flock
+              (doto (ecs.entity world)
+                    (: :give :drawable 1 1 1)
+                    (: :give :position 512 512 true)
+                    (: :give :velocity (math.random -50 50) (math.random -50 50))
+                    (: :give :fieldofview)
+                    (: :give :separation)
+                    (: :give :cohesion)
+                    (: :give :fear)
+                    (: :give :alignment)
+                    ))
 
-(for [i 1 100]
-  (let [x (math.random 10 1014)
-        y (math.random 10 1014)
-        e (doto (ecs.entity world)
-                (: :give :drawable)
-                (: :give :position x y)
-                (: :give :velocity (math.random -50 50) (math.random -50 50))
-                ;(: :give :fieldofview)
-                ;(: :give :separation)
-                ;(: :give :cohesion)
-                ;(: :give :fear)
-                ;(: :give :alignment)
-                )]
-    (tree:insert e)))
+(for [i 1 150]
+  (table.insert flock
+                (doto (ecs.entity world)
+                      (: :give :drawable)
+                      (: :give :position (math.random 10 1014) (math.random 10 1014))
+                      (: :give :velocity (math.random -50 50) (math.random -50 50))
+                      (: :give :fieldofview)
+                      (: :give :separation)
+                      (: :give :cohesion)
+                      (: :give :fear)
+                      (: :give :alignment)
+                      )))
 
 ; -- setup --
 

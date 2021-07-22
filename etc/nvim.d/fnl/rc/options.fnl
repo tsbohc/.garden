@@ -1,5 +1,5 @@
-(require-macros :zest.macros)
-(import-macros {:set-option so-} :zest.new-macros)
+(require-macros :zest.old-macros)
+(import-macros {:set-option so-} :zest.macros)
 
 ; colors
 (viml- "syntax enable")
@@ -16,7 +16,7 @@
 (so- cursorline)
 (so- showmatch)
 (so- matchtime 2)
-(so- shortmess:append "Ic")
+(so- shortmess:append "IcT")
 
 ; behaviour
 (so- scrolloff 10)

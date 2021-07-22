@@ -1,4 +1,4 @@
-(require-macros :zest.macros)
+(require-macros :zest.old-macros)
 
 ; TODO
 ; memoize stuff
