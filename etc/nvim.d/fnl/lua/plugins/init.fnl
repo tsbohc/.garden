@@ -7,9 +7,6 @@
 
   (p- :/home/sean/code/zest)
 
-  (let [z (require :zest)]
-    (z.setup))
-
   (p- :/home/sean/code/limestone)
   (p- :morhetz/gruvbox)
 

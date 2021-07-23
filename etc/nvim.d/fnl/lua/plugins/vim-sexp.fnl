@@ -1,8 +1,6 @@
-(require-macros :zest.macros)
+(set vim.g.sexp_filetypes "fennel")
 
-(g- sexp_filetypes "fennel")
-
-(g- sexp_mappings
+(set vim.g.sexp_mappings
     {:sexp_outer_list                ""
      :sexp_inner_list                ""
      :sexp_outer_top_list            "aF"

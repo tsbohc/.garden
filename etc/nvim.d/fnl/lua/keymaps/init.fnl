@@ -2,7 +2,7 @@
   {:def-keymap-fn ki.fn-
    :def-keymap    ki.no-} :zest.macros)
 
-;(lead- " ")
+(tset vim.g :mapleader " ")
 
 ; ------------------------------------
 ; -- land of opinionated navigation --
@@ -42,9 +42,9 @@
 
 ; search for selected text
 (ki.fn- :* [x]
-  (norm- "gvy")
-  (exec- (.. "/" (eval- "@\"")))
-  (norm- "N"))
+  (vim.cmd "norm! gvy")
+  (vim.cmd (.. "/" (vim.api.nvim_eval "@\"")))
+  (vim.cmd "norm! N"))
 
 ; replace search matches
 (ki.no- :<leader>r [n] ":%s///g<left><left>")

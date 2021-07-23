@@ -26,11 +26,11 @@
 "syntax region snipSh start="\[\[" end="\]\]" contains=@sh
 "hi link Snip SpecialComment
 
-augroup testgroup
-  autocmd!
-  autocmd BufRead *.fnl :set lispwords+=when-not,ecs
-  "autocmd BufRead *.fnl :syntax keyword TSString arst
-augroup END
+"augroup testgroup
+"  autocmd!
+"  autocmd BufRead *.fnl :set lispwords+=when-not,ecs
+"  "autocmd BufRead *.fnl :syntax keyword TSString arst
+"augroup END
 
 " junegunn
 " ----------------------------------------------------------------------------
@@ -194,53 +194,53 @@ augroup END
 "nnoremap <c-i> <c-w>l
 "" }}}
 
-func! GodotSettings() abort
-  set tabstop=4 shiftwidth=4 expandtab
-  nnoremap <buffer> <F4> :GodotRunLast<CR>
-  nnoremap <buffer> <F5> :GodotRun<CR>
-  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
-  nnoremap <buffer> <F7> :GodotRunFZF<CR>
-endfunc
-augroup godot | au!
-    au FileType gdscript call GodotSettings()
-augroup end
-
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-au FocusGained,BufEnter * :checktime
-
-fun! Runcmd(cmd)
-  silent! exe "topleft vertical pedit previewwindow ".a:cmd
-  noautocmd wincmd P
-  set buftype=nofile
-  exe "noautocmd r! ".a:cmd
-  noautocmd wincmd p
-endfun
-com! -nargs=1 Runcmd :call Runcmd("<args>")
-
-fun! MyRun()
-  exe "w"
-  ":silent call Runcmd("lua " . expand('%:p'))
-  :silent call Runcmd("fennel --correlate --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata " . expand('%:p'))
-  " FIXME: this bug is completely retarded
-  "exe "colo limestone"
-endfun
-
-fun! Zct()
-  exe "w"
-  :silent call Runcmd("fennel --compile --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata " . expand('%:p'))
-endfun
-
-fun! LoveRun()
-    execute "silent !fennel --compile main.fnl > main.lua"
-    execute "silent !love ."
-endfun
-
-"com! MyRun :call MyRun()
-nnoremap <c-c> :call MyRun()<cr>
-nnoremap <c-t> :call Zct()<cr>
+"func! GodotSettings() abort
+"  set tabstop=4 shiftwidth=4 expandtab
+"  nnoremap <buffer> <F4> :GodotRunLast<CR>
+"  nnoremap <buffer> <F5> :GodotRun<CR>
+"  nnoremap <buffer> <F6> :GodotRunCurrent<CR>
+"  nnoremap <buffer> <F7> :GodotRunFZF<CR>
+"endfunc
+"augroup godot | au!
+"    au FileType gdscript call GodotSettings()
+"augroup end
+"
+"map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+"\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+"\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+"
+"au FocusGained,BufEnter * :checktime
+"
+"fun! Runcmd(cmd)
+"  silent! exe "topleft vertical pedit previewwindow ".a:cmd
+"  noautocmd wincmd P
+"  set buftype=nofile
+"  exe "noautocmd r! ".a:cmd
+"  noautocmd wincmd p
+"endfun
+"com! -nargs=1 Runcmd :call Runcmd("<args>")
+"
+"fun! MyRun()
+"  exe "w"
+"  ":silent call Runcmd("lua " . expand('%:p'))
+"  :silent call Runcmd("fennel --correlate --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata " . expand('%:p'))
+"  " FIXME: this bug is completely retarded
+"  "exe "colo limestone"
+"endfun
+"
+"fun! Zct()
+"  exe "w"
+"  :silent call Runcmd("fennel --compile --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata " . expand('%:p'))
+"endfun
+"
+"fun! LoveRun()
+"    execute "silent !fennel --compile main.fnl > main.lua"
+"    execute "silent !love ."
+"endfun
+"
+""com! MyRun :call MyRun()
+"nnoremap <c-c> :call MyRun()<cr>
+"nnoremap <c-t> :call Zct()<cr>
 "nnoremap <c-l> :call LoveRun()<cr>
 
 "function SetLovePrefs()
@@ -264,23 +264,23 @@ nnoremap <c-t> :call Zct()<cr>
 "
 "nnoremap * *<c-o>
 
-hi link StatusLine LineNr
-set laststatus=2
-set statusline=%#Normal#
-set statusline+=%f
-set statusline+=\ 
-set statusline+=%m
-set statusline+=\ 
-set statusline+=%r
-set statusline+=\ 
-set statusline+=%=%<
-set statusline+=%F
-set statusline+=\ 
-set statusline+=%y
-set statusline+=\ 
-set statusline+=%P
+"hi link StatusLine LineNr
+"set laststatus=2
+"set statusline=%#Normal#
+"set statusline+=%f
+"set statusline+=\ 
+"set statusline+=%m
+"set statusline+=\ 
+"set statusline+=%r
+"set statusline+=\ 
+"set statusline+=%=%<
+"set statusline+=%F
+"set statusline+=\ 
+"set statusline+=%y
+"set statusline+=\ 
+"set statusline+=%P
 
-lua require('init')
+"lua require('init')
 
 
 

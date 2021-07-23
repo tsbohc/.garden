@@ -8,8 +8,8 @@
 (local textobject b.textobject)
 
 ; {l} line
-(te- :il "g_v^")
-(te- :al "$v0")
+;(te- :il "g_v^")
+;(te- :al "$v0")
 
 ; {g} global
 (te- :ig "GVgg")

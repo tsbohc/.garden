@@ -53,9 +53,7 @@
 (s:= shiftwidth 2)
 (s:= softtabstop 2)
 (s:= expandtab)
-;(se- :noshiftround)
 
 ; invisibles
 (s:= listchars {:trail "␣"})
 (s:= list)
-;(se- :fillchars "eob:~") ; do not set those to fileseparator etc, trust me
