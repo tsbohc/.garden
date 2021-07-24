@@ -1,6 +1,6 @@
 do
   local z = require("zest")
-  z.setup({source = (vim.env.HOME .. "~/.garden/etc/nvim.d/source"), target = (vim.env.HOME .. "/.garden/etc/nvim.d/target")})
+  z.setup({source = (vim.env.HOME .. "/.garden/etc/nvim.d/fnl"), target = (vim.env.HOME .. "/.garden/etc/nvim.d/lua")})
 end
 vim.g["python_host_prog"] = "/usr/bin/python2"
 vim.g["python3_host_prog"] = "/usr/bin/python3"

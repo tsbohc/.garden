@@ -7,8 +7,8 @@
 
 (let [z (require :zest)]
   (z.setup
-    {:target (.. vim.env.HOME "/.garden/etc/nvim.d/target")
-     :source (.. vim.env.HOME "~/.garden/etc/nvim.d/source")}))
+    {:target (.. vim.env.HOME "/.garden/etc/nvim.d/lua")
+     :source (.. vim.env.HOME "/.garden/etc/nvim.d/fnl")}))
 
 (import-macros {:let-g g-} :zest.macros)
 
