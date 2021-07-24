@@ -7,7 +7,8 @@
 
 (let [z (require :zest)]
   (z.setup
-    {:target (vim.fn.resolve (vim.fn.stdpath :config))}))
+    {:target (.. vim.env.HOME "/.garden/etc/nvim.d/target")
+     :source (.. vim.env.HOME "~/.garden/etc/nvim.d/source")}))
 
 (import-macros {:let-g g-} :zest.macros)
 
