@@ -1,6 +1,4 @@
-(import-macros {:def-textobject-fn def-textobject-fn} :zest.macros)
-
-(local textobject (require :misc.textobject))
+(local def-to (require :misc.textobject))
 (local cursor (require :misc.cursor))
 
 ; quote
@@ -30,32 +28,107 @@
 ;   "some" dinosaurs are "cool"
 ;        ^^^^^^^^^^^^^^^^^
 
-(fn _quote [xs]
+(fn _quote []
   (let [cpos (cursor.get)
         re (.. "\\V" (table.concat ["\""] "\\|"))
         d1 (cursor.search re "cbW") ; separate out
-        d2 (cursor.search (.. "\\V" d1.c) "zW")]
-    (if (and d1 d2)
+        d2 (when d1 (cursor.search (.. "\\V" d1.c) "zW"))]
+    (when (and d1 d2)
       (let [x d1.p
             y d2.p]
         (cursor.set cpos)
         (values x y)))))
 
-(def-textobject-fn :iq
-  (textobject :inside (_quote)))
-
-(def-textobject-fn :aq
-  (textobject :around (_quote)))
-
-(def-textobject-fn :q
-  (textobject :inner (_quote)))
+(def-to.inner   "\"" _quote)
+(def-to.around "a\"" _quote)
+(def-to.inside "m\"" _quote)
 
 
+(local p
+  {"(" {:k "r" :d {"(" ")"} :v -1}
+   ")" {:k "r" :d {"(" ")"} :v  1}
+   "[" {:k "s" :d {"[" "]"} :v -1}
+   "]" {:k "s" :d {"[" "]"} :v  1}
+   "{" {:k "c" :d {"{" "}"} :v -1}
+   "}" {:k "c" :d {"{" "}"} :v  1}})
+
+(fn re [xt only-open?]
+  "convert 'xt' of parens to a very non-magic re"
+  (let [acc []]
+    (each [k v (pairs xt)]
+      (table.insert acc k)
+      (when (not only-open?)
+        (table.insert acc v)))
+    (.. "\\V" (table.concat acc "\\|"))))
+
+(fn parsearch-counts [xt v]
+  "initialise counts for 'xt' of parens"
+  (let [counts {}]
+    (each [q _ (pairs xt)]
+      (tset counts (. p q :k) (* -1 v)))
+    counts))
+
+; todo change to search with 'c' flag
+(fn par-oncu [xt]
+  "check if a paren from 'xt' is under the cursor and return data like search"
+  (let [c (cursor.char)]
+    (each [k v (pairs xt)]
+      (when (or (= c k) (= c v))
+        (let [d {:c c
+                 :p (cursor.get)}]
+          (lua "return d"))))))
+
+(fn parsearch [xt v ...]
+  "look for first matching paren from 'xt' of type 'v' (-1 for open, +1 for closed)"
+  (let [cpos (cursor.get)
+        counts (parsearch-counts xt v)]
+    (var r "")
+    (while (= r "")
+      (print r)
+      (let [d (cursor.search (re xt) ...)]
+        (if d
+          (let [k (. p d.c :k)
+                count (. counts k)
+                delta (. p d.c :v)
+                sum (+ count delta)]
+            (if (= sum 0)
+              (set r d)
+              (tset counts k sum)))
+          (set r false))))
+    (if (not r)
+      (cursor.set cpos)
+      r)))
+
+(fn form [xt]
+  "find appropriate form of parens 'xt' and return its x and y coords"
+  (let [xt (or xt {"(" ")" "[" "]" "{" "}"})
+        cpos (cursor.get)
+        d1 (or (par-oncu xt)
+               (parsearch xt -1 "bW")
+               (cursor.search (re xt :only-open) "zW" (vim.fn.line ".")))]
+    (if d1
+      (let [xt2 (. p d1.c :d)
+            v2 (* -1 (. p d1.c :v))
+            f2 (if (= -1 v2) "bw" "zw")
+            d2 (parsearch xt2 v2 f2)]
+        (if d2
+          (let [(x y) (if (= -1 v2) (values d2.p d1.p) (values d1.p d2.p))]
+            (cursor.set cpos)
+            (values x y))
+          (cursor.set cpos)))
+      (cursor.set cpos))))
+
+(def-to.inner  :f  form)
+(def-to.around :af form)
+(def-to.inside :mf form)
+
+;(te- "if" (fn [] (textobject (form) :inner)))
+;(te- "af" (fn [] (textobject (form) :outer)))
 
 
 
 
-;(require-macros :zest.old-macros)
+
 ;
 ;; TODO
 ;; memoize stuff

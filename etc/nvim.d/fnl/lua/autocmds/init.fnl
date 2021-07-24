@@ -65,7 +65,7 @@
       xt)))
 
 (fn set-xkbmap [x]
-  (os.execute (.. "setxkbmap " x.layout " -variant " x.variant )))
+  (os.execute (.. "setxkbmap " x.layout " -variant " x.variant)))
 
 (au.gr- :keyboard-switcher
   ; set setxkbmap to the previous insert mode layout

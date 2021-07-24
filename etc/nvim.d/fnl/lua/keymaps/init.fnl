@@ -68,13 +68,9 @@
 ; --            colemak             --
 ; ------------  --/-<@  --------------
 
-; skip operator mode to keep the semantics of "i" intact, e.g ciw
-(ki.no- [nv]
-  {:i "l"
-   :l "i"})
-
 (ki.no- [nvo]
-  {:L "I" :k "n"
-   :K "N" :j "f"
-   :J "F" :f "e"
-   :F "E"})
+  {:i "l"
+   :L "I" :l "i"
+   :K "N" :k "n"
+   :J "F" :j "f"
+   :F "E" :f "e"})

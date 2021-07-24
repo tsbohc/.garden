@@ -5,11 +5,13 @@ local function plugins()
   use({"morhetz/gruvbox"})
   use({"junegunn/fzf.vim"})
   use({"neovim/nvim-lspconfig"})
+  use({"huyvohcmc/atlas.vim"})
   local function _0_()
     local ts = require("nvim-treesitter.configs")
     return ts.setup({highlight = {enable = true}})
   end
   use({"nvim-treesitter/nvim-treesitter", config = _0_, event = "BufRead", run = ":TSUpdate"})
+  use({"nvim-treesitter/playground", after = "nvim-treesitter"})
   local function _1_()
     return require("plugins.nvim-compe")
   end

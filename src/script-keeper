@@ -1,13 +1,20 @@
 #!/bin/bash
 
-list="$(find ~/blueberry -type f -not -path '*/\.git*' -not -path '*.jpg')"
+#: list shell scripts and their descriptions
+
+list="$(find ~/.garden/src -type f -not -path '*/\.git*' -not -path '*.jpg')"
 
 get_description() {
   awk -F" " '($1 ~ /^#:/) {for (i=2; i<NF; i++) printf $i " "; print $NF}' "$1"
 }
 
+out=""
+
 while read p; do
   if [[ "$(file "$p")" =~ "shell script" ]]; then
-    echo "$(get_description ${p})"
+    out="$out
+$(basename ${p})	$(get_description ${p})"
   fi
 done <<< "$list"
+
+echo "$out" | column -t -s $'\t' | fzf

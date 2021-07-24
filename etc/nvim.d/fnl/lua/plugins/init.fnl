@@ -12,6 +12,7 @@
   ;(pa- tpope/vim-surround)
   ;(p- :ggandor/lightspeed.nvim)
   (p- :neovim/nvim-lspconfig)
+  (p- :huyvohcmc/atlas.vim)
 
   (p- :nvim-treesitter/nvim-treesitter
       {:event "BufRead"
@@ -22,7 +23,8 @@
            (ts.setup
              {:highlight {:enable true}})))})
 
-  ;(p- :nvim-treesitter/playground)
+  (p- :nvim-treesitter/playground
+      {:after "nvim-treesitter"})
 
   (p- :hrsh7th/nvim-compe
       {:event "InsertEnter"

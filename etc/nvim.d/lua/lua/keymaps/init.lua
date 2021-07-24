@@ -2,7 +2,7 @@ vim.g["mapleader"] = " "
 do
   local ZEST_VLUA_0_
   do
-    local ZEST_ID_0_ = "_101_"
+    local ZEST_ID_0_ = "_101_110_118_"
     local function _0_()
       if (vim.v.count > 0) then
         return "k"
@@ -21,7 +21,7 @@ end
 do
   local ZEST_VLUA_0_
   do
-    local ZEST_ID_0_ = "_110_"
+    local ZEST_ID_0_ = "_110_110_118_"
     local function _0_()
       if (vim.v.count > 0) then
         return "j"
@@ -77,7 +77,7 @@ end
 do
   local ZEST_VLUA_0_
   do
-    local ZEST_ID_0_ = "_42_"
+    local ZEST_ID_0_ = "_42_120_"
     local function _0_()
       vim.cmd("norm! gvy")
       vim.cmd(("/" .. vim.api.nvim_eval("@\"")))
@@ -110,30 +110,30 @@ end
 do
   vim.api.nvim_set_keymap("n", "<c-j>", "J", {noremap = true})
 end
-do
-  vim.api.nvim_set_keymap("n", "i", "l", {noremap = true})
-  vim.api.nvim_set_keymap("v", "i", "l", {noremap = true})
-  vim.api.nvim_set_keymap("n", "l", "i", {noremap = true})
-  vim.api.nvim_set_keymap("v", "l", "i", {noremap = true})
-end
-vim.api.nvim_set_keymap("n", "k", "n", {noremap = true})
-vim.api.nvim_set_keymap("v", "k", "n", {noremap = true})
-vim.api.nvim_set_keymap("o", "k", "n", {noremap = true})
+vim.api.nvim_set_keymap("n", "i", "l", {noremap = true})
+vim.api.nvim_set_keymap("v", "i", "l", {noremap = true})
+vim.api.nvim_set_keymap("o", "i", "l", {noremap = true})
 vim.api.nvim_set_keymap("n", "f", "e", {noremap = true})
 vim.api.nvim_set_keymap("v", "f", "e", {noremap = true})
 vim.api.nvim_set_keymap("o", "f", "e", {noremap = true})
-vim.api.nvim_set_keymap("n", "j", "f", {noremap = true})
-vim.api.nvim_set_keymap("v", "j", "f", {noremap = true})
-vim.api.nvim_set_keymap("o", "j", "f", {noremap = true})
-vim.api.nvim_set_keymap("n", "F", "E", {noremap = true})
-vim.api.nvim_set_keymap("v", "F", "E", {noremap = true})
-vim.api.nvim_set_keymap("o", "F", "E", {noremap = true})
 vim.api.nvim_set_keymap("n", "J", "F", {noremap = true})
 vim.api.nvim_set_keymap("v", "J", "F", {noremap = true})
 vim.api.nvim_set_keymap("o", "J", "F", {noremap = true})
 vim.api.nvim_set_keymap("n", "L", "I", {noremap = true})
 vim.api.nvim_set_keymap("v", "L", "I", {noremap = true})
 vim.api.nvim_set_keymap("o", "L", "I", {noremap = true})
+vim.api.nvim_set_keymap("n", "k", "n", {noremap = true})
+vim.api.nvim_set_keymap("v", "k", "n", {noremap = true})
+vim.api.nvim_set_keymap("o", "k", "n", {noremap = true})
+vim.api.nvim_set_keymap("n", "F", "E", {noremap = true})
+vim.api.nvim_set_keymap("v", "F", "E", {noremap = true})
+vim.api.nvim_set_keymap("o", "F", "E", {noremap = true})
+vim.api.nvim_set_keymap("n", "j", "f", {noremap = true})
+vim.api.nvim_set_keymap("v", "j", "f", {noremap = true})
+vim.api.nvim_set_keymap("o", "j", "f", {noremap = true})
+vim.api.nvim_set_keymap("n", "l", "i", {noremap = true})
+vim.api.nvim_set_keymap("v", "l", "i", {noremap = true})
+vim.api.nvim_set_keymap("o", "l", "i", {noremap = true})
 vim.api.nvim_set_keymap("n", "K", "N", {noremap = true})
 vim.api.nvim_set_keymap("v", "K", "N", {noremap = true})
 return vim.api.nvim_set_keymap("o", "K", "N", {noremap = true})

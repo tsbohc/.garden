@@ -1,30 +1,23 @@
+(import-macros {:def-keymap-fn ki.fn-} :zest.macros)
 (local cursor (require :misc.cursor))
 
 (local M {})
 
 (fn normal! [s]
-  (vim.api.nvim_command (.. "norm! " s)))
+  (vim.api.nvim_command (.. "normal! " s)))
 
-(fn M.textobject [kind x y]
-  ;(print (vim.inspect x))
-  ;(print (vim.inspect y))
-  (when (and x y)
-    (match kind
-      :inner
-      (do
+(fn M.inner [key f]
+  (ki.fn- key [xo :silent]
+    (let [(x y) (f)]
+      (when (and x y)
         (cursor.set y)
         (normal! "v")
-        (cursor.set x))
-      :inside
-      (do
-        (cursor.set y)
-        (normal! "hv")
-        (cursor.set x)
-        (normal! "l"))
-      :around
-      ; on the same line, select until the next non-whitespace character
-      ; or previous, if we're at the end of a line or there's no whitespace to the right
-      (do
+        (cursor.set x)))))
+
+(fn M.around [key f]
+  (ki.fn- key [xo :silent]
+    (let [(x y) (f)]
+      (when (and x y)
         (cursor.set y)
         (let [line-len (vim.fn.strwidth (vim.fn.getline "."))
               at-end? (or (= (. y 3) line-len) (not= (cursor.char 1) " "))]
@@ -37,9 +30,13 @@
                      (not= 0 (vim.fn.search "\\S" "bW" (vim.fn.line "."))))
             (normal! "l")))))))
 
-(setmetatable
-  M {:__call
-      (fn [_ ...]
-        (M.textobject ...))})
+(fn M.inside [key f]
+  (ki.fn- key [xo :silent]
+    (let [(x y) (f)]
+      (when (and x y)
+        (cursor.set y)
+        (normal! "hv")
+        (cursor.set x)
+        (normal! "l")))))
 
 M
