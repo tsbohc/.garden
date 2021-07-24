@@ -2,11 +2,12 @@ do
   local z = require("zest")
   z.setup({source = (vim.env.HOME .. "/.garden/etc/nvim.d/fnl"), target = (vim.env.HOME .. "/.garden/etc/nvim.d/lua")})
 end
-vim.g["python_host_prog"] = "/usr/bin/python2"
-vim.g["python3_host_prog"] = "/usr/bin/python3"
 local modules = {"options", "keymaps", "autocmds", "statusline", "textobjects", "operators", "plugins"}
 for _, m in ipairs(modules) do
-  require(m)
+  local ok_3f, out = pcall(require, m)
+  if not ok_3f then
+    print(("error while loading '" .. m .. "' module:\n" .. out))
+  end
 end
 local function compiled_fennel(path)
   if path then

@@ -10,11 +10,6 @@
     {:target (.. vim.env.HOME "/.garden/etc/nvim.d/lua")
      :source (.. vim.env.HOME "/.garden/etc/nvim.d/fnl")}))
 
-(import-macros {:let-g g-} :zest.macros)
-
-(g- python_host_prog :/usr/bin/python2)
-(g- python3_host_prog :/usr/bin/python3)
-
 (local modules
   [:options
    :keymaps
@@ -25,7 +20,13 @@
    :plugins])
 
 (each [_ m (ipairs modules)]
-  (require m))
+  (let [(ok? out) (pcall require m)]
+    (when (not ok?)
+      (print (.. "error while loading '" m "' module:\n" out)))))
+
+
+
+
 
 ;(require :misc.love-compe)
 
@@ -63,3 +64,10 @@
             (vim.cmd "norm! ggVGd")
             (put code)
             (vim.cmd "noautocmd wincmd p")))))))
+
+
+;(import-macros {:let-g g-} :zest.macros)
+;
+;(g- python_host_prog  :/usr/bin/python2)
+;(g- python3_host_prog :/usr/bin/python3)
+;
