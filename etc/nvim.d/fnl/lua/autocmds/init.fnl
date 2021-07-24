@@ -1,7 +1,7 @@
 (import-macros
-  {:opt-set        s:=
-   :opt-remove     s:-
-   :opt-append     s:+
+  {:opt-set        se=
+   :opt-remove     se-
+   :opt-append     se+
    :def-augroup    au.gr-
    :def-autocmd    au.no-
    :def-autocmd-fn au.fn-} :zest.macros)
@@ -9,10 +9,10 @@
 (au.gr- :smart-cursorline
   ; show/hide cursorline based on window focus and mode
   (au.fn- [InsertEnter BufLeave FocusLost] "*"
-    (s:= cursorline false))
+    (se= cursorline false))
   (au.fn- [InsertLeave BufEnter FocusGained] "*"
     (if (not= (vim.fn.mode) :i)
-      (s:= cursorline))))
+      (se= cursorline))))
 
 (au.gr- :restore-position
   ; restore last position in file
@@ -41,8 +41,8 @@
     "set wrap")
   ; tweaks for fennel and vimrc
   (au.fn- [FileType] "fennel"
-    (s:- iskeyword ".")
-    (s:+ lispwords [:string.*
+    (se- iskeyword ".")
+    (se+ lispwords [:string.*
                     :table.*
                     :au.no- :au.fn- :au.gr-
                     :ki.no- :ki.fn-])))

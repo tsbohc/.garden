@@ -4,33 +4,32 @@
 
 (fn plugins []
   (p- :wbthomason/packer.nvim)
-
   (p- :/home/sean/code/zest)
-
   (p- :/home/sean/code/limestone)
   (p- :morhetz/gruvbox)
-
   (p- :junegunn/fzf.vim)
-
   ;(pa- wellle/targets.vim)
   ;(pa- tpope/vim-surround)
-
-  (p- :ggandor/lightspeed.nvim)
-
+  ;(p- :ggandor/lightspeed.nvim)
   (p- :neovim/nvim-lspconfig)
 
   (p- :nvim-treesitter/nvim-treesitter
-      {:run ":TSUpdate"})
-  (let [ts (require :nvim-treesitter.configs)]
-    (ts.setup {:highlight {:enable true}}))
+      {:event "BufRead"
+       :run ":TSUpdate"
+       :config
+       (fn []
+         (let [ts (require :nvim-treesitter.configs)]
+           (ts.setup
+             {:highlight {:enable true}})))})
 
-  (p- :nvim-treesitter/playground)
+  ;(p- :nvim-treesitter/playground)
 
-  (p- :hrsh7th/nvim-compe)
-  (require :plugins.nvim-compe)
+  (p- :hrsh7th/nvim-compe
+      {:event "InsertEnter"
+       :config (fn [] (require :plugins.nvim-compe))})
 
+  ;(require :plugins.nvim-compe)
   (p- :rktjmp/lush.nvim)
-
   (p- :lervag/vimtex
       {:config
        (fn []
@@ -45,18 +44,18 @@
          (g- vimtex_quickfix_mode 0)
          (g- tex_conceal ""))})
 
-  ;(p- :folke/which-key.nvim
-  ;    {:config
-  ;     (fn []
-  ;       (let [c (require :which-key)]
-  ;         (c.setup {})))})
-
   ; lisp
-  (p- :bakpakin/fennel.vim
-      {:ft ["fennel"]})
+
+  (p- :bakpakin/fennel.vim {:ft ["fennel"]})
 
   (p- :guns/vim-sexp)
   (require :plugins.vim-sexp)
+
+  ; hmmm
+  ;(p- :guns/vim-sexp
+  ;    {:ft ["fennel"]
+  ;     :event "VimEnter"
+  ;     :config (fn [] (require :plugins.vim-sexp))})
 
   (p- :Yggdroot/indentLine
       {:config
@@ -65,7 +64,8 @@
          (g- indentLine_char "·")
          (g- indentLine_fileTypeExclude ["markdown"]))})
 
-  (p- :tweekmonster/startuptime.vim))
+  (p- :tweekmonster/startuptime.vim
+      {:cmd "StartupTime"}))
 
 (let [p (require :packer)]
   (p.startup plugins))

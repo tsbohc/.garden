@@ -1,59 +1,83 @@
 (import-macros
-  {:opt-set     s:=
-   :opt-get     s:?
-   :opt-append  s:+
-   :opt-prepend s:^
-   :opt-remove  s:-} :zest.macros)
+  {:opt-set     se=
+   :opt-get     se?
+   :opt-append  se+
+   :opt-prepend se^
+   :opt-remove  se-} :zest.macros)
 
 ; colors
 (vim.cmd ":syntax enable")
 (vim.cmd ":colo limestone")
 
 ; rendering
-(s:= encoding "utf-8")
-(s:= synmaxcol 256)
-(s:= termguicolors)
+(se= encoding "utf-8")
+(se= synmaxcol 256)
+(se= termguicolors)
 
 ; ui
-(s:= number)
-(s:= relativenumber)
-(s:= cursorline)
-(s:= showmatch)
-(s:= matchtime 2)
-(s:+ shortmess "IcT")
+(se= number)
+(se= relativenumber)
+(se= cursorline)
+(se= showmatch)
+(se= matchtime 2)
+(se+ shortmess "IcT")
 
 ; behaviour
-(s:= scrolloff 10)
-(s:= wrap false)
-(s:= virtualedit "block")
-(s:= undofile)
-(s:= autoread)
-(s:= clipboard "unnamedplus") ; don't forget xsel!
-(s:= mouse "a")
-(s:+ completeopt ["menuone" "noselect"])
+(se= scrolloff 10)
+(se= wrap false)
+(se= virtualedit "block")
+(se= undofile)
+(se= autoread)
+(se= clipboard "unnamedplus") ; don't forget xsel!
+(se= mouse "a")
+(se+ completeopt ["menuone" "noselect"])
 
 ; status lines
-(s:= showmode false)
-(s:= laststatus 2)
+(se= showmode false)
+(se= laststatus 2)
 
 ; search
-(s:= incsearch)
-(s:= inccommand "nosplit")
-(s:= hlsearch)
-(s:= ignorecase)
-(s:= smartcase)
+(se= incsearch)
+(se= inccommand "nosplit")
+(se= hlsearch)
+(se= ignorecase)
+(se= smartcase)
 
 ; folding
-(s:= foldenable)
-(s:= foldmethod "marker")
+(se= foldenable)
+(se= foldmethod "marker")
 ;(se- foldtext "v:lua.folding()"
 
 ; spacing
-(s:= tabstop 2)
-(s:= shiftwidth 2)
-(s:= softtabstop 2)
-(s:= expandtab)
+(se= tabstop 2)
+(se= shiftwidth 2)
+(se= softtabstop 2)
+(se= expandtab)
 
 ; invisibles
-(s:= listchars {:trail "␣"})
-(s:= list)
+(se= listchars {:trail "␣"})
+(se= list)
+
+; disable built-in plugins
+(local built-ins
+  {:netrw
+   :netrwPlugin
+   :netrwSettings
+   :netrwFileHandlers
+   :gzip
+   :zip
+   :zipPlugin
+   :tar
+   :tarPlugin
+   :getscript
+   :getscriptPlugin
+   :vimball
+   :vimballPlugin
+   :2html_plugin
+   :logipat
+   :rrhelper
+   :spellfile_plugin
+   :matchit})
+
+(each [_ p (ipairs built-ins)]
+  (tset vim.g (.. "loaded_" p) 1))
