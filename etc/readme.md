@@ -9,6 +9,6 @@ rake
 xorg
 zsh
 ```
-See [rake](https://github.com/tsbohc/.garden/tree/master/etc) for more info.
+See [rake](https://github.com/tsbohc/.garden/tree/master/etc/rake) for more info.
 
 > This readme is generated automatically and is always up to date.
