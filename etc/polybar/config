@@ -66,7 +66,7 @@ label = "%{A1:$BROWSER yandex.ru/pogoda:}%output%%{A}"
 [module/hc-tags]
 type = custom/script
 format-font = 3
-exec = ~/.garden/etc/polybar.d/modules/hc-workspaces
+exec = ~/.garden/etc/polybar/modules/hc-workspaces
 tail = true
 scroll-up = herbstclient use_index -1 --skip-visible &
 scroll-down = herbstclient use_index +1 --skip-visible &

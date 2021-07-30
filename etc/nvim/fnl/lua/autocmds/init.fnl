@@ -87,3 +87,11 @@
     (tset vim.g :_layout xkbmap-insert.layout)
     (when (not= xkbmap-insert.layout xkbmap-normal.layout)
       (set-xkbmap xkbmap-normal))))
+
+; ------------------------------------
+; --             rake               --
+; ------------  --/-<@  --------------
+
+(au.gr- :rake
+  (au.no- :BufWritePost "/home/sean/.garden/etc/*"
+    "silent!rake -u %:p"))

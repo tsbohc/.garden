@@ -9,7 +9,7 @@
 
 # find ... | xargs wc -l -- count lines/etc in project
 
-export PATH=$HOME/.garden/bin:$HOME/.garden/etc/bspwm.d/modules:$HOME/.garden/etc/polybar.d/modules:$PATH
+export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
 
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit

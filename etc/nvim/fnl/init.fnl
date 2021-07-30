@@ -10,8 +10,8 @@
 (let [zest (require :zest)
       h vim.env.HOME]
   (zest.setup
-    {:target (.. h "/.garden/etc/nvim.d/lua")
-     :source (.. h "/.garden/etc/nvim.d/fnl")}))
+    {:target (.. h "/.garden/etc/nvim/lua")
+     :source (.. h "/.garden/etc/nvim/fnl")}))
 
 (import-macros
   {:vlua-format   vlua.format
