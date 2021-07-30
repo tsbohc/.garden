@@ -1,0 +1,167 @@
+#!/bin/bash
+
+# TODO
+# it would be really cool to have an autoupdate readme
+# in the .garden/etc directory that shows currently active packages
+# and call it "leaves currently raked:"
+
+# cherry <- this script
+# blossom <- templates
+# cherryblossom, aliased as cb
+
+# cb -i --install
+# cb -r --remove
+
+# TODO i could loop through installed packages sourcing them and running the autostart function
+# that's the easiest most portable way (errorless, too)
+
+# umai should take string, output string
+# the rest shouldbe done in the render function
+# ideally i need to make umai into a binary
+
+# FIXME instead of housekeeping here, I should just wrap cb later with a script
+# that runs on saving packages_list, installing all packages in there and uninstalling those that aren't
+# this should be a dumb install-this remove-that script
+
+
+REPOSITORY="$HOME/.garden/etc"
+CACHE="$HOME/.config/dotfiles"
+PACKAGE=""
+REMOVE="NO"
+
+# util
+
+out() { echo "$@" ; }
+log() { echo "${1//$HOME/\~}" >&2 ; } # NOTE that this can backfire, but it'll be only visual
+
+function?() { declare -F "$1" > /dev/null ; }
+cached?() { [[ "$1" == *"$CACHE"* ]] ; }
+remove?() { [[ "$REMOVE" == "YES" ]] ; }
+
+# readme
+
+readme() {
+  local text="Leaves currently being raked:
+\`\`\`"
+  for p in $CACHE/*; do
+    text="$text
+${p/$CACHE\//}"
+  done
+  text="$text
+\`\`\`
+This readme is generated automatically and is always up to date.
+
+See [rake](https://github.com/tsbohc/.garden/tree/master/etc) for more info."
+
+  echo "$text" > "$HOME/.garden/etc/readme.md"
+}
+
+# hooks
+
+unlink() {
+  local target_path="$1"
+  local target_path="${target_path/\~/$HOME}"
+
+  if [[ -L "$target_path" ]]; then
+    log "- removing $target_path"
+    rm "$target_path"
+  fi
+}
+
+link() {
+  local source_path="$1"
+  local target_path="$2"
+  local target_path="${target_path/\~/$HOME}"
+
+  # TODO i'd rather have the fns referenced here (like cached?) be simple than complex
+  # so that code here is readable without looking up
+
+  if ! remove?; then
+    if ! cached? "$source_path"; then
+      local cache_source_path="$REPOSITORY/$PACKAGE/$1"
+      local cache_target_path="$CACHE/$PACKAGE/$1"
+      log "- caching $cache_source_path -> $cache_target_path"
+      mkdir -p "$(dirname "$cache_target_path")"
+      cp -r "$cache_source_path" "$cache_target_path"
+      source_path="$cache_target_path"
+    fi
+
+    log "- linking $source_path -> $target_path"
+    mkdir -p "$(dirname "$target_path")"
+    ln -sf "$source_path" "$target_path"
+  else
+    unlink "$target_path"
+  fi
+}
+
+render() {
+  local source_path="$REPOSITORY/$PACKAGE/$1"
+  local target_path="$CACHE/$PACKAGE/$1"
+
+  if ! remove?; then
+    log "- rendering $source_path -> $target_path"
+    local source_data="$(<"$source_path")"
+    local target_data="$(./umai "$source_data")"
+    mkdir -p "$(dirname "$target_path")"
+    echo "$target_data" > "$target_path"
+    out "$target_path"
+  else
+    out "$target_path"
+  fi
+}
+
+# main
+
+install() {
+  PACKAGE="$1"
+  . "$REPOSITORY/$PACKAGE/leaf.sh"
+
+  log "-i $PACKAGE: $about"
+  if function? rake; then
+    rake
+    unset rake
+  fi
+}
+
+remove() {
+  PACKAGE="$1"
+  . "$REPOSITORY/$PACKAGE/leaf.sh"
+  REMOVE="YES"
+
+  log "-r $PACKAGE: $about"
+  if function? rake; then
+    rake
+    unset rake
+  fi
+
+  if function? unrake; then
+    unrake
+    unset unrake
+  fi
+
+  if [[ -d "$CACHE/$PACKAGE" ]]; then
+    log "- deleting $CACHE/$PACKAGE"
+    rm -r "$CACHE/$PACKAGE"
+  fi
+}
+
+opt="$1"
+shift
+
+case "$opt" in
+  -i|--install)
+    for p in "${@}"; do
+      install "$p"
+    done
+    ;;
+  -r|--remove)
+    for p in "${@}"; do
+      remove "$p"
+    done
+    ;;
+  *)
+    log "no command is given"
+    ;;
+esac
+
+readme

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+name="fzfmenu"
+
+#st bash -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"
+
+alacritty \
+  --class floatingTerminal,floatingTerminal \
+  -t "$name" \
+  -o "window.dimensions.columns=70" \
+  -o "window.dimensions.lines=7" \
+  -o "window.padding.x=0" \
+  -o "window.padding.y=16" \
+  -e sh -c "fzf $* --info=hidden \
+                   --no-multi \
+                   --no-unicode \
+                   --tiebreak=end
+                   < /proc/$$/fd/0 > /proc/$$/fd/1"
+
+  #-o "background_opacity=0.9" \

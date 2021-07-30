@@ -1,0 +1,61 @@
+! vim: ft=xdefaults
+
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.autohint: 0
+Xft.rgba: rgb
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+! desktop, main screet
+Xft.dpi: 92
+
+!*.font: JetBrains Mono:style=medium:size=12
+!*.font: Fira Code:style=medium:size=12
+*.font: Iosevka Custom Medium:style=Medium:size=13
+
+*.foreground: #AFAFB6
+*.background: #222225
+*.color0:     #222225
+*.color8:     #AFAFB6
+*.color1:     #E3A5B5
+*.color9:     #E3A5B5
+*.color2:     #A9CBB4
+*.color10:    #A9CBB4
+*.color3:     #DCC598
+*.color11:    #DCC598
+*.color4:     #9BB9D4
+*.color12:    #9BB9D4
+*.color5:     #CBAFD4
+*.color13:    #CBAFD4
+*.color6:     #9ED1CD
+*.color14:    #9ED1CD
+*.color7:     #AFAFB6
+*.color15:    #AFAFB6
+
+!*.foreground: #{% {{colo}.foreground} %}
+!*.background: #{% {{colo}.background} %}
+!*.color0:     #{% {{colo}.color0} %}
+!*.color8:     #{% {{colo}.color8} %}
+!*.color1:     #{% {{colo}.color1} %}
+!*.color9:     #{% {{colo}.color9} %}
+!*.color2:     #{% {{colo}.color2} %}
+!*.color10:    #{% {{colo}.color10} %}
+!*.color3:     #{% {{colo}.color3} %}
+!*.color11:    #{% {{colo}.color11} %}
+!*.color4:     #{% {{colo}.color4} %}
+!*.color12:    #{% {{colo}.color12} %}
+!*.color5:     #{% {{colo}.color5} %}
+!*.color13:    #{% {{colo}.color13} %}
+!*.color6:     #{% {{colo}.color6} %}
+!*.color14:    #{% {{colo}.color14} %}
+!*.color7:     #{% {{colo}.color7} %}
+!*.color15:    #{% {{colo}.color15} %}
+
+! font rendering
+!Xft.dpi: 96
+!Xft.antialias: true
+!Xft.hinting: false
+!Xft.rgba: rgb
+!Xft.autohint: false
+!Xft.hintstyle: hintslight
+!Xft.lcdfilter: lcddefault

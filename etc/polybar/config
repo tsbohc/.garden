@@ -1,0 +1,74 @@
+[colors]
+background = #00ffffff
+foreground = #bbffffff
+
+[bar/main]
+enable-ipc = true
+
+width = 100%
+height = 21
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+#font-0 = RobotoMono Nerd Font:style=Medium:size=10;2
+font-0 = Iosevka Custom:style=Medium:size=10;4
+font-1 = RobotoMono Nerd Font:style=Medium:size=12;4
+font-2 = Iosevka Custom:style=Medium:size=14;5
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 0
+
+border-top-size = 0
+underline-size = 0
+
+fixed-center = true
+bottom = true
+
+modules-left = wttr
+modules-center = hc-tags
+modules-right = date nerd-clock
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/nerd-clock]
+type = custom/script
+interval = 900
+
+exec = bash nerd-clock
+
+label = " %{T2}%output%%{T-}"
+
+[module/date]
+type = internal/date
+interval = 60
+
+date-alt = " %A, %B %d,"
+
+time = "%I:%M %p"
+time-alt = "%I:%M %p"
+
+label = "%date% %time%"
+
+[module/wttr]
+type = custom/script
+interval = 1800
+
+exec = bash wttr-weather
+
+label = "%{A1:$BROWSER yandex.ru/pogoda:}%output%%{A}"
+
+[module/hc-tags]
+type = custom/script
+format-font = 3
+exec = ~/.garden/etc/polybar.d/modules/hc-workspaces
+tail = true
+scroll-up = herbstclient use_index -1 --skip-visible &
+scroll-down = herbstclient use_index +1 --skip-visible &
+
+; vim:ft=dosini

@@ -1,0 +1,3 @@
+rake() {
+  link zshrc "~/.zshrc"
+}
