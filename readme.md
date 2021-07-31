@@ -5,6 +5,12 @@
                                    .-/
                                   (_/
 ```
+## hori-hori
+
+A tiny dotfiles templating and management framework written in bash and awk in `150 loc`.
+
+See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
+
 ## nvim
 
 #### init.lua
@@ -12,9 +18,9 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles t
 
 ```clojure
 ; options
-(so- cursorline)
-(so- completeopt:append ["menuone" "noselect"])
-(so- listchars {:trail "␣"})
+(se= cursorline)
+(se+ completeopt ["menuone" "noselect"])
+(se= listchars {:trail "␣"})
 
 ; keybinds
 (ki.fn- :e [nv :expr] (if (> vim.v.count 0) "k" "gk"))
@@ -25,11 +31,12 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles t
    :<ScrollWheelDown> "<c-e>"})
 
 ; autocmds
-(au.gr- :restore-position
-  (au.fn- "*" [BufReadPost]
-    (when (and (> (vim.fn.line "'\"") 1)
-               (<= (vim.fn.line "'\"") (vim.fn.line "$")))
-      (vim.cmd "normal! g'\""))))
+(au.gr- :smart-cursorline
+  (au.fn- [:InsertEnter :BufLeave :FocusLost] "*"
+    (se= cursorline false))
+  (au.fn- [:InsertLeave :BufEnter :FocusGained] "*"
+    (if (not= (vim.fn.mode) :i)
+      (se= cursorline))))
 ```
 
 ## addendum

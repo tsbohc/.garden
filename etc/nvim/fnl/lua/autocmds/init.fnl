@@ -92,6 +92,6 @@
 ; --             rake               --
 ; ------------  --/-<@  --------------
 
-(au.gr- :rake
-  (au.no- :BufWritePost "/home/sean/.garden/etc/*"
-    "silent!rake -u %:p"))
+;(au.gr- :rake
+;  (au.no- :BufWritePost "/home/sean/.garden/etc/*"
+;    "silent!rake -u %:p"))

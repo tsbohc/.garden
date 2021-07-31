@@ -145,48 +145,40 @@ end
 local function set_xkbmap(x)
   return os.execute(("setxkbmap " .. x.layout .. " -variant " .. x.variant))
 end
+vim.cmd("augroup keyboard-switcher")
+vim.cmd("autocmd!")
 do
-  vim.cmd("augroup keyboard-switcher")
-  vim.cmd("autocmd!")
   do
-    do
-      local ZEST_VLUA_0_
-      do
-        local ZEST_N_0_ = _G._zest.autocmd["#"]
-        local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-        local function _0_()
-          if (xkbmap_insert.layout and (xkbmap_insert.layout ~= xkbmap_normal.layout)) then
-            return set_xkbmap(xkbmap_insert)
-          end
-        end
-        _G._zest["autocmd"][ZEST_ID_0_] = _0_
-        _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-        ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
-      end
-      vim.cmd(("autocmd InsertEnter * :call " .. ZEST_VLUA_0_ .. "()"))
-    end
     local ZEST_VLUA_0_
     do
       local ZEST_N_0_ = _G._zest.autocmd["#"]
       local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
       local function _0_()
-        xkbmap_insert = get_xkbmap()
-        vim.g["_layout"] = xkbmap_insert.layout
-        if (xkbmap_insert.layout ~= xkbmap_normal.layout) then
-          return set_xkbmap(xkbmap_normal)
+        if (xkbmap_insert.layout and (xkbmap_insert.layout ~= xkbmap_normal.layout)) then
+          return set_xkbmap(xkbmap_insert)
         end
       end
       _G._zest["autocmd"][ZEST_ID_0_] = _0_
       _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
       ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
     end
-    vim.cmd(("autocmd InsertLeave * :call " .. ZEST_VLUA_0_ .. "()"))
+    vim.cmd(("autocmd InsertEnter * :call " .. ZEST_VLUA_0_ .. "()"))
   end
-  vim.cmd("augroup END")
-end
-vim.cmd("augroup rake")
-vim.cmd("autocmd!")
-do
-  vim.cmd("au BufWritePost /home/sean/.garden/etc/* silent!rake -u %:p")
+  local ZEST_VLUA_0_
+  do
+    local ZEST_N_0_ = _G._zest.autocmd["#"]
+    local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
+    local function _0_()
+      xkbmap_insert = get_xkbmap()
+      vim.g["_layout"] = xkbmap_insert.layout
+      if (xkbmap_insert.layout ~= xkbmap_normal.layout) then
+        return set_xkbmap(xkbmap_normal)
+      end
+    end
+    _G._zest["autocmd"][ZEST_ID_0_] = _0_
+    _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
+    ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
+  end
+  vim.cmd(("autocmd InsertLeave * :call " .. ZEST_VLUA_0_ .. "()"))
 end
 return vim.cmd("augroup END")
