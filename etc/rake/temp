@@ -1,0 +1,86 @@
+#!/bin/bash
+
+TABLE=""
+def() { TABLE="$1" ; }
+_() { eval "_${TABLE}_${1}=${2}" ; }
+
+def data
+  _ key "mykey"
+def data_mykey
+  _ val "bar"
+
+# -- setup ==
+
+REPO="$HOME/.garden/etc"
+RAKE="$HOME/.config/rake"
+PACK=""
+
+# -- utils --
+
+cached?() { [[ "$1" == *"$RAKE"* ]] ; }
+
+once() {
+  # run function 2 in leaf 1 once if defined
+  PACK="$1"
+  . "$REPO/$PACK/leaf.sh"
+  if declare -F "$2" > /dev/null; then
+    "$2" ; unset "$2"
+  fi
+}
+
+# -- template engine --
+
+template() {
+  # render a string based on global context
+  local input="$1"
+  local expr_re='\{%[[:space:]]([^ ]+)[[:space:]]%\}'
+  local leaf_re='\{([^\{\}]+)\}'
+
+  while [[ $input =~ $expr_re ]]; do
+    EXPR="${BASH_REMATCH[0]}"
+    BODY="${BASH_REMATCH[1]}"
+    while [[ $BODY =~ $leaf_re ]]; do
+      KEY="_data_${BASH_REMATCH[1]}"
+      BODY="${BODY/${BASH_REMATCH[0]}/${!KEY}}"
+    done
+    input="${input/$EXPR/$BODY}"
+  done
+
+  echo "$input"
+}
+
+# =- leaf hooks --
+
+render() {
+  local source="$REPO/$PACK/$1"
+  local target="$RAKE/$PACK/$1"
+  mkdir -p "$(dirname "$target")"
+  template "$(<"$source")" > "$target"
+  echo "$target"
+}
+
+link() {
+  local source="$1"
+  cached? "$source" || source="$REPO/$PACK/$source"
+  local target="${2/\~/$HOME}"
+  ln -sfn "$source" "$target"
+}
+
+unlink() {
+  local target="${1/\~/$HOME}"
+  [[ -L "$target" ]] && rm "$target"
+}
+
+# -- rake main --
+
+rake() {
+  once "$1" rake
+  mkdir -p "$RAKE/$PACK"
+}
+
+unrake() {
+  once "$1" unrake
+  [[ -d "$RAKE/$PACK" ]] && rm -r "$RAKE/$PACK"
+}
+
+unrake test

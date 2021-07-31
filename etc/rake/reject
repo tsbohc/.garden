@@ -1,0 +1,12 @@
+
+
+# this is all right too
+# all i really need to do is to count dashes to get the current level,
+# compare it with new
+# and remove the part that's unneeded
+# though that'd be too much code
+
+#- a "aaa"
+#- '' b "bbb"
+#- '''' c "ccc"
+#- '''' c2 "ccc2"

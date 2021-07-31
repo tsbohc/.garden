@@ -8,6 +8,8 @@ CACHE="$HOME/.config/rake"
 PACKAGE=""
 REMOVE="NO"
 
+verbose="yes"
+
 # util
 
 out() { echo "$@" ; }
@@ -37,7 +39,6 @@ ${p/$CACHE\//}"
 See [rake](https://github.com/tsbohc/.garden/tree/master/etc/rake) for more info.
 
 > This readme is generated automatically and is always up to date."
-  # FIXME the link
 
   echo "$text" > "$REPOSITORY/readme.md"
   log "update" "$REPOSITORY/readme.md"
