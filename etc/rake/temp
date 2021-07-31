@@ -1,19 +1,69 @@
 #!/bin/bash
 
-TABLE=""
-def() { TABLE="$1" ; }
-_() { eval "_${TABLE}_${1}=${2}" ; }
-
-def data
-  _ key "mykey"
-def data_mykey
-  _ val "bar"
-
-# -- setup ==
-
 REPO="$HOME/.garden/etc"
 RAKE="$HOME/.config/rake"
-PACK=""
+PACK="" # leaf currently being processed
+
+# {{{ -- awk land ---
+read -r -d '' AWK <<'EOF'
+BEGIN {
+  FS=": "
+} {
+  # get indent in twos
+  match($0, /^ */)
+  indent = RLENGTH / 2
+
+  # strip indent from the key
+  key=substr($1, RLENGTH + 1)
+  com=substr(key, 1, 1)
+
+  # skip comments
+  if (com != "#" && length(key) > 0) {
+    val = ""
+    # get everything after the first delimiter match
+    for (i = 2; i <= NF; i++) {
+      val = (val)($i)": "
+    }
+    # remove trailing delimiter
+    val = substr(val, 1, length(val) - 2)
+
+    # https://stackoverflow.com/a/21189044
+    vname[indent] = key
+    for (i in vname) {
+      if (i > indent) { delete vname[i] }
+    }
+    if (length(val) > 0) {
+      path = ""
+      for (i = 0; i < indent; i++) {
+        path = (path)(vname[i])"_"
+      }
+      if (substr(val, 1, 8) == "require ") {
+        #print "  "
+        #print ". "val
+        printf("%s '%s'\n", (val), (prefix)(path)(key)"_")
+        #print "  "
+      } else {
+        printf("__%s=%s\n", (prefix)(path)(key), val);
+      }
+    }
+  }
+}
+EOF
+# }}}
+
+require() {
+  local prefix="$2"
+  local output="$(awk -v prefix="$prefix" "$AWK" "$REPO/rake/$1")"
+  while read -r line; do
+    if [[ $line == "require "* ]]; then
+      eval "$line"
+    else
+      echo "$line"
+    fi
+  done <<< "$output"
+}
+
+eval "$(require conf.yaml)" # load config
 
 # -- utils --
 
@@ -36,23 +86,23 @@ readme() { # generate a readme based on currently raked leaves
 
 # -- template engine --
 
-template() { # render a string based on global context
+template() { # render a string with __context
   local input="$1"
   local expr_re='\{%[[:space:]]([^ ]+)[[:space:]]%\}'
   local leaf_re='\{([^\{\}]+)\}'
   while [[ $input =~ $expr_re ]]; do
-    EXPR="${BASH_REMATCH[0]}"
-    BODY="${BASH_REMATCH[1]}"
-    while [[ $BODY =~ $leaf_re ]]; do
-      KEY="_data_${BASH_REMATCH[1]}"
-      BODY="${BODY/${BASH_REMATCH[0]}/${!KEY}}"
+    expr="${BASH_REMATCH[0]}"
+    body="${BASH_REMATCH[1]}"
+    while [[ $body =~ $leaf_re ]]; do
+      KEY="__${BASH_REMATCH[1]}"
+      body="${body/${BASH_REMATCH[0]}/${!KEY}}"
     done
-    input="${input/$EXPR/$BODY}"
+    input="${input/$expr/$body}"
   done
   echo "$input"
 }
 
-# =- leaf hooks --
+# -- leaf hooks --
 
 render() {
   local source="$REPO/$PACK/$1"
@@ -73,8 +123,6 @@ unlink() {
   [[ -L "$target" ]] && rm "$target"
 }
 
-# -- rake main --
-
 rake() {
   if [[ -d "$REPO/$1" ]]; then
     once "$1" rake
@@ -93,6 +141,8 @@ subcmd="$1" ; shift
 case "$subcmd" in
   s|-s|setup)  for p in "$@"; do rake   "$p"; done ; readme ;;
   r|-r|remove) for p in "$@"; do unrake "$p"; done ; readme ;;
-  *) echo "rake - tiny .garden management and templating tool"
-     echo "       <setup> or <remove> package..." ;;
+  l|-l|list)   for p in $RAKE/*; do echo "${p/$RAKE\//}"; done ;;
+  *) echo "rake - tiny .garden management and templating framework"$'\n' \
+          "  <setup> or <remove> leaves"$'\n' \
+          "  <list> installed leaves" ;;
 esac
