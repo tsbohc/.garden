@@ -17,10 +17,7 @@ PACK=""
 
 # -- utils --
 
-cached?() { [[ "$1" == *"$RAKE"* ]] ; }
-
-once() {
-  # run function 2 in leaf 1 once if defined
+once() { # run function 2 in leaf 1 once if defined
   PACK="$1"
   . "$REPO/$PACK/leaf.sh"
   if declare -F "$2" > /dev/null; then
@@ -28,14 +25,21 @@ once() {
   fi
 }
 
+readme() { # generate a readme based on currently raked leaves
+  local txt="### Leaves currently being raked"$'\n'"\`\`\`"$'\n'
+  for p in $RAKE/* ; do txt+="${p/$RAKE\//}"$'\n' ; done
+  txt+="\`\`\`"$'\n'
+  txt+="See [rake](https://github.com/tsbohc/.garden/tree/master/etc/rake) for more info."$'\n\n'
+  txt+="> This readme is generated automatically and is always up to date."
+  echo "$txt" > "$REPO/readme.md"
+}
+
 # -- template engine --
 
-template() {
-  # render a string based on global context
+template() { # render a string based on global context
   local input="$1"
   local expr_re='\{%[[:space:]]([^ ]+)[[:space:]]%\}'
   local leaf_re='\{([^\{\}]+)\}'
-
   while [[ $input =~ $expr_re ]]; do
     EXPR="${BASH_REMATCH[0]}"
     BODY="${BASH_REMATCH[1]}"
@@ -45,7 +49,6 @@ template() {
     done
     input="${input/$EXPR/$BODY}"
   done
-
   echo "$input"
 }
 
@@ -60,8 +63,7 @@ render() {
 }
 
 link() {
-  local source="$1"
-  cached? "$source" || source="$REPO/$PACK/$source"
+  [[ "$1" == *"$RAKE"* ]] && local source="$1" || local source="$REPO/$PACK/$source"
   local target="${2/\~/$HOME}"
   ln -sfn "$source" "$target"
 }
@@ -74,13 +76,23 @@ unlink() {
 # -- rake main --
 
 rake() {
-  once "$1" rake
-  mkdir -p "$RAKE/$PACK"
+  if [[ -d "$REPO/$1" ]]; then
+    once "$1" rake
+    mkdir -p "$RAKE/$1"
+  fi
 }
 
 unrake() {
-  once "$1" unrake
-  [[ -d "$RAKE/$PACK" ]] && rm -r "$RAKE/$PACK"
+  if [[ -d "$RAKE/$1" ]]; then
+    once "$1" unrake
+    rm -r "$RAKE/$1"
+  fi
 }
 
-unrake test
+subcmd="$1" ; shift
+case "$subcmd" in
+  s|-s|setup)  for p in "$@"; do rake   "$p"; done ; readme ;;
+  r|-r|remove) for p in "$@"; do unrake "$p"; done ; readme ;;
+  *) echo "rake - tiny .garden management and templating tool"
+     echo "       <setup> or <remove> package..." ;;
+esac
