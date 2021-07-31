@@ -1,0 +1,9 @@
+colo: "limestone"
+font: "iosevka"
+# varsets
+limestone: require varsets/limestone
+iosevka: ''
+  family: "Iosevka Custom"
+  size: 12
+
+# vim: ft=yaml

@@ -1,1 +1,1 @@
-this should be bar: {% {{key}_val} %}
+this should be black hex: {% {{colo}_black} %} !! yay

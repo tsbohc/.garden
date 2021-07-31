@@ -36,6 +36,37 @@
 
 (require-macros :zest.macros)
 
+;(def-keymap :<c-m> [v]
+;  (vfn ":call %s(visualmode())<cr>" [x]
+;    (print x)))
+
+
+; functions
+;(test ,my_function)
+;(test ,(fn [] print))
+;(test ,#(print))
+;
+;; strings
+;(test my_string)
+;(test (.. "_" my_string))
+;
+;(def-keymap :<c-m> [nvo]
+;  ,(fn []
+;     (print)))
+;
+;(def-keymap :<c-m> [nvo] "echo")
+;
+;(def-keymap :<c-m> [nvo] =>
+;  (local x 1)
+;  (print x))
+;
+;(def-keymap :<c-m> [nvo] -> [x]
+;  (print x))
+
+
+;(test ,my_fn)
+;(test (fn []))
+
 ; just a :lua only :fnl without completion
 ;(def-command-fn :Fnl [s]
 ;  (let [f (require :zest.fennel)]

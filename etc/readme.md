@@ -1,14 +1,13 @@
-### Leaves currently being raked
+### .files currently in use
 ```
 alacritty
 herbstluftwm
 nvim
 picom
 polybar
-rake
 xorg
 zsh
 ```
-See [rake](https://github.com/tsbohc/.garden/tree/master/etc/rake) for more info.
+See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
 
 > This readme is generated automatically and is always up to date.
