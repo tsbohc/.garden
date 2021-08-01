@@ -10,4 +10,4 @@ for _, m in ipairs(modules) do
     print(("error while loading '" .. m .. "':\n" .. out))
   end
 end
-return nil
+return 42

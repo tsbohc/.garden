@@ -13,10 +13,6 @@
 (ki.fn- :n [nv :expr] (if (> vim.v.count 0) "j" "gj"))
 (ki.no- [o] {:e "k" :n "j"})
 
-(local n "m")
-(ki.fn- n [nv]
-  (print "ya"))
-
 ; screen and line movement
 (ki.no- [nv] {:N "<c-d>" :E "<c-u>"})
 (ki.no- :H [nv] "0")

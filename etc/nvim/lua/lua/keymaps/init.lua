@@ -42,26 +42,6 @@ do
   vim.api.nvim_set_keymap("o", "n", "j", ZEST_OPTS_0_)
   vim.api.nvim_set_keymap("o", "e", "k", ZEST_OPTS_0_)
 end
-local n = "m"
-do
-  local ZEST_VLUA_0_
-  do
-    local ZEST_ID_0_
-    local function _0_(ZEST_C_0_)
-      return (string.byte(ZEST_C_0_) .. "_")
-    end
-    ZEST_ID_0_ = ("_" .. string.gsub((n .. "nv"), ".", _0_))
-    local function _1_()
-      return print("ya")
-    end
-    _G._zest["keymap"][ZEST_ID_0_] = _1_
-    ZEST_VLUA_0_ = ("v:lua._zest.keymap." .. ZEST_ID_0_)
-  end
-  local ZEST_RHS_0_ = (":call " .. ZEST_VLUA_0_ .. "()<cr>")
-  local ZEST_OPTS_0_ = {noremap = true}
-  vim.api.nvim_set_keymap("n", n, ZEST_RHS_0_, ZEST_OPTS_0_)
-  vim.api.nvim_set_keymap("v", n, ZEST_RHS_0_, ZEST_OPTS_0_)
-end
 do
   local ZEST_OPTS_0_ = {noremap = true}
   vim.api.nvim_set_keymap("n", "E", "<c-u>", ZEST_OPTS_0_)

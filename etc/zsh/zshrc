@@ -42,6 +42,10 @@ setopt no_menu_complete
 
 unsetopt beep
 
+
+# this'll do for now
+compdef '_path_files -/ -W /home/sean/.garden/etc/' hori-hori
+
 # history
 
 HISTFILE=~/.cache/histfile
@@ -121,6 +125,8 @@ export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,pro
 alias yt-dl-best='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
 
 alias v='nvim'
+alias hh='hori-hori'
+
 alias :q='exit'
 alias :qw='exit'
 alias :q!='exit'
@@ -222,14 +228,14 @@ bindkey "^g" gp
   return 0
 }
 
-hh() {
-  local output
-  output="$(::fuzzy_history)"
-  if [ ! "$output" = "" ]; then
-    print -z "$output"
-  fi
-  return 0
-}
+#hh() {
+#  local output
+#  output="$(::fuzzy_history)"
+#  if [ ! "$output" = "" ]; then
+#    print -z "$output"
+#  fi
+#  return 0
+#}
 # }}}
 zle -N ::fuzzy_history::keybind
 bindkey "^[[A" ::fuzzy_history::keybind

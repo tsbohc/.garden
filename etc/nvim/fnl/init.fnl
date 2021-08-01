@@ -41,15 +41,49 @@
 ;    (print x)))
 
 
-; functions
+;; functions
+;(test ,(fn []))
 ;(test ,my_function)
-;(test ,(fn [] print))
-;(test ,#(print))
 ;
 ;; strings
 ;(test my_string)
 ;(test (.. "_" my_string))
+
+; FIXME cannot be aliased
+;(import-macros {:zest-fn zfn} :zest.macros)
+
+;(def-keymap :<c-m> [nvo]
+;  [(fn []
+;     (print "fn"))])
+
+;(test (fn [] print ya))
+
+;(def-keymap :<c-m [nvo]
+;  [(print 1)
+;   (print 2)])
+
+; (test [[(print "woo")]]) ; TODO bind this as an fn?
+
+;(def-autocmd [InsertLeave BufEnter FocusGained] *
+;  [(fn [] (if (not= (vim.fn.mode) :i)
+;            (se= cursorline)))])
 ;
+;(def-keymap e [nv :expr]
+;  [#(if (> vim.v.count 0) "k" "gk")])
+
+;(def-keymap :<c-m> [nvo]
+;  [(fn [] (print "fn"))])
+;
+;(def-keymap :<c-m> [nvo]
+;  [my_function])
+;
+;(def-keymap <c-m> [nvo]
+;  my_string)
+
+
+42
+
+
 ;(def-keymap :<c-m> [nvo]
 ;  ,(fn []
 ;     (print)))

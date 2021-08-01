@@ -1,6 +1,7 @@
 ### .files currently in use
 ```
 alacritty
+dunst
 herbstluftwm
 nvim
 picom
