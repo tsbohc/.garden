@@ -1,9 +1,13 @@
 colo: "limestone"
-font: "iosevka"
-# varsets
 limestone: require varsets/limestone
-iosevka: ''
-  family: "Iosevka Custom"
-  size: 12
 
-# vim: ft=yaml
+dunst: ''
+  font: 'Iosevka Custom'
+    size: '11'
+polybar: ''
+  font1: 'Iosevka Custom'
+    size: '12'
+
+# {% {dunt_font} %} {% {dunst_font_size} %}
+
+# vim: ft=bash
