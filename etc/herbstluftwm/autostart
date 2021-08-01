@@ -75,7 +75,7 @@ hc keybind $Mod-Shift-n     shift down
 hc keybind $Mod-Shift-e     shift up
 hc keybind $Mod-Shift-i     shift right
 
-hc keybind $Mod-space spawn keyboardswitch
+hc keybind $Mod-space spawn switch-keyboard-layout
 
 hc keybind Mod1-Shift-n spawn red-control 0 -1
 hc keybind Mod1-Shift-e spawn red-control 0  1

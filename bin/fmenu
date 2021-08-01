@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: dmenu-like terminal window powered by fzf
+
 name="fzfmenu"
 
 #st bash -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"

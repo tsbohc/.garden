@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# gets cursor position in a terminal window as row:column, tput cup ready
+#: gets cursor position 'row col' compatible with tput cup
 
 exec < /dev/tty
 oldstty=$(stty -g)
