@@ -5,6 +5,8 @@
                                    .-/
                                   (_/
 ```
+![](https://github.com/tsbohc/.garden/tree/master/usr/lush-to-shell-full.png)
+
 ## hori-hori
 
 A tiny dotfiles templating and management framework written in bash and awk in `150 loc`.
