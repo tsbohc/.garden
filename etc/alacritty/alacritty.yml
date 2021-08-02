@@ -127,7 +127,7 @@ font:
     family: Iosevka Custom
 
     # The `style` can be specified to pick a specific face.
-    style: Semibold
+    style: Medium
 
   # Italic font face
   italic:
@@ -149,7 +149,7 @@ font:
     family: Iosevka Custom
 
     # The `style` can be specified to pick a specific face.
-    style: Semibold Italic
+    style: Medium Italic
 
   # Point size
   size: 13
@@ -181,8 +181,8 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '#222225'
-    foreground: '#AFAFB6'
+    background: '{% {{colo}_background} %}'
+    foreground: '{% {{colo}_foreground} %}'
 
     # Bright and dim foreground colors
     #
@@ -252,25 +252,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   '#222225'
-    red:     '#E3A5B5'
-    green:   '#A9CBB4'
-    yellow:  '#DCC598'
-    blue:    '#9BB9D4'
-    magenta: '#CBAFD4'
-    cyan:    '#9ED1CD'
-    white:   '#AFAFB6'
+    black:   '{% {{colo}_color0} %}'
+    red:     '{% {{colo}_color1} %}'
+    green:   '{% {{colo}_color2} %}'
+    yellow:  '{% {{colo}_color3} %}'
+    blue:    '{% {{colo}_color4} %}'
+    magenta: '{% {{colo}_color5} %}'
+    cyan:    '{% {{colo}_color6} %}'
+    white:   '{% {{colo}_color7} %}'
 
   # Bright colors
   bright:
-    black:   '#AFAFB6'
-    red:     '#E3A5B5'
-    green:   '#A9CBB4'
-    yellow:  '#DCC598'
-    blue:    '#9BB9D4'
-    magenta: '#CBAFD4'
-    cyan:    '#9ED1CD'
-    white:   '#AFAFB6'
+    black:   '{% {{colo}_color8} %}'
+    red:     '{% {{colo}_color9} %}'
+    green:   '{% {{colo}_color10} %}'
+    yellow:  '{% {{colo}_color11} %}'
+    blue:    '{% {{colo}_color12} %}'
+    magenta: '{% {{colo}_color13} %}'
+    cyan:    '{% {{colo}_color14} %}'
+    white:   '{% {{colo}_color15} %}'
 
   # Dim colors
   #

@@ -1,5 +1,5 @@
 grow() {
-  link alacritty.yml "~/.config/alacritty/alacritty.yml"
+  link $(render alacritty.yml) "~/.config/alacritty/alacritty.yml"
 }
 
 weed() {
