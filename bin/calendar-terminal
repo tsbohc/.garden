@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: show a calendar in a new terminal window that self destructs after 5 seconds
+
 window="$(xdotool search --onlyvisible --classname "calendar-terminal")"
 
 if [[ "$window" != "" ]]; then

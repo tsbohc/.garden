@@ -13,8 +13,8 @@ v=${v:0:-1}
 (( "$v" > 100 )) && v=100
 
 # dunst
-v_bar=$(hbar "$v" "$v_max" 19 "─" "┘" "─")
-dunstify "volume" "$v_bar ${v}% " -r 83437187 -t 2000
+v_bar=$(hbar "$v" "$v_max" 30 "─" "┘" "─")
+dunstify "volume" "$v_bar ${v: -2}% " -r 83437187 -t 2000
 
 #execute
 amixer -c 1 set Master ${v}% -q

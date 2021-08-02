@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: very old ascii art animation script for a xorg login screen. love it still
+
 IFS=$'\n'
 height=$(tput lines)
 width=$(tput cols)
