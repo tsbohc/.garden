@@ -1,3 +1,0 @@
-#!/bin/bash
-
-nim c -r --hints:off test.nim

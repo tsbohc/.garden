@@ -10,7 +10,11 @@
 
 ## hori-hori
 
-A tiny dotfiles templating and management framework written in bash in `150 loc`.
+A tiny dotfiles templating and management framework written in pure bash in `100 sloc`, featuring:
+
+- Toml-inspired configuration language
+- Recursive templating
+- Package-like management
 
 See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
 
