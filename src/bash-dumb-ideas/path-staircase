@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: draw a file staircase from a file path
+
 p="~/etc/bspwm.d/modules/bspwm-shortcuts"
 
 # └ ┬

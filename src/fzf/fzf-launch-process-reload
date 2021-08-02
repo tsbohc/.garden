@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# proof of concept of processing data after fzf launch
-# and reloading it when done
+#: processing data after fzf launch and reloading it
 
 prepare_data() {
   de() {

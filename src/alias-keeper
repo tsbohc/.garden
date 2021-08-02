@@ -1,8 +1,10 @@
 #!/bin/bash
 
+#: get lhs and rhs of all aliases in bashrc
+
 while read -r l; do
   regex_alias="alias[[:blank:]]+(.*)='(.*)'"
   if [[ "$l" =~ $regex_alias ]]; then
     echo -e "${BASH_REMATCH[1]}\t${BASH_REMATCH[2]}"
   fi
-done < "$HOME/blueberry/etc/zsh.d/zshrc"
+done < "$HOME/.zshrc"

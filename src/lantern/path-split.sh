@@ -1,8 +1,8 @@
 #!/bin/bash
 
+#: presumably some tests for lantern path splitting speed
+
 paths=("~" "~/a" "~/a/" "~/a/b" "~/a/b/" "~/a/b/c" "~/a/b/c/" "~/a/b/c/d" "~/a/b/c/d/")
-
-
 
 for i in {1..1000}; do
   # 0.4

@@ -1,3 +1,0 @@
-bind '"\ec":backward-delete-char'
-bind -x '"\ex":"hook"'
-bind '"\C-?":"\ec\ex"'

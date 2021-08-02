@@ -12,8 +12,7 @@ out=""
 
 while read p; do
   if [[ "$(file "$p")" =~ "shell script" ]]; then
-    out="$out
-$(basename ${p})	$(get_description ${p})"
+    out="$out"$'\n'"$(basename ${p})	$(get_description ${p})"
   fi
 done <<< "$list"
 
