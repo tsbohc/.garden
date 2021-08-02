@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: fzf-powered music player
+
 # organize music as
 # artist - album/{tracks}
 

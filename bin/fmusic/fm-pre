@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#: some sort of a ascii art album cover and song progress script
+
 # {{{
 # colors
 black="\e[30m"

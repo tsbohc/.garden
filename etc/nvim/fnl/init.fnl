@@ -7,6 +7,8 @@
 
 ;(require :test)
 
+;(require :sandbox)
+
 (let [zest (require :zest)
       h vim.env.HOME]
   (zest.setup
@@ -35,6 +37,14 @@
       (print (.. "error while loading '" m "':\n" out)))))
 
 (require-macros :zest.macros)
+
+;(def-keymap-fn "<c-f>" [n]
+;  (vim.cmd ":e scratch.fnl")
+;  (vim.cmd ":w")
+;  (vim.cmd ":split")
+;  (vim.cmd ":term ls scratch.fnl | entr -sc 'fennel --compile scratch.fnl'"))
+
+
 
 ;(def-keymap :<c-m> [v]
 ;  (vfn ":call %s(visualmode())<cr>" [x]
@@ -80,8 +90,6 @@
 ;(def-keymap <c-m> [nvo]
 ;  my_string)
 
-
-42
 
 
 ;(def-keymap :<c-m> [nvo]
@@ -133,33 +141,55 @@
 
 ;(fn compiled-fennel [path]
 ;  (when path
-;    (with-open
-;      [handle (assert (io.popen (.. "fennel --compile " path)))]
-;      (handle:read "*a"))))
+;    (let [handle (assert (io.popen (.. "fennel --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --compile " path)))
+;          output (handle:read "*a")]
+;      (values output (. [(handle:close)] 1)))))
 ;
 ;(fn put [s]
-;  (vim.fn.setreg "a" s "l")
-;  (vim.cmd "norm! \"ap"))
+;  (if  (vim.fn.setreg "a" s "l")
+;  (vim.cmd "norm! \"ap")))
 ;
-;(vim.cmd
-;  (vlua-format
-;    ":command FennelToLua :call %s()"
-;    (fn []
-;      (let [code (compiled-fennel (vim.fn.expand "%:p"))]
-;        (if (= (vim.fn.bufnr "compiled") -1)
-;          (do
-;            (vim.cmd ":vs compiled")
-;            (vim.cmd "setlocal buftype=nofile")
-;            (vim.cmd "setlocal noswapfile")
-;            (vim.cmd "setlocal ft=lua")
-;            (put code)
-;            (vim.cmd "noautocmd wincmd p"))
-;          (do
-;            (vim.cmd "noautocmd wincmd p")
-;            (vim.cmd "norm! ggVGd")
-;            (put code)
-;            (vim.cmd "noautocmd wincmd p")))))))
+;(def-keymap-fn :<c-f> [n]
+;  (let [(code status) (compiled-fennel (vim.fn.expand "%:p"))]
+;    (print status)
+;    (if (= (vim.fn.bufnr "compiled") -1)
+;      (do
+;        (vim.cmd ":vs compiled")
+;        (vim.cmd "setlocal buftype=nofile")
+;        (vim.cmd "setlocal noswapfile")
+;        (vim.cmd "setlocal ft=lua")
+;        (put code)
+;        (vim.cmd "noautocmd wincmd p"))
+;      (do
+;        (vim.cmd "noautocmd wincmd p")
+;        (vim.cmd "norm! ggVGd")
+;        (put code)
+;        (vim.cmd "noautocmd wincmd p")))))
 
+(vim.api.nvim_exec
+  "
+  fun! Runcmd(cmd)
+  silent! exe 'topleft vertical pedit previewwindow '.a:cmd
+  noautocmd wincmd P
+  set buftype=nofile
+  set ft=lua
+  exe 'noautocmd r! '.a:cmd
+  noautocmd wincmd p
+  endfun
+  com! -nargs=1 Runcmd :call Runcmd('<args>')
+
+  fun! MyRun()
+  exe 'w'
+  :silent call Runcmd(\"fennel --correlate --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
+  endfun
+
+  fun! Zct()
+  exe 'w'
+  :silent call Runcmd(\"fennel --compile --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
+  endfun
+
+  nnoremap <c-c> :call MyRun()<cr>
+  nnoremap <c-t> :call Zct()<cr>" false)
 
 
 
@@ -170,3 +200,5 @@
 ;(g- python3_host_prog :/usr/bin/python3)
 ;
 
+
+42
