@@ -5,7 +5,8 @@
                                    .-/
                                   (_/
 ```
-![](https://github.com/tsbohc/.garden/tree/master/usr/lush-to-shell-full.png)
+
+![](https://github.com/tsbohc/.garden/blob/master/usr/lush-to-shell-full.png)
 
 ## hori-hori
 
