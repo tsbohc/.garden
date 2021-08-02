@@ -1,13 +1,8 @@
-colo: "limestone"
-limestone: require varsets/limestone
+# root config
 
-dunst: ''
-  font: 'Iosevka Custom'
-    size: '11'
-polybar: ''
-  font1: 'Iosevka Custom'
-    size: '12'
+colo = "limestone"
 
-# {% {dunt_font} %} {% {dunst_font_size} %}
+[limestone]
+$(import "varsets/limestone")
 
-# vim: ft=bash
+# vim: ft=toml

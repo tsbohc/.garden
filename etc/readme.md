@@ -6,6 +6,7 @@ herbstluftwm
 nvim
 picom
 polybar
+test
 xorg
 zsh
 ```

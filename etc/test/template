@@ -1,2 +1,2 @@
-this should be black hex: {% {{colo}_black} %} !! yay
-this should be black hex: {% {font} %} !! yay
+this should be black hex: {% {{colo}_color0} %} !! yay
+this should be name of the colorscheme: {% {colo} %} !! yay

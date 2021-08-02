@@ -10,7 +10,7 @@
 
 ## hori-hori
 
-A tiny dotfiles templating and management framework written in bash and awk in `150 loc`.
+A tiny dotfiles templating and management framework written in bash in `150 loc`.
 
 See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
 
