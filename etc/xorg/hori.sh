@@ -1,5 +1,5 @@
 grow() {
-  link xinitrc "~/.xinitrc"
+  link $(render xinitrc) "~/.xinitrc"
   link xresources "~/.Xresources"
 }
 

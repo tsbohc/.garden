@@ -16,7 +16,7 @@ A tiny dotfiles templating and management framework written in pure bash in `100
 - Recursive templating
 - Package-like management
 
-See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
+See [hori-hori](https://github.com/tsbohc/hori-hori) for more info
 
 ## nvim
 

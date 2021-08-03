@@ -5,3 +5,7 @@ grow() {
 weed() {
   unlink "~/.config/polybar/config"
 }
+
+autostart() {
+  polybar main &
+}

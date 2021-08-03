@@ -1,35 +1,198 @@
-#### Added by Zinit's installer
-#if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-#    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-#    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-#    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-#        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-#        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-#fi
-
-# find ... | xargs wc -l -- count lines/etc in project
-
+# path
 export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
 
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
+# history
+HISTFILE=$HOME/.cache/histfile
+HISTSIZE=50000
+SAVEHIST=$HISTSIZE
 
-export BLOSSOM_ENV="$HOME/.garden/etc"
-export BLOSSOM_colo="kohi"
+# compinit??
+autoload -Uz compinit ; compinit
 
-export EDITOR=nvim
-export TERMINAL=alacritty
+if [ ! -d "$HOME/.config/zsh-fzf-compe" ]; then
+  git clone https://github.com/Aloxaf/fzf-tab $HOME/.config/zsh-fzf-compe
+else
+  #source $HOME/.config/zsh-fzf-compe/fzf-tab.plugin.zsh
+  :
+fi
 
-autoload -Uz compinit ; compinit # completion
-zinit light Aloxaf/fzf-tab
+_fzf() {
+  fzf --layout=reverse --height=30% --info=hidden --query="$1" \
+    --bind tab:down --bind shift-tab:up --bind change:first
+}
 
-# z.lua
-__ZLUA_PATH="$HOME/.local/z.lua"
-eval "$(lua $HOME/.local/z.lua --init zsh enhanced once fzf)"
+# TODO
+# but what about that plugin?
+# disable fucking vim mode or AT least make it more visible
 
-# setopts
+_fzf_complete_man(){ # manpages in neovim
+  local pre="$1"
+  local name section dash description
+  local matches=($(man -k . | _fzf "$pre" | while read -r name section dash description; do
+    echo "${name}${section}"
+  done))
+  zle reset-prompt
+  if [ -z "$matches" ]; then
+    return 0
+  else
+    LBUFFER="nvim -c ':Man $matches | only'"
+    zle accept-line
+  fi
+}
+
+# {{{
+## To use custom commands instead of find, override _fzf_compgen_{path,dir}
+#if ! declare -f _fzf_compgen_path > /dev/null; then
+#  _fzf_compgen_path() {
+#    echo "$1"
+#    command find -L "$1" \
+#      -name .git -prune -o -name .hg -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
+#      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+#  }
+#fi
+#
+#if ! declare -f _fzf_compgen_dir > /dev/null; then
+#  _fzf_compgen_dir() {
+#    command find -L "$1" \
+#      -name .git -prune -o -name .hg -prune -o -name .svn -prune -o -type d \
+#      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+#  }
+#fi
+#
+#__fzf_comprun() {
+#  if [[ "$(type _fzf_comprun 2>&1)" =~ function ]]; then
+#    _fzf_comprun "$@"
+#  elif [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; }; then
+#    shift
+#    if [ -n "$FZF_TMUX_OPTS" ]; then
+#      fzf-tmux ${(Q)${(Z+n+)FZF_TMUX_OPTS}} -- "$@"
+#    else
+#      fzf-tmux -d ${FZF_TMUX_HEIGHT:-40%} -- "$@"
+#    fi
+#  else
+#    shift
+#    fzf "$@"
+#  fi
+#}
+#
+#__fzf_extract_command() {
+#  local token tokens
+#  tokens=(${(z)1})
+#  for token in $tokens; do
+#    token=${(Q)token}
+#    if [[ "$token" =~ [[:alnum:]] && ! "$token" =~ "=" ]]; then
+#      echo "$token"
+#      return
+#    fi
+#  done
+#  echo "${tokens[1]}"
+#}
+#
+#__fzf_generic_path_completion() {
+#  local base lbuf cmd compgen fzf_opts suffix tail dir leftover matches
+#  base=$1
+#  lbuf=$2
+#  cmd=$(__fzf_extract_command "$lbuf")
+#  compgen=$3
+#  fzf_opts=$4
+#  suffix=$5
+#  tail=$6
+#
+#  setopt localoptions nonomatch
+#  eval "base=$base"
+#  [[ $base = *"/"* ]] && dir="$base"
+#  while [ 1 ]; do
+#    if [[ -z "$dir" || -d ${dir} ]]; then
+#      leftover=${base/#"$dir"}
+#      leftover=${leftover/#\/}
+#      [ -z "$dir" ] && dir='.'
+#      [ "$dir" != "/" ] && dir="${dir/%\//}"
+#      matches=$(eval "$compgen $(printf %q "$dir")" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS" __fzf_comprun "$cmd" ${(Q)${(Z+n+)fzf_opts}} -q "$leftover" | while read item; do
+#        echo -n "${(q)item}$suffix "
+#      done)
+#      matches=${matches% }
+#      if [ -n "$matches" ]; then
+#        LBUFFER="$lbuf$matches$tail"
+#      fi
+#      zle reset-prompt
+#      break
+#    fi
+#    dir=$(dirname "$dir")
+#    dir=${dir%/}/
+#  done
+#}
+#_fzf_path_completion() {
+#  __fzf_generic_path_completion "$1" "$2" _fzf_compgen_path \
+#    "-m" "" " "
+#}
+#_fzf_dir_completion() {
+#  __fzf_generic_path_completion "$1" "$2" _fzf_compgen_dir \
+#    "" "/" ""
+#}
+# }}}
+
+fzf-compe() {
+  local lbuf pre cmd
+  setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
+  tokens=(${(z)LBUFFER})
+
+  [ ${#tokens} -lt 1 ] && return
+  # abort if buffer is empty
+
+  # allow space to be a prefix
+  [ ${LBUFFER[-1]} = ' ' ] && tokens+=("")
+
+  cmd=${tokens[1]}
+  pre=${tokens[-1]}
+  lbu=$LBUFFER
+
+  # complete specific commands
+  # cmd pre|<tab>
+  if type _fzf_complete_${cmd} > /dev/null; then
+    _fzf_complete_${cmd} ${pre}
+  # complete commands
+  # cm|<tab>
+  elif [ "$cmd" = "$pre" ]; then
+    echo
+    echo "complete commands"
+    echo "cmd: $cmd"
+    echo "pre: $pre"
+  # complete paths
+  # cmd |<tab>
+  elif [ -n "$cmd" ] && [ -z "$pre" ]; then
+    echo
+    echo "complete paths"
+    echo "cmd: $cmd"
+    echo "pre: $pre"
+    #zle expand-or-complete # defalult fallback
+  # complete stuff that wasn't assigned specifically
+  # just paths too?
+  # cmd pre|<tab>
+
+  # also:
+  # cmd -|<tab> get cli options... somehow
+
+  else
+    echo
+    echo "complete paths"
+    echo "cmd: $cmd"
+    echo "pre: $pre"
+    #_fzf_path_completion "$pre" "$lbu"
+  fi
+}
+
+zle -N fzf-compe
+bindkey '^I' fzf-compe
+
+#export EDITOR=nvim
+#export TERMINAL=alacritty
+
+## z.lua
+#__ZLUA_PATH="$HOME/.local/z.lua"
+#eval "$(lua $HOME/.local/z.lua --init zsh enhanced once fzf)"
+#
+## setopts
+unsetopt beep # beep is the strongest warrior!
 
 setopt auto_cd                   # cd into directories if only path is given
 setopt no_case_glob              # case-insensitive globbing
@@ -40,33 +203,21 @@ setopt prompt_subst              # support $() in prompt
 setopt no_auto_menu
 setopt no_menu_complete
 
-unsetopt beep
 
-
-# this'll do for now
+## this'll do for now
 compdef '_path_files -/ -W /home/sean/.garden/etc/' hori-hori
 
-# history
-
-HISTFILE=~/.cache/histfile
-HISTSIZE=1000
-SAVEHIST=$HISTSIZE
-setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
-
-# misc
+#setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
 
 # remove that annoying bold slash at the end of paths
-zle_highlight[(r)suffix:*]="suffix:fg=foreground"
+#zle_highlight[(r)suffix:*]="suffix:fg=foreground"
 
-
-# prompt
-
-__prompt_symbol="››"
-#❯◆»
-__prompt_success_color=green
+## prompt
+__prompt_symbol="×"
+##❯◆»›➜ ➤ ► ▻ ▸ ▹ ❯
+__prompt_success_color=blue
 __prompt_failure_color=red
 
-# {{{
 ::prompt::current_dir() {
   echo -n "%~"
 }
@@ -77,7 +228,7 @@ __prompt_failure_color=red
 
 ::prompt::git_status() {
   if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
-    echo -n ", %F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
+    echo -n "%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
     MODIFIED=$(git status --short | wc -l)
     if [ $MODIFIED -gt 0 ]; then
       echo -n "+$MODIFIED"
@@ -85,51 +236,21 @@ __prompt_failure_color=red
   fi
 }
 
-PROMPT='$(::prompt::return_status) '
-RPROMPT='$(::prompt::current_dir)$(::prompt::git_status)'
-
-# }}}
-
-#umai-() { export "UMAI_$1"="$2" ; }
+PROMPT='$(::prompt::current_dir) $(::prompt::return_status) '
+#RPROMPT='$(::prompt::git_status)'
 #
-#umai-i() { 
-#  umai "$(find $dotfiles -type f -name "*.umai" | fzf)"
-#}
-
-#umai- ENV "$HOME/.garden/etc"
-#umai- VARSETS_DIR "$HOME/.garden/etc/varsets"
-#umai- colo "kohi"
-
-umai() {
-  lua5.1 ~/code/umai/umai --varsets ~/.garden/etc/varsets "$@"
-}
-
-umai!() {
-  cd ~/code/umai
-  ./build.sh
-  cd - >/dev/null
-  lua5.1 ~/code/umai/umai "$@" --varsets ~/.garden/etc/varsets - $(find ~/.garden/etc -type f -name "*.umai" -printf '%p ')
-  #umai "$@" - $(find ~/.garden/etc -type f -name "*.umai" -printf "%p ")
-}
-
-umai-fzf() {
-  lua5.1 ~/code/umai/umai "$@" - $(find ~/.garden/etc -type f -name "*.umai" | fzf)
-}
-
-# fzf
-
-export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2 --pointer="◇" --prompt="  "'
-
-# aliases
-
-alias yt-dl-best='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
-
+## fzf
+#export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:4,header:15 --margin=0,2 --pointer="◇" --prompt="  "'
+#
+## aliases
+#alias yt-dl-best='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
+#
 alias v='nvim'
 alias hh='hori-hori'
 
-alias :q='exit'
-alias :qw='exit'
-alias :q!='exit'
+#alias :q='exit'
+#alias :qw='exit'
+#alias :q!='exit'
 alias please='sudo'
 
 # ls
@@ -144,98 +265,161 @@ alias l='ls'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # ask for confirmation
 alias cp="cp -iv"
 alias mv='mv -iv'
 alias rm='rm -iv'
 
-alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
-alias font-grep='fc-list | grep'
+#alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
+#alias font-grep='fc-list | grep'
 
-# probably a bad idea
-#sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
+## probably a bad idea
+##sudo() { [ "$1" = "v" ] && sudoedit "$2" || command sudo "$@" ; }
 
 # ls after cd except when going back to ~
-#cd() {
-#  builtin cd "$@"
-#  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
+cd() {
+  builtin cd "$@"
+  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
+}
+
+## TODO make this always create a new directory
+#ex() {
+#  if [ -f $1 ]; then
+#    case $1 in
+#      *.tar.bz2) tar xjf $1    ;;
+#      *.tar.gz)  tar xzf $1    ;;
+#      *.bz2)     bunzip2 $1    ;;
+#      *.rar)     unrar x $1    ;;
+#      *.gz)      gunzip $1     ;;
+#      *.tar)     tar xf $1     ;;
+#      *.tbz2)    tar xjf $1    ;;
+#      *.tgz)     tar xzf $1    ;;
+#      *.zip)     unzip $1      ;;
+#      *.Z)       uncompress $1 ;;
+#      *.7z)      7z x $1       ;;
+#      *.deb)     ar x $1       ;;
+#      *.tar.xz)  tar xf $1     ;;
+#      *.tar.zst) unzstd $1     ;;
+#      *) echo "'$1' cannot be extracted via ex()" ;;
+#    esac
+#  else
+#    echo "'$1' is not a valid file"
+#  fi
 #}
-
-# nvim as manpage viewer
-m() { man "$1" | nvim -u ~/src/pager.vim ; }
-
-ex() {
-  if [ -f $1 ]; then
-    case $1 in
-      *.tar.bz2) tar xjf $1    ;;
-      *.tar.gz)  tar xzf $1    ;;
-      *.bz2)     bunzip2 $1    ;;
-      *.rar)     unrar x $1    ;;
-      *.gz)      gunzip $1     ;;
-      *.tar)     tar xf $1     ;;
-      *.tbz2)    tar xjf $1    ;;
-      *.tgz)     tar xzf $1    ;;
-      *.zip)     unzip $1      ;;
-      *.Z)       uncompress $1 ;;
-      *.7z)      7z x $1       ;;
-      *.deb)     ar x $1       ;;
-      *.tar.xz)  tar xf $1     ;;
-      *.tar.zst) unzstd $1     ;;
-      *) echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-
-new-bash-script() {
-  touch "$1"
-  echo "#!/bin/bash" > "$1"
-  chmod +x "$1"
-}
-
-# git push via $EDITOR
-# {{{
-function gp() {
-  if [ -z "$BUFFER" ]; then
-    BUFFER="git add -A && git commit -v && git push"
-  else
-    BUFFER="git add -A && git commit -m \"$BUFFER\" && git push"
-  fi
-  zle accept-line # <cr>
-}
-# }}}
-zle -N gp
-bindkey "^g" gp
-
-# simple fuzzy history
-# {{{
-::fuzzy_history() {
-  local output
-  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 200 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
-  echo "$output"
-}
-
-::fuzzy_history::keybind() {
-  local output
-  output="$(::fuzzy_history)"
-  zle reset-prompt
-  if [ ! "$output" = "" ]; then
-    BUFFER=""             # clear whatever is on the line
-    LBUFFER+="${output}"  # append selection from fzf
-  fi
-  return 0
-}
-
-#hh() {
+#
+#new-bash-script() {
+#  touch "$1"
+#  echo "#!/bin/bash" > "$1"
+#  chmod +x "$1"
+#}
+#
+## git push via $EDITOR
+## {{{
+#function gp() {
+#  if [ -z "$BUFFER" ]; then
+#    BUFFER="git add -A && git commit -v && git push"
+#  #else
+#  #  BUFFER="git add -A && git commit -m \"$BUFFER\" && git push"
+#  fi
+#  zle accept-line # <cr>
+#}
+## }}}
+#zle -N gp
+#bindkey "^g" gp
+#
+## simple fuzzy history
+## {{{
+#::fuzzy_history() {
+#  local output
+#  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 1000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+#  echo "$output"
+#}
+#
+#::fuzzy_history::keybind() {
 #  local output
 #  output="$(::fuzzy_history)"
+#  zle reset-prompt
 #  if [ ! "$output" = "" ]; then
-#    print -z "$output"
+#    BUFFER=""             # clear whatever is on the line
+#    LBUFFER+="${output}"  # append selection from fzf
 #  fi
 #  return 0
 #}
-# }}}
-zle -N ::fuzzy_history::keybind
-bindkey "^[[A" ::fuzzy_history::keybind
+#
+##hh() {
+##  local output
+##  output="$(::fuzzy_history)"
+##  if [ ! "$output" = "" ]; then
+##    print -z "$output"
+##  fi
+##  return 0
+##}
+## }}}
+#zle -N ::fuzzy_history::keybind
+#bindkey "^[[A" ::fuzzy_history::keybind
+#
+##function zle-line-init zle-keymap-select {
+##  zle reset-prompt
+##}
+##
+### zle -N zle-line-init
+##zle -N zle-keymap-select
+##
+##bindkey -v
+##
+##bindkey '^k' vi-cmd-mode # <C-k> for going to command mode
+##
+##bindkey -M vicmd ' ' execute-named-cmd # Space for command line mode
+##
+### Home key variants
+##bindkey '\e[1~' vi-beginning-of-line
+##bindkey '\eOH' vi-beginning-of-line
+##
+### End key variants
+##bindkey '\e[4~' vi-end-of-line
+##bindkey '\eOF' vi-end-of-line
+##
+##bindkey -M viins '^o' vi-backward-kill-word
+##
+##bindkey -M vicmd 'yy' vi-yank-whole-line
+##bindkey -M vicmd 'Y' vi-yank-eol
+##
+##bindkey -M vicmd 'y.' vi-yank-whole-line
+##bindkey -M vicmd 'c.' vi-change-whole-line
+##bindkey -M vicmd 'd.' kill-whole-line
+##
+##bindkey -M vicmd 'u' undo
+##bindkey -M vicmd 'U' redo
+##
+##bindkey -M vicmd 'H' run-help
+##bindkey -M viins '\eh' run-help
+##
+##bindkey -M vicmd 'k' history-substring-search-up
+##bindkey -M vicmd 'j' history-substring-search-down
+##
+##bindkey '^p' history-substring-search-up
+##bindkey '^n' history-substring-search-down
+##
+##bindkey -M vicmd '\-' vi-repeat-find
+##bindkey -M vicmd '_' vi-rev-repeat-find
+##
+##bindkey -M viins '\e.' insert-last-word
+##bindkey -M vicmd '\e.' insert-last-word
+##
+##bindkey -M viins '^a' beginning-of-line
+##bindkey -M viins '^e' end-of-line
+##
+### if mode indicator wasn't setup by theme, define default
+##if [[ "$MODE_INDICATOR" == "" ]]; then
+##  MODE_INDICATOR="%{$fg_bold[red]%}<%{$fg[red]%}<<%{$reset_color%}"
+##fi
+##
+##function vi_mode_prompt_info() {
+##  echo "${${KEYMAP/vicmd/$MODE_INDICATOR}/(main|viins)/}"
+##}
+#
+## define right prompt, if it wasn't defined by a theme
+##RPS1='$(vi_mode_prompt_info)'
+##KEYTIMEOUT=0
