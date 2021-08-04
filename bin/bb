@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#: simple script for editing files in the .garden
+
+f() {
+  while read -r line; do
+    echo "${line/$HOME\/.garden\//}"
+  done <<< "$(find $HOME/.garden -type f)" | fzf
+}
+
+pick="$(f)"
+if ! [[ "$pick" == "" ]]; then
+  nvim "$HOME/.garden/$pick"
+fi

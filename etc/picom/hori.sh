@@ -5,3 +5,7 @@ grow() {
 weed() {
   unlink "~/.config/picom/picom.conf"
 }
+
+autostart() {
+  launch picom &
+}

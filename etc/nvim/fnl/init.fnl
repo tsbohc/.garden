@@ -27,7 +27,9 @@
    :statusline
    :textobjects
    :operators
-   :plugins])
+   :plugins
+   :sandbox
+   ])
 
 ;(local autoload (require :autoload))
 

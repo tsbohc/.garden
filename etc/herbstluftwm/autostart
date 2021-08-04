@@ -7,12 +7,11 @@
 
 # mod+w close application, close frame if empty
 
-hc() {
-    herbstclient "$@"
-}
+hc() { herbstclient "$@" ; }
 
-ice() { pkill -x "$1"; { sleep 0.1; "$@"; } ; }
-ice picom &
+# autostart dots
+command -v hori-hori &>/dev/null && hori-hori hook autostart
+
 #feh --bg-fill ~/Downloads/roujin-z-1.jpg
 feh --bg-fill ~/whiteflower.jpeg
 

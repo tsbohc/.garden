@@ -1,0 +1,10 @@
+#!/bin/bash
+
+hc() { herbstclient "$@" ; }
+
+# spawn window hook
+herbstclient rule hook=new_node focus=on
+
+# destroy window could be hooked into a keymap possibly?
+
+hc --idle focus_changed

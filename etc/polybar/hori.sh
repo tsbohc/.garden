@@ -7,5 +7,5 @@ weed() {
 }
 
 autostart() {
-  polybar main &
+  launch polybar main &
 }
