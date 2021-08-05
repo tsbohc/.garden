@@ -4,7 +4,7 @@
 (set _G.sl {})
 (local hl-reset :LineNr)
 
-(var draw-events-set {:BufEnter true})
+(var draw-events-set {:BufEnter true :VimEnter true})
 (var counter 0)
 
 (fn format [s options]

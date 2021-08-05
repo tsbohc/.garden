@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#: hides frames on all tags if the frame count on the current one == 1
+
+#herbstclient --idle "frame_add|frame_remove" | \
+#  while read -r line; do
+#    echo "$line"
+#    count="$(herbstclient attr tags.focus.frame_count)"
+#    if [[ "$count" == 1 ]]; then
+#      herbstclient set frame_normal_opacity 0
+#      herbstclient set frame_active_opacity 0
+#    else
+#      herbstclient set frame_normal_opacity 20
+#      herbstclient set frame_active_opacity 70
+#    fi
+#  done

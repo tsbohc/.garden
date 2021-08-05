@@ -21,7 +21,7 @@ fi
 # apply deltas
 [[ -n "$1" ]] && t=$(( "$t" + "$1" ))
 if [[ -n "$2" ]]; then
-  if $(command -v brightnessctl); then
+  if command -v brightnessctl; then
     x_b=$(brightnessctl -m | awk -F',' '{print $4}')
     x_b=${x_b:0:-1}
     if (( ( "$2" < 0 && "$x_b" > 5 ) || ( "$2" > 0 && "$b" == "$b_max" ) )); then
@@ -50,7 +50,7 @@ b_bar=$(hbar "$b" "$b_max" 11 "─" "┘" "─")
 dunstify "redshift" "$t_bar $t $b_bar $b" -r 83437187 -t 2000
 
 # overwrite file contents
-> "$temp_file"
+true > "$temp_file"
 echo "$t" >> "$temp_file"
 echo "$b" >> "$temp_file"
 

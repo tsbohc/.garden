@@ -1,0 +1,5 @@
+#!/bin/bash
+
+winid="$(herbstclient attr clients.focus.winid)"
+#pid="$(xprop -id "$winid" _NET_WM_PID | awk '{ print $3 }')"
+herbstclient emit_hook node_remove "$winid"

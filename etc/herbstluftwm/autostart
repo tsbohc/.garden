@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
 
-# wishlist:
-
-# create new frame with mod+enter, splitting like bspwm.
-# if on an empty frame, launch new terminal in that frame
-
-# mod+w close application, close frame if empty
-
+# clean slate
 hc() { herbstclient "$@" ; }
+
+hc emit_hook reload
+hc keyunbind --all
+hc unrule -F
+
+# put this into a var and just keybind $remove, bam
+# chain . remove . emit_hook frame_remove
 
 # autostart dots
 command -v hori-hori &>/dev/null && hori-hori hook autostart
 
 #feh --bg-fill ~/Downloads/roujin-z-1.jpg
+# TODO add feh to hori-hori
 feh --bg-fill ~/whiteflower.jpeg
-
-hc emit_hook reload
-
-xsetroot -solid '#5A8E3A'
-
-# remove all existing keybindings
-hc keyunbind --all
 
 # keybindings
 # if you have a super key you will be much happier with Mod set to Mod4
@@ -38,8 +33,8 @@ hc keybind $Mod-r remove # close frame
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
+hc keybind $Mod-u split bottom 0.5
+hc keybind $Mod-o split right  0.5
 # let the current frame explode into subframes
 
 # resizing frames and floating clients
@@ -121,13 +116,24 @@ hc keybind $Mod-p pseudotile toggle
 #       (close))
 #     (remove))
 
-close_window_or_frame=(
-  or , and
-      . compare tags.focus.curframe_wcount gt 0
-      . close
-  , remove)
+#close_hook() {
+#  local winid="$(herbstclient attr clients.focus.winid)"
+#  herbstclient emit_hook node_remove "$winid"
+#}
 
-hc keybind $Mod-w "${close_window_or_frame[@]}"
+close_window_or_frame=(
+or . and - compare tags.focus.curframe_wcount gt 0
+         - close
+   . remove)
+
+hc keybind $Mod-w chain : "${close_window_or_frame[@]}" : spawn node_remove
+
+# maybe there is a way? doesn't it need to be subshelled through
+#testing() {
+#  hc emit_hook wooooo
+#}
+#export -f testing
+#hc keybind $Mod-q spawn testing
 
 cycle_layouts=(
 and
@@ -209,11 +215,11 @@ hc set frame_padding -5
 hc set smart_window_surroundings off
 hc set smart_frame_surroundings off
 #hc set mouse_recenter_gap 0
-
 hc set focus_follows_mouse false
 
 # rules
-hc unrule -F
+
+hc rule hook=node_add focus=on
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart

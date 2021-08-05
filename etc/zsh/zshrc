@@ -278,6 +278,7 @@ PROMPT='$(::prompt::current_dir) $(::prompt::return_status) '
 
 alias v='nvim'
 alias hh='hori-hori'
+alias hc='herbstclient'
 
 #alias :q='exit'
 #alias :qw='exit'

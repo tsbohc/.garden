@@ -22,12 +22,30 @@ end
 sl.fn({"BufEnter"}, {1, 0, 1, 1, "Search"}, _2_)
 sl.st({0, 0, 0, 0}, "%=%<")
 local function _3_()
+  local n = vim.lsp.diagnostic.get_count(0, "Error")
+  if (n > 0) then
+    return ("%#LineNr#<%#LspDiagnosticsFloatingError#" .. n .. "%#LineNr#>")
+  else
+    return ""
+  end
+end
+sl.fn({"VimEnter", "CursorMoved", "CursorMovedI"}, {1, 0, 0, 0, "LspDiagnosticsSignError"}, _3_)
+local function _4_()
+  local n = vim.lsp.diagnostic.get_count(0, "Warning")
+  if (n > 0) then
+    return ("%#LineNr#<%#LspDiagnosticsFloatingWarning#" .. n .. "%#LineNr#>")
+  else
+    return ""
+  end
+end
+sl.fn({"VimEnter", "CursorMoved", "CursorMovedI"}, {1, 0, 0, 0, "LspDiagnosticsSignWarning"}, _4_)
+local function _5_()
   return vim.fn.expand("%:p:~:h")
 end
-sl.fn({"BufEnter", "BufWritePost"}, {1, 0, 0, 0}, _3_)
-local function _4_()
+sl.fn({"BufEnter", "BufWritePost"}, {1, 0, 0, 0}, _5_)
+local function _6_()
   return vim.bo.filetype
 end
-sl.fn({"BufReadPost", "BufWritePost"}, {1, 0, 0, 0}, _4_)
+sl.fn({"BufReadPost", "BufWritePost"}, {1, 0, 0, 0}, _6_)
 sl.st({1, 0, 1, 1, "CursorLine"}, "%2p%%")
 return sl.init()

@@ -1,6 +1,6 @@
 _G.sl = {}
 local hl_reset = "LineNr"
-local draw_events_set = {BufEnter = true}
+local draw_events_set = {BufEnter = true, VimEnter = true}
 local counter = 0
 local function format(s, options)
   local o = (s or "")
@@ -40,9 +40,10 @@ M.fn = function(events, opts, f)
   t = _0_
   local _1_
   do
-    local ZEST_ID_0_ = ("_" .. _G._zest.v["#"])
+    local ZEST_N_0_ = _G._zest.v["#"]
+    local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
     _G._zest["v"][ZEST_ID_0_] = t
-    _G._zest["v"]["#"] = (_G._zest.v["#"] + 1)
+    _G._zest["v"]["#"] = (ZEST_N_0_ + 1)
     _1_ = ("v:lua._zest.v." .. ZEST_ID_0_)
   end
   return vim.api.nvim_command(("au " .. table.concat(events, ",") .. " * :call " .. _1_ .. "()"))
@@ -68,9 +69,10 @@ M.init = function()
   cmd("au!")
   local _0_
   do
-    local ZEST_ID_0_ = ("_" .. _G._zest.v["#"])
+    local ZEST_N_0_ = _G._zest.v["#"]
+    local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
     _G._zest["v"][ZEST_ID_0_] = draw
-    _G._zest["v"]["#"] = (_G._zest.v["#"] + 1)
+    _G._zest["v"]["#"] = (ZEST_N_0_ + 1)
     _0_ = ("v:lua._zest.v." .. ZEST_ID_0_)
   end
   cmd(("au " .. draw_events .. " * :call " .. _0_ .. "()"))

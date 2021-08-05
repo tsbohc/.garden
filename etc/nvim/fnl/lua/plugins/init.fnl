@@ -16,7 +16,18 @@
   ;(pa- tpope/vim-surround)
   ;(p- :ggandor/lightspeed.nvim)
   (p- :neovim/nvim-lspconfig)
+
   (p- :huyvohcmc/atlas.vim)
+
+  (p- :jose-elias-alvarez/null-ls.nvim
+      {:config
+       (fn []
+         (let [null-ls (require :null-ls)
+               lspconfig (require :lspconfig)]
+           (null-ls.config {:sources [(null-ls.builtins.diagnostics.shellcheck.with
+                                        {:diagnostics_format "#{m}"})]})
+           (lspconfig.null-ls.setup {})))
+       :requires [:nvim-lua/plenary.nvim :neovim/nvim-lspconfig]})
 
   (p- :nvim-treesitter/nvim-treesitter
       {:event "BufRead"
