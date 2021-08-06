@@ -1,8 +1,8 @@
-grow() {
+setup() {
   link picom.conf "~/.config/picom/picom.conf"
 }
 
-weed() {
+remove() {
   unlink "~/.config/picom/picom.conf"
 }
 

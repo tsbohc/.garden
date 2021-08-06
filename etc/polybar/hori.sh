@@ -1,8 +1,8 @@
-grow() {
+setup() {
   link config "~/.config/polybar/config"
 }
 
-weed() {
+remove() {
   unlink "~/.config/polybar/config"
 }
 

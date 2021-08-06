@@ -1,7 +1,7 @@
-grow() {
+setup() {
   link $(render alacritty.yml) "~/.config/alacritty/alacritty.yml"
 }
 
-weed() {
+remove() {
   unlink "~/.config/alacritty/alacritty.yml"
 }

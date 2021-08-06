@@ -25,7 +25,8 @@
          (let [null-ls (require :null-ls)
                lspconfig (require :lspconfig)]
            (null-ls.config {:sources [(null-ls.builtins.diagnostics.shellcheck.with
-                                        {:diagnostics_format "#{m}"})]})
+                                        {:diagnostics_format "#{m} #{c}"})
+                                      null-ls.builtins.formatting.fnlfmt]})
            (lspconfig.null-ls.setup {})))
        :requires [:nvim-lua/plenary.nvim :neovim/nvim-lspconfig]})
 
@@ -63,7 +64,7 @@
 
   ; lisp
 
-  (p- :bakpakin/fennel.vim {:ft ["fennel"]})
+  ;(p- :bakpakin/fennel.vim {:ft ["fennel"]})
 
   (p- :guns/vim-sexp)
   (require :plugins.vim-sexp)

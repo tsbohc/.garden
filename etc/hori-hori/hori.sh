@@ -1,7 +1,7 @@
-grow() {
+setup() {
   link rake "~/.garden/bin/rake"
 }
 
-weed() {
+remove() {
   unlink "~/.garden/bin/rake"
 }

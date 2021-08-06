@@ -1,7 +1,7 @@
-grow() {
+setup() {
   link zshrc "~/.zshrc"
 }
 
-weed() {
+remove() {
   unlink "~/.zshrc"
 }

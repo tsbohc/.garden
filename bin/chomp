@@ -1,55 +1,45 @@
 #!/bin/bash
 
-hc() { herbstclient "$@" ; }
+#: herbstluftwm based terminal chomper
 
-get_pid() { # $1 - wid
-  xprop -id "$1" _NET_WM_PID | awk '{ print $3 }'
-}
+term_wid="$(herbstclient attr clients.focus.winid)"
 
-is_child() { # $1 - child_pid, $2 - parent_pid
-  children="$(pstree -T -p "$2")"
-  grep -q "$1" <<< "$children" && echo "y"
-}
+chomp=(
+  or
+  . and
+    - compare tags.focus.curframe_wcount gt 1
+    - chain
+      + lock
+      + split explode
+      + set_attr clients."${term_wid}".minimized true
+      + unlock
+  . set_attr clients."${term_wid}".minimized true
+)
 
-chomp() {
-  # $1 - wid to chomp
-  hc set_attr clients."${1}".minimized true
-}
+blergh=(
+  set_attr clients."${term_wid}".minimized false
+)
 
-blergh() {
-  # $1 - wid to blergh
-  hc set_attr clients."${1}".minimized false
-  # bspc node "$1" --focus
-}
+herbstclient "${chomp[@]}"
+"$@"
+herbstclient "${blergh[@]}"
 
-last_wid=""
-
-# remember that you made node_remove return pid
-hc --idle '(focus_changed|rule)' | \
-  while read -r a b c; do
-    # {{{ parse
-    if [[ "$a" == "rule" && "$b" == "node_add" ]]; then
-      hook="$b"
-      wid="$c"
-    elif [[ "$a" == "focus_changed" ]]; then
-      hook="$a"
-      wid="$b"
-    fi
-    # }}}
-    echo "$hook $wid"
-
-    if [[ "$hook" == "node_add" ]]; then
-      if ! [[ "$last_wid" == "" ]]; then
-        if ! [[ "$last_wid" == "$wid" ]]; then
-          last_pid=$(get_pid "$last_wid")
-          pid=$(get_pid "$wid")
-          echo "$pid child of $last_pid?"
-          if is_child "$pid" "$last_pid"; then
-            chomp "$last_wid"
-          fi
-        fi
-      fi
-    fi
-
-    [[ "$hook" == "focus_changed" ]] && last_wid="$wid"
-  done
+#hc() { herbstclient "$@" ; }
+#
+#file="$HOME/.local/share/chomp"
+#time="$(date +%s)"
+#
+#chomp() { # store term_wid of app $1 launched at $time
+#  local term_wid
+#  term_wid="$(hc attr clients.focus.winid)"
+#  echo "$term_wid+$1_$time" >> "$file"
+#  hc set_attr clients."${term_wid}".minimized true
+#}
+#
+#blergh() { # get term_wid of app $1 launched at $time
+#  local term_wid
+#  term_wid="$(awk -F "+" -v key="$1" '$2 == key {print $1}' "$file")"
+#  hc set_attr clients."${term_wid}".minimized false
+#}
+#
+#chomp "$1" & "$@" ; blergh "$1_$time"

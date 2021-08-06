@@ -49,6 +49,14 @@ else
   git clone https://github.com/skywind3000/z.lua "$HOME/.config/z-lua"
 fi
 
+#if command -v chomp &>/dev/null; then
+#  alias-wrapper() {
+#    command -v "$1" &>/dev/null && alias "$1"="chomp $1"
+#  }
+#  alias-wrapper brave
+#  #alias-wrapper discord
+#fi
+
 
 #_fzf() {
 #  fzf --layout=reverse --height=30% --info=hidden --query="$1" \

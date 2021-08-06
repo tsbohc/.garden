@@ -1,7 +1,7 @@
-grow() {
+setup() {
   link "autostart" "~/.config/herbstluftwm/autostart"
 }
 
-weed() {
+remove() {
   unlink "~/.config/herbstluftwm/autostart"
 }

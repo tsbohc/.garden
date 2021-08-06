@@ -10,7 +10,7 @@ local function plugins()
   local function _0_()
     local null_ls = require("null-ls")
     local lspconfig = require("lspconfig")
-    null_ls.config({sources = {null_ls.builtins.diagnostics.shellcheck.with({diagnostics_format = "#{m}"})}})
+    null_ls.config({sources = {null_ls.builtins.diagnostics.shellcheck.with({diagnostics_format = "#{m} #{c}"}), null_ls.builtins.formatting.fnlfmt}})
     return lspconfig["null-ls"].setup({})
   end
   use({"jose-elias-alvarez/null-ls.nvim", config = _0_, requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}})
@@ -34,7 +34,6 @@ local function plugins()
     return nil
   end
   use({"lervag/vimtex", config = _3_})
-  use({"bakpakin/fennel.vim", ft = {"fennel"}})
   use({"guns/vim-sexp"})
   require("plugins.vim-sexp")
   local function _4_()

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+wra() {
+  [[ $1 == i ]] && local where='then' || local where='else'
+  echo "$where"
+
+  [[ $1 == i ]] && my() { echo "then" ; } || my() { echo "else" ; }
+  my
+}
+
+wra "$@"

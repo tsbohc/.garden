@@ -1,10 +1,10 @@
-grow() {
+setup() {
   link $(render xinitrc) "~/.xinitrc"
   link xresources "~/.Xresources"
 }
 
 
-weed() {
+remove() {
   unlink "~/.xinitrc"
   unlink "~/.Xresources"
 }

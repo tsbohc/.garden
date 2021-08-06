@@ -1,7 +1,7 @@
-grow() {
+setup() {
   link dunstrc "~/.config/dunst/dunstrc"
 }
 
-weed() {
+remove() {
   unlink "~/.config/dunst/dunstrc"
 }

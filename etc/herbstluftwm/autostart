@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO
+# alt+directional binds to split frames would be nice
+
 # clean slate
 hc() { herbstclient "$@" ; }
 
@@ -11,7 +14,7 @@ hc unrule -F
 # chain . remove . emit_hook frame_remove
 
 # autostart dots
-command -v hori-hori &>/dev/null && hori-hori hook autostart
+command -v hori-hori &>/dev/null && hori-hori installed autostart --all
 
 #feh --bg-fill ~/Downloads/roujin-z-1.jpg
 # TODO add feh to hori-hori
