@@ -2,6 +2,9 @@
   {:def-keymap-fn ki.fn-
    :def-keymap    ki.no-} :zest.macros)
 
+(import-macros
+  {: def-keymap} :zest.lime.macros)
+
 (tset vim.g :mapleader " ")
 
 ; ------------------------------------
