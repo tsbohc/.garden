@@ -1,62 +1,57 @@
-(import-macros
-  {:opt-set     se=
-   :opt-get     se?
-   :opt-append  se+
-   :opt-prepend se^
-   :opt-remove  se-} :zest.macros)
+(import-macros {:set-option se-} :zest.lime.macros)
 
 ; colors
 (vim.cmd ":syntax enable")
 (vim.cmd ":colo limestone")
 
 ; rendering
-(se= encoding "utf-8")
-(se= synmaxcol 256)
-(se= termguicolors)
+(se- encoding "utf-8")
+(se- synmaxcol 256)
+(se- termguicolors)
 
 ; ui
-(se= number)
-(se= relativenumber)
-(se= cursorline)
-(se= showmatch)
-(se= matchtime 2)
-(se+ shortmess "IcT")
+(se- number)
+(se- relativenumber)
+(se- cursorline)
+(se- showmatch)
+(se- matchtime 2)
+(se- [:append] shortmess "IcT")
 
 ; behaviour
-(se= scrolloff 10)
-(se= wrap false)
-(se= virtualedit "block")
-(se= undofile)
-(se= autoread)
-(se= clipboard "unnamedplus") ; don't forget xsel!
-(se= mouse "a")
-(se+ completeopt ["menuone" "noselect"])
+(se- scrolloff 10)
+(se- wrap false)
+(se- virtualedit "block")
+(se- undofile)
+(se- autoread)
+(se- clipboard "unnamedplus") ; don't forget xsel!
+(se- mouse "a")
+(se- [:append] completeopt ["menuone" "noselect"])
 
 ; status lines
-(se= showmode false)
-(se= laststatus 2)
+(se- showmode false)
+(se- laststatus 2)
 
 ; search
-(se= incsearch)
-(se= inccommand "nosplit")
-(se= hlsearch)
-(se= ignorecase)
-(se= smartcase)
+(se- incsearch)
+(se- inccommand "nosplit")
+(se- hlsearch)
+(se- ignorecase)
+(se- smartcase)
 
 ; folding
-(se= foldenable)
-(se= foldmethod "marker")
+(se- foldenable)
+(se- foldmethod "marker")
 ;(se- foldtext "v:lua.folding()"
 
 ; spacing
-(se= tabstop 2)
-(se= shiftwidth 2)
-(se= softtabstop 2)
-(se= expandtab)
+(se- tabstop 2)
+(se- shiftwidth 2)
+(se- softtabstop 2)
+(se- expandtab)
 
 ; invisibles
-(se= listchars {:trail "␣"})
-(se= list)
+(se- listchars {:trail "␣"})
+(se- list)
 
 ; disable built-in plugins
 (local built-ins

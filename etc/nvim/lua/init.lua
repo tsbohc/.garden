@@ -4,10 +4,6 @@ do
   zest.setup({source = (h .. "/.garden/etc/nvim/fnl"), target = (h .. "/.garden/etc/nvim/lua")})
 end
 local modules = {"options", "keymaps", "autocmds", "statusline", "textobjects", "operators", "plugins", "sandbox"}
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "\226\150\145", texthl = "LspDiagnosticsSignError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "\226\150\145", texthl = "LspDiagnosticsSignWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "\226\150\145", texthl = "LspDiagnosticsSignInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "\226\150\145", texthl = "LspDiagnosticsSignHint"})
 for _, m in ipairs(modules) do
   local ok_3f, out = pcall(require, m)
   if not ok_3f then

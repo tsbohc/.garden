@@ -27,6 +27,11 @@
            (null-ls.config {:sources [(null-ls.builtins.diagnostics.shellcheck.with
                                         {:diagnostics_format "#{m} #{c}"})
                                       null-ls.builtins.formatting.fnlfmt]})
+           ; where do i run this?
+           (vim.fn.sign_define :LspDiagnosticsSignError {:text "░" :texthl "LspDiagnosticsSignError"})
+           (vim.fn.sign_define :LspDiagnosticsSignWarning {:text "░" :texthl "LspDiagnosticsSignWarning"})
+           (vim.fn.sign_define :LspDiagnosticsSignInformation {:text "░" :texthl "LspDiagnosticsSignInformation"})
+           (vim.fn.sign_define :LspDiagnosticsSignHint {:text "░" :texthl "LspDiagnosticsSignHint"})
            (lspconfig.null-ls.setup {})))
        :requires [:nvim-lua/plenary.nvim :neovim/nvim-lspconfig]})
 

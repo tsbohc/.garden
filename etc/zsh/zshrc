@@ -1,17 +1,192 @@
-# path
-export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
+#zmodload zsh/zprof
 
-# fzf defaults
+# ;; defaults
+
+export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
+export EDITOR=nvim
+export TERMINAL=alacritty
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 --margin=0,2 --pointer="›" --prompt="  "'
-#◆»›◇
+
+# ;; setopts
 
 # history
 HISTFILE=$HOME/.cache/histfile
 HISTSIZE=50000
 SAVEHIST=$HISTSIZE
 
-# compinit
-autoload -Uz compinit ; compinit
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_reduce_blanks
+setopt inc_append_history
+
+# other
+setopt share_history
+setopt auto_cd
+setopt no_case_glob
+setopt no_auto_menu
+setopt no_menu_complete
+
+unsetopt beep # beep is the strongest warrior!
+
+# ;; prompt
+
+#::prompt::current_dir() {
+#  echo -n "%~"
+#}
+#
+#::prompt::return_status() {
+#  echo -n "%B%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%b%f"
+#}
+
+#::prompt::git_status() {
+#  if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
+#    echo -n "%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
+#    MODIFIED=$(git status --short | wc -l)
+#    if [ $MODIFIED -gt 0 ]; then
+#      echo -n "+$MODIFIED"
+#    fi
+#  fi
+#}
+
+#⬡⬢ 🢒▶⯅⯆▲▼⯁ ●»›►▻▸▹×
+prompt_symbol="\$"
+prompt_git_color=green
+prompt_success_color=blue
+prompt_failure_color=red
+prompt_failure_symbol="×"
+
+setopt prompt_subst
+
+ansi() {
+  echo -n "%F{$1}$2%f"
+}
+
+::prompt_current_dir() {
+  echo -n "%~"
+}
+
+::prompt_return_status() {
+  echo -n "%B%(?.%F{$prompt_success_color}$prompt_symbol.%F{$prompt_failure_color}$prompt_failure_symbol)%b%f"
+}
+
+# from https://github.com/sindresorhus/pretty-time-zsh
+::prompt_time() {
+  local seconds d h m s
+  local -a human=()
+  seconds=$1
+  d=$(( seconds / 60 / 60 / 24 ))
+  h=$(( seconds / 60 / 60 % 24 ))
+  m=$(( seconds / 60 % 60 ))
+  s=$(( seconds % 60 ))
+
+  (( d > 0 )) && human+="${d}d" && : ${color:=${GEOMETRY_TIME_COLOR_LONG:-red}}
+  (( h > 0 )) && human+="${h}h" && : ${color:=${GEOMETRY_TIME_COLOR_NEUTRAL:-default}}
+  (( m > 0 )) && human+="${m}m"
+  (( s > 0 )) && human+="${s}s" && : ${color:=${GEOMETRY_TIME_COLOR_SHORT:-green}}
+
+  ${2:-false} && echo ${(j: :)human} || echo " $human[1]"
+}
+
+::prompt_elapsed() {
+  echo "$prompt_cmd_elapsed"
+}
+
+::prompt_git_branch() {
+  git rev-parse 2>/dev/null || return
+  git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+::prompt_git_status() {
+  git rev-parse 2>/dev/null || return
+  if [[ -z "$(git status --porcelain --ignore-submodules)" ]]; then
+    ansi green "⬢"
+  else
+    ansi green "⬡"
+  fi
+}
+
+::prompt_git_modified() {
+  git rev-parse 2>/dev/null || return
+  local modified; modified="$(git status --porcelain --ignore-submodules | wc -l)"
+  if [ $modified -gt 0 ]; then
+    ansi grey " +$modified"
+  fi
+}
+
+::prompt_git_time() {
+  git rev-parse 2>/dev/null || return
+  local last_commit; last_commit=$(git log -1 --pretty=format:'%at' 2>/dev/null)
+  [[ -z "$last_commit" ]] && return
+  local now; now=$(date +%s)
+  local seconds_since_last_commit; seconds_since_last_commit=$((now - last_commit))
+  ansi cyan "$(::prompt_time $seconds_since_last_commit)"
+}
+
+PCMD() {
+  echo "$(::prompt_current_dir) $(::prompt_return_status) "
+}
+
+RCMD() { # non-blocking
+  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified) $(::prompt_git_status)$(::prompt_elapsed)"
+}
+
+PROMPT='$(PCMD)'
+RPROMPT=''
+
+# ;; aliases
+
+alias v='nvim'
+alias hh='hori-hori'
+alias hc='herbstclient'
+
+alias please='sudo'
+
+# ls
+alias ls='ls -F --color=auto'
+alias sl='ls'
+alias la='ls -A'
+alias ll='ls -lA'
+alias l.='ls -A | egrep "^\."'
+alias l='ls'
+
+# cd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# ask for confirmation
+alias cp="cp -iv"
+alias mv='mv -iv'
+alias rm='rm -iv'
+
+function gasp() { # easy git push in one command
+  git add -A && git commit -v && git push
+}
+
+function cd() { # ls after cd except when going back to ~
+  builtin cd "$@"
+  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
+}
+
+# ;; completion
+
+# compile zcompdump in the background once a day
+autoload -Uz compinit
+{ setopt extendedglob
+  for zcompdump in $HOME/.zcompdump(#qN.m1); do
+    if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+      zcompile "$zcompdump"
+    fi
+  done
+  unsetopt extendedglob
+} &!
+compinit -C
+
+# completion for hori-hori
+compdef '_path_files -/ -W /home/sean/.garden/etc/' hori-hori
+
+# ;; plugins
 
 # fzf completion
 if [ -d "$HOME/.config/zsh-fzf-compe" ]; then
@@ -49,13 +224,18 @@ else
   git clone https://github.com/skywind3000/z.lua "$HOME/.config/z-lua"
 fi
 
-#if command -v chomp &>/dev/null; then
-#  alias-wrapper() {
-#    command -v "$1" &>/dev/null && alias "$1"="chomp $1"
-#  }
-#  alias-wrapper brave
-#  #alias-wrapper discord
-#fi
+
+# ;; gripes and grievances
+
+export LESSHISTSIZE=0 # prevent ~/.lesshst
+zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
+
+
+
+
+
+
+
 
 
 #_fzf() {
@@ -226,100 +406,44 @@ fi
 #zle -N fzf-compe
 #bindkey '^I' fzf-compe
 
-export EDITOR=nvim
-export TERMINAL=alacritty
-
-
 #
 ## setopts
-unsetopt beep # beep is the strongest warrior!
-
-setopt auto_cd                   # cd into directories if only path is given
-setopt no_case_glob              # case-insensitive globbing
-setopt hist_ignore_space         # [ ]print -s to history
-
-setopt prompt_subst              # support $() in prompt
-
-setopt no_auto_menu
-setopt no_menu_complete
 
 
-## this'll do for now
-compdef '_path_files -/ -W /home/sean/.garden/etc/' hori-hori
 
 #setopt append_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks share_history
 
-# remove that annoying bold slash at the end of paths
-zle_highlight[(r)suffix:*]="suffix:fg=foreground"
-
 ## prompt
-__prompt_symbol="×"
+#__prompt_symbol="×"
 #░░▒▒▓▓██
 #❯◆»›➜ ➤ ► ▻ ▸ ▹ ❯ ×
-__prompt_success_color=blue
-__prompt_failure_color=red
+#__prompt_success_color=blue
+#__prompt_failure_color=red
 
-::prompt::current_dir() {
-  echo -n "%~"
-}
+#::prompt::current_dir() {
+#  echo -n "%~"
+#}
+#
+#::prompt::return_status() {
+#  echo -n "%B%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%b%f"
+#}
 
-::prompt::return_status() {
-  echo -n "%B%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%b%f"
-}
+#::prompt::git_status() {
+#  if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
+#    echo -n "%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
+#    MODIFIED=$(git status --short | wc -l)
+#    if [ $MODIFIED -gt 0 ]; then
+#      echo -n "+$MODIFIED"
+#    fi
+#  fi
+#}
 
-::prompt::git_status() {
-  if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
-    echo -n "%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
-    MODIFIED=$(git status --short | wc -l)
-    if [ $MODIFIED -gt 0 ]; then
-      echo -n "+$MODIFIED"
-    fi
-  fi
-}
 
-PROMPT='$(::prompt::current_dir) $(::prompt::return_status) '
+#PROMPT='$(::prompt::current_dir) $(::prompt::return_status) '
 #RPROMPT='$(::prompt::git_status)'
-
 
 ## aliases
 #alias yt-dl-best='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
-
-alias v='nvim'
-alias hh='hori-hori'
-alias hc='herbstclient'
-
-#alias :q='exit'
-#alias :qw='exit'
-#alias :q!='exit'
-alias please='sudo'
-
-# ls
-alias ls='ls -F --color=auto'
-alias sl='ls'
-alias la='ls -A'
-alias ll='ls -lA'
-alias l.='ls -A | egrep "^\."'
-alias l='ls'
-
-# cd
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-
-# ask for confirmation
-alias cp="cp -iv"
-alias mv='mv -iv'
-alias rm='rm -iv'
-
-function gasp() { # easy git push in one command
-  git add -A && git commit -v && git push
-}
-
-function cd() { # ls after cd except when going back to ~
-  builtin cd "$@"
-  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
-}
 
 #alias rrsh='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
 #alias font-grep='fc-list | grep'
@@ -463,3 +587,42 @@ function cd() { # ls after cd except when going back to ~
 ## define right prompt, if it wasn't defined by a theme
 ##RPS1='$(vi_mode_prompt_info)'
 ##KEYTIMEOUT=0
+
+preexec() {
+  prompt_cmd_start=$(date +%s)
+}
+
+ASYNC_PROC=0
+function precmd() { # executed before each prompt
+  # setup cmd time tracking
+  if [ $prompt_cmd_start ]; then
+    local now; now=$(date +%s)
+    local delta; delta=$(($now - $prompt_cmd_start))
+    (( delta > 5 )) && prompt_cmd_elapsed="$(::prompt_time delta)"
+    unset prompt_cmd_start
+  else
+    unset prompt_cmd_elapsed
+  fi
+
+  function async() {
+    printf "%s" "$(RCMD)" > "/tmp/zsh_prompt_$$" # save to temp file
+    kill -s USR1 $$ # signal parent
+  }
+
+  # do not clear RPROMPT, let it persist
+  # kill child if necessary
+  if [[ "${ASYNC_PROC}" != 0 ]]; then
+    kill -s HUP $ASYNC_PROC >/dev/null 2>&1 || :
+  fi
+  # start background computation
+  async &!
+  ASYNC_PROC=$!
+}
+
+function TRAPUSR1() {
+  RPROMPT="$(cat /tmp/zsh_prompt_$$)" # read from temp file
+  ASYNC_PROC=0 # reset proc number
+  zle && zle reset-prompt # redisplay
+}
+
+#zprof

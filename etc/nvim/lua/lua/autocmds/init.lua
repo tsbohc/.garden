@@ -3,35 +3,25 @@ do
   vim.cmd("autocmd!")
   do
     do
-      local ZEST_VLUA_0_
-      do
-        local ZEST_N_0_ = _G._zest.autocmd["#"]
-        local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-        local function _0_()
-          vim.opt["cursorline"] = false
-          return nil
-        end
-        _G._zest["autocmd"][ZEST_ID_0_] = _0_
-        _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-        ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
-      end
-      vim.cmd(("autocmd InsertEnter,BufLeave,FocusLost * :call " .. ZEST_VLUA_0_ .. "()"))
-    end
-    local ZEST_VLUA_0_
-    do
-      local ZEST_N_0_ = _G._zest.autocmd["#"]
-      local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
+      local zest_autocmd_0_
       local function _0_()
-        if (vim.fn.mode() ~= "i") then
-          vim.opt["cursorline"] = true
-          return nil
-        end
+        vim.opt.cursorline = false
+        return nil
       end
-      _G._zest["autocmd"][ZEST_ID_0_] = _0_
-      _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-      ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
+      zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.UmFhD8Eq.f()", events = "InsertEnter,BufLeave,FocusLost", f = _0_, patterns = "*"}
+      _G._zest.autocmd["UmFhD8Eq"] = zest_autocmd_0_
+      vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
     end
-    vim.cmd(("autocmd InsertLeave,BufEnter,FocusGained * :call " .. ZEST_VLUA_0_ .. "()"))
+    local zest_autocmd_0_
+    local function _0_()
+      if (vim.fn.mode() ~= "i") then
+        vim.opt.cursorline = true
+        return nil
+      end
+    end
+    zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.BIh9Tg88.f()", events = "InsertLeave,BufEnter,FocusGained", f = _0_, patterns = "*"}
+    _G._zest.autocmd["BIh9Tg88"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
   vim.cmd("augroup END")
 end
@@ -39,20 +29,15 @@ do
   vim.cmd("augroup restore-position")
   vim.cmd("autocmd!")
   do
-    local ZEST_VLUA_0_
-    do
-      local ZEST_N_0_ = _G._zest.autocmd["#"]
-      local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-      local function _0_()
-        if ((vim.fn.line("'\"") > 1) and (vim.fn.line("'\"") <= vim.fn.line("$"))) then
-          return vim.cmd("normal! g'\"")
-        end
+    local zest_autocmd_0_
+    local function _0_()
+      if ((vim.fn.line("'\"") > 1) and (vim.fn.line("'\"") <= vim.fn.line("$"))) then
+        return vim.cmd("normal! g'\"")
       end
-      _G._zest["autocmd"][ZEST_ID_0_] = _0_
-      _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-      ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
     end
-    vim.cmd(("autocmd BufReadPost * :call " .. ZEST_VLUA_0_ .. "()"))
+    zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.g5kz8eQz.f()", events = "BufReadPost", f = _0_, patterns = "*"}
+    _G._zest.autocmd["g5kz8eQz"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
   vim.cmd("augroup END")
 end
@@ -60,18 +45,13 @@ do
   vim.cmd("augroup flash-yank")
   vim.cmd("autocmd!")
   do
-    local ZEST_VLUA_0_
-    do
-      local ZEST_N_0_ = _G._zest.autocmd["#"]
-      local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-      local function _0_()
-        return vim.highlight.on_yank({higroup = "Search", timeout = 100})
-      end
-      _G._zest["autocmd"][ZEST_ID_0_] = _0_
-      _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-      ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
+    local zest_autocmd_0_
+    local function _0_()
+      return vim.highlight.on_yank({higroup = "Search", timeout = 100})
     end
-    vim.cmd(("autocmd TextYankPost * :call " .. ZEST_VLUA_0_ .. "()"))
+    zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.CXiTsaeK.f()", events = "TextYankPost", f = _0_, patterns = "*"}
+    _G._zest.autocmd["CXiTsaeK"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
   vim.cmd("augroup END")
 end
@@ -80,22 +60,19 @@ do
   vim.cmd("autocmd!")
   do
     do
-      local ZEST_VLUA_0_
-      do
-        local ZEST_N_0_ = _G._zest.autocmd["#"]
-        local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-        local function _0_()
-          if (#vim.fn.tabpagebuflist() > 1) then
-            return vim.api.nvim_command("wincmd =")
-          end
+      local zest_autocmd_0_
+      local function _0_()
+        if (#vim.fn.tabpagebuflist() > 1) then
+          return vim.api.nvim_command("wincmd =")
         end
-        _G._zest["autocmd"][ZEST_ID_0_] = _0_
-        _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-        ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
       end
-      vim.cmd(("autocmd VimResized * :call " .. ZEST_VLUA_0_ .. "()"))
+      zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.e5LS8sh9.f()", events = "VimResized", f = _0_, patterns = "*"}
+      _G._zest.autocmd["e5LS8sh9"] = zest_autocmd_0_
+      vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
     end
-    vim.cmd("au FileType help wincmd L")
+    local zest_autocmd_0_ = {cmd = "wincmd L", events = "FileType", patterns = "help"}
+    _G._zest.autocmd["p6gh8xPQ"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
   vim.cmd("augroup END")
 end
@@ -103,20 +80,19 @@ do
   vim.cmd("augroup filetype-settings")
   vim.cmd("autocmd!")
   do
-    vim.cmd("au FileType text,latex,markdown set wrap")
-    local ZEST_VLUA_0_
     do
-      local ZEST_N_0_ = _G._zest.autocmd["#"]
-      local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-      local function _0_()
-        do end (vim.opt.iskeyword):remove(".")
-        return (vim.opt.lispwords):append({"string.*", "table.*", "au.no-", "au.fn-", "au.gr-", "ki.no-", "ki.fn-"})
-      end
-      _G._zest["autocmd"][ZEST_ID_0_] = _0_
-      _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-      ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
+      local zest_autocmd_0_ = {cmd = "set wrap", events = "FileType", patterns = "text,latex,markdown"}
+      _G._zest.autocmd["jJoRfRTc"] = zest_autocmd_0_
+      vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
     end
-    vim.cmd(("autocmd FileType fennel :call " .. ZEST_VLUA_0_ .. "()"))
+    local zest_autocmd_0_
+    local function _0_()
+      do end (vim.opt.iskeyword):remove(".")
+      return (vim.opt.lispwords):append({"string.*", "table.*", "au.no-", "au.fn-", "ki.no-", "ki.fn-"})
+    end
+    zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.fZMskmwE.f()", events = "FileType", f = _0_, patterns = "fennel"}
+    _G._zest.autocmd["fZMskmwE"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
   vim.cmd("augroup END")
 end
@@ -149,36 +125,26 @@ vim.cmd("augroup keyboard-switcher")
 vim.cmd("autocmd!")
 do
   do
-    local ZEST_VLUA_0_
-    do
-      local ZEST_N_0_ = _G._zest.autocmd["#"]
-      local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
-      local function _0_()
-        if (xkbmap_insert.layout and (xkbmap_insert.layout ~= xkbmap_normal.layout)) then
-          return set_xkbmap(xkbmap_insert)
-        end
-      end
-      _G._zest["autocmd"][ZEST_ID_0_] = _0_
-      _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-      ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
-    end
-    vim.cmd(("autocmd InsertEnter * :call " .. ZEST_VLUA_0_ .. "()"))
-  end
-  local ZEST_VLUA_0_
-  do
-    local ZEST_N_0_ = _G._zest.autocmd["#"]
-    local ZEST_ID_0_ = ("_" .. ZEST_N_0_)
+    local zest_autocmd_0_
     local function _0_()
-      xkbmap_insert = get_xkbmap()
-      vim.g["_layout"] = xkbmap_insert.layout
-      if (xkbmap_insert.layout ~= xkbmap_normal.layout) then
-        return set_xkbmap(xkbmap_normal)
+      if (xkbmap_insert.layout and (xkbmap_insert.layout ~= xkbmap_normal.layout)) then
+        return set_xkbmap(xkbmap_insert)
       end
     end
-    _G._zest["autocmd"][ZEST_ID_0_] = _0_
-    _G._zest["autocmd"]["#"] = (ZEST_N_0_ + 1)
-    ZEST_VLUA_0_ = ("v:lua._zest.autocmd." .. ZEST_ID_0_)
+    zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.i9A6Wot8.f()", events = "InsertEnter", f = _0_, patterns = "*"}
+    _G._zest.autocmd["i9A6Wot8"] = zest_autocmd_0_
+    vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
   end
-  vim.cmd(("autocmd InsertLeave * :call " .. ZEST_VLUA_0_ .. "()"))
+  local zest_autocmd_0_
+  local function _0_()
+    xkbmap_insert = get_xkbmap()
+    vim.g["_layout"] = xkbmap_insert.layout
+    if (xkbmap_insert.layout ~= xkbmap_normal.layout) then
+      return set_xkbmap(xkbmap_normal)
+    end
+  end
+  zest_autocmd_0_ = {cmd = ":call v:lua._zest.autocmd.gAVroMZe.f()", events = "InsertLeave", f = _0_, patterns = "*"}
+  _G._zest.autocmd["gAVroMZe"] = zest_autocmd_0_
+  vim.cmd(("autocmd " .. zest_autocmd_0_.events .. " " .. zest_autocmd_0_.patterns .. " " .. zest_autocmd_0_.cmd))
 end
 return vim.cmd("augroup END")
