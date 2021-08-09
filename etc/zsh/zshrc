@@ -29,25 +29,6 @@ setopt no_menu_complete
 unsetopt beep # beep is the strongest warrior!
 
 # ;; prompt
-
-#::prompt::current_dir() {
-#  echo -n "%~"
-#}
-#
-#::prompt::return_status() {
-#  echo -n "%B%(?.%F{$__prompt_success_color}.%F{$__prompt_failure_color})$__prompt_symbol%b%f"
-#}
-
-#::prompt::git_status() {
-#  if [[ "$(git status --porcelain 2>/dev/null)" != "" ]] ; then
-#    echo -n "%F{$__prompt_success_color}$(git rev-parse --abbrev-ref HEAD 2> /dev/null)%f"
-#    MODIFIED=$(git status --short | wc -l)
-#    if [ $MODIFIED -gt 0 ]; then
-#      echo -n "+$MODIFIED"
-#    fi
-#  fi
-#}
-
 #⬡⬢ 🢒▶⯅⯆▲▼⯁ ●»›►▻▸▹×
 prompt_symbol="\$"
 prompt_git_color=green
@@ -69,8 +50,7 @@ ansi() {
   echo -n "%B%(?.%F{$prompt_success_color}$prompt_symbol.%F{$prompt_failure_color}$prompt_failure_symbol)%b%f"
 }
 
-# from https://github.com/sindresorhus/pretty-time-zsh
-::prompt_time() {
+::prompt_time() { # from https://github.com/sindresorhus/pretty-time-zsh
   local seconds d h m s
   local -a human=()
   seconds=$1
@@ -87,16 +67,12 @@ ansi() {
   ${2:-false} && echo ${(j: :)human} || echo " $human[1]"
 }
 
-::prompt_elapsed() {
-  echo "$prompt_cmd_elapsed"
-}
-
-::prompt_git_branch() {
+::prompt_git_branch() { # branch name
   git rev-parse 2>/dev/null || return
   git rev-parse --abbrev-ref HEAD 2>/dev/null
 }
 
-::prompt_git_status() {
+::prompt_git_status() { # dirty or clean status
   git rev-parse 2>/dev/null || return
   if [[ -z "$(git status --porcelain --ignore-submodules)" ]]; then
     ansi green "⬢"
@@ -105,7 +81,7 @@ ansi() {
   fi
 }
 
-::prompt_git_modified() {
+::prompt_git_modified() { # count of dirty files
   git rev-parse 2>/dev/null || return
   local modified; modified="$(git status --porcelain --ignore-submodules | wc -l)"
   if [ $modified -gt 0 ]; then
@@ -113,7 +89,7 @@ ansi() {
   fi
 }
 
-::prompt_git_time() {
+::prompt_git_time() { # time since last commit
   git rev-parse 2>/dev/null || return
   local last_commit; last_commit=$(git log -1 --pretty=format:'%at' 2>/dev/null)
   [[ -z "$last_commit" ]] && return
@@ -127,7 +103,7 @@ PCMD() {
 }
 
 RCMD() { # non-blocking
-  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified) $(::prompt_git_status)$(::prompt_elapsed)"
+  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified) $(::prompt_git_status)$prompt_cmd_elapsed"
 }
 
 PROMPT='$(PCMD)'
@@ -598,7 +574,11 @@ function precmd() { # executed before each prompt
   if [ $prompt_cmd_start ]; then
     local now; now=$(date +%s)
     local delta; delta=$(($now - $prompt_cmd_start))
-    (( delta > 5 )) && prompt_cmd_elapsed="$(::prompt_time delta)"
+    if (( delta > 5 )); then
+      prompt_cmd_elapsed="$(::prompt_time delta)"
+    else
+      prompt_cmd_elapsed=""
+    fi
     unset prompt_cmd_start
   else
     unset prompt_cmd_elapsed
