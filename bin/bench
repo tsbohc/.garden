@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $1 in
+  zsh)
+    hyperfine "zsh -i -c exit" ;;
+  nvim)
+    hyperfine "nvim +:q" ;;
+esac

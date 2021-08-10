@@ -20,9 +20,9 @@
    :def-keymap    ki.no-} :zest.macros)
 
 (local modules
-  [:options
-   :keymaps
-   :autocmds
+  [:core.options
+   :core.keymaps
+   :core.autocmds
    :statusline
    :textobjects
    :operators

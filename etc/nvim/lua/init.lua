@@ -3,7 +3,7 @@ do
   local h = vim.env.HOME
   zest.setup({source = (h .. "/.garden/etc/nvim/fnl"), target = (h .. "/.garden/etc/nvim/lua")})
 end
-local modules = {"options", "keymaps", "autocmds", "statusline", "textobjects", "operators", "plugins", "sandbox"}
+local modules = {"core.options", "core.keymaps", "core.autocmds", "statusline", "textobjects", "operators", "plugins", "sandbox"}
 for _, m in ipairs(modules) do
   local ok_3f, out = pcall(require, m)
   if not ok_3f then

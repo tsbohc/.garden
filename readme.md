@@ -13,7 +13,7 @@
 A tiny dotfiles templating and management framework written in pure bash in `100 sloc`, featuring:
 
 - Toml-inspired configuration language
-- Recursive templating
+- Logicless recursive templating
 - Package-like management
 
 See [hori-hori](https://github.com/tsbohc/hori-hori) for more info

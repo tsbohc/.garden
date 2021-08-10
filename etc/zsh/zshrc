@@ -119,11 +119,11 @@ alias please='sudo'
 
 # ls
 alias ls='ls -F --color=auto'
+alias l='ls'
 alias sl='ls'
 alias la='ls -A'
 alias ll='ls -lA'
 alias l.='ls -A | egrep "^\."'
-alias l='ls'
 
 # cd
 alias ..='cd ..'
