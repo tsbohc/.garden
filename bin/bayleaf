@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# NOTE:
+# this is a very heavy wip
+# if you want to help me write this, please open an issue!
+
+SOURCE="$HOME/.garden/etc/nvim/fnl"
+TARGET="$HOME/.garden/etc/nvim/lua"
+
+ACTUAL="$HOME/.cache/bayleaf/actual"
+RECENT="$HOME/.cache/bayleaf/recent"
+
+if command -v dunstify &> /dev/null; then
+  info() { dunstify bayleaf "$filename\n$*" ; }
+  warn() { dunstify -u critical bayleaf "$filename\n$*" ; }
+else
+  info() { : ; }
+  warn() { : ; }
+fi
+
+compile() {
+  local source=$1
+  local target=${source/$SOURCE/$RECENT}
+  local output
+  if [[ $source == *".fnl" ]]; then
+    target=${target/.fnl/.lua}
+    output="$(fennel --compile "$source" 2>&1 >/dev/null)"
+    if [ $? == 0 ]; then
+      mkdir -p "$(dirname "$target")"
+      echo "$output" > "$target"
+      return 0
+    else
+      warn "$output"
+      return 1
+    fi
+  else
+    mkdir -p "$(dirname "$target")"
+    cp "$source" "$target"
+    return 0
+  fi
+}
+
+# compile all
+#while read -r source; do
+#  compile "$source"
+#done < <(find "$SOURCE" \( -name '*.fnl' -o -name '*.lua' \))
+
+link() {
+  ln -sf "$1/init.lua" "$HOME/.config/nvim/init.lua"
+  ln -sfn "$1/lua" "$HOME/.config/nvim/lua"
+}
+
+main() {
+  local output
+  if compile "$1"; then
+    link "$RECENT"
+    output="$(nvim --headless +:q 2>&1 >/dev/null)"
+    if [[ -n $output ]]; then
+      output="${output//^I/}"
+      warn "$(echo "$output" | head)"
+      link "$TARGET"
+      exit 1
+    fi
+  else
+    exit 1
+  fi
+}
+
+filename="${1##*/}"
+if main "$1"; then
+  info ""
+fi

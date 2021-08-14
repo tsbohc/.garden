@@ -1,5 +1,5 @@
-(import-macros {:def-keymap       ki-
-                :def-keymap-pairs kp-} :zest.lime.macros)
+(local lime (require :zest.lime.lime))
+(import-macros {:def-keymap ki-} :zest.lime.macros)
 
 (tset vim.g :mapleader " ")
 
@@ -9,24 +9,26 @@
 ; smart v-line movement
 (ki- [nv :expr] :e [(if (> vim.v.count 0) "k" "gk")])
 (ki- [nv :expr] :n [(if (> vim.v.count 0) "j" "gj")])
-(kp- [o] {:e "k" :n "j"})
+(ki- [o] {:e "k" :n "j"})
 
 ; screen and line movement
-(kp- [nv] {:N "<c-d>"
-           :E "<c-u>"
-           :H "0"
-           :I "$"})
+(ki- [nv]
+  {:N "<c-d>"
+   :E "<c-u>"
+   :H "0"
+   :I "$"})
 
 ; mousewheel blasphemy
-(kp- [nv]
+(ki- [nv]
   {:<ScrollWheelUp>   "<c-y>"
    :<ScrollWheelDown> "<c-e>"})
 
 ; split movement
-(kp- [n] {:<c-h> "<c-w>h"
-          :<c-n> "<c-w>j"
-          :<c-e> "<c-w>k"
-          :<c-i> "<c-w>l"})
+(ki- [n]
+  {:<c-h> "<c-w>h"
+   :<c-n> "<c-w>j"
+   :<c-e> "<c-w>k"
+   :<c-i> "<c-w>l"})
 
 ; -       search and replace         -
 ; ------------  --/-<@  --------------
@@ -55,7 +57,7 @@
 ; ------------  --/-<@  --------------
 
 ; stay in visual mode after indenting
-(kp- [x] {:< "<gv" :> ">gv"})
+(ki- [x] {:< "<gv" :> ">gv"})
 
 ; consistency
 (ki- [n] :Y "y$")
@@ -67,8 +69,9 @@
 ; -             colemak              -
 ; ------------  --/-<@  --------------
 
-(kp- [nvo] {:i "l"
-            :L "I" :l "i"
-            :K "N" :k "n"
-            :J "F" :j "f"
-            :F "E" :f "e"})
+(ki- [nvo]
+  {:i "l"
+   :L "I" :l "i"
+   :K "N" :k "n"
+   :J "F" :j "f"
+   :F "E" :f "e"})

@@ -168,6 +168,7 @@ hc attr theme.floating.reset 1
 #hc set frame_border_active_color '#222222cc'
 #hc set frame_border_normal_color '#101010cc'
 
+# TODO some of those are deprecated
 hc set frame_bg_normal_color '#03030300'
 hc set frame_normal_opacity 20
 
@@ -186,6 +187,24 @@ hc set always_show_frame true
 hc set frame_bg_transparent false # recommended off
 #hc set frame_transparent_width 2 # depends on the above being true
 hc set frame_gap 5
+
+hc attr theme.floating.border_width 9
+hc attr theme.floating.outer_width 8
+hc attr theme.floating.inner_width 1
+
+#hc attr theme.background_color '#ffffff'
+#hc attr theme.inner_color '#ffffff'
+#hc attr theme.outer_color '#ffffff'
+#hc attr theme.title_color '#ffffff'
+
+#hc attr theme.floating.background_color '#ff0000'
+hc attr theme.floating.inner_color '#323235'
+hc attr theme.floating.outer_color '#232326'
+
+hc attr theme.floating.active.inner_color '#636369'
+#hc attr theme.floating.active.outer_color '#232326'
+
+#hc attr theme.floating.title_color '#ff0000'
 
 #hc attr theme.title_height 15
 #hc attr theme.title_font 'Dejavu Sans:pixelsize=12'  # example using Xft

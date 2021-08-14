@@ -2,6 +2,8 @@
 
 # ;; defaults
 
+export FENNEL_MACRO_PATH="$HOME/code/zest/fnl/?.fnl"
+
 export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
 export EDITOR=nvim
 export TERMINAL=alacritty
@@ -604,5 +606,3 @@ function TRAPUSR1() {
   ASYNC_PROC=0 # reset proc number
   zle && zle reset-prompt # redisplay
 }
-
-#zprof

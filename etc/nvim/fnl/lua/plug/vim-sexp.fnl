@@ -1,3 +1,5 @@
+(fn []
+
 (set vim.g.sexp_filetypes "fennel")
 
 (set vim.g.sexp_mappings
@@ -56,3 +58,4 @@
      :sexp_capture_prev_element      "<("
      :sexp_capture_next_element      "<)"})
 
+)

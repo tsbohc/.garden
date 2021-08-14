@@ -2,7 +2,6 @@
                 :def-autocmd au-
                 :def-augroup gr-} :zest.lime.macros)
 
-; ------------------------------------
 ; --         autocommands           --
 ; ------------  --/-<@  --------------
 
@@ -44,12 +43,11 @@
   ; tweaks for fennel and vimrc
   (au- :FileType "fennel"
     [(se- [:remove] iskeyword ".")
-     (se- [:append] lispwords [:string.*
-                                      :table.*
-                                      :au.no- :au.fn-
-                                      :ki.no- :ki.fn-])]))
+     (se- [:append] lispwords ["string.*"
+                               "table.*"
+                               :au- :gr-
+                               :se- :ki-])]))
 
-; ------------------------------------
 ; --        layout-keeper           --
 ; ------------  --/-<@  --------------
 
@@ -84,10 +82,16 @@
      (when (not= xkbmap-insert.layout xkbmap-normal.layout)
        (set-xkbmap xkbmap-normal))]))
 
-; ------------------------------------
-; --             rake               --
+; --            bayleaf             --
 ; ------------  --/-<@  --------------
 
-;(gr- :rake
-;  (au.no- :BufWritePost "/home/sean/.garden/etc/*"
-;    "silent!rake -u %:p"))
+; need to add *.lua
+(gr- :bayleaf
+  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"
+    ":silent !bayleaf %:p"))
+
+;(gr- :bayleaf
+;  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"
+;    [(os.execute (.. "bayleaf " (vim.fn.expand "%:p")))]))
+
+;(arositnarost)

@@ -1,4 +1,4 @@
-(local sl (require :statusline.sl))
+(local sl (require :core.statusline.sl))
 
 (sl.fn [:BufEnter] [0 0 1 1 :CursorLine]
   (fn [] (let [fname (vim.fn.expand "%:t")]

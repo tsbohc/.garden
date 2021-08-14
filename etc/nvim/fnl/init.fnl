@@ -14,20 +14,20 @@
     {:target (.. h "/.garden/etc/nvim/lua")
      :source (.. h "/.garden/etc/nvim/fnl")}))
 
-(import-macros
-  {:vlua-format   vlua.format
-   :def-keymap-fn ki.fn-
-   :def-keymap    ki.no-} :zest.macros)
+;(import-macros
+;  {:vlua-format   vlua.format
+;   :def-keymap-fn ki.fn-
+;   :def-keymap    ki.no-} :zest.macros)
 
 (local modules
   [:core.options
    :core.keymaps
    :core.autocmds
-   :statusline
-   :textobjects
-   :operators
-   :plugins
-   :sandbox
+   :core.statusline
+   :core.textobjects
+   :core.operators
+   :misc.packer
+   ;:sandbox
    ])
 
 ; ░▒▓█
@@ -39,7 +39,7 @@
     (when (not ok?)
       (print (.. "error while loading '" m "':\n" out)))))
 
-(require-macros :zest.macros)
+;(require-macros :zest.macros)
 
 ;(def-keymap-fn "<c-f>" [n]
 ;  (vim.cmd ":e scratch.fnl")
@@ -183,12 +183,12 @@
 
   fun! MyRun()
   exe 'w'
-  :silent call Runcmd(\"fennel --correlate --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
+  :silent call Runcmd(\"fennel --correlate --no-compiler-sandbox --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
   endfun
 
   fun! Zct()
   exe 'w'
-  :silent call Runcmd(\"fennel --compile --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
+  :silent call Runcmd(\"fennel --compile --no-compiler-sandbox --add-package-path '/home/sean/code/zest/lua/?.lua' --add-fennel-path '/home/sean/code/zest/fnl/?.fnl' --metadata \" . expand('%:p'))
   endfun
 
   nnoremap <c-c> :call MyRun()<cr>
