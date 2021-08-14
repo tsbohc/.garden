@@ -25,25 +25,33 @@ Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles t
 
 ```clojure
 ; options
-(se= cursorline)
-(se+ completeopt ["menuone" "noselect"])
-(se= listchars {:trail "␣"})
+(se- cursorline)
+(se- [:append] completeopt ["menuone" "noselect"])
+(se- listchars {:trail "␣"})
 
-; keybinds
-(ki.fn- :e [nv :expr] (if (> vim.v.count 0) "k" "gk"))
-(ki.fn- :n [nv :expr] (if (> vim.v.count 0) "j" "gj"))
+; keymaps
+(ki- [nv :expr] :e [(if (> vim.v.count 0) "k" "gk")])
+(ki- [nv :expr] :n [(if (> vim.v.count 0) "j" "gj")])
 
-(ki.no- [nv]
-  {:<ScrollWheelUp>   "<c-y>"
-   :<ScrollWheelDown> "<c-e>"})
+(ki- [x] :*
+  [(let [p (vim.fn.getpos ".")]
+     (vim.cmd "norm! gvy")
+     (vim.cmd (.. "/" (vim.api.nvim_eval "@\"")))
+     (vim.fn.setpos "." p))])
+
+(ki- [n]
+  {:<c-h> "<c-w>h"
+   :<c-n> "<c-w>j"
+   :<c-e> "<c-w>k"
+   :<c-i> "<c-w>l"})
 
 ; autocmds
-(au.gr- :smart-cursorline
-  (au.fn- [:InsertEnter :BufLeave :FocusLost] "*"
-    (se= cursorline false))
-  (au.fn- [:InsertLeave :BufEnter :FocusGained] "*"
-    (if (not= (vim.fn.mode) :i)
-      (se= cursorline))))
+(gr- :smart-cursorline
+  (au- [:InsertEnter :BufLeave :FocusLost] "*"
+    [(se- cursorline false)])
+  (au- [:InsertLeave :BufEnter :FocusGained] "*"
+    [(if (not= (vim.fn.mode) :i)
+       (se- cursorline))]))
 ```
 
 ## addendum
