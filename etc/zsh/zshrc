@@ -105,7 +105,7 @@ PCMD() {
 }
 
 RCMD() { # non-blocking
-  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified) $(::prompt_git_status)$prompt_cmd_elapsed"
+  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified)$(ansi blue "$prompt_cmd_elapsed")"
 }
 
 PROMPT='$(PCMD)'

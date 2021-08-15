@@ -3,7 +3,7 @@
 # could time headless startup just for fun
 # switch to using $BAYLEAF as the dir
 
-SOURCE="$HOME/.garden/etc/nvim/fnl"
+SOURCE="$HOME/.garden/etc/nvim/config"
 ACTUAL="$HOME/.cache/bayleaf/actual"
 RECENT="$HOME/.cache/bayleaf/recent"
 

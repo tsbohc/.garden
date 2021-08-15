@@ -7,8 +7,13 @@
 
 local cmd, fn = vim.cmd, vim.fn
 
+-- TODO
+-- rename sandbox to test
+
 -- ensure packer is installed
--- TODO move this to misc.packer? it will compile without this anyway
+-- TODO move this to misc.packer? the config should compile without this anyway
+-- pcall(require "packer") if not ok install_packer() or something
+-- move everything packer related to plugins.lua
 local packer_path = fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
 if fn.empty(fn.glob(packer_path)) > 0 then
   cmd("!git clone https://github.com/wbthomason/packer.nvim " .. packer_path)
@@ -35,8 +40,8 @@ _G._zest = {
 cmd([[
 augroup bayleaf
   autocmd!
-  autocmd BufWritePost /home/sean/.garden/etc/nvim/fnl/*.fnl :silent !bayleaf "%:p"
-  autocmd BufWritePost /home/sean/.garden/etc/nvim/fnl/*.lua :silent !bayleaf "%:p"
+  autocmd BufWritePost /home/sean/.garden/etc/nvim/config/*.fnl :silent !bayleaf "%:p"
+  autocmd BufWritePost /home/sean/.garden/etc/nvim/config/*.lua :silent !bayleaf "%:p"
 augroup END]])
 
 -- load the config
