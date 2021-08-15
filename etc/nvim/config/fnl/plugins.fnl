@@ -42,7 +42,7 @@
   :ft ["fennel"])
 
 (def-package "guns/vim-sexp"
-  :ft ["fennel" "fnl"])
+  :ft ["fennel"])
 
 (def-package "Yggdroot/indentLine"
   :config (fn []
