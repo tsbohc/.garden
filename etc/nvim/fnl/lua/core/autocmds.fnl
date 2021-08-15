@@ -86,9 +86,9 @@
 ; ------------  --/-<@  --------------
 
 ; need to add *.lua
-(gr- :bayleaf
-  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"
-    ":silent !bayleaf %:p"))
+;(gr- :bayleaf
+;  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"
+;    ":silent !bayleaf %:p"))
 
 ;(gr- :bayleaf
 ;  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"

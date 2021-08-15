@@ -1,4 +1,3 @@
-(local lime (require :zest.lime.lime))
 (import-macros {:def-keymap ki-} :zest.lime.macros)
 
 (tset vim.g :mapleader " ")

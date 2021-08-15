@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#: capturing stdout or stderr
+# via https://stackoverflow.com/a/36522570
+
+mycommand () {
+  echo "stdout"
+  echo "stderr" 1>&2
+}
+
+mycommand() {
+  nvim --headless -c q
+}
+
+#echo "-- both"
+#mycommand # => stdout ; stderr
+#echo "-- stderr"
+#mycommand 1>/dev/null # => stderr
+#echo "-- stdout"
+#mycommand 2>/dev/null # => stdout
+
+echo "-- run"
+command
+
+echo "-- capture both"
+both="$(mycommand)"
+echo "$both" # => stderr
+
+echo "-- capture stderr"
+err="$(mycommand 2>&1 1>/dev/null)"
+echo "$err" # => stderr
+
+echo "-- capture stdout"
+out="$(mycommand 2>/dev/null)"
+echo "$out" # => stderr

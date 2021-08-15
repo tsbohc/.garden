@@ -1,4 +1,3 @@
-local lime = require("zest.lime.lime")
 vim.g["mapleader"] = " "
 do
   -- zest.def-keymap-fn

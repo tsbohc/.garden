@@ -1,72 +1,96 @@
 #!/bin/bash
 
-# NOTE:
-# this is a very heavy wip
-# if you want to help me write this, please open an issue!
+# could time headless startup just for fun
+# switch to using $BAYLEAF as the dir
 
 SOURCE="$HOME/.garden/etc/nvim/fnl"
-TARGET="$HOME/.garden/etc/nvim/lua"
-
 ACTUAL="$HOME/.cache/bayleaf/actual"
 RECENT="$HOME/.cache/bayleaf/recent"
 
-if command -v dunstify &> /dev/null; then
-  info() { dunstify bayleaf "$filename\n$*" ; }
-  warn() { dunstify -u critical bayleaf "$filename\n$*" ; }
-else
-  info() { : ; }
-  warn() { : ; }
-fi
+# TODO clear own notifications with each run
+info() { dunstify -h string:x-dunst-stack-tag:bayleaf "bayleaf" "$*" ; }
+bail() { dunstify -h string:x-dunst-stack-tag:bayleaf  -u critical "bayleaf" "$*" ; exit 1 ; } # nb: doesn't work in subshells
 
 compile() {
   local source=$1
   local target=${source/$SOURCE/$RECENT}
-  local output
   if [[ $source == *".fnl" ]]; then
-    target=${target/.fnl/.lua}
-    output="$(fennel --compile "$source" 2>&1 >/dev/null)"
-    if [ $? == 0 ]; then
+    target=${target%.*}.lua # replace the extension
+    temp="$HOME/.cache/bayleaf/outhadle"
+    out="$(fennel --compile "$source" 2> "$temp")"
+    err="$(<"$temp")"
+    if [ -z "$err" ]; then
       mkdir -p "$(dirname "$target")"
-      echo "$output" > "$target"
-      return 0
+      echo "$out" > "$target"
+      #info "${source##*/} compile success" # \n=> ${target/$HOME/\~}
     else
-      warn "$output"
-      return 1
+      # ${output/stack traceback:*/}
+      bail "${source##*/} compile failure\n$err"
     fi
   else
     mkdir -p "$(dirname "$target")"
-    cp "$source" "$target"
-    return 0
+    if cp "$source" "$target"; then
+      #info "${source##*/} copy success"
+      :
+    else
+      bail "${source##*/} copy failure"
+    fi
   fi
 }
 
-# compile all
-#while read -r source; do
-#  compile "$source"
-#done < <(find "$SOURCE" \( -name '*.fnl' -o -name '*.lua' \))
-
-link() {
+switch-config() {
   ln -sf "$1/init.lua" "$HOME/.config/nvim/init.lua"
   ln -sfn "$1/lua" "$HOME/.config/nvim/lua"
 }
 
-main() {
-  local output
-  if compile "$1"; then
-    link "$RECENT"
-    output="$(nvim --headless +:q 2>&1 >/dev/null)"
-    if [[ -n $output ]]; then
-      output="${output//^I/}"
-      warn "$(echo "$output" | head)"
-      link "$TARGET"
-      exit 1
-    fi
-  else
-    exit 1
+init() {
+  # note: this spams. a lot. but just once.
+  if ! [ -d "$RECENT" ]; then
+    while read -r source; do
+      compile "$source"
+    done < <(find "$SOURCE" \( -name '*.fnl' -o -name '*.lua' \))
+  fi
+  if ! [ -d "$ACTUAL" ]; then
+    cp -r "$RECENT" "$ACTUAL"
+    switch-config "$ACTUAL"
   fi
 }
 
-filename="${1##*/}"
-if main "$1"; then
-  info ""
-fi
+testrun() {
+  switch-config "$RECENT"
+  local output
+  measure_start="$(date +%s.%N)"
+  output="$(nvim --headless -n +:q 2>&1 1>/dev/null)" # stderr
+  measure_end="$(date +%s.%N)"
+  if [ -z "$output" ]; then
+    #info "testrun success"
+    switch-config "$ACTUAL" # TODO replace
+  else
+    switch-config "$ACTUAL"
+    bail "testrun failure\n${output//$HOME/\~}"
+  fi
+}
+
+apply() {
+  local source=$1
+  local recent=${source/$SOURCE/$RECENT}
+  local actual=${source/$SOURCE/$ACTUAL}
+  if [[ $recent == *".fnl" ]]; then
+    recent=${recent%.*}.lua
+    actual=${actual%.*}.lua
+  fi
+  cp -f "$recent" "$actual"
+  runtime="$(echo "1000 * ($measure_end - $measure_start)" | bc -l)"
+  info "${source##*/} updated (${runtime%%.*}ms testrun)"
+}
+
+cleanup() {
+  :
+}
+
+#info "$1"
+
+init
+compile "$1"
+testrun
+apply "$1"

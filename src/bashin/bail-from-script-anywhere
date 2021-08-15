@@ -1,0 +1,10 @@
+#!/bin/bash
+
+trap "exit 1" TERM
+export TOP_PID=$$
+
+bail() {
+  echo "goodbye"
+  kill -s TERM $TOP_PID
+}
+

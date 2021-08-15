@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cmd() {
+  echo "foo"
+  return 1
+}
+
+if out="$(cmd)"; then
+  echo "won't echo $out"
+else
+  echo "will echo $out"
+fi
