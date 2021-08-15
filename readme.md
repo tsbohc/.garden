@@ -10,17 +10,17 @@
 
 ## hori-hori
 
-A tiny dotfiles templating and management framework written in pure bash in `100 sloc`, featuring:
+A tiny dotfiles templating and management framework written in pure bash in `100 sloc`:
 
 - Toml-inspired configuration language
 - Logicless recursive templating
 - Package-like management
 
-See [hori-hori](https://github.com/tsbohc/hori-hori) for more info
+See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
 
 ## nvim
 
-#### init.lua
+### config
 Written in [fennel](https://github.com/bakpakin/Fennel/), a lisp that compiles to lua, via [zest](https://github.com/tsbohc/zest.nvim).
 
 ```clojure
