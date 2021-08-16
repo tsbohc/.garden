@@ -39,14 +39,15 @@ packer.startup(function(use)
   -- code
   use { 'Yggdroot/indentLine',
     config = function()
-      g.indentLine_setColors = 0
-      g.indentLine_char = '·'
-      g.indentLine_fileTypeExclude = { 'markdown' }
+      vim.g.indentLine_setColors = 0
+      vim.g.indentLine_char = '·'
+      vim.g.indentLine_fileTypeExclude = { 'markdown' }
     end }
 
   -- lisp
   use { 'guns/vim-sexp',
     ft = { 'fennel' } }
+  require('plug.vim-sexp')()
 
   -- fennel
   use { 'bakpakin/fennel.vim',
