@@ -45,14 +45,15 @@ augroup bayleaf
 augroup END]])
 
 -- load the config
+-- TODO i'm still thinking about lazyloading everything
+-- like loading keymaps on the first keypress
 local modules = {
   "core.options",
   "core.keymaps",
   "core.autocmds",
   "core.statusline",
   "core.textobjects",
-  "core.operators",
-  "misc.packer"
+  "core.operators"
 }
 
 for _, m in ipairs(modules) do
