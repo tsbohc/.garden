@@ -10,7 +10,7 @@ end
 vim.cmd('packadd packer.nvim')
 local packer = require('packer')
 
-packer.startup(function(use)
+packer.startup({function(use)
   use { 'wbthomason/packer.nvim', opt = true }
 
   use { vim.env.HOME .. '/code/zest' }
@@ -21,6 +21,7 @@ packer.startup(function(use)
   -- treesitter
   use { 'nvim-treesitter/nvim-treesitter',
     opt = true,
+    event = { 'BufRead', 'BufWritePost' },
     branch = '0.5-compat',
     run = ':TSUpdate',
     config = require('plug.nvim-treesitter') }
@@ -57,6 +58,11 @@ packer.startup(function(use)
   use { 'tweekmonster/startuptime.vim',
     cmd = 'StartupTime' }
 
-end)
+end,
+config = {
+  display = {
+    open_fn = require('packer.util').float,
+  }
+}})
 
 -- yes, i am formatting that lisp-style and you can't stop me

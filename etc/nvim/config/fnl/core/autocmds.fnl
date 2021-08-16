@@ -82,6 +82,10 @@
      (when (not= xkbmap-insert.layout xkbmap-normal.layout)
        (set-xkbmap xkbmap-normal))]))
 
+(gr- :packer-compile
+  (au- :BufWritePost "plugins.lua"
+    "source <afile> | PackerCompile"))
+
 ; need to add *.lua
 ;(gr- :bayleaf
 ;  (au- :BufWritePost "/home/sean/.garden/etc/nvim/fnl/*.fnl"
