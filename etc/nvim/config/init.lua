@@ -5,22 +5,8 @@
 --    |
 --
 
--- TODO fix this
--- initialise zest
-_G.zest = {
-  ["#"] = 1,
-  keymap = {},
-  autocmd = {},
-  user = {}
-}
-
--- TODO remove old deps
-_G._zest = {
-  v = {["#"] = 1}
-}
-
+-- TODO os.getenv("DOTGARDEN") or something
 -- setup automagic fennel compilation
--- TODO os.getenv("DOTFILES") or something
 vim.cmd([[
 augroup bayleaf
   autocmd!
@@ -28,9 +14,12 @@ augroup bayleaf
   autocmd BufWritePost /home/sean/.garden/etc/nvim/config/*.lua :silent !bayleaf "%:p"
 augroup END]])
 
--- load the config
--- TODO i'm still thinking about lazyloading everything
--- like loading keymaps on the first keypress
+---- initialise zest
+require('zest')
+
+-- compatible with pure
+--_G.zest = (_G.zest or {["#"] = 1, autocmd = {}, impure = {}, keymap = {}, user = {}})
+
 local modules = {
   "plugins",
   "core.options",
@@ -39,7 +28,22 @@ local modules = {
   "core.statusline",
   "core.textobjects",
   "core.operators",
+  "test"
 }
+
+-- should be a separate module that's loaded if something goes wrong
+local function rescue()
+  local keys = {
+    F = 'E', f = 'e',
+    J = 'F', j = 'f',
+    L = 'L', l = 'l',
+    N = '<c-u>', n = 'j',
+    E = '<c-d>', e = 'k',
+    I = 'L', i = 'l',
+    K = 'N', k = 'n',
+    H = '0', I = '$'
+  }
+end
 
 for _, m in ipairs(modules) do
   local ok, out = pcall(require, m)
@@ -47,3 +51,20 @@ for _, m in ipairs(modules) do
     print("Error while loading '" .. m .. "':\n" .. out)
   end
 end
+
+--local lime = require('lime')
+--
+--lime.def_keymap('n', { noremap = true }, '<c-m>', ':echo "keymap-str-r"<cr>')
+--
+--lime.def_keymap('n', { noremap = true }, '<c-m>', function()
+--  print('keymap-fn-r')
+--end)
+--
+--lime.def_augroup('test-r', function()
+--  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
+--    print('runtime-augroup-1')
+--  end)
+--  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
+--    print('runtime-augroup-2')
+--  end)
+--end)

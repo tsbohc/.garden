@@ -1,4 +1,4 @@
-(import-macros {:def-keymap ki-} :zest.lime.macros)
+(import-macros {:def-keymap ki-} :zest.pure.macros)
 (local cursor (require :misc.cursor))
 
 (local M {})

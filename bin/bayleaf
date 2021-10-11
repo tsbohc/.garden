@@ -7,8 +7,20 @@ SOURCE=$HOME/.garden/etc/nvim/config
 ACTUAL=$HOME/.cache/bayleaf/actual
 RECENT=$HOME/.cache/bayleaf/recent
 
-info() { dunstify -h string:x-dunst-stack-tag:bayleaf "bayleaf" "$*" ; }
-bail() { dunstify -h string:x-dunst-stack-tag:bayleaf  -u critical "bayleaf" "$*" ; exit 1 ; }
+info() {
+  m="$*"
+  m=${m//\</\\\[}
+  m=${m//\>/\\\]}
+  dunstify -h string:x-dunst-stack-tag:bayleaf "bayleaf" "$m"
+}
+
+bail() {
+  m="$*"
+  m=${m//\</\\\[}
+  m=${m//\>/\\\]}
+  dunstify -h string:x-dunst-stack-tag:bayleaf  -u critical "bayleaf" "$m"
+  exit 1
+}
 
 compile() {
   local source=$1

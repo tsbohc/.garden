@@ -1,4 +1,4 @@
-(import-macros {:def-keymap ki-} :zest.lime.macros)
+(import-macros {:def-keymap ki-} :zest.macros)
 
 (tset vim.g :mapleader " ")
 
@@ -69,7 +69,7 @@
 ; ------------  --/-<@  --------------
 
 (ki- [nvo]
-  {:i "l"
+  {:i "l" 
    :L "I" :l "i"
    :K "N" :k "n"
    :J "F" :j "f"

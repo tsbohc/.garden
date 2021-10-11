@@ -1,5 +1,5 @@
 (import-macros
-  {:def-keymap ki-} :zest.lime.macros)
+  {:def-keymap ki-} :zest.pure.macros)
 
 (fn []
   (local compe (require :compe))

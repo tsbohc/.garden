@@ -1,6 +1,6 @@
 (import-macros {:set-option  se-
                 :def-autocmd au-
-                :def-augroup gr-} :zest.lime.macros)
+                :def-augroup gr-} :zest.macros)
 
 ; --         autocommands           --
 ; ------------  --/-<@  --------------

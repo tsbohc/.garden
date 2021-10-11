@@ -2,9 +2,11 @@
 
 # ;; defaults
 
-export FENNEL_MACRO_PATH="$HOME/code/zest/fnl/?.fnl"
+# ;; NB
+export FENNEL_MACRO_PATH="$HOME/code/zest.nvim/pure/fnl/?.fnl;$HOME/code/lime/fnl/?.fnl"
+#export LUA_PATH="$HOME/code/zest.nvim/master/lua/?.lua;;"
 
-export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$PATH
+export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
 export EDITOR=nvim
 export TERMINAL=alacritty
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 --margin=0,2 --pointer="›" --prompt="  "'

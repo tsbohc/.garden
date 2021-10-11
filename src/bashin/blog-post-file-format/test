@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+format.link() {
+  shopt -s extglob
+  local t=$1
+  t=${t//+([^A-Za-z0-9])/-}
+  t=${t##-} ; t=${t%-}
+  echo "$t"
+}
+
+format.title() {
+  local t=$1
+  t=${t//\#/\ }
+  echo "$t"
+}
+
+find posts -name "*.md" -printf "%f\n" | sort -r |
+while IFS=. read -r timestamp title tags ext; do
+  echo "$title"
+  echo "$(format.title "$title")"
+  echo "$timestamp - $(format.link "$title") - $tags - $ext"
+  echo
+done

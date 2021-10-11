@@ -1,4 +1,4 @@
-(import-macros {:set-option se-} :zest.lime.macros)
+(import-macros {:set-option se-} :zest.macros)
 
 ; colors
 (vim.cmd ":syntax enable")
