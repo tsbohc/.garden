@@ -55,6 +55,9 @@ packer.startup({function(use)
   use { 'bakpakin/fennel.vim',
     ft = { 'fennel' } }
 
+  -- latex
+  use { 'https://github.com/lervag/vimtex' }
+
   -- profile
   use { 'tweekmonster/startuptime.vim',
     cmd = 'StartupTime' }

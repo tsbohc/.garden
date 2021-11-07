@@ -1,5 +1,8 @@
 ;(require-macros :lime.macros)
-;
+
+;(set-option [:append] completeopt ["menuone" "noselect"])
+;(set-option completeopt ["menuone" "noselect"])
+
 ;(def-keymap [n] :<c-m> "echo 'keymap-str-m'<cr>")
 ;
 ;(def-keymap [n] :<c-m>

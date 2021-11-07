@@ -52,7 +52,21 @@ for _, m in ipairs(modules) do
   end
 end
 
---local lime = require('lime')
+vim.g.tex_flavor = 'latex'
+vim.g.vimtex_view_method = 'zathura'
+vim.g.vimtex_compiler_latexmk = { executable = 'latexmk',
+                                  options = { '-xelatex',
+                                              '-file-line-error',
+                                              '-synctex=1',
+                                              '-interaction=nonstopmode' } }
+vim.g.vimtex_quickfix_mode = 0
+
+
+local lime = require('lime')
+
+--vim.cmd(lime.vlua_format(':com -nargs=* Mycmd :call %s(<f-args>)', function(a)
+--  print('hey, ' .. a)
+--end))
 --
 --lime.def_keymap('n', { noremap = true }, '<c-m>', ':echo "keymap-str-r"<cr>')
 --

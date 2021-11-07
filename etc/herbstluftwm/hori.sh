@@ -1,5 +1,6 @@
 setup() {
   link "autostart" "~/.config/herbstluftwm/autostart"
+  herbstclient reload
 }
 
 remove() {
