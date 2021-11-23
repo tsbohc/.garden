@@ -1,0 +1,16 @@
+#!/bin/bash
+
+f(){
+  echo "initial function"
+}
+
+wrap() { # $1 function name
+  eval "$(declare -f "$1" | sed '1s/.*/_&/')"
+}
+
+wrap f ; f() {
+  echo "wrapper"
+  _f
+}
+
+f

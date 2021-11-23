@@ -1,5 +1,5 @@
-(import-macros
-  {:def-keymap ki-} :zest.pure.macros)
+;(import-macros
+;  {:def-keymap ki-} :zest.pure.macros)
 
 (fn []
   (local compe (require :compe))
@@ -27,18 +27,21 @@
               :omni true
               :love true}})
 
-  (fn rtc [s]
-    (vim.api.nvim_replace_termcodes s true true true))
+;;  (fn rtc [s]
+;;    (vim.api.nvim_replace_termcodes s true true true))
+;;
+;;  (ki- [is :expr] :<tab>
+;;    [(if (= 1 (vim.fn.pumvisible))
+;;       (rtc "<c-n>")
+;;       (rtc "<tab>"))])
+;;
+;;  (ki- [is :expr] :<s-tab>
+;;    [(if (= 1 (vim.fn.pumvisible))
+;;       (rtc "<c-p>")
+;;       (rtc "<s-tab>"))])
+;;
+;;  (ki- [i :expr] :<cr>
+;;    [((. vim.fn :compe#confirm) "\n")])
+  
+)
 
-  (ki- [is :expr] :<tab>
-    [(if (= 1 (vim.fn.pumvisible))
-       (rtc "<c-n>")
-       (rtc "<tab>"))])
-
-  (ki- [is :expr] :<s-tab>
-    [(if (= 1 (vim.fn.pumvisible))
-       (rtc "<c-p>")
-       (rtc "<s-tab>"))])
-
-  (ki- [i :expr] :<cr>
-    [((. vim.fn :compe#confirm) "\n")]))

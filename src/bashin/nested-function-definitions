@@ -1,0 +1,27 @@
+#!/bin/bash
+
+foo() (
+  bar() {
+    echo "i'm bar"
+  }
+  echo "i'm foo"
+  bar
+)
+
+#foo
+#bar
+
+inner() {
+  echo "inner pack: $PACK"
+}
+
+outer() (
+  PACK=$1
+  inner
+)
+
+outer "arst"
+echo "outer pack: \"$PACK\""
+
+
+#packages=( "${packages[@]##*/}" ) # damn bash is cool

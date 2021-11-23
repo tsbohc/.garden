@@ -1,3 +1,7 @@
+depend() {
+  install polybar
+}
+
 setup() {
   link config "~/.config/polybar/config"
 }

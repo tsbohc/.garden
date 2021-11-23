@@ -8,30 +8,30 @@
 (gr- :smart-cursorline
   ; show/hide cursorline based on focus and mode
   (au- [:InsertEnter :BufLeave :FocusLost] "*"
-    [(se- cursorline false)])
+    #(se- cursorline false))
   (au- [:InsertLeave :BufEnter :FocusGained] "*"
-    [(if (not= (vim.fn.mode) :i)
-       (se- cursorline))]))
+    #(if (not= (vim.fn.mode) :i)
+       (se- cursorline))))
 
 (gr- :restore-position
   ; restore last position in file
   (au- :BufReadPost "*"
-    [(when (and (> (vim.fn.line "'\"") 1)
+    #(when (and (> (vim.fn.line "'\"") 1)
                 (<= (vim.fn.line "'\"") (vim.fn.line "$")))
-       (vim.cmd "normal! g'\""))]))
+       (vim.cmd "normal! g'\""))))
 
 (gr- :flash-yank
   ; flash yanked text
   (au- :TextYankPost "*"
-    [(vim.highlight.on_yank
+    #(vim.highlight.on_yank
        {:higroup "Search"
-        :timeout 100})]))
+        :timeout 100})))
 
 (gr- :split-settings
   ; resize splits automatically
   (au- :VimResized "*"
-    [(when (> (length (vim.fn.tabpagebuflist)) 1)
-      (vim.api.nvim_command "wincmd ="))])
+    #(when (> (length (vim.fn.tabpagebuflist)) 1)
+       (vim.api.nvim_command "wincmd =")))
   ; open help in vsplit
   (au- :FileType "help"
     "wincmd L"))
@@ -42,11 +42,12 @@
     "set wrap")
   ; tweaks for fennel and vimrc
   (au- :FileType "fennel"
-    [(se- [:remove] iskeyword ".")
-     (se- [:append] lispwords ["string.*"
-                               "table.*"
-                               :au- :gr-
-                               :se- :ki-])]))
+    #(do (se- [:remove] iskeyword ".")
+         (se- [:append] lispwords ["string.*"
+                                   "table.*"
+                                   :au- :gr-
+                                   :se- :ki-])
+         (se- [:remove] lispwords "do"))))
 
 ; --        layout-keeper           --
 ; ------------  --/-<@  --------------
@@ -72,15 +73,15 @@
 (gr- :keyboard-switcher
   ; set setxkbmap to the previous insert mode layout
   (au- :InsertEnter "*"
-    [(when (and xkbmap-insert.layout
+    #(when (and xkbmap-insert.layout
                 (not= xkbmap-insert.layout xkbmap-normal.layout))
-       (set-xkbmap xkbmap-insert))])
+       (set-xkbmap xkbmap-insert)))
   ; store insert mode layout
   (au- :InsertLeave "*"
-    [(set xkbmap-insert (get-xkbmap))
-     (tset vim.g :_layout xkbmap-insert.layout)
-     (when (not= xkbmap-insert.layout xkbmap-normal.layout)
-       (set-xkbmap xkbmap-normal))]))
+    #(do (set xkbmap-insert (get-xkbmap))
+         (tset vim.g :_layout xkbmap-insert.layout)
+         (when (not= xkbmap-insert.layout xkbmap-normal.layout)
+           (set-xkbmap xkbmap-normal)))))
 
 (gr- :packer-compile
   (au- :BufWritePost "plugins.lua"

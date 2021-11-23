@@ -1,8 +1,14 @@
+#!/usr/bin/env bash
+
+depend() {
+  install herbstluftwm
+}
+
 setup() {
-  link "autostart" "~/.config/herbstluftwm/autostart"
+  link autostart ~/.config/herbstluftwm/autostart
   herbstclient reload
 }
 
 remove() {
-  unlink "~/.config/herbstluftwm/autostart"
+  unlink ~/.config/herbstluftwm/autostart
 }

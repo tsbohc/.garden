@@ -1,3 +1,7 @@
+depend() {
+  install picom
+}
+
 setup() {
   link picom.conf "~/.config/picom/picom.conf"
 }

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# FIXME this is hardcoded, which is bad
+REPO="$HOME/.garden/etc"  # package repository
+HORI="$HOME/.config/hori" # cache directory
+
+readme() { # generate a readme based on currently used .files
+  local txt="### .files currently in use"$'\n'"\`\`\`"$'\n'
+  for p in "$HORI/"* ; do txt+="${p/$HORI\//}"$'\n' ; done
+  txt+="\`\`\`"$'\n'"See [hori-hori](https://github.com/tsbohc/hori-hori) for more info."$'\n\n'
+  txt+="> This readme is generated automatically and is always up to date."
+  echo "$txt" > "$REPO/readme.md"
+}
+
+rawreadme() {
+  local txt=""
+  for p in "$HORI/"* ; do txt+="${p/$HORI\//}"$'\n' ; done
+  echo "$txt" > "$REPO/rawreadme"
+}
+
+readme
+rawreadme

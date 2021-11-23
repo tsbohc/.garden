@@ -1,3 +1,7 @@
+depend() {
+  install alacritty
+}
+
 setup() {
   link $(render alacritty.yml) "~/.config/alacritty/alacritty.yml"
 }

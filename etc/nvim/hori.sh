@@ -1,3 +1,7 @@
+depend() {
+  install neovim
+}
+
 setup() {
   # if link toinit.lua doesn't exist, link the init lua there from config
   :

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# takes a screenshot and puts it into the clipboard
+
 filename="$(scrot "$@" '/tmp/%F_%T_$wx$h.png' -e 'echo $f')"
 if ! [[ "$filename" == "" ]]; then
   dunstify scrot "$filename"

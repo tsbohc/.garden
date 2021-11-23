@@ -2,18 +2,16 @@
 
 #: list shell scripts and their descriptions
 
-list="$(find ~/.garden/src -type f -not -path '*/\.git*' -not -path '*.jpg')"
+grep ^'#:' -Ir ~/.garden/src ~/.garden/bin | awk -F":#:" '{ print $1"	"$2 }' | column -t -s $'\t' | fzf
 
-get_description() {
-  awk -F" " '($1 ~ /^#:/) {for (i=2; i<NF; i++) printf $i " "; print $NF}' "$1"
-}
+# TODO
+# when pressing enter on a script, rg for its usage in the repo
+# would be really nice for keeping track of names and figuring out useless scripts
+# would be doubly effective if i prefixed each script with s: or something, e.g s:layout-switch
+# that way it'll probably be 99% right
 
-out=""
+# calling the scripts would be awfully inconvenient without aliases though...
 
-while read p; do
-  if [[ "$(file "$p")" =~ "shell script" ]]; then
-    out="$out"$'\n'"$(basename ${p})	$(get_description ${p})"
-  fi
-done <<< "$list"
+# TODO on another not, i should look into have a better way of opening files in vim
 
-echo "$out" | column -t -s $'\t' | fzf
+# i could even render a dependency tree if i wanted (course i do)

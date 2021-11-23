@@ -13,8 +13,8 @@ local packer = require('packer')
 packer.startup({function(use)
   use { 'wbthomason/packer.nvim', opt = true }
 
-  use { vim.env.HOME .. '/code/zest.nvim/pure' }
-  use { vim.env.HOME .. '/code/lime' }
+  use { vim.env.HOME .. '/code/zest.nvim/runtime' }
+  --use { vim.env.HOME .. '/code/lime' }
 
   use { vim.env.HOME .. '/code/limestone',
     requires = 'rktjmp/lush.nvim' }

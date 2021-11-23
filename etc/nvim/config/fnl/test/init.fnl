@@ -1,4 +1,4 @@
-;(require-macros :lime.macros)
+;(require-macros :zest.macros)
 
 ;(set-option [:append] completeopt ["menuone" "noselect"])
 ;(set-option completeopt ["menuone" "noselect"])

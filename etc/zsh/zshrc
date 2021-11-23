@@ -3,7 +3,7 @@
 # ;; defaults
 
 # ;; NB
-export FENNEL_MACRO_PATH="$HOME/code/zest.nvim/pure/fnl/?.fnl;$HOME/code/lime/fnl/?.fnl"
+#export FENNEL_MACRO_PATH="$HOME/code/zest.nvim/runtime/fnl/?.fnl;$HOME/code/lime/fnl/?.fnl"
 #export LUA_PATH="$HOME/code/zest.nvim/master/lua/?.lua;;"
 
 export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
@@ -191,7 +191,7 @@ if [ -d "$HOME/.config/z-lua" ]; then
         --reverse \
         --cycle \
         --height 35% \
-        --no-sort --info=hidden \
+        --no-sort --tac --info=hidden \
         --bind tab:down \
         --bind shift-tab:up \
         --bind change:first)"

@@ -1,3 +1,7 @@
+depend() {
+  install zsh
+}
+
 setup() {
   link zshrc "~/.zshrc"
 }

@@ -16,7 +16,8 @@ if ping -q -w1 -c1 google.com &>/dev/null ; then
   condition="$(awk -F":" '{ print tolower($1) }' <<< "$o")"
   feels_like="$(awk -F":" '{ print $2 }' <<< "$o")"
 
-  echo "$condition $feels_like ${icons[$condition]} "
+  #echo "$condition $feels_like ${icons[$condition]} "
+  echo "$condition $feels_like "
 else
   echo "N/A"
 fi

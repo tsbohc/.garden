@@ -6,8 +6,9 @@
 ; ------------  --/-<@  --------------
 
 ; smart v-line movement
-(ki- [nv :expr] :e [(if (> vim.v.count 0) "k" "gk")])
-(ki- [nv :expr] :n [(if (> vim.v.count 0) "j" "gj")])
+(ki- [nv :expr] :e #(if (> vim.v.count 0) "k" "gk"))
+(ki- [nv :expr] :n #(if (> vim.v.count 0) "j" "gj"))
+
 (ki- [o] {:e "k" :n "j"})
 
 ; screen and line movement
@@ -37,16 +38,16 @@
 
 ; keep cursor in place when norm! *
 (ki- [n] :*
-  [(let [p (vim.fn.getpos ".")]
+  #(let [p (vim.fn.getpos ".")]
      (vim.cmd "norm! *")
-     (vim.fn.setpos "." p))])
+     (vim.fn.setpos "." p)))
 
 ; search for selected text
 (ki- [x] :*
-  [(let [p (vim.fn.getpos ".")]
+  #(let [p (vim.fn.getpos ".")]
      (vim.cmd "norm! gvy")
      (vim.cmd (.. "/" (vim.api.nvim_eval "@\"")))
-     (vim.fn.setpos "." p))])
+     (vim.fn.setpos "." p)))
 
 ; replace search matches
 (ki- [n] :<leader>r ":%s///g<left><left>")
@@ -65,11 +66,15 @@
 ; fixes
 (ki- [n] :<c-j> "J")
 
+; inspect zest data
+(ki- [nv] :<c-m>
+  #(print (vim.inspect _G.lime)))
+
 ; -             colemak              -
 ; ------------  --/-<@  --------------
 
 (ki- [nvo]
-  {:i "l" 
+  {:i "l"
    :L "I" :l "i"
    :K "N" :k "n"
    :J "F" :j "f"

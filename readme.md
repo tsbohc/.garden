@@ -10,7 +10,7 @@
 
 ## hori-hori
 
-A tiny dotfiles templating and management framework written in pure bash in `100 sloc`:
+A personal dotfiles templating and management framework written in a hundred lines of bash.
 
 - Toml-inspired configuration language
 - Logicless recursive templating

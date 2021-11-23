@@ -25,7 +25,7 @@
 (se- autoread)
 (se- clipboard "unnamedplus") ; don't forget xsel!
 (se- mouse "a")
-(se- [:append] completeopt ["menuone" "noselect"])
+(se- completeopt ["menu" "menuone" "noselect"])
 
 ; status lines
 (se- showmode false)

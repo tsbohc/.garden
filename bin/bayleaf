@@ -1,11 +1,14 @@
 #!/bin/bash
 
 SOURCE=$HOME/.garden/etc/nvim/config
+BAYLEAFMACROPATH=$HOME/.garden/etc/nvim/config/fnl/?.fnl
 
 # switch to using $BAYLEAF as the dir
 # those should be generated automatically as bayleaf/config/actual and bayleaf/config/recent
 ACTUAL=$HOME/.cache/bayleaf/actual
 RECENT=$HOME/.cache/bayleaf/recent
+
+
 
 info() {
   m="$*"
@@ -18,7 +21,7 @@ bail() {
   m="$*"
   m=${m//\</\\\[}
   m=${m//\>/\\\]}
-  dunstify -h string:x-dunst-stack-tag:bayleaf  -u critical "bayleaf" "$m"
+  dunstify -h string:x-dunst-stack-tag:bayleaf -u critical "bayleaf" "$m"
   exit 1
 }
 
@@ -28,7 +31,7 @@ compile() {
   if [[ $source == *".fnl" ]] && ! [[ $source == *"macros.fnl" ]]; then
     target=${target%.*}.lua
     temp=$HOME/.cache/bayleaf/outhadle
-    out="$(fennel --compile "$source" 2> "$temp")"
+    out="$(fennel --add-macro-path "$BAYLEAFMACROPATH" --compile "$source" 2> "$temp")"
     err="$(<"$temp")"
     if [ -z "$err" ]; then
       mkdir -p "$(dirname "$target")"
@@ -46,13 +49,12 @@ compile() {
 
 switch-config() {
   ln -sf "$1/init.lua" "$HOME/.config/nvim/init.lua"
-  ln -sfn "$1/fnl" "$HOME/.config/nvim/lua"
+  ln -sfn "$1/fnl" "$HOME/.config/nvim/lua" # it's fnl because we are mirroring dir names
 }
 
 init() {
-  # note: this spams. a lot. but just once.
   if ! [ -d "$RECENT" ]; then
-    while read -r source; do
+    while read -r source; do # note: this spams. a lot. but just once.
       compile "$source"
     done < <(find "$SOURCE" \( -name '*.fnl' -o -name '*.lua' \))
   fi
@@ -84,6 +86,7 @@ apply() {
     recent=${recent%.*}.lua
     actual=${actual%.*}.lua
   fi
+  mkdir -p "$(dirname "$actual")"
   cp -f "$recent" "$actual"
   startup_time="$(echo "1000 * ($measure_end - $measure_start)" | bc -l)"
   info "${source##*/} updated (${startup_time%%.*}ms testrun)"
