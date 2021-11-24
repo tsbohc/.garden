@@ -2,10 +2,6 @@
 
 # ;; defaults
 
-# ;; NB
-#export FENNEL_MACRO_PATH="$HOME/code/zest.nvim/runtime/fnl/?.fnl;$HOME/code/lime/fnl/?.fnl"
-#export LUA_PATH="$HOME/code/zest.nvim/master/lua/?.lua;;"
-
 export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
 export EDITOR=nvim
 export TERMINAL=alacritty
@@ -151,10 +147,15 @@ function cd() { # ls after cd except when going back to ~
 
 # ;; completion
 
+# https://gist.github.com/ctechols/ca1035271ad134841284
 # compile zcompdump in the background once a day
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
 autoload -Uz compinit
 { setopt extendedglob
-  for zcompdump in $HOME/.zcompdump(#qN.m1); do
+  for zcompdump in $ZDOTDIR/.zcompdump(#qN.mh+24); do
     if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
       zcompile "$zcompdump"
     fi
@@ -169,12 +170,11 @@ compdef '_path_files -/ -W /home/sean/.garden/etc/' hori-hori
 # ;; plugins
 
 # fzf completion
-if [ -d "$HOME/.config/zsh-fzf-compe" ]; then
-  source $HOME/.config/zsh-fzf-compe/fzf-tab.plugin.zsh
-  zstyle ':fzf-tab:*' fzf-flags "--info=hidden"
-else
+if ! [ -d "$HOME/.config/zsh-fzf-compe" ]; then
   git clone https://github.com/Aloxaf/fzf-tab "$HOME/.config/zsh-fzf-compe"
 fi
+source $HOME/.config/zsh-fzf-compe/fzf-tab.plugin.zsh
+zstyle ':fzf-tab:*' fzf-flags "--info=hidden"
 
 # z.lua
 if [ -d "$HOME/.config/z-lua" ]; then
@@ -210,7 +210,8 @@ fi
 export LESSHISTSIZE=0 # prevent ~/.lesshst
 zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
 
-
+# TODO other stuff for preventing extrac ~/.files in home
+# TODO a good archive extract script that always creates a new folder
 
 
 

@@ -3,9 +3,11 @@ depend() {
 }
 
 setup() {
-  link zshrc "~/.zshrc"
+  link zshenv ~/.zshenv
+  link zshrc ~/.config/zsh/.zshrc
 }
 
 remove() {
-  unlink "~/.zshrc"
+  unlink ~/.zshenv
+  unlink ~/.config/zsh/.zshrc
 }
