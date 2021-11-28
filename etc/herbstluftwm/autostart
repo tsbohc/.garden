@@ -3,87 +3,83 @@
 # TODO
 # alt+directional binds to split frames would be nice
 
-# clean slate
 hc() { herbstclient "$@" ; }
+ki() { hc keybind "$@" ; }
 
+# clean slate
 hc emit_hook reload
 hc keyunbind --all
 hc unrule -F
 
-# put this into a var and just keybind $remove, bam
-# chain . remove . emit_hook frame_remove
+Mod=Mod4
 
-# autostart dots
+# need a function that will return a colemak key and take a qwerty one to make binding things easier.
+
+
+# -- autostart
+
 command -v hori-hori &>/dev/null && hori-hori hook autostart --installed
 
-#feh --bg-fill ~/Downloads/roujin-z-1.jpg
-# TODO add feh to hori-hori
-feh --bg-fill ~/whiteflower.jpeg
+# TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
+xwallpaper --zoom ~/Downloads/wallpaper.jpg
 
-# keybindings
-# if you have a super key you will be much happier with Mod set to Mod4
-#Mod=Mod1    # Use alt as the main modifier
-Mod=Mod4   # Use the super key as the main modifier
+#pkill -x pipewire ; sleep 0.2 ; pipewire &
+#pkill -x pipewire-pulse ; sleep 0.2 ; pipewire-pulse &
 
-hc keybind Mod1-Shift-s spawn scrot-clipboard -q 100 -s
+# -- hlwm
 
-hc keybind $Mod-Shift-q quit
-hc keybind $Mod-Shift-r reload
-#hc keybind $Mod-w close
-hc keybind $Mod-Return spawn "${TERMINAL:-xterm}" # use your $TERMINAL with xterm as fallback
+ki $Mod-Shift-q quit
+ki $Mod-Shift-r reload
 
-# TODO this is the coolest shit ever
-hc keybind $Mod-Shift-Return split explode
-hc keybind $Mod-r remove # close frame
 
-# splitting frames
-# create an empty frame at the specified direction
-hc keybind $Mod-u split bottom 0.5
-hc keybind $Mod-o split right  0.5
-# let the current frame explode into subframes
+# -- frame
 
-# resizing frames and floating clients
+# split frame -> change to mod1+hnei?
+ki $Mod-Shift-Return split explode # the coolest shit ever
+ki $Mod-u split top 0.5
+ki $Mod-o split right  0.5
+
+ki $Mod-r remove # close frame
+
+
+# -- clients
+
+# focus
+ki $Mod-h     focus left
+ki $Mod-n     focus down
+ki $Mod-e     focus up
+ki $Mod-i     focus right
+
+# move
+ki $Mod-Shift-h     shift left
+ki $Mod-Shift-n     shift down
+ki $Mod-Shift-e     shift up
+ki $Mod-Shift-i     shift right
+
+# resize
 resizestep=0.02
-hc keybind $Mod-Mod1-h       resize left  +$resizestep
-hc keybind $Mod-Mod1-n       resize down  +$resizestep
-hc keybind $Mod-Mod1-e       resize up    +$resizestep
-hc keybind $Mod-Mod1-i       resize right +$resizestep
-hc keybind $Mod-Mod1-Left    resize left  +$resizestep
-hc keybind $Mod-Mod1-Down    resize down  +$resizestep
-hc keybind $Mod-Mod1-Up      resize up    +$resizestep
-hc keybind $Mod-Mod1-Right   resize right +$resizestep
+ki $Mod-Mod1-h       resize left   +$resizestep
+ki $Mod-Mod1-n       resize down   +$resizestep
+ki $Mod-Mod1-e       resize up     +$resizestep
+ki $Mod-Mod1-i       resize right  +$resizestep
 
-# basic movement in tiling and floating mode
-# focusing clients
-hc keybind $Mod-h     focus left
-hc keybind $Mod-n     focus down
-hc keybind $Mod-e     focus up
-hc keybind $Mod-i     focus right
-hc keybind $Mod-Left  focus left
-hc keybind $Mod-Down  focus down
-hc keybind $Mod-Up    focus up
-hc keybind $Mod-Right focus right
 
-# moving clients in tiling and floating mode
-hc keybind $Mod-Shift-Left  shift left
-hc keybind $Mod-Shift-Down  shift down
-hc keybind $Mod-Shift-Up    shift up
-hc keybind $Mod-Shift-Right shift right
-hc keybind $Mod-Shift-h     shift left
-hc keybind $Mod-Shift-n     shift down
-hc keybind $Mod-Shift-e     shift up
-hc keybind $Mod-Shift-i     shift right
+# -- misc
 
-hc keybind $Mod-space spawn layout-switch
+ki $Mod-Return spawn "${TERMINAL:-xterm}"
 
-hc keybind Mod1-Shift-n spawn redshift-control 0 -1
-hc keybind Mod1-Shift-e spawn redshift-control 0  1
+ki Mod1-Shift-s spawn scrot-clipboard -q 100 -s
 
-hc keybind Mod1-n spawn redshift-control -250
-hc keybind Mod1-e spawn redshift-control  250
+ki $Mod-space spawn layout-switch
 
-hc keybind Mod1-h spawn volume-control -8
-hc keybind Mod1-i spawn volume-control  8
+ki Mod1-Shift-n spawn redshift-control 0 -1
+ki Mod1-Shift-e spawn redshift-control 0  1
+
+ki Mod1-n spawn redshift-control -250
+ki Mod1-e spawn redshift-control  250
+
+ki Mod1-h spawn volume-control -8
+ki Mod1-i spawn volume-control  8
 
 
 # tags
@@ -94,28 +90,25 @@ hc rename default "${tag_names[0]}" || true
 for i in "${!tag_names[@]}" ; do
     hc add "${tag_names[$i]}"
     key="${tag_keys[$i]}"
-    if ! [ -z "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
-        hc keybind "$Mod-Shift-$key" move_index "$i"
+    if [ -n "$key" ] ; then
+        ki "$Mod-$key" use_index "$i"
+        ki "$Mod-Shift-$key" move_index "$i"
     fi
 done
 
 # cycle through tags
-#hc keybind $Mod-period use_index +1 --skip-visible
-#hc keybind $Mod-comma  use_index -1 --skip-visible
+#ki $Mod-period use_index +1 --skip-visible
+#ki $Mod-comma  use_index -1 --skip-visible
 
 # layouting
-hc keybind $Mod-t floating toggle
-hc keybind $Mod-m fullscreen toggle
-#hc keybind $Mod-f set_attr clients.focus.floating toggle
-#hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
-#hc keybind $Mod-Control-m jumpto last-minimized
-hc keybind $Mod-p pseudotile toggle
+ki $Mod-t floating toggle
+ki $Mod-m fullscreen toggle
+#ki $Mod-f set_attr clients.focus.floating toggle
+#ki $Mod-Shift-m set_attr clients.focus.minimized true
+#ki $Mod-Control-m jumpto last-minimized
+ki $Mod-p pseudotile toggle
 
-# TODO i need focus on the new frame
-# a rule maybe?
-
-# TODO I *need* this in fennel
+# TODO I "could* have this in fennel
 # (or (and
 #       (compare tags.focus.curframe_wcount gt 0)
 #       (close))
@@ -131,25 +124,23 @@ or . and - compare tags.focus.curframe_wcount gt 0
          - close
    . remove)
 
-hc keybind $Mod-w chain : "${close_window_or_frame[@]}" : spawn node_remove
+ki $Mod-w "${close_window_or_frame[@]}"
 
 # maybe there is a way? doesn't it need to be subshelled through
 #testing() {
 #  hc emit_hook wooooo
 #}
 #export -f testing
-#hc keybind $Mod-q spawn testing
+#ki $Mod-q spawn testing
 
 cycle_layouts=(
-and
-  . compare tags.focus.curframe_wcount gt 1
-  . cycle_layout +1 vertical horizontal)
+and . compare tags.focus.curframe_wcount gt 1
+    . cycle_layout +1 vertical horizontal)
 
-hc keybind $Mod-Shift-space "${cycle_layouts[@]}"
-
+ki $Mod-Shift-space "${cycle_layouts[@]}"
 
 # fmenu
-#hc keybind $Mod-Tab spawn fmenu
+#ki $Mod-Tab spawn fmenu
 
 # mouse
 hc mouseunbind --all
@@ -158,11 +149,11 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
 # focus
-#hc keybind $Mod-BackSpace   cycle_monitor
-#hc keybind $Mod-Tab         cycle_all +1
-#hc keybind $Mod-Shift-Tab   cycle_all -1
-#hc keybind $Mod-c cycle
-#hc keybind $Mod-i jumpto urgent
+#ki $Mod-BackSpace   cycle_monitor
+#ki $Mod-Tab         cycle_all +1
+#ki $Mod-Shift-Tab   cycle_all -1
+#ki $Mod-c cycle
+#ki $Mod-i jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1
@@ -172,8 +163,7 @@ hc attr theme.floating.reset 1
 
 # TODO some of those are deprecated
 hc set frame_bg_normal_color '#03030300'
-hc set frame_normal_opacity 20
-
+hc set frame_normal_opacity 30
 hc set frame_bg_active_color '#07070700'
 hc set frame_active_opacity 70
 
@@ -190,8 +180,8 @@ hc set frame_bg_transparent false # recommended off
 #hc set frame_transparent_width 2 # depends on the above being true
 hc set frame_gap 5
 
-hc attr theme.floating.border_width 9
-hc attr theme.floating.outer_width 8
+hc attr theme.floating.border_width 1
+#hc attr theme.floating.outer_width 8
 hc attr theme.floating.inner_width 1
 
 #hc attr theme.background_color '#ffffff'
@@ -200,10 +190,10 @@ hc attr theme.floating.inner_width 1
 #hc attr theme.title_color '#ffffff'
 
 #hc attr theme.floating.background_color '#ff0000'
-hc attr theme.floating.inner_color '#323235'
-hc attr theme.floating.outer_color '#232326'
+#hc attr theme.floating.inner_color '#323235'
+#hc attr theme.floating.outer_color '#232326'
 
-hc attr theme.floating.active.inner_color '#636369'
+#hc attr theme.floating.active.inner_color '#636369'
 #hc attr theme.floating.active.outer_color '#232326'
 
 #hc attr theme.floating.title_color '#ff0000'

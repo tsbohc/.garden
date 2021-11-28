@@ -7,12 +7,14 @@
 
 -- TODO os.getenv("DOTGARDEN") or something?
 
+
+-- I need the hori setup to check if init.lua is linked to bayleaf's cache dir, and if it isn't or doesn't exist, do an initial compilation
 -- setup automagic fennel compilation
 vim.cmd([[
 augroup bayleaf
   autocmd!
-  autocmd BufWritePost /home/sean/.garden/etc/nvim/config/*.fnl :silent !bayleaf "%:p"
-  autocmd BufWritePost /home/sean/.garden/etc/nvim/config/*.lua :silent !bayleaf "%:p"
+  autocmd BufWritePost /home/tsbohc/.garden/etc/nvim/config/*.fnl :silent !bayleaf "%:p"
+  autocmd BufWritePost /home/tsbohc/.garden/etc/nvim/config/*.lua :silent !bayleaf "%:p"
 augroup END]])
 
 -- should be a separate module that's loaded if something goes wrong

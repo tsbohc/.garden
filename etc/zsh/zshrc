@@ -1,5 +1,8 @@
 #zmodload zsh/zprof
 
+# ;; xdeb
+export XDEB_PKGROOT=$HOME/.cache/xdeb
+
 # ;; defaults
 
 export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
@@ -11,7 +14,7 @@ export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,pro
 
 # history
 HISTFILE=$HOME/.cache/histfile
-HISTSIZE=50000
+HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 
 setopt hist_ignore_all_dups
@@ -111,6 +114,8 @@ RPROMPT=''
 
 # ;; aliases
 
+alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
+
 alias v='nvim'
 alias hh='hori-hori'
 alias hc='herbstclient'
@@ -207,7 +212,7 @@ fi
 
 # ;; gripes and grievances
 
-export LESSHISTSIZE=0 # prevent ~/.lesshst
+export LESSHISTSIZE=- # prevent ~/.lesshst
 zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
 
 # TODO other stuff for preventing extrac ~/.files in home

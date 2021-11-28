@@ -16,7 +16,5 @@ alacritty \
   -e sh -c "fzf $* --info=hidden \
                    --no-multi \
                    --no-unicode \
-                   --tiebreak=end
+                   --tiebreak=end \
                    < /proc/$$/fd/0 > /proc/$$/fd/1"
-
-  #-o "background_opacity=0.9" \

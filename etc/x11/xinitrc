@@ -1,0 +1,16 @@
+#!/bin/sh
+
+xresources=$HOME/.config/x11/.Xresources
+xmodmap=$HOME/.config/x11/.Xmodmap
+
+[ -f "$xresources" ] && xrdb -merge "$xresources"
+[ -f "$xmodmap" ] && xmodmap "$xmodmap"
+
+autostart="pipewire pipewire-pulse"
+
+for program in $autostart; do
+  pidof -s "$program" || setsid -f "$program"
+done >/dev/null 2>&1
+
+xset r rate 250 40 # set key repeat rate: 250ms delay, 40/s
+exec herbstluftwm --locked

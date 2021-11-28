@@ -2,11 +2,11 @@
 ```
 alacritty
 dunst
+fonts
 herbstluftwm
-nvim
 picom
 polybar
-xorg
+x11
 zsh
 ```
 See [hori-hori](https://github.com/tsbohc/hori-hori) for more info.
