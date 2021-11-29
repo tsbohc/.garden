@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#: check internet connection continuously and log it
+
+while true; do
+  d="$(date +"%F_%H:%M:%S")"
+  # time in ms how long the request took?!
+  if nc -zw1 google.com 443 >/dev/null 2>&1; then
+    echo "$d 111111" >> ~/.cache/continuous-http-check
+  else
+    echo "$d 000000" >> ~/.cache/continuous-http-check
+  fi
+  sleep 3
+done

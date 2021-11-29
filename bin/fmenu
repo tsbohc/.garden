@@ -9,12 +9,17 @@ name="fzfmenu"
 alacritty \
   --class floatingTerminal,floatingTerminal \
   -t "$name" \
-  -o "window.dimensions.columns=70" \
-  -o "window.dimensions.lines=7" \
+  -o "window.dimensions.columns=90" \
+  -o "window.dimensions.lines=6" \
   -o "window.padding.x=0" \
   -o "window.padding.y=16" \
   -e sh -c "fzf $* --info=hidden \
                    --no-multi \
                    --no-unicode \
                    --tiebreak=end \
+                   --no-sort \
+                   --tac \
+                   --bind tab:down \
+                   --bind shift-tab:up \
+                   --bind change:first \
                    < /proc/$$/fd/0 > /proc/$$/fd/1"

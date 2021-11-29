@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#: list shell scripts and their descriptions
+
+base=~/.garden/
+
+grep ^'#:' -Ir "$base"src "$base"bin \
+  | awk -v base="$base" -F":#:" '{
+    path = $1; sub(base, "", path)
+    print path"	"$2
+  }' \
+  | column -t -s $'\t' \
+  | fzf

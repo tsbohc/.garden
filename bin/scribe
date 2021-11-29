@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# hmmmmmmmmmmmmmmmmm what if i tf-idf this stuff?
+# impementing tf-idf with bash is prolly gonna be interesting
+# or at least remove all prepositions and very common words
+
+# i dunno, clunky.
+
+# wants:
+# fzf based
+# filenames are <unix-timestamp>.md
+# fzf with unix-timestamp (or date) + first n characters (or more) + fzf's preview on the right
+# pipe stuff into the script to create a new note with output
+# todo lists? vim-specific i guess
+# <new> as the topmost thing in fzf, i.e $ scribe<enter><enter> instantly opens a new note
+
+notes="$HOME/.garden/usr/notes"
+
+new() { # new note with optional content
+  name="$(date +%s)"
+  echo "$*" >> "$notes/$name.md"
+  echo "$name"
+}
+
+list() { # list existing notes
+  echo "<new>"
+  #while read -r line; do
+  #  echo "$line"
+  #done < <(rg . "$notes" --no-heading --no-line-number)
+  for f in "$notes"/*; do
+    name=${f/$notes\//} ; name=${name/.md/}
+    peek="$(cat "$f" | tr '\n' ' ')"
+    echo "$name $peek"
+  done
+}
+
+if [ -p /dev/stdin ]; then
+  input=""
+  while IFS= read -r line; do
+    input+="$line
+"
+  done
+  new "$input"
+elif [ -n "$1" ]; then
+  new "$*"
+else
+  selection="$(list \
+    | fzf --info=hidden \
+          --preview 'cat ~/.garden/usr/notes/{1}.md' \
+    | awk -F ' ' '{ print $1 }')"
+  if [[ -n $selection ]]; then
+    if [[ $selection == "<new>" ]]; then
+      "$EDITOR" "$notes/$(new).md"
+    else
+      "$EDITOR" "$notes/$selection.md"
+    fi
+  fi
+fi
+

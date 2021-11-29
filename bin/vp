@@ -1,0 +1,42 @@
+#!/bin/bash
+
+[[ -f ~/.cache/xbps-hist ]] || touch ~/.cache/xbps-hist
+
+sudorun() {
+  echo -e "void: sudo $*\n"
+  echo "$(date +%s)	sudo $*" >> ~/.cache/xbps-hist
+  sudo "$@"
+}
+
+# operations
+
+upd() {
+  sudorun xbps-install -Su
+}
+
+add() {
+  sudorun xbps-install "$@"
+}
+
+rem() {
+  sudorun xbps-remove -R "$@"
+}
+
+clean() {
+  sudorun xbps-remove -Oo
+}
+
+operation=$1 ; shift
+case $operation in
+  upd) upd ;;
+  add) add "$@" ;;
+  rem) rem "$@" ;;
+  clean) clean ;;
+  *) echo "xbps wrapper
+
+USAGE
+  \$ vp <operation> [arguments]
+
+  {-s, setup}    <package(s)>
+" ;;
+esac

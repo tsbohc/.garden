@@ -1,14 +1,14 @@
 #!/bin/bash
 
+#: compile nvim fennel config to lua and check it before applying
+
 SOURCE=$HOME/.garden/etc/nvim/config
-BAYLEAFMACROPATH=$HOME/.garden/etc/nvim/config/fnl/?.fnl
+BAYLEAFMACROPATH="$HOME/.garden/etc/nvim/config/fnl/?.fnl"
 
 # switch to using $BAYLEAF as the dir
 # those should be generated automatically as bayleaf/config/actual and bayleaf/config/recent
 ACTUAL=$HOME/.cache/bayleaf/actual
 RECENT=$HOME/.cache/bayleaf/recent
-
-
 
 info() {
   m="$*"

@@ -203,7 +203,6 @@ if [ -d "$HOME/.config/z-lua" ]; then
     dir="${dir/\~/$HOME}"
     [ -n "$dir" ] && cd "$dir"
   }
-
   alias zb="z -b"
 else
   git clone https://github.com/skywind3000/z.lua "$HOME/.config/z-lua"
