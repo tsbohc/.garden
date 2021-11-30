@@ -10,4 +10,4 @@ grep ^'#:' -Ir "$base"src "$base"bin \
     print path"	"$2
   }' \
   | column -t -s $'\t' \
-  | fzf
+  | fzf --preview "cat $base/{1}"

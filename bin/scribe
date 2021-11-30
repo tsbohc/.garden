@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+#tags() {
+#  awk -F ":" '
+#  {
+#    if (length($2) > 2 && $2 > 0.5) tags[$1]=tags[$1]" "$2
+#  } END {
+#    for (text in tags) print text tags[text]
+#  }' <(tfidf)
+#}
+#tags | fzf --preview 'cat {1}' --preview-window=up --no-info
+
 # hmmmmmmmmmmmmmmmmm what if i tf-idf this stuff?
 # impementing tf-idf with bash is prolly gonna be interesting
 # or at least remove all prepositions and very common words

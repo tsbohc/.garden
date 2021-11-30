@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#: get tf-idf scores of terms in texts in a directory as '<text-j> <term-i> <tfidf(ij)>'
+
+# n          : total number of texts
+# tf(ij)     : occurences of <term-i> in <text-j>
+# df(i)      : texts containing <term-i>
+# idf(i)     = log10(n/df_i)
+# tfidf(ij)  = tf(ij) * idf(i)
+
+dir=$1
+
+tf() { # <tf(ij)> <text-j> <term-i>
+  grep -o -E '[A-Za-z]+' "$dir/"* \
+    | tr 'A-Z' 'a-z' \
+    | sort -t ':' -k2,2 -k1,1 \
+    | tr ':' ' ' \
+    | uniq -c
+}
+
+idf() { # <term-i> <idf-i>
+  local n; n="$(ls "$dir" | wc -l)"
+  awk -v n="$n" '
+  {
+    df[$3]++
+  } END {
+    for (term_i in df) print term_i, log(n/df[term_i])/2.303
+  }' <<< "$tf"
+}
+
+tfidf() { # <text-j> <term-i> <tfidf(ij)>
+  awk '
+  NR == FNR {
+    idf[$1]=$2
+  } {
+    tfidf=$1*idf[$3]
+    if (tfidf != 0) print $2, $3, tfidf
+  }' <(idf) <(echo "$tf") | sort -t ' ' -r -k1,1 -k3,3
+}
+
+tf="$(tf)"
+tfidf

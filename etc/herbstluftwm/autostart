@@ -9,28 +9,25 @@ ki() { hc keybind "$@" ; }
 # clean slate
 hc emit_hook reload
 hc keyunbind --all
+hc mouseunbind --all
 hc unrule -F
 
 Mod=Mod4
 
-# need a function that will return a colemak key and take a qwerty one to make binding things easier.
-
+# need a script that will return a colemak key and take a qwerty one to make binding things easier.
 
 # -- autostart
 
-command -v hori-hori &>/dev/null && hori-hori hook autostart --installed
-
 # TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
+command -v hori-hori &>/dev/null && hori-hori hook autostart --installed
 xwallpaper --zoom ~/Downloads/wallpaper.jpg
 
-#pkill -x pipewire ; sleep 0.2 ; pipewire &
-#pkill -x pipewire-pulse ; sleep 0.2 ; pipewire-pulse &
+# -- -- keybinds
 
 # -- hlwm
 
 ki $Mod-Shift-q quit
 ki $Mod-Shift-r reload
-
 
 # -- frame
 
@@ -45,23 +42,23 @@ ki $Mod-r remove # close frame
 # -- clients
 
 # focus
-ki $Mod-h     focus left
-ki $Mod-n     focus down
-ki $Mod-e     focus up
-ki $Mod-i     focus right
+ki $Mod-h         focus   left
+ki $Mod-n         focus   down
+ki $Mod-e         focus   up
+ki $Mod-i         focus   right
 
 # move
-ki $Mod-Shift-h     shift left
-ki $Mod-Shift-n     shift down
-ki $Mod-Shift-e     shift up
-ki $Mod-Shift-i     shift right
+ki $Mod-Shift-h   shift   left
+ki $Mod-Shift-n   shift   down
+ki $Mod-Shift-e   shift   up
+ki $Mod-Shift-i   shift   right
 
 # resize
 resizestep=0.02
-ki $Mod-Mod1-h       resize left   +$resizestep
-ki $Mod-Mod1-n       resize down   +$resizestep
-ki $Mod-Mod1-e       resize up     +$resizestep
-ki $Mod-Mod1-i       resize right  +$resizestep
+ki $Mod-Mod1-h    resize  left   +$resizestep
+ki $Mod-Mod1-n    resize  down   +$resizestep
+ki $Mod-Mod1-e    resize  up     +$resizestep
+ki $Mod-Mod1-i    resize  right  +$resizestep
 
 
 # -- misc
@@ -137,13 +134,12 @@ cycle_layouts=(
 and . compare tags.focus.curframe_wcount gt 1
     . cycle_layout +1 vertical horizontal)
 
-ki $Mod-Shift-space "${cycle_layouts[@]}"
+ki $Mod-Tab "${cycle_layouts[@]}"
 
 # fmenu
-#ki $Mod-Tab spawn fmenu
+#ki $Mod-Tab spawn fmenu # mod-backspace? or reserve for scribe maybe
 
 # mouse
-hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
@@ -155,16 +151,23 @@ hc mousebind $Mod-Button3 resize
 #ki $Mod-c cycle
 #ki $Mod-i jumpto urgent
 
-# theme
-hc attr theme.tiling.reset 1
-hc attr theme.floating.reset 1
 #hc set frame_border_active_color '#222222cc'
 #hc set frame_border_normal_color '#101010cc'
 
-# TODO some of those are deprecated
+# -- theme
+
+hc set smart_window_surroundings on # remove window borders and gaps when only one window in frame
+hc set smart_frame_surroundings on # shouldn't this disable... frame_color too?
+
+# gaps
+hc set frame_gap 4
+hc set window_gap 6
+hc set frame_padding -2
+
+# frames
 hc set frame_bg_normal_color '#03030300'
 hc set frame_normal_opacity 30
-hc set frame_bg_active_color '#07070700'
+hc set frame_bg_active_color '#09090900'
 hc set frame_active_opacity 70
 
 hc set frame_border_normal_color '#000000'
@@ -178,11 +181,29 @@ hc set frame_border_inner_width 1
 hc set always_show_frame true
 hc set frame_bg_transparent false # recommended off
 #hc set frame_transparent_width 2 # depends on the above being true
-hc set frame_gap 5
 
-hc attr theme.floating.border_width 1
+# clients
+attr() { hc attr "$@" ; }
+
+attr theme.tiling.reset 1
+attr theme.floating.reset 1
+
+#attr theme.border_width 7
+attr theme.border_width 2
+attr theme.inner_width 1
+attr theme.outer_width 1
+
+attr theme.inner_color '#333333'
+#attr theme.color '#232326'
+attr theme.outer_color '#000000'
+
+attr theme.active.inner_color '#555555'
+
+
+#hc attr theme.floating.border_width 2
+#hc attr theme.floating.inner_width 1
+
 #hc attr theme.floating.outer_width 8
-hc attr theme.floating.inner_width 1
 
 #hc attr theme.background_color '#ffffff'
 #hc attr theme.inner_color '#ffffff'
@@ -199,8 +220,8 @@ hc attr theme.floating.inner_width 1
 #hc attr theme.floating.title_color '#ff0000'
 
 #hc attr theme.title_height 15
-#hc attr theme.title_font 'Dejavu Sans:pixelsize=12'  # example using Xft
-## hc attr theme.title_font '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
+##hc attr theme.title_font 'Dejavu Sans:pixelsize=12'  # example using Xft
+#hc attr theme.title_font '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
 #hc attr theme.padding_top 2  # space below the title's baseline (i.e. text depth)
 #hc attr theme.active.color '#345F0Cef'
 #hc attr theme.title_color '#ffffff'
@@ -209,10 +230,10 @@ hc attr theme.floating.inner_width 1
 #hc attr theme.normal.title_color '#898989'
 #hc attr theme.inner_width 1
 #hc attr theme.inner_color black
-#hc attr theme.border_width 1
-#hc attr theme.floating.border_width 4
-#hc attr theme.floating.outer_width 1
-#hc attr theme.floating.outer_color black
+##hc attr theme.border_width 1
+##hc attr theme.floating.border_width 4
+##hc attr theme.floating.outer_width 1
+##hc attr theme.floating.outer_color black
 #hc attr theme.active.inner_color '#789161'
 #hc attr theme.urgent.inner_color '#9A65B0'
 #hc attr theme.normal.inner_color '#606060'
@@ -224,14 +245,10 @@ hc attr theme.floating.inner_width 1
 #hc attr theme.active.outer_width 1
 #hc attr theme.background_color '#141414'
 
-hc set window_gap 5
-hc set frame_padding -5
-hc set smart_window_surroundings off
-hc set smart_frame_surroundings off
 #hc set mouse_recenter_gap 0
-hc set focus_follows_mouse false
+#hc set focus_follows_mouse false
 
-# rules
+# -- rules
 
 hc rule hook=node_add focus=on
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
@@ -250,9 +267,7 @@ hc set tree_style '╾│ ├└╼─┐'
 # unlock, just to be sure
 hc unlock
 
-# do multi monitor setup here, e.g.:
 hc set_monitors 1920x1080+0+0 1920x1080+1920+0
-# or simply:
 # hc detect_monitors
 
 # find the panel
