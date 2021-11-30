@@ -1,14 +1,32 @@
 #zmodload zsh/zprof
 
-# ;; xdeb
+# ;; void: xdeb
 export XDEB_PKGROOT=$HOME/.cache/xdeb
 
 # ;; defaults
 
-export PATH=$HOME/.garden/bin:$HOME/.garden/etc/polybar/modules:$HOME/.local/share/gem/ruby/3.0.0/bin:$HOME/code/jdk-17.0.1+12/bin:$HOME/code/apache-ant-1.10.12/bin:$HOME/code/node-v16.13.0-linux-x64/bin:$PATH
 export EDITOR=nvim
 export TERMINAL=alacritty
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 --margin=0,2 --pointer="›" --prompt="  "'
+
+export GARDEN=~/.garden
+
+# ;; path
+
+pathadd() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+  fi
+}
+
+if [ -d "$GARDEN" ]; then
+  pathadd "$GARDEN/bin"
+  for d in "$GARDEN/bin/"*; do
+    if [ -d "$d" ]; then
+      pathadd "$d"
+    fi
+  done
+fi
 
 # ;; setopts
 

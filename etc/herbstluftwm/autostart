@@ -137,7 +137,7 @@ and . compare tags.focus.curframe_wcount gt 1
 ki $Mod-Tab "${cycle_layouts[@]}"
 
 # fmenu
-#ki $Mod-Tab spawn fmenu # mod-backspace? or reserve for scribe maybe
+ki $Mod-BackSpace spawn scribe
 
 # mouse
 hc mousebind $Mod-Button1 move
@@ -156,7 +156,7 @@ hc mousebind $Mod-Button3 resize
 
 # -- theme
 
-hc set smart_window_surroundings on # remove window borders and gaps when only one window in frame
+hc set smart_window_surroundings off # remove window borders and gaps when only one window in frame
 hc set smart_frame_surroundings on # shouldn't this disable... frame_color too?
 
 # gaps

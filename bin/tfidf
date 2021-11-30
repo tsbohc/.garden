@@ -8,7 +8,7 @@
 # idf(i)     = log10(n/df_i)
 # tfidf(ij)  = tf(ij) * idf(i)
 
-dir=$1
+[[ -z $1 ]] && exit ; dir=$1
 
 tf() { # <tf(ij)> <text-j> <term-i>
   grep -o -E '[A-Za-z]+' "$dir/"* \

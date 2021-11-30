@@ -30,7 +30,9 @@ bottom = true
 
 modules-left = wttr
 modules-center = hc-tags
-modules-right = date nerd-clock
+modules-right = date
+
+# nerd-clock
 
 [module/xwindow]
 type = internal/xwindow

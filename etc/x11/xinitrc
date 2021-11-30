@@ -12,5 +12,7 @@ for program in $autostart; do
   pidof -s "$program" || setsid -f "$program"
 done >/dev/null 2>&1
 
+xset r 66 # repeat caps lock
 xset r rate 250 36 # set key repeat rate: 250ms delay, 40/s
+
 exec herbstluftwm --locked

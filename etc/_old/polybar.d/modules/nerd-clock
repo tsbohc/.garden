@@ -1,7 +1,0 @@
-#!/bin/bash
-
-i="$(date +"%l")"
-i="${i/ /}"
-
-icons=(              )
-echo "${icons[$i]}"

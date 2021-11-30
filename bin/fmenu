@@ -1,25 +1,23 @@
 #!/bin/bash
 
-#: dmenu-like terminal window powered by fzf
+#: dmenu-like floating terminal window powered by fzf
 
 name="fzfmenu"
 
 #st bash -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"
 
+# check if matches regex?
+if [[ $1 == *':'* ]]; then
+  dimensions=$1 ; shift
+else
+  dimensions=80:8
+fi
+
 alacritty \
   --class floatingTerminal,floatingTerminal \
   -t "$name" \
-  -o "window.dimensions.columns=90" \
-  -o "window.dimensions.lines=6" \
+  -o "window.dimensions.columns=${dimensions%%:*}" \
+  -o "window.dimensions.lines=${dimensions##*:}" \
   -o "window.padding.x=0" \
-  -o "window.padding.y=16" \
-  -e sh -c "fzf $* --info=hidden \
-                   --no-multi \
-                   --no-unicode \
-                   --tiebreak=end \
-                   --no-sort \
-                   --tac \
-                   --bind tab:down \
-                   --bind shift-tab:up \
-                   --bind change:first \
-                   < /proc/$$/fd/0 > /proc/$$/fd/1"
+  -o "window.padding.y=10" \
+  -e sh -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"

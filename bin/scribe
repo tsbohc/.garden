@@ -1,16 +1,6 @@
 #!/bin/bash
 
 
-#tags() {
-#  awk -F ":" '
-#  {
-#    if (length($2) > 2 && $2 > 0.5) tags[$1]=tags[$1]" "$2
-#  } END {
-#    for (text in tags) print text tags[text]
-#  }' <(tfidf)
-#}
-#tags | fzf --preview 'cat {1}' --preview-window=up --no-info
-
 # hmmmmmmmmmmmmmmmmm what if i tf-idf this stuff?
 # impementing tf-idf with bash is prolly gonna be interesting
 # or at least remove all prepositions and very common words
@@ -33,38 +23,76 @@ new() { # new note with optional content
   echo "$name"
 }
 
-list() { # list existing notes
-  echo "<new>"
-  #while read -r line; do
-  #  echo "$line"
-  #done < <(rg . "$notes" --no-heading --no-line-number)
-  for f in "$notes"/*; do
-    name=${f/$notes\//} ; name=${name/.md/}
-    peek="$(cat "$f" | tr '\n' ' ')"
-    echo "$name $peek"
-  done
+tags() {
+  awk '
+  {
+    if (length($2) > 2 && $3 > 0.1 && length(tags[$1]) < 500) tags[$1]=tags[$1]" "$2
+  } END {
+    for (text in tags) print text tags[text]
+  }' <(tfidf "$notes")
 }
 
-if [ -p /dev/stdin ]; then
-  input=""
-  while IFS= read -r line; do
-    input+="$line
-"
-  done
-  new "$input"
-elif [ -n "$1" ]; then
-  new "$*"
-else
-  selection="$(list \
-    | fzf --info=hidden \
-          --preview 'cat ~/.garden/usr/notes/{1}.md' \
-    | awk -F ' ' '{ print $1 }')"
-  if [[ -n $selection ]]; then
-    if [[ $selection == "<new>" ]]; then
-      "$EDITOR" "$notes/$(new).md"
-    else
-      "$EDITOR" "$notes/$selection.md"
-    fi
-  fi
+_fmenu() {
+  local opt;
+  opt=(
+    80:16
+    --exact
+    --no-hscroll
+    --info=hidden
+    --no-sort
+    --with-nth=2..
+    --tiebreak=begin
+    --tac
+    --preview="cat\ {1}"
+    --preview-window='right'
+    --bind tab:down
+    --bind shift-tab:up
+    --bind change:first)
+  fmenu "${opt[@]}"
+}
+
+selection="$(tags | _fmenu | awk '{ print $1 }')"
+
+if [[ -n $selection ]]; then
+  alacritty -e sh -c "$EDITOR $selection"
 fi
 
+#tfidf "$notes"
+#tags #| fzf --preview 'cat {1}' --preview-window=up --no-info
+
+
+#list() { # list existing notes
+#  echo "<new>"
+#  #while read -r line; do
+#  #  echo "$line"
+#  #done < <(rg . "$notes" --no-heading --no-line-number)
+#  for f in "$notes"/*; do
+#    name=${f/$notes\//} ; name=${name/.md/}
+#    peek="$(cat "$f" | tr '\n' ' ')"
+#    echo "$name $peek"
+#  done
+#}
+#
+#if [ -p /dev/stdin ]; then
+#  input=""
+#  while IFS= read -r line; do
+#    input+="$line
+#"
+#  done
+#  new "$input"
+#elif [ -n "$1" ]; then
+#  new "$*"
+#else
+#  selection="$(list \
+#    | fzf --info=hidden \
+#          --preview 'cat ~/.garden/usr/notes/{1}.md' \
+#    | awk -F ' ' '{ print $1 }')"
+#  if [[ -n $selection ]]; then
+#    if [[ $selection == "<new>" ]]; then
+#      "$EDITOR" "$notes/$(new).md"
+#    else
+#      "$EDITOR" "$notes/$selection.md"
+#    fi
+#  fi
+#fi
+#
