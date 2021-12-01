@@ -13,6 +13,7 @@
 (se- number)
 (se- relativenumber)
 (se- cursorline)
+(se- colorcolumn :80) ; why
 (se- showmatch)
 (se- matchtime 2)
 (se- [:append] shortmess "IcT")

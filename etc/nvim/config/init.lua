@@ -75,7 +75,16 @@ packer.startup({function(use)
       vim.g.indentLine_setColors = 0
       vim.g.indentLine_char = '·'
       vim.g.indentLine_fileTypeExclude = { 'markdown' }
-    end }
+    end
+  }
+
+  -- nvim 0.6
+  --use { 'lukas-reineke/virt-column.nvim',
+  --  config = function()
+  --    require('virt-column').setup({ char = '·' })
+  --    vim.cmd([[set colorcolumn=80]])
+  --  end
+  --}
 
   -- lisp
   use { 'guns/vim-sexp',

@@ -1,26 +1,21 @@
 #!/bin/bash
 
-
-# hmmmmmmmmmmmmmmmmm what if i tf-idf this stuff?
-# impementing tf-idf with bash is prolly gonna be interesting
-# or at least remove all prepositions and very common words
-
-# i dunno, clunky.
+#: note keeping script
 
 # wants:
-# fzf based
-# filenames are <unix-timestamp>.md
-# fzf with unix-timestamp (or date) + first n characters (or more) + fzf's preview on the right
-# pipe stuff into the script to create a new note with output
-# todo lists? vim-specific i guess
-# <new> as the topmost thing in fzf, i.e $ scribe<enter><enter> instantly opens a new note
+# + filenames are <unix-timestamp>.md
+# - fzf: first line of the note + tfidf, preview window
+# + tfidf
+# - sc n | create a new note
+# - a keybind that will instantly open a new note
+# - an alias (probably 'sc') for opening the note browser
+# - <new> as the topmost thing in fzf, i.e $ scribe<enter><enter> instantly opens a new note
 
 notes="$HOME/.garden/usr/notes"
 
-new() { # new note with optional content
+new() { # new note
   name="$(date +%s)"
-  echo "$*" >> "$notes/$name.md"
-  echo "$name"
+  echo "$notes/$name.md"
 }
 
 tags() {
@@ -51,10 +46,14 @@ _fmenu() {
   fmenu "${opt[@]}"
 }
 
-selection="$(tags | _fmenu | awk '{ print $1 }')"
+if [[ $1 == "new" ]]; then
+  nvim "$(new)"
+else
+  selection="$(tags | _fmenu | awk '{ print $1 }')"
 
-if [[ -n $selection ]]; then
-  alacritty -e sh -c "$EDITOR $selection"
+  if [[ -n $selection ]]; then
+    alacritty -e sh -c "$EDITOR $selection"
+  fi
 fi
 
 #tfidf "$notes"
