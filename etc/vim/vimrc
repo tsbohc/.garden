@@ -1,0 +1,66 @@
+set nocompatible
+
+if has('filetype')
+  filetype indent plugin on
+endif
+
+if has('syntax')
+  syntax on
+endif
+
+set showcmd
+set hlsearch
+
+set ignorecase
+set smartcase
+
+set backspace=indent,eol,start
+set autoindent
+
+set nostartofline
+
+set ruler
+
+set number
+set relativenumber
+
+set laststatus=2
+
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+
+noremap <c-h> <c-w>h
+noremap <c-n> <c-w>j
+noremap <c-e> <c-w>k
+noremap <c-i> <c-w>l
+
+noremap N <c-d>
+noremap E <c-u>
+noremap H 0
+noremap I $
+
+noremap e gk
+noremap n gj
+
+"noremap < <gv
+"noremap > >gv
+
+noremap Y y$
+noremap U <c-r>
+
+
+noremap <c-j> J
+
+
+
+noremap i l
+noremap L I
+noremap l i
+noremap K N
+noremap k n
+noremap F f
+noremap E e
+
+
