@@ -20,15 +20,15 @@
 
 (sl.st [0 0 0 0] "%=%<")
 
-(sl.fn [:VimEnter :CursorMoved :CursorMovedI] [1 0 0 0 :LspDiagnosticsSignError]
+(sl.fn [:VimEnter :CursorMoved :CursorMovedI] [1 0 0 0 :DiagnosticSignError]
        (fn []
          (let [n (vim.lsp.diagnostic.get_count 0 "Error")]
-           (if (> n 0) (.. "%#LineNr#<%#LspDiagnosticsFloatingError#" n "%#LineNr#>") ""))))
+           (if (> n 0) (.. "%#LineNr#<%#DiagnosticVirtualTextError#" n "%#LineNr#>") ""))))
 
-(sl.fn [:VimEnter :CursorMoved :CursorMovedI] [1 0 0 0 :LspDiagnosticsSignWarning]
+(sl.fn [:VimEnter :CursorMoved :CursorMovedI] [1 0 0 0 :DiagnosticSignWarn]
   (fn []
     (let [n (vim.lsp.diagnostic.get_count 0 "Warning")]
-      (if (> n 0) (.. "%#LineNr#<%#LspDiagnosticsFloatingWarning#" n "%#LineNr#>") ""))))
+      (if (> n 0) (.. "%#LineNr#<%#DiagnosticVirtualTextWarn#" n "%#LineNr#>") ""))))
 
 (sl.fn [:BufEnter :BufWritePost] [1 0 0 0]
   (fn [] (vim.fn.expand "%:p:~:h")))

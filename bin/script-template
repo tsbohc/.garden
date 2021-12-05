@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+#: this is a script template
+
+help() { # helper function
+  echo "i'm helping"
+}
+
+@ar() { # do stuff with <arg>
+  echo "doing stuff"
+  help
+}
+
+@y() { # nothing
+  :
+}
+
+@12345678() { # another do stuff with <arg>
+  echo "doing stuff with $1"
+  help
+}
+
+# TODO
+# make the variables less likely to appear elsewhere
+# [[ ! $1 =~ -h|--help ]] && is implicit (i won't call a function @-h, lol)
+
+while read -r _ _ f; do
+  if [[ "${f:0:1}" == "@" ]]; then
+    (( ${#f} > max )) && max=${#f}
+    fn+=("${f:1}")
+  fi
+done < <(declare -F)
+
+if [[ " ${fn[*]} " == *" $1 "* ]]; then
+  f=$1 ; shift ; "@$f" "$@"
+else
+  echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n\nUSAGE
+  \$ ${0##*/} <operation> [arguments]\n"
+  for f in "${fn[@]}"; do
+    echo -n "  {$f}"
+    for ((i = 0; i < max - ${#f} + 1; ++i)); do echo -n " "; done
+    grep -Po -m 1 "^@$f\(\) { # \K.*" "$0"
+  done
+fi
+

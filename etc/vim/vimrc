@@ -53,14 +53,9 @@ noremap U <c-r>
 
 noremap <c-j> J
 
-
-
 noremap i l
 noremap L I
 noremap l i
 noremap K N
 noremap k n
 noremap F f
-noremap E e
-
-

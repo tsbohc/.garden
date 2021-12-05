@@ -157,7 +157,6 @@ packer.startup({function(use)
 
   -- treesitter
   use { 'nvim-treesitter/nvim-treesitter',
-    branch = '0.5-compat',
     run = ':TSUpdate',
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -168,8 +167,13 @@ packer.startup({function(use)
   }
 
   -- lsp
+  use { 'neovim/nvim-lspconfig' }
+
+  -- $ npm i -g bash-language-server
+  require'lspconfig'.bashls.setup{}
+
   use { 'jose-elias-alvarez/null-ls.nvim',
-    requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       local null_ls = require('null-ls')
       null_ls.config({
@@ -178,14 +182,20 @@ packer.startup({function(use)
               diagnostics_format = '#{m} #{c}'
             }),
             null_ls.builtins.formatting.fnlfmt,
+            null_ls.builtins.completion.vsnip,
             --null_ls.builtins.diagnostics.proselint,
           },
       })
+
       require("lspconfig")["null-ls"].setup({})
-      vim.fn.sign_define('LspDiagnosticsSignError', { text = '░', texthl = 'LspDiagnosticsSignError' })
-      vim.fn.sign_define('LspDiagnosticsSignWarning', { text = '░', texthl = 'LspDiagnosticsSignWarning' })
-      vim.fn.sign_define('LspDiagnosticsSignInformation', { text = '░', texthl = 'LspDiagnosticsSignInformation' })
-      vim.fn.sign_define('LspDiagnosticsSignHint', { text = '░', texthl = 'LspDiagnosticsSignHint' })
+      --require("lspconfig")["null-ls"].setup({
+      --  capabilities = capabilities
+      --})
+
+      vim.fn.sign_define("DiagnosticSignError", { text = "░", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn", { text = "░", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInformation", { text = "░", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint", { text = "░", texthl = "DiagnosticSignHint" })
     end
   }
 
@@ -198,15 +208,14 @@ packer.startup({function(use)
   }
 
   use { 'hrsh7th/nvim-cmp',
-    opt = true,
-    event = { 'InsertEnter', 'CmdlineEnter' },
+    --opt = true,
+    --event = { 'InsertEnter', 'CmdlineEnter' },
     requires = {
       'hrsh7th/vim-vsnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-buffer',
-      --'ray-x/cmp-treesitter',
     },
     config = function()
       local cmp = require'cmp'
@@ -252,7 +261,7 @@ packer.startup({function(use)
            { name = 'vsnip' },
          }, {
            { name = 'path' },
-           { name = 'buffer' },
+           --{ name = 'buffer' },
          })
        }
        cmp.setup.cmdline('/', {
@@ -269,7 +278,6 @@ packer.startup({function(use)
        })
     end
   }
-
 
 end,
 config = {
