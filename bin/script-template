@@ -1,45 +1,200 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090
 
-#: this is a script template
+#: this is a test
 
-help() { # helper function
-  echo "i'm helping"
+import() { # transpile toml-like config into into bash variables
+  local prefix=$2
+  local section_re='^\[(.*)\]'
+  local kvpair_re='(.*)[[:space:]]=[[:space:]](.*)'
+  local import_re='\$\((import[[:space:]].*)\)'
+  while read -r line; do
+    if [[ $line =~ $section_re ]]; then
+      local section=${BASH_REMATCH[1]/\./\_}_
+    elif [[ $line =~ $kvpair_re ]]; then
+      if [[ $prefix == "$section" ]]; then
+        echo "__${section}${BASH_REMATCH[1]}=${BASH_REMATCH[2]}"
+      else
+        echo "__${prefix}${section}${BASH_REMATCH[1]}=${BASH_REMATCH[2]}"
+      fi
+    elif [[ $line =~ $import_re ]]; then
+      eval "${BASH_REMATCH[1]} ${section}"
+    fi
+  done < "$REPO/hori-hori/$1"
 }
 
-@ar() { # do stuff with <arg>
-  echo "doing stuff"
-  help
+template() { # render a string with config as context
+  local input=$1
+  local expr_re='\{%[[:space:]]([^ ]+)[[:space:]]%\}'
+  local leaf_re='\{([^\{\}]+)\}'
+  while [[ $input =~ $expr_re ]]; do
+    expr=${BASH_REMATCH[0]}
+    body=${BASH_REMATCH[1]}
+    while [[ $body =~ $leaf_re ]]; do
+      key=__${BASH_REMATCH[1]}
+      body=${body/${BASH_REMATCH[0]}/${!key}}
+    done
+    input=${input/$expr/$body}
+  done
+  echo "$input"
 }
 
-@y() { # nothing
-  :
+# -- actions
+
+render() { # render <file> and return its path
+  local source=$REPO/$PACK/$1
+  local target=$HORI/$PACK/$1
+  mkdir -p "$(dirname "$target")"
+  template "$(<"$source")" > "$target"
+  echo "$target"
 }
 
-@12345678() { # another do stuff with <arg>
-  echo "doing stuff with $1"
-  help
+link() { # create symlink from <source> to <target>
+  [[ $1 == *"$HORI"* ]] && local source=$1 || local source=$REPO/$PACK/$1
+  local target=${2/\~/$HOME}
+  mkdir -p "$(dirname "$target")" # TODO replace with string manipulation
+  ln -sfn "$source" "$target"
 }
 
-# TODO
-# make the variables less likely to appear elsewhere
-# [[ ! $1 =~ -h|--help ]] && is implicit (i won't call a function @-h, lol)
+unlink() { # remove <symlink>
+  local target=${1/\~/$HOME}
+  [[ -L $target ]] && rm "$target"
+}
+
+launch() { # kill existing <process> and run <command>
+  pkill -x "$1" ; sleep 0.2 ; "$@"
+}
+
+install() { # just list the needed packages one per line
+  local IFS=$'\n' ; echo "$*"
+}
+
+# -- trigger
+
+@hook() { # execute <hook> in <package(s)>
+  local h=$1 ; shift
+  case $* in
+    -i|--installed) packages=("$HORI/"*) ;; # TODO could packages be local?
+    -a|--available) packages=("$REPO/"*) ;;
+    *) packages=("$@") ;;
+  esac
+  for p in "${packages[@]}"; do
+    p=${p##*/} ; PACK=$p ; (
+      . "$REPO/$p/hori.sh"
+      if declare -F "$h" > /dev/null; then
+        #case $h in
+        #  add) mkdir -p "$HORI/$2" ;; # FIXME setup -> add
+        #esac
+        echo "hook: '$h' in '$p'"
+        #"$h" "$2" "$@"
+        #case $h in
+        #  del) [[ -d "${HORI:?}/$2" ]] && rm -r "${HORI:?}/$2" ;; # FIXME remove -> del
+        #esac
+      fi
+    ) ; unset PACK
+  done
+}
+
+@ls() { # list packages (-i | -a)
+  case $* in
+    -i|--installed) packages=("$HORI/"*) ;; # TODO could packages be local?
+    -a|--available|"") packages=("$REPO/"*) ;;
+  esac
+  for p in "${packages[@]}"; do
+    p="${p##*/}"
+    [[ -f "$REPO/$p/hori.sh" ]] && echo "$p"
+  done
+}
+
+# -- prep
+
+HORI="$HOME/.config/hori"
+REPO="$(find ~ -type f -name "repository.hori" -print -quit)" ; REPO=${REPO%/*}
+[[ -z $REPO ]] && { echo "could not find repo, aborting..." ; exit ; }
+eval "$(import conf)" && conf_status="evaluated"
+
+help() { # print this message
+  echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n\nUSAGE
+  \$ ${0##*/} <operation> [arguments]\n"
+  for f in "${fn[@]}"; do
+    echo -n "  {$f}"
+    printf "%-$(( max - ${#f} + 1 ))s" " "
+    grep -Po -m 1 "^@$f\(\) [{|(] # \K.*" "$0"
+  done
+  echo -e "\nSTATUS
+  repo: $REPO
+  conf: $conf_status"
+}
+
+# -- main
 
 while read -r _ _ f; do
+  # TODO use something else for this, like a special commend like #@ or something
   if [[ "${f:0:1}" == "@" ]]; then
     (( ${#f} > max )) && max=${#f}
     fn+=("${f:1}")
   fi
 done < <(declare -F)
 
-if [[ " ${fn[*]} " == *" $1 "* ]]; then
-  f=$1 ; shift ; "@$f" "$@"
-else
-  echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n\nUSAGE
-  \$ ${0##*/} <operation> [arguments]\n"
-  for f in "${fn[@]}"; do
-    echo -n "  {$f}"
-    for ((i = 0; i < max - ${#f} + 1; ++i)); do echo -n " "; done
-    grep -Po -m 1 "^@$f\(\) { # \K.*" "$0"
-  done
-fi
+a=$1 ; shift
+case $a in
+  -h|--help) help ;;
+  -*) @hook "${a:1}" "$@" ;;
+  *)
+    if [[ -n $a ]] && [[ " ${fn[*]} " == *" $a "* ]]; then
+      "@$a" "$@"
+    else
+      help
+    fi
+    ;;
+esac
 
+
+# TODO
+# generate help for actions insead
+
+
+
+
+
+
+
+# TODO
+# make the variables less likely to appear elsewhere
+# [[ ! $1 =~ -h|--help ]] && is implicit (i won't call a function @-h, lol)
+#for ((i = 0; i < max - ${#f} + 1; ++i)); do echo -n " "; done
+
+# bad
+# cannot alias functions to flags
+# have to have a separate function for each passed operation (thought forces to organise code better (?))
+
+
+# hori TODO
+# add --dunst option to show notifications?
+
+# list hooks inside a package # TODO needed?
+#   $ hori ls zsh
+#
+# TODO i'd rather have a list of actions with descriptons
+
+
+
+#@ls() {
+#  if [[ -z $* ]]; then
+#    packages=("$REPO/"*)
+#    for p in "${packages[@]}"; do
+#      p="${p##*/}"
+#      [[ -f "$REPO/$p/hori.sh" ]] && {
+#        [[ -d "$HORI/$p" ]] && a="1" || a="0"
+#        echo "$a $p"
+#      }
+#    done
+#  else
+#    (
+#    . "$REPO/$1/hori.sh"
+#    while read -r _ _ f; do
+#      [[ ! ${FUNCNAME[0]} == "$f" ]] && echo "$f"
+#    done < <(declare -F)
+#    )
+#  fi
+#}
