@@ -1,0 +1,390 @@
+(N) 2021-12-06T21:17:47 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T21:17:47 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T21:17:47 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T21:17:47 - Peer ID: -qB4400-
+(N) 2021-12-06T21:17:47 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T21:17:47 - DHT support [ON]
+(I) 2021-12-06T21:17:47 - Local Peer Discovery support [ON]
+(I) 2021-12-06T21:17:47 - PeX support [ON]
+(I) 2021-12-06T21:17:47 - Anonymous mode [OFF]
+(I) 2021-12-06T21:17:47 - Encryption support [ON]
+(I) 2021-12-06T21:17:47 - UPnP / NAT-PMP support [ON]
+(W) 2021-12-06T21:17:47 - Couldn't load IP geolocation database. Reason: No such file or directory
+(N) 2021-12-06T21:17:47 - Using built-in Web UI.
+(W) 2021-12-06T21:17:47 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T21:17:47 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T21:17:47 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T21:17:47 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:17:47 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:17:47 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T21:17:47 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T21:17:47 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(I) 2021-12-06T21:17:47 - Successfully updated IP geolocation database.
+(I) 2021-12-06T21:17:48 - Successfully listening on IP: fe80::1c85:64ff:fefe:69db%tap0, port: TCP/20577
+(I) 2021-12-06T21:17:48 - Successfully listening on IP: fe80::1c85:64ff:fefe:69db%tap0, port: UDP/20577
+(N) 2021-12-06T21:17:54 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-06T21:18:31 - Using custom Web UI. Location: "/data/webui".
+(N) 2021-12-06T21:18:31 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:19:23 - Using built-in Web UI.
+(N) 2021-12-06T21:19:23 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:20:38 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:21:38 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:21:47 - Using custom Web UI. Location: "/data/webui".
+(N) 2021-12-06T21:21:47 - Web UI: Now listening on IP: *, port: 8080
+(W) 2021-12-06T21:22:17 - WebAPI login failure. Reason: invalid credentials, attempt count: 1, IP: ::ffff:10.0.2.100, username: 
+(N) 2021-12-06T21:22:28 - WebAPI login success. IP: ::ffff:10.0.2.100
+(I) 2021-12-06T21:23:24 - Python not detected
+(I) 2021-12-06T21:23:25 - Plugin "eztv" is outdated, updating to version 1.14
+(I) 2021-12-06T21:23:25 - Plugin "jackett" is outdated, updating to version 3.5
+(I) 2021-12-06T21:23:25 - Plugin "legittorrents" is outdated, updating to version 2.5
+(I) 2021-12-06T21:23:25 - Plugin "limetorrents" is outdated, updating to version 4.6
+(I) 2021-12-06T21:23:25 - Plugin "piratebay" is outdated, updating to version 3.1
+(I) 2021-12-06T21:23:25 - Plugin "rarbg" is outdated, updating to version 2.14
+(I) 2021-12-06T21:23:25 - Plugin "torlock" is outdated, updating to version 2.21
+(I) 2021-12-06T21:23:25 - Plugin "torrentscsv" is outdated, updating to version 1.2
+(I) 2021-12-06T21:23:25 - Plugin "zooqle" is outdated, updating to version 1.14
+(I) 2021-12-06T21:23:25 - Updating 9 plugins
+(I) 2021-12-06T21:23:25 - Updating plugin eztv
+(I) 2021-12-06T21:23:25 - Updating plugin rarbg
+(I) 2021-12-06T21:23:25 - Updating plugin torrentscsv
+(I) 2021-12-06T21:23:25 - Updating plugin jackett
+(I) 2021-12-06T21:23:25 - Updating plugin zooqle
+(I) 2021-12-06T21:23:25 - Updating plugin piratebay
+(I) 2021-12-06T21:23:25 - Updating plugin limetorrents
+(I) 2021-12-06T21:23:25 - Updating plugin torlock
+(I) 2021-12-06T21:23:25 - Updating plugin legittorrents
+(I) 2021-12-06T21:23:27 - Python not detected
+(I) 2021-12-06T21:23:27 - Plugin piratebay is not supported.
+(I) 2021-12-06T21:23:27 - Python not detected
+(I) 2021-12-06T21:23:27 - Plugin zooqle is not supported.
+(I) 2021-12-06T21:23:27 - Python not detected
+(I) 2021-12-06T21:23:27 - Plugin rarbg is not supported.
+(I) 2021-12-06T21:23:27 - Python not detected
+(I) 2021-12-06T21:23:27 - Plugin torrentscsv is not supported.
+(I) 2021-12-06T21:23:28 - Python not detected
+(I) 2021-12-06T21:23:28 - Plugin jackett is not supported.
+(I) 2021-12-06T21:23:28 - Python not detected
+(I) 2021-12-06T21:23:28 - Plugin eztv is not supported.
+(I) 2021-12-06T21:23:28 - Python not detected
+(I) 2021-12-06T21:23:28 - Plugin legittorrents is not supported.
+(I) 2021-12-06T21:23:28 - Python not detected
+(I) 2021-12-06T21:23:28 - Plugin torlock is not supported.
+(I) 2021-12-06T21:23:28 - Python not detected
+(I) 2021-12-06T21:23:28 - Plugin limetorrents is not supported.
+(I) 2021-12-06T21:23:39 - Python not detected
+(N) 2021-12-06T21:24:28 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:25:04 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:25:22 - Using built-in Web UI.
+(N) 2021-12-06T21:25:22 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T21:26:13 - Plugin "eztv" is outdated, updating to version 1.14
+(I) 2021-12-06T21:26:13 - Plugin "jackett" is outdated, updating to version 3.5
+(I) 2021-12-06T21:26:13 - Plugin "legittorrents" is outdated, updating to version 2.5
+(I) 2021-12-06T21:26:13 - Plugin "limetorrents" is outdated, updating to version 4.6
+(I) 2021-12-06T21:26:13 - Plugin "piratebay" is outdated, updating to version 3.1
+(I) 2021-12-06T21:26:13 - Plugin "rarbg" is outdated, updating to version 2.14
+(I) 2021-12-06T21:26:13 - Plugin "torlock" is outdated, updating to version 2.21
+(I) 2021-12-06T21:26:13 - Plugin "torrentscsv" is outdated, updating to version 1.2
+(I) 2021-12-06T21:26:13 - Plugin "zooqle" is outdated, updating to version 1.14
+(I) 2021-12-06T21:26:13 - Updating 9 plugins
+(I) 2021-12-06T21:26:13 - Updating plugin eztv
+(I) 2021-12-06T21:26:13 - Updating plugin rarbg
+(I) 2021-12-06T21:26:13 - Updating plugin torrentscsv
+(I) 2021-12-06T21:26:13 - Updating plugin jackett
+(I) 2021-12-06T21:26:13 - Updating plugin zooqle
+(I) 2021-12-06T21:26:13 - Updating plugin piratebay
+(I) 2021-12-06T21:26:13 - Updating plugin limetorrents
+(I) 2021-12-06T21:26:13 - Updating plugin torlock
+(I) 2021-12-06T21:26:13 - Updating plugin legittorrents
+(I) 2021-12-06T21:26:13 - Updating 9 plugins
+(I) 2021-12-06T21:26:13 - Updating plugin eztv
+(I) 2021-12-06T21:26:13 - Updating plugin rarbg
+(I) 2021-12-06T21:26:13 - Updating plugin torrentscsv
+(I) 2021-12-06T21:26:13 - Updating plugin jackett
+(I) 2021-12-06T21:26:13 - Updating plugin zooqle
+(I) 2021-12-06T21:26:13 - Updating plugin piratebay
+(I) 2021-12-06T21:26:13 - Updating plugin limetorrents
+(I) 2021-12-06T21:26:13 - Updating plugin torlock
+(I) 2021-12-06T21:26:13 - Updating plugin legittorrents
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin eztv is not supported.
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin jackett is not supported.
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin rarbg is not supported.
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin piratebay is not supported.
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin zooqle is not supported.
+(I) 2021-12-06T21:26:13 - Python not detected
+(I) 2021-12-06T21:26:13 - Plugin limetorrents is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin torrentscsv is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin eztv is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin legittorrents is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin jackett is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin torrentscsv is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin rarbg is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin limetorrents is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin piratebay is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin zooqle is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin torlock is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin legittorrents is not supported.
+(I) 2021-12-06T21:26:14 - Python not detected
+(I) 2021-12-06T21:26:14 - Plugin torlock is not supported.
+(I) 2021-12-06T21:37:21 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T21:47:08 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T21:47:08 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T21:47:08 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T21:47:08 - Peer ID: -qB4400-
+(N) 2021-12-06T21:47:08 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T21:47:08 - DHT support [ON]
+(I) 2021-12-06T21:47:08 - Local Peer Discovery support [ON]
+(I) 2021-12-06T21:47:08 - PeX support [ON]
+(I) 2021-12-06T21:47:08 - Anonymous mode [OFF]
+(I) 2021-12-06T21:47:08 - Encryption support [ON]
+(I) 2021-12-06T21:47:08 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T21:47:08 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T21:47:08 - Using built-in Web UI.
+(W) 2021-12-06T21:47:08 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T21:47:08 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T21:47:08 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T21:47:08 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:47:08 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:47:08 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T21:47:08 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T21:47:09 - Successfully listening on IP: fe80::ec19:7aff:fe23:4deb%tap0, port: TCP/20577
+(I) 2021-12-06T21:47:09 - Successfully listening on IP: fe80::ec19:7aff:fe23:4deb%tap0, port: UDP/20577
+(N) 2021-12-06T21:47:12 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-06T21:47:26 - Using custom Web UI. Location: "/data/webui".
+(N) 2021-12-06T21:47:26 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T21:47:34 - Using built-in Web UI.
+(N) 2021-12-06T21:47:34 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T21:47:59 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T21:53:42 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T21:53:42 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T21:53:42 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T21:53:42 - Peer ID: -qB4400-
+(N) 2021-12-06T21:53:42 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T21:53:42 - DHT support [ON]
+(I) 2021-12-06T21:53:42 - Local Peer Discovery support [ON]
+(I) 2021-12-06T21:53:42 - PeX support [ON]
+(I) 2021-12-06T21:53:42 - Anonymous mode [OFF]
+(I) 2021-12-06T21:53:42 - Encryption support [ON]
+(I) 2021-12-06T21:53:42 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T21:53:42 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T21:53:42 - Using built-in Web UI.
+(W) 2021-12-06T21:53:42 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T21:53:42 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T21:53:42 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T21:53:42 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:53:42 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T21:53:42 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T21:53:42 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T21:53:43 - Successfully listening on IP: fe80::c41a:18ff:fe42:d115%tap0, port: TCP/20577
+(I) 2021-12-06T21:53:43 - Successfully listening on IP: fe80::c41a:18ff:fe42:d115%tap0, port: UDP/20577
+(N) 2021-12-06T21:53:50 - WebAPI login success. IP: ::ffff:10.0.2.100
+(I) 2021-12-06T22:02:53 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:03:53 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:03:53 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:03:53 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:03:53 - Peer ID: -qB4400-
+(N) 2021-12-06T22:03:53 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:03:53 - DHT support [ON]
+(I) 2021-12-06T22:03:53 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:03:53 - PeX support [ON]
+(I) 2021-12-06T22:03:53 - Anonymous mode [OFF]
+(I) 2021-12-06T22:03:53 - Encryption support [ON]
+(I) 2021-12-06T22:03:53 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:03:53 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:03:53 - Using built-in Web UI.
+(W) 2021-12-06T22:03:53 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:03:53 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:03:53 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T22:03:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:03:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:03:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:03:53 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:03:54 - Successfully listening on IP: fe80::a4cd:a6ff:fec3:45c4%tap0, port: TCP/20577
+(I) 2021-12-06T22:03:54 - Successfully listening on IP: fe80::a4cd:a6ff:fec3:45c4%tap0, port: UDP/20577
+(I) 2021-12-06T22:04:07 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:04:28 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:04:28 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:04:28 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:04:28 - Peer ID: -qB4400-
+(N) 2021-12-06T22:04:28 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:04:28 - DHT support [ON]
+(I) 2021-12-06T22:04:28 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:04:28 - PeX support [ON]
+(I) 2021-12-06T22:04:28 - Anonymous mode [OFF]
+(I) 2021-12-06T22:04:28 - Encryption support [ON]
+(I) 2021-12-06T22:04:28 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:04:28 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:04:28 - Using built-in Web UI.
+(W) 2021-12-06T22:04:28 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:04:28 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:04:28 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T22:04:28 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:04:28 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:04:28 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:04:28 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:04:30 - Successfully listening on IP: fe80::f849:d3ff:fe25:1f83%tap0, port: TCP/20577
+(I) 2021-12-06T22:04:30 - Successfully listening on IP: fe80::f849:d3ff:fe25:1f83%tap0, port: UDP/20577
+(I) 2021-12-06T22:07:14 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:07:20 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:07:20 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:07:20 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:07:20 - Peer ID: -qB4400-
+(N) 2021-12-06T22:07:20 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:07:20 - DHT support [ON]
+(I) 2021-12-06T22:07:20 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:07:20 - PeX support [ON]
+(I) 2021-12-06T22:07:20 - Anonymous mode [OFF]
+(I) 2021-12-06T22:07:20 - Encryption support [ON]
+(I) 2021-12-06T22:07:20 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:07:20 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:07:20 - Using built-in Web UI.
+(W) 2021-12-06T22:07:20 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:07:20 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:07:20 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T22:07:20 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:07:20 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:07:20 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:07:20 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:07:21 - Successfully listening on IP: fe80::f021:a5ff:fe5b:d0b4%tap0, port: TCP/20577
+(I) 2021-12-06T22:07:21 - Successfully listening on IP: fe80::f021:a5ff:fe5b:d0b4%tap0, port: UDP/20577
+(I) 2021-12-06T22:07:24 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:07:54 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:07:54 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:07:54 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:07:54 - Peer ID: -qB4400-
+(N) 2021-12-06T22:07:54 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:07:54 - DHT support [ON]
+(I) 2021-12-06T22:07:54 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:07:54 - PeX support [ON]
+(I) 2021-12-06T22:07:54 - Anonymous mode [OFF]
+(I) 2021-12-06T22:07:54 - Encryption support [ON]
+(I) 2021-12-06T22:07:54 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:07:54 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:07:54 - Using built-in Web UI.
+(W) 2021-12-06T22:07:54 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:07:54 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:07:54 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-06T22:07:54 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:07:54 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:07:54 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:07:54 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:07:56 - Successfully listening on IP: fe80::64df:17ff:fe26:a207%tap0, port: TCP/20577
+(I) 2021-12-06T22:07:56 - Successfully listening on IP: fe80::64df:17ff:fe26:a207%tap0, port: UDP/20577
+(N) 2021-12-06T22:07:58 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-06T22:11:12 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T22:11:12 - Watching folder: "/data/watch"
+(I) 2021-12-06T22:11:40 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:11:53 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:11:53 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:11:53 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:11:53 - Peer ID: -qB4400-
+(N) 2021-12-06T22:11:53 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:11:53 - DHT support [ON]
+(I) 2021-12-06T22:11:53 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:11:53 - PeX support [ON]
+(I) 2021-12-06T22:11:53 - Anonymous mode [OFF]
+(I) 2021-12-06T22:11:53 - Encryption support [ON]
+(I) 2021-12-06T22:11:53 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:11:53 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:11:53 - Using built-in Web UI.
+(W) 2021-12-06T22:11:53 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:11:53 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:11:53 - Successfully listening on IP: ::1, port: UDP/20577
+(N) 2021-12-06T22:11:53 - Watching folder: "/data/watch"
+(C) 2021-12-06T22:11:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:11:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:11:53 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:11:53 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:11:55 - Successfully listening on IP: fe80::84a1:75ff:fe77:cfa9%tap0, port: TCP/20577
+(I) 2021-12-06T22:11:55 - Successfully listening on IP: fe80::84a1:75ff:fe77:cfa9%tap0, port: UDP/20577
+(N) 2021-12-06T22:12:00 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-06T22:15:00 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:15:39 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-06T22:15:45 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-06T22:15:45 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-06T22:15:45 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-06T22:15:45 - Peer ID: -qB4400-
+(N) 2021-12-06T22:15:45 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-06T22:15:45 - DHT support [ON]
+(I) 2021-12-06T22:15:45 - Local Peer Discovery support [ON]
+(I) 2021-12-06T22:15:45 - PeX support [ON]
+(I) 2021-12-06T22:15:45 - Anonymous mode [OFF]
+(I) 2021-12-06T22:15:45 - Encryption support [ON]
+(I) 2021-12-06T22:15:45 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-06T22:15:45 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-06T22:15:45 - Using built-in Web UI.
+(W) 2021-12-06T22:15:45 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-06T22:15:45 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-06T22:15:45 - Successfully listening on IP: ::1, port: UDP/20577
+(N) 2021-12-06T22:15:45 - Watching folder: "/data/watch"
+(C) 2021-12-06T22:15:45 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:15:45 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-06T22:15:45 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-06T22:15:46 - Detected external IP: 188.187.74.27
+(I) 2021-12-06T22:15:47 - Successfully listening on IP: fe80::a861:39ff:fe50:7955%tap0, port: TCP/20577
+(I) 2021-12-06T22:15:47 - Successfully listening on IP: fe80::a861:39ff:fe50:7955%tap0, port: UDP/20577
+(N) 2021-12-06T22:15:50 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-06T22:16:01 - Using custom Web UI. Location: "/data/webui".
+(N) 2021-12-06T22:16:01 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-06T22:17:41 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-06T22:18:11 - UPnP / NAT-PMP support [OFF]

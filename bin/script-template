@@ -3,6 +3,7 @@
 
 #: this is a test
 
+
 import() { # transpile toml-like config into into bash variables
   local prefix=$2
   local section_re='^\[(.*)\]'
@@ -41,7 +42,7 @@ template() { # render a string with config as context
 
 # -- actions
 
-render() { # render <file> and return its path
+render() { #!ACTIONS render <file> and return its path
   local source=$REPO/$PACK/$1
   local target=$HORI/$PACK/$1
   mkdir -p "$(dirname "$target")"
@@ -113,6 +114,33 @@ REPO="$(find ~ -type f -name "repository.hori" -print -quit)" ; REPO=${REPO%/*}
 [[ -z $REPO ]] && { echo "could not find repo, aborting..." ; exit ; }
 eval "$(import conf)" && conf_status="evaluated"
 
+
+# -- main
+
+while read -r line; do
+  re='(.*)\(\)[[:space:]]\{[[:space:]]#!([^[:space:]]*)[[:space:]](.*)'
+  if [[ $line =~ $re ]]; then
+    # (for auto: arr=(se1 se2)), but definitely assoc se[fn]=he ?
+    # skipping arr, it would still very much simplify writing help
+    # making it more or less manual is also line efficient
+    echo "fn: ${BASH_REMATCH[1]}"
+    echo "se: ${BASH_REMATCH[2]}"
+    echo "he: ${BASH_REMATCH[3]}"
+  fi
+done < "$0"
+
+exit 0
+
+
+
+
+
+
+
+
+
+
+
 help() { # print this message
   echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n\nUSAGE
   \$ ${0##*/} <operation> [arguments]\n"
@@ -125,8 +153,6 @@ help() { # print this message
   repo: $REPO
   conf: $conf_status"
 }
-
-# -- main
 
 while read -r _ _ f; do
   # TODO use something else for this, like a special commend like #@ or something
@@ -153,6 +179,14 @@ esac
 # TODO
 # generate help for actions insead
 
+
+
+# TODO
+# edit command to edit a package (hori.sh)
+# hori -edit "$(fzf hori -ls)"
+# or just bake the fzf into the command if available
+
+# cd command to go to the package directory
 
 
 

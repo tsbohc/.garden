@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#podman container rm qbittorrent ; podman rmi qbittorrent ; podman build -t qbittorrent qbittorrent ; ./ru
+
+podman run \
+  --userns=keep-id \
+  --name qbittorrent \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -v /home/tsbohc/code/null/qbittorrent-data:/data \
+  qbittorrent

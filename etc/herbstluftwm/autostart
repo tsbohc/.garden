@@ -161,22 +161,36 @@ hc set smart_frame_surroundings on # shouldn't this disable... frame_color too?
 
 # gaps
 hc set frame_gap 4
-hc set window_gap 6
-hc set frame_padding -2
+hc set window_gap 4
+hc set frame_padding 0
 
 # frames
-hc set frame_bg_normal_color '#03030300'
+#hc set frame_bg_normal_color '#03030300'
+#hc set frame_normal_opacity 30
+#hc set frame_bg_active_color '#09090900'
+#hc set frame_active_opacity 70
+#
+#hc set frame_border_normal_color '#000000'
+#hc set frame_border_active_color '#000000'
+#
+#hc set frame_border_inner_color '#ffffff'
+#
+#hc set frame_border_width 2
+#hc set frame_border_inner_width 1
+
+hc set frame_bg_normal_color '#15151500'
 hc set frame_normal_opacity 30
-hc set frame_bg_active_color '#09090900'
+hc set frame_bg_active_color '#25252500'
 hc set frame_active_opacity 70
 
 hc set frame_border_normal_color '#000000'
 hc set frame_border_active_color '#000000'
 
-hc set frame_border_inner_color '#ffffff'
+#hc set frame_border_inner_color '#ffffff'
 
-hc set frame_border_width 2
-hc set frame_border_inner_width 1
+hc set frame_border_width 0
+hc set frame_border_inner_width 0
+
 
 hc set always_show_frame true
 hc set frame_bg_transparent false # recommended off
