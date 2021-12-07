@@ -2,11 +2,11 @@ depend() {
   install polybar
 }
 
-setup() {
+add() {
   link config "~/.config/polybar/config"
 }
 
-remove() {
+del() {
   unlink "~/.config/polybar/config"
 }
 

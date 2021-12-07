@@ -2,11 +2,11 @@ depend() {
   install picom
 }
 
-setup() {
+add() {
   link picom.conf "~/.config/picom/picom.conf"
 }
 
-remove() {
+del() {
   unlink "~/.config/picom/picom.conf"
 }
 

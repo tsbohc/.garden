@@ -1,9 +1,9 @@
-setup() {
+add() {
   link vimrc ~/.vimrc
   link vimrc ~/nvim/init.vim
 }
 
-remove() {
+del() {
   unlink ~/.vimrc
   unlink ~/nvim/init.vim
 }

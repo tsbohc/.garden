@@ -2,7 +2,7 @@ depend() {
   install zsh lua fzf
 }
 
-setup() {
+add() {
   link zshenv ~/.zshenv
   link zshrc ~/.config/zsh/.zshrc
 
@@ -14,7 +14,7 @@ setup() {
   fi
 }
 
-remove() {
+del() {
   unlink ~/.zshenv
   unlink ~/.config/zsh/.zshrc
 }

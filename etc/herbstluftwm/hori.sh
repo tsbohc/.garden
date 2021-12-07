@@ -4,11 +4,11 @@ depend() {
   install herbstluftwm
 }
 
-setup() {
+add() {
   link autostart ~/.config/herbstluftwm/autostart
   herbstclient reload
 }
 
-remove() {
+del() {
   unlink ~/.config/herbstluftwm/autostart
 }

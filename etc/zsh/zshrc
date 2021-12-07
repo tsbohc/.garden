@@ -164,10 +164,36 @@ fshow() {
 
 # ;; aliases
 
+p-build() {
+  podman container rm "$1"
+  podman rmi "$1"
+  podman build -t "$1" "$1"
+}
+
+p-run() {
+  podman run \
+    --rm \
+    --userns=keep-id \
+    --name "$1" \
+    "$1"
+}
+
+p-root() {
+  podman run \
+    --rm \
+    -it "$1" /bin/bash
+}
+
+p-user() {
+  podman run \
+    --userns=keep-id \
+    --rm \
+    -it "$1" /bin/bash
+}
+
 alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
 
 alias v='nvim'
-alias hh='hori-hori'
 alias hc='herbstclient'
 
 alias please='sudo'

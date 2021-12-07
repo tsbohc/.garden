@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090
 
-#: this is a test
+#: testing hori ideas
 
+# hori autostart "$(hori ls -i)"
 
+# {{{
 import() { # transpile toml-like config into into bash variables
   local prefix=$2
   local section_re='^\[(.*)\]'
@@ -39,6 +40,7 @@ template() { # render a string with config as context
   done
   echo "$input"
 }
+# }}}
 
 # -- actions
 
@@ -50,29 +52,29 @@ render() { #!ACTIONS render <file> and return its path
   echo "$target"
 }
 
-link() { # create symlink from <source> to <target>
+link() { #!ACTIONS create symlink from <source> to <target>
   [[ $1 == *"$HORI"* ]] && local source=$1 || local source=$REPO/$PACK/$1
   local target=${2/\~/$HOME}
   mkdir -p "$(dirname "$target")" # TODO replace with string manipulation
   ln -sfn "$source" "$target"
 }
 
-unlink() { # remove <symlink>
+unlink() { #!ACTIONS remove <symlink>
   local target=${1/\~/$HOME}
   [[ -L $target ]] && rm "$target"
 }
 
-launch() { # kill existing <process> and run <command>
+launch() { #!ACTIONS kill existing <process> and run <command>
   pkill -x "$1" ; sleep 0.2 ; "$@"
 }
 
-install() { # just list the needed packages one per line
+install() { #!ACTIONS just list the needed packages one per line
   local IFS=$'\n' ; echo "$*"
 }
 
 # -- trigger
 
-@hook() { # execute <hook> in <package(s)>
+hook() { # execute <hook> in <package(s)>
   local h=$1 ; shift
   case $* in
     -i|--installed) packages=("$HORI/"*) ;; # TODO could packages be local?
@@ -96,7 +98,8 @@ install() { # just list the needed packages one per line
   done
 }
 
-@ls() { # list packages (-i | -a)
+ls() { #!COMMANDS list packages (-i | -a)
+  # TODO code repetition
   case $* in
     -i|--installed) packages=("$HORI/"*) ;; # TODO could packages be local?
     -a|--available|"") packages=("$REPO/"*) ;;
@@ -114,70 +117,43 @@ REPO="$(find ~ -type f -name "repository.hori" -print -quit)" ; REPO=${REPO%/*}
 [[ -z $REPO ]] && { echo "could not find repo, aborting..." ; exit ; }
 eval "$(import conf)" && conf_status="evaluated"
 
-
 # -- main
 
 while read -r line; do
   re='(.*)\(\)[[:space:]]\{[[:space:]]#!([^[:space:]]*)[[:space:]](.*)'
   if [[ $line =~ $re ]]; then
-    # (for auto: arr=(se1 se2)), but definitely assoc se[fn]=he ?
-    # skipping arr, it would still very much simplify writing help
-    # making it more or less manual is also line efficient
-    echo "fn: ${BASH_REMATCH[1]}"
-    echo "se: ${BASH_REMATCH[2]}"
-    echo "he: ${BASH_REMATCH[3]}"
+    sections+=("${BASH_REMATCH[2]}")
+    (( ${#BASH_REMATCH[1]} > max )) && max=${#BASH_REMATCH[1]}
+    declare -A "${BASH_REMATCH[2]}"
+    eval "${BASH_REMATCH[2]}[${BASH_REMATCH[1]}]='${BASH_REMATCH[3]}'"
   fi
 done < "$0"
 
-exit 0
+if [ -z "$1" ] || [[ $1 =~ -h|--help ]]; then
 
-
-
-
-
-
-
-
-
-
-
-help() { # print this message
-  echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n\nUSAGE
-  \$ ${0##*/} <operation> [arguments]\n"
-  for f in "${fn[@]}"; do
-    echo -n "  {$f}"
-    printf "%-$(( max - ${#f} + 1 ))s" " "
-    grep -Po -m 1 "^@$f\(\) [{|(] # \K.*" "$0"
+  echo "COMMANDS"
+  for f in "${!COMMANDS[@]}"; do
+    echo -n "  $f"
+    printf "%-$(( max - ${#f} + 2 ))s" " "
+    echo "${COMMANDS[$f]}"
   done
-  echo -e "\nSTATUS
-  repo: $REPO
-  conf: $conf_status"
-}
 
-while read -r _ _ f; do
-  # TODO use something else for this, like a special commend like #@ or something
-  if [[ "${f:0:1}" == "@" ]]; then
-    (( ${#f} > max )) && max=${#f}
-    fn+=("${f:1}")
-  fi
-done < <(declare -F)
+  echo
 
-a=$1 ; shift
-case $a in
-  -h|--help) help ;;
-  -*) @hook "${a:1}" "$@" ;;
-  *)
-    if [[ -n $a ]] && [[ " ${fn[*]} " == *" $a "* ]]; then
-      "@$a" "$@"
-    else
-      help
-    fi
-    ;;
-esac
+  echo "ACTIONS"
+  for f in "${!ACTIONS[@]}"; do
+    echo -n "  $f"
+    printf "%-$(( max - ${#f} + 2 ))s" " "
+    echo "${ACTIONS[$f]}"
+  done
 
 
-# TODO
-# generate help for actions insead
+elif [ ${COMMANDS[$1]+exists} ]; then
+  "$@"
+else
+  hook "$@"
+fi
+
 
 
 
@@ -185,70 +161,3 @@ esac
 # edit command to edit a package (hori.sh)
 # hori -edit "$(fzf hori -ls)"
 # or just bake the fzf into the command if available
-
-# cd command to go to the package directory
-
-
-
-
-
-
-# TODO
-# make the variables less likely to appear elsewhere
-# [[ ! $1 =~ -h|--help ]] && is implicit (i won't call a function @-h, lol)
-#for ((i = 0; i < max - ${#f} + 1; ++i)); do echo -n " "; done
-
-# bad
-# cannot alias functions to flags
-# have to have a separate function for each passed operation (thought forces to organise code better (?))
-
-
-# hori TODO
-# add --dunst option to show notifications?
-
-# list hooks inside a package # TODO needed?
-#   $ hori ls zsh
-#
-# TODO i'd rather have a list of actions with descriptons
-
-
-
-#@ls() {
-#  if [[ -z $* ]]; then
-#    packages=("$REPO/"*)
-#    for p in "${packages[@]}"; do
-#      p="${p##*/}"
-#      [[ -f "$REPO/$p/hori.sh" ]] && {
-#        [[ -d "$HORI/$p" ]] && a="1" || a="0"
-#        echo "$a $p"
-#      }
-#    done
-#  else
-#    (
-#    . "$REPO/$1/hori.sh"
-#    while read -r _ _ f; do
-#      [[ ! ${FUNCNAME[0]} == "$f" ]] && echo "$f"
-#    done < <(declare -F)
-#    )
-#  fi
-#}
-
-
-
-
-
-#section() {
-#  re="(.*)\(\)[[:space:]]\{[[:space:]]#!$1[[:space:]](.*)"
-#  echo "$1"
-#  while read -r line; do
-#    if [[ $line =~ $re ]]; then
-#      echo "  ${BASH_REMATCH[1]}	${BASH_REMATCH[2]}"
-#    fi
-#  done < "$0"
-#}
-#
-#help() {
-#  echo -e "${0##*/} - $(grep -Po -m 1 "^#: \K.*" "$0")\n"
-#  section "ACTIONS" | column -t -s $'\t'
-#}
-

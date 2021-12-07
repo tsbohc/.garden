@@ -2,10 +2,10 @@ depend() {
   install dunst dunstify
 }
 
-setup() {
+add() {
   link dunstrc "~/.config/dunst/dunstrc"
 }
 
-remove() {
+del() {
   unlink "~/.config/dunst/dunstrc"
 }

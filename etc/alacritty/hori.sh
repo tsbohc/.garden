@@ -2,10 +2,10 @@ depend() {
   install alacritty
 }
 
-setup() {
+add() {
   link $(render alacritty.yml) "~/.config/alacritty/alacritty.yml"
 }
 
-remove() {
+del() {
   unlink "~/.config/alacritty/alacritty.yml"
 }

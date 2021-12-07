@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+macro() {
+  $({
+    echo -n 'eval '
+    echo -n "$2"
+    echo -n '=( ${'
+    echo -n "$1"
+    echo -n '[@]} )'
+  })
+}
+
+a=( 1 wooo 3 )
+macro a b
+echo "${b[1]}"

@@ -1,11 +1,14 @@
 #!/bin/bash
 
-#podman container rm qbittorrent ; podman rmi qbittorrent ; podman build -t qbittorrent qbittorrent ; ./ru
+podrun() {
+  name=$1 ; shift
+  podman run \
+    --userns=keep-id \
+    --restart unless-stopped \
+    --name "$name" \
+    "$@" "$name"
+}
 
-podman run \
-  --userns=keep-id \
-  --name qbittorrent \
-  --restart unless-stopped \
+podrun qbittorrent \
   -p 8080:8080 \
-  -v /home/tsbohc/code/null/qbittorrent-data:/data \
-  qbittorrent
+  -v "$HOME/.garden/usr/null/qbittorrent-data:/data"
