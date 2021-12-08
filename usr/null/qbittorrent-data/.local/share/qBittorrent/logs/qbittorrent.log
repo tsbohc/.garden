@@ -450,3 +450,38 @@
 (W) 2021-12-06T22:36:24 - WebAPI login failure. Reason: invalid credentials, attempt count: 1, IP: ::ffff:10.0.2.100, username: 
 (N) 2021-12-06T22:36:28 - WebAPI login success. IP: ::ffff:10.0.2.100
 (I) 2021-12-06T22:37:04 - UPnP / NAT-PMP support [OFF]
+(N) 2021-12-07T20:18:55 - qBittorrent v4.4.0rc1 started
+(N) 2021-12-07T20:18:55 - Using config directory: /data/.config/qBittorrent/
+(I) 2021-12-07T20:18:55 - Trying to listen on: 0.0.0.0:20577,[::]:20577
+(N) 2021-12-07T20:18:55 - Peer ID: -qB4400-
+(N) 2021-12-07T20:18:55 - HTTP User-Agent is 'qBittorrent/4.4.0rc1'
+(I) 2021-12-07T20:18:55 - DHT support [ON]
+(I) 2021-12-07T20:18:55 - Local Peer Discovery support [ON]
+(I) 2021-12-07T20:18:55 - PeX support [ON]
+(I) 2021-12-07T20:18:55 - Anonymous mode [OFF]
+(I) 2021-12-07T20:18:55 - Encryption support [ON]
+(I) 2021-12-07T20:18:55 - UPnP / NAT-PMP support [ON]
+(I) 2021-12-07T20:18:55 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Wed Dec 1 01:13:48 2021.
+(N) 2021-12-07T20:18:55 - Using custom Web UI. Location: "/data/webui".
+(W) 2021-12-07T20:18:55 - Couldn't load Web UI translation for selected locale (C).
+(N) 2021-12-07T20:18:55 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: 127.0.0.1, port: TCP/20577
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: 127.0.0.1, port: UDP/20577
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: 10.0.2.100, port: TCP/20577
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: 10.0.2.100, port: UDP/20577
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: ::1, port: TCP/20577
+(I) 2021-12-07T20:18:55 - Successfully listening on IP: ::1, port: UDP/20577
+(C) 2021-12-07T20:18:55 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(C) 2021-12-07T20:18:55 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(N) 2021-12-07T20:18:55 - Watching folder: "/data/watch"
+(C) 2021-12-07T20:18:55 - UPnP/NAT-PMP: Port mapping failure, message: could not map port using UPnP: The port mapping entry specified conflicts with a mapping assigned previously to another client
+(I) 2021-12-07T20:18:55 - Detected external IP: 188.187.74.27
+(I) 2021-12-07T20:18:57 - Successfully listening on IP: fe80::e80a:65ff:fea5:dd9%tap0, port: TCP/20577
+(I) 2021-12-07T20:18:57 - Successfully listening on IP: fe80::e80a:65ff:fea5:dd9%tap0, port: UDP/20577
+(W) 2021-12-07T20:19:02 - WebAPI login failure. Reason: invalid credentials, attempt count: 1, IP: ::ffff:10.0.2.100, username: 
+(N) 2021-12-07T20:19:04 - WebAPI login success. IP: ::ffff:10.0.2.100
+(N) 2021-12-07T20:20:09 - Using built-in Web UI.
+(N) 2021-12-07T20:20:09 - Web UI: Now listening on IP: *, port: 8080
+(N) 2021-12-07T20:20:21 - Using custom Web UI. Location: "/data/webui".
+(N) 2021-12-07T20:20:21 - Web UI: Now listening on IP: *, port: 8080
+(I) 2021-12-07T20:20:33 - UPnP / NAT-PMP support [OFF]

@@ -1,0 +1,53 @@
+* {
+  bg: #F5F0EA;
+  fg: #000000;
+  background-color: #00000000;
+  text-color: @fg;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+  highlight: None;
+}
+
+window {
+  background-color: @bg;
+  width: 400;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+mainbox {
+  spacing: 4px;
+}
+
+inputbar {
+  padding: 0 0 1ch 1ch;
+  children: [ "entry", "/", "prompt" ];
+}
+
+entry {
+  /*expand: false;
+  width: 5em;*/
+}
+
+listview {
+  columns: 1;
+  dynamic: true;
+  lines: 6;
+  fixed-height: false;
+  spacing: 2px;
+}
+
+element {
+  padding: 2px 1ch;
+  border-radius: 2px;
+}
+
+element selected {
+  background-color: #e5e0dA;
+}
+
+element-text {
+  highlight: bold;
+}

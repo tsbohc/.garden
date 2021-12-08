@@ -19,7 +19,7 @@ Mod=Mod4
 # -- autostart
 
 # TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
-command -v hori-hori &>/dev/null && hori-hori hook autostart --installed
+command -v hori &>/dev/null && hori autostart -i
 xwallpaper --zoom ~/Downloads/wallpaper.jpg
 
 # -- -- keybinds
@@ -65,9 +65,11 @@ ki $Mod-Mod1-i    resize  right  +$resizestep
 
 ki $Mod-Return spawn "${TERMINAL:-xterm}"
 
+ki $Mod-Shift-n spawn scribe
 ki Mod1-Shift-s spawn scrot-clipboard -q 100 -s
 
 ki $Mod-space spawn layout-switch
+ki $Mod-BackSpace spawn rofi -show run
 
 ki Mod1-Shift-n spawn redshift-control 0 -1
 ki Mod1-Shift-e spawn redshift-control 0  1
@@ -137,7 +139,7 @@ and . compare tags.focus.curframe_wcount gt 1
 ki $Mod-Tab "${cycle_layouts[@]}"
 
 # fmenu
-ki $Mod-BackSpace spawn scribe
+#ki $Mod-BackSpace spawn scribe
 
 # mouse
 hc mousebind $Mod-Button1 move
@@ -272,7 +274,7 @@ hc rule floatplacement=smart
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
-hc rule title='fzfmenu' floating=on floatplacement=center focus=on
+hc rule title='floaterm' floating=on floatplacement=center focus=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 

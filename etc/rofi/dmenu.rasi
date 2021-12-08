@@ -1,0 +1,31 @@
+@import "common.rasi"
+
+window {
+  width: 800;
+}
+
+mainbox {
+  orientation: horizontal;
+}
+
+inputbar {
+  padding: 2px 0;
+  children: [ "prompt", "entry", "/" ];
+}
+
+prompt {
+  padding: 0 1ch 0 0;
+}
+
+entry {
+  expand: false;
+  width: 10ch;
+}
+
+listview {
+  lines: none;
+  layout: horizontal;
+  fixed-height: true;
+  spacing: 0px;
+  padding: 0;
+}

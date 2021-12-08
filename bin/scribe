@@ -1,15 +1,18 @@
 #!/bin/bash
 
-#: note keeping script
+#: note keeping script featuring tfidf
+#& tfidf rofi
+
+# FIXME
+# convert to a rofi script
 
 # wants:
 # + filenames are <unix-timestamp>.md
-# - fzf: first line of the note + tfidf, preview window
-# + tfidf
-# - sc n | create a new note
-# - a keybind that will instantly open a new note
-# - an alias (probably 'sc') for opening the note browser
-# - <new> as the topmost thing in fzf, i.e $ scribe<enter><enter> instantly opens a new note
+# + tfidf autotagging
+# + rofi: first line of the note + tfidf
+# + a subcommand to open a new note form a terminal
+# + a nice way to open a new note from rofi
+# + clean up empty files on quit
 
 notes="$HOME/.garden/usr/notes"
 
@@ -18,80 +21,68 @@ new() { # new note
   echo "$notes/$name.md"
 }
 
-tags() {
-  awk '
-  {
-    if (length($2) > 2 && $3 > 0.1 && length(tags[$1]) < 500) tags[$1]=tags[$1]" "$2
-  } END {
-    for (text in tags) print text tags[text]
-  }' <(tfidf "$notes")
+tags() { # first line of each file and its tags
+  echo -e "<!--new-->new\n<i><span foreground='#666666'>open a new note</span></i>"
+  while IFS=: read -r path tags; do
+    echo -e "	<!--$path-->$(head -n 1 "$path")\n<i><span foreground='#666666'>$tags</span></i>"
+  done < <({
+    awk '
+      {
+        if (length($2) > 2 && $3 > 0.1 && length(tags[$1]) < 500) tags[$1]=$2" "tags[$1]
+      } END {
+        for (text in tags) print text":"tags[text]
+      }' <(tfidf "$notes")
+  })
 }
 
-_fmenu() {
-  local opt;
-  opt=(
-    80:16
-    --exact
-    --no-hscroll
-    --info=hidden
-    --no-sort
-    --with-nth=2..
-    --tiebreak=begin
-    --tac
-    --preview="cat\ {1}"
-    --preview-window='right'
-    --bind tab:down
-    --bind shift-tab:up
-    --bind change:first)
-  fmenu "${opt[@]}"
+alacritty-edit() {
+  alacritty \
+    -t "floaterm" \
+    -o "window.dimensions.columns=82" \
+    -o "window.dimensions.lines=18" \
+    -e sh -c "$EDITOR $1"
 }
 
-if [[ $1 == "new" ]]; then
-  nvim "$(new)"
-else
-  selection="$(tags | _fmenu | awk '{ print $1 }')"
+case $1 in
+  -h|--help) echo "\$ scribe [new]" ;;
+  new) "$EDITOR" "$(new)" ;;
+  *)
+    selection="$(tags | rofi -theme "$HOME/.config/rofi/scribe.rasi" -dmenu -sep '	' -eh 2 -p "scribe" -matching normal -markup-rows -lines 10)"
+    if [[ -n $selection ]]; then
+      selection=${selection#*'<!--'}
+      selection=${selection%'-->'*}
+      if [[ $selection == "new" ]]; then
+        alacritty-edit "$(new)"
+      else
+        alacritty-edit "$selection"
+      fi
+    fi
+    ;;
+esac
 
-  if [[ -n $selection ]]; then
-    alacritty -e sh -c "$EDITOR $selection"
-  fi
-fi
+# clean up empty files
+for f in "$notes"/*; do
+  [ ! -s "$f" ] && rm "$f"
+done
 
-#tfidf "$notes"
-#tags #| fzf --preview 'cat {1}' --preview-window=up --no-info
-
-
-#list() { # list existing notes
-#  echo "<new>"
-#  #while read -r line; do
-#  #  echo "$line"
-#  #done < <(rg . "$notes" --no-heading --no-line-number)
-#  for f in "$notes"/*; do
-#    name=${f/$notes\//} ; name=${name/.md/}
-#    peek="$(cat "$f" | tr '\n' ' ')"
-#    echo "$name $peek"
-#  done
-#}
-#
-#if [ -p /dev/stdin ]; then
-#  input=""
-#  while IFS= read -r line; do
-#    input+="$line
-#"
-#  done
-#  new "$input"
-#elif [ -n "$1" ]; then
-#  new "$*"
-#else
-#  selection="$(list \
-#    | fzf --info=hidden \
-#          --preview 'cat ~/.garden/usr/notes/{1}.md' \
-#    | awk -F ' ' '{ print $1 }')"
-#  if [[ -n $selection ]]; then
-#    if [[ $selection == "<new>" ]]; then
-#      "$EDITOR" "$notes/$(new).md"
-#    else
-#      "$EDITOR" "$notes/$selection.md"
-#    fi
-#  fi
+# old fzf code
+#opt=(
+#  --exact
+#  --no-hscroll
+#  --info=hidden
+#  --no-sort
+#  --with-nth=2..
+#  --tiebreak=begin
+#  --tac
+#  --bind tab:down
+#  --bind shift-tab:up
+#  --bind change:first)
+#selection="$(tags \
+#  | tr -d '\n' \
+#  | tr '	' '\n' \
+#  | sed 's/<!--//; s/-->/ /;' \
+#  | fzf "${opt[@]}" \
+#  | awk '{ print $1 }')"
+#if [[ -n $selection ]]; then
+#  nvim "$selection"
 #fi
-#
