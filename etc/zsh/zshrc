@@ -135,7 +135,7 @@ ansi() {
 
 if [[ -n $SSH_CONNECTION ]]; then
   PCMD() {
-    echo "$(ansi cyan "$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
+    echo "$(ansi blue "$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
   }
 else
   PCMD() {
