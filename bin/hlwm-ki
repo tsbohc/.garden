@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# maybe make ki store keybinds somewhere? and grab them. making a wrapper seems like a good idea
+# need to reload hlwm to apply new keybinds anyway
+
+#  <c-v>031 (unit separator)
+
+ki() { # hc keybind wrapper that properly expands [a,b,c,d] blocks
+  re='\[([^]$[]+)\]' # everything in [...] that doesn't have $ or [ or ]
+  local input=$*
+  if [[ ${*: -2:1} == "-" ]]; then
+    local docstring="${*: -1}"
+    input=${input/" ${*: -2}"/}
+  fi
+  echo "$input$docstring" >> ~/.cache/herbstluftwm.log
+  if [[ $input =~ $re ]]; then
+    local counter=0
+    while [[ $input =~ $re ]]; do
+      counter=$((counter + 1))
+      eval "arg$counter=($(tr ',' ' ' <<< "${BASH_REMATCH[1]}"))"
+      input=${input/\[${BASH_REMATCH[1]}\]/\${arg$counter\[\$i\]\}}
+    done
+    # shellcheck disable=SC2154
+    for ((i=0; i<${#arg1[@]}; i++)); do
+      #eval "echo $input >> ~/.log"
+      eval "echo $input"
+    done
+  else
+    echo "$@"
+  fi
+}
+
+ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02 - "arst"
+ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02

@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+#?/quill
+# usage: kept main
+#
+# example
+#   you do this and that
+
+# THIS SHOULD NOT BE PRINTED
+
+main() { # this is main, an exposed function
+  echo "kept: calling a private function"
+  _private
+}
+
+_private() { # com
+  echo "i'm private"
+}
+
+another_cmd() { # another exposed cmd
+  :
+}
+
+# a wrapper seems like a better idea
+#"$@"
+#
+#exit
+
+# example wrap
+# problem: too verbose
+
+# i mean... i could have a src dir and a bin dir
+# and hook saving a file in src into recompiling the binary (a case statement)
+# but that kind of over the top, isn't it?
+# though i could use the #! thing to expose exactly the fns i want
+# and everything would still work without the wrapper (though not help)
+
+# it almost comes down to the fact
+# that i need two separate files
+# script-src and script
+# the *-src is the actual code
+# and the * is the wrapper that calls quill, provides autocompletion and etc, idk
+
+case "$1" in
+  -h|--help|"") quill help "${BASH_SOURCE[0]}" ;;
+  *) quill exec "$@" < <(declare -F) && "$@" ;;
+esac
+
+exit
+
+# -------
+
+# example alias/bin thing
+# problem: need to be created for each script
+
+"$@"
+
+kept() {
+  case $1 in
+    -h|--help)
+      quill help kept
+      ;;
+    *)
+      cmd=$1 ; shift
+      kept "@$cmd" "$@" # BUG cannot do this because subcmd is not alway $1 (can be a file too)
+      ;;
+  esac
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# i need to add here dock string as first/last comment
+
+{
+  while read -r lhs rhs; do
+    lhs=${lhs/\[/\{} ; lhs=${lhs/\]/\}}
+    rhs=${rhs/\[/\{} ; rhs=${rhs/\]/\}}
+    echo "$lhs$rhs"
+  done < ~/.cache/herbstluftwm.log
+} | column -t -s '' | rofi -theme "vertical.rasi" -dmenu  -theme-str '
+window {
+  width: none;
+}'
+

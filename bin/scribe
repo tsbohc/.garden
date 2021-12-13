@@ -22,9 +22,10 @@ new() { # new note
 }
 
 tags() { # first line of each file and its tags
-  echo -e "<!--new-->new\n<i><span foreground='#666666'>open a new note</span></i>"
+  echo -e "<!--new-->new\n<i><span foreground='#666666'>open a blank note</span></i>"
   while IFS=: read -r path tags; do
-    echo -e "	<!--$path-->$(head -n 1 "$path")\n<i><span foreground='#666666'>$tags</span></i>"
+    #date=${path##*/} ; date=${date%%.*} ; $(date -d @$date '+%D, %d')
+    echo -e "	<!--$path-->$(head -n 1 "$path")<i><span foreground='#666666'>\n$tags</span></i>"
   done < <({
     awk '
       {
@@ -32,7 +33,7 @@ tags() { # first line of each file and its tags
       } END {
         for (text in tags) print text":"tags[text]
       }' <(tfidf "$notes")
-  })
+  } | sort -nr)
 }
 
 alacritty-edit() {
@@ -47,7 +48,7 @@ case $1 in
   -h|--help) echo "\$ scribe [new]" ;;
   new) "$EDITOR" "$(new)" ;;
   *)
-    selection="$(tags | rofi -theme "$HOME/.config/rofi/scribe.rasi" -dmenu -sep '	' -eh 2 -p "scribe" -matching normal -markup-rows -lines 10)"
+    selection="$(tags | rofi -theme "vertical.rasi" -dmenu -sep '	' -eh 2 -p "scribe" -matching normal -markup-rows -lines 10)"
     if [[ -n $selection ]]; then
       selection=${selection#*'<!--'}
       selection=${selection%'-->'*}

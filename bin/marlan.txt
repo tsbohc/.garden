@@ -1,0 +1,17 @@
+## colophon
+
+this is normal text and $(i this is italic)
+
+- one
+- two
+- three
+  - a
+  - b
+
+bc..
+  sudo npm install http-server -g
+  sudo xbps-install tidy python3-markdown2
+
+---
+
+> luv me for the memes

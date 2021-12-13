@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+s="$(echo -n "poweroff reboot kill-xorg" | rofi -dmenu -sep ' ' -p '>')"
+
+#echo "'$s'"
+
+case $s in
+  poweroff) sudo -A poweroff ;;
+  reboot) sudo -A reboot ;;
+  pkill-xorg) pkill Xorg ;;
+esac

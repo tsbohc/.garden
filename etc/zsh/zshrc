@@ -28,6 +28,20 @@ if [ -d "$GARDEN" ]; then
   done
 fi
 
+
+# why not i guess
+if [ -e $HOME/.garden/bin/askpass ]; then
+  export SUDO_ASKPASS=$HOME/.garden/bin/askpass
+  #alias sudo="sudo -A"
+  #sudo() {
+  #  if command sudo -n true 2>/dev/null; then
+  #    command sudo "$@"
+  #  else
+  #    askpass "$@ $" | command sudo --stdin "$@"
+  #  fi
+  #}
+fi
+
 # ;; setopts
 
 # history
@@ -119,9 +133,15 @@ ansi() {
   ansi cyan "$(::prompt_time $seconds_since_last_commit)"
 }
 
-PCMD() {
-  echo "$(::prompt_current_dir) $(::prompt_return_status) "
-}
+if [[ -n $SSH_CONNECTION ]]; then
+  PCMD() {
+    echo "$(ansi cyan "$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
+  }
+else
+  PCMD() {
+    echo "$(::prompt_current_dir) $(::prompt_return_status) "
+  }
+fi
 
 RCMD() { # non-blocking
   echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified)$(ansi blue "$prompt_cmd_elapsed")"

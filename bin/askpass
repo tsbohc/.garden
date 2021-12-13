@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+rofi -dmenu -password -p "$*" -theme-str '
+window {
+  width: 300;
+}'

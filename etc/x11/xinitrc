@@ -3,6 +3,7 @@
 xresources=$HOME/.config/x11/.Xresources
 xmodmap=$HOME/.config/x11/.Xmodmap
 
+# TODO do i even need this?
 [ -f "$xresources" ] && xrdb -merge "$xresources"
 [ -f "$xmodmap" ] && xmodmap "$xmodmap"
 
@@ -14,5 +15,7 @@ done >/dev/null 2>&1
 
 xset r 66 # repeat caps lock
 xset r rate 250 36 # set key repeat rate: 250ms delay, 40/s
+
+setxkbmap us -variant colemak
 
 exec herbstluftwm --locked

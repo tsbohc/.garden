@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+#grep -Po -m 1 "^@$f\(\) [{|(] # \K.*" "$1"
+
+#is_command() {
+#  local path
+#  if [ -e "$1" ]; then
+#    path=$1
+#  else
+#    path="$(command -v "$1")" || { # this is new. assignment exit code, wow TODO google this
+#      echo "quill: no such cmd $1"
+#      exit 1
+#    }
+#  fi
+#  #echo "1:$path 2:$2"
+#  re="(.*)\(\)[[:space:]]\{[[:space:]]#![[:space:]](.*)"
+#  #declare -A commands
+#  while read -r line; do
+#    if [[ $line =~ $re && ${BASH_REMATCH[1]} == "$2" ]]; then
+#      echo "ya: $2"
+#      #"$path" "$2"
+#      #echo -n "$sep${BASH_REMATCH[1]}"
+#      #[ -z "$sep" ] && local sep="|"
+#      #commands["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
+#    fi
+#  done < "$path"
+#}
+
+help() { # this does work on rel paths because the script launches quill from pwd (good)
+  #echo "$1"
+  local path
+  #if [ -e "$1" ]; then
+  #  path=$1
+  #else
+  #  path="$(command -v "$1")" || { # this is new to me TODO google
+  #    echo "quill: no such script $1"
+  #    exit 1
+  #  }
+  #fi
+  # FIXME i don't need the command -v because the script is calling quill, not quill looking for the script
+  [ -e "$1" ] && { path=$1 ; } || {
+    path="$(command -v "$1")" || { # this is new to me TODO google
+      echo "quill: no such script $1"
+      exit 1
+    }
+  }
+  #echo "$path"
+
+  awk '
+    f && !NF{ exit }                       # if f=1 and empty line, exit
+    /#\?\/quill/ { f=1; next }             # if header, set f and skip current
+    f { print substr($0, 3, length($0)) }  # if the flag is set, print
+  ' "$path"
+
+
+  echo ; echo "commands"
+  re="(^[^_].+)\(\)[[:space:]]\{([[:space:]]#[[:space:]](.*)|)"
+  while read -r line; do
+    if [[ $line =~ $re ]]; then
+      echo "  ${BASH_REMATCH[1]} -- ${BASH_REMATCH[3]}"
+    fi
+  done < "$path"
+}
+
+exec() {
+  #re="(.*)\(\)[[:space:]]\{[[:space:]]#![[:space:]](.*)"
+  #while read -r line; do
+  #  if [[ $line =~ $re && ${BASH_REMATCH[1]} == "$2" ]]; then
+  #    exit 0
+  #  fi
+  #done < "$1"
+  #echo "$*: no such exposed command"
+  #exit 1
+
+  while read -r _ _ fname; do
+    [[ $1 == "$fname" ]] && exit 0
+  done
+  echo ": no such exposed command"
+  exit 1
+}
+
+# 9ms (bad)
+#p=($(ps -o args= "$PPID")) # only works when calling (not when sourcing)
+#s="${p[1]}"
+
+# passing bash_source: 4ms
+
+cmd=$1 ; shift
+case $cmd in
+  help) help "$1" ;;
+  exec) exec "$@" ;;
+esac
+
+#case "$1" in
+#  #-h|--help|"") echo "quill help" ;;
+#  h|help)
+#    shift
+#    if [ -z "$1" ]; then
+#      echo "quill help"
+#    else
+#      help "$@"
+#    fi
+#    ;;
+#  exec)
+#    shift ; cmd=$1 ; shift
+#    is_command "$cmd" "$@"
+#    ;;
+#  #*)
+#  #  e=$1 ; shift
+#  #  case $1 in
+#  #    # TODO this should be no-options instead of "" (e.g cat != cat --help)
+#  #    # still, this is a bit inflexible... each script should handle that on itself, i think
+#  #    -h|--help|"")
+#  #      help "$e"
+#  #      ;;
+#  #    *)
+#  #      "$e" "$@"
+#  #      ;;
+#  #  esac
+#  #  ;;
+#esac

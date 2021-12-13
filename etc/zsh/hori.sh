@@ -5,6 +5,7 @@ depend() {
 add() {
   link zshenv ~/.zshenv
   link zshrc ~/.config/zsh/.zshrc
+  link zlogin ~/.config/zsh/.zlogin
 
   # TODO ask function in hh with [y/n] etc
   local p; p="$(which zsh)"

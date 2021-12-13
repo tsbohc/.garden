@@ -1,10 +1,33 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2102
 
 # TODO
 # alt+directional binds to split frames would be nice
 
 hc() { herbstclient "$@" ; }
-ki() { hc keybind "$@" ; }
+
+# awk '{ a=$1; $1=""; print a""substr($0,2) }' <<<
+
+ki() { # hc keybind wrapper that properly expands [a,b,c,d] blocks
+  re='\[([^]$[]+)\]' # everything in [...] that doesn't have $ or [ or ]
+  echo "$*" >> ~/.cache/herbstluftwm.log
+  if [[ $* =~ $re ]]; then
+    input=$*
+    counter=0
+    while [[ $input =~ $re ]]; do
+      counter=$((counter + 1))
+      eval "arg$counter=($(tr ',' ' ' <<< "${BASH_REMATCH[1]}"))"
+      input=${input/\[${BASH_REMATCH[1]}\]/\${arg$counter\[\$i\]\}}
+    done
+    # shellcheck disable=SC2154
+    for ((i=0; i<${#arg1[@]}; i++)); do
+      #eval "echo $input >> ~/.log"
+      eval "hc keybind $input"
+    done
+  else
+    hc keybind "$@"
+  fi
+}
 
 # clean slate
 hc emit_hook reload
@@ -12,7 +35,10 @@ hc keyunbind --all
 hc mouseunbind --all
 hc unrule -F
 
-Mod=Mod4
+#echo -n > ~/.log
+echo -n > ~/.cache/herbstluftwm.log
+
+Super=Mod4
 
 # need a script that will return a colemak key and take a qwerty one to make binding things easier.
 
@@ -26,86 +52,68 @@ xwallpaper --zoom ~/Downloads/wallpaper.jpg
 
 # -- hlwm
 
-ki $Mod-Shift-q quit
-ki $Mod-Shift-r reload
+ki $Super-Shift-q quit
+ki $Super-Shift-r reload
 
 # -- frame
 
 # split frame -> change to mod1+hnei?
-ki $Mod-Shift-Return split explode # the coolest shit ever
-ki $Mod-u split top 0.5
-ki $Mod-o split right  0.5
-
-ki $Mod-r remove # close frame
+ki $Super-Shift-Return split explode # auto split frame
+ki $Super-[u,o] split [top,right] 0.5
+ki $Super-r remove # close frame
 
 
 # -- clients
 
-# focus
-ki $Mod-h         focus   left
-ki $Mod-n         focus   down
-ki $Mod-e         focus   up
-ki $Mod-i         focus   right
-
-# move
-ki $Mod-Shift-h   shift   left
-ki $Mod-Shift-n   shift   down
-ki $Mod-Shift-e   shift   up
-ki $Mod-Shift-i   shift   right
-
-# resize
-resizestep=0.02
-ki $Mod-Mod1-h    resize  left   +$resizestep
-ki $Mod-Mod1-n    resize  down   +$resizestep
-ki $Mod-Mod1-e    resize  up     +$resizestep
-ki $Mod-Mod1-i    resize  right  +$resizestep
-
+ki $Super-[h,n,e,i] focus [left,down,up,right]
+ki $Super-Shift-[h,n,e,i] shift [left,down,up,right]
+ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02
 
 # -- misc
 
-ki $Mod-Return spawn "${TERMINAL:-xterm}"
+ki $Super-Return spawn "${TERMINAL:-xterm}"
 
-ki $Mod-Shift-n spawn scribe
+ki Mod1-Shift-k spawn scribe
 ki Mod1-Shift-s spawn scrot-clipboard -q 100 -s
+ki $Super-space spawn layout-switch
+ki $Super-BackSpace spawn rofi -show run
 
-ki $Mod-space spawn layout-switch
-ki $Mod-BackSpace spawn rofi -show run
-
-ki Mod1-Shift-n spawn redshift-control 0 -1
-ki Mod1-Shift-e spawn redshift-control 0  1
-
-ki Mod1-n spawn redshift-control -250
-ki Mod1-e spawn redshift-control  250
-
-ki Mod1-h spawn volume-control -8
-ki Mod1-i spawn volume-control  8
-
+ki Mod1-Shift-[n,e] spawn redshift-control 0 [-1,1]
+ki Mod1-[n,e] spawn redshift-control [-250,250]
+ki Mod1-[h,i] spawn volume-control [-8,8]
 
 # tags
-tag_names=( {1..9} )
-tag_keys=( {1..9} 0 )
+#tag_names=( {1..9} )
+#tag_keys=( {1..9} 0 )
 
-hc rename default "${tag_names[0]}" || true
-for i in "${!tag_names[@]}" ; do
-    hc add "${tag_names[$i]}"
-    key="${tag_keys[$i]}"
-    if [ -n "$key" ] ; then
-        ki "$Mod-$key" use_index "$i"
-        ki "$Mod-Shift-$key" move_index "$i"
-    fi
+#hc rename default "${tag_names[0]}" || true
+#for i in "${!tag_names[@]}" ; do
+#    hc add "${tag_names[$i]}"
+#    key="${tag_keys[$i]}"
+#    if [ -n "$key" ] ; then
+#      ki "$Super-$key" use_index "$i"
+#      ki "$Super-Shift-$key" move_index "$i"
+#    fi
+#done
+
+for i in {1..9}; do
+  hc add "$i"
 done
 
-# cycle through tags
-#ki $Mod-period use_index +1 --skip-visible
-#ki $Mod-comma  use_index -1 --skip-visible
+ki $Super-[1,2,3,4,5,6,7,8,9] use_index [0,1,2,3,4,5,6,7,8]
+ki $Super-Shift-[1,2,3,4,5,6,7,8,9] move_index [0,1,2,3,4,5,6,7,8]
 
-# layouting
-ki $Mod-t floating toggle
-ki $Mod-m fullscreen toggle
-#ki $Mod-f set_attr clients.focus.floating toggle
-#ki $Mod-Shift-m set_attr clients.focus.minimized true
-#ki $Mod-Control-m jumpto last-minimized
-ki $Mod-p pseudotile toggle
+# cycle through tags
+#ki $Super-period use_index +1 --skip-visible
+#ki $Super-comma  use_index -1 --skip-visible
+
+# layouts
+ki $Super-t floating toggle
+ki $Super-m fullscreen toggle
+#ki $Super-f set_attr clients.focus.floating toggle
+#ki $Super-Shift-m set_attr clients.focus.minimized true
+#ki $Super-Control-m jumpto last-minimized
+ki $Super-p pseudotile toggle
 
 # TODO I "could* have this in fennel
 # (or (and
@@ -123,35 +131,32 @@ or . and - compare tags.focus.curframe_wcount gt 0
          - close
    . remove)
 
-ki $Mod-w "${close_window_or_frame[@]}"
+ki $Super-w "${close_window_or_frame[@]}"
 
 # maybe there is a way? doesn't it need to be subshelled through
 #testing() {
 #  hc emit_hook wooooo
 #}
 #export -f testing
-#ki $Mod-q spawn testing
+#ki $Super-q spawn testing
 
 cycle_layouts=(
 and . compare tags.focus.curframe_wcount gt 1
     . cycle_layout +1 vertical horizontal)
 
-ki $Mod-Tab "${cycle_layouts[@]}"
-
-# fmenu
-#ki $Mod-BackSpace spawn scribe
+ki $Super-Tab "${cycle_layouts[@]}"
 
 # mouse
-hc mousebind $Mod-Button1 move
-hc mousebind $Mod-Button2 zoom
-hc mousebind $Mod-Button3 resize
+hc mousebind $Super-Button1 move
+hc mousebind $Super-Button2 zoom
+hc mousebind $Super-Button3 resize
 
 # focus
-#ki $Mod-BackSpace   cycle_monitor
-#ki $Mod-Tab         cycle_all +1
-#ki $Mod-Shift-Tab   cycle_all -1
-#ki $Mod-c cycle
-#ki $Mod-i jumpto urgent
+#ki $Super-BackSpace   cycle_monitor
+#ki $Super-Tab         cycle_all +1
+#ki $Super-Shift-Tab   cycle_all -1
+#ki $Super-c cycle
+#ki $Super-i jumpto urgent
 
 #hc set frame_border_active_color '#222222cc'
 #hc set frame_border_normal_color '#101010cc'

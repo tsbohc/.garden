@@ -28,7 +28,7 @@ underline-size = 0
 fixed-center = true
 bottom = true
 
-modules-left = wttr
+#modules-left = wttr
 modules-center = hc-tags
 modules-right = date
 
