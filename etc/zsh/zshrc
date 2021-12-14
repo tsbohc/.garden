@@ -135,7 +135,7 @@ ansi() {
 
 if [[ -n $SSH_CONNECTION ]]; then
   PCMD() {
-    echo "$(ansi blue "$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
+    echo "$(ansi blue "$(whoami)@$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
   }
 else
   PCMD() {
@@ -209,6 +209,12 @@ p-user() {
     --userns=keep-id \
     --rm \
     -it "$1" /bin/bash
+}
+
+p-send() {
+  rm "${1}.tar"
+  podman save -o "${1}.tar" "$1"
+  scp "${1}.tar" tsbohc@192.168.0.42:/home/tsbohc/podman/images/
 }
 
 alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'

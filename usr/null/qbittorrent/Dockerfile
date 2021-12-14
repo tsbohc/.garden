@@ -57,7 +57,7 @@ VOLUME /data
 RUN curl -L https://github.com/WDaan/VueTorrent/releases/latest/download/vuetorrent.zip \
     -o vuetorrent.zip \
   && unzip vuetorrent.zip \
-  && rm vuetorrent.zip \
+  && rm -f vuetorrent.zip \
   && mv vuetorrent webui
 
 ENTRYPOINT ["/entrypoint.sh"]

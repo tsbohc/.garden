@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+# podman save -o qbittorrent-save.tar qbittorrent
 
 podrun() {
   name=$1 ; shift
   podman run \
-    --userns=keep-id \
-    --restart unless-stopped \
+    --rm \
     --name "$name" \
     "$@" "$name"
 }
