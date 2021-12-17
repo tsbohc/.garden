@@ -54,11 +54,11 @@ EXPOSE 8080
 WORKDIR /data
 VOLUME /data
 
-RUN curl -L https://github.com/WDaan/VueTorrent/releases/latest/download/vuetorrent.zip \
-    -o vuetorrent.zip \
-  && unzip vuetorrent.zip \
-  && rm -f vuetorrent.zip \
-  && mv vuetorrent webui
+#RUN curl -L https://github.com/WDaan/VueTorrent/releases/latest/download/vuetorrent.zip \
+#    -o vuetorrent.zip \
+#  && unzip vuetorrent.zip \
+#  && rm -f vuetorrent.zip \
+#  && mv vuetorrent webui
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/qbittorrent-nox"]

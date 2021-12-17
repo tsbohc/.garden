@@ -21,23 +21,42 @@ augroup END]])
 -- do i need this though? bayleaf won't let me break the config anyway
 --local function rescue()
 --  local keys = {
---    F = 'E', f = 'e',
---    J = 'F', j = 'f',
---    L = 'I', l = 'i',
---    K = 'N', k = 'n',
---    N = '<c-d>', n = 'j',
+--    n = 'j',
+--    e = 'k',
+--    I = '$',
 --    H = '0',
---    E = '<c-u>', e = 'k',
---    I = '$', i = 'l',
+--    N = '<c-d>',
+--    E = '<c-u>',
+--
 --    ['<c-h>'] = '<c-w>h',
 --    ['<c-n>'] = '<c-w>j',
 --    ['<c-e>'] = '<c-w>k',
---    ['<c-i>'] = '<c-w>l'
+--    ['<c-i>'] = '<c-w>l',
+--
+--    ['//'] = ':nohlsearch<cr>',
+--
+--    U = '<c-r>',
+--    ['<c-j>'] = 'J',
+--
+--    i = 'l',
+--
+--    l = 'i',
+--    L = 'I',
+--
+--    f = 'e',
+--    F = 'E',
+--
+--    j = 'f',
+--    J = 'F',
+--
+--    k = 'n',
+--    K = 'N',
 --  }
 --
 --  for k, v in pairs(keys) do
 --    vim.api.nvim_set_keymap('n', k, v, { noremap = true })
 --    vim.api.nvim_set_keymap('v', k, v, { noremap = true })
+--    vim.api.nvim_set_keymap('o', k, v, { noremap = true })
 --  end
 --end
 --rescue() -- make this a :Cmd that requires a file
@@ -258,10 +277,10 @@ packer.startup({function(use)
          sources = cmp.config.sources({
            --{ name = 'treesitter' },
            { name = 'nvim_lsp' },
+           { name = 'buffer' },
            { name = 'vsnip' },
          }, {
            { name = 'path' },
-           --{ name = 'buffer' },
          })
        }
        cmp.setup.cmdline('/', {
@@ -308,7 +327,7 @@ for _, m in ipairs(modules) do
     print("Error while loading '" .. m .. "':\n" .. out)
   end
 end
---
+
 --vim.g.tex_flavor = 'latex'
 --vim.g.vimtex_view_method = 'zathura'
 --vim.g.vimtex_compiler_latexmk = { executable = 'latexmk',

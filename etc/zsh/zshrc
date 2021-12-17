@@ -184,38 +184,38 @@ fshow() {
 
 # ;; aliases
 
-p-build() {
-  podman container rm "$1"
-  podman rmi "$1"
-  podman build -t "$1" "$1"
-}
-
-p-run() {
-  podman run \
-    --rm \
-    --userns=keep-id \
-    --name "$1" \
-    "$1"
-}
-
-p-root() {
-  podman run \
-    --rm \
-    -it "$1" /bin/bash
-}
-
-p-user() {
-  podman run \
-    --userns=keep-id \
-    --rm \
-    -it "$1" /bin/bash
-}
-
-p-send() {
-  rm "${1}.tar"
-  podman save -o "${1}.tar" "$1"
-  scp "${1}.tar" tsbohc@192.168.0.42:/home/tsbohc/podman/images/
-}
+#p-build() {
+#  podman container rm "$1"
+#  podman rmi "$1"
+#  podman build -t "$1" "$1"
+#}
+#
+#p-run() {
+#  podman run \
+#    --rm \
+#    --userns=keep-id \
+#    --name "$1" \
+#    "$1"
+#}
+#
+#p-root() {
+#  podman run \
+#    --rm \
+#    -it "$1" /bin/bash
+#}
+#
+#p-user() {
+#  podman run \
+#    --userns=keep-id \
+#    --rm \
+#    -it "$1" /bin/bash
+#}
+#
+#p-send() {
+#  rm "${1}.tar"
+#  podman save -o "${1}.tar" "$1"
+#  scp "${1}.tar" tsbohc@192.168.0.42:/home/tsbohc/podman/images/
+#}
 
 alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
 
@@ -582,23 +582,23 @@ zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold sl
 #zle -N gp
 #bindkey "^g" gp
 #
-## simple fuzzy history
-#::fuzzy_history() {
-#  local output
-#  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 1000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
-#  echo "$output"
-#}
-#
-#::fuzzy_history::keybind() {
-#  local output
-#  output="$(::fuzzy_history)"
-#  zle reset-prompt
-#  if [ ! "$output" = "" ]; then
-#    BUFFER=""             # clear whatever is on the line
-#    LBUFFER+="${output}"  # append selection from fzf
-#  fi
-#  return 0
-#}
+# simple fuzzy history
+::fuzzy_history() {
+  local output
+  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 1000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+  echo "$output"
+}
+
+::fuzzy_history::keybind() {
+  local output
+  output="$(::fuzzy_history)"
+  zle reset-prompt
+  if [ ! "$output" = "" ]; then
+    BUFFER=""             # clear whatever is on the line
+    LBUFFER+="${output}"  # append selection from fzf
+  fi
+  return 0
+}
 #
 ##hh() {
 ##  local output
@@ -608,8 +608,8 @@ zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold sl
 ##  fi
 ##  return 0
 ##}
-#zle -N ::fuzzy_history::keybind
-#bindkey "^[[A" ::fuzzy_history::keybind
+zle -N ::fuzzy_history::keybind
+bindkey "^[[A" ::fuzzy_history::keybind
 #
 ##function zle-line-init zle-keymap-select {
 ##  zle reset-prompt
@@ -712,6 +712,7 @@ function precmd() { # executed before each prompt
 
 function TRAPUSR1() {
   RPROMPT="$(cat /tmp/zsh_prompt_$$)" # read from temp file
+  #rm /tmp/zsh_prompt_$$ # clean up
   ASYNC_PROC=0 # reset proc number
   zle && zle reset-prompt # redisplay
 }

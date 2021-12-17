@@ -1,0 +1,4 @@
+colo="limestone"
+import varsets/limestone
+
+# vim: ft=toml

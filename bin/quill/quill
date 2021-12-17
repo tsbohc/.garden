@@ -38,7 +38,7 @@ help() { # this does work on rel paths because the script launches quill from pw
   #  }
   #fi
   # FIXME i don't need the command -v because the script is calling quill, not quill looking for the script
-  [ -e "$1" ] && { path=$1 ; } || {
+  [ -e "$1" ] && path=$1 || {
     path="$(command -v "$1")" || { # this is new to me TODO google
       echo "quill: no such script $1"
       exit 1
