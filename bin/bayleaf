@@ -74,7 +74,7 @@ testrun() {
     switch-config "$ACTUAL"
   else
     switch-config "$ACTUAL"
-    bail "testrun failure\n${output//$HOME/\~}"
+    #bail "testrun failure\n${output//$HOME/\~}"
   fi
 }
 

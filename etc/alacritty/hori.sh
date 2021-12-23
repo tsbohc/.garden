@@ -3,9 +3,9 @@ depend() {
 }
 
 add() {
-  link $(render alacritty.yml) "~/.config/alacritty/alacritty.yml"
+  link "$(render alacritty.yml)" ~/.config/alacritty/alacritty.yml
 }
 
 del() {
-  unlink "~/.config/alacritty/alacritty.yml"
+  unlink ~/.config/alacritty/alacritty.yml
 }

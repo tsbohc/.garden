@@ -1,6 +1,6 @@
 ; extract colors from a lush theme
 
-(local theme-name :limestone)
+(local theme-name :slate)
 
 (fn nvim-rtp []
   "get neovim's runtime path"

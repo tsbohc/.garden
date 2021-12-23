@@ -2,7 +2,7 @@
 
 ; colors
 (vim.cmd ":syntax enable")
-(vim.cmd ":colo limestone")
+(vim.cmd ":colo slate")
 
 ; rendering
 (se- encoding "utf-8")

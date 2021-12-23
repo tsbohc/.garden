@@ -69,7 +69,7 @@ local g = vim.g
 -- ensure packer is installed
 local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-  vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_path })
+  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path})
 end
 
 vim.cmd('packadd packer.nvim')
@@ -85,6 +85,10 @@ packer.startup({function(use)
     requires = 'rktjmp/lush.nvim'
   }
 
+  use { vim.env.HOME .. '/code/slate',
+    requires = 'rktjmp/lush.nvim'
+  }
+
   vim.api.nvim_command('set termguicolors')
   vim.api.nvim_command('colo limestone')
 
@@ -96,6 +100,8 @@ packer.startup({function(use)
       vim.g.indentLine_fileTypeExclude = { 'markdown' }
     end
   }
+
+  use { 'https://github.com/lervag/vimtex' }
 
   -- nvim 0.6
   --use { 'lukas-reineke/virt-column.nvim',
@@ -210,13 +216,13 @@ packer.startup({function(use)
       --require("lspconfig")["null-ls"].setup({
       --  capabilities = capabilities
       --})
-
-      vim.fn.sign_define("DiagnosticSignError", { text = "░", texthl = "DiagnosticSignError" })
-      vim.fn.sign_define("DiagnosticSignWarn", { text = "░", texthl = "DiagnosticSignWarn" })
-      vim.fn.sign_define("DiagnosticSignInformation", { text = "░", texthl = "DiagnosticSignInfo" })
-      vim.fn.sign_define("DiagnosticSignHint", { text = "░", texthl = "DiagnosticSignHint" })
     end
   }
+
+  vim.fn.sign_define("DiagnosticSignError", { text = "◆", texthl = "DiagnosticSignError" })
+  vim.fn.sign_define("DiagnosticSignWarn", { text = "◇", texthl = "DiagnosticSignWarn" })
+  vim.fn.sign_define("DiagnosticSignInformation", { text = "·", texthl = "DiagnosticSignInfo" })
+  vim.fn.sign_define("DiagnosticSignHint", { text = "·", texthl = "DiagnosticSignHint" })
 
   -- completion
 
@@ -328,33 +334,37 @@ for _, m in ipairs(modules) do
   end
 end
 
---vim.g.tex_flavor = 'latex'
---vim.g.vimtex_view_method = 'zathura'
---vim.g.vimtex_compiler_latexmk = { executable = 'latexmk',
---                                  options = { '-xelatex',
---                                              '-file-line-error',
---                                              '-synctex=1',
---                                              '-interaction=nonstopmode' } }
---vim.g.vimtex_quickfix_mode = 0
---
---
+vim.g.tex_flavor = 'latex'
+vim.g.vimtex_view_method = 'zathura'
+vim.g.vimtex_compiler_latexmk = {
+  executable = 'latexmk',
+  options = {
+    '-xelatex',
+    '-file-line-error',
+    '-synctex=1',
+    '-interaction=nonstopmode'
+  }
+}
+
+vim.g.vimtex_quickfix_mode = 0
+
 --local zest = require('zest')
+
+--vim.cmd(lime.vlua_format(':com -nargs=* Mycmd :call %s(<f-args>)', function(a)
+--  print('hey, ' .. a)
+--end))
 --
-----vim.cmd(lime.vlua_format(':com -nargs=* Mycmd :call %s(<f-args>)', function(a)
-----  print('hey, ' .. a)
-----end))
-
---zest.def_keymap('n', { noremap = true }, '<c-n>', [[:echo "keymap-str-r"<cr>]])
-
-----lime.def_keymap('n', { noremap = true }, '<c-m>', function()
-----  print('keymap-fn-r')
-----end)
-----
-----lime.def_augroup('test-r', function()
-----  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
-----    print('runtime-augroup-1')
-----  end)
-----  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
-----    print('runtime-augroup-2')
-----  end)
-----end)
+--st.def_keymap('n', { 'noremap' }, '<c-n>', [[:echo "keymap-str-r"<cr>]])
+--
+--ki('n', { 'noremap' }, '<c-m>', function()
+--  print('keymap-fn-r')
+--end)
+--
+--lime.def_augroup('test-r', function()
+--  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
+--    print('runtime-augroup-1')
+--  end)
+--  lime.def_autocmd({ 'BufLeave', 'BufEnter' }, '*', function()
+--    print('runtime-augroup-2')
+--  end)
+--end)
