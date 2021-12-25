@@ -39,6 +39,7 @@ return function(use)
   }
 
   -- goodies
+  -- TODO i'm sold on comment.nvim, so...
   use { 'echasnovski/mini.nvim', branch = 'stable' }
   require('mini.comment').setup {
     mappings = {
@@ -47,6 +48,13 @@ return function(use)
       textobject = 'mc'
     }
   }
+
+  use { 'nvim-telescope/telescope.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function() require('paq.telescope_') end
+  }
+
+  -- whichkey maybe?
 
   -- themedev
   use 'nvim-treesitter/playground'
