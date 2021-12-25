@@ -12,7 +12,7 @@ vim.diagnostic.config({
   virtual_text = {
     prefix = '⥌'
   },
-  update_in_insert = true,
+  update_in_insert = false,
 })
 
 -- handlers
@@ -33,24 +33,33 @@ local function on_attach(client, bufnr)
 end
 
 -- capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if ok then
-  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
-end
+--local capabilities = vim.lsp.protocol.make_client_capabilities()
+--
+--local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+--if ok then
+--  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+--end
 
 -- lsp_installer
 
-lsp_installer.on_server_ready(function(server)
-  local opts = {
+--lsp_installer.on_server_ready(function(server)
+--  local opts = {
+--    --on_attach = on_attach,
+--    --capabilities = capabilities,
+--  }
+--
+--  if server.name == "sumneko_lua" then
+--    opts = vim.tbl_deep_extend("force", require('lsp.sumneko'), opts)
+--  end
+--
+--  server:setup(opts)
+--end)
+
+local lspconfig = require('lspconfig')
+local servers = { 'sumneko_lua' }
+
+for _, s in ipairs(servers) do
+  lspconfig[s].setup(vim.tbl_deep_extend('force', require('lsp.' .. s), {
     on_attach = on_attach,
-    capabilities = capabilities,
-  }
-
-  if server.name == "sumneko_lua" then
-    opts = vim.tbl_deep_extend("force", require('lsp.sumneko'), opts)
-  end
-
-  server:setup(opts)
-end)
+  }))
+end

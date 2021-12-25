@@ -5,7 +5,7 @@ return function(use)
 
   -- treesitter
   use { 'nvim-treesitter/nvim-treesitter',
-    config = function() require('packs.treesitter_') end
+    config = function() require('paq.treesitter_') end
   }
 
   -- lsp
@@ -25,16 +25,26 @@ return function(use)
       -- nb: nvim-cmp requires a snippet engine
       { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
     },
-    config = function() require('packs.cmp_') end
+    config = function() require('paq.cmp_') end
   }
 
   -- code
   use { 'lukas-reineke/indent-blankline.nvim',
-    config = function() require('packs.indent_blankline_') end
+    config = function() require('paq.indent_blankline_') end
   }
 
   use { 'lewis6991/gitsigns.nvim',
     requires = 'nvim-lua/plenary.nvim',
-    config = function() require('packs.gitsigns_') end
+    config = function() require('paq.gitsigns_') end
+  }
+
+  -- goodies
+  use { 'echasnovski/mini.nvim', branch = 'stable' }
+  require('mini.comment').setup {
+    mappings = {
+      comment = 'mc',
+      comment_line = 'mcc',
+      textobject = 'mc'
+    }
   }
 end

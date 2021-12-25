@@ -1,15 +1,5 @@
-local ok, cmp = pcall(require, 'cmp')
-if not ok then
-  -- TODO xp call this with a stack trace?
-  print 'error while loading "cmp"'
-  return
-end
-
-local ok, luasnip = pcall(require, 'luasnip')
-if not ok then
-  print 'error while loading "luasnip"'
-  return
-end
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
 
 local function feedkeys(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
@@ -20,13 +10,12 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
--- ·
 local kind_icons = {
   Text = " ",
   Method = "",
   Function = "ƒ",
   Constructor = "",
-  Field = "",
+  Field = "·",
   Variable = "◇", -- ⬡
   Class = "",
   Interface = "",
@@ -34,7 +23,7 @@ local kind_icons = {
   Property = "",
   Unit = "∫",
   Value = "›", -- ⊻
-  Enum = "",
+  Enum = "∑", -- ehh...
   Keyword = "⚍",
   Snippet = "⇋",
   Color = "",
@@ -52,7 +41,7 @@ local kind_icons = {
 cmp.setup {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body) -- allow cmp to expand lsp snippets
     end
   },
 
@@ -79,7 +68,9 @@ cmp.setup {
       end
     end, { 'i', 's' }),
 
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+     -- { select = false } makes it so that <cr> doesn't accept a menu item unless one has
+     -- been explicitly selected
   },
 
   sources = cmp.config.sources({
@@ -101,7 +92,7 @@ cmp.setup {
       vim_item.menu = ({
         buffer = "<buf>",
         nvim_lsp = "<lsp>",
-        luasnip = "<sni>",
+        luasnip = "<snp>",
         nvim_lua = "<vim>",
         latex_symbols = "<tex>",
       })[entry.source.name]
@@ -125,4 +116,4 @@ cmp.setup.cmdline(':', {
 })
 
 -- load snippets
-require("luasnip.loaders.from_vscode").lazy_load() 
+--require("luasnip.loaders.from_vscode").lazy_load() 

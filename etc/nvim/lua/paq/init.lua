@@ -27,7 +27,7 @@ packer.init {
 vim.cmd([[
   augroup packer_auto_compile
     autocmd!
-    autocmd BufWritePost */nvim/lua/packs/*.lua,*/nvim/lua/lsp/*.lua,*/nvim/lua/plugins.lua source <afile> | PackerCompile
+    autocmd BufWritePost */nvim/lua/paq/*.lua,*/nvim/lua/lsp/*.lua,*/nvim/lua/plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
 

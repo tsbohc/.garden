@@ -1,5 +1,7 @@
 local se = vim.opt
 
+vim.cmd [[set nocompatible]]
+
 -- rendering
 se.encoding = 'utf-8'
 se.synmaxcol = 256
@@ -39,6 +41,15 @@ se.clipboard = 'unnamedplus'
 se.mouse = 'a'
 se.completeopt = { 'menu', 'menuone', 'noselect' }
 --se.smartindent = true
+
+-- formatoptions are being overwritten by ftpplugin, also h: fo-table
+se.textwidth = 80
+vim.cmd [[
+  augroup override_formatoptions
+    au!
+    au VimEnter * setlocal formatoptions-=r formatoptions-=o
+  augroup END
+]]
 
 -- splits
 se.splitbelow = true

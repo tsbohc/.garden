@@ -37,10 +37,33 @@ local function rescue()
     vim.api.nvim_set_keymap('o', k, v, { noremap = true })
   end
 end
--- }}}
 
 --rescue()
+-- }}}
+
+-- au.my_group(function()
+--   au.cmd({'BufLeave', 'BufEnter'}, '*', function()
+--     print("hello")
+--   end)
+-- end)
+--
+-- vf.ex(':com -nargs=* Mycmd :call %s(<f-args>)', function(a)
+--   print('hello, ' .. a)
+-- end, 'my special cmd') -- accept docstring because it's nice
 
 require('settings')
 require('keymaps')
-require('packs')
+require('paq')
+
+-- function W.Keyring(callback)
+--   -- get a fresh table with callable keys,
+--   -- the key is passed as the first argument to the callback
+--   return setmetatable({}, {
+--     __index = function(self, key)
+--       self[key] = function(...)
+--         callback(key, ...)
+--       end
+--       return rawget(self, key)
+--     end
+--   })
+-- end
