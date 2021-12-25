@@ -27,11 +27,23 @@ local adjustments = {
 
 for k, v in pairs(adjustments) do
   local K, V = k:upper(), v:upper()
-  vim.api.nvim_set_keymap('', k, v, { noremap = true })
-  vim.api.nvim_set_keymap('', K, V, { noremap = true })
+  -- we do not won't to touch '' (== nvo == nxso) as that'll mess up select mode
+  -- and hence snippets
+  vim.api.nvim_set_keymap('n', k, v, { noremap = true })
+  vim.api.nvim_set_keymap('n', K, V, { noremap = true })
+  vim.api.nvim_set_keymap('x', k, v, { noremap = true })
+  vim.api.nvim_set_keymap('x', K, V, { noremap = true })
+  vim.api.nvim_set_keymap('o', k, v, { noremap = true })
+  vim.api.nvim_set_keymap('o', K, V, { noremap = true })
   colemak[v] = k
   colemak[V] = K
 end
+
+-- switch 'i' to 'm'. nb: plugin mappings need to be adjusted too
+vim.api.nvim_set_keymap('o', 'm', 'i', { noremap = true })
+vim.api.nvim_set_keymap('o', 'M', 'I', { noremap = true })
+vim.api.nvim_set_keymap('x', 'm', 'i', { noremap = true })
+vim.api.nvim_set_keymap('x', 'M', 'I', { noremap = true })
 
 -- translate qwerty lhs to colemak lhs based on the applied fixes
 

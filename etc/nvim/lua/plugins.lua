@@ -47,4 +47,7 @@ return function(use)
       textobject = 'mc'
     }
   }
+
+  -- themedev
+  use 'nvim-treesitter/playground'
 end

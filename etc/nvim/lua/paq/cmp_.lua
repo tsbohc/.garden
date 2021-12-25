@@ -10,6 +10,19 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local function t(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local function check_back_space()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
 local kind_icons = {
   Text = " ",
   Method = "",
@@ -41,29 +54,43 @@ local kind_icons = {
 cmp.setup {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- allow cmp to expand lsp snippets
+      luasnip.lsp_expand(args.body) -- allow cmp to expand lsp snippets
     end
   },
 
   mapping = {
+    ['<c-n>'] = cmp.mapping(function()
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      end
+    end, { 'i', 's' }),
+
+    ['<c-e>'] = cmp.mapping(function()
+      if luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      end
+    end, { 'i', 's' }),
+
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+      --elseif luasnip.expand_or_jumpable() then
+      --  luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
+        print('<tab> outed')
         fallback()
       end
     end, { 'i', 's' }),
 
-    ['<S-Tab>'] = cmp.mapping(function()
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      --elseif luasnip.jumpable(-1) then
+      --  luasnip.jump(-1)
       else
+        print('<s-tab> outed')
         fallback()
       end
     end, { 'i', 's' }),
@@ -116,4 +143,6 @@ cmp.setup.cmdline(':', {
 })
 
 -- load snippets
---require("luasnip.loaders.from_vscode").lazy_load() 
+require('luasnip.loaders.from_snipmate').lazy_load {
+  paths = 'snp'
+}

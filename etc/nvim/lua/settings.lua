@@ -67,6 +67,11 @@ se.foldenable = true
 se.foldmethod = 'marker'
 --se.foldtext
 
+-- {{{
+  -- an indented line
+-- }}}
+-- TODO foldtext ^^^^
+
 -- whitespace
 se.tabstop = 2
 se.shiftwidth = 2

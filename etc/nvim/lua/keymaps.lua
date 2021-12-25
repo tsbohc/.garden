@@ -1,5 +1,14 @@
 local ki = require 'lib.ki'
 
+--[[
+if a plugin introduces an 'i<key>' mapping (inside-whatever)
+'i' mapped to 'l' becomes delayed in visual mode
+should write a check if there's more than 1 mapping of i
+should also use m instead of i for everything
+
+try switching i to m first TODO
+--]]
+
 --  land of opinionated navigation  --
 --------------  --/-<@  --------------
 
@@ -7,29 +16,31 @@ local ki = require 'lib.ki'
 vim.g.mapleader = ' ' -- (sorry)
 
 -- smart v-line movement
-ki.nvs('k', function()
+ki.nx('k', function()
   if vim.v.count > 0 then return 'k' else return 'gk' end
 end, { 'expr' })
 
-ki.nvs('j', function()
+ki.nx('j', function()
   if vim.v.count > 0 then return 'j' else return 'gj' end
 end, { 'expr' })
 
 -- simple split switching
+-- considering how i don't rely too much on splits, maybe tab-something would
+-- be better?
 for _, k in ipairs({ 'h', 'j', 'k', 'l' }) do
   ki.n('<c-' .. k .. '>', '<c-w>' .. k)
 end
 
 -- screen and line movement
-ki.nvs('H', '0')
-ki.nvs('J', '<c-d>')
-ki.nvs('K', '<c-u>')
-ki.nvs('L', '$')
+ki.nx('H', '0')
+ki.nx('J', '<c-d>')
+ki.nx('K', '<c-u>')
+ki.nx('L', '$')
 
 --        search and replace        --
 --------------  --/-<@  --------------
 
-ki.nvs('//', ':nohlsearch<cr>', { 'silent' })
+ki.nx('//', ':nohlsearch<cr>', { 'silent' })
 
 -- keep cursor position when norm! *
 ki.n('*', function()
@@ -65,7 +76,7 @@ ki.n('U', '<c-r>')
 ki.n('Y', 'y$')
 
 -- fixes
-ki.n('<c-f>', 'J', { 'verbose' } )
+ki.n('<c-f>', 'J')
 
 
 -- my special comment line function, heading, total width=79 (80?) =====s
