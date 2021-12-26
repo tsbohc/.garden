@@ -67,12 +67,13 @@ M.ki = setmetatable({}, {
     self[modes] = function(lhs, rhs, opt)
       --print(modes, lhs, rhs, opt)
       local _opt = { noremap = true, expr = false }
+      local is_verbose = false
       if opt then
         for _, o in ipairs(opt) do
           if o == 'remap' then
             _opt.noremap = false
           elseif o == 'verbose' then
-            print(modes, lhs, rhs, vim.inspect(opt))
+            is_verbose = true
           else
             _opt[o] = true
           end
@@ -80,9 +81,12 @@ M.ki = setmetatable({}, {
       end
 
       local data = bind('keymap', { modes = modes, lhs = lhs, rhs = rhs, opt = _opt })
-      data.lhs = colemak_adjust(data.lhs)
+      --data.lhs = colemak_adjust(data.lhs)
 
       for m in modes:gmatch('.') do
+        if is_verbose then
+          print(m, data.lhs, data.rhs, vim.inspect(data.opt))
+        end
         vim.api.nvim_set_keymap(m, data.lhs, data.rhs, data.opt)
       end
     end

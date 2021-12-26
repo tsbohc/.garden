@@ -1,5 +1,6 @@
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
+local ki = require 'lib.ki'
 
 local function feedkeys(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
@@ -59,17 +60,14 @@ cmp.setup {
   },
 
   mapping = {
-    ['<c-n>'] = cmp.mapping(function()
-      if luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      end
-    end, { 'i', 's' }),
-
-    ['<c-e>'] = cmp.mapping(function()
-      if luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      end
-    end, { 'i', 's' }),
+    ['<C-b>'] = cmp.config.disable,
+    ['<C-f>'] = cmp.config.disable,
+    ['<C-Space>'] = cmp.config.disable,
+    ['<C-y>'] = cmp.config.disable,
+    ['<C-e>'] = cmp.config.disable,
+    --['<Tab>'] = cmp.config.disable,
+    --['<S-Tab>'] = cmp.config.disable,
+    --['<CR>'] = cmp.config.disable,
 
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -79,7 +77,6 @@ cmp.setup {
       elseif has_words_before() then
         cmp.complete()
       else
-        print('<tab> outed')
         fallback()
       end
     end, { 'i', 's' }),
@@ -90,7 +87,6 @@ cmp.setup {
       --elseif luasnip.jumpable(-1) then
       --  luasnip.jump(-1)
       else
-        print('<s-tab> outed')
         fallback()
       end
     end, { 'i', 's' }),
@@ -111,7 +107,6 @@ cmp.setup {
   formatting = {
     fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
-      -- TODO: play around with icons
       if kind_icons[vim_item.kind] ~= '' then
         vim_item.kind = kind_icons[vim_item.kind]
       end
@@ -146,3 +141,18 @@ cmp.setup.cmdline(':', {
 require('luasnip.loaders.from_snipmate').lazy_load {
   paths = 'snp'
 }
+
+-- snippet keymaps (the (b)back and (w)ord mnemonic)
+ki.is('<c-w>', function()
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  end
+  return ''
+end, { 'expr' })
+
+ki.is('<c-b>', function()
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  end
+  return ''
+end, { 'expr' })

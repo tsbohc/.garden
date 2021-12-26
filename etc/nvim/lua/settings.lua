@@ -21,10 +21,10 @@ se.signcolumn = 'yes'
 
 -- status
 se.laststatus = 2
-se.showmode = true
+se.showmode = false
 
 -- tabs
---se.showtabline = 2
+se.showtabline = 2
 
 -- match
 --se.showmatch = true

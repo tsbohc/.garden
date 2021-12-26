@@ -52,8 +52,8 @@ end
 -- end, 'my special cmd') -- accept docstring because it's nice
 
 require('settings')
-require('keymaps')
 require('paq')
+require('keymaps')
 
 -- function W.Keyring(callback)
 --   -- get a fresh table with callable keys,
