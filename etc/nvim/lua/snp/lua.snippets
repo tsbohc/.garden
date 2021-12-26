@@ -48,6 +48,13 @@ snippet req
 snippet pri
 	print('${1:string}')
 
+snippet use
+	use { '${1:repo/pack}',
+		config = function()
+			${0:--}
+		end,
+	}
+
 snippet kis
 	ki.${1:modes}('${2:lhs}', '${3:rhs}')
 

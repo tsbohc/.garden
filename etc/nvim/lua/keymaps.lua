@@ -80,6 +80,7 @@ ki.n('Y', 'y$')
 ki.n('<c-j>', 'J')
 
 
+ki.n('<leader>f', '<Plug>(cokeline-pick-focus)', { 'silent', 'remap' })
 
 -- my special comment line function, heading, total width=71 (80?) =s
 -- fold function with preview
