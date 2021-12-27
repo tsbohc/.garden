@@ -138,8 +138,8 @@ cmp.setup.cmdline(':', {
 })
 
 -- load snippets
-require('luasnip.loaders.from_snipmate').lazy_load {
-  paths = 'snp'
+require('luasnip.loaders.from_snipmate').load {
+  paths = '~/.garden/etc/nvim/lua/snp' -- FIXME get rid of the abs path
 }
 
 -- snippet keymaps (the (b)back and (w)ord mnemonic)

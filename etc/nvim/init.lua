@@ -55,6 +55,21 @@ require('settings')
 require('paq')
 require('keymaps')
 
+local sl = require('lib.sl')
+
+sl.setup {
+  active = {
+    os.time,
+    ' active',
+    ' %f %l'
+  },
+  inactive = {
+    os.time,
+    ' inactive',
+    ' %f %l'
+  },
+}
+
 -- function W.Keyring(callback)
 --   -- get a fresh table with callable keys,
 --   -- the key is passed as the first argument to the callback

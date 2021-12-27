@@ -20,8 +20,12 @@ end, { 'expr' })
 -- simple split switching
 -- considering how i don't rely too much on splits, maybe
 -- tab-something would be better?
-for _, k in ipairs({ 'h', 'j', 'k', 'l' }) do
-  ki.n('<c-' .. k .. '>', '<c-w>' .. k)
+--for _, k in ipairs({ 'h', 'j', 'k', 'l' }) do
+--  ki.n('<c-' .. k .. '>', '<c-w>' .. k)
+--end
+
+for k, v in pairs({ h = 'h', n = 'j', e = 'k', i = 'l' }) do
+  ki.n('<c-' .. k .. '>', '<c-w>' .. v)
 end
 
 -- screen and line movement
@@ -55,7 +59,7 @@ ki.n('*', function()
   vim.fn.setpos('.', p)
 end)
 
--- search literally for visually selected text
+-- search for visually selected text non-magically
 ki.x('*', function()
   local p = vim.fn.getpos '.'
   local yank_reg = vim.fn.getreg('"')
