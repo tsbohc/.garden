@@ -1,4 +1,4 @@
-local bind = require 'lib.bind'
+local bind = require('lib.bind').bind
 
 local M = {}
 
@@ -17,7 +17,7 @@ local M = {}
 
 -- apply colemak fixes
 
-local colemak = {}
+-- local colemak = {}
 
 local adjustments = {
   n = 'j', e = 'k', i = 'l',
@@ -28,15 +28,15 @@ local adjustments = {
 for k, v in pairs(adjustments) do
   local K, V = k:upper(), v:upper()
   -- we do not won't to touch '' (== nvo == nxso) as that'll mess up select mode
-  -- and hence snippets
+  -- and hence snippets too
   vim.api.nvim_set_keymap('n', k, v, { noremap = true })
   vim.api.nvim_set_keymap('n', K, V, { noremap = true })
   vim.api.nvim_set_keymap('x', k, v, { noremap = true })
   vim.api.nvim_set_keymap('x', K, V, { noremap = true })
   vim.api.nvim_set_keymap('o', k, v, { noremap = true })
   vim.api.nvim_set_keymap('o', K, V, { noremap = true })
-  colemak[v] = k
-  colemak[V] = K
+  -- colemak[v] = k
+  -- colemak[V] = K
 end
 
 -- switch 'i' to 'm'. nb: plugin mappings need to be adjusted too
@@ -47,18 +47,18 @@ vim.api.nvim_set_keymap('x', 'M', 'I', { noremap = true })
 
 -- translate qwerty lhs to colemak lhs based on the applied fixes
 
-local function colemak_adjust(s)
-  s = s .. '<>'
-  s = s:gsub('(.-)(%b<>)', function(outside, inside)
-    outside = outside:gsub('.', colemak)
-    local _, _, mod, key = inside:find('<(%a)%-(%a)>')
-    if key and colemak[key] then
-      inside = '<' .. mod .. '-' .. colemak[key] .. '>'
-    end
-    return outside .. inside
-  end)
-  return s:sub(1, -3)
-end
+-- local function colemak_adjust(s)
+--   s = s .. '<>'
+--   s = s:gsub('(.-)(%b<>)', function(outside, inside)
+--     outside = outside:gsub('.', colemak)
+--     local _, _, mod, key = inside:find('<(%a)%-(%a)>')
+--     if key and colemak[key] then
+--       inside = '<' .. mod .. '-' .. colemak[key] .. '>'
+--     end
+--     return outside .. inside
+--   end)
+--   return s:sub(1, -3)
+-- end
 
 -- map stuff
 

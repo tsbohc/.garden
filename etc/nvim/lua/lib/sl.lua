@@ -1,96 +1,98 @@
+local M = { }
 
---[[ wishlist
-if only only one buf is loaded, hide tabline
-if tabline is hidden (one buf is loaded), show filename in the statusline
+local vlua = require('lib.bind').vlua
 
--- the os.time() runs only for the active buffer when it is interacted with
--- (also entering/exiting :cmd updates it)
--- so basically event caching is something that's actually nice to have
+local generator = { }
 
-nesting metatables so that
-
-data[buf_nr][item_nr] would actually go through two calls and generate stuff if needed? idk
-
-{ function()
-    -- do some cool stuff and return a string
-  end, events = { 'CursorMoved' }
-}
---]]
-
-local M = {}
-
-local data = {
-  -- add hl here later
-  active = { 'UNSET ', os.time, ' active' },
-  inactive = { 'UNSET ', os.time, ' inactive' }
-}
-
-local cache = {}
-
--- returns a string to be set as the status line in the current window
-function M.get(kind, win_nr)
-  local xs = data[kind]
-
-  -- this should just be flatten(cache[win_nr][buf_nr][kind]) -- do i really
-  -- need wins here?
-  local out = ''
-  for _, v in ipairs(xs) do
-    local t = type(v)
+-- could get status too if i want to, i guess
+local function make(items, winid, bufnr)
+  local out = { }
+  for i, item in ipairs(items) do
+    local t = type(item)
     if t == 'string' then
-      out = out .. v
+      table.insert(out, i, item)
     elseif t == 'function' then
-      out = out .. v()
-    elseif t == 'table' then
-      if v.format then
-        --
-      elseif v.events then
-        -- create autocmd here, cache result and bind the returning function to
-        -- an internal table
-      end
+      table.insert(out, i, item(winid, bufnr))
     end
   end
+
+  local debug = winid .. ':' .. bufnr .. ' ' .. os.time()
+  table.insert(out, 1, debug)
   return out
 end
 
---local function cache(xs)
---  for i, v in ipairs(xs) do
---    local t = type(v)
---    if t == 'string' then
---      cache[i] = v
---    elseif t == 'function' then
---      cache[i] = v
---    elseif t == 'table' then
---      if v.format then
---        --
---      elseif v.events then
---        -- create autocmd here, cache result and bind the returning function to
---        -- an internal table
---      end
---    end
---  end
---end
+local cache = setmetatable({ }, {
+  __index = function(_cache, winid)
+    local win_table = setmetatable({ }, {
+      __index = function(_win_table, bufnr)
+        local buf_table = {
+          a = table.concat(make(generator.a, winid, bufnr), ' '),
+          i = table.concat(make(generator.i, winid, bufnr), ' '),
+        }
+        rawset(_win_table, bufnr, buf_table)
+        return buf_table
+      end
+    })
+    rawset(_cache, winid, win_table)
+    return win_table
+  end
+})
 
--- (data, { pad = { 0 0 0 0 }, hl = 'LineNr' })
-function M.format(...)
-  --
+au_cache = {}
+
+function M.au(fn, opts, winid, bufnr)
+  local id = #au_cache
+  local vl = vlua(function()
+    print('au')
+    au_cache[id] = fn()
+  end)
+  vim.cmd(string.format('autocmd Eventline %s * :call %s', table.concat(opts.events, ','), vl))
+  return function() return au_cache[id] end
 end
 
-function M.setup(config)
-  -- TODO too naive
-  if config.active then data.active = config.active end
-  if config.inactive then data.inactive = config.inactive end
+function M.redraw(s)
+  local winid = vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_get_current_buf()
+  cache[winid][bufnr] = nil -- this makes the line below get new data
+  vim.api.nvim_win_set_option(winid, 'statusline', cache[winid][bufnr][s])
+end
 
+function M.setup()
   vim.o.laststatus = 2
 
-  vim.cmd [=[
-    augroup EventLineSetup
-      au!
-      autocmd BufWinEnter,WinEnter * :lua vim.wo.statusline = string.format([[%%!luaeval('require("lib.sl").get("active", %s)')]], vim.api.nvim_get_current_win())
-  ]=]
+  vim.cmd [[
+   augroup Eventline
+     au!
+  ]]
 
-  vim.cmd [[augroup END]]
-  vim.cmd [[doautocmd BufWinEnter]]
 
+  local function gen()
+    return {
+      a = {
+        'A',
+        function(winid, bufnr)
+          return 'hellow from buf ' .. bufnr .. '!'
+        end,
+        M.au(function(winid, bufnr)
+          return 'last insert on ' .. os.time()
+        end, { events = { 'InsertEnter' } }),
+        '|'
+      },
+      i = {
+        'I'
+      }
+    }
+  end
+
+  -- we load modules here because we want M.au to generate autocmds *before* the
+  -- render ones are triggered
+  generator = gen()
+
+  vim.cmd [[
+     autocmd BufWinEnter,WinEnter,InsertEnter * :lua require'lib.sl'.redraw('a')
+     autocmd BufWinLeave,WinLeave * :lua require'lib.sl'.redraw('i')
+   augroup END
+  ]]
 end
 
 return M

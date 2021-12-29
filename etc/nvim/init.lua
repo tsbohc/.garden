@@ -57,18 +57,13 @@ require('keymaps')
 
 local sl = require('lib.sl')
 
-sl.setup {
-  active = {
-    os.time,
-    ' active',
-    ' %f %l'
-  },
-  inactive = {
-    os.time,
-    ' inactive',
-    ' %f %l'
-  },
-}
+sl.setup { }
+
+--local b = require('lib.bind')
+--print(vim.inspect(b))
+
+
+
 
 -- function W.Keyring(callback)
 --   -- get a fresh table with callable keys,
