@@ -1,8 +1,7 @@
 local M = { }
+local modules = { }
 
 local vlua = require('lib.bind').vlua
-
-local generator = { }
 
 -- could get status too if i want to, i guess
 local function make(items, winid, bufnr)
@@ -18,6 +17,7 @@ local function make(items, winid, bufnr)
 
   local debug = winid .. ':' .. bufnr .. ' ' .. os.time()
   table.insert(out, 1, debug)
+
   return out
 end
 
@@ -26,8 +26,8 @@ local cache = setmetatable({ }, {
     local win_table = setmetatable({ }, {
       __index = function(_win_table, bufnr)
         local buf_table = {
-          a = table.concat(make(generator.a, winid, bufnr), ' '),
-          i = table.concat(make(generator.i, winid, bufnr), ' '),
+          a = table.concat(make(modules.a, winid, bufnr), ' '),
+          i = table.concat(make(modules.i, winid, bufnr), ' '),
         }
         rawset(_win_table, bufnr, buf_table)
         return buf_table
@@ -38,23 +38,67 @@ local cache = setmetatable({ }, {
   end
 })
 
-au_cache = {}
-
-function M.au(fn, opts, winid, bufnr)
-  local id = #au_cache
-  local vl = vlua(function()
-    print('au')
-    au_cache[id] = fn()
-  end)
-  vim.cmd(string.format('autocmd Eventline %s * :call %s', table.concat(opts.events, ','), vl))
-  return function() return au_cache[id] end
-end
+-- function M.au(fn, opts)
+--   local id = #au_cache
+--
+--   vim.cmd(string.format(
+--     'autocmd Eventline %s * :call %s',
+--     table.concat(opts.events, ','),
+--     vlua(function()
+--       au_cache[id] = fn(vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf())
+--     end)
+--   ))
+--
+--   for _, e in ipairs(opts.events) do
+--     au_events[e] = true
+--   end
+--
+--   return function() return au_cache[id] end
+-- end
 
 function M.redraw(s)
   local winid = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_get_current_buf()
   cache[winid][bufnr] = nil -- this makes the line below get new data
   vim.api.nvim_win_set_option(winid, 'statusline', cache[winid][bufnr][s])
+end
+
+local au_cache = { }
+local au_events = { a = {}, i = {} }
+
+-- we can get active/inactive here
+local function ready(generator, s)
+  local modules = { }
+  for i, v in ipairs(generator) do
+    if type(v) == 'table' then
+      if v.events then
+
+        -- extract this into a function
+        local id = #au_cache
+        local fn = v[1] -- just do function only for now
+
+        vim.cmd(string.format(
+          'autocmd Eventline %s * :call %s',
+          table.concat(v.events, ','),
+          vlua(function()
+            au_cache[id] = fn(vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf())
+          end)
+        ))
+
+        -- store events separately
+        for _, e in ipairs(v.events) do
+          au_events[s][e] = true
+        end
+
+        table.insert(modules, i, function()
+          return au_cache[id]
+        end)
+      end
+    else
+      table.insert(modules, i, v)
+    end
+  end
+  return modules
 end
 
 function M.setup()
@@ -65,34 +109,41 @@ function M.setup()
      au!
   ]]
 
+  -- make format() a helper function that can be called from anywhere?
+  -- or just do '{ item, { ... } }' and 'item' for modules
 
-  local function gen()
-    return {
-      a = {
-        'A',
-        function(winid, bufnr)
-          return 'hellow from buf ' .. bufnr .. '!'
-        end,
-        M.au(function(winid, bufnr)
-          return 'last insert on ' .. os.time()
-        end, { events = { 'InsertEnter' } }),
-        '|'
-      },
-      i = {
-        'I'
-      }
+  modules.a = ready({
+    'A',
+    {
+      function(_, bufnr)
+        return 'last insert on ' .. os.time() .. ' in ' .. bufnr
+      end,
+      events = { 'InsertEnter' }
     }
+  }, 'a')
+
+  modules.i = { 'I' }
+
+  --
+
+  local redraw_events = {
+    a = { 'BufWinEnter', 'WinEnter' },
+    i = { 'BufWinLeave', 'WinLeave' }
+  }
+
+  for s, events in pairs(au_events) do
+    for k, _ in pairs(events) do
+      table.insert(redraw_events[s], k)
+    end
   end
 
-  -- we load modules here because we want M.au to generate autocmds *before* the
-  -- render ones are triggered
-  generator = gen()
+  redraw_events.a = table.concat(redraw_events.a, ',')
+  redraw_events.i = table.concat(redraw_events.i, ',')
+  --print(vim.inspect(redraw_events))
 
-  vim.cmd [[
-     autocmd BufWinEnter,WinEnter,InsertEnter * :lua require'lib.sl'.redraw('a')
-     autocmd BufWinLeave,WinLeave * :lua require'lib.sl'.redraw('i')
-   augroup END
-  ]]
+  vim.cmd(string.format([[ autocmd %s * :lua require'lib.sl'.redraw('a')]], redraw_events.a))
+  vim.cmd(string.format([[ autocmd %s * :lua require'lib.sl'.redraw('i')]], redraw_events.i))
+  vim.cmd [[augroup END]]
 end
 
 return M
