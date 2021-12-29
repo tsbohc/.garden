@@ -1,34 +1,56 @@
-local M = { }
-local modules = { }
-
 local vlua = require('lib.bind').vlua
 
--- could get status too if i want to, i guess
-local function make(items, winid, bufnr)
-  local out = { }
-  for i, item in ipairs(items) do
-    local t = type(item)
-    if t == 'string' then
-      table.insert(out, i, item)
-    elseif t == 'function' then
-      table.insert(out, i, item(winid, bufnr))
-    end
+local M = { }
+
+local modules = { a = {}, i = {} }
+local hl_reset = ''
+
+local function format(s, f)
+  if not s then return end
+  local out = s
+  if f[2] then out = string.rep(' ', f[2]) .. out end
+  if f[3] then out = out .. string.rep(' ', f[3]) end
+  if f.hl then
+    out = '%#' .. f.hl .. '#' .. out .. '%#' .. hl_reset .. '#'
   end
-
-  local debug = winid .. ':' .. bufnr .. ' ' .. os.time()
-  table.insert(out, 1, debug)
-
+  if f[1] then out = string.rep(' ', f[1]) .. out end
+  if f[4] then out = out .. string.rep(' ', f[4]) end
   return out
+end
+
+local function get(m, winid, bufnr)
+  if type(m) == 'function' then
+    return m(winid, bufnr)
+  elseif type(m) == 'table' then
+    if m.format then
+      return format(get(m[1], winid, bufnr), m.format)
+    else
+      return get(m[1], winid, bufnr)
+    end
+  else
+    return m
+  end
 end
 
 local cache = setmetatable({ }, {
   __index = function(_cache, winid)
     local win_table = setmetatable({ }, {
       __index = function(_win_table, bufnr)
-        local buf_table = {
-          a = table.concat(make(modules.a, winid, bufnr), ' '),
-          i = table.concat(make(modules.i, winid, bufnr), ' '),
-        }
+        local buf_table = setmetatable({ }, {
+          __index = function(_buf_table, s)
+            local sl = { }
+
+            for i, m in ipairs(modules[s]) do
+              sl[i] = get(m, winid, bufnr)
+            end
+
+            --table.insert(sl, 1, '{debug ' .. winid .. ':' .. bufnr .. ' ' .. os.time() .. '}')
+            sl = table.concat(sl, '')
+
+            rawset(_buf_table, s, sl)
+            return sl
+          end
+        })
         rawset(_win_table, bufnr, buf_table)
         return buf_table
       end
@@ -38,70 +60,49 @@ local cache = setmetatable({ }, {
   end
 })
 
--- function M.au(fn, opts)
---   local id = #au_cache
---
---   vim.cmd(string.format(
---     'autocmd Eventline %s * :call %s',
---     table.concat(opts.events, ','),
---     vlua(function()
---       au_cache[id] = fn(vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf())
---     end)
---   ))
---
---   for _, e in ipairs(opts.events) do
---     au_events[e] = true
---   end
---
---   return function() return au_cache[id] end
--- end
 
 function M.redraw(s)
   local winid = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_get_current_buf()
-  cache[winid][bufnr] = nil -- this makes the line below get new data
+  cache[winid][bufnr] = nil
   vim.api.nvim_win_set_option(winid, 'statusline', cache[winid][bufnr][s])
 end
 
-local au_cache = { }
+
+local au_cache = { a = {}, i = {} }
 local au_events = { a = {}, i = {} }
 
--- we can get active/inactive here
-local function ready(generator, s)
-  local modules = { }
-  for i, v in ipairs(generator) do
-    if type(v) == 'table' then
-      if v.events then
+local function ready_au(s, v)
+  local id = #au_cache[s] + 1
+  au_cache[s][id] = ''
 
-        -- extract this into a function
-        local id = #au_cache
-        local fn = v[1] -- just do function only for now
+  local fn = v[1] -- TODO support strings
 
-        vim.cmd(string.format(
-          'autocmd Eventline %s * :call %s',
-          table.concat(v.events, ','),
-          vlua(function()
-            au_cache[id] = fn(vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf())
-          end)
-        ))
+  vim.cmd(string.format(
+    'autocmd Eventline %s * :call %s',
+    table.concat(v.events, ','),
+    vlua(function()
+      au_cache[s][id] = fn(vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf())
+    end)
+  ))
 
-        -- store events separately
-        for _, e in ipairs(v.events) do
-          au_events[s][e] = true
-        end
-
-        table.insert(modules, i, function()
-          return au_cache[id]
-        end)
-      end
-    else
-      table.insert(modules, i, v)
-    end
+  for _, e in ipairs(v.events) do
+    au_events[s][e] = true
   end
-  return modules
+
+  if v.format then
+    return {
+      function() return au_cache[s][id] end,
+      format = v.format
+    }
+  else
+    return function() return au_cache[s][id] end
+  end
 end
 
-function M.setup()
+-- just do '{ item, format = { ... } }' and 'item'
+
+function M.setup(config)
   vim.o.laststatus = 2
 
   vim.cmd [[
@@ -109,22 +110,20 @@ function M.setup()
      au!
   ]]
 
-  -- make format() a helper function that can be called from anywhere?
-  -- or just do '{ item, { ... } }' and 'item' for modules
-
-  modules.a = ready({
-    'A',
-    {
-      function(_, bufnr)
-        return 'last insert on ' .. os.time() .. ' in ' .. bufnr
-      end,
-      events = { 'InsertEnter' }
-    }
-  }, 'a')
-
-  modules.i = { 'I' }
-
-  --
+  for s, generator in pairs(config.generator) do
+    for i, v in ipairs(generator) do
+      if type(v) == 'table' then
+        if v.events then
+          table.insert(modules[s], i, ready_au(s, v))
+        else
+          table.insert(modules[s], i, v)
+        end
+      else
+        table.insert(modules[s], i, v)
+      end
+    end
+  end
+  hl_reset = (config.hl_reset or 'Normal')
 
   local redraw_events = {
     a = { 'BufWinEnter', 'WinEnter' },
@@ -137,12 +136,14 @@ function M.setup()
     end
   end
 
+  --print(vim.inspect(modules.a))
+
   redraw_events.a = table.concat(redraw_events.a, ',')
   redraw_events.i = table.concat(redraw_events.i, ',')
-  --print(vim.inspect(redraw_events))
 
-  vim.cmd(string.format([[ autocmd %s * :lua require'lib.sl'.redraw('a')]], redraw_events.a))
-  vim.cmd(string.format([[ autocmd %s * :lua require'lib.sl'.redraw('i')]], redraw_events.i))
+  vim.cmd(string.format([[ autocmd Eventline %s * :lua require'lib.sl'.redraw('a')]], redraw_events.a))
+  vim.cmd(string.format([[ autocmd Eventline %s * :lua require'lib.sl'.redraw('i')]], redraw_events.i))
+
   vim.cmd [[augroup END]]
 end
 
