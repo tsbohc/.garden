@@ -46,10 +46,6 @@ end
 --     print("hello")
 --   end)
 -- end)
---
--- vf.ex(':com -nargs=* Mycmd :call %s(<f-args>)', function(a)
---   print('hello, ' .. a)
--- end, 'my special cmd') -- accept docstring because it's nice
 
 require('settings')
 require('paq')
@@ -57,55 +53,67 @@ require('keymaps')
 
 local sl = require('lib.sl')
 
+local function generator()
+  local xs = { }
+  local f = sl.format
 
-local active = { }
-local inactive = { }
-
-local function fname(_, _)
-  local f = vim.fn.expand('%:t')
-  if f == '' then
-    return '< new >'
-  else
-    return f
+  local function add(data)
+    table.insert(xs, data)
   end
+
+  add(sl.helper.au(
+    function()
+      local file = vim.fn.expand('%:t')
+      if file == '' then
+        file = '‹ new ›'
+      end
+      return f(file, 'CursorLine', { 0, 1, 1, 1 })
+    end, { 'BufEnter', 'BufWritePost' }
+  ))
+
+  add(sl.helper.au(
+    function()
+      if vim.fn.expand('%:t') ~= '' then
+        return "%{&modified?'':'saved'}"
+      end
+    end, { 'BufEnter', 'BufWritePost' }
+  ))
+
+  add(sl.helper.au(
+    function()
+      if vim.bo.readonly then
+        return f('readonly', 'Search', { 1, 1, 1, 0 })
+      end
+    end, { 'BufEnter' }
+  ))
+
+  -- last time in insert in a buffer
+  --add(sl.helper.au(function(w, b)
+  --  return f(os.time() .. ' in buf #' .. b, 'Error')
+  --end, { 'InsertEnter' }))
+
+  add('%=%<')
+
+  add(sl.helper.au(
+    function()
+      return f(vim.fn.expand('%:p:~:h') .. '/', { 1, 0, 0, 0 })
+    end, { 'BufEnter', 'BufWritePost' }
+  ))
+
+  add(sl.helper.au(
+    function()
+      return f(vim.bo.filetype, { 1, 0, 0, 0 })
+    end, { 'BufEnter', 'BufReadPost', 'BufWritePost' }
+  ))
+
+  add(f('%2p%%', 'CursorLine', { 1, 1, 1, 0 }))
+
+  return xs
 end
-
-local function is_saved(_, _)
-  if vim.fn.expand('%:t') ~= '' then
-    return '%{&modified?"":"saved"}'
-  end
-end
-
-table.insert(active, {
-  fname,
-  events = { 'BufEnter' },
-  format = { 0, 1, 1, 0, hl = 'CursorLine' }
-})
-
-table.insert(inactive, {
-  fname,
-  events = { 'BufLeave' },
-  format = { 0, 1, 1, 0, hl = 'LineNr' }
-})
-
-table.insert(active, {
-  is_saved,
-  events = { 'BufEnter', 'BufWritePost' },
-  format = { 1, 0, 0, 0 }
-})
-
-table.insert(inactive, {
-  is_saved,
-  events = { 'BufLeave' },
-  format = { 1, 0, 0, 0 }
-})
 
 sl.setup {
   hl_reset = 'LineNr',
-  generator = {
-    i = inactive,
-    a = active,
-  },
+  generator = generator,
 }
 
 
