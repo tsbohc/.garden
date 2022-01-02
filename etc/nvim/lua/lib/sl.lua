@@ -85,20 +85,18 @@ function M.helper.au(fn, events)
    M.au.counter = M.au.counter + 1
    local id = M.au.counter
 
+   local vlua_ref = vlua(function()
+      local winid = vim.api.nvim_get_current_win()
+      local bufnr = vim.api.nvim_get_current_buf()
+      if not M.au.cache[winid] then M.au.cache[winid] = { } end
+      if not M.au.cache[winid][bufnr] then M.au.cache[winid][bufnr] = { } end
+      M.au.cache[winid][bufnr][id] = fn(winid, bufnr)
+   end)
+
    for _, e in ipairs(events) do
       M.au.events[e] = true
+      vim.cmd(string.format('autocmd Eventline %s * :call %s', e, vlua_ref))
    end
-
-   vim.cmd(string.format(
-      'autocmd Eventline %s * :call %s',
-      table.concat(events, ','),
-      vlua(function()
-         local winid = vim.api.nvim_get_current_win()
-         local bufnr = vim.api.nvim_get_current_buf()
-         if not M.au.cache[winid] then M.au.cache[winid] = { } end
-         if not M.au.cache[winid][bufnr] then M.au.cache[winid][bufnr] = { } end
-         M.au.cache[winid][bufnr][id] = fn(winid, bufnr)
-      end)))
 
    return function(winid, bufnr)
       return M.au.cache[winid][bufnr][id]
@@ -124,18 +122,15 @@ function M.setup(config)
 
    M.generator = config.generator() or { 'no generator specified' }
 
-   local redraw_events = { 'BufWinEnter', 'WinEnter' }
-
    for e, _ in pairs(M.au.events) do
-      table.insert(redraw_events, e)
+      vim.cmd(string.format([[autocmd Eventline %s * :lua require'lib.sl'.redraw()]], e))
    end
 
-   redraw_events = table.concat(redraw_events, ',')
-
-   vim.cmd(string.format(
-      [[autocmd Eventline %s * :lua require'lib.sl'.redraw()]], redraw_events))
-
-   vim.cmd [[augroup END]]
+   vim.cmd [[
+      autocmd Eventline WinEnter * :lua require'lib.sl'.redraw()
+      autocmd Eventline BufWinEnter * :lua require'lib.sl'.redraw()
+   augroup END
+   ]]
 end
 
 return M

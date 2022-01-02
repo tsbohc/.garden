@@ -51,6 +51,9 @@ require('settings')
 require('paq')
 require('keymaps')
 
+-- vim.cmd 'autocmd User RedoPost echom "got RedoPost"'
+-- vim.cmd 'autocmd User UndoPost echom "got UndoPost"'
+
 local sl = require('lib.sl')
 
 local function generator()
@@ -61,24 +64,15 @@ local function generator()
       table.insert(xs, data)
    end
 
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       local file = vim.fn.expand('%:t')
       if file == '' then
          file = '‹ new ›'
       end
       return f(file, 'CursorLine', { 0, 1, 1, 1 })
-   end, { 'BufEnter', 'BufWritePost' }
-   ))
-
-   add(sl.helper.au(function()
-      if vim.fn.expand('%:t') ~= '' then
-         return f("%{&modified?'':'saved'}", { 0, 0, 0, 1 })
-      end
    end, { 'BufEnter', 'BufWritePost' }))
 
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       if vim.bo.readonly then return end
       local format = { 0, 0, 0, 0 }
       if vim.fn.expand('%:t') == '' then return f('unsaved', format) end
@@ -89,7 +83,7 @@ local function generator()
       if save_time == -1 then
          return f('unsaved', format)
       elseif save_time == curr_time then
-         return f('moments ago', format)
+         return f('◆', format)
       end
 
       local undotree = vim.fn.undotree()
@@ -102,82 +96,88 @@ local function generator()
          end
       end
 
-      print((undotree.seq_cur == undotree.seq_last and 'same' or 'diff'))
-      print(os.date('%B %d, %y at %H:%M', curr_time))
-      print(os.date('%B %d, %y at %H:%M', save_time))
-      print(os.date('%B %d, %y at %H:%M', undo_time))
-      print('---')
+      local delta = 0
 
-      local d
+      local icon = ''
+      icon = icon .. 'curr ' .. os.date('%H:%M:%S', curr_time) .. ' | '
+      icon = icon .. 'save ' .. os.date('%H:%M:%S', save_time) .. ' | '
+      icon = icon .. 'undo ' .. os.date('%H:%M:%S', undo_time) .. ' |'
+
       if undotree.seq_cur == undotree.seq_last then
-         d = save_time - curr_time
+         -- if curr_time > undo_time then
+         --    icon = '▲'
+         --    delta = curr_time - save_time
+         -- else
+            delta = undo_time - save_time
+            icon = '△'
+         -- end
       elseif undo_time then
-         d = curr_time - undo_time
+         delta = undo_time - save_time
+         if undo_time > save_time then
+            icon = '▽'
+         else
+            icon = '▼'
+         end
       else
-         d = 'origin'
+         delta = '-inf.'
       end
 
-      local suffix
-
-      -- TODO
       local hl_group = 'LineNr'
 
-      if type(d) ~= 'string' and d < 0 then
-         d = -d
-      else
-         hl_group = 'Search'
+      local function format_number(n)
+         local suffix
+         local d = math.abs(n)
+
+         if d < 60 then
+            suffix = 's'
+         elseif d < 3600 then
+            d = math.floor(d / 60)
+            suffix = 'm'
+         elseif d < 86400 then
+            d = math.floor(d / 3600)
+            suffix = 'h'
+         elseif d < 604800 then
+            d = math.floor(d / 86400)
+            suffix = 'd'
+         else
+            d = os.date('%B %d, %y at %H:%M', save_time)
+         end
+
+         if n == 0 then
+            --
+         elseif n > 0 then
+            d = '+' .. d
+         else
+            d = '-' .. d
+         end
+
+         if suffix then
+            d = icon .. ' ' .. d .. suffix
+         end
+
+         return d
       end
 
-      if type(d) == 'string' then
-         --
-      elseif d == 0 then
-         d = 'now'
-      elseif d < 60 then
-         suffix = 'second'
-      elseif d < 3600 then
-         d = math.floor(d / 60)
-         suffix = 'minute'
-      elseif d < 86400 then
-         d = math.floor(d / 3600)
-         suffix = 'hour'
-      elseif d < 604800 then
-         d = math.floor(d / 86400)
-         suffix = 'day'
-      else
-         d = os.date('%B %d, %y at %H:%M', save_time)
+      if type(delta) == 'number' then
+         delta = format_number(delta)
       end
 
-      if suffix then
-         d = d .. ' ' .. suffix .. (d > 1 and 's' or '') .. ' ago'
-      end
+      return f(delta, hl_group, format)
+   end, { 'BufEnter', 'BufWritePost', 'TextChanged', 'TextChangedI' }))
 
-      return f(d, hl_group, format)
-   end, { 'BufEnter', 'BufWritePost', 'CursorMoved' }
-   ))
-
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       if vim.bo.readonly then
          return f('readonly', 'Search', { 1, 1, 1, 0 })
       end
-   end, { 'BufEnter' }
-   ))
-
-   -- last time in insert in a buffer
-   --add(sl.helper.au(function(w, b)
-   --  return f(os.time() .. ' in buf #' .. b, 'Error')
-   --end, { 'InsertEnter' }))
+   end, { 'BufEnter' }))
 
    add('%=%<')
 
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       return f(vim.fn.expand('%:p:~:h') .. '/', { 1, 0, 0, 0 })
-   end, { 'BufEnter', 'BufWritePost' }
-   ))
+   end, { 'BufEnter', 'BufWritePost' }))
 
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       local out = ''
       for _, kind in ipairs({ 'Warning', 'Error' }) do
          local n = vim.lsp.diagnostic.get_count(0, kind)
@@ -186,14 +186,11 @@ local function generator()
          end
       end
       return f(out, { 1, 0, 0, 0 })
-   end, { 'VimEnter', 'CursorMoved', 'CursorMovedI' }
-   ))
+   end, { 'VimEnter', 'CursorMoved', 'CursorMovedI' }))
 
-   add(sl.helper.au(
-   function()
+   add(sl.helper.au(function()
       return f(vim.bo.filetype, { 1, 0, 0, 0 })
-   end, { 'BufEnter', 'BufReadPost', 'BufWritePost' }
-   ))
+   end, { 'BufEnter', 'BufReadPost', 'BufWritePost' }))
 
    add(f('%2p%%', 'CursorLine', { 1, 1, 1, 0 }))
 
