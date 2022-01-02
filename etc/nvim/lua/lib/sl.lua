@@ -11,7 +11,7 @@ M.helper = { }
 M.format = { }
 
 function M.format(s, ...)
-   if s == '' then return '' end
+   if s == '' or nil then return '' end
 
    local out = s
    local hl_group

@@ -39,7 +39,7 @@ function M.bind(kind, data)
   --n = n + 1
   --local id = '_' .. n
   if type(data.rhs) == 'function' then
-    local vlua = 'v:lua.require("lib.bind").exec(' .. #bindtable + 1 .. ')'
+    local vlua = "v:lua.require'lib.bind'.exec(" .. #bindtable + 1 .. ')'
     if kind == 'autocmd' then
       vlua = ':call ' .. vlua
     elseif kind == 'keymap' then
