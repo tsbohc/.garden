@@ -71,10 +71,12 @@ ki.x('*', function()
 end, { 'silent' })
 
 -- replace search matches
-ki.n('<leader>r', ':%s///g<left><left>')
-ki.x('<leader>r', ':s///g<left><left>')
+ki.n('<leader>rr', ':%s///g<left><left>')
+ki.x('<leader>rr', ':s///g<left><left>')
 
 -- ...................................................... miscellaneous
+
+ki.n('<leader>rs', function() vim.lsp.buf.rename() end)
 
 -- consistency
 ki.n('U', '<c-r>')
@@ -82,7 +84,6 @@ ki.n('Y', 'y$')
 
 -- fixes
 ki.n('<c-j>', 'J')
-
 
 ki.n('<leader>f', '<Plug>(cokeline-pick-focus)', { 'silent', 'remap' })
 

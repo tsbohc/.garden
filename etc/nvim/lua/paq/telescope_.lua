@@ -2,31 +2,25 @@ local telescope = require 'telescope'
 local ki = require 'lib.ki'
 
 telescope.setup {
-  -- pickers = {
-  --   find_files = {
-  --     theme = "ivy",
-  --   }
-  -- },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+    }
+  },
   defaults = {
-    --borderchars = { '▄', '█', '▀', '█', '▄', '▄', '▀', '▀' },
-    -- borderchars = { '╌', '┊', '╌', '┊', '┏', '┓', '┛', '┗' },
-    -- borderchars = { '╌', '┊', '╌', '┊', '┌', '┐', '┘', '└' },
-
-    -- mapping normal mode for colemak?
-    -- mappings = {
-    --   n = {
-    --     ['n'] = 'h'
-    --   }
-    -- },
     borderchars = {
       prompt =  { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
       results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     },
     prompt_title = false,
-    -- winblend = 3,
   },
 }
+
+require('telescope').load_extension('fzf')
 
 local function t(module, opts_override)
   local opts = {
