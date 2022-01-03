@@ -5,42 +5,7 @@
 --    |
 --
 
--- {{{
-   local function rescue()
-      local keys = {
-         n = 'j',
-         e = 'k',
-         I = '$',
-         H = '0',
-         N = '<c-d>',
-         E = '<c-u>',
-         ['<c-h>'] = '<c-w>h',
-         ['<c-n>'] = '<c-w>j',
-         ['<c-e>'] = '<c-w>k',
-         ['<c-i>'] = '<c-w>l',
-         ['//'] = ':nohlsearch<cr>',
-         --U = '<c-r>',
-         ['<c-j>'] = 'J',
-         i = 'l',
-         l = 'i',
-         L = 'I',
-         f = 'e',
-         F = 'E',
-         j = 'f',
-         J = 'F',
-         k = 'n',
-         K = 'N',
-      }
-      for k, v in pairs(keys) do
-         vim.api.nvim_set_keymap('n', k, v, { noremap = true })
-         vim.api.nvim_set_keymap('v', k, v, { noremap = true })
-         vim.api.nvim_set_keymap('o', k, v, { noremap = true })
-      end
-   end
-
-   --rescue()
-   -- }}}
-
+-- TODO: one of these days
 -- au.my_group(function()
 --   au.cmd({'BufLeave', 'BufEnter'}, '*', function()
 --     print("hello")
@@ -51,9 +16,10 @@ require('settings')
 require('paq')
 require('keymaps')
 
--- vim.cmd 'autocmd User RedoPost echom "got RedoPost"'
--- vim.cmd 'autocmd User UndoPost echom "got UndoPost"'
+-- luarocks convention
+vim.cmd [[autocmd FileType lua :set shiftwidth=3]]
 
+-- statusline TODO: rip into a separate file
 local sl = require('lib.sl')
 
 local function generator()
@@ -104,13 +70,12 @@ local function generator()
       icon = icon .. 'undo ' .. os.date('%H:%M:%S', undo_time) .. ' |'
 
       if undotree.seq_cur == undotree.seq_last then
-         -- if curr_time > undo_time then
-         --    icon = '▲'
-         --    delta = curr_time - save_time
-         -- else
+         if undo_time then
             delta = undo_time - save_time
             icon = '△'
-         -- end
+         else
+            return f('◆', format)
+         end
       elseif undo_time then
          delta = undo_time - save_time
          if undo_time > save_time then
@@ -205,22 +170,51 @@ sl.setup {
 
 
 
+-- {{{
+local function rescue()
+   local keys = {
+      n = 'j',
+      e = 'k',
+      I = '$',
+      H = '0',
+      N = '<c-d>',
+      E = '<c-u>',
+      ['<c-h>'] = '<c-w>h',
+      ['<c-n>'] = '<c-w>j',
+      ['<c-e>'] = '<c-w>k',
+      ['<c-i>'] = '<c-w>l',
+      ['//'] = ':nohlsearch<cr>',
+      --U = '<c-r>',
+      ['<c-j>'] = 'J',
+      i = 'l',
+      l = 'i',
+      L = 'I',
+      f = 'e',
+      F = 'E',
+      j = 'f',
+      J = 'F',
+      k = 'n',
+      K = 'N',
+   }
+   for k, v in pairs(keys) do
+      vim.api.nvim_set_keymap('n', k, v, { noremap = true })
+      vim.api.nvim_set_keymap('v', k, v, { noremap = true })
+      vim.api.nvim_set_keymap('o', k, v, { noremap = true })
+   end
+end
+--rescue()
+-- }}}
 
 
-
-   --local b = require('lib.bind')
-   --print(vim.inspect(b))
-
-
-   -- function W.Keyring(callback)
-      --   -- get a fresh table with callable keys,
-      --   -- the key is passed as the first argument to the callback
-      --   return setmetatable({}, {
-         --     __index = function(self, key)
-            --       self[key] = function(...)
-               --         callback(key, ...)
-               --       end
-               --       return rawget(self, key)
-               --     end
-               --   })
-               -- end
+-- function W.Keyring(callback)
+--   -- get a fresh table with callable keys,
+--   -- the key is passed as the first argument to the callback
+--   return setmetatable({}, {
+--     __index = function(self, key)
+--       self[key] = function(...)
+--         callback(key, ...)
+--       end
+--       return rawget(self, key)
+--     end
+--   })
+-- end

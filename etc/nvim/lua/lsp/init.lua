@@ -1,4 +1,4 @@
-lsp_installer = require 'nvim-lsp-installer'
+local lsp_installer = require 'nvim-lsp-installer'
 
 -- signs
 local signs = { Error = "×", Warn = "△", Hint = "·", Info = "·" }
@@ -42,24 +42,30 @@ end
 
 -- lsp_installer
 
---lsp_installer.on_server_ready(function(server)
---  local opts = {
---    --on_attach = on_attach,
---    --capabilities = capabilities,
---  }
---
---  if server.name == "sumneko_lua" then
---    opts = vim.tbl_deep_extend("force", require('lsp.sumneko'), opts)
---  end
---
---  server:setup(opts)
---end)
+lsp_installer.on_server_ready(function(server)
+ local opts = {
+   -- on_attach = on_attach,
+   flags = {
+     debounce_text_changes = 100,
+   },
+   --capabilities = capabilities,
+ }
 
-local lspconfig = require('lspconfig')
-local servers = { 'sumneko_lua' }
+ if server.name == "sumneko_lua" then
+   opts = vim.tbl_deep_extend("force", require('lsp.sumneko_lua'), opts)
+ end
 
-for _, s in ipairs(servers) do
-  lspconfig[s].setup(vim.tbl_deep_extend('force', require('lsp.' .. s), {
-    on_attach = on_attach,
-  }))
-end
+ server:setup(opts)
+end)
+
+-- local lspconfig = require('lspconfig')
+-- local servers = { 'sumneko_lua' }
+--
+-- for _, s in ipairs(servers) do
+--   lspconfig[s].setup(vim.tbl_deep_extend('force', require('lsp.' .. s), {
+--     on_attach = on_attach,
+--     flags = {
+--       debounce_text_changes = 100,
+--     },
+--   }))
+-- end

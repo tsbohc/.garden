@@ -81,3 +81,10 @@ se.expandtab = true
 -- conceal
 se.listchars = { trail = '␣' }
 se.list = true
+
+vim.cmd [[
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup = 'placeHolder', timeout = 100 }
+  augroup END
+]]

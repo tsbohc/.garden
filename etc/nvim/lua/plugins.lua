@@ -1,48 +1,116 @@
-return function(use)
-   -- personal
+return function(use) -- personal
    use { '~/code/slate', requires = 'rktjmp/lush.nvim' }
    use { '~/code/limestone', requires = 'rktjmp/lush.nvim' }
 
-   -- treesitter
-   use { 'nvim-treesitter/nvim-treesitter',
+   use {
+      'nvim-treesitter/nvim-treesitter',
       config = function() require('paq.treesitter_') end
    }
 
-   -- lsp
-   use { 'neovim/nvim-lspconfig',
+   use {
+      'neovim/nvim-lspconfig',
       requires = 'williamboman/nvim-lsp-installer',
       config = function() require('lsp') end
    }
 
-  -- completion & snippets
-  use { 'hrsh7th/nvim-cmp',
-  requires = {
-     'hrsh7th/cmp-path',
-     'hrsh7th/cmp-cmdline',
-     'hrsh7th/cmp-buffer',
-     'hrsh7th/cmp-nvim-lua',
-     'hrsh7th/cmp-nvim-lsp',
-     -- nb: nvim-cmp requires a snippet engine
-     {
-        'L3MON4D3/LuaSnip', requires = {
-        'saadparwaiz1/cmp_luasnip'
-        }
-     }
-  },
-     config = function() require('paq.cmp_') end
-  }
+   use {
+      'hrsh7th/nvim-cmp',
+      requires = {
+         { 'hrsh7th/cmp-path' },
+         { 'hrsh7th/cmp-cmdline' },
+         { 'hrsh7th/cmp-buffer' },
+         { 'hrsh7th/cmp-nvim-lua' },
+         { 'hrsh7th/cmp-nvim-lsp' },
+         { 'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip' },
+      },
+      config = function() require('paq.cmp_') end
+   }
 
-  -- code
-  use { 'lukas-reineke/indent-blankline.nvim',
-     config = function() require('paq.indent_blankline_') end
-  }
+   vim.g.nvim_tree_show_icons = {
+      git = 1,
+      folders = 1,
+      files = 0,
+      folder_arrows = 1
+   }
 
-  use { 'lewis6991/gitsigns.nvim',
-     requires = 'nvim-lua/plenary.nvim',
-     config = function() require('paq.gitsigns_') end
-  }
+   vim.g.nvim_tree_icon_padding = '' -- just arrows, no icons
 
-  -- goodies
+   vim.g.nvim_tree_icons = {
+      folder = {
+         arrow_open = '▼',
+         arrow_closed = '▷',
+         -- default = '■',
+         -- open = '◪',
+         -- empty = '□',
+         -- empty_open = '□',
+         default = '',
+         open = '',
+         empty = '',
+         empty_open = '',
+      }
+   }
+
+   use {
+      'kyazdani42/nvim-tree.lua',
+      config = function()
+         require('nvim-tree').setup {}
+      end,
+   }
+
+   use { 'simrat39/symbols-outline.nvim',
+      config = function()
+      end,
+   }
+
+   vim.g.symbols_outline = {
+      highlight_hovered_item = false,
+      position = 'right',
+      auto_preview = false,
+      width = 50,
+   }
+
+   use { 'ggandor/lightspeed.nvim' }
+   vim.cmd [[
+      noremap f f
+      noremap F F
+      noremap t t
+      noremap T T
+      noremap s s
+      noremap S S
+      noremap x x
+      noremap X X
+      map t <Plug>Lightspeed_s
+      map T <Plug>Lightspeed_S
+   ]]
+   require('lightspeed').setup {
+      exit_after_idle_msec = { unlabeled = 1000, labeled = 1000 },
+      -- TODO: look into this. i don't really understand what 'auto-jump' means
+      -- either. this seems to work pretty well though.
+      safe_labels = {
+         -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
+         'n', 'e', 's', 'i', 'r', 'o', 'a',
+         'k', 'v', 'm', 'c',
+         'l', 'p', 'u', 'f'
+      },
+      labels = {
+         -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
+         'n', 'e', 's', 'i', 'r', 'o', 'a',
+         'k', 'v', 'm', 'c',
+         'l', 'p', 'u', 'f'
+      }
+   }
+
+   use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = function() require('paq.indent_blankline_') end
+   }
+
+   use {
+      'lewis6991/gitsigns.nvim',
+      requires = 'nvim-lua/plenary.nvim',
+      config = function() require('paq.gitsigns_') end
+   }
+
   -- TODO i'm sold on comment.nvim, so... this will go
   use { 'echasnovski/mini.nvim', branch = 'stable' }
   require('mini.comment').setup {
@@ -53,119 +121,89 @@ return function(use)
      }
   }
 
-  use { 'nvim-telescope/telescope.nvim',
+  use {
+     'nvim-telescope/telescope.nvim',
      requires = {
-       'nvim-lua/plenary.nvim',
-       {
-         'nvim-telescope/telescope-fzf-native.nvim',
-         run = 'make'
-       }
+        { 'nvim-lua/plenary.nvim' },
+        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
      },
      config = function() require('paq.telescope_') end
   }
 
-   -- use { 'folke/which-key.nvim',
-   --   config = function()
-   --     require('which-key').setup {
-   --     }
-   --   end,
-   -- }
+  use {
+     'windwp/nvim-autopairs',
+     config = function()
+        require('nvim-autopairs').setup {
+        }
+     end
+  }
 
-   -- use { 'simrat39/symbols-outline.nvim',
-   --    config = function()
-   --    end,
-   -- }
-   --
-   -- vim.g.symbols_outline = {
-   --    --show_symbol_details = false,
-   --    highlight_hovered_item = false,
-   --    position = 'left',
-   --    auto_preview = false,
-   --    width = 50,
-   -- }
+  use { 'svban/YankAssassin.vim' }
 
-   -- use { 'liuchengxu/vista.vim' }
-   -- vim.g.vista_default_executive = 'nvim_lsp'
+  use {
+     'blackCauldron7/surround.nvim',
+     config = function()
+        require('surround').setup {
+           mappings_style = 'sandwich'
+        }
+     end
+  }
 
-   use { 'ggandor/lightspeed.nvim',
-      config = function()
-      end
-   }
+  use {
+     'noib3/nvim-cokeline',
+     config = function()
+        local get_hex = require('cokeline/utils').get_hex
+        local is_picking_focus = require('cokeline/mappings').is_picking_focus
+        local is_picking_close = require('cokeline/mappings').is_picking_close
 
-   require('lightspeed').setup {
-     exit_after_idle_msec = { unlabeled = 1000, labeled = 1000 },
-     -- TODO: look into this. i don't really understand what 'auto-jump' means
-     -- either. this seems to work pretty well though.
-     safe_labels = {
-       --    s
-       -- nte iroa
-       -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
-       'n', 't', 'e', 'i', 'r', 'o', 'a',
-       'k', 'v', 'm', 'c',
-       'l', 'p', 'u', 'f'
-     },
-     labels = {
-       -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
-       'n', 't', 'e', 'i', 'r', 'o', 'a',
-       'k', 'v', 'm', 'c',
-       'l', 'p', 'u', 'f'
-     }
-   }
+        require('cokeline').setup({
+           default_hl = {
+              focused = {
+                 fg = get_hex('Normal', 'fg'),
+                 bg = get_hex('Normal', 'bg'),
+              },
+              unfocused = {
+                 fg = get_hex('Comment', 'fg'),
+                 bg = get_hex('Pmenu', 'bg'),
+              },
+           },
 
-   use { 'noib3/nvim-cokeline',
-      config = function()
-         local get_hex = require('cokeline/utils').get_hex
-         local is_picking_focus = require('cokeline/mappings').is_picking_focus
-         local is_picking_close = require('cokeline/mappings').is_picking_close
+           components = {
+              --{ text = function(buffer) return (buffer.index ~= 1) and '▏ ' or ' ' end },
+              { text = '▏ ' },
+              {
+                 text = function(buffer) return buffer.unique_prefix end,
+                 hl = {
+                    fg = get_hex('Comment', 'fg'),
+                    style = 'italic',
+                 },
+              },
+              {
+                 text = function(buffer)
+                    if buffer.filename == '[No Name]' then
+                       return '<new> '
+                    else
+                       return buffer.filename .. ' '
+                    end
+                 end
+              },
+              {
+                 text = function(buffer)
+                    return (is_picking_focus() or is_picking_close()) and buffer.pick_letter or '×'
+                 end,
+                 hl = {
+                    fg = function(buffer)
+                       return (is_picking_focus() or is_picking_close()) and get_hex('Normal', 'fg') or get_hex('Comment', 'fg')
+                    end
+                 },
+                 delete_buffer_on_left_click = true
+              },
+              { text = '  '}
+           },
+        })
+     end,
+  }
 
-         require('cokeline').setup({
-            default_hl = {
-               focused = {
-                  fg = get_hex('Normal', 'fg'),
-                  bg = get_hex('Normal', 'bg'),
-               },
-               unfocused = {
-                  fg = get_hex('Comment', 'fg'),
-                  bg = get_hex('Pmenu', 'bg'),
-               },
-            },
-
-            components = {
-               --{ text = function(buffer) return (buffer.index ~= 1) and '▏ ' or ' ' end },
-               { text = '▏ ' },
-               {
-                  text = function(buffer) return buffer.unique_prefix end,
-                  hl = {
-                     fg = get_hex('Comment', 'fg'),
-                     style = 'italic',
-                  },
-               },
-               {
-                  text = function(buffer)
-                     if buffer.filename == '[No Name]' then
-                        return '<new> '
-                     else
-                        return buffer.filename .. ' '
-                     end
-                  end
-               },
-               {
-                  text = function(buffer)
-                     return (is_picking_focus() or is_picking_close()) and buffer.pick_letter or '×'
-                  end,
-                  hl = {
-                     fg = function(buffer)
-                        return (is_picking_focus() or is_picking_close()) and get_hex('Normal', 'fg') or get_hex('Comment', 'fg')
-                     end
-                  },
-                  delete_buffer_on_left_click = true
-               },
-               { text = '  '}
-            },
-         })
-      end,
-   }
-
--- themedev
-use 'nvim-treesitter/playground'
+   -- themedev
+   use 'nvim-treesitter/playground'
 end

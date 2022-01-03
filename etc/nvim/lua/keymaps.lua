@@ -26,6 +26,7 @@ end, { 'expr' })
 
 for k, v in pairs({ h = 'h', n = 'j', e = 'k', i = 'l' }) do
   ki.n('<c-' .. k .. '>', '<c-w>' .. v)
+  ki.n('<c-w>' .. k, '<c-w>' .. v:upper())
 end
 
 -- screen and line movement
@@ -91,6 +92,20 @@ ki.n('<leader>f', '<Plug>(cokeline-pick-focus)', { 'silent', 'remap' })
 -- fold function with preview
 -- nb: ';' is free in normal (i think)
 
+local function shell(cmd)
+  local handle = io.popen(cmd)
+  local result = handle:read('*a')
+  handle:close()
+  return (result ~= '' and result)
+end
+
+ki.n('<F1>', function()
+  if not shell('pidof love') then
+    vim.cmd('silent !love %:p:h &')
+  else
+    shell('pkill love')
+  end
+end)
 
 
 
