@@ -30,5 +30,7 @@ ki() { # hc keybind wrapper that properly expands [a,b,c,d] blocks
   fi
 }
 
+Super='Mod4'
+
 ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02 - "arst"
 ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02

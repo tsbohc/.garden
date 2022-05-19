@@ -47,7 +47,14 @@ se.textwidth = 80
 vim.cmd [[
   augroup override_formatoptions
     au!
-    au VimEnter * setlocal formatoptions-=r formatoptions-=o
+    au VimEnter * setlocal formatoptions-=r formatoptions-=o formatoptions-=t laststatus=3
+  augroup END
+]]
+
+vim.cmd [[
+  augroup writing_mode
+    autocmd!
+    au Filetype tex,markdown set wrap
   augroup END
 ]]
 
@@ -88,3 +95,5 @@ vim.cmd [[
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup = 'placeHolder', timeout = 100 }
   augroup END
 ]]
+
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

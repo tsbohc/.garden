@@ -19,17 +19,25 @@ vim.diagnostic.config({
 
 -- on_attach
 local function on_attach(client, bufnr)
-  -- lsp based hover highlighting
-  --if client.resolved_capabilities.document_highlight then
-  --  vim.api.nvim_exec(
-  --    [[
-  --    augroup lsp_document_highlight
-  --      autocmd! * <buffer>
-  --      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-  --      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-  --    augroup END
-  --  ]], false)
-  --end
+   require('lsp_signature').on_attach({
+      doc_lines = 0,
+      bind = true,
+      hi_parameter = "TSFunction",
+      handler_opts = {
+         border = "single"   -- double, rounded, single, shadow, none
+      },
+   }, bufnr)
+   -- lsp based hover highlighting
+   --if client.resolved_capabilities.document_highlight then
+   --  vim.api.nvim_exec(
+   --    [[
+   --    augroup lsp_document_highlight
+   --      autocmd! * <buffer>
+   --      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+   --      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+   --    augroup END
+   --  ]], false)
+   --end
 end
 
 -- capabilities
@@ -44,7 +52,7 @@ end
 
 lsp_installer.on_server_ready(function(server)
  local opts = {
-   -- on_attach = on_attach,
+   on_attach = on_attach,
    flags = {
      debounce_text_changes = 100,
    },

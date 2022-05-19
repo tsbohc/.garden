@@ -18,4 +18,4 @@ xset r rate 250 36 # set key repeat rate: 250ms delay, 40/s
 
 setxkbmap us -variant colemak
 
-exec herbstluftwm --locked
+exec dbus-run-session herbstluftwm --locked

@@ -4,6 +4,7 @@ return function(use) -- personal
 
    use {
       'nvim-treesitter/nvim-treesitter',
+      -- commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
       config = function() require('paq.treesitter_') end
    }
 
@@ -12,6 +13,27 @@ return function(use) -- personal
       requires = 'williamboman/nvim-lsp-installer',
       config = function() require('lsp') end
    }
+
+   use {
+      'jose-elias-alvarez/null-ls.nvim',
+      requires = { "nvim-lua/plenary.nvim" },
+      config = function()
+         local null_ls = require('null-ls')
+         null_ls.setup({
+            diagnostics_format = "#{m} #{c}",
+            sources = {
+               null_ls.builtins.diagnostics.shellcheck,
+               -- null_ls.builtins.diagnostics.proselint
+               -- null_ls.builtins.diagnostics.vale
+            },
+         })
+      end
+   }
+
+   use {
+      'lervag/vimtex'
+   }
+   vim.g.vimtex_view_method = 'zathura'
 
    use {
       'hrsh7th/nvim-cmp',
@@ -138,10 +160,12 @@ return function(use) -- personal
      end
   }
 
+  use { 'ray-x/lsp_signature.nvim' }
+
   use { 'svban/YankAssassin.vim' }
 
   use {
-     'blackCauldron7/surround.nvim',
+     'ur4ltz/surround.nvim',
      config = function()
         require('surround').setup {
            mappings_style = 'sandwich'
@@ -151,58 +175,58 @@ return function(use) -- personal
 
   use {
      'noib3/nvim-cokeline',
-     config = function()
-        local get_hex = require('cokeline/utils').get_hex
-        local is_picking_focus = require('cokeline/mappings').is_picking_focus
-        local is_picking_close = require('cokeline/mappings').is_picking_close
+      config = function()
+         local get_hex = require('cokeline/utils').get_hex
+         local is_picking_focus = require('cokeline/mappings').is_picking_focus
+         local is_picking_close = require('cokeline/mappings').is_picking_close
 
-        require('cokeline').setup({
-           default_hl = {
-              focused = {
-                 fg = get_hex('Normal', 'fg'),
-                 bg = get_hex('Normal', 'bg'),
-              },
-              unfocused = {
-                 fg = get_hex('Comment', 'fg'),
-                 bg = get_hex('Pmenu', 'bg'),
-              },
-           },
+         require('cokeline').setup({
+            show_if_buffers_are_at_least = 2,
 
-           components = {
-              --{ text = function(buffer) return (buffer.index ~= 1) and '▏ ' or ' ' end },
-              { text = '▏ ' },
-              {
-                 text = function(buffer) return buffer.unique_prefix end,
-                 hl = {
-                    fg = get_hex('Comment', 'fg'),
-                    style = 'italic',
-                 },
-              },
-              {
-                 text = function(buffer)
-                    if buffer.filename == '[No Name]' then
-                       return '<new> '
-                    else
-                       return buffer.filename .. ' '
-                    end
-                 end
-              },
-              {
-                 text = function(buffer)
-                    return (is_picking_focus() or is_picking_close()) and buffer.pick_letter or '×'
-                 end,
-                 hl = {
-                    fg = function(buffer)
-                       return (is_picking_focus() or is_picking_close()) and get_hex('Normal', 'fg') or get_hex('Comment', 'fg')
-                    end
-                 },
-                 delete_buffer_on_left_click = true
-              },
-              { text = '  '}
-           },
-        })
-     end,
-  }
+            default_hl = {
+               fg = function(buffer)
+                  return buffer.is_focused and get_hex('Normal', 'fg') or get_hex('Comment', 'fg')
+               end,
+               bg = function(buffer)
+                  return buffer.is_focused and get_hex('Normal', 'bg') or get_hex('Pmenu', 'bg')
+               end
+            },
+
+            components = {
+               --{ text = function(buffer) return (buffer.index ~= 1) and '▏ ' or ' ' end },
+               { text = ' ' },
+               {
+                  text = function(buffer) return buffer.unique_prefix end,
+                  hl = {
+                     fg = get_hex('Comment', 'fg'),
+                     style = 'italic',
+                  },
+               },
+               {
+                  text = function(buffer)
+                     if buffer.filename == '[No Name]' then
+                        return '<new> '
+                     else
+                        return buffer.filename .. ' '
+                     end
+                  end
+               },
+               {
+                  text = function(buffer)
+                     return (is_picking_focus() or is_picking_close()) and buffer.pick_letter or '×'
+                  end,
+                  hl = {
+                     fg = function(buffer)
+                        return (is_picking_focus() or is_picking_close()) and get_hex('Normal', 'fg') or get_hex('Comment', 'fg')
+                     end
+                  },
+                  delete_buffer_on_left_click = true
+               },
+               { text = ' '}
+            },
+         })
+      end,
+   }
 
    -- themedev
    use 'nvim-treesitter/playground'

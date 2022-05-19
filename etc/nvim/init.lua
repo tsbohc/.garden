@@ -142,16 +142,16 @@ local function generator()
       return f(vim.fn.expand('%:p:~:h') .. '/', { 1, 0, 0, 0 })
    end, { 'BufEnter', 'BufWritePost' }))
 
-   add(sl.helper.au(function()
-      local out = ''
-      for _, kind in ipairs({ 'Warning', 'Error' }) do
-         local n = vim.lsp.diagnostic.get_count(0, kind)
-         if n > 0 then
-            out = out .. '‹'.. f(n, 'DiagnosticSign' .. kind) .. '›'
-         end
-      end
-      return f(out, { 1, 0, 0, 0 })
-   end, { 'VimEnter', 'CursorMoved', 'CursorMovedI' }))
+   -- add(sl.helper.au(function()
+   --    local out = ''
+   --    for _, kind in ipairs({ 'Warning', 'Error' }) do
+   --       local n = vim.lsp.diagnostic.get_count(0, kind)
+   --       if n > 0 then
+   --          out = out .. '‹'.. f(n, 'DiagnosticSign' .. kind) .. '›'
+   --       end
+   --    end
+   --    return f(out, { 1, 0, 0, 0 })
+   -- end, { 'VimEnter', 'CursorMoved', 'CursorMovedI' }))
 
    add(sl.helper.au(function()
       return f(vim.bo.filetype, { 1, 0, 0, 0 })

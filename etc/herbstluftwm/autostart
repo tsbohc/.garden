@@ -46,7 +46,7 @@ Super=Mod4
 
 # TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
 command -v hori &>/dev/null && hori autostart -i
-xwallpaper --zoom ~/Downloads/wallpaper.jpg
+xwallpaper --zoom ~/.garden/usr/wallpaper/roses.jpg
 
 # -- -- keybinds
 
@@ -115,12 +115,6 @@ ki $Super-m fullscreen toggle
 #ki $Super-Control-m jumpto last-minimized
 ki $Super-p pseudotile toggle
 
-# TODO I "could* have this in fennel
-# (or (and
-#       (compare tags.focus.curframe_wcount gt 0)
-#       (close))
-#     (remove))
-
 #close_hook() {
 #  local winid="$(herbstclient attr clients.focus.winid)"
 #  herbstclient emit_hook node_remove "$winid"
@@ -134,11 +128,15 @@ or . and - compare tags.focus.curframe_wcount gt 0
 ki $Super-w "${close_window_or_frame[@]}"
 
 # maybe there is a way? doesn't it need to be subshelled through
-#testing() {
-#  hc emit_hook wooooo
-#}
-#export -f testing
-#ki $Super-q spawn testing
+# set -a
+# readonly BASH_BINARY="$(which bash)"
+#
+# testing() {
+#   hc emit_hook wooooo
+# }
+#
+# export -f testing
+# ki $Super-q spawn "$BASH_BINARY -c testing"
 
 cycle_layouts=(
 and . compare tags.focus.curframe_wcount gt 1
@@ -167,36 +165,57 @@ hc set smart_window_surroundings off # remove window borders and gaps when only 
 hc set smart_frame_surroundings on # shouldn't this disable... frame_color too?
 
 # gaps
-hc set frame_gap 4
-hc set window_gap 4
+hc set frame_gap 2
+hc set window_gap 5
 hc set frame_padding 0
 
 # frames
-#hc set frame_bg_normal_color '#03030300'
-#hc set frame_normal_opacity 30
-#hc set frame_bg_active_color '#09090900'
-#hc set frame_active_opacity 70
+# hc set frame_bg_normal_color '#cccccc50'
+# hc set frame_normal_opacity 15
 #
-#hc set frame_border_normal_color '#000000'
-#hc set frame_border_active_color '#000000'
+# hc set frame_bg_active_color '#cccccc50'
+# hc set frame_active_opacity 30
 #
-#hc set frame_border_inner_color '#ffffff'
+# hc set frame_border_width 2
+# hc set frame_border_inner_width 1
 #
-#hc set frame_border_width 2
-#hc set frame_border_inner_width 1
+# hc set frame_border_normal_color '#000000'
+# hc set frame_border_active_color '#000000'
+#
+# hc set frame_border_inner_color '#ffffff'
 
-hc set frame_bg_normal_color '#15151500'
-hc set frame_normal_opacity 30
-hc set frame_bg_active_color '#25252500'
-hc set frame_active_opacity 70
+# no borders, flat
+hc set frame_bg_normal_color '#cccccc50'
+hc set frame_normal_opacity 15
+
+hc set frame_bg_active_color '#cccccc50'
+hc set frame_active_opacity 40
+
+hc set frame_border_width 0
+hc set frame_border_inner_width 0
 
 hc set frame_border_normal_color '#000000'
 hc set frame_border_active_color '#000000'
 
-#hc set frame_border_inner_color '#ffffff'
+hc set frame_border_inner_color '#ffffff'
 
-hc set frame_border_width 0
-hc set frame_border_inner_width 0
+# single border
+# hc set frame_bg_normal_color '#cccccc50'
+# hc set frame_normal_opacity 15
+#
+# hc set frame_bg_active_color '#cccccc50'
+# hc set frame_active_opacity 30
+#
+# hc set frame_border_width 1
+# hc set frame_border_inner_width 1
+#
+# hc set frame_border_normal_color '#ffffff'
+# hc set frame_border_active_color '#ffffff'
+#
+# hc set frame_border_inner_color '#ffffff'
+
+# hc set frame_border_width 0
+# hc set frame_border_inner_width 0
 
 
 hc set always_show_frame true
@@ -209,16 +228,21 @@ attr() { hc attr "$@" ; }
 attr theme.tiling.reset 1
 attr theme.floating.reset 1
 
-#attr theme.border_width 7
 attr theme.border_width 2
 attr theme.inner_width 1
 attr theme.outer_width 1
-
 attr theme.inner_color '#333333'
-#attr theme.color '#232326'
 attr theme.outer_color '#000000'
-
 attr theme.active.inner_color '#555555'
+
+# attr theme.border_width 7
+# attr theme.outer_width 6
+# attr theme.inner_width 1
+# attr theme.inner_color '#333333'
+# attr theme.outer_color '#1F1F1F'
+# attr theme.active.inner_color '#555555'
+
+
 
 
 #hc attr theme.floating.border_width 2
@@ -280,6 +304,7 @@ hc rule floatplacement=smart
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule title='floaterm' floating=on floatplacement=center focus=on
+hc rule class='love' floating=on floatplacement=center focus=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 

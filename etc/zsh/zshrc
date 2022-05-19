@@ -1,7 +1,17 @@
 #zmodload zsh/zprof
 
-# ;; void: xdeb
+# ;; void
 export XDEB_PKGROOT=$HOME/.cache/xdeb
+
+alias xvu='sudo xbps-install -Su'
+alias xvi='sudo xbps-install'
+alias xvr='sudo xbps-remove -R'
+alias xvo='sudo xbps-remove -Oo'
+alias xvl='sudo xbps-remove -R "$(xbps-query -m | fzf)"'
+
+# ;; qt5 scaling
+export QT_ENABLE_HIGHDPI_SCALING=0
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
 
 # ;; defaults
 
@@ -10,6 +20,29 @@ export TERMINAL=alacritty
 export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 --margin=0,2 --pointer="›" --prompt="  "'
 
 export GARDEN=~/.garden
+
+
+# xdg stuff
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
+
+export XDG_DESKTOP_DIR=$HOME/top
+export XDG_DOCUMENTS_DIR="$HOME/aux"
+export XDG_DOWNLOAD_DIR="$HOME/dow"
+export XDG_MUSIC_DIR="$HOME/mus"
+export XDG_PICTURES_DIR="$HOME/pic"
+export XDG_PUBLICSHARE_DIR="$HOME/pub"
+export XDG_TEMPLATES_DIR="$HOME/tem"
+export XDG_VIDEOS_DIR="$HOME/vid"
+
+export LESSHISTSIZE=${XDG_CACHE_HOME}/less_history
+export HISTFILE=${XDG_CACHE_HOME}/bash_history
+export CUDA_CACHE_PATH=${XDG_CACHE_HOME}/nv
+export GRADLE_USER_HOME=${XDG_DATA_HOME}/gradle
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+export NPM_CONFIG_USERCONFIG=${XDG_CONFIG_HOME}/npm/npmrc
 
 # ;; path
 
@@ -28,6 +61,7 @@ if [ -d "$GARDEN" ]; then
   done
 fi
 
+pathadd "$HOME/.local/bin/"
 
 # why not i guess
 if [ -e $HOME/.garden/bin/askpass ]; then
@@ -42,10 +76,16 @@ if [ -e $HOME/.garden/bin/askpass ]; then
   #}
 fi
 
+
+## ;; dotnet
+
+export DOTNET_ROOT=$HOME/code/dotnet/
+pathadd "$HOME/code/dotnet/"
+
+
 # ;; setopts
 
 # history
-HISTFILE=$HOME/.cache/histfile
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 
@@ -160,8 +200,6 @@ RPROMPT=''
 
 
 
-
-
 # TODO look into this
 fshow() {
   local out sha q
@@ -225,12 +263,21 @@ alias hc='herbstclient'
 alias please='sudo'
 
 # ls
-alias ls='ls -F --color=auto'
-alias l='ls'
-alias sl='ls'
-alias la='ls -A'
-alias ll='ls -lA'
-alias l.='ls -A | egrep "^\."'
+if type exa >/dev/null; then
+  alias ls='exa'
+  alias sl='exa'
+  alias l='exa'
+  alias la='exa -a'
+  alias ll='exa -la'
+  alias l.='exa -a | egrep "^\."'
+else
+  alias ls='ls -F --color=auto'
+  alias l='ls'
+  alias sl='ls'
+  alias la='ls -A'
+  alias ll='ls -lA'
+  alias l.='ls -A | egrep "^\."'
+fi
 
 # cd
 alias ..='cd ..'
@@ -249,7 +296,11 @@ function gasp() { # easy git push in one command
 
 function cd() { # ls after cd except when going back to ~
   builtin cd "$@"
-  [ ! "$(pwd)" = "$HOME" ] && la --group-directories-first || return 0
+  [ ! "$(pwd)" = "$HOME" ] && la || return 0
+}
+
+function mkcd() {
+  mkdir -p "$@" && cd "$@"
 }
 
 # ;; completion
@@ -311,13 +362,9 @@ else
 fi
 
 
+
 # ;; gripes and grievances
-
-export LESSHISTSIZE=- # prevent ~/.lesshst
 zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
-
-# TODO other stuff for preventing extrac ~/.files in home
-# TODO a good archive extract script that always creates a new folder
 
 
 
@@ -677,6 +724,9 @@ bindkey "^[[A" ::fuzzy_history::keybind
 
 preexec() {
   prompt_cmd_start=$(date +%s)
+  echo -e "\033]0;\$ ${1} // ${PWD/#$HOME/~}\007" # set alacritty title to "pwd $ last command run"
+  # TODO the above could techincally be reset after the command finishes, so
+  # that windows with running commands have a special title
 }
 
 ASYNC_PROC=0
@@ -712,7 +762,7 @@ function precmd() { # executed before each prompt
 
 function TRAPUSR1() {
   RPROMPT="$(cat /tmp/zsh_prompt_$$)" # read from temp file
-  #rm /tmp/zsh_prompt_$$ # clean up
+  \rm -f /tmp/zsh_prompt_$$ # clean up
   ASYNC_PROC=0 # reset proc number
   zle && zle reset-prompt # redisplay
 }

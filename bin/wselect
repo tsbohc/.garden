@@ -6,7 +6,24 @@
 
 hc() { herbstclient "$@" ; }
 
-hc list_clients # why not this? ?
+# hc list_clients # why not this? ?
+
+windows() {
+  while read -r winid tag host window; do
+    echo "<!--$winid-->$((tag+1)) $window"
+  done < <(wmctrl -l | sort -r)
+}
+
+selection="$(windows | rofi -theme "vertical.rasi" -dmenu -eh 1 -p "wselect" -matching normal -markup-rows -lines 10)"
+
+if [[ -n $selection ]]; then
+  selection=${selection#*'<!--'}
+  selection=${selection%'-->'*}
+  hc jumpto "$selection"
+fi
+
+# i need like a mode switcher for this
+# bring here -> focus there -> bring here -> etc
 
 #case "$1" in
 #

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# extract files into a directory that matches the name of the archive
+
+main() {
+  for f in "$@"; do
+    if [ -f "$f" ]; then
+      tmp="$(mktemp -d)"
+      bas="$(basename "$f")"
+      dir="$(dirname "$f")"
+      case $f in
+        *.tar.bz2) out="${bas%.tar.bz2}"
+          tar xvjf "$f" -C "$tmp"
+          ;;
+        *.tar.gz) out="${bas%.tar.gz}"
+          tar xvzf "$f" -C "$tmp"
+          ;;
+        *.tar) out="${bas%.tar}"
+          tar xvf "$f" -C "$tmp"
+          ;;
+        *.zip) out="${bas%.zip}"
+          unzip -d "$tmp" "$f"
+          ;;
+      esac
+      echo "extract: move files to '$dir/$out'"
+      mv "$tmp" "$dir/$out"
+    fi
+  done
+}
+
+main "$@"
+# tree ~/extract-test/
+# rm -rf ~/extract-test/archive
