@@ -8,6 +8,8 @@ if has('syntax')
   syntax on
 endif
 
+colorscheme darkblue
+
 set showcmd
 set hlsearch
 
@@ -29,7 +31,6 @@ set laststatus=2
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-
 
 noremap <c-h> <c-w>h
 noremap <c-n> <c-w>j

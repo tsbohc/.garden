@@ -12,7 +12,7 @@ add() {
   # TODO ask function in hori with [y/n] etc
   p="$(which zsh)"
   if ! [ "$SHELL" = "$p" ]; then
-    echo "  zsh: found zsh at '$p'"
+    echo "found zsh at '$p'"
     chsh -s "$p"
   fi
 }
