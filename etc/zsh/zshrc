@@ -633,7 +633,7 @@ zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold sl
 # simple fuzzy history
 ::fuzzy_history() {
   local output
-  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail --lines 1000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail -n 2000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
   echo "$output"
 }
 
