@@ -1,0 +1,4 @@
+#!/bin/sh
+
+qbittorrent-nox -d
+mpd
