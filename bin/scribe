@@ -37,11 +37,7 @@ tags() { # first line of each file and its tags
 }
 
 alacritty-edit() {
-  alacritty \
-    -t "floaterm" \
-    -o "window.dimensions.columns=82" \
-    -o "window.dimensions.lines=18" \
-    -e sh -c "$EDITOR $1"
+  alacritty -e sh -c "$EDITOR $1"
 }
 
 case $1 in

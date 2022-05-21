@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2102
 
-# TODO
-# alt+directional binds to split frames would be nice
-
 hc() { herbstclient "$@" ; }
-
-# awk '{ a=$1; $1=""; print a""substr($0,2) }' <<<
 
 ki() { # hc keybind wrapper that properly expands [a,b,c,d] blocks
   re='\[([^]$[]+)\]' # everything in [...] that doesn't have $ or [ or ]
@@ -34,13 +29,10 @@ hc emit_hook reload
 hc keyunbind --all
 hc mouseunbind --all
 hc unrule -F
-
-#echo -n > ~/.log
 echo -n > ~/.cache/herbstluftwm.log
 
 Super=Mod4
-
-# need a script that will return a colemak key and take a qwerty one to make binding things easier.
+Alt=Mod1
 
 # -- autostart
 
@@ -48,58 +40,38 @@ Super=Mod4
 command -v hori &>/dev/null && hori autostart -i
 xwallpaper --zoom ~/.garden/usr/wallpaper/roses.jpg
 
-# -- -- keybinds
-
-# -- hlwm
+# -- keybinds
 
 ki $Super-Shift-q quit
 ki $Super-Shift-r reload
 
-# -- frame
-
-# split frame -> change to mod1+hnei?
+# -- frames
 ki $Super-Shift-Return split explode # auto split frame
-ki $Super-[u,o] split [top,right] 0.5
 ki $Super-r remove # close frame
 
+ki $Super-[j,l,u,y] split [left,bottom,top,right] 0.5
+ki $Super-Control-[h,n,e,i] split [left,bottom,top,right] 0.5
 
 # -- clients
-
 ki $Super-[h,n,e,i] focus [left,down,up,right]
 ki $Super-Shift-[h,n,e,i] shift [left,down,up,right]
-ki $Super-Mod1-[h,n,e,i] resize [left,down,up,right] +0.02
+ki $Super-$Alt-[h,n,e,i] resize [left,down,up,right] +0.02
 
 # -- misc
 
 ki $Super-Return spawn "${TERMINAL:-xterm}"
 
-ki Mod1-Shift-k spawn scribe
-ki Mod1-Shift-s spawn scrot-clipboard -q 100 -s
+ki $Alt-Tab spawn hlwm-wfocus
+ki $Alt-Shift-k spawn scribe
+ki $Alt-Shift-s spawn scrot-clipboard -q 100 -s
 ki $Super-space spawn layout-switch
 ki $Super-BackSpace spawn rofi -show run
 
-ki Mod1-Shift-[n,e] spawn redshift-control 0 [-1,1]
-ki Mod1-[n,e] spawn redshift-control [-250,250]
-ki Mod1-[h,i] spawn volume-control [-8,8]
+ki $Alt-Shift-[n,e] spawn redshift-control 0 [-1,1]
+ki $Alt-[n,e] spawn redshift-control [-250,250]
+# ki $Alt-[h,i] spawn volume-control [-8,8]
 
-# tags
-#tag_names=( {1..9} )
-#tag_keys=( {1..9} 0 )
-
-#hc rename default "${tag_names[0]}" || true
-#for i in "${!tag_names[@]}" ; do
-#    hc add "${tag_names[$i]}"
-#    key="${tag_keys[$i]}"
-#    if [ -n "$key" ] ; then
-#      ki "$Super-$key" use_index "$i"
-#      ki "$Super-Shift-$key" move_index "$i"
-#    fi
-#done
-
-for i in {1..9}; do
-  hc add "$i"
-done
-
+for i in {1..9}; do hc add "$i"; done
 ki $Super-[1,2,3,4,5,6,7,8,9] use_index [0,1,2,3,4,5,6,7,8]
 ki $Super-Shift-[1,2,3,4,5,6,7,8,9] move_index [0,1,2,3,4,5,6,7,8]
 
@@ -108,11 +80,9 @@ ki $Super-Shift-[1,2,3,4,5,6,7,8,9] move_index [0,1,2,3,4,5,6,7,8]
 #ki $Super-comma  use_index -1 --skip-visible
 
 # layouts
-ki $Super-t floating toggle
+ki $Super-f floating toggle
 ki $Super-m fullscreen toggle
 #ki $Super-f set_attr clients.focus.floating toggle
-#ki $Super-Shift-m set_attr clients.focus.minimized true
-#ki $Super-Control-m jumpto last-minimized
 ki $Super-p pseudotile toggle
 
 #close_hook() {

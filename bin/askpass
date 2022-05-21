@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#: launch rofi in password mode and return the entered string
+
 rofi -dmenu -password -p "$*" -theme-str '
 window {
   width: 300;

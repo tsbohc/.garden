@@ -8,6 +8,7 @@ alias xvi='sudo xbps-install'
 alias xvr='sudo xbps-remove -R'
 alias xvo='sudo xbps-remove -Oo'
 alias xvl='sudo xbps-remove -R "$(xbps-query -m | fzf)"'
+alias xvq='xbps-query'
 
 # ;; qt5 scaling
 export QT_ENABLE_HIGHDPI_SCALING=0
@@ -86,8 +87,8 @@ pathadd "$HOME/code/dotnet/"
 # ;; setopts
 
 # history
-HISTSIZE=100000
-SAVEHIST=$HISTSIZE
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
 
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
@@ -724,7 +725,7 @@ bindkey "^[[A" ::fuzzy_history::keybind
 
 preexec() {
   prompt_cmd_start=$(date +%s)
-  echo -e "\033]0;\$ ${1} // ${PWD/#$HOME/~}\007" # set alacritty title to "pwd $ last command run"
+  echo -ne "\033]0;\$ ${1} // ${PWD/#$HOME/~}\007" # set alacritty title to "pwd $ last command run"
   # TODO the above could techincally be reset after the command finishes, so
   # that windows with running commands have a special title
 }

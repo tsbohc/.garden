@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-# a window selection utility
-# dependencies: wmctrl, awk,
-#               dmenu with multiline support (command line flag -l)
+#: use rofi to focus a window with herbstluftwm
 
 hc() { herbstclient "$@" ; }
 
-# hc list_clients # why not this? ?
-
 windows() {
-  while read -r winid tag host window; do
+  while read -r winid tag _ window; do
     echo "<!--$winid-->$((tag+1)) $window"
   done < <(wmctrl -l | sort -r)
 }
 
-selection="$(windows | rofi -theme "vertical.rasi" -dmenu -eh 1 -p "wselect" -matching normal -markup-rows -lines 10)"
+wrapper() {
+  windows | rofi -theme "vertical.rasi" -dmenu -eh 1 -p "wfocus" -markup-rows -lines 10 -theme-str '
+  window {
+    width: 500px;
+  }'
+}
+
+selection="$(wrapper)"
 
 if [[ -n $selection ]]; then
   selection=${selection#*'<!--'}

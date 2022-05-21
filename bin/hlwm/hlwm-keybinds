@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# i need to add here dock string as first/last comment
+#: show herbstluftwm keybinds in a rofi window
 
 {
   while read -r lhs rhs; do
