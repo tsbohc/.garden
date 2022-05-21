@@ -7,7 +7,7 @@ xmodmap=$HOME/.config/x11/.Xmodmap
 [ -f "$xresources" ] && xrdb -merge "$xresources"
 [ -f "$xmodmap" ] && xmodmap "$xmodmap"
 
-autostart="pipewire pipewire-pulse"
+autostart="pipewire pipewire-pulse mpd"
 
 for program in $autostart; do
   pidof -s "$program" || setsid -f "$program"
