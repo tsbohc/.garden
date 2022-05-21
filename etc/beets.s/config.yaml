@@ -7,4 +7,5 @@ paths:
   comp: %lower{comp/$album%aunique{}/$track $title}
 
 import:
+  move: yes
   languages: en
