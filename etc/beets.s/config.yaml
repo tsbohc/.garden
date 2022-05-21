@@ -1,0 +1,10 @@
+directory: /data/mus
+library: /data/mus/.lib
+
+paths:
+  default: %lower{$albumartist - $album%aunique{}/$track $title}
+  singleton: %lower{misc/$artist/$title}
+  comp: %lower{comp/$album%aunique{}/$track $title}
+
+import:
+  languages: en
