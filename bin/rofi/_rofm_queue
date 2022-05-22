@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# wishlist:
+# yeet tracks from the queue (multi select uhhh)
+
+# done! pause/unpause
+# done! play selected song (mpc searchplay ?)
+
+opt() { echo -e "\0$1\x1f$2" ; }
+opt no-custom true
+opt use-hot-keys true
+
+source _rofm_mpc
+source _rofm_keys
+
+redraw() {
+  opt prompt "$(mpc:current)"
+  queue:tracks
+}
+
+if [ "$ROFI_RETV" = 0 ]; then
+  redraw
+else
+  IFS=$_d read -r _ data <<< "$ROFI_INFO"
+  action=${rofm_keys[$ROFI_RETV]}
+  case $action in
+    accept) queue:searchplay "$data" ;;
+    cancel) mpc clear 1>&2 ; redraw ;;
+    toggle_play) mpc toggle 1>&2 ; redraw ;;
+  esac
+  exit 0
+fi

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+mapfile -t songs < <(mpc listall)
+
+for song in "${songs[@]}"; do
+  echo "$song"
+done

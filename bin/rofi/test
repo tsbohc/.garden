@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+mpc:duration() {
+  total_seconds=0
+  while read -r time; do
+    IFS=: read -r m s <<< "$time"
+    m=${m#"${m%%[!0]*}"} s=${s#"${s%%[!0]*}"} # remove leading zeroes
+    total_seconds=$((total_seconds + m * 60 + s))
+  done < <(mpc find -f "%time%" "$@")
+  seconds=$((total_seconds % 60))
+  [ $seconds -lt 10 ] && seconds=0$seconds
+  minutes=$((total_seconds / 60))
+  echo "$minutes:$seconds"
+}
+
+mpc:duration album Twilight

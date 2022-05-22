@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#: 
+
+opt() { echo -e "\0$1\x1f$2" ; }
+opt no-custom true
+opt use-hot-keys true
+
+source _rofm_mpc
+source _rofm_keys
+
+redraw() {
+  opt prompt "track"
+  library:tracks
+}
+
+if [ "$ROFI_RETV" = 0 ]; then
+  redraw
+else
+  IFS=$_d read -r _ data <<< "$ROFI_INFO"
+  action=${rofm_keys[$ROFI_RETV]}
+  case $action in
+    accept) track:findplay "$data" ;;
+  esac
+  exit 0
+fi

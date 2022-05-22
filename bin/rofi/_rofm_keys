@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+rofm_keys[1]=accept
+rofm_keys[10]=cancel
+rofm_keys[11]=append
+rofm_keys[12]=append_album
+rofm_keys[13]=replace
+rofm_keys[14]=replace_album
+rofm_keys[15]=toggle_play
+
+declare -A s=(
+  [cancel]="Control-c"
+  [append]="Alt-a"         # append an album or a track
+  [replace]="Alt-r"        # replace the queue with a track or an album
+  [append_album]="Alt-A"   # explicitly append an album
+  [replace_album]="Alt-R"  # explicitly replace with an album
+  [toggle_play]="Alt-p"
+)
+
+keys_binds=()
+
+for i in "${!rofm_keys[@]}"; do
+  if [ "$i" -gt 9 ]; then
+    id=$((i - 9))
+    keys_binds+=("-kb-custom-$id" "${s[${rofm_keys[$i]}]}")
+  fi
+done

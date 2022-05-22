@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+
+_d="	"
+
+# ---
+
+yell() {
+  title=$1 ; shift
+  notify-send "$title" "$*"
+}
+
+mpc:clear() {
+  mpc clear 1>&2
+  yell "fm-mpc" "clear queue"
+}
+
+mpc:duration() {
+  total_seconds=0
+  while read -r time; do
+    IFS=: read -r m s <<< "$time"
+    m=${m#"${m%%[!0]*}"} s=${s#"${s%%[!0]*}"} # remove leading zeroes
+    total_seconds=$((total_seconds + m * 60 + s))
+  done < <(mpc find -f "%time%" "$@")
+  seconds=$((total_seconds % 60))
+  [ $seconds -lt 10 ] && seconds=0$seconds
+  minutes=$((total_seconds / 60))
+  echo "$minutes:$seconds"
+}
+
+# ---
+
+row() { echo -e "$1\0$2\x1f$3" ; }
+
+library:albums() {
+  while IFS=$_d read -r artist album; do
+    current=$artist$album
+    if ! [[ $last == "$current" ]]; then
+      row "$artist · $album" info "album$_d$artist$_d$album"
+      last=$current
+    fi
+  done < <(mpc listall -f "%artist%$_d%album%")
+}
+
+album:tracks() {
+  IFS=$_d read -r artist album <<< "$*"
+  while read -r title; do
+    row "$artist · $title" info "track$_d$artist$_d$album$_d$title"
+  done < <(mpc list title artist "$artist" album "$album")
+}
+
+album:findplay() {
+  IFS=$_d read -r artist album _ <<< "$*"
+  mpc findadd artist "$artist" album "$album" 1>&2
+  yell "fm-add" "$artist · $album ($(mpc:duration artist "$artist" album "$album"))"
+  mpc play 1>&2
+}
+
+track:findplay() {
+  IFS=$_d read -r artist album title <<< "$*"
+  mpc findadd artist "$artist" album "$album" title "$title" 1>&2
+  yell "fm-add" "$artist · $title ($(mpc:duration artist "$artist" album "$album" title "$title"))"
+  mpc play 1>&2
+}
+
+# ---
+
+mpc:current() {
+  current="$(mpc current -f "%artist% · %title% (%time%)")"
+  status="$(mpc status "%state%")"
+  if [ -n "$current" ]; then
+    echo "$status | $current"
+  else
+    echo "queue"
+  fi
+}
+
+queue:tracks() {
+  if [ "$(mpc playlist | wc -l)" -gt 0 ]; then
+    while IFS=$_d read -r artist album title time; do
+      row "$artist · $title ($time)" info "track$_d$artist$_d$album$_d$title"
+    done < <(mpc playlist -f "%artist%$_d%album%$_d%title%$_d%time%")
+  else
+    row "empty" nonselectable true
+  fi
+}
+
+queue:searchplay() {
+  IFS=$_d read -r artist album title <<< "$*"
+  mpc searchplay artist "$artist" album "$album" title "$title" 1>&2
+}
+
+# ---
+
+library:tracks() {
+  while IFS=$_d read -r artist album title; do
+    row "$artist · $title" info "track$_d$artist$_d$album$_d$title"
+  done < <(mpc listall -f "%artist%$_d%album%$_d%title%")
+}
