@@ -1,0 +1,27 @@
+n forw-line
+e back-line
+N forw-scroll
+E back-scroll
+
+g goto-line
+G goto-end
+
+/ forw-search
+? back-search
+
+k repeat-search
+K reverse-search
+
+& filter
+! shell
+| pipe
+
+v visual
+V visual
+
+q quit
+Q quit
+#stop
+
+#line-edit
+\e abort
