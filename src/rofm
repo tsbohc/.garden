@@ -1,0 +1,47 @@
+#!/bin/bash
+
+d="	"
+
+c() { # extract comment
+  read -r a
+  a=${a#*'<!--'}
+  a=${a%'-->'*}
+  echo "$a"
+}
+
+r() {
+  rofi -theme "vertical.rasi" -dmenu -matching fuzzy -markup-rows | c
+}
+
+mpc:tracks() {
+  while IFS=$d read -r artist album title file; do
+    echo "<!--$file-->$artist - $title - $album"
+  done < <(mpc listall -f "%artist%${d}%album%${d}%title%${d}%file%")
+}
+
+mpc:albums() {
+  local last current
+  while IFS=$d read -r artist album file; do
+    current=$artist$album
+    if ! [[ $last == "$current" ]]; then
+      echo "<!--$artist$d$album-->$(dirname "$file")"
+    fi
+    last=$current
+  done < <(mpc listall -f "%artist%$d%album%$d%file%")
+}
+
+mpc:album:songs() {
+  IFS=$d read -r artist album
+  while read -r title; do
+    echo "$artist - $title"
+  done < <(mpc list title artist "$artist" album "$album")
+}
+
+songs="$(mpc:albums | r | mpc:album:songs)"
+echo "$songs" | r
+
+# hmmmmmmmm
+# what if i do custom combi modi so that songs and albums are all in one menu
+# !a <name of the album>
+# !s <name of the song>
+# or i could just launch rofi with these modi separated and switch between them

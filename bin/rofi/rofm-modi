@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+#: rofi mpc library modi / album browser modi
+
+# TODO
+# prolly extract the mpc functions to a separate file and source them
+# modi ideas: all songs, current playlist
+# this modi: need keybindins, i.e ctrl-a album to append to playlist, ctrl-r to replace it
+# rofi: header with current playing?
+
+# mpc findadd # autoadds the result to the queue
+# replace is just mpc clear ; mpc findadd ...
+
+# kb-accept-custom
+# kb-accept-custom-alt
+# kb-accept-alt
+
+# kb-custom-{1..19}
+
+# bind return to cancel (go back)
+# ctrl-a to append (also enter in song view)
+# ctrl-r to replace
+
+d="	"
+
+opt() { echo -e "\0$1\x1f$2" ; }
+opt prompt "a"
+opt markup-rows true
+opt use-hot-keys true
+
+parse() {
+  a="$*"
+  a=${a#*'<!--'}
+  a=${a%'-->'*}
+  tag=${a%% *}
+  out=${a#* }
+  echo "$tag$d$out"
+}
+
+library:albums() {
+  while IFS=$d read -r artist album file; do
+    current=$artist$album
+    if ! [[ $last == "$current" ]]; then
+      echo "<!--album $artist$d$album-->$(dirname "$file")"
+    fi
+    last=$current
+  done < <(mpc listall -f "%artist%$d%album%$d%file%")
+}
+
+album:songs() {
+  IFS=$d read -r artist album <<< "$*"
+  while read -r title; do
+    echo "<!--song $artist$d$album$d$title-->$artist - $title"
+  done < <(mpc list title artist "$artist" album "$album")
+}
+
+album:files() {
+  IFS=$d read -r artist album <<< "$*"
+  mpc find artist "$artist" album "$album" 1>&2
+}
+
+song:file() {
+  IFS=$d read -r artist album title <<< "$*"
+  mpc find artist "$artist" album "$album" title "$title" 1>&2
+}
+
+if [ -n "$*" ]; then
+  IFS=$d read -r tag data <<< "$(parse "$*")"
+  echo "$tag :: $data" 1>&2
+  case $tag in
+    album)
+      case $ROFI_RETV in
+         1) album:songs "$data" ;;
+        10) album:files "$data" ;;
+      esac
+      ;;
+    song)
+      case $ROFI_RETV in
+         1) song:file "$data" ;;
+        11) library:albums ;; # go back to the album list
+      esac
+      ;;
+  esac
+  echo "ROFI_RETV: $ROFI_RETV" 1>&2
+  exit 0
+fi
+
+library:albums

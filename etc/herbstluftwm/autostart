@@ -63,6 +63,7 @@ ki $Super-Return spawn "${TERMINAL:-xterm}"
 
 ki $Alt-Tab spawn hlwm-wfocus
 ki $Alt-Shift-k spawn scribe
+ki $Alt-Shift-m spawn rofm
 ki $Alt-Shift-s spawn scrot-clipboard -q 100 -s
 ki $Super-space spawn layout-switch
 ki $Super-BackSpace spawn rofi -show run

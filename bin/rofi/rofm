@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rofi -markup-rows -modi a:rofm-modi -show a -theme 'vertical.rasi' -matching fuzzy
