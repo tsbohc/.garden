@@ -29,10 +29,24 @@ fixed-center = true
 bottom = true
 
 #modules-left = wttr
+modules-left = mpd
 modules-center = hc-tags
 modules-right = date
 
-# nerd-clock
+[module/mpd]
+type = internal/mpd
+
+icon-play = ▶︎
+icon-pause = ⏸
+icon-prev = ◂
+icon-next = ▸
+
+label-song = "%artist% · %title%"
+
+format-online = <icon-prev> <toggle> <icon-next> <label-song> 
+format-playing = ${self.format-online}
+format-paused = ${self.format-online}
+format-stopped = ${self.format-online}
 
 [module/xwindow]
 type = internal/xwindow
