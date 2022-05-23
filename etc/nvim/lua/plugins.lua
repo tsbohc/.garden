@@ -91,35 +91,55 @@ return function(use) -- personal
       width = 50,
    }
 
-   use { 'ggandor/lightspeed.nvim' }
-   vim.cmd [[
-      noremap f f
-      noremap F F
-      noremap t t
-      noremap T T
-      noremap s s
-      noremap S S
-      noremap x x
-      noremap X X
-      map t <Plug>Lightspeed_s
-      map T <Plug>Lightspeed_S
-   ]]
-   require('lightspeed').setup {
-      exit_after_idle_msec = { unlabeled = 1000, labeled = 1000 },
-      -- TODO: look into this. i don't really understand what 'auto-jump' means
-      -- either. this seems to work pretty well though.
-      safe_labels = {
-         -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
-         'n', 'e', 's', 'i', 'r', 'o', 'a',
-         'k', 'v', 'm', 'c',
-         'l', 'p', 'u', 'f'
-      },
-      labels = {
-         -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
-         'n', 'e', 's', 'i', 'r', 'o', 'a',
-         'k', 'v', 'm', 'c',
-         'l', 'p', 'u', 'f'
-      }
+   -- use { 'ggandor/lightspeed.nvim' }
+   -- vim.cmd [[
+   --    noremap f f
+   --    noremap F F
+   --    noremap t t
+   --    noremap T T
+   --    noremap s s
+   --    noremap S S
+   --    noremap x x
+   --    noremap X X
+   --    noremap t <Plug>Lightspeed_s
+   --    noremap T <Plug>Lightspeed_S
+   -- ]]
+   -- require('lightspeed').setup {
+   --    exit_after_idle_msec = { unlabeled = 1000, labeled = 1000 },
+   --    -- TODO: look into this. i don't really understand what 'auto-jump' means
+   --    -- either. this seems to work pretty well though.
+   --    safe_labels = {
+   --       -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
+   --       'n', 'e', 's', 'i', 'r', 'o', 'a',
+   --       'k', 'v', 'm', 'c',
+   --       'l', 'p', 'u', 'f'
+   --    },
+   --    labels = {
+   --       -- '1', '2', '3', '4', '5', '6', '7', '8', '9'
+   --       'n', 'e', 's', 'i', 'r', 'o', 'a',
+   --       'k', 'v', 'm', 'c',
+   --       'l', 'p', 'u', 'f'
+   --    }
+   -- }
+
+   use {
+      'rlane/pounce.nvim',
+      config = function()
+         vim.cmd [[
+            nmap t <cmd>Pounce<CR>
+            nmap T <cmd>PounceRepeat<CR>
+            vmap t <cmd>Pounce<CR>
+            omap t <cmd>Pounce<CR>
+         ]]
+         require('pounce').setup {
+        -- accept_keys = "JFKDLSAHGNUVRBYTMICEOXWPQZ",
+           accept_keys = "NTESIRKVHDOAMCLPUFYWXZQBGJ",
+           -- accept_keys = "NTESIROAKVMC",
+           accept_best_key = "<enter>",
+           multi_window = true,
+           debug = false,
+         }
+      end,
    }
 
    use {
@@ -152,13 +172,13 @@ return function(use) -- personal
      config = function() require('paq.telescope_') end
   }
 
-  use {
-     'windwp/nvim-autopairs',
-     config = function()
-        require('nvim-autopairs').setup {
-        }
-     end
-  }
+  -- use {
+  --    'windwp/nvim-autopairs',
+  --    config = function()
+  --       require('nvim-autopairs').setup {
+  --       }
+  --    end
+  -- }
 
   use { 'ray-x/lsp_signature.nvim' }
 

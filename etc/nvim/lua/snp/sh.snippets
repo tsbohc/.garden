@@ -1,0 +1,87 @@
+#
+# bang
+snippet sh
+	#!/usr/bin/env sh
+snippet bash
+	#!/usr/bin/env bash
+#
+# function
+snippet fn
+	${1:f}(){
+		${0::}
+	}
+#
+# if
+snippet if
+	if ${1:y}; then
+		${0::}
+	fi
+snippet ife
+	if ${1:y}; then
+		${2::}
+	else
+		${0::}
+	fi
+snippet elif
+	elif ${1:y}; then
+		${2::}
+#
+# condition types
+snippet [
+	[ ${0:y} ]
+snippet [[
+	[[ ${0:y} ]]
+#
+# "ternary" if
+snippet and]
+	[ ${1:y} ] && ${0::}
+snippet andor]
+	[ ${1:y} ] && ${2::} || ${0::}
+snippet and]]
+	[[ ${1:y} ]] && ${0::}
+snippet andor]]
+	[[ ${1:y} ]] && ${2::} || ${0::}
+#
+# case
+snippet case
+	case ${1:x} in
+		${2:y}) ${0::} ;;
+	esac
+snippet )
+	${1:y}) ${0::} ;;
+snippet forv
+	for ${1:k} in ${2:xs}; do
+		${0::}
+	done
+#
+# while
+snippet wh
+	while ${1:y}; do
+		${0::}
+	done
+snippet whread
+	while read -r ${1:x}; do
+		${0::}
+	done
+snippet whreadifs
+	while IFS=${1} read -r ${2:x}; do
+		${0::}
+	done
+#
+# echo
+snippet pri
+	echo "${0:x}"
+#
+# string substitution
+snippet slu # longest until
+	\${${1:s}%${0:match}*\}
+snippet ssu # shortest until
+	\${${1:s}%%${0:match}*\}
+snippet slb # longest before
+	\${${1:s}#${0:match}*\}
+snippet ssb # shortest before
+	\${${1:s}##${0:match}*\}
+snippet sro # replace once
+	\${${1:s}/${2:x}/${0:y}\}
+snippet sra # replace all
+	\${${1:s}//${2:x}/${0:y}\}

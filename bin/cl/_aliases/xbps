@@ -1,0 +1,47 @@
+#!/bin/sh
+
+#: xbps alias functions with extra info about packages
+
+xvu() {
+  echo "sudo xbps-install -Su $*"
+  echo
+  sudo xbps-install -Su "$@"
+}
+
+xvi() {
+  echo "sudo xbps-install $*"
+  echo
+  {
+    for p in "$@"; do
+      echo "$p	$(xbps-query "$p" -p short_desc)"
+    done
+  } | column -t -s '	'
+  echo
+  sudo xbps-install "$@"
+}
+
+xvr() {
+  echo "sudo xbps-remove -R $*"
+  echo
+  {
+    for p in "$@"; do
+      echo "$p	$(xbps-query "$p" -p short_desc)"
+    done
+  } | column -t -s '	'
+  echo
+  sudo xbps-remove -R "$@"
+}
+
+xvc() {
+  echo "sudo xbps-remove -Oo $*"
+  echo
+  sudo xbps-remove -Oo "$@"
+}
+
+alias xvl='sudo xbps-remove -R "$(xbps-query -m | fzf)"'
+alias xvq='xbps-query'
+
+if type compdef >/dev/null; then
+  compdef xvi=xbps-install
+  compdef xvr=xbps-remove
+fi

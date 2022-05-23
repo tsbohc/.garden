@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# extract files into a directory that matches the name of the archive
+#: extract files into a directory that matches the name of the archive
 
 main() {
   for f in "$@"; do
