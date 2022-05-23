@@ -27,6 +27,11 @@ else
     accept) queue:searchplay "$data" ;;
     cancel) mpc clear 1>&2 ; redraw ;;
     toggle_play) mpc toggle 1>&2 ; redraw ;;
+    lower_volume) mpc volume -5 1>&2 ; redraw ;;
+    raise_volume) mpc volume +5 1>&2 ; redraw ;;
+    prev) mpc prev 1>&2 ; redraw ;;
+    next) mpc next 1>&2 ; redraw ;;
+    remove) queue:remove "$data" ; redraw ;;
   esac
   exit 0
 fi

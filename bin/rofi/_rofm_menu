@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+opt() { echo -e "\0$1\x1f$2" ; }
+opt no-custom true
+opt use-hot-keys true
+opt prompt "$(mpc:current)"
+
+source _rofm_mpc
+source _rofm_keys
+
+menu=(
+  pause
+  play
+  stop
+  clear
+  crop
+  next
+  prev
+  repeat
+  shuffle
+)
+
+if [ "$ROFI_RETV" = 0 ]; then
+  for item in "${menu[@]}"; do
+    echo "$item"
+  done
+else
+  eval "mpc $item"
+  exit 0
+fi

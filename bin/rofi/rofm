@@ -1,39 +1,9 @@
 #!/usr/bin/env bash
 
+#: mpd rofi client
+
 # yell "ROFI_INFO $ROFI_INFO"
 # yell "ROFI_RETV $ROFI_RETV ${rofm_keys[$ROFI_RETV]}"
-
-# TODO
-# prolly extract the mpc functions to a separate file and source them
-# modi ideas: all tracks, current playlist
-# this modi: need keybindins, i.e ctrl-a album to append to playlist, ctrl-r to replace it
-# rofi: header with current playing?
-
-# command palette modi:
-# next
-# prev
-# repeat
-# shuffle
-# clear
-# stop
-# pause
-# crop
-
-# the now playing should have <current-n>/<total-n> or maybe even playlist length
-# or even time before this song and total playlist time
-
-# mpc findadd # autoadds the result to the queue
-# replace is just mpc clear ; mpc findadd ...
-
-# kb-accept-custom
-# kb-accept-custom-alt
-# kb-accept-alt
-
-# kb-custom-{1..19}
-
-# bind return to cancel (go back)
-# ctrl-a to append (also enter in track view)
-# ctrl-r to replace
 
 source _rofm_keys
 
@@ -41,22 +11,21 @@ r() {
   rofi "${keys_binds[@]}" \
     -matching fuzzy \
     -markup-rows \
-    -modi combi,q:_rofm_queue \
-    -combi-modi a:_rofm_album,s:_rofm_song \
+    -modi b:_rofm_browse,q:_rofm_queue \
     -display-combi rofm \
     -theme 'vertical.rasi' \
     -theme-str '
       window {
         width: 600;
       }
+      listview {
+        lines: 10;
+      }
     ' "$@"
 }
 
-# t:_rofm_song
-
 if [ "$(mpc playlist | wc -l)" = 0 ]; then
-  r -show combi
+  r -show b
 else
   r -show q
 fi
-

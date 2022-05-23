@@ -7,6 +7,11 @@ rofm_keys[12]=append_album
 rofm_keys[13]=replace
 rofm_keys[14]=replace_album
 rofm_keys[15]=toggle_play
+rofm_keys[16]=remove
+rofm_keys[17]=lower_volume
+rofm_keys[18]=raise_volume
+rofm_keys[19]=prev
+rofm_keys[20]=next
 
 declare -A s=(
   [cancel]="Control-c"
@@ -15,6 +20,11 @@ declare -A s=(
   [append_album]="Alt-A"   # explicitly append an album
   [replace_album]="Alt-R"  # explicitly replace with an album
   [toggle_play]="Alt-p"
+  [remove]="Alt-d"
+  [lower_volume]="Alt-n"
+  [raise_volume]="Alt-e"
+  [prev]="Alt-h"
+  [next]="Alt-i"
 )
 
 keys_binds=()

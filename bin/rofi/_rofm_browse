@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+opt() { echo -e "\0$1\x1f$2" ; }
+opt no-custom true
+opt use-hot-keys true
+
+source _rofm_mpc
+source _rofm_keys
+
+redraw() {
+  opt prompt "browse"
+  library:albums
+  library:tracks
+}
+
+if [ "$ROFI_RETV" = 0 ]; then
+  redraw
+else
+  IFS=$_d read -r scope data <<< "$ROFI_INFO"
+  action=${rofm_keys[$ROFI_RETV]}
+  case $action in
+    accept)
+      case $scope in
+        album) opt prompt "${data/$_d/ - }" ; album:tracks "$data" ;;
+        track) track:findplay "$data" ;;
+      esac ;;
+    replace|append)
+      [ "$action" = replace ] && mpc:clear
+      case "$scope" in
+        album) album:findplay "$data" ;;
+        track) track:findplay "$data" ;;
+      esac ;;
+    replace_album|append_album)
+      [ "$action" = replace_album ] && mpc:clear
+      case "$scope" in
+        album) album:findplay "$data" ;;
+        track) album:findplay "$data" ;;
+      esac ;;
+    cancel)
+      case $scope in
+        track) opt prompt album ; redraw ;;
+      esac ;;
+  esac
+  exit 0
+fi

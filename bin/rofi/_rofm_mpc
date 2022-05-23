@@ -20,7 +20,7 @@ mpc:duration() {
     IFS=: read -r m s <<< "$time"
     m=${m#"${m%%[!0]*}"} s=${s#"${s%%[!0]*}"} # remove leading zeroes
     total_seconds=$((total_seconds + m * 60 + s))
-  done < <(mpc find -f "%time%" "$@")
+  done < <(mpc -f "%time%" "$@")
   seconds=$((total_seconds % 60))
   [ $seconds -lt 10 ] && seconds=0$seconds
   minutes=$((total_seconds / 60))
@@ -30,15 +30,22 @@ mpc:duration() {
 # ---
 
 row() { echo -e "$1\0$2\x1f$3" ; }
+row2() { echo -e "$1\0$2\x1f$3\x1f$4\x1f$5" ; }
 
 library:albums() {
   while IFS=$_d read -r artist album; do
     current=$artist$album
     if ! [[ $last == "$current" ]]; then
-      row "$artist · $album" info "album$_d$artist$_d$album"
+      row2 "◇ $artist - $album" info "album$_d$artist$_d$album" meta "@ 2 album"
       last=$current
     fi
   done < <(mpc listall -f "%artist%$_d%album%")
+}
+
+library:tracks() {
+  while IFS=$_d read -r artist album title; do
+    row2 "$artist · $title" info "track$_d$artist$_d$album$_d$title" meta "! 1 track song $album"
+  done < <(mpc listall -f "%artist%$_d%album%$_d%title%")
 }
 
 album:tracks() {
@@ -51,24 +58,31 @@ album:tracks() {
 album:findplay() {
   IFS=$_d read -r artist album _ <<< "$*"
   mpc findadd artist "$artist" album "$album" 1>&2
-  yell "fm-add" "$artist · $album ($(mpc:duration artist "$artist" album "$album"))"
+  yell "fm-add" "$artist · $album ($(mpc:duration find artist "$artist" album "$album"))"
   mpc play 1>&2
 }
 
 track:findplay() {
   IFS=$_d read -r artist album title <<< "$*"
   mpc findadd artist "$artist" album "$album" title "$title" 1>&2
-  yell "fm-add" "$artist · $title ($(mpc:duration artist "$artist" album "$album" title "$title"))"
+  yell "fm-add" "$artist · $title ($(mpc:duration find artist "$artist" album "$album" title "$title"))"
   mpc play 1>&2
 }
 
 # ---
 
 mpc:current() {
-  current="$(mpc current -f "%artist% · %title% (%time%)")"
-  status="$(mpc status "%state%")"
-  if [ -n "$current" ]; then
-    echo "$status | $current"
+  IFS=$_d read -r state volume <<< "$(mpc status "%state%$_d%volume%")"
+  IFS=$_d read -r artist title time <<< "$(mpc current -f "%artist%$_d%title%$_d%time%")"
+  volume=${volume// /}
+  duration="$(mpc:duration playlist)"
+
+  # TODO volume
+
+  [ "$state" = "paused" ] && state=⏸ || state=⏵
+
+  if [ -n "$artist" ]; then
+    echo "$artist · $title $state $duration"
   else
     echo "queue"
   fi
@@ -76,23 +90,20 @@ mpc:current() {
 
 queue:tracks() {
   if [ "$(mpc playlist | wc -l)" -gt 0 ]; then
-    while IFS=$_d read -r artist album title time; do
-      row "$artist · $title ($time)" info "track$_d$artist$_d$album$_d$title"
-    done < <(mpc playlist -f "%artist%$_d%album%$_d%title%$_d%time%")
+    while IFS=$_d read -r artist album title time position; do
+      row "$artist · $title ($time)" info "track$_d$artist$_d$album$_d$title$_d$position"
+    done < <(mpc playlist -f "%artist%$_d%album%$_d%title%$_d%time%$_d%position%")
   else
     row "empty" nonselectable true
   fi
 }
 
 queue:searchplay() {
-  IFS=$_d read -r artist album title <<< "$*"
+  IFS=$_d read -r artist album title _ <<< "$*"
   mpc searchplay artist "$artist" album "$album" title "$title" 1>&2
 }
 
-# ---
-
-library:tracks() {
-  while IFS=$_d read -r artist album title; do
-    row "$artist · $title" info "track$_d$artist$_d$album$_d$title"
-  done < <(mpc listall -f "%artist%$_d%album%$_d%title%")
+queue:remove() {
+  IFS=$_d read -r _ _ _ position <<< "$*"
+  mpc del "$position"
 }
