@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#: send qbittorrent notification on torrent completion
+
+curl -H "t: dow" -d "%N" ntfy.sh/"$(cat ~/secret/ntfy)"
