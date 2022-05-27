@@ -8,19 +8,26 @@
 # idf(i)     = log10(n/df_i)
 # tfidf(ij)  = tf(ij) * idf(i)
 
-[[ -z $1 ]] && exit ; dir=$1
+if [[ $(echo "$*" | wc -l) -gt 1 ]]; then
+  readarray -t input <<< "$@" # accept a list of filepaths delimited by \n, e.g find
+# elif [[ -d $* ]]; then
+#   readarray -d '' input < <(find "$*" -type f -print0) # accept directory as the only argument
+else
+  input=("$@") # accept a list of filepaths delimited by spaces, e.g glob
+fi
 
 tf() { # <tf(ij)> <text-j> <term-i>
-  grep -o -E '[A-Za-z]+' "$dir/"* \
+  grep -o -E '[A-Za-z]+' "${input[@]}" \
     | tr 'A-Z' 'a-z' \
     | sort -t ':' -k2,2 -k1,1 \
     | tr ':' ' ' \
     | uniq -c
 }
 
+tf="$(tf)"
+
 idf() { # <term-i> <idf-i>
-  local n; n="$(ls "$dir" | wc -l)"
-  awk -v n="$n" '
+  awk -v n="${#input[@]}" '
   {
     df[$3]++
   } END {
@@ -38,5 +45,9 @@ tfidf() { # <text-j> <term-i> <tfidf(ij)>
   }' <(idf) <(echo "$tf") | sort -t ' ' -r -k1,1 -k3,3
 }
 
-tf="$(tf)"
-tfidf
+tfidf="$(tfidf)"
+
+# preserve order in which the files came in
+for p in "${input[@]}"; do
+  grep "$p " <<< "$tfidf"
+done

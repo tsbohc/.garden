@@ -21,19 +21,35 @@ new() { # new note
   echo "$notes/$name.md"
 }
 
+find_notes() { # find notes and sort them by modified date
+  find ~/.garden/usr/notes/ -type f -printf "%T@ %p\n" | sort -r | awk '{ print $2 }'
+}
+
 tags() { # first line of each file and its tags
   echo -e "<!--new-->new\n<i><span foreground='#666666'>open a blank note</span></i>"
   while IFS=: read -r path tags; do
-    #date=${path##*/} ; date=${date%%.*} ; $(date -d @$date '+%D, %d')
     echo -e "	<!--$path-->$(head -n 1 "$path")<i><span foreground='#666666'>\n$tags</span></i>"
   done < <({
+    # its a mess, but this is so that the order of notes is preserved
     awk '
-      {
-        if (length($2) > 2 && $3 > 0.1 && length(tags[$1]) < 500) tags[$1]=$2" "tags[$1]
+      BEGIN {
+        orde[0]="foo"
+        delete orde[0]
+      } {
+        if (length(tags[$1]) < 500) {
+          if (orde[length(orde)] != $1) {
+            orde[length(orde)+1] = $1
+          }
+          tags[$1]=$2" "tags[$1]
+        }
       } END {
-        for (text in tags) print text":"tags[text]
-      }' <(tfidf "$notes")
-  } | sort -nr)
+        for (f in orde) {
+          if (f > 0) {
+            print orde[f]":"tags[orde[f]]
+          }
+        }
+      }' <(tfidf "$(find_notes)")
+  })
 }
 
 alacritty-edit() {
@@ -44,7 +60,8 @@ case $1 in
   -h|--help) echo "\$ scribe [new]" ;;
   new) "$EDITOR" "$(new)" ;;
   *)
-    selection="$(tags | rofi -theme "vertical.rasi" -dmenu -sep '	' -eh 2 -p "scribe" -matching normal -markup-rows -lines 10)"
+    tags
+    selection="$(tags | rofi -no-sort -theme "vertical.rasi" -dmenu -sep '	' -eh 2 -p "scribe" -matching normal -markup-rows -lines 10)"
     if [[ -n $selection ]]; then
       selection=${selection#*'<!--'}
       selection=${selection%'-->'*}

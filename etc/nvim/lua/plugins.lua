@@ -23,6 +23,7 @@ return function(use) -- personal
             diagnostics_format = "#{m} #{c}",
             sources = {
                null_ls.builtins.diagnostics.shellcheck,
+               null_ls.builtins.diagnostics.fish,
                -- null_ls.builtins.diagnostics.proselint
                -- null_ls.builtins.diagnostics.vale
             },
@@ -128,9 +129,10 @@ return function(use) -- personal
          vim.cmd [[
             nmap t <cmd>Pounce<CR>
             nmap T <cmd>PounceRepeat<CR>
-            vmap t <cmd>Pounce<CR>
-            omap t <cmd>Pounce<CR>
          ]]
+
+            -- vmap t <cmd>Pounce<CR>
+            -- omap t <cmd>Pounce<CR>
          require('pounce').setup {
         -- accept_keys = "JFKDLSAHGNUVRBYTMICEOXWPQZ",
            accept_keys = "NTESIRKVHDOAMCLPUFYWXZQBGJ",

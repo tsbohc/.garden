@@ -18,37 +18,43 @@ fi
 # ;; zsh settings
 
 # history
-export HISTSIZE=100000
+export HISTFILE=${XDG_CACHE_HOME}/zsh_history
+export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
 
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_reduce_blanks
+setopt hist_ignore_space
 setopt inc_append_history
-
-# other
 setopt share_history
+
 setopt auto_cd
 setopt no_case_glob
+
+# completion
 setopt no_auto_menu
 setopt no_menu_complete
 
+# prompt
 setopt prompt_subst
 
+# misc
 unsetopt beep # beep is the strongest warrior!
 
-# ;; gripes and grievances
+# gripes
 zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
-
 
 # ;; completion
 
+# {{{
 # https://gist.github.com/ctechols/ca1035271ad134841284
 # compile zcompdump in the background once a day
 # - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+# }}}
 autoload -Uz compinit
 { setopt extendedglob
   for zcompdump in $ZDOTDIR/.zcompdump(#qN.mh+24); do
@@ -61,16 +67,10 @@ autoload -Uz compinit
 compinit -C
 
 # completion for hori-hori
-# compdef '_path_files -/ -W /home/sean/.garden/etc/' hori
-
-# compdefas () {
-#   if (($+_comps[$1])); then
-#     compdef $_comps[$1] ${^@[2,-1]}=$1
-#   fi
-# }
-# compdefas _xbps-install xvi # fails, compdef xvi=xbps-install is ok though
+compdef '_path_files -/ -W $HOME/.garden/etc/' hori
 
 
+# aliases
 if [ -d "$dotgarden/bin/cl/_aliases" ]; then
   # echo "sourcing aliases"
   for f in "$dotgarden/bin/cl/_aliases/"*; do
@@ -98,7 +98,30 @@ fi
 
 export EDITOR=nvim # TODO nvim -> vim -> vi
 export TERMINAL=alacritty # TODO check for it first
-# export FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1,hl:15,hl+:15,fg:7,fg+:7,info:7,prompt:7,pointer:1,header:15 --margin=0,2 --pointer="›" --prompt="  "'
+
+
+
+
+
+fzf_colors='--color=gutter:regular:0,bg:regular:-1,fg:regular:4,bg+:regular:-1,fg+:regular:2,hl:regular:3,hl+:regular:15,pointer:regular:5,prompt:regular:0,info:regular:3'
+export FZF_DEFAULT_OPTS="$fzf_colors --pointer='█' --prompt='█ ' --reverse"
+
+
+
+# fzf completion
+if ! [ -d "$HOME/.config/zsh/fzf-tab" ]; then
+  git clone https://github.com/Aloxaf/fzf-tab "$HOME/.config/zsh/fzf-tab"
+fi
+
+source $HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+
+zstyle ':fzf-tab:*' default-color $'\033[0;10m' # else fg+ won't work (and maybe something else)
+zstyle ':fzf-tab:*' fzf-flags --info=hidden $fzf_colors
+
+
+
+
+
 
 # xdg stuff
 export XDG_DATA_HOME=$HOME/.local/share
@@ -115,163 +138,454 @@ export XDG_PUBLICSHARE_DIR="$HOME/pub"
 export XDG_TEMPLATES_DIR="$HOME/tem"
 export XDG_VIDEOS_DIR="$HOME/vid"
 
-export HISTFILE=${XDG_CACHE_HOME}/bash_history
 export CUDA_CACHE_PATH=${XDG_CACHE_HOME}/nv
 export GRADLE_USER_HOME=${XDG_DATA_HOME}/gradle
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export NPM_CONFIG_USERCONFIG=${XDG_CONFIG_HOME}/npm/npmrc
 
-# qt5 scaling
 export QT_ENABLE_HIGHDPI_SCALING=0
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 
+
+#1 ⬡⬢ 🢒▶⯅⯆▲▼⯁ ●»›►▻▸▹×⇌ λ
+#2 ➳ ➵ ➸ 
+
+declare -A __p
+__p=(
+  [symbol_normal]="⯁"
+  [symbol_insert]="⇌"
+  [symbol_failure]="×"
+  [success_color]="blue"
+  [failure_color]=1
+)
+
+__prompt_status() {
+  echo -n "%(?.%F{$__p[success_color]}$__p[symbol].%F{$__p[failure_color]}$__p[symbol])%f"
+}
+
+__prompt_pwd() {
+  if ! [[ "$PWD" == "$HOME" ]]; then
+    echo -n "${PWD/$HOME\/} "
+  fi
+}
+
+KEYTIMEOUT=1
+
+# change prompt symbol based on mode
+function zle-line-init zle-keymap-select {
+  case ${KEYMAP} in
+    vicmd)
+      __p[symbol]=$__p[symbol_normal]
+      echo -ne '\e[2 q'
+      ;;
+    main|viins|*)
+      __p[symbol]=$__p[symbol_insert]
+      echo -ne '\e[6 q'
+      ;;
+  esac
+  zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+PROMPT='%K{0} $(__prompt_pwd)$(__prompt_status) %k ' # nb: single quotes are important
+
+
+
+# keybinds
+
+# FIXME: where's that "edit command in editor" thing
+
+declare -A _k
+_k=(
+  [enter]=""
+  [backspace]="^?"
+  [tab]="	"
+  [escape]=""
+)
+
+# insert mode
+bindkey -rp '' # clear everything
+bindkey -R "\x20"-"\x7E" self-insert # bind all ascii "printable characters"
+
+bindkey "^[[C" vi-forward-char
+bindkey "^[[B" down-line-or-history
+bindkey "^[[A" up-line-or-history
+bindkey "^[[D" vi-backward-char
+
+bindkey "$_k[backspace]" backward-delete-char # this one allows to delete past normal leave position
+bindkey "$_k[enter]" accept-line
+bindkey "$_k[escape]" vi-cmd-mode
+bindkey "^L" clear-screen
+
+bindkey "$_k[tab]" fzf-tab-complete
+
+# normal mode
+bindkey -v # TODO check if this is needed
+bindkey -arp '' # clear everything
+# {{{
+### primary
+bindkey -a "$_k[enter]" accept-line
+bindkey -a "^L" clear-screen
+
+### back to insert mode
+bindkey -a "l" vi-insert
+bindkey -a "L" vi-insert-bol
+bindkey -a "a" vi-add-next
+bindkey -a "A" vi-add-eol
+bindkey -a "c" vi-change
+bindkey -a "C" vi-change-eol
+
+## movement
+
+### character scope
+bindkey -a "h" vi-backward-char
+bindkey -a "n" down-line-or-history # TODO idk about the history thing
+bindkey -a "e" up-line-or-history
+bindkey -a "i" vi-forward-char
+
+### word scope
+bindkey -a "b" vi-backward-word
+bindkey -a "B" vi-backward-blank-word
+bindkey -a "w" vi-forward-word
+bindkey -a "W" vi-forward-blank-word
+bindkey -a "f" vi-forward-word-end
+bindkey -a "F" vi-forward-blank-word-end
+
+### line scope
+bindkey -a "I" vi-end-of-line
+bindkey -a "H" vi-beginning-of-line
+
+### misc
+bindkey -a "%" vi-match-bracket
+
+## editing
+
+### undo-redo
+bindkey -a "u" undo
+bindkey -a "U" redo
+
+### repeat
+bindkey -a -R "1"-"9" digit-argument
+bindkey -a "." vi-repeat-change
+
+### yank-paste
+bindkey -a "y" vi-yank
+bindkey -a "Y" vi-yank-whole-line
+bindkey -a "p" vi-put-before
+bindkey -a "P" vi-put-before
+
+### delete
+bindkey -a "d" vi-delete
+bindkey -a "D" vi-kill-eol
+bindkey -a "x" vi-delete-char
+bindkey -a "J" vi-join # idk, different from main vim config
+
+bindkey -a "r" vi-replace-chars
+bindkey -a "R" vi-replace
+
+### visual mode
+bindkey -a "v" visual-mode
+bindkey -a "V" visual-line-mode
+# }}}
+
+# {{{ default insert binds
+# bindkey -r "^D" # list-choices
+# bindkey -r "^G" # list-expand
+# bindkey -r "^H" # vi-backward-delete-char
+# bindkey -r "^J" # accept-line
+# bindkey -r "^Q" # vi-quoted-insert
+# bindkey -r "^R" # redisplay
+# bindkey -r "^U" # vi-kill-line
+# bindkey -r "^V" # vi-quoted-insert
+# bindkey -r "^W" # vi-backward-kill-word
+# bindkey -r "^X^R" # _read_comp
+# bindkey -r "^X." # fzf-tab-debug
+# bindkey -r "^X?" # _complete_debug
+# bindkey -r "^XC" # _correct_filename
+# bindkey -r "^Xa" # _expand_alias
+# bindkey -r "^Xc" # _correct_word
+# bindkey -r "^Xd" # _list_expansions
+# bindkey -r "^Xe" # _expand_word
+# bindkey -r "^Xh" # _complete_help
+# bindkey -r "^Xm" # _most_recent_file
+# bindkey -r "^Xn" # _next_tags
+# bindkey -r "^Xt" # _complete_tag
+# bindkey -r "^X~" # _bash_list-choices
+# bindkey -r "^[," # _history-complete-newer
+# bindkey -r "^[/" # _history-complete-older
+# bindkey -r "^[OA" # up-line-or-history
+# bindkey -r "^[OB" # down-line-or-history
+# bindkey -r "^[OC" # vi-forward-char
+# bindkey -r "^[OD" # vi-backward-char
+# bindkey -r "^[[200~" # bracketed-paste
+# bindkey -r "^[[B" # down-line-or-history
+# bindkey -r "^[[C" # vi-forward-char
+# bindkey -r "^[[D" # vi-backward-char
+# bindkey -r "^[~" # _bash_complete-word
+# bindkey -r "^?" # vi-backward-delete-char
+# bindkey "^A"-"^C" self-insert
+# bindkey "^E"-"^F" self-insert
+# bindkey "^K" self-insert
+# bindkey "^N"-"^P" self-insert
+# bindkey "^S"-"^T" self-insert
+# bindkey "^Y"-"^Z" self-insert
+# bindkey "^\\\\"-"~" self-insert
+# bindkey "\M-^@"-"\M-^?" self-insert
+# }}}
+# {{{ default normal binds
+# bindkey -a "^D" list-choices
+# bindkey -a "^G" list-expand
+# bindkey -a "^H" vi-backward-char
+# bindkey -a "^J" accept-line
+# bindkey -a "^L" clear-screen
+# bindkey -a "^M" accept-line
+# bindkey -a "^N" down-history
+# bindkey -a "^P" up-history
+# bindkey -a "^R" redo
+# bindkey -a "^[" beep
+# bindkey -a "^[OA" up-line-or-history
+# bindkey -a "^[OB" down-line-or-history
+# bindkey -a "^[OC" vi-forward-char
+# bindkey -a "^[OD" vi-backward-char
+# bindkey -a "^[[200~" bracketed-paste
+# bindkey -a "^[[A" up-line-or-history
+# bindkey -a "^[[B" down-line-or-history
+# bindkey -a "^[[C" vi-forward-char
+# bindkey -a "^[[D" vi-backward-char
+# bindkey -a " " vi-forward-char
+# bindkey -a "\"" vi-set-buffer
+# bindkey -a "#" pound-insert
+# bindkey -a "\$" vi-end-of-line
+# bindkey -a "%" vi-match-bracket
+# bindkey -a "'" vi-goto-mark-line
+# bindkey -a "+" vi-down-line-or-history
+# bindkey -a "," vi-rev-repeat-find
+# bindkey -a "\-" vi-up-line-or-history
+# bindkey -a "." vi-repeat-change
+# bindkey -a "/" vi-history-search-backward
+# bindkey -a "0" vi-digit-or-beginning-of-line
+# bindkey -a -R "1"-"9" digit-argument
+# bindkey -a ":" execute-named-cmd
+# bindkey -a ";" vi-repeat-find
+# bindkey -a "<" vi-unindent
+# bindkey -a "=" list-choices
+# bindkey -a ">" vi-indent
+# bindkey -a "?" vi-history-search-forward
+# bindkey -a "A" vi-add-eol
+# bindkey -a "B" vi-backward-blank-word
+# bindkey -a "C" vi-change-eol
+# bindkey -a "D" vi-kill-eol
+# bindkey -a "E" vi-forward-blank-word-end
+# bindkey -a "F" vi-find-prev-char
+# bindkey -a "G" vi-fetch-history
+# bindkey -a "I" vi-insert-bol
+# bindkey -a "J" vi-join
+# bindkey -a "N" vi-rev-repeat-search
+# bindkey -a "O" vi-open-line-above
+# bindkey -a "P" vi-put-before
+# bindkey -a "R" vi-replace
+# bindkey -a "S" vi-change-whole-line
+# bindkey -a "T" vi-find-prev-char-skip
+# bindkey -a "V" visual-line-mode
+# bindkey -a "W" vi-forward-blank-word
+# bindkey -a "X" vi-backward-delete-char
+# bindkey -a "Y" vi-yank-whole-line
+# bindkey -a "\^" vi-first-non-blank
+# bindkey -a "\`" vi-goto-mark
+# bindkey -a "a" vi-add-next
+# bindkey -a "b" vi-backward-word
+# bindkey -a "c" vi-change
+# bindkey -a "d" vi-delete
+# bindkey -a "e" vi-forward-word-end
+# bindkey -a "f" vi-find-next-char
+# bindkey -a "gE" vi-backward-blank-word-end
+# bindkey -a "gU" vi-up-case
+# bindkey -a "gUU" "gUgU"
+# bindkey -a "ga" what-cursor-position
+# bindkey -a "ge" vi-backward-word-end
+# bindkey -a "gg" beginning-of-buffer-or-history
+# bindkey -a "gu" vi-down-case
+# bindkey -a "guu" "gugu"
+# bindkey -a "g~" vi-oper-swap-case
+# bindkey -a "g~~" "g~g~"
+# bindkey -a "h" vi-backward-char
+# bindkey -a "j" down-line-or-history
+# bindkey -a "k" up-line-or-history
+# bindkey -a "l" vi-forward-char
+# bindkey -a "m" vi-set-mark
+# bindkey -a "n" vi-repeat-search
+# bindkey -a "o" vi-open-line-below
+# bindkey -a "p" vi-put-after
+# bindkey -a "r" vi-replace-chars
+# bindkey -a "s" vi-substitute
+# bindkey -a "t" vi-find-next-char-skip
+# bindkey -a "u" undo
+# bindkey -a "v" visual-mode
+# bindkey -a "w" vi-forward-word
+# bindkey -a "x" vi-delete-char
+# bindkey -a "y" vi-yank
+# bindkey -a "|" vi-goto-column
+# bindkey -a "~" vi-swap-case
+# bindkey -a "^?" vi-backward-char
+# }}}
+
+
+
+
+
+
 # ;; prompt
 
-# ⬡⬢ 🢒▶⯅⯆▲▼⯁ ●»›►▻▸▹×
-
-prompt_symbol="\$"
-prompt_git_color=green
-prompt_success_color=blue
-prompt_failure_color=red
-prompt_failure_symbol="×"
-
-ansi() {
-  echo -n "%F{$1}$2%f"
-}
-
-::prompt_current_dir() {
-  echo -n "%~"
-}
-
-::prompt_return_status() {
-  echo -n "%B%(?.%F{$prompt_success_color}$prompt_symbol.%F{$prompt_failure_color}$prompt_failure_symbol)%b%f"
-}
-
-::prompt_time() { # from https://github.com/sindresorhus/pretty-time-zsh
-  local seconds d h m s
-  local -a human=()
-  seconds=$1
-  d=$(( seconds / 60 / 60 / 24 ))
-  h=$(( seconds / 60 / 60 % 24 ))
-  m=$(( seconds / 60 % 60 ))
-  s=$(( seconds % 60 ))
-
-  (( d > 0 )) && human+="${d}d" && : ${color:=${GEOMETRY_TIME_COLOR_LONG:-red}}
-  (( h > 0 )) && human+="${h}h" && : ${color:=${GEOMETRY_TIME_COLOR_NEUTRAL:-default}}
-  (( m > 0 )) && human+="${m}m"
-  (( s > 0 )) && human+="${s}s" && : ${color:=${GEOMETRY_TIME_COLOR_SHORT:-green}}
-
-  ${2:-false} && echo ${(j: :)human} || echo " $human[1]"
-}
-
-::prompt_git_branch() { # branch name
-  git rev-parse 2>/dev/null || return
-  git rev-parse --abbrev-ref HEAD 2>/dev/null
-}
-
-::prompt_git_status() { # dirty or clean status
-  git rev-parse 2>/dev/null || return
-  if [[ -z "$(git status --porcelain --ignore-submodules)" ]]; then
-    ansi green "⬢"
-  else
-    ansi green "⬡"
-  fi
-}
-
-::prompt_git_modified() { # count of dirty files
-  git rev-parse 2>/dev/null || return
-  local modified; modified="$(git status --porcelain --ignore-submodules | wc -l)"
-  if [ $modified -gt 0 ]; then
-    ansi grey " +$modified"
-  fi
-}
-
-::prompt_git_time() { # time since last commit
-  git rev-parse 2>/dev/null || return
-  local last_commit; last_commit=$(git log -1 --pretty=format:'%at' 2>/dev/null)
-  [[ -z "$last_commit" ]] && return
-  local now; now=$(date +%s)
-  local seconds_since_last_commit; seconds_since_last_commit=$((now - last_commit))
-  ansi cyan "$(::prompt_time $seconds_since_last_commit)"
-}
-
-if [[ -n $SSH_CONNECTION ]]; then
-  PCMD() {
-    echo "$(ansi blue "$(whoami)@$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
-  }
-else
-  PCMD() {
-    echo "$(::prompt_current_dir) $(::prompt_return_status) "
-  }
-fi
-
-RCMD() { # non-blocking
-  echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified)$(ansi blue "$prompt_cmd_elapsed")"
-}
-
-PROMPT='$(PCMD)'
-RPROMPT=''
-
-# prompt right
-
-preexec() {
-  prompt_cmd_start=$(date +%s)
-  echo -ne "\033]0;\$ ${1} // ${PWD/#$HOME/~}\007" # set alacritty title to "pwd $ last command run"
-  # TODO the above could techincally be reset after the command finishes, so
-  # that windows with running commands have a special title
-}
-
-ASYNC_PROC=0
-function precmd() { # executed before each prompt
-  # setup cmd time tracking
-  if [ $prompt_cmd_start ]; then
-    local now; now=$(date +%s)
-    local delta; delta=$(($now - $prompt_cmd_start))
-    if (( delta > 5 )); then
-      prompt_cmd_elapsed="$(::prompt_time delta)"
-    else
-      prompt_cmd_elapsed=""
-    fi
-    unset prompt_cmd_start
-  else
-    unset prompt_cmd_elapsed
-  fi
-
-  function async() {
-    printf "%s" "$(RCMD)" > "/tmp/zsh_prompt_$$" # save to temp file
-    kill -s USR1 $$ # signal parent
-  }
-
-  # do not clear RPROMPT, let it persist
-  # kill child if necessary
-  if [[ "${ASYNC_PROC}" != 0 ]]; then
-    kill -s HUP $ASYNC_PROC >/dev/null 2>&1 || :
-  fi
-  # start background computation
-  async &!
-  ASYNC_PROC=$!
-}
-
-function TRAPUSR1() {
-  RPROMPT="$(cat /tmp/zsh_prompt_$$)" # read from temp file
-  \rm -f /tmp/zsh_prompt_$$ # clean up
-  ASYNC_PROC=0 # reset proc number
-  zle && zle reset-prompt # redisplay
-}
-
-
-
-
+# # TODO should prefix these with __ at least
+# prompt_symbol="&"
+# prompt_git_color=5
+# prompt_success_color=4
+# prompt_failure_color=red
+# prompt_failure_symbol="×"
+#
+# ansi() {
+#   echo -n "%F{$1}$2%f"
+# }
+#
+# ::prompt_current_dir() {
+#   echo -n "%~"
+# }
+#
+# ::prompt_return_status() {
+#   echo -n "%B%(?.%F{$prompt_success_color}$prompt_symbol.%F{$prompt_failure_color}$prompt_failure_symbol)%b%f"
+# }
+#
+# ::prompt_time() { # from https://github.com/sindresorhus/pretty-time-zsh
+#   local seconds d h m s
+#   local -a human=()
+#   seconds=$1
+#   d=$(( seconds / 60 / 60 / 24 ))
+#   h=$(( seconds / 60 / 60 % 24 ))
+#   m=$(( seconds / 60 % 60 ))
+#   s=$(( seconds % 60 ))
+#
+#   (( d > 0 )) && human+="${d}d" && : ${color:=${GEOMETRY_TIME_COLOR_LONG:-red}}
+#   (( h > 0 )) && human+="${h}h" && : ${color:=${GEOMETRY_TIME_COLOR_NEUTRAL:-default}}
+#   (( m > 0 )) && human+="${m}m"
+#   (( s > 0 )) && human+="${s}s" && : ${color:=${GEOMETRY_TIME_COLOR_SHORT:-green}}
+#
+#   ${2:-false} && echo ${(j: :)human} || echo " $human[1]"
+# }
+#
+# ::prompt_git_branch() { # branch name
+#   git rev-parse 2>/dev/null || return
+#   git rev-parse --abbrev-ref HEAD 2>/dev/null
+# }
+#
+# ::prompt_git_status() { # dirty or clean status
+#   git rev-parse 2>/dev/null || return
+#   if [[ -z "$(git status --porcelain --ignore-submodules)" ]]; then
+#     ansi green "⬢"
+#   else
+#     ansi green "⬡"
+#   fi
+# }
+#
+# ::prompt_git_modified() { # count of dirty files
+#   git rev-parse 2>/dev/null || return
+#   local modified; modified="$(git status --porcelain --ignore-submodules | wc -l)"
+#   if [ $modified -gt 0 ]; then
+#     ansi grey " +$modified"
+#   fi
+# }
+#
+# ::prompt_git_time() { # time since last commit
+#   git rev-parse 2>/dev/null || return
+#   local last_commit; last_commit=$(git log -1 --pretty=format:'%at' 2>/dev/null)
+#   [[ -z "$last_commit" ]] && return
+#   local now; now=$(date +%s)
+#   local seconds_since_last_commit; seconds_since_last_commit=$((now - last_commit))
+#   ansi cyan "$(::prompt_time $seconds_since_last_commit)"
+# }
+#
+# if [[ -n $SSH_CONNECTION ]]; then
+#   PCMD() {
+#     echo "$(ansi blue "$(whoami)@$(hostname)") $(::prompt_current_dir) $(::prompt_return_status) "
+#   }
+# else
+#   PCMD() {
+#     echo "$(::prompt_current_dir) $(::prompt_return_status) "
+#   }
+# fi
+#
+# RCMD() { # non-blocking
+#   echo "$(::prompt_git_branch)$(::prompt_git_time)$(::prompt_git_modified)$(ansi blue "$prompt_cmd_elapsed")"
+# }
+#
+# # PROMPT='$(PCMD)'
+#
+# # TODO it would be cool if after the execution of the command it cleared the highlight
+# # there isn't really any need to display ~/ ever ?
+#
+# # setopt promptsubst # what even is this
+#
+# ::p_cwd() {
+#   echo -n "${PWD/$HOME\//}"
+# }
+#
+# #$(tput setab 0)
+#
+# # NOTE: apparently, '' delay execution and are very important,
+# # as we need to pass the string literally
+# PROMPT='%K{black} $(PCMD)%k '
+# RPROMPT=''
+#
+# preexec() {
+#   prompt_cmd_start=$(date +%s)
+#   echo -ne "\033]0;\$ ${1} // ${PWD/#$HOME/~}\007" # set alacritty title to "pwd $ last command run"
+#   # TODO the above could techincally be reset after the command finishes, so
+#   # that windows with running commands have a special title
+#   # tput sgr0 
+#   # echo -ne "\033[0;10m" # reset all attributes
+# }
+#
+# ASYNC_PROC=0
+# function precmd() { # executed before each prompt
+#   # setup cmd time tracking
+#   if [ $prompt_cmd_start ]; then
+#     local now; now=$(date +%s)
+#     local delta; delta=$(($now - $prompt_cmd_start))
+#     if (( delta > 5 )); then
+#       prompt_cmd_elapsed="$(::prompt_time delta)"
+#     else
+#       prompt_cmd_elapsed=""
+#     fi
+#     unset prompt_cmd_start
+#   else
+#     unset prompt_cmd_elapsed
+#   fi
+#
+#   function async() {
+#     printf "%s" "$(RCMD)" > "/tmp/zsh_prompt_$$" # save to temp file
+#     kill -s USR1 $$ # signal parent
+#   }
+#
+#   # do not clear RPROMPT, let it persist
+#   # kill child if necessary
+#   if [[ "${ASYNC_PROC}" != 0 ]]; then
+#     kill -s HUP $ASYNC_PROC >/dev/null 2>&1 || :
+#   fi
+#   # start background computation
+#   async &!
+#   ASYNC_PROC=$!
+# }
+#
+# function TRAPUSR1() {
+#   RPROMPT="$(cat /tmp/zsh_prompt_$$)" # read from temp file
+#   \rm -f /tmp/zsh_prompt_$$ # clean up
+#   ASYNC_PROC=0 # reset proc number
+#   zle && zle reset-prompt # redisplay
+# }
 
 
 # ;; plugins
-
-# fzf completion
-if ! [ -d "$HOME/.config/zsh-fzf-compe" ]; then
-  git clone https://github.com/Aloxaf/fzf-tab "$HOME/.config/zsh-fzf-compe"
-fi
-source $HOME/.config/zsh-fzf-compe/fzf-tab.plugin.zsh
-zstyle ':fzf-tab:*' fzf-flags "--info=hidden"
 
 # z.lua
 if [ -d "$HOME/.config/z-lua" ]; then
@@ -301,12 +615,23 @@ fi
 
 
 
-# TODO look into a that script for this:
-
 # simple fuzzy history
 ::fuzzy_history() {
   local output
-  output=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | tail -n 2000 | awk '{ $1=""; print substr($0,2) }' | fzf --tac --no-sort --height "15" --no-info --reverse --bind=up:down,down:up)
+  output=$( \
+    history 1 \
+    | awk '{ $1=""; print substr($0,2) }' \
+    | fzf \
+      --query="$BUFFER" \
+      --no-hscroll \
+      --bind change:first \
+      --tac \
+      --no-sort \
+      --height "15" \
+      --no-info \
+      --reverse \
+      --bind=tab:down,shift-tab:up
+  )
   echo "$output"
 }
 
@@ -316,7 +641,7 @@ fi
   zle reset-prompt
   if [ ! "$output" = "" ]; then
     BUFFER=""             # clear whatever is on the line
-    LBUFFER+="${output}"  # append selection from fzf
+    LBUFFER+="${output//$'\n'/\\n}"  # append selection from fzf, keeping \n as is
   fi
   return 0
 }
@@ -356,8 +681,8 @@ export LESS_TERMCAP_se=$'\e[0m'     # reset reverse video
 export LESS_TERMCAP_ue=$'\e[0m'     # reset underline
 # -- less end
 
-# -- aliases begin
 
+# -- aliases begin
 alias v='nvim' # TODO check nvim -> vim -> vi
 
 # ls
