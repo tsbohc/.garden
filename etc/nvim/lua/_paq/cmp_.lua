@@ -159,16 +159,23 @@ require('luasnip.loaders.from_snipmate').load {
 }
 
 -- snippet keymaps (the (b)back and (w)ord mnemonic)
-ki.is('<c-w>', function()
-  if luasnip.expand_or_jumpable() then
-    luasnip.expand_or_jump()
-  end
-  return ''
-end, { 'expr' })
+-- ki.is('<c-w>', function()
+--   if luasnip.jumpable(1) then
+--     luasnip.jump(1)
+--   end
+--   return ''
+-- end, { 'expr' })
+-- 
+-- ki.is('<c-b>', function()
+--   if luasnip.jumpable(-1) then
+--     luasnip.jump(-1)
+--   end
+--   return ''
+-- end, { 'expr' })
 
-ki.is('<c-b>', function()
-  if luasnip.jumpable(-1) then
-    luasnip.jump(-1)
-  end
-  return ''
-end, { 'expr' })
+vim.cmd [[
+  snoremap <silent> <c-b> <cmd>lua require('luasnip').jump(-1)<Cr>
+  snoremap <silent> <c-w> <cmd>lua require('luasnip').jump(1)<Cr>
+  inoremap <silent> <c-b> <cmd>lua require('luasnip').jump(-1)<Cr>
+  inoremap <silent> <c-w> <cmd>lua require('luasnip').jump(1)<Cr>
+]]

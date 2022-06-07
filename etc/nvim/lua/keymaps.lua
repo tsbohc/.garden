@@ -1,12 +1,12 @@
 local ki = require 'lib.ki'
 
 -- keymaps
--- ════════════════════════════════════════════════════════════════════
+-- ════════════════════════════════════════════════════════════════
 
 -- i need more space :>
 vim.g.mapleader = ' ' -- (sorry)
 
--- ..................................... land of opinionated navigation
+-- ................................. land of opinionated navigation
 
 -- smart v-line movement
 ki.nx('n', function()
@@ -35,7 +35,7 @@ ki.nx('N', '<c-d>')
 ki.nx('E', '<c-u>')
 ki.nx('I', '$')
 
--- ........................................... direct text manipulation
+-- ....................................... direct text manipulation
 
 -- shimmy the current line up and down
 ki.i('<c-n>', '<Esc>:m .+1<CR>==gi')
@@ -49,7 +49,7 @@ ki.x('<c-e>', [[:m '<-2<cr>gv=gv]])
 ki.x('<', '<gv')
 ki.x('>', '>gv')
 
--- ................................................. search and replace
+-- ............................................. search and replace
 
 ki.nx('//', ':nohlsearch<cr>', { 'silent' })
 
@@ -75,7 +75,7 @@ end, { 'silent' })
 ki.n('<leader>rr', ':%s///g<left><left>')
 ki.x('<leader>rr', ':s///g<left><left>')
 
--- ...................................................... miscellaneous
+-- .................................................. miscellaneous
 
 ki.n('<leader>rs', function() vim.lsp.buf.rename() end)
 
@@ -100,13 +100,37 @@ local function shell(cmd)
 end
 
 ki.n('<F1>', function()
-  if not shell('pidof love') then
-    vim.cmd('silent !love %:p:h &')
-  else
-    shell('pkill love')
-  end
+   if not shell('pidof love') then
+      vim.cmd('silent !love %:p:h &')
+   else
+      shell('pkill love')
+   end
 end)
 
+-- comment styles are greatly inspired by thedarnedestthing.com
+
+vim.api.nvim_create_user_command(
+   'H1',
+   function(opts)
+      local c = vim.o.commentstring:match('(.+)%%s'):gsub('%s+', '') .. ' '
+      local s = opts.args
+      local out = c .. string.rep('═', 67 - c:len())
+      vim.fn.setline('.', c .. s)
+      vim.fn.append('.', out)
+   end,
+   { nargs = 1 }
+)
+
+vim.api.nvim_create_user_command(
+   'H2',
+   function(opts)
+      local c = vim.o.commentstring:match('(.+)%%s') .. ' '
+      local s = ' ' .. opts.args
+      local out = c .. string.rep('.', 67 - c:len() - s:len()) .. s
+      vim.fn.setline('.', out)
+   end,
+   { nargs = 1 }
+)
 
 
 --

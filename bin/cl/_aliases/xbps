@@ -40,8 +40,3 @@ xvc() {
 
 alias xvl='sudo xbps-remove -R "$(xbps-query -m | fzf)"'
 alias xvq='xbps-query'
-
-if type compdef >/dev/null; then
-  compdef xvi=xbps-install
-  compdef xvr=xbps-remove
-fi

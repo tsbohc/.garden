@@ -24,12 +24,12 @@ packer.init {
 }
 
 -- goodies TODO: fix autocmd paths
-vim.cmd([[
-  augroup packer_auto_compile
-    autocmd!
-    autocmd BufWritePost */nvim/lua/paq/*.lua,*/nvim/lua/lsp/*.lua,*/nvim/lua/plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
+-- vim.cmd([[
+--   augroup packer_auto_compile
+--     autocmd!
+--     autocmd BufWritePost */nvim/lua/paq/*.lua,*/nvim/lua/lsp/*.lua,*/nvim/lua/plugins.lua source <afile> | PackerCompile
+--   augroup end
+-- ]])
 
 -- plugins
 return packer.startup(function(use)

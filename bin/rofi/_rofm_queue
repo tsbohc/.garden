@@ -29,6 +29,8 @@ else
     toggle_play) mpc toggle 1>&2 ; redraw ;;
     lower_volume) mpc volume -5 1>&2 ; redraw ;;
     raise_volume) mpc volume +5 1>&2 ; redraw ;;
+    seek_next) mpc seekthrough +30 1>&2 ; redraw ;;
+    seek_prev) mpc seekthrough -30 1>&2 ; redraw ;;
     prev) mpc prev 1>&2 ; redraw ;;
     next) mpc next 1>&2 ; redraw ;;
     remove) queue:remove "$data" ; redraw ;;

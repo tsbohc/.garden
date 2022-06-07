@@ -1,27 +1,14 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2102
+
+# herbstluftwm
+# ═════════════════════════════════════════════════════════════════
 
 hc() { herbstclient "$@" ; }
 
-ki() { # hc keybind wrapper that properly expands [a,b,c,d] blocks
-  re='\[([^]$[]+)\]' # everything in [...] that doesn't have $ or [ or ]
-  echo "$*" >> ~/.cache/herbstluftwm.log
-  if [[ $* =~ $re ]]; then
-    input=$*
-    counter=0
-    while [[ $input =~ $re ]]; do
-      counter=$((counter + 1))
-      eval "arg$counter=($(tr ',' ' ' <<< "${BASH_REMATCH[1]}"))"
-      input=${input/\[${BASH_REMATCH[1]}\]/\${arg$counter\[\$i\]\}}
-    done
-    # shellcheck disable=SC2154
-    for ((i=0; i<${#arg1[@]}; i++)); do
-      #eval "echo $input >> ~/.log"
-      eval "hc keybind $input"
-    done
-  else
-    hc keybind "$@"
-  fi
+ki() { # accept pairs arguments with brace expansion
+  for k in "$@"; do echo "$k"; done \
+    | awk '{ a[NR]=$0 } END { for (i = 1; i <= NR/2; i++) print a[i]" "a[NR/2+i] }' \
+    | while read -r l; do hc keybind $l; done
 }
 
 # clean slate
@@ -33,104 +20,78 @@ echo -n > ~/.cache/herbstluftwm.log
 
 Super=Mod4
 Alt=Mod1
-
-# -- autostart
+Shift=Shift
+Ctrl=Control
+Return=Return
+Tab=Tab
 
 # TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
 command -v hori &>/dev/null && hori autostart -i
 xwallpaper --zoom ~/.garden/usr/wallpaper/roses.jpg
 
-# -- keybinds
+# ........................................................ keybinds
 
-ki $Super-Shift-q quit
-ki $Super-Shift-r reload
+ki $Super-Shift-q "quit"
+ki $Super-Shift-r "reload"
 
 # -- frames
-ki $Super-Shift-Return split explode # auto split frame
-ki $Super-r remove # close frame
+ki $Super-Shift-Return "split explode"
+ki $Super-r "remove"
 
-ki $Super-[j,l,u,y] split [left,bottom,top,right] 0.5
-ki $Super-Control-[h,n,e,i] split [left,bottom,top,right] 0.5
+ki $Super-{j,l,u,y}         "split  "{left,bottom,top,right}" 0.5"
+ki $Super-$Ctrl-{h,n,e,i}   "split "{left,bottom,top,right}" 0.5"
 
 # -- clients
-ki $Super-[h,n,e,i] focus [left,down,up,right]
-ki $Super-Shift-[h,n,e,i] shift [left,down,up,right]
-ki $Super-$Alt-[h,n,e,i] resize [left,down,up,right] +0.02
+ki $Super-{h,n,e,i}         "focus "{left,down,up,right}
+ki $Super-$Shift-{h,n,e,i}  "shift "{left,down,up,right}
+ki $Super-$Alt-{h,n,e,i}    "resize "{left,down,up,right}" +0.02"
 
 # -- misc
+ki $Super-$Return     "spawn ${TERMINAL:-xterm}"
 
-ki $Super-Return spawn "${TERMINAL:-xterm}"
+ki $Alt-$Tab          "spawn hlwm-wfocus"
+ki $Alt-$Shift-k      "spawn scribe"
+ki $Alt-$Shift-m      "spawn rofm"
+ki $Alt-$Shift-s      "spawn scrot-clipboard -q 100 -s"
+ki $Super-space       "spawn layout-switch"
+ki $Super-BackSpace   "spawn rofi -show run"
 
-ki $Alt-Tab spawn hlwm-wfocus
-ki $Alt-Shift-k spawn scribe
-ki $Alt-Shift-m spawn rofm
-ki $Alt-Shift-s spawn scrot-clipboard -q 100 -s
-ki $Super-space spawn layout-switch
-ki $Super-BackSpace spawn rofi -show run
-
-ki $Alt-Shift-[n,e] spawn redshift-control 0 [-1,1]
-ki $Alt-[n,e] spawn redshift-control [-250,250]
+ki $Alt-$Shift-{n,e}  "spawn redshift-control 0 "{-1,1}
+ki $Alt-{n,e}         "spawn redshift-control "{-250,250}
 # ki $Alt-[h,i] spawn volume-control [-8,8]
 
 for i in {1..9}; do hc add "$i"; done
-ki $Super-[1,2,3,4,5,6,7,8,9] use_index [0,1,2,3,4,5,6,7,8]
-ki $Super-Shift-[1,2,3,4,5,6,7,8,9] move_index [0,1,2,3,4,5,6,7,8]
-
-# cycle through tags
-#ki $Super-period use_index +1 --skip-visible
-#ki $Super-comma  use_index -1 --skip-visible
+ki $Super-{1,2,3,4,5,6,7,8,9}          "use_index "{0,1,2,3,4,5,6,7,8}
+ki $Super-$Shift-{1,2,3,4,5,6,7,8,9}  "move_index "{0,1,2,3,4,5,6,7,8}
 
 # layouts
-ki $Super-f floating toggle
-ki $Super-m fullscreen toggle
+ki $Super-f "floating toggle"
+ki $Super-m "fullscreen toggle"
+ki $Super-p "pseudotile toggle"
 #ki $Super-f set_attr clients.focus.floating toggle
-ki $Super-p pseudotile toggle
 
-#close_hook() {
-#  local winid="$(herbstclient attr clients.focus.winid)"
-#  herbstclient emit_hook node_remove "$winid"
-#}
-
-close_window_or_frame=(
-or . and - compare tags.focus.curframe_wcount gt 0
-         - close
-   . remove)
-
-ki $Super-w "${close_window_or_frame[@]}"
-
-# maybe there is a way? doesn't it need to be subshelled through
-# set -a
-# readonly BASH_BINARY="$(which bash)"
-#
-# testing() {
-#   hc emit_hook wooooo
-# }
-#
-# export -f testing
-# ki $Super-q spawn "$BASH_BINARY -c testing"
-
-cycle_layouts=(
-and . compare tags.focus.curframe_wcount gt 1
-    . cycle_layout +1 vertical horizontal)
-
-ki $Super-Tab "${cycle_layouts[@]}"
 
 # mouse
 hc mousebind $Super-Button1 move
 hc mousebind $Super-Button2 zoom
 hc mousebind $Super-Button3 resize
 
-# focus
-#ki $Super-BackSpace   cycle_monitor
-#ki $Super-Tab         cycle_all +1
-#ki $Super-Shift-Tab   cycle_all -1
-#ki $Super-c cycle
-#ki $Super-i jumpto urgent
+# ..................................................... miniscripts
 
-#hc set frame_border_active_color '#222222cc'
-#hc set frame_border_normal_color '#101010cc'
+close_window_or_frame=(
+or . and - compare tags.focus.curframe_wcount gt 0
+         - close
+   . remove)
 
-# -- theme
+ki $Super-w "${close_window_or_frame[*]}"
+
+cycle_layouts=(
+and . compare tags.focus.curframe_wcount gt 1
+    . cycle_layout +1 vertical horizontal)
+
+ki $Super-Tab "${cycle_layouts[*]}"
+
+# ........................................................... theme
 
 hc set smart_window_surroundings off # remove window borders and gaps when only one window in frame
 hc set smart_frame_surroundings on # shouldn't this disable... frame_color too?
@@ -264,7 +225,7 @@ attr theme.active.inner_color '#555555'
 #hc set mouse_recenter_gap 0
 #hc set focus_follows_mouse false
 
-# -- rules
+# ........................................................... rules
 
 hc rule hook=node_add focus=on
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
@@ -281,16 +242,5 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc set tree_style '╾│ ├└╼─┐'
 
-# unlock, just to be sure
-hc unlock
-
+hc unlock # important?
 hc set_monitors 1920x1080+0+0 1920x1080+1920+0
-# hc detect_monitors
-
-# find the panel
-#panel=~/.config/herbstluftwm/panel.sh
-#[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-#for monitor in $(hc list_monitors | cut -d: -f1) ; do
-#    # start it on each monitor
-#    "$panel" "$monitor" &
-#done

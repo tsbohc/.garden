@@ -21,11 +21,6 @@ return {
           vim.fn.expand("$VIMRUNTIME/lua"),
           vim.fn.stdpath("config") .. "/lua",
         },
-        --library = {
-          -- [vim.api.nvim_get_runtime_file("", true)] = true,
-        --  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-        --  [vim.fn.stdpath("config") .. "/lua"] = true,
-        --},
         checkThirdParty = false -- stop asking about LOVE
       },
       telemetry = {

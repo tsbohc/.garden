@@ -1,23 +1,34 @@
 # zmodload zsh/zprof
 
-# ;; path
+# zshrc
+# ═════════════════════════════════════════════════════════════════
 
-# TODO redo this from hori via a symlink to ~/.bin or something
-dotgarden=~/.garden
+dotgarden=~/.garden # TODO redo this from hori via a symlink to ~/.bin or something
 
+# path
 typeset -U PATH path # ensure only unique entries in $PATH
 
+path+="$HOME/.local/bin/"
+
+# garden
 if [ -d "$dotgarden/bin" ]; then
   while read -r p; do
     path+="$p"
   done < <(find "$dotgarden/bin" -type d -not -name '_*')
 fi
 
-# pathadd "$HOME/.local/bin/" # shouldn't this already be in there?
+# aliases TODO rename to generic shell stuff and add a hori for this?
+if [ -d "$dotgarden/bin/cl/_aliases" ]; then
+  for f in "$dotgarden/bin/cl/_aliases/"*; do
+    emulate sh -c "source $f"
+  done
+fi
 
-# ;; zsh settings
+# ........................................................ settings
 
-# history
+export EDITOR=nvim # TODO nvim -> vim -> vi
+export TERMINAL=alacritty # TODO check for it first
+
 export HISTFILE=${XDG_CACHE_HOME}/zsh_history
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
@@ -32,29 +43,23 @@ setopt share_history
 setopt auto_cd
 setopt no_case_glob
 
-# completion
 setopt no_auto_menu
 setopt no_menu_complete
 
-# prompt
 setopt prompt_subst
 
-# misc
 unsetopt beep # beep is the strongest warrior!
 
-# gripes
 zle_highlight[(r)suffix:*]="suffix:fg=foreground" # remove that annoying bold slash at the end of paths
 
-# ;; completion
+# ...................................................... completion
 
-# {{{
 # https://gist.github.com/ctechols/ca1035271ad134841284
 # compile zcompdump in the background once a day
 # - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
-# }}}
 autoload -Uz compinit
 { setopt extendedglob
   for zcompdump in $ZDOTDIR/.zcompdump(#qN.mh+24); do
@@ -66,47 +71,17 @@ autoload -Uz compinit
 } &!
 compinit -C
 
+# aliases or smth
+compdef xvi=xbps-install
+compdef xvr=xbps-remove
+
 # completion for hori-hori
 compdef '_path_files -/ -W $HOME/.garden/etc/' hori
 
-
-# aliases
-if [ -d "$dotgarden/bin/cl/_aliases" ]; then
-  # echo "sourcing aliases"
-  for f in "$dotgarden/bin/cl/_aliases/"*; do
-    # echo "$f"
-    emulate sh -c "source $f"
-  done
-fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ;; exports
-
-export EDITOR=nvim # TODO nvim -> vim -> vi
-export TERMINAL=alacritty # TODO check for it first
-
-
-
-
+# ............................................................. fzf
 
 fzf_colors='--color=gutter:regular:0,bg:regular:-1,fg:regular:4,bg+:regular:-1,fg+:regular:2,hl:regular:3,hl+:regular:15,pointer:regular:5,prompt:regular:0,info:regular:3'
 export FZF_DEFAULT_OPTS="$fzf_colors --pointer='█' --prompt='█ ' --reverse"
-
-
 
 # fzf completion
 if ! [ -d "$HOME/.config/zsh/fzf-tab" ]; then
@@ -118,34 +93,7 @@ source $HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 zstyle ':fzf-tab:*' default-color $'\033[0;10m' # else fg+ won't work (and maybe something else)
 zstyle ':fzf-tab:*' fzf-flags --info=hidden $fzf_colors
 
-
-
-
-
-
-# xdg stuff
-export XDG_DATA_HOME=$HOME/.local/share
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_STATE_HOME=$HOME/.local/state
-export XDG_CACHE_HOME=$HOME/.cache
-
-export XDG_DESKTOP_DIR="$HOME/top"
-export XDG_DOCUMENTS_DIR="$HOME/aux"
-export XDG_DOWNLOAD_DIR="$HOME/dow"
-export XDG_MUSIC_DIR="$HOME/mus"
-export XDG_PICTURES_DIR="$HOME/pic"
-export XDG_PUBLICSHARE_DIR="$HOME/pub"
-export XDG_TEMPLATES_DIR="$HOME/tem"
-export XDG_VIDEOS_DIR="$HOME/vid"
-
-export CUDA_CACHE_PATH=${XDG_CACHE_HOME}/nv
-export GRADLE_USER_HOME=${XDG_DATA_HOME}/gradle
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
-export NPM_CONFIG_USERCONFIG=${XDG_CONFIG_HOME}/npm/npmrc
-
-export QT_ENABLE_HIGHDPI_SCALING=0
-export QT_AUTO_SCREEN_SCALE_FACTOR=0
-
+# .......................................................... prompt
 
 #1 ⬡⬢ 🢒▶⯅⯆▲▼⯁ ●»›►▻▸▹×⇌ λ
 #2 ➳ ➵ ➸ 
@@ -171,7 +119,7 @@ __prompt_pwd() {
 
 KEYTIMEOUT=1
 
-# change prompt symbol based on mode
+# change prompt symbol and cursor based on mode
 function zle-line-init zle-keymap-select {
   case ${KEYMAP} in
     vicmd)
@@ -192,252 +140,8 @@ zle -N zle-keymap-select
 PROMPT='%K{0} $(__prompt_pwd)$(__prompt_status) %k ' # nb: single quotes are important
 
 
-
-# keybinds
-
-# FIXME: where's that "edit command in editor" thing
-
-declare -A _k
-_k=(
-  [enter]=""
-  [backspace]="^?"
-  [tab]="	"
-  [escape]=""
-)
-
-# insert mode
-bindkey -rp '' # clear everything
-bindkey -R "\x20"-"\x7E" self-insert # bind all ascii "printable characters"
-
-bindkey "^[[C" vi-forward-char
-bindkey "^[[B" down-line-or-history
-bindkey "^[[A" up-line-or-history
-bindkey "^[[D" vi-backward-char
-
-bindkey "$_k[backspace]" backward-delete-char # this one allows to delete past normal leave position
-bindkey "$_k[enter]" accept-line
-bindkey "$_k[escape]" vi-cmd-mode
-bindkey "^L" clear-screen
-
-bindkey "$_k[tab]" fzf-tab-complete
-
-# normal mode
-bindkey -v # TODO check if this is needed
-bindkey -arp '' # clear everything
+# ;; old prompt
 # {{{
-### primary
-bindkey -a "$_k[enter]" accept-line
-bindkey -a "^L" clear-screen
-
-### back to insert mode
-bindkey -a "l" vi-insert
-bindkey -a "L" vi-insert-bol
-bindkey -a "a" vi-add-next
-bindkey -a "A" vi-add-eol
-bindkey -a "c" vi-change
-bindkey -a "C" vi-change-eol
-
-## movement
-
-### character scope
-bindkey -a "h" vi-backward-char
-bindkey -a "n" down-line-or-history # TODO idk about the history thing
-bindkey -a "e" up-line-or-history
-bindkey -a "i" vi-forward-char
-
-### word scope
-bindkey -a "b" vi-backward-word
-bindkey -a "B" vi-backward-blank-word
-bindkey -a "w" vi-forward-word
-bindkey -a "W" vi-forward-blank-word
-bindkey -a "f" vi-forward-word-end
-bindkey -a "F" vi-forward-blank-word-end
-
-### line scope
-bindkey -a "I" vi-end-of-line
-bindkey -a "H" vi-beginning-of-line
-
-### misc
-bindkey -a "%" vi-match-bracket
-
-## editing
-
-### undo-redo
-bindkey -a "u" undo
-bindkey -a "U" redo
-
-### repeat
-bindkey -a -R "1"-"9" digit-argument
-bindkey -a "." vi-repeat-change
-
-### yank-paste
-bindkey -a "y" vi-yank
-bindkey -a "Y" vi-yank-whole-line
-bindkey -a "p" vi-put-before
-bindkey -a "P" vi-put-before
-
-### delete
-bindkey -a "d" vi-delete
-bindkey -a "D" vi-kill-eol
-bindkey -a "x" vi-delete-char
-bindkey -a "J" vi-join # idk, different from main vim config
-
-bindkey -a "r" vi-replace-chars
-bindkey -a "R" vi-replace
-
-### visual mode
-bindkey -a "v" visual-mode
-bindkey -a "V" visual-line-mode
-# }}}
-
-# {{{ default insert binds
-# bindkey -r "^D" # list-choices
-# bindkey -r "^G" # list-expand
-# bindkey -r "^H" # vi-backward-delete-char
-# bindkey -r "^J" # accept-line
-# bindkey -r "^Q" # vi-quoted-insert
-# bindkey -r "^R" # redisplay
-# bindkey -r "^U" # vi-kill-line
-# bindkey -r "^V" # vi-quoted-insert
-# bindkey -r "^W" # vi-backward-kill-word
-# bindkey -r "^X^R" # _read_comp
-# bindkey -r "^X." # fzf-tab-debug
-# bindkey -r "^X?" # _complete_debug
-# bindkey -r "^XC" # _correct_filename
-# bindkey -r "^Xa" # _expand_alias
-# bindkey -r "^Xc" # _correct_word
-# bindkey -r "^Xd" # _list_expansions
-# bindkey -r "^Xe" # _expand_word
-# bindkey -r "^Xh" # _complete_help
-# bindkey -r "^Xm" # _most_recent_file
-# bindkey -r "^Xn" # _next_tags
-# bindkey -r "^Xt" # _complete_tag
-# bindkey -r "^X~" # _bash_list-choices
-# bindkey -r "^[," # _history-complete-newer
-# bindkey -r "^[/" # _history-complete-older
-# bindkey -r "^[OA" # up-line-or-history
-# bindkey -r "^[OB" # down-line-or-history
-# bindkey -r "^[OC" # vi-forward-char
-# bindkey -r "^[OD" # vi-backward-char
-# bindkey -r "^[[200~" # bracketed-paste
-# bindkey -r "^[[B" # down-line-or-history
-# bindkey -r "^[[C" # vi-forward-char
-# bindkey -r "^[[D" # vi-backward-char
-# bindkey -r "^[~" # _bash_complete-word
-# bindkey -r "^?" # vi-backward-delete-char
-# bindkey "^A"-"^C" self-insert
-# bindkey "^E"-"^F" self-insert
-# bindkey "^K" self-insert
-# bindkey "^N"-"^P" self-insert
-# bindkey "^S"-"^T" self-insert
-# bindkey "^Y"-"^Z" self-insert
-# bindkey "^\\\\"-"~" self-insert
-# bindkey "\M-^@"-"\M-^?" self-insert
-# }}}
-# {{{ default normal binds
-# bindkey -a "^D" list-choices
-# bindkey -a "^G" list-expand
-# bindkey -a "^H" vi-backward-char
-# bindkey -a "^J" accept-line
-# bindkey -a "^L" clear-screen
-# bindkey -a "^M" accept-line
-# bindkey -a "^N" down-history
-# bindkey -a "^P" up-history
-# bindkey -a "^R" redo
-# bindkey -a "^[" beep
-# bindkey -a "^[OA" up-line-or-history
-# bindkey -a "^[OB" down-line-or-history
-# bindkey -a "^[OC" vi-forward-char
-# bindkey -a "^[OD" vi-backward-char
-# bindkey -a "^[[200~" bracketed-paste
-# bindkey -a "^[[A" up-line-or-history
-# bindkey -a "^[[B" down-line-or-history
-# bindkey -a "^[[C" vi-forward-char
-# bindkey -a "^[[D" vi-backward-char
-# bindkey -a " " vi-forward-char
-# bindkey -a "\"" vi-set-buffer
-# bindkey -a "#" pound-insert
-# bindkey -a "\$" vi-end-of-line
-# bindkey -a "%" vi-match-bracket
-# bindkey -a "'" vi-goto-mark-line
-# bindkey -a "+" vi-down-line-or-history
-# bindkey -a "," vi-rev-repeat-find
-# bindkey -a "\-" vi-up-line-or-history
-# bindkey -a "." vi-repeat-change
-# bindkey -a "/" vi-history-search-backward
-# bindkey -a "0" vi-digit-or-beginning-of-line
-# bindkey -a -R "1"-"9" digit-argument
-# bindkey -a ":" execute-named-cmd
-# bindkey -a ";" vi-repeat-find
-# bindkey -a "<" vi-unindent
-# bindkey -a "=" list-choices
-# bindkey -a ">" vi-indent
-# bindkey -a "?" vi-history-search-forward
-# bindkey -a "A" vi-add-eol
-# bindkey -a "B" vi-backward-blank-word
-# bindkey -a "C" vi-change-eol
-# bindkey -a "D" vi-kill-eol
-# bindkey -a "E" vi-forward-blank-word-end
-# bindkey -a "F" vi-find-prev-char
-# bindkey -a "G" vi-fetch-history
-# bindkey -a "I" vi-insert-bol
-# bindkey -a "J" vi-join
-# bindkey -a "N" vi-rev-repeat-search
-# bindkey -a "O" vi-open-line-above
-# bindkey -a "P" vi-put-before
-# bindkey -a "R" vi-replace
-# bindkey -a "S" vi-change-whole-line
-# bindkey -a "T" vi-find-prev-char-skip
-# bindkey -a "V" visual-line-mode
-# bindkey -a "W" vi-forward-blank-word
-# bindkey -a "X" vi-backward-delete-char
-# bindkey -a "Y" vi-yank-whole-line
-# bindkey -a "\^" vi-first-non-blank
-# bindkey -a "\`" vi-goto-mark
-# bindkey -a "a" vi-add-next
-# bindkey -a "b" vi-backward-word
-# bindkey -a "c" vi-change
-# bindkey -a "d" vi-delete
-# bindkey -a "e" vi-forward-word-end
-# bindkey -a "f" vi-find-next-char
-# bindkey -a "gE" vi-backward-blank-word-end
-# bindkey -a "gU" vi-up-case
-# bindkey -a "gUU" "gUgU"
-# bindkey -a "ga" what-cursor-position
-# bindkey -a "ge" vi-backward-word-end
-# bindkey -a "gg" beginning-of-buffer-or-history
-# bindkey -a "gu" vi-down-case
-# bindkey -a "guu" "gugu"
-# bindkey -a "g~" vi-oper-swap-case
-# bindkey -a "g~~" "g~g~"
-# bindkey -a "h" vi-backward-char
-# bindkey -a "j" down-line-or-history
-# bindkey -a "k" up-line-or-history
-# bindkey -a "l" vi-forward-char
-# bindkey -a "m" vi-set-mark
-# bindkey -a "n" vi-repeat-search
-# bindkey -a "o" vi-open-line-below
-# bindkey -a "p" vi-put-after
-# bindkey -a "r" vi-replace-chars
-# bindkey -a "s" vi-substitute
-# bindkey -a "t" vi-find-next-char-skip
-# bindkey -a "u" undo
-# bindkey -a "v" visual-mode
-# bindkey -a "w" vi-forward-word
-# bindkey -a "x" vi-delete-char
-# bindkey -a "y" vi-yank
-# bindkey -a "|" vi-goto-column
-# bindkey -a "~" vi-swap-case
-# bindkey -a "^?" vi-backward-char
-# }}}
-
-
-
-
-
-
-# ;; prompt
-
 # # TODO should prefix these with __ at least
 # prompt_symbol="&"
 # prompt_git_color=5
@@ -583,7 +287,7 @@ bindkey -a "V" visual-line-mode
 #   ASYNC_PROC=0 # reset proc number
 #   zle && zle reset-prompt # redisplay
 # }
-
+# }}}
 
 # ;; plugins
 
@@ -614,6 +318,328 @@ else
 fi
 
 
+# ask pass
+if type rofi-askpass >/dev/null; then
+  export SUDO_ASKPASS=$(which rofi-askpass)
+fi
+
+
+# -- aliases begin
+alias v="$EDITOR"
+
+# ls
+if type exa >/dev/null; then
+  alias ls='exa'
+  alias sl='exa'
+  alias l='exa'
+  alias la='exa -a'
+  alias ll='exa -la'
+  alias l.='exa -a | egrep "^\."'
+else
+  alias ls='ls -F --color=auto'
+  alias l='ls'
+  alias sl='ls'
+  alias la='ls -A'
+  alias ll='ls -lA'
+  alias l.='ls -A | egrep "^\."'
+fi
+
+# cd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# ask for confirmation
+alias cp="cp -iv"
+alias mv='mv -iv'
+# alias rm='rm -Iv'
+
+function rm() {
+  for v in "$@"; do
+    [ -d "$v" ] && ls "$v"
+  done
+  command rm -Iv "$@"
+}
+
+function gasp() { # easy git push in one command
+  git add -A && git commit -v && git push
+}
+
+function cd() { # ls after cd except when going back to ~
+  builtin cd "$@"
+  [ ! "$(pwd)" = "$HOME" ] && la || return 0
+}
+
+function mkcd() {
+  mkdir -p "$@" && cd "$@"
+}
+
+# jokes
+alias please='sudo'
+
+# void
+export XDEB_PKGROOT=$HOME/.cache/xdeb
+
+
+# ........................................................ keybinds
+
+# TODO:
+# where's that "edit command in editor" thing
+# also, what's VISUAL?
+
+declare -A _k
+_k=(
+  [enter]=""
+  [backspace]="^?"
+  [tab]="	"
+  [escape]=""
+)
+
+# insert mode
+bindkey -rp '' # clear everything
+
+bindkey -R "\x20"-"\x7E" self-insert # bind all ascii "printable characters"
+
+bindkey "^[[C" vi-forward-char
+bindkey "^[[B" down-line-or-history
+bindkey "^[[A" up-line-or-history
+bindkey "^[[D" vi-backward-char
+
+bindkey "$_k[backspace]" backward-delete-char # this one allows to delete past normal leave position
+bindkey "$_k[enter]" accept-line
+bindkey "$_k[escape]" vi-cmd-mode
+bindkey "^L" clear-screen
+
+autoload edit-command-line; zle -N edit-command-line
+bindkey "" edit-command-line # edit current command in $EDITOR
+
+bindkey "$_k[tab]" fzf-tab-complete
+
+# normal mode
+# bindkey -v # TODO not needed?
+bindkey -arp '' # clear everything
+
+### primary
+bindkey -a "$_k[enter]" accept-line
+bindkey -a "^L" clear-screen
+bindkey -a "" edit-command-line
+
+### back to insert mode
+bindkey -a "l" vi-insert
+bindkey -a "L" vi-insert-bol
+bindkey -a "a" vi-add-next
+bindkey -a "A" vi-add-eol
+bindkey -a "c" vi-change
+bindkey -a "C" vi-change-eol
+
+## movement
+
+### character scope
+bindkey -a "h" vi-backward-char
+bindkey -a "n" down-line-or-history # TODO idk about the history thing
+bindkey -a "e" up-line-or-history
+bindkey -a "i" vi-forward-char
+
+### word scope
+bindkey -a "b" vi-backward-word
+bindkey -a "B" vi-backward-blank-word
+bindkey -a "w" vi-forward-word
+bindkey -a "W" vi-forward-blank-word
+bindkey -a "f" vi-forward-word-end
+bindkey -a "F" vi-forward-blank-word-end
+
+### line scope
+bindkey -a "I" vi-end-of-line
+bindkey -a "H" vi-beginning-of-line
+
+### misc
+bindkey -a "%" vi-match-bracket
+
+## editing
+
+### undo-redo
+bindkey -a "u" undo
+bindkey -a "U" redo
+
+### repeat
+bindkey -a -R "1"-"9" digit-argument
+bindkey -a "." vi-repeat-change
+
+### yank-paste
+bindkey -a "y" vi-yank
+bindkey -a "Y" vi-yank-whole-line
+bindkey -a "p" vi-put-before
+bindkey -a "P" vi-put-before
+
+### delete
+bindkey -a "d" vi-delete
+bindkey -a "D" vi-kill-eol
+bindkey -a "x" vi-delete-char
+bindkey -a "J" vi-join # idk, different from main vim config
+
+bindkey -a "r" vi-replace-chars
+bindkey -a "R" vi-replace
+
+### visual mode
+bindkey -a "v" visual-mode
+bindkey -a "V" visual-line-mode
+
+### clipboard
+vi-append-x-selection () {
+  RBUFFER=$(xsel -o -p </dev/null)$RBUFFER
+}
+
+zle -N vi-append-x-selection
+bindkey -a 'p' vi-append-x-selection
+
+vi-yank-x-selection () {
+  print -rn -- $CUTBUFFER | xsel -i -p
+}
+
+zle -N vi-yank-x-selection
+bindkey -a 'y' vi-yank-x-selection
+
+# {{{ default insert binds
+# bindkey -r "^D" # list-choices
+# bindkey -r "^G" # list-expand
+# bindkey -r "^H" # vi-backward-delete-char
+# bindkey -r "^J" # accept-line
+# bindkey -r "^Q" # vi-quoted-insert
+# bindkey -r "^R" # redisplay
+# bindkey -r "^U" # vi-kill-line
+# bindkey -r "^V" # vi-quoted-insert
+# bindkey -r "^W" # vi-backward-kill-word
+# bindkey -r "^X^R" # _read_comp
+# bindkey -r "^X." # fzf-tab-debug
+# bindkey -r "^X?" # _complete_debug
+# bindkey -r "^XC" # _correct_filename
+# bindkey -r "^Xa" # _expand_alias
+# bindkey -r "^Xc" # _correct_word
+# bindkey -r "^Xd" # _list_expansions
+# bindkey -r "^Xe" # _expand_word
+# bindkey -r "^Xh" # _complete_help
+# bindkey -r "^Xm" # _most_recent_file
+# bindkey -r "^Xn" # _next_tags
+# bindkey -r "^Xt" # _complete_tag
+# bindkey -r "^X~" # _bash_list-choices
+# bindkey -r "^[," # _history-complete-newer
+# bindkey -r "^[/" # _history-complete-older
+# bindkey -r "^[OA" # up-line-or-history
+# bindkey -r "^[OB" # down-line-or-history
+# bindkey -r "^[OC" # vi-forward-char
+# bindkey -r "^[OD" # vi-backward-char
+# bindkey -r "^[[200~" # bracketed-paste
+# bindkey -r "^[[B" # down-line-or-history
+# bindkey -r "^[[C" # vi-forward-char
+# bindkey -r "^[[D" # vi-backward-char
+# bindkey -r "^[~" # _bash_complete-word
+# bindkey -r "^?" # vi-backward-delete-char
+# bindkey "^A"-"^C" self-insert
+# bindkey "^E"-"^F" self-insert
+# bindkey "^K" self-insert
+# bindkey "^N"-"^P" self-insert
+# bindkey "^S"-"^T" self-insert
+# bindkey "^Y"-"^Z" self-insert
+# bindkey "^\\\\"-"~" self-insert
+# bindkey "\M-^@"-"\M-^?" self-insert
+# }}}
+# {{{ default normal binds
+# bindkey -a "^D" list-choices
+# bindkey -a "^G" list-expand
+# bindkey -a "^H" vi-backward-char
+# bindkey -a "^J" accept-line
+# bindkey -a "^L" clear-screen
+# bindkey -a "^M" accept-line
+# bindkey -a "^N" down-history
+# bindkey -a "^P" up-history
+# bindkey -a "^R" redo
+# bindkey -a "^[" beep
+# bindkey -a "^[OA" up-line-or-history
+# bindkey -a "^[OB" down-line-or-history
+# bindkey -a "^[OC" vi-forward-char
+# bindkey -a "^[OD" vi-backward-char
+# bindkey -a "^[[200~" bracketed-paste
+# bindkey -a "^[[A" up-line-or-history
+# bindkey -a "^[[B" down-line-or-history
+# bindkey -a "^[[C" vi-forward-char
+# bindkey -a "^[[D" vi-backward-char
+# bindkey -a " " vi-forward-char
+# bindkey -a "\"" vi-set-buffer
+# bindkey -a "#" pound-insert
+# bindkey -a "\$" vi-end-of-line
+# bindkey -a "%" vi-match-bracket
+# bindkey -a "'" vi-goto-mark-line
+# bindkey -a "+" vi-down-line-or-history
+# bindkey -a "," vi-rev-repeat-find
+# bindkey -a "\-" vi-up-line-or-history
+# bindkey -a "." vi-repeat-change
+# bindkey -a "/" vi-history-search-backward
+# bindkey -a "0" vi-digit-or-beginning-of-line
+# bindkey -a -R "1"-"9" digit-argument
+# bindkey -a ":" execute-named-cmd
+# bindkey -a ";" vi-repeat-find
+# bindkey -a "<" vi-unindent
+# bindkey -a "=" list-choices
+# bindkey -a ">" vi-indent
+# bindkey -a "?" vi-history-search-forward
+# bindkey -a "A" vi-add-eol
+# bindkey -a "B" vi-backward-blank-word
+# bindkey -a "C" vi-change-eol
+# bindkey -a "D" vi-kill-eol
+# bindkey -a "E" vi-forward-blank-word-end
+# bindkey -a "F" vi-find-prev-char
+# bindkey -a "G" vi-fetch-history
+# bindkey -a "I" vi-insert-bol
+# bindkey -a "J" vi-join
+# bindkey -a "N" vi-rev-repeat-search
+# bindkey -a "O" vi-open-line-above
+# bindkey -a "P" vi-put-before
+# bindkey -a "R" vi-replace
+# bindkey -a "S" vi-change-whole-line
+# bindkey -a "T" vi-find-prev-char-skip
+# bindkey -a "V" visual-line-mode
+# bindkey -a "W" vi-forward-blank-word
+# bindkey -a "X" vi-backward-delete-char
+# bindkey -a "Y" vi-yank-whole-line
+# bindkey -a "\^" vi-first-non-blank
+# bindkey -a "\`" vi-goto-mark
+# bindkey -a "a" vi-add-next
+# bindkey -a "b" vi-backward-word
+# bindkey -a "c" vi-change
+# bindkey -a "d" vi-delete
+# bindkey -a "e" vi-forward-word-end
+# bindkey -a "f" vi-find-next-char
+# bindkey -a "gE" vi-backward-blank-word-end
+# bindkey -a "gU" vi-up-case
+# bindkey -a "gUU" "gUgU"
+# bindkey -a "ga" what-cursor-position
+# bindkey -a "ge" vi-backward-word-end
+# bindkey -a "gg" beginning-of-buffer-or-history
+# bindkey -a "gu" vi-down-case
+# bindkey -a "guu" "gugu"
+# bindkey -a "g~" vi-oper-swap-case
+# bindkey -a "g~~" "g~g~"
+# bindkey -a "h" vi-backward-char
+# bindkey -a "j" down-line-or-history
+# bindkey -a "k" up-line-or-history
+# bindkey -a "l" vi-forward-char
+# bindkey -a "m" vi-set-mark
+# bindkey -a "n" vi-repeat-search
+# bindkey -a "o" vi-open-line-below
+# bindkey -a "p" vi-put-after
+# bindkey -a "r" vi-replace-chars
+# bindkey -a "s" vi-substitute
+# bindkey -a "t" vi-find-next-char-skip
+# bindkey -a "u" undo
+# bindkey -a "v" visual-mode
+# bindkey -a "w" vi-forward-word
+# bindkey -a "x" vi-delete-char
+# bindkey -a "y" vi-yank
+# bindkey -a "|" vi-goto-column
+# bindkey -a "~" vi-swap-case
+# bindkey -a "^?" vi-backward-char
+# }}}
 
 # simple fuzzy history
 ::fuzzy_history() {
@@ -647,22 +673,35 @@ fi
 }
 
 zle -N ::fuzzy_history::keybind
-bindkey "^[[A" ::fuzzy_history::keybind
+bindkey -a "/" ::fuzzy_history::keybind
+bindkey "" ::fuzzy_history::keybind # <- much easier to press the up arrow on a 60%
 
+# ............................................................. xdg
 
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
 
+export XDG_DESKTOP_DIR="$HOME/top"
+export XDG_DOCUMENTS_DIR="$HOME/aux"
+export XDG_DOWNLOAD_DIR="$HOME/dow"
+export XDG_MUSIC_DIR="$HOME/mus"
+export XDG_PICTURES_DIR="$HOME/pic"
+export XDG_PUBLICSHARE_DIR="$HOME/pub"
+export XDG_TEMPLATES_DIR="$HOME/tem"
+export XDG_VIDEOS_DIR="$HOME/vid"
 
+export CUDA_CACHE_PATH=${XDG_CACHE_HOME}/nv
+export GRADLE_USER_HOME=${XDG_DATA_HOME}/gradle
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+export NPM_CONFIG_USERCONFIG=${XDG_CONFIG_HOME}/npm/npmrc
 
+export QT_ENABLE_HIGHDPI_SCALING=0
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
 
-# ask pass
-if type rofi-askpass >/dev/null; then
-  export SUDO_ASKPASS=$(which rofi-askpass)
-fi
+# ............................................................ less
 
-
-
-
-# -- less begin
 export LESSHISTSIZE=${XDG_CACHE_HOME}/less_history
 
 less_prompt="" # the dots close ifs (i think)
@@ -679,57 +718,5 @@ export LESS_TERMCAP_so=$'\e[0m'     # begin reverse video
 export LESS_TERMCAP_us=$'\e[1;37m'    # italic
 export LESS_TERMCAP_se=$'\e[0m'     # reset reverse video
 export LESS_TERMCAP_ue=$'\e[0m'     # reset underline
-# -- less end
-
-
-# -- aliases begin
-alias v='nvim' # TODO check nvim -> vim -> vi
-
-# ls
-if type exa >/dev/null; then
-  alias ls='exa'
-  alias sl='exa'
-  alias l='exa'
-  alias la='exa -a'
-  alias ll='exa -la'
-  alias l.='exa -a | egrep "^\."'
-else
-  alias ls='ls -F --color=auto'
-  alias l='ls'
-  alias sl='ls'
-  alias la='ls -A'
-  alias ll='ls -lA'
-  alias l.='ls -A | egrep "^\."'
-fi
-
-# cd
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-
-# ask for confirmation
-alias cp="cp -iv"
-alias mv='mv -iv'
-alias rm='rm -iv'
-
-function gasp() { # easy git push in one command
-  git add -A && git commit -v && git push
-}
-
-function cd() { # ls after cd except when going back to ~
-  builtin cd "$@"
-  [ ! "$(pwd)" = "$HOME" ] && la || return 0
-}
-
-function mkcd() {
-  mkdir -p "$@" && cd "$@"
-}
-
-# jokes
-alias please='sudo'
-
-# void
-export XDEB_PKGROOT=$HOME/.cache/xdeb
 
 # zprof

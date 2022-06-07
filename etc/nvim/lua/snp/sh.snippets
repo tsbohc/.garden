@@ -57,15 +57,15 @@ snippet forv
 # while
 snippet wh
 	while ${1:y}; do
-		${0::}
+		${0:echo "foo"}
 	done
 snippet whread
 	while read -r ${1:x}; do
-		${0::}
+		${0:echo "\$$1"}
 	done
 snippet whreadifs
 	while IFS=${1} read -r ${2:x}; do
-		${0::}
+		${0:echo "\$$2"}
 	done
 #
 # echo

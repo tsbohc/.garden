@@ -12,6 +12,8 @@ rofm_keys[17]=lower_volume
 rofm_keys[18]=raise_volume
 rofm_keys[19]=prev
 rofm_keys[20]=next
+rofm_keys[21]=seek_prev
+rofm_keys[22]=seek_next
 
 declare -A s=(
   [cancel]="Control-c"
@@ -25,6 +27,8 @@ declare -A s=(
   [raise_volume]="Alt-e"
   [prev]="Alt-h"
   [next]="Alt-i"
+  [seek_next]="Alt-l"
+  [seek_prev]="Alt-u"
 )
 
 keys_binds=()
