@@ -1,5 +1,9 @@
 #!/bin/sh
 
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+
 xresources=$HOME/.config/x11/.Xresources
 xmodmap=$HOME/.config/x11/.Xmodmap
 
@@ -8,7 +12,7 @@ xmodmap=$HOME/.config/x11/.Xmodmap
 [ -f "$xmodmap" ] && xmodmap "$xmodmap"
 
 # TODO is this supposed to be here? uhhh
-autostart="pipewire pipewire-pulse mpd"
+autostart="pipewire pipewire-pulse mpd fcitx"
 for program in $autostart; do
   pidof -s "$program" || setsid -f "$program"
 done >/dev/null 2>&1

@@ -38,12 +38,12 @@ ki.nx('I', '$')
 -- ....................................... direct text manipulation
 
 -- shimmy the current line up and down
-ki.i('<c-n>', '<Esc>:m .+1<CR>==gi')
-ki.i('<c-e>', '<Esc>:m .-2<CR>==gi')
+-- ki.i('<c-n>', '<Esc>:m .+1<CR>==gi')
+-- ki.i('<c-e>', '<Esc>:m .-2<CR>==gi')
 
 -- same for visualy selected text
-ki.x('<c-n>', [[:m '>+1<cr>gv=gv]])
-ki.x('<c-e>', [[:m '<-2<cr>gv=gv]])
+-- ki.x('<c-n>', [[:m '>+1<cr>gv=gv]])
+-- ki.x('<c-e>', [[:m '<-2<cr>gv=gv]])
 
 -- stay in visual mode when indenting
 ki.x('<', '<gv')
@@ -62,13 +62,13 @@ end)
 
 -- search for visually selected text non-magically
 ki.x('*', function()
-  local p = vim.fn.getpos '.'
-  local yank_reg = vim.fn.getreg('"')
-  vim.cmd 'norm! gvy'
-  vim.fn.setreg('/', '\\V' .. vim.fn.escape(vim.fn.getreg('"'), '\\'))
-  vim.cmd 'set hlsearch'
-  vim.fn.setreg('"', yank_reg)
-  vim.fn.setpos('.', p)
+   local p = vim.fn.getpos '.'
+   local yank_reg = vim.fn.getreg('"')
+   vim.cmd 'norm! gvy'
+   vim.fn.setreg('/', '\\V' .. vim.fn.escape(vim.fn.getreg('"'), '\\'))
+   vim.cmd 'set hlsearch'
+   vim.fn.setreg('"', yank_reg)
+   vim.fn.setpos('.', p)
 end, { 'silent' })
 
 -- replace search matches
@@ -81,6 +81,7 @@ ki.n('<leader>rs', function() vim.lsp.buf.rename() end)
 
 -- consistency
 ki.n('U', '<c-r>')
+ki.n('u', '<CMD>LuaSnipUnlinkCurrent<CR>u') -- FIXME luasnip sigh
 ki.n('Y', 'y$')
 
 -- fixes
@@ -93,10 +94,10 @@ ki.n('<leader>f', '<Plug>(cokeline-pick-focus)', { 'silent', 'remap' })
 -- nb: ';' is free in normal (i think)
 
 local function shell(cmd)
-  local handle = io.popen(cmd)
-  local result = handle:read('*a')
-  handle:close()
-  return (result ~= '' and result)
+   local handle = io.popen(cmd)
+   local result = handle:read('*a')
+   handle:close()
+   return (result ~= '' and result)
 end
 
 ki.n('<F1>', function()

@@ -9,9 +9,73 @@ require('plugins')
 require('settings')
 require('keymaps')
 
+-- snippet ++
+-- 	${1:x} = $1 + ${2:1}
+-- snippet --
+-- 	${1:x} = $1 - ${2:1}
+-- snippet **
+-- 	${1:x} = $1 * ${2:1}
+-- snippet //
+-- 	${1:x} = $1 / ${2:1}
+
+-- local function copy(args)
+--   return args[1]
+-- end
+
+-- ls.add_snippets('lua', {
+--   s('l', {
+--     t 'local ', i(1, 'x'), t ' = ' , i(0, '42')
+--   }),
+--   s('fn', {
+--     t 'local function ',
+--     i(1, 'f'),
+--     t '(',
+--     i(2, '...'),
+--     t ')',
+--     t {'', '\t'}, t({
+--       t 'print(',
+--       f(copy, 2),
+--       t ')'
+--     }),
+--     t {'', 'end'}
+--   }),
+-- })
+
+-- ls.add_snippets('lua', {
+--   s('l', fmt([[
+--     local {} = {}
+--   ]], {
+--     i(1, 'x'),
+--     i(2, '0')
+--   })),
+--   s('fn', fmt([[
+--     local function {fn_name}({fn_args})
+--       {fn_final}
+--     end
+--   ]], {
+--     fn_name = i(1, 'f'),
+--     fn_args = i(2, '...'),
+--     fn_final = f(function(args)
+--       return 'print(' .. args[1][1] .. ')'
+--     end, 2)
+--   })),
+-- })
 
 
+-- maybe an autocmd can decide if i'm editing the config and switch the mode?
 
+-- local fnl_runtime = vim.fn.stdpath('config') .. '/fnl'
+-- vim.o.runtimepath = vim.o.runtimepath .. ',' .. fnl_runtime
+
+-- local fennel = require("fennel")
+-- fennel.path = fennel.path .. ";" .. fnl_runtime .. "/?.fnl"
+-- fennel.path = fennel.path .. ";" .. fnl_runtime .. "/?/init.fnl"
+-- fennel['macro-path'] = fennel['macro-path'] .. ";" .. fnl_runtime .. "/?.fnl"
+-- fennel['macro-path'] = fennel['macro-path'] .. ";" .. fnl_runtime .. "/?/init.fnl"
+--
+-- table.insert(package.loaders or package.searchers, fennel.searcher)
+--
+-- local test = require('test')
 
 
 

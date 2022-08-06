@@ -1,46 +1,46 @@
-snippet l
-	local ${1:x} = ${0:42}
-snippet fn
-	function ${1:f}(${2:...})
-		${0:--}
-	end
-snippet lfn
-	local function ${1:f}(${2:...})
-		${0:--}
-	end
-snippet if
-	if ${1:y} then
-		${2:--}
-	end
-snippet ife
-	if ${1:y} then
-		${2:--}
-	else
-		${0:--}
-	end
-snippet elif
-	elseif ${1:y} then
-		${0:--}
-snippet for
-	for ${1:i} = ${2:1}, ${3:10} do
-		${0:print(i)}
-	end
-snippet forp
-	for ${1:k}, ${2:v} in pairs(${3:xt}) do
-		${0:print(k, v)}
-	end
-snippet fori
-	for ${1:i}, ${2:v} in ipairs(${3:xs}) do
-		${0:print(i, v)}
-	end
-snippet req
-	require('${1:module}')
-snippet pri
-	print('${1:string}')
-snippet use
-	use {
-		'${1:repo/pack}',
-		config = function()
-			${0:--}
-		end,
-	}
+# snippet l
+# 	local ${1:x} = ${0:42}
+# snippet fn
+# 	local function ${1:f}(${2:...})
+# 		${0:print('called "1" with ' .. tostring(2))}
+# 	end
+# snippet gfn
+# 	function ${1:f}(${2:...})
+# 		${0:print('called "$1" with ' .. tostring($2))}
+# 	end
+# snippet if
+# 	if ${1:y} then
+# 		${2:--}
+# 	end
+# snippet ife
+# 	if ${1:y} then
+# 		${2:--}
+# 	else
+# 		${0:--}
+# 	end
+# snippet elif
+# 	elseif ${1:y} then
+# 		${0:--}
+# snippet for
+# 	for ${1:i} = ${2:1}, ${3:10} do
+# 		${0:print(i)}
+# 	end
+# snippet forp
+# 	for ${1:k}, ${2:v} in pairs(${3:xt}) do
+# 		${0:print(k, v)}
+# 	end
+# snippet fori
+# 	for ${1:i}, ${2:v} in ipairs(${3:xs}) do
+# 		${0:print(i, v)}
+# 	end
+# snippet req
+# 	require('${1:module}')
+# snippet pri
+# 	print('${1:string}')
+# snippet use
+# 	use {
+# 		'${1:repo/pack}',
+# 		config = function()
+# 			${0:--}
+# 		end,
+# 	}

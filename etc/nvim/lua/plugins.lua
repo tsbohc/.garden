@@ -1,5 +1,4 @@
 local function plugins(use, auc)
-
   -- syntax
   auc { '~/code/slate', requires = 'rktjmp/lush.nvim' }
   auc { 'nvim-treesitter/nvim-treesitter' }
@@ -13,18 +12,23 @@ local function plugins(use, auc)
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-nvim-lua' },
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip' },
     }
   }
+
+  auc { 'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip' }
 
   -- parensea
   -- auc { 'eraserhd/parinfer-rust', run = 'cargo build --release' }
   auc { 'guns/vim-sexp' }
+  auc { 'bakpakin/fennel.vim' }
+  auc { 'janet-lang/janet.vim' }
 
   -- niceties
   auc { 'numToStr/Comment.nvim' }
   auc { 'lukas-reineke/indent-blankline.nvim' }
   auc { 'svban/YankAssassin.vim' }
+
+  auc { 'dhruvasagar/vim-table-mode' }
 
   -- fuzzy
   -- use {
@@ -49,6 +53,10 @@ local function plugins(use, auc)
   auc {
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
+  }
+
+  auc {
+    'andymass/vim-matchup'
   }
 
   -- lsp

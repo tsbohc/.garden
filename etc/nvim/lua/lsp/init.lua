@@ -7,6 +7,22 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+-- vim.api.nvim_create_autocmd('CursorHold', {
+--    callback = function()
+--       local opts = {
+--          focusable = false,
+--          close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+--          border = 'single',
+--          source = 'always',
+--          prefix = ' ',
+--          scope = 'cursor',
+--       }
+--       vim.diagnostic.open_float(nil, opts)
+--    end
+-- })
+
 -- diagnostics
 vim.diagnostic.config({
   virtual_text = {

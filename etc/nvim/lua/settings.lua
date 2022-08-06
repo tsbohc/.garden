@@ -45,17 +45,25 @@ se.completeopt = { 'menu', 'menuone', 'noselect' }
 -- formatoptions are being overwritten by ftpplugin, also h: fo-table
 se.textwidth = 80
 vim.cmd [[
-  augroup override_formatoptions
-    au!
-    au VimEnter * setlocal formatoptions-=r formatoptions-=o formatoptions-=t laststatus=3
-  augroup END
+   augroup override_formatoptions
+      au!
+      au VimEnter * setlocal formatoptions-=r formatoptions-=o formatoptions-=t laststatus=3
+   augroup END
 ]]
 
 vim.cmd [[
-  augroup writing_mode
-    autocmd!
-    au Filetype tex,markdown set wrap
-  augroup END
+   augroup writing_mode
+   autocmd!
+      au Filetype tex,markdown set wrap
+   augroup END
+]]
+
+vim.cmd [[
+   augroup writing_mode
+      autocmd!
+      au Filetype lua set tabstop=3
+      au Filetype lua set shiftwidth=3
+   augroup END
 ]]
 
 -- splits
@@ -90,10 +98,10 @@ se.listchars = { trail = '␣' }
 se.list = true
 
 vim.cmd [[
-  augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank { higroup = 'placeHolder', timeout = 100 }
-  augroup END
+   augroup highlight_yank
+      autocmd!
+      au TextYankPost * silent! lua vim.highlight.on_yank { higroup = 'placeHolder', timeout = 100 }
+   augroup END
 ]]
 
 -- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

@@ -65,10 +65,11 @@ ki $Super-{1,2,3,4,5,6,7,8,9}          "use_index "{0,1,2,3,4,5,6,7,8}
 ki $Super-$Shift-{1,2,3,4,5,6,7,8,9}  "move_index "{0,1,2,3,4,5,6,7,8}
 
 # layouts
-ki $Super-f "floating toggle"
 ki $Super-m "fullscreen toggle"
 ki $Super-p "pseudotile toggle"
-#ki $Super-f set_attr clients.focus.floating toggle
+ki $Super-f "floating toggle"
+
+ki $Super-f "set_attr clients.focus.floating toggle"
 
 
 # mouse
