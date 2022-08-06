@@ -33,16 +33,24 @@ vim.diagnostic.config({
 
 -- handlers
 
+
 -- on_attach
 local function on_attach(client, bufnr)
    require('lsp_signature').on_attach({
-      doc_lines = 0,
       bind = true,
+      doc_lines = 0,
+      -- floating_window = false,
+      floating_window_off_x = 9,
+      floating_window_off_y = 0,
       hi_parameter = "TSFunction",
+      hint_prefix = "",
+      hint_scheme = "TSFunction",
+      hint_enable = false,
       handler_opts = {
-         border = "single"   -- double, rounded, single, shadow, none
+         border = "double"   -- double, rounded, single, shadow, none
       },
    }, bufnr)
+
    -- lsp based hover highlighting
    --if client.resolved_capabilities.document_highlight then
    --  vim.api.nvim_exec(

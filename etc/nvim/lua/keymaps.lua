@@ -81,7 +81,6 @@ ki.n('<leader>rs', function() vim.lsp.buf.rename() end)
 
 -- consistency
 ki.n('U', '<c-r>')
-ki.n('u', '<CMD>LuaSnipUnlinkCurrent<CR>u') -- FIXME luasnip sigh
 ki.n('Y', 'y$')
 
 -- fixes

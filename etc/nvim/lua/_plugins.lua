@@ -1,6 +1,7 @@
 return function(use) -- personal
    use { '~/code/slate', requires = 'rktjmp/lush.nvim' }
 
+
    -- use {
    --    'nvim-treesitter/nvim-treesitter',
    --    -- commit = '668de0951a36ef17016074f1120b6aacbe6c4515',

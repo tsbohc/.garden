@@ -22,6 +22,7 @@ return {
                '~/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/meta/3rd/love2d/library',
                vim.fn.expand("$VIMRUNTIME/lua"),
                vim.fn.stdpath("config") .. "/lua",
+               '~/code/rl/' -- UGHHH FIXME
             },
             checkThirdParty = false -- stop asking about LOVE
          },

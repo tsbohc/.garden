@@ -30,8 +30,8 @@ local kind_icons = {
    Field = "·",
    Variable = "v", -- ⬡
    Class = "",
-   Interface = "",
-   Module = "",
+   Interface = "i",
+   Module = "m",
    Property = "·",
    Unit = "u",
    Value = "v", -- ⊻
@@ -39,14 +39,14 @@ local kind_icons = {
    Keyword = "⚍",
    Snippet = "⇋",
    Color = "",
-   File = "□",
+   File = "-",
    Reference = "",
-   Folder = "◪",
+   Folder = "+",
    EnumMember = "",
    Constant = "",
-   Struct = "",
+   Struct = "s",
    Event = "",
-   Operator = "",
+   Operator = "o",
    TypeParameter = ""
 }
 
@@ -56,6 +56,19 @@ cmp.setup {
          require('luasnip').lsp_expand(args.body)
       end
    },
+
+   window = {
+    completion = {
+      winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
+    },
+    documentation = {
+      winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
+    },
+   },
+
+   -- experimental = {
+   --    ghost_text = { hl_group = 'Conceal' }
+   -- },
 
    mapping = {
       ['<C-b>'] = cmp.config.disable,
@@ -91,10 +104,11 @@ cmp.setup {
    },
 
    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
       { name = 'luasnip' },
+      { name = 'nvim_lsp' },
       { name = 'path' },
       { name = 'nvim_lua' },
+   }, {
       { name = 'buffer' },
    }),
 
@@ -106,11 +120,11 @@ cmp.setup {
          end
 
          vim_item.menu = ({
-            buffer = "<buf>",
-            nvim_lsp = "<lsp>",
-            luasnip = "<snp>",
-            nvim_lua = "<vim>",
-            latex_symbols = "<tex>",
+            luasnip = "snp",
+            buffer = "buf",
+            nvim_lsp = "lsp",
+            nvim_lua = "vim",
+            latex_symbols = "tex",
          })[entry.source.name]
          return vim_item
       end

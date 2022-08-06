@@ -15,6 +15,8 @@ local function plugins(use, auc)
     }
   }
 
+  auc { 'arcticicestudio/nord-vim' }
+
   auc { 'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip' }
 
   -- parensea

@@ -25,6 +25,9 @@ local types = require("luasnip.util.types")
 
 -- }}}
 
+-- FIXME figure out why lsp is overriding snippets
+-- TODO add while loop thing
+
 ls.config.setup({
    history = true,
    update_events = 'TextChanged,TextChangedI',
@@ -39,6 +42,20 @@ ls.config.setup({
       }
    }
 })
+
+
+function Leave_snippet()
+   if
+      ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+      and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+      and not require('luasnip').session.jump_active
+   then
+      require('luasnip').unlink_current()
+   end
+end
+
+-- NB can't put this into a group
+vim.api.nvim_command([[autocmd ModeChanged * lua Leave_snippet()]])
 
 
 -- snippets
@@ -72,212 +89,7 @@ vim.keymap.set('i', '<c-t>', function()
    end
 end)
 
--- s('req', fmt([[
---    local {1} = require('{2}')
--- ]], {
---    i(1, 'm'),
---    i(2, 'module'),
--- })),
---
--- s('l', fmt([[
---    local {1} = {2}
--- ]], {
---    i(1, 'x'),
---    i(0, '1')
--- })),
---
--- s("selected_text", {
---    f(function(_, snip) return '-' .. snip.env.TM_SELECTED_TEXT[1] .. '-' end, {})
--- }),
---
--- s('fn', fmt([[
---    local function {1}({2})
---       {3}{4}
---    end
--- ]], {
---    i(1, 'f'),
---    i(2, '...'),
---    -- dlambda(3, [[print('ƒ:]] .. lambda._1 .. [[', ]] .. lambda._2 .. [[)]], {1, 2}), -- can't set dynamic_lambda index to 0?
---    -- dlambda(3, string.format([[print('ƒ:%s', %s]], lambda._1, lambda._2), {1, 2}), -- errors out
---    d(3, function(args, snip)
---       if snip.env.TM_SELECTED_TEXT[1] then
---          return sn(nil, {
---             i(1, snip.env.TM_SELECTED_TEXT[1])
---          })
---       else
---          return sn(nil, {
---             i(1, [[print('ƒ:]] .. args[1][1] .. [[', ]] .. args[2][1] .. [[)]]) -- try string.format here
---          })
---       end
---    end, {1, 2}),
---    i(0)
--- })),
---
--- s('fg', fmt([[
---    function {1}({2})
---       {3}{4}
---    end
--- ]], {
---    i(1, 'f'),
---    i(2, '...'),
---    dlambda(3, [[print('ƒ:]] .. lambda._1 .. [[', ]] .. lambda._2 .. [[)]], {1, 2}),
---    i(0)
--- })),
---
--- s('if', fmt([[
---    if {1} then
---       {2}{3}
---    end
--- ]], {
---    i(1, 'y'),
---    dlambda(2, [[print(']] .. lambda._1 .. [[ is true')]], 1),
---    i(0)
--- })),
---
--- s('ife', fmt([[
---    if {1} then
---       {2}
---    else
---       {3}{4}
---    end
--- ]], {
---    i(1, 'y'),
---    dlambda(2, [[print(']] .. lambda._1 .. [[ is true')]], 1),
---    dlambda(3, [[print(']] .. lambda._1 .. [[ is false')]], 1),
---    i(0)
--- })),
---
--- s('elif', fmt([[
---    elseif {1} then
---       {2}{3}
--- ]], {
---    i(1, 'y'),
---    dlambda(2, [[print(']] .. lambda._1 .. [[ is true')]], 1),
---    i(0)
--- })),
---
--- s('forn', fmt([[
---    for {1} = {2}, {3} do
---       {4}{5}
---    end
--- ]], {
---    i(1, 'i'),
---    i(2, '1'),
---    i(3, '5'),
---    dlambda(4, [[print(']] .. lambda._1 .. [[' .. ]] .. lambda._1 .. [[)]], 1),
---    i(0)
--- })),
---
--- s('for', fmt([[
---    for {1}, {2} in pairs({3}) do
---       {4}{5}
---    end
--- ]], {
---    i(1, 'k'),
---    i(2, 'v'),
---    i(3, 'xt'),
---    dlambda(4, [[print(']]
---                   .. lambda._3 .. [[: ' .. ]]
---                   .. lambda._1 .. [[ .. ' ' .. ]]
---                   .. lambda._2
---                   .. [[)]],
---               {1, 2, 3}),
---    i(0)
--- })),
---
--- s('fori', fmt([[
---    for {1}, {2} in ipairs({3}) do
---       {4}{5}
---    end
--- ]], {
---    i(1, '_'),
---    i(2, 'v'),
---    i(3, 'xs'),
---    dlambda(4, [[print(']]
---                   .. lambda._3 .. [[: ' .. ]]
---                   .. lambda._1 .. [[ .. ' ' .. ]]
---                   .. lambda._2
---                   .. [[)]],
---               {1, 2, 3}),
---    i(0)
--- })),
---
--- postfix(".pr", {
---    f(function(_, parent)
---       return "print(" .. parent.snippet.env.POSTFIX_MATCH .. ")"
---    end, {}),
--- }),
---
--- postfix(".insert", {
---    f(function(_, parent)
---       return "table.insert(" .. parent.snippet.env.POSTFIX_MATCH .. ", "
---    end, {}),
---    i(1, 'x'),
---    t(')'),
--- }),
---
--- postfix(".return", {
---    f(function(_, parent)
---       return "return " .. parent.snippet.env.POSTFIX_MATCH
---    end, {}),
--- }),
---
--- postfix("'", {
---    f(function(_, parent)
---       return "'" .. parent.snippet.env.POSTFIX_MATCH .. "'"
---    end, {}),
--- }),
---
--- postfix('++', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' + 1'
---    end, {}),
--- }),
---
--- postfix('--', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' - 1'
---    end, {}),
--- }),
---
--- postfix('+=', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' + '
---    end, {}),
---    i(0, '1'),
--- }),
---
--- postfix('-=', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' - '
---    end, {}),
---    i(0, '1'),
--- }),
---
--- postfix('*=', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' * '
---    end, {}),
---    i(0, '1'),
--- }),
---
--- postfix('/=', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' / '
---    end, {}),
---    i(0, '1'),
--- }),
---
--- postfix('..', {
---    f(function(_, parent)
---       return parent.snippet.env.POSTFIX_MATCH .. " = " .. parent.snippet.env.POSTFIX_MATCH .. ' .. '
---    end, {}),
---    i(0, '1'),
--- }),
-
-
-
--- for real this time
+-- snippets (for real this time)
 
 local snippets = {}
 
@@ -389,16 +201,11 @@ local function if_choice(position, depth)
             i(1, 'true'),
             t({ ' then', '\t' }),
             i(2, '--'),
-            -- if_choice(3, depth)
+            if_choice(3, depth)
          })
       })
    })
 end
-
-do
-   local foo = 'foo'
-end
-
 
 Snippet('if', fmt([[
       if {1} then
@@ -410,11 +217,6 @@ Snippet('if', fmt([[
       [3] = if_choice(3, 1)
    }
 ), 'c')
-
-
-
-
-
 
 Snippet('elif', fmt([[
       elseif {1} then
@@ -545,6 +347,14 @@ Postfix({
    })
 )
 
+Postfix('@define', fmt([[
+      local {1} = {2}
+   ]], {
+      [1] = postfix_match(),
+      [2] = i(0, '1')
+   })
+)
+
 Postfix('@not', fmt([[
       not {1}
    ]], {
@@ -572,62 +382,64 @@ Postfix('@ifnot', fmt([[
    })
 )
 
-Postfix('=+', fmt([[
-      {1} = {1} + {2}
+Postfix('@pairs', fmt([[
+      for {1}, {2} in pairs({3}) do
+         {4}
+      end
    ]], {
-      [1] = postfix_match(),
-      [2] = i(0, '1')
+      [1] = i(1, 'k'),
+      [2] = i(2, 'v'),
+      [3] = postfix_match(),
+      [4] = i(0, '--')
    })
 )
 
-Postfix('=-', fmt([[
-      {1} = {1} - {2}
+Postfix('@ipairs', fmt([[
+      for {1}, {2} in ipairs({3}) do
+         {4}
+      end
    ]], {
-      [1] = postfix_match(),
-      [2] = i(0, '1')
+      [1] = i(1, '_'),
+      [2] = i(2, 'v'),
+      [3] = postfix_match(),
+      [4] = i(0, '--')
    })
 )
 
-Postfix('=.', fmt([[
-      {1} = {1} .. {2}
+local function modify(operator)
+   return fmt([[
+      {1} = {1} {2} {3}
+   ]], {
+      [1] = postfix_match(),
+      [2] = operator,
+      [3] = i(0, '1'),
+   })
+end
+
+Postfix('=+', modify('+'))
+Postfix('@inc', modify('+'))
+
+Postfix('=-', modify('-'))
+Postfix('@dec', modify('-'))
+
+Postfix('=.', modify('..'))
+Postfix('@app', modify('..'))
+
+Postfix('@pre', fmt([[
+      {1} = {2} .. {1}
    ]], {
       [1] = postfix_match(),
       [2] = i(0, [['s']])
    })
 )
 
-Postfix('=*', fmt([[
-      {1} = {1} * {2}
-   ]], {
-      [1] = postfix_match(),
-      [2] = i(0, '1')
-   })
-)
+Postfix('=*', modify('*'))
+Postfix('@mul', modify('*'))
 
-Postfix('=/', fmt([[
-      {1} = {1} / {2}
-   ]], {
-      [1] = postfix_match(),
-      [2] = i(0, '1')
-   })
-)
+Postfix('=:', modify('/'))
+Postfix('@div', modify('/'))
 
--- playground
 
--- local function simple_restore(args, _)
---    return sn(nil, {
---       t(args[1][1]),
---       t(' '),
---       -- r(1, 'dyn', i(nil, args[1][1] .. '_stay')),
---       i(1, args[1][1] .. '_stay')
---    })
--- end
---
---
--- Snippet("test", {
---    i(1, "preset"), t{"",""},
---    d(2, simple_restore, { 1 })
--- }, 't')
 
 -- Snippet('test', fmt([[
 --    
@@ -650,33 +462,6 @@ Postfix('=/', fmt([[
 ls.add_snippets('lua', snippets, {
    key = 'luasnip_config_file'
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
