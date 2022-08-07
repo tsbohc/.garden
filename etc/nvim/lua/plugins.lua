@@ -1,7 +1,12 @@
 local function plugins(use, auc)
   -- syntax
   auc { '~/code/slate', requires = 'rktjmp/lush.nvim' }
-  auc { 'nvim-treesitter/nvim-treesitter' }
+  auc {
+     'nvim-treesitter/nvim-treesitter',
+     requires = {
+        'nvim-treesitter/nvim-treesitter-textobjects'
+     }
+  }
 
   -- completion and snippets
   auc { -- TODO: see about new cmp modules

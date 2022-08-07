@@ -109,6 +109,7 @@ function M.redraw()
    cache[winid][bufnr] = nil
    vim.api.nvim_win_set_option(winid, 'statusline',
       '%#' .. M.hl_reset .. '#' .. cache[winid][bufnr])
+   -- print(vim.opt.statusline._value)
 end
 
 function M.setup(config)

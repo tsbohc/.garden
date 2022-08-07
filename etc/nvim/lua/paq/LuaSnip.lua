@@ -22,7 +22,6 @@ local postfix = require("luasnip.extras.postfix").postfix
 
 local util = require("luasnip.util.util")
 local types = require("luasnip.util.types")
-
 -- }}}
 
 -- FIXME figure out why lsp is overriding snippets
@@ -101,9 +100,11 @@ local function Snippet(...)
    local args = {...}
    local keymap = table.remove(args, #args)
    local snippet = s(...)
-   vim.keymap.set({ 'n' }, 's' .. keymap, function()
-      ls.snip_expand(snippet)
-   end)
+
+   -- vim.keymap.set({ 'n' }, 's' .. keymap, function()
+   --    ls.snip_expand(snippet)
+   -- end)
+   --
    vim.keymap.set({ 'v' }, 's' .. keymap, function()
       -- local m = vim.fn.mode()
       -- print(m)
@@ -279,6 +280,42 @@ Snippet('fn', fmt([[
       [3] = selection(3, '--'),
    }
 ), 'f')
+
+-- TODO a 'describe' snippet that can be entered before a function
+-- will look up it's param list and (return?)
+-- and construct a documentation list
+
+-- Snippet('dfn', fmt([[
+--       ---{3}
+--       {4}
+--       local function {1}({2})
+--          {5}
+--       end
+--    ]], {
+--       [1] = i(1, 'fn'),
+--       [2] = i(2, '...'),
+--       [3] = i(3, 'description'),
+--       [4] = d(4, function(args)
+--          -- print(vim.inspect(args))
+--
+--          local xs = {}
+--          local id = 1
+--
+--          for a in string.gmatch(args[1][1], "(%s+)[,%)]") do -- broken
+--             table.insert(xs, sn(id, {
+--                t({'---@param ' .. a .. ' '}),
+--                i(1, 'type'),
+--                t({'', ''})
+--             }))
+--             id = id + 1
+--          end
+--
+--          return sn(nil, xs)
+--       end, { 2 }),
+--       [5] = selection(5, '--'),
+--    }
+-- ), 'd')
+
 
 Snippet('gfn', fmt([[
       function {1}({2})
