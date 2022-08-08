@@ -33,6 +33,24 @@ local function plugins(use, auc)
    auc { 'janet-lang/janet.vim' }
 
    -- niceties
+   use {
+      'chaoren/vim-wordmotion',
+      config = function()
+         vim.g.wordmotion_nomap = true
+         vim.keymap.set({ 'n', 'x', 'o' }, 'w', '<Plug>WordMotion_w')
+         -- vim.keymap.set({ 'n', 'x', 'o' }, 'W', '<Plug>WordMotion_W')
+         vim.keymap.set({ 'n', 'x', 'o' }, 'b', '<Plug>WordMotion_b')
+         -- vim.keymap.set({ 'n', 'x', 'o' }, 'B', '<Plug>WordMotion_B')
+         vim.keymap.set({ 'n', 'x', 'o' }, 'f', '<Plug>WordMotion_e')
+         -- vim.keymap.set({ 'n', 'x', 'o' }, 'F', '<Plug>WordMotion_E')
+         vim.keymap.set({ 'n', 'x', 'o' }, 'gf', '<Plug>WordMotion_ge')
+         -- vim.keymap.set({ 'n', 'x', 'o' }, 'gF', '<Plug>WordMotion_gE')
+         vim.keymap.set({ 'x', 'o' }, 'aw', '<Plug>WordMotion_aw')
+         -- vim.keymap.set({ 'x', 'o' }, 'aW', '<Plug>WordMotion_aW')
+         vim.keymap.set({ 'x', 'o' }, 'iw', '<Plug>WordMotion_iw')
+         -- vim.keymap.set({ 'x', 'o' }, 'iW', '<Plug>WordMotion_iW')
+      end
+   }
    auc { 'lukas-reineke/indent-blankline.nvim' }
    auc { 'svban/YankAssassin.vim' }
    auc {
