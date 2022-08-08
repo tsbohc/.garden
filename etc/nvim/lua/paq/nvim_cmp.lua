@@ -96,7 +96,7 @@ cmp.setup {
 
    sources = cmp.config.sources(
    {
-      { name = 'luasnip', trigger_characters = { '.' } }, -- NOTE very important!! this fixes lsp overriding postfix snippets beginning with this character
+      { name = 'luasnip', trigger_characters = { '.', '=' } }, -- NOTE very important!! this fixes lsp overriding postfix snippets beginning with this character
       { name = 'nvim_lsp' },
       { name = 'path' },
       { name = 'nvim_lua' },
