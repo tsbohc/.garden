@@ -105,24 +105,24 @@ local function Snippet(...)
    --    ls.snip_expand(snippet)
    -- end)
    --
-   vim.keymap.set({ 'v' }, 's' .. keymap, function()
-      -- local m = vim.fn.mode()
-      -- print(m)
-      -- if m == 'v' then
-      --    vim.cmd[[norm! V]]
-      -- end
-      -- vim.cmd[[norm! ^]]
-      -- local p = vim.fn.getpos '.'
-      -- local p = vim.api.nvim_win_get_cursor(0)
-      feedkeys('<c-c>', 'x')
-      -- require('luasnip.util.util').store_selection()
-      -- vim.cmd[[norm! "_s]]
-      -- vim.fn.setpos('.', p)
-      -- ls.snip_expand(snippet, {
-      --    pos = p
-      -- })
-      ls.snip_expand(snippet)
-   end)
+   -- vim.keymap.set({ 'v' }, 's' .. keymap, function()
+   --    -- local m = vim.fn.mode()
+   --    -- print(m)
+   --    -- if m == 'v' then
+   --    --    vim.cmd[[norm! V]]
+   --    -- end
+   --    -- vim.cmd[[norm! ^]]
+   --    -- local p = vim.fn.getpos '.'
+   --    -- local p = vim.api.nvim_win_get_cursor(0)
+   --    feedkeys('<c-c>', 'x')
+   --    -- require('luasnip.util.util').store_selection()
+   --    -- vim.cmd[[norm! "_s]]
+   --    -- vim.fn.setpos('.', p)
+   --    -- ls.snip_expand(snippet, {
+   --    --    pos = p
+   --    -- })
+   --    ls.snip_expand(snippet)
+   -- end)
    table.insert(snippets, snippet)
    return snippet
 end
@@ -169,6 +169,8 @@ local function selection(position, placeholder)
       end
    end)
 end
+
+
 
 -- local
 
@@ -328,6 +330,15 @@ Snippet('gfn', fmt([[
    }
 ), 'g')
 
+
+Snippet('todo', fmt([[
+      -- TODO {1}
+   ]], {
+      [1] = i(1, ''),
+   }
+), '')
+
+
 -- postfix
 
 local function postfix_match()
@@ -337,7 +348,7 @@ local function postfix_match()
 end
 
 Postfix({
-      trig = '@print',
+      trig = '.print',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       print('{1}', {1})
@@ -347,7 +358,7 @@ Postfix({
 )
 
 
-Postfix('@insert', fmt([[
+Postfix('.insert', fmt([[
       table.insert({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -355,7 +366,7 @@ Postfix('@insert', fmt([[
    })
 )
 
-Postfix('@remove', fmt([[
+Postfix('.remove', fmt([[
       table.remove({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -364,7 +375,7 @@ Postfix('@remove', fmt([[
 )
 
 Postfix({
-      trig = '@return',
+      trig = '.return',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       return {1}
@@ -374,7 +385,7 @@ Postfix({
 )
 
 Postfix({
-      trig = '@assign',
+      trig = '.assign',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       local {1} = {2}
@@ -384,7 +395,7 @@ Postfix({
    })
 )
 
-Postfix('@define', fmt([[
+Postfix('.define', fmt([[
       local {1} = {2}
    ]], {
       [1] = postfix_match(),
@@ -392,14 +403,14 @@ Postfix('@define', fmt([[
    })
 )
 
-Postfix('@not', fmt([[
+Postfix('.not', fmt([[
       not {1}
    ]], {
       [1] = postfix_match()
    })
 )
 
-Postfix('@if', fmt([[
+Postfix('.if', fmt([[
       if {1} then
          {2}
       end
@@ -409,7 +420,7 @@ Postfix('@if', fmt([[
    })
 )
 
-Postfix('@ifnot', fmt([[
+Postfix('.ifnot', fmt([[
       if not {1} then
          {2}
       end
@@ -419,7 +430,7 @@ Postfix('@ifnot', fmt([[
    })
 )
 
-Postfix('@pairs', fmt([[
+Postfix('.pairs', fmt([[
       for {1}, {2} in pairs({3}) do
          {4}
       end
@@ -431,7 +442,7 @@ Postfix('@pairs', fmt([[
    })
 )
 
-Postfix('@ipairs', fmt([[
+Postfix('.ipairs', fmt([[
       for {1}, {2} in ipairs({3}) do
          {4}
       end
@@ -454,15 +465,15 @@ local function modify(operator)
 end
 
 Postfix('=+', modify('+'))
-Postfix('@inc', modify('+'))
+Postfix('.inc', modify('+'))
 
 Postfix('=-', modify('-'))
-Postfix('@dec', modify('-'))
+Postfix('.dec', modify('-'))
 
 Postfix('=.', modify('..'))
-Postfix('@app', modify('..'))
+Postfix('.app', modify('..'))
 
-Postfix('@pre', fmt([[
+Postfix('.pre', fmt([[
       {1} = {2} .. {1}
    ]], {
       [1] = postfix_match(),
@@ -471,19 +482,76 @@ Postfix('@pre', fmt([[
 )
 
 Postfix('=*', modify('*'))
-Postfix('@mul', modify('*'))
+Postfix('.mul', modify('*'))
 
 Postfix('=:', modify('/'))
-Postfix('@div', modify('/'))
+Postfix('.div', modify('/'))
+
+-- very cool spaghetti
+
+local function _annotate(args, snip)
+   local language_tree = vim.treesitter.get_parser(0, 'lua')
+   local syntax_tree = language_tree:parse()
+   local root = syntax_tree[1]:root()
+
+   -- print(vim.inspect({root:range()}))
+
+   local query = require('vim.treesitter.query')
+
+   local cpos = vim.api.nvim_win_get_cursor(0)
+
+   local q = vim.treesitter.parse_query('lua', [[
+      (function_declaration
+         (parameters
+            (identifier) @capture))
+   ]])
+
+   local out = {}
+   table.insert(out, sn(1, {
+      t('---'),
+      i(1, 'description')
+   }))
+
+   local id = 2
+
+   for _, match, _ in q:iter_matches(root, 0, cpos[1], cpos[1] + 1) do
+      local p = query.get_node_text(match[1], 0)
+      table.insert(out, sn(id, {
+         t({'', '---@param ' .. p .. ' '}),
+         i(1, 'type')
+      }))
+      id = id + 1
+   end
 
 
+   q = vim.treesitter.parse_query('lua', [[
+      (function_declaration
+         (block
+            (return_statement) @capture))
+   ]])
 
--- Snippet('test', fmt([[
---    
--- ]], {
---    
--- }), 't')
+   local ret
+   for _, match, _ in q:iter_matches(root, 0, cpos[1], cpos[1] + 1) do
+      ret = query.get_node_text(match[1], 0)
+   end
 
+   if ret then
+      table.insert(out, sn(id, {
+         t({'', '---@return '}),
+         i(1, 'type')
+      }))
+
+      id = id + 1
+   end
+
+   return sn(nil, out)
+end
+
+Snippet('annotate', fmt([[
+   {1}
+]], {
+      d(1, _annotate)
+}), 't')
 
 
 

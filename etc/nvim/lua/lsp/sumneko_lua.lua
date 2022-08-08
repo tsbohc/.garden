@@ -10,7 +10,7 @@ return {
             path = runtime_path,
          },
          diagnostics = {
-            globals = { 'vim', 'love' },
+            globals = { 'vim' },
          },
          completion = {
             keywordSnippet = 'Disable',
@@ -19,10 +19,10 @@ return {
          },
          workspace = {
             library = {
-               '~/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/meta/3rd/love2d/library',
+               -- now in .luarc.json
+               -- '~/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/meta/3rd/love2d/library',
                vim.fn.expand("$VIMRUNTIME/lua"),
                vim.fn.stdpath("config") .. "/lua",
-               '~/code/rl/' -- UGHHH FIXME
             },
             checkThirdParty = false -- stop asking about LOVE
          },

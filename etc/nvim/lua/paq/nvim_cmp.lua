@@ -71,15 +71,6 @@ cmp.setup {
    -- },
 
    mapping = {
-      ['<C-b>'] = cmp.config.disable,
-      ['<C-f>'] = cmp.config.disable,
-      ['<C-Space>'] = cmp.config.disable,
-      ['<C-y>'] = cmp.config.disable,
-      ['<C-e>'] = cmp.config.disable,
-      --['<Tab>'] = cmp.config.disable,
-      --['<S-Tab>'] = cmp.config.disable,
-      --['<CR>'] = cmp.config.disable,
-
       ['<Tab>'] = cmp.mapping(function(fallback)
          if cmp.visible() then
             cmp.select_next_item()
@@ -103,14 +94,16 @@ cmp.setup {
       -- been explicitly selected
    },
 
-   sources = cmp.config.sources({
-      { name = 'luasnip' },
+   sources = cmp.config.sources(
+   {
+      { name = 'luasnip', trigger_characters = { '.' } }, -- NOTE very important!! this fixes lsp overriding postfix snippets beginning with this character
       { name = 'nvim_lsp' },
       { name = 'path' },
       { name = 'nvim_lua' },
    }, {
-      { name = 'buffer' },
-   }),
+      { name = 'buffer', option = { keyword_length = 5 } },
+   }
+   ),
 
    formatting = {
       fields = { 'kind', 'abbr', 'menu' },
