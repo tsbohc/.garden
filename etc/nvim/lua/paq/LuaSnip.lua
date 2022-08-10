@@ -272,7 +272,7 @@ Snippet('forn', fmt([[
 
 -- function
 
-Snippet('fn', fmt([[
+Snippet('lfunction', fmt([[
       local function {1}({2})
          {3}
       end
@@ -319,7 +319,7 @@ Snippet('fn', fmt([[
 -- ), 'd')
 
 
-Snippet('gfn', fmt([[
+Snippet('gfunction', fmt([[
       function {1}({2})
          {3}
       end
@@ -348,7 +348,7 @@ local function postfix_match()
 end
 
 Postfix({
-      trig = '.print',
+      trig = '@print',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       print('{1}', {1})
@@ -358,7 +358,7 @@ Postfix({
 )
 
 
-Postfix('.insert', fmt([[
+Postfix('@insert', fmt([[
       table.insert({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -366,7 +366,7 @@ Postfix('.insert', fmt([[
    })
 )
 
-Postfix('.remove', fmt([[
+Postfix('@remove', fmt([[
       table.remove({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -375,7 +375,7 @@ Postfix('.remove', fmt([[
 )
 
 Postfix({
-      trig = '.return',
+      trig = '@return',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       return {1}
@@ -385,7 +385,7 @@ Postfix({
 )
 
 Postfix({
-      trig = '.assign',
+      trig = '@assign',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       local {1} = {2}
@@ -395,7 +395,7 @@ Postfix({
    })
 )
 
-Postfix('.define', fmt([[
+Postfix('@define', fmt([[
       local {1} = {2}
    ]], {
       [1] = postfix_match(),
@@ -403,14 +403,14 @@ Postfix('.define', fmt([[
    })
 )
 
-Postfix('.not', fmt([[
+Postfix('@not', fmt([[
       not {1}
    ]], {
       [1] = postfix_match()
    })
 )
 
-Postfix('.if', fmt([[
+Postfix('@if', fmt([[
       if {1} then
          {2}
       end
@@ -420,7 +420,7 @@ Postfix('.if', fmt([[
    })
 )
 
-Postfix('.ifnot', fmt([[
+Postfix('@ifnot', fmt([[
       if not {1} then
          {2}
       end
@@ -430,7 +430,7 @@ Postfix('.ifnot', fmt([[
    })
 )
 
-Postfix('.pairs', fmt([[
+Postfix('@pairs', fmt([[
       for {1}, {2} in pairs({3}) do
          {4}
       end
@@ -442,7 +442,7 @@ Postfix('.pairs', fmt([[
    })
 )
 
-Postfix('.ipairs', fmt([[
+Postfix('@ipairs', fmt([[
       for {1}, {2} in ipairs({3}) do
          {4}
       end
@@ -451,6 +451,14 @@ Postfix('.ipairs', fmt([[
       [2] = i(2, 'v'),
       [3] = postfix_match(),
       [4] = i(0, '--')
+   })
+)
+
+Postfix('=', fmt([[
+   {1} = {2}
+   ]], {
+      [1] = postfix_match(),
+      [2] = i(1, '1')
    })
 )
 
@@ -465,15 +473,15 @@ local function modify(operator)
 end
 
 Postfix('=+', modify('+'))
-Postfix('.inc', modify('+'))
+Postfix('@increase', modify('+'))
 
 Postfix('=-', modify('-'))
-Postfix('.dec', modify('-'))
+Postfix('@decrease', modify('-'))
 
 Postfix('=.', modify('..'))
-Postfix('.app', modify('..'))
+Postfix('@append', modify('..'))
 
-Postfix('.pre', fmt([[
+Postfix('@prepend', fmt([[
       {1} = {2} .. {1}
    ]], {
       [1] = postfix_match(),
@@ -482,10 +490,10 @@ Postfix('.pre', fmt([[
 )
 
 Postfix('=*', modify('*'))
-Postfix('.mul', modify('*'))
+Postfix('@multiply', modify('*'))
 
 Postfix('=:', modify('/'))
-Postfix('.div', modify('/'))
+Postfix('@divide', modify('/'))
 
 -- very cool spaghetti
 
@@ -518,31 +526,30 @@ local function _annotate(args, snip)
       local p = query.get_node_text(match[1], 0)
       table.insert(out, sn(id, {
          t({'', '---@param ' .. p .. ' '}),
-         i(1, 'type')
+         i(1, 'any')
       }))
       id = id + 1
    end
 
+   -- q = vim.treesitter.parse_query('lua', [[
+   --    (function_declaration
+   --       (block
+   --          (return_statement) @capture))
+   -- ]])
+   --
+   -- local ret
+   -- for _, match, _ in q:iter_matches(root, 0, cpos[1], cpos[1] + 1) do
+   --    ret = query.get_node_text(match[1], 0)
+   -- end
 
-   q = vim.treesitter.parse_query('lua', [[
-      (function_declaration
-         (block
-            (return_statement) @capture))
-   ]])
+   -- if ret then
+   table.insert(out, sn(id, {
+      t({'', '---@return '}),
+      i(1, 'nil')
+   }))
 
-   local ret
-   for _, match, _ in q:iter_matches(root, 0, cpos[1], cpos[1] + 1) do
-      ret = query.get_node_text(match[1], 0)
-   end
-
-   if ret then
-      table.insert(out, sn(id, {
-         t({'', '---@return '}),
-         i(1, 'type')
-      }))
-
-      id = id + 1
-   end
+   id = id + 1
+   -- end
 
    return sn(nil, out)
 end
@@ -553,7 +560,16 @@ Snippet('annotate', fmt([[
       d(1, _annotate)
 }), 't')
 
+Snippet('module', fmt([[
+      local M = {{}}
 
+      {1}
+
+      return M
+   ]], {
+      [1] = i(0)
+   })
+)
 
 
 

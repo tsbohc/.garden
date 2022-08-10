@@ -104,4 +104,12 @@ vim.cmd [[
    augroup END
 ]]
 
+vim.cmd [[
+   augroup autoresize_splits
+      autocmd!
+      au VimResized * wincmd =
+   augroup END
+]]
+
+
 -- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

@@ -680,7 +680,32 @@ colors:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
+
+
+# ---
+
+# NOTE this is a special table for looking up modifiers for keymaps
+# source: http://www.leonerd.org.uk/hacks/fixterms/
+
+# | unmodified     | Shift+      | Alt+        | Alt+Shift+  | Ctrl+       | Ctrl+Shift+ | Ctrl+Alt+   | Ctrl+Alt+Shift+ |
+# |----------------+-------------+-------------+-------------+-------------+-------------+-------------+-----------------|
+# | (direct UTF-8) | CSI ...;2 u | CSI ...;3 u | CSI ...;4 u | CSI ...;5 u | CSI ...;6 u | CSI ...;7 u | CSI ...;8 u     |
+# | CSI ... ~      | CSI ...;2 ~ | CSI ...;3 ~ | CSI ...;4 ~ | CSI ...;5 ~ | CSI ...;6 ~ | CSI ...;7 ~ | CSI ...;8 ~     |
+# | CSI X          | CSI 1;2 X   | CSI 1;3 X   | CSI 1;4 X   | CSI 1;5 X   | CSI 1;6 X   | CSI 1;7 X   | CSI 1;8 X       |
+
+# the keycodes themselves are on wikipedia
+# source: https://en.wikipedia.org/wiki/List_of_Unicode_characters#Basic_Latin
+
+# ---
+
+key_bindings:
+  - { key: H,       mods: Control|Shift,    chars: "\x1b[72;6u"    }
+  - { key: N,       mods: Control|Shift,    chars: "\x1b[78;6u"    }
+  - { key: E,       mods: Control|Shift,    chars: "\x1b[69;6u"    }
+  - { key: I,       mods: Control|Shift,    chars: "\x1b[73;6u"    }
+  - { key: I,       mods: Control,          chars: "\x1b[105;5u"   }
+  - { key: Return,  mods: Shift,            chars: "\x1b[13;2u"    }
+
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

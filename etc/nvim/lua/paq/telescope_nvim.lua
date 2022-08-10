@@ -25,12 +25,14 @@ telescope.setup {
             ['<S-Tab>'] = actions.move_selection_previous,
             ['<c-n>'] = actions.preview_scrolling_down,
             ['<c-e>'] = actions.preview_scrolling_up,
+            -- ['<return>'] = actions.file_vsplit,
          },
          n = {
             ['n'] = actions.move_selection_next,
             ['e'] = actions.move_selection_previous,
             ['N'] = actions.preview_scrolling_down,
             ['E'] = actions.preview_scrolling_up,
+            -- ['<return>'] = actions.file_vsplit,
          }
       }
    },

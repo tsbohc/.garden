@@ -17,13 +17,7 @@ ki.nx('e', function()
   if vim.v.count > 0 then return 'k' else return 'gk' end
 end, { 'expr' })
 
--- simple split switching
--- considering how i don't rely too much on splits, maybe
--- tab-something would be better?
---for _, k in ipairs({ 'h', 'j', 'k', 'l' }) do
---  ki.n('<c-' .. k .. '>', '<c-w>' .. k)
---end
-
+-- NOTE terminal should send different chars
 for k, v in pairs({ h = 'h', n = 'j', e = 'k', i = 'l' }) do
   ki.n('<c-' .. k .. '>', '<c-w>' .. v)
   ki.n('<c-w>' .. k, '<c-w>' .. v:upper())
