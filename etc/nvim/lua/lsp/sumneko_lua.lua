@@ -15,7 +15,7 @@ return {
          completion = {
             keywordSnippet = 'Disable',
             postfix = '',
-            autoRequire = false
+            -- autoRequire = false
          },
          workspace = {
             library = {

@@ -71,8 +71,8 @@ vim.api.nvim_command([[autocmd ModeChanged * lua Leave_snippet()]])
 -- keymaps
 
 vim.keymap.set({ 'i', 's' }, '<c-n>', function()
-   if ls.expand_or_locally_jumpable() then
-      ls.expand_or_jump()
+   if ls.jumpable(1) then
+      ls.jump(1)
    end
 end, { silent = true })
 
@@ -174,7 +174,7 @@ end
 
 -- local
 
-Snippet('local', fmt([[
+Snippet('l', fmt([[
       local {1} = {2}
    ]], {
       [1] = i(1, 'x'),
@@ -224,7 +224,6 @@ Snippet('if', fmt([[
 Snippet('elif', fmt([[
       elseif {1} then
          {2}
-      end
    ]], {
       [1] = i(1, 'y'),
       [2] = selection(2, '--'),
@@ -272,13 +271,13 @@ Snippet('forn', fmt([[
 
 -- function
 
-Snippet('lfunction', fmt([[
+Snippet('lfn', fmt([[
       local function {1}({2})
          {3}
       end
    ]], {
       [1] = i(1, 'fn'),
-      [2] = i(2, '...'),
+      [2] = i(2, ''),
       [3] = selection(3, '--'),
    }
 ), 'f')
@@ -319,13 +318,13 @@ Snippet('lfunction', fmt([[
 -- ), 'd')
 
 
-Snippet('gfunction', fmt([[
+Snippet('gfn', fmt([[
       function {1}({2})
          {3}
       end
    ]], {
       [1] = i(1, 'fn'),
-      [2] = i(2, '...'),
+      [2] = i(2, ''),
       [3] = selection(3, '--'),
    }
 ), 'g')
@@ -516,7 +515,7 @@ local function _annotate(args, snip)
 
    local out = {}
    table.insert(out, sn(1, {
-      t('---'),
+      t('--- '),
       i(1, 'description')
    }))
 
@@ -525,7 +524,7 @@ local function _annotate(args, snip)
    for _, match, _ in q:iter_matches(root, 0, cpos[1], cpos[1] + 1) do
       local p = query.get_node_text(match[1], 0)
       table.insert(out, sn(id, {
-         t({'', '---@param ' .. p .. ' '}),
+         t({'', '--- @param ' .. p .. ' '}),
          i(1, 'any')
       }))
       id = id + 1
@@ -544,7 +543,7 @@ local function _annotate(args, snip)
 
    -- if ret then
    table.insert(out, sn(id, {
-      t({'', '---@return '}),
+      t({'', '--- @return '}),
       i(1, 'nil')
    }))
 
@@ -561,21 +560,80 @@ Snippet('annotate', fmt([[
 }), 't')
 
 Snippet('module', fmt([[
-      local M = {{}}
+      local {1} = {{}}
 
-      {1}
+      {3}
 
-      return M
+      return {2}
    ]], {
-      [1] = i(0)
+      [1] = i(1, 'M'),
+      [2] = rep(1),
+      [3] = i(0)
    })
 )
 
 
+-- Snippet('draw', fmt([[
+--       function love.draw()
+--          {1}
+--       end
+--    ]], {
+--       [1] = i(1, '--'),
+--    }
+-- ), '')
+--
+-- Snippet('update', fmt([[
+--       function love.update(dt)
+--          {1}
+--       end
+--    ]], {
+--       [1] = i(1, '--'),
+--    }
+-- ), '')
+--
+-- Snippet('load', fmt([[
+--       function love.load()
+--          {1}
+--       end
+--    ]], {
+--       [1] = i(1, '--'),
+--    }
+-- ), '')
 
 
+Snippet('component', fmt([[
+      Component('{1}', function(this, {2})
+         {3}
+      end)
+   ]], {
+      [1] = i(1, 'name'),
+      [2] = i(2, 'x'),
+      [3] = i(3, '--')
+   }
+), '')
 
+-- Snippet('system', fmt([[
+--       local {1} = System({2})
+--    ]], {
+--       [1] = i(1, 'name'),
+--       [2] = i(2, 'x'),
+--    }
+-- ), '')
 
+Snippet('system', fmt([[
+      function {1}:{2}({3})
+         for _, e in ipairs(self.{4}) do
+            {5}
+         end
+      end
+   ]], {
+      [1] = i(1, 'system'),
+      [2] = i(2, 'callback'),
+      [3] = i(3, ''),
+      [4] = i(4, 'pool'),
+      [5] = i(0)
+   }
+))
 
 
 -- load everything

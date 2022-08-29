@@ -21,6 +21,17 @@ local function plugins(use, auc)
       }
    }
 
+    use {
+      'rafcamlet/nvim-luapad',
+      requires = "antoinemadec/FixCursorHold.nvim",
+      config = function()
+         require('luapad').config({
+
+         })
+      end
+   }
+
+   use { 'skywind3000/asyncrun.vim', }
 
    auc { 'arcticicestudio/nord-vim' }
 
@@ -33,6 +44,58 @@ local function plugins(use, auc)
    auc { 'janet-lang/janet.vim' }
 
    -- niceties
+
+   -- use {{{{
+   --    "folke/todo-comments.nvim",
+   --    requires = "nvim-lua/plenary.nvim",
+   --    config = function()
+   --       require("todo-comments").setup {
+   --          signs = false,
+   --          keywords = {
+   --             FIX = {
+   --                icon = " ", -- icon used for the sign, and in search results
+   --                color = "error", -- can be a hex color, or a named color (see below)
+   --                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+   --                -- signs = false, -- configure signs for some keywords individually
+   --             },
+   --             TODO = { icon = " ", color = "info" },
+   --             HACK = { icon = " ", color = "warning" },
+   --             WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+   --             PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+   --             NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+   --          },
+   --          -- colors = {
+   --          --    error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+   --          --    warning = { "DiagnosticWarning", "WarningMsg", "#FBBF24" },
+   --          --    info = { "DiagnosticInfo", "#2563EB" },
+   --          --    hint = { "DiagnosticHint", "#10B981" },
+   --          --    default = { "Identifier", "#7C3AED" },
+   --          -- },
+   --          highlight = {
+   --             before = "", -- "fg" or "bg" or empty
+   --             keyword = "", -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
+   --             after = "", -- "fg" or "bg" or empty
+   --             pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)
+   --             comments_only = true, -- uses treesitter to match keywords in comments only
+   --             max_line_len = 400, -- ignore lines longer than this
+   --             exclude = {}, -- list of file types to exclude highlighting
+   --          },
+   --       }
+   --    end
+   -- }}}}
+   --
+   use {
+      'kyazdani42/nvim-tree.lua',
+      -- requires = {
+      --    'kyazdani42/nvim-web-devicons', -- optional, for file icons
+      -- }
+      config = function()
+         require('nvim-tree').setup({
+
+         })
+      end
+   }
+
    use {
       'chaoren/vim-wordmotion',
       config = function()
@@ -49,6 +112,27 @@ local function plugins(use, auc)
          -- vim.keymap.set({ 'x', 'o' }, 'aW', '<Plug>WordMotion_aW')
          vim.keymap.set({ 'x', 'o' }, 'iw', '<Plug>WordMotion_iw')
          -- vim.keymap.set({ 'x', 'o' }, 'iW', '<Plug>WordMotion_iW')
+      end
+   }
+
+   -- use { 'RRethy/vim-illuminate' }
+   use {
+      'AckslD/nvim-trevJ.lua',
+      config = function()
+         require('trevj').setup({})
+
+         vim.keymap.set('n', '<leader>j', function()
+            require('trevj').format_at_cursor()
+         end)
+      end
+   }
+
+   use {
+      'lukas-reineke/virt-column.nvim',
+      config = function()
+         require('virt-column').setup({
+            char = '│'
+         })
       end
    }
    auc { 'lukas-reineke/indent-blankline.nvim' }

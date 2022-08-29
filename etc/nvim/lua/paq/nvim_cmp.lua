@@ -42,7 +42,7 @@ local kind_icons = {
    File = "-",
    Reference = "",
    Folder = "+",
-   EnumMember = "",
+   EnumMember = "e",
    Constant = "",
    Struct = "s",
    Event = "",
@@ -58,12 +58,12 @@ cmp.setup {
    },
 
    window = {
-    completion = {
-      winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
-    },
-    documentation = {
-      winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
-    },
+      completion = {
+         winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
+      },
+      documentation = {
+         winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
+      },
    },
 
    -- experimental = {
@@ -95,14 +95,14 @@ cmp.setup {
    },
 
    sources = cmp.config.sources(
-   {
-      { name = 'luasnip', trigger_characters = { '@', '=' } }, -- NOTE very important!! this fixes lsp overriding postfix snippets beginning with this character
-      { name = 'nvim_lsp' },
-      { name = 'path' },
-      { name = 'nvim_lua' },
-   }, {
-      { name = 'buffer', option = { keyword_length = 5 } },
-   }
+      {
+         { name = 'luasnip', trigger_characters = { '@', '=' } }, -- NOTE very important!! this fixes lsp overriding postfix snippets beginning with this character
+         { name = 'nvim_lsp' },
+         { name = 'path' },
+         { name = 'nvim_lua' },
+      }, {
+         { name = 'buffer', option = { keyword_length = 5 } },
+      }
    ),
 
    formatting = {

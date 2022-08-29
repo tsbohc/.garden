@@ -93,13 +93,31 @@ local function shell(cmd)
    return (result ~= '' and result)
 end
 
-ki.n('<F1>', function()
-   if not shell('pidof love') then
-      vim.cmd('silent !love %:p:h &')
-   else
-      shell('pkill love')
+-- AsyncRun auto qf open instead of doing it ourselves
+vim.g.asyncrun_open = 8
+
+ki.n('<leader>m', function()
+   vim.cmd[[compiler lua]]
+   vim.cmd[[AsyncRun -strip love .]]
+   -- vim.cmd[[botright cwin]] -- make quickfix list span the whole window
+   -- vim.cmd[[cc]] -- focus next error
+
+   -- return back to prev buffer if we end up in the qf window
+   if vim.w.quickfix_title then
+      vim.cmd[[wincmd p]]
    end
-end)
+
+end, { 'silent' })
+
+-- quickfix keymaps
+ki.n('<leader>qn', ':cnext<cr>')
+ki.n('<leader>qe', ':cprev<cr>')
+
+vim.cmd[[
+   augroup QuickFix
+        au FileType qf map <buffer> o <cr><c-w>p
+   augroup END
+]]
 
 -- comment styles are greatly inspired by thedarnedestthing.com
 

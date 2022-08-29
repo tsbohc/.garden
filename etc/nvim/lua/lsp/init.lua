@@ -8,7 +8,9 @@ mason.setup()
 
 masonlsp.setup({
    ensure_installed = {
-      'sumneko_lua'
+      'sumneko_lua',
+      'yamlls',
+      'taplo'
    },
 })
 
@@ -42,7 +44,7 @@ local lsp_defaults = {
    flags = {
       debounce_text_changes = 250,
    },
-   capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+   -- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
    on_attach = on_attach
 }
 
@@ -54,6 +56,8 @@ lspconfig.util.default_config = vim.tbl_deep_extend(
 
 -- setup servers
 lspconfig.sumneko_lua.setup(require('lsp.sumneko_lua'))
+lspconfig.yamlls.setup({})
+lspconfig.taplo.setup({})
 
 -- signs
 local signs = { Error = "×", Warn = "△", Hint = "·", Info = "·" }

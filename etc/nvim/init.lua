@@ -97,7 +97,9 @@ local function generator()
 
    add(sl.helper.au(function()
       local file = vim.fn.expand('%:t')
-      if file == '' then
+      if vim.w.quickfix_title then
+         file = '‹ quickfix ›'
+      elseif file == '' then
          file = '‹ new ›'
       end
       return f(file, 'CursorLine', { 0, 1, 1, 1 })

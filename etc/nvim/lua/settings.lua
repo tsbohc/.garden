@@ -24,7 +24,7 @@ se.laststatus = 2
 se.showmode = false
 
 -- tabs
-se.showtabline = 2
+-- se.showtabline = 2
 
 -- match
 --se.showmatch = true
@@ -40,6 +40,9 @@ se.autoread = true
 se.clipboard = 'unnamedplus'
 se.mouse = 'a'
 se.completeopt = { 'menu', 'menuone', 'noselect' }
+
+se.switchbuf = se.switchbuf ^ 'vsplit'
+se.switchbuf = se.switchbuf ^ 'useopen'
 --se.smartindent = true
 
 -- formatoptions are being overwritten by ftpplugin, also h: fo-table
@@ -47,7 +50,7 @@ se.textwidth = 80
 vim.cmd [[
    augroup override_formatoptions
       au!
-      au VimEnter * setlocal formatoptions-=r formatoptions-=o formatoptions-=t laststatus=3
+      au VimEnter * setlocal formatoptions-=r formatoptions-=o formatoptions-=t
    augroup END
 ]]
 
@@ -110,6 +113,5 @@ vim.cmd [[
       au VimResized * wincmd =
    augroup END
 ]]
-
 
 -- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
