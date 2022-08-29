@@ -29,7 +29,7 @@ local types = require("luasnip.util.types")
 
 ls.config.setup({
    history = true,
-   update_events = 'TextChanged,TextChangedI',
+   update_events = 'TextChanged', -- ,TextChangedI
    -- region_check_events = "InsertEnter",
    -- delete_check_events = "TextChanged,InsertLeave",
    store_selection_keys = "<c-c>",
@@ -41,7 +41,6 @@ ls.config.setup({
       }
    }
 })
-
 
 function Leave_snippet()
    if
@@ -257,15 +256,14 @@ Snippet('fori', fmt([[
 ), 'li')
 
 Snippet('forn', fmt([[
-      for {1} = {2}, {3}, {4} do
-         {5}
+      for {1} = {2}, {3} do
+         {4}
       end
    ]], {
       [1] = i(1, 'i'),
       [2] = i(2, '1'),
       [3] = i(3, '10'),
-      [4] = i(4, '1'),
-      [5] = selection(5, '--'),
+      [4] = selection(4, '--'),
    }
 ), 'ln')
 
@@ -342,9 +340,11 @@ Snippet('todo', fmt([[
 
 local function postfix_match()
    return f(function(_, parent)
-      return parent.snippet.env.POSTFIX_MATCH:match'^%s*(.*)'
+      return parent.snippet.env.POSTFIX_MATCH:match('^%s*(.*)')
    end)
 end
+
+-- table.insert(woo, 2)
 
 Postfix({
       trig = '@print',
@@ -357,7 +357,10 @@ Postfix({
 )
 
 
-Postfix('@insert', fmt([[
+Postfix({
+      trig = '@print',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
       table.insert({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -365,7 +368,10 @@ Postfix('@insert', fmt([[
    })
 )
 
-Postfix('@remove', fmt([[
+Postfix({
+      trig = '@remove',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
       table.remove({1}, {2})
    ]], {
       [1] = postfix_match(),
@@ -394,7 +400,10 @@ Postfix({
    })
 )
 
-Postfix('@define', fmt([[
+Postfix({
+      trig = '@define',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
       local {1} = {2}
    ]], {
       [1] = postfix_match(),
@@ -409,7 +418,10 @@ Postfix('@not', fmt([[
    })
 )
 
-Postfix('@if', fmt([[
+Postfix({
+      trig = '@if',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
       if {1} then
          {2}
       end
@@ -419,7 +431,10 @@ Postfix('@if', fmt([[
    })
 )
 
-Postfix('@ifnot', fmt([[
+Postfix({
+      trig = '@ifnot',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
       if not {1} then
          {2}
       end
@@ -453,13 +468,30 @@ Postfix('@ipairs', fmt([[
    })
 )
 
-Postfix('=', fmt([[
+Postfix({
+      trig = '=',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
    {1} = {2}
    ]], {
       [1] = postfix_match(),
       [2] = i(1, '1')
    })
 )
+
+
+Postfix({ -- TODO: remove this prolly
+      trig = '@give',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
+   ecs.give({1}, {2}, {3})
+   ]], {
+      [1] = postfix_match(),
+      [2] = i(1, 'cid'),
+      [3] = i(0, 'cdata')
+   })
+)
+
 
 local function modify(operator)
    return fmt([[
@@ -477,7 +509,7 @@ Postfix('@increase', modify('+'))
 Postfix('=-', modify('-'))
 Postfix('@decrease', modify('-'))
 
-Postfix('=.', modify('..'))
+Postfix('=..', modify('..'))
 Postfix('@append', modify('..'))
 
 Postfix('@prepend', fmt([[
@@ -601,17 +633,6 @@ Snippet('module', fmt([[
 -- ), '')
 
 
-Snippet('component', fmt([[
-      Component('{1}', function(this, {2})
-         {3}
-      end)
-   ]], {
-      [1] = i(1, 'name'),
-      [2] = i(2, 'x'),
-      [3] = i(3, '--')
-   }
-), '')
-
 -- Snippet('system', fmt([[
 --       local {1} = System({2})
 --    ]], {
@@ -620,21 +641,31 @@ Snippet('component', fmt([[
 --    }
 -- ), '')
 
-Snippet('system', fmt([[
-      function {1}:{2}({3})
-         for _, e in ipairs(self.{4}) do
-            {5}
-         end
+local function overcast_query_rep(node_indx)
+   return f(function(args)
+      local ret = vim.split(args[1][1], ', ', true)
+
+      for _i, w in ipairs(ret) do
+         ret[_i] = w:sub(2):lower()
+      end
+
+      ret = table.concat(ret, ', ')
+
+      return { ret }
+   end, node_indx)
+end
+
+Snippet('query', fmt([[
+      for _, {2}, {3} in Query({1}) do
+         {4}
       end
    ]], {
-      [1] = i(1, 'system'),
-      [2] = i(2, 'callback'),
-      [3] = i(3, ''),
-      [4] = i(4, 'pool'),
-      [5] = i(0)
+      [1] = i(1, 'cid'),
+      [2] = i(2, '_'),
+      [3] = overcast_query_rep(1),
+      [4] = i(0)
    }
 ))
-
 
 -- load everything
 
