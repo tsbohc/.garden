@@ -17,7 +17,7 @@ ki.nx('e', function()
   if vim.v.count > 0 then return 'k' else return 'gk' end
 end, { 'expr' })
 
--- NOTE terminal should send different chars
+-- NOTE: terminal has to send different codes for <c-i> and tab
 for k, v in pairs({ h = 'h', n = 'j', e = 'k', i = 'l' }) do
   ki.n('<c-' .. k .. '>', '<c-w>' .. v)
   ki.n('<c-w>' .. k, '<c-w>' .. v:upper())
@@ -32,12 +32,12 @@ ki.nx('I', '$')
 -- ....................................... direct text manipulation
 
 -- shimmy the current line up and down
--- ki.i('<c-n>', '<Esc>:m .+1<CR>==gi')
--- ki.i('<c-e>', '<Esc>:m .-2<CR>==gi')
+ki.i('<c-s-n>', '<Esc>:m .+1<CR>==gi')
+ki.i('<c-s-e>', '<Esc>:m .-2<CR>==gi')
 
 -- same for visualy selected text
--- ki.x('<c-n>', [[:m '>+1<cr>gv=gv]])
--- ki.x('<c-e>', [[:m '<-2<cr>gv=gv]])
+ki.x('<c-s-n>', [[:m '>+1<cr>gv=gv]])
+ki.x('<c-s-e>', [[:m '<-2<cr>gv=gv]])
 
 -- stay in visual mode when indenting
 ki.x('<', '<gv')

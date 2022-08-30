@@ -29,7 +29,7 @@ local types = require("luasnip.util.types")
 
 ls.config.setup({
    history = true,
-   update_events = 'TextChanged', -- ,TextChangedI
+   update_events = 'TextChanged,InsertLeave', -- ,TextChangedI
    -- region_check_events = "InsertEnter",
    -- delete_check_events = "TextChanged,InsertLeave",
    store_selection_keys = "<c-c>",
@@ -671,6 +671,16 @@ Snippet('query', fmt([[
 
 ls.add_snippets('lua', snippets, {
    key = 'luasnip_config_file'
+})
+
+ls.add_snippets('markdown', {
+   s('codeblock', fmt([[
+      ```{1}
+      {2}
+      ```
+   ]], { i(1), i(0) })),
+
+   s('inlinecode', fmt([[`{1}`]], { i(0) }))
 })
 
 

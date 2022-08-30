@@ -83,12 +83,24 @@ se.smartcase = true
 -- folds
 se.foldenable = true
 se.foldmethod = 'marker'
---se.foldtext
 
--- {{{
-  -- an indented line
--- }}}
--- TODO foldtext ^^^^
+se.foldtext = 'v:lua.my_fold_text()'
+
+function _G.my_fold_text()
+   local first_line = vim.fn.getline(vim.v.foldstart)
+   local width = vim.fn.winwidth(0)
+
+   local commentstring = vim.bo.commentstring:gsub('%%s', '')
+   local left = first_line:gsub(commentstring .. '{{{', '') .. ' '
+   local right = vim.v.foldend - vim.v.foldstart + 1 .. ' lines'
+
+   local filler_width = width - left:len() - right:len() - 6
+
+   local ret = left .. string.rep(' ', filler_width) .. right .. string.rep(' ', 10)
+
+   -- return vim.fn.getline(vim.v.foldstart) .. ' - ' .. vim.v.foldend - vim.v.foldstart + 1 .. ' - ' .. vim.fn.winwidth(0)
+   return ret
+end
 
 -- whitespace
 se.tabstop = 2
