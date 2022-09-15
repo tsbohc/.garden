@@ -667,6 +667,33 @@ Snippet('query', fmt([[
    }
 ))
 
+Snippet('class', fmt([[
+      --- @class {6}
+      --- @operator call(any): {7}
+      local {1} = {{}}
+
+      local function init({2})
+         {3}
+      end
+
+      return setmetatable({4}, {{
+         __call = function(_, ...)
+            return setmetatable(init(...), {{
+               __index = {5}
+            }})
+         end
+      }})
+   ]], {
+      [1] = i(1, 'Class'),
+      [2] = i(2),
+      [3] = i(0),
+      [4] = rep(1),
+      [5] = rep(1),
+      [6] = rep(1),
+      [7] = rep(1)
+   })
+)
+
 -- load everything
 
 ls.add_snippets('lua', snippets, {

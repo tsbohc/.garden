@@ -22,6 +22,13 @@ tsconfigs.setup {
       },
    },
    textobjects = {
+      select = {
+         enable = true,
+         keymaps = {
+            ['af'] = '@block.outer',
+            ['mf'] = '@block.inner'
+         }
+      },
       move = {
          enable = true,
          set_jumps = true,

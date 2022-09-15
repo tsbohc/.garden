@@ -110,7 +110,7 @@ local function plugins(use, auc)
          -- vim.keymap.set({ 'n', 'x', 'o' }, 'gF', '<Plug>WordMotion_gE')
          vim.keymap.set({ 'x', 'o' }, 'aw', '<Plug>WordMotion_aw')
          -- vim.keymap.set({ 'x', 'o' }, 'aW', '<Plug>WordMotion_aW')
-         vim.keymap.set({ 'x', 'o' }, 'iw', '<Plug>WordMotion_iw')
+         vim.keymap.set({ 'x', 'o' }, 'mw', '<Plug>WordMotion_iw')
          -- vim.keymap.set({ 'x', 'o' }, 'iW', '<Plug>WordMotion_iW')
       end
    }

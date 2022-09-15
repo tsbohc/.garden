@@ -86,27 +86,41 @@ ki.n('<leader>f', '<Plug>(cokeline-pick-focus)', { 'silent', 'remap' })
 -- fold function with preview
 -- nb: ';' is free in normal (i think)
 
-local function shell(cmd)
-   local handle = io.popen(cmd)
-   local result = handle:read('*a')
-   handle:close()
-   return (result ~= '' and result)
-end
+-- local function shell(cmd)
+--    local handle = io.popen(cmd)
+--    local result = handle:read('*a')
+--    handle:close()
+--    return (result ~= '' and result)
+-- end
 
 -- AsyncRun auto qf open instead of doing it ourselves
-vim.g.asyncrun_open = 8
+-- vim.g.asyncrun_open = 4
+function _G.myasyncrunexit()
+   local qf = vim.fn.getqflist()
+
+   if #qf > 0 then
+      vim.cmd[[botright cwin]]
+      vim.cmd[[cc]]
+
+      if vim.w.quickfix_title then
+         vim.cmd[[wincmd p]]
+      end
+   end
+end
+
+vim.g.asyncrun_exit = 'lua _G.myasyncrunexit()'
 
 ki.n('<leader>m', function()
    vim.cmd[[compiler lua]]
    vim.cmd[[AsyncRun -strip love .]]
+   vim.cmd[[cclose]]
    -- vim.cmd[[botright cwin]] -- make quickfix list span the whole window
    -- vim.cmd[[cc]] -- focus next error
 
    -- return back to prev buffer if we end up in the qf window
-   if vim.w.quickfix_title then
-      vim.cmd[[wincmd p]]
-   end
-
+   -- if vim.w.quickfix_title then
+   --    vim.cmd[[wincmd p]]
+   -- end
 end, { 'silent' })
 
 -- quickfix keymaps
