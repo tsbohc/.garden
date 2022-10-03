@@ -22,6 +22,7 @@ se.signcolumn = 'yes'
 -- status
 se.laststatus = 2
 se.showmode = false
+se.cmdheight = 0
 
 -- tabs
 -- se.showtabline = 2

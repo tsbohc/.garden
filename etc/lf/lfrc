@@ -1,0 +1,132 @@
+# settings
+
+# reset all default keymaps # {{{
+map q
+map w
+map k
+map <up>
+map <c-u>
+map <pgup>
+map <c-y>
+map j
+map <down>
+map <c-d>
+map <c-f>
+map <pgdn>
+map <c-e>
+map h
+map <left>
+map l
+map <right>
+map ]
+map [
+map gg
+map <home>
+map G
+map <end>
+map v
+map u
+map y
+map d
+map p
+map c
+map <c-l>
+map <c-r>
+map r
+map ':'
+map '$'
+map '%'
+map '!'
+map '&'
+map f
+map F
+map ';'
+map ','
+map '/'
+map '?'
+map n
+map N
+map m
+map "'"
+map '"'
+map t
+
+map sa
+map sc
+map se
+map sn
+map ss
+map st
+
+map za
+map zh
+map zn
+map zr
+map zs
+map zt
+
+map <c-p> # }}}
+
+# set previewer lf_previewer
+
+set shell zsh
+set hidden true
+set incsearch true
+set incfilter true
+set scrolloff 3
+
+set ratios '1:3'
+
+set errorfmt "\033[41;30m %s \033[0m"
+set promptfmt "\033[40;34m %d\033[0m\033[40m%f \033[0m"
+
+set ifs "\n"
+
+map q quit
+
+map n down
+map N half-down
+map e up
+map E half-up
+
+map G bottom
+
+map gg top
+map gh cd ~
+
+map h updir
+map i open
+map <enter> open
+
+# search
+map '/' search
+map '?' search-back
+map k search-next
+map K search-prev
+
+map f find
+map F find-back
+map ';' find-next
+map ',' find-prev
+
+# file operations
+map d cut
+map y copy
+map p paste
+map r rename
+map x delete
+
+map l $$EDITOR "$fx"
+
+map u unselect
+map c clear # clears copy/cut buffer
+
+# command mode
+map ':' read
+map '$' shell
+map '!' shell-wait
+
+# marks
+map M mark-save
+map m mark-load
+map '"' mark-remove

@@ -21,23 +21,23 @@ tsconfigs.setup {
          node_decremental = "<bs>",
       },
    },
-   textobjects = {
-      select = {
-         enable = true,
-         keymaps = {
-            ['af'] = '@block.outer',
-            ['mf'] = '@block.inner'
-         }
-      },
-      move = {
-         enable = true,
-         set_jumps = true,
-         goto_next_start = {
-            [')'] = '@block.outer'
-         },
-         goto_previous_start = {
-            ['('] = '@block.outer'
-         }
-      }
-   }
+   -- textobjects = {
+   --    select = {
+   --       enable = true,
+   --       keymaps = {
+   --          ['af'] = '@block.outer',
+   --          ['mf'] = '@block.inner'
+   --       }
+   --    },
+   --    move = {
+   --       enable = true,
+   --       set_jumps = true,
+   --       goto_next_start = {
+   --          [')'] = '@block.outer'
+   --       },
+   --       goto_previous_start = {
+   --          ['('] = '@block.outer'
+   --       }
+   --    }
+   -- }
 }

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+case "$(file --dereference --brief --mime-type -- "$1")" in
+  text/*) bat --plain --color never --terminal-width "$(($4-2))" "$1" ;;
+esac
+
+exit 1

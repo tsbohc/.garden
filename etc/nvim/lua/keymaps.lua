@@ -20,7 +20,7 @@ end, { 'expr' })
 -- NOTE: terminal has to send different codes for <c-i> and tab
 for k, v in pairs({ h = 'h', n = 'j', e = 'k', i = 'l' }) do
   ki.n('<c-' .. k .. '>', '<c-w>' .. v)
-  ki.n('<c-w>' .. k, '<c-w>' .. v:upper())
+  ki.n('<c-s-' .. k .. '>', '<c-w>' .. v:upper())
 end
 
 -- screen and line movement

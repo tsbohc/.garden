@@ -369,13 +369,24 @@ Postfix({
 )
 
 Postfix({
+      trig = '@insert',
+      match_pattern = '%s*(.+)$'
+   }, fmt([[
+      table.insert({1}, {2})
+   ]], {
+      [1] = postfix_match(),
+      [2] = i(0, 'x')
+   })
+)
+
+Postfix({
       trig = '@remove',
       match_pattern = '%s*(.+)$'
    }, fmt([[
       table.remove({1}, {2})
    ]], {
       [1] = postfix_match(),
-      [2] = i(0, 'x')
+      [2] = i(0, 'i')
    })
 )
 
@@ -479,20 +490,6 @@ Postfix({
    })
 )
 
-
-Postfix({ -- TODO: remove this prolly
-      trig = '@give',
-      match_pattern = '%s*(.+)$'
-   }, fmt([[
-   ecs.give({1}, {2}, {3})
-   ]], {
-      [1] = postfix_match(),
-      [2] = i(1, 'cid'),
-      [3] = i(0, 'cdata')
-   })
-)
-
-
 local function modify(operator)
    return fmt([[
       {1} = {1} {2} {3}
@@ -523,7 +520,7 @@ Postfix('@prepend', fmt([[
 Postfix('=*', modify('*'))
 Postfix('@multiply', modify('*'))
 
-Postfix('=:', modify('/'))
+Postfix('=/', modify('/'))
 Postfix('@divide', modify('/'))
 
 -- very cool spaghetti
@@ -641,31 +638,31 @@ Snippet('module', fmt([[
 --    }
 -- ), '')
 
-local function overcast_query_rep(node_indx)
-   return f(function(args)
-      local ret = vim.split(args[1][1], ', ', true)
-
-      for _i, w in ipairs(ret) do
-         ret[_i] = w:sub(2):lower()
-      end
-
-      ret = table.concat(ret, ', ')
-
-      return { ret }
-   end, node_indx)
-end
-
-Snippet('query', fmt([[
-      for _, {2}, {3} in Query({1}) do
-         {4}
-      end
-   ]], {
-      [1] = i(1, 'cid'),
-      [2] = i(2, '_'),
-      [3] = overcast_query_rep(1),
-      [4] = i(0)
-   }
-))
+-- local function overcast_query_rep(node_indx)
+--    return f(function(args)
+--       local ret = vim.split(args[1][1], ', ', true)
+--
+--       for _i, w in ipairs(ret) do
+--          ret[_i] = w:sub(2):lower()
+--       end
+--
+--       ret = table.concat(ret, ', ')
+--
+--       return { ret }
+--    end, node_indx)
+-- end
+--
+-- Snippet('query', fmt([[
+--       for _, {2}, {3} in Query({1}) do
+--          {4}
+--       end
+--    ]], {
+--       [1] = i(1, 'cid'),
+--       [2] = i(2, '_'),
+--       [3] = overcast_query_rep(1),
+--       [4] = i(0)
+--    }
+-- ))
 
 Snippet('class', fmt([[
       --- @class {6}
