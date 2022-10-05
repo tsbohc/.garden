@@ -67,9 +67,15 @@ map zt
 
 map <c-p> # }}}
 
-# set previewer lf_previewer
+set previewer lf-previewer
 
-set shell zsh
+# command mode
+map ':' read
+map '$' shell
+map '!' shell-wait
+map '%' shell-pipe
+
+set shell bash
 set hidden true
 set incsearch true
 set incfilter true
@@ -114,19 +120,61 @@ map d cut
 map y copy
 map p paste
 map r rename
-map x delete
 
 map l $$EDITOR "$fx"
 
 map u unselect
 map c clear # clears copy/cut buffer
 
-# command mode
-map ':' read
-map '$' shell
-map '!' shell-wait
-
 # marks
 map M mark-save
 map m mark-load
 map '"' mark-remove
+
+# sort
+
+map sn :set sortby natural; set info
+map ss :set sortby size; set info size
+
+cmd remove %{{
+  echo 'rm -r' $fx '<Y?> '
+  read ans
+  [ $ans = 'Y' ] && rm -rf -- $fx
+  echo
+}}
+map x remove
+# redraws ^^^?
+
+cmd mkdir %{{
+  echo 'mkdir -p '
+  read ans
+  mkdir -p $ans
+}}
+map ad mkdir
+
+cmd touch %{{
+  echo 'touch '
+  read ans
+  touch $ans
+}}
+map af touch
+
+cmd git-push %{{
+  echo 'git push: '
+  read ans
+  git add -A && git commit -m "$ans" && git push
+}}
+
+cmd git-pull %{{
+  git pull
+}}
+
+cmd git-status ${{
+  clear
+  git status
+  read -s -n 1 key
+}}
+
+map ou git-push
+map od git-pull
+map os git-status

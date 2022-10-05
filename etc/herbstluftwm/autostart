@@ -8,7 +8,7 @@ hc() { herbstclient "$@" ; }
 ki() { # accept pairs arguments with brace expansion
   for k in "$@"; do echo "$k"; done \
     | awk '{ a[NR]=$0 } END { for (i = 1; i <= NR/2; i++) print a[i]" "a[NR/2+i] }' \
-    | while read -r l; do hc keybind $l; done
+    | while read -r l; do hc keybind $l; done # intentionally unquoted
 }
 
 # clean slate
@@ -63,6 +63,10 @@ ki $Alt-{n,e}         "spawn redshift-control "{-250,250}
 for i in {1..9}; do hc add "$i"; done
 ki $Super-{1,2,3,4,5,6,7,8,9}          "use_index "{0,1,2,3,4,5,6,7,8}
 ki $Super-$Shift-{1,2,3,4,5,6,7,8,9}  "move_index "{0,1,2,3,4,5,6,7,8}
+
+# ki $Super-{1,2,3,4,5,6,7,8,9}          "spawn hlwm-index use "{0,1,2,3,4,5,6,7,8}
+# ki $Super-$Shift-{1,2,3,4,5,6,7,8,9}  "spawn hlwm-index move "{0,1,2,3,4,5,6,7,8}
+
 
 # layouts
 ki $Super-m "fullscreen toggle"

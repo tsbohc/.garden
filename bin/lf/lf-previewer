@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# --terminal-width "$(($4-2))"
+
+case "$(file --dereference --brief --mime-type -- "$1")" in
+  text/*)
+    cat "$1"
+    ;;
+  image/*)
+    jp2a --colors "$1"
+    ;;
+  application/pdf)
+    pdftotext "$1" -
+    ;;
+esac

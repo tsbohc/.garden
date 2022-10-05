@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# H=""
+# L='<span foreground="blue">'
+# R="</span>"
+
+L='<span>'
+H='<span foreground="black">'
+R='</span>'
+
+workspaces() {
+    IFS=$'\t' read -ra tags <<< "$(herbstclient tag_status)"
+    for i in "${tags[@]}" ; do
+      case ${i:0:1} in
+        '.') # the tag is empty
+          echo -n "$L·$R " ;;
+        ':') # the tag is not empty
+          echo -n "$L◇$R " ;;
+        '+') # the tag is viewed on the specified MONITOR, but this monitor is not focused.
+          echo -n "+ " ;;
+        '#') # the tag is viewed on the specified MONITOR and it is focused.
+          echo -n "$H◆$R " ;;
+        '-') # the tag is viewed on a different MONITOR, but this monitor is not focused.
+          echo -n "$H◇$R " ;;
+        '%') # the tag is viewed on a different MONITOR and it is focused.
+          echo -n "% " ;;
+        '!') # the tag contains an urgent window
+          echo -n "⇌ " ;;
+      esac
+    done
+    # echo "%{F-}%{B-}"
+}
+
+notify() {
+  dunstify -r 92387462 -t 2000 'hlwm-index' "<span size='16pt'> $(workspaces)</span>"
+}
+
+case "$1" in
+  'use')
+    herbstclient use_index "$2"
+    ;;
+  'move')
+    herbstclient move_index "$2"
+    ;;
+esac
+
+notify
