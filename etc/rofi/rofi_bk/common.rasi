@@ -1,0 +1,30 @@
+* {
+  bg: #F5F0EA;
+  fg: #000000;
+  background-color: #00000000;
+  text-color: @fg;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+  highlight: None;
+}
+
+window {
+  background-color: @bg;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+element {
+  padding: 2px 1ch;
+}
+
+element selected {
+  background-color: #e5e0dA;
+  border-radius: 2px;
+}
+
+element-text {
+  highlight: bold;
+}

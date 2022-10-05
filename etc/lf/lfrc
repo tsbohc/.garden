@@ -159,20 +159,23 @@ cmd touch %{{
 }}
 map af touch
 
-cmd git-push %{{
-  echo 'git push: '
-  read ans
+cmd git-push ${{
+  clear
+  read -p 'enter commit message ' ans
   git add -A && git commit -m "$ans" && git push
+  read -p '<done>' -s -n 1 key
 }}
 
-cmd git-pull %{{
+cmd git-pull ${{
+  clear
   git pull
+  read -p '<done>' -s -n 1 key
 }}
 
 cmd git-status ${{
   clear
   git status
-  read -s -n 1 key
+  read -p '<done>' -s -n 1 key
 }}
 
 map ou git-push
