@@ -3,11 +3,11 @@ depend() {
 }
 
 add() {
-  link config "~/.config/polybar/config"
+  link config ~/.config/polybar/config
 }
 
 del() {
-  unlink "~/.config/polybar/config"
+  unlink ~/.config/polybar/config
 }
 
 autostart() {

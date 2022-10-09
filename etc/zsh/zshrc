@@ -18,15 +18,19 @@ if [ -d "$dotgarden/bin" ]; then
 fi
 
 # aliases TODO rename to generic shell stuff and add a hori for this?
-if [ -d "$dotgarden/bin/cl/_aliases" ]; then
-  for f in "$dotgarden/bin/cl/_aliases/"*; do
-    emulate sh -c "source $f"
-  done
-fi
+# if [ -d "$dotgarden/bin/cl/_aliases" ]; then
+#   for f in "$dotgarden/bin/cl/_aliases/"*; do
+#     emulate sh -c "source $f"
+#   done
+# fi
+
+# aliases or smth
+# compdef xvi=xbps-install
+# compdef xvr=xbps-remove
 
 # ........................................................ settings
 
-export EDITOR=nvim # TODO nvim -> vim -> vi
+export EDITOR=nvim # TODO nvim -> nano
 export TERMINAL=alacritty # TODO check for it first
 
 export HISTFILE=${XDG_CACHE_HOME}/zsh_history
@@ -71,12 +75,11 @@ autoload -Uz compinit
 } &!
 compinit -C
 
-# aliases or smth
-compdef xvi=xbps-install
-compdef xvr=xbps-remove
-
 # completion for hori-hori
 compdef '_path_files -/ -W $HOME/.garden/etc/' hori
+
+# has to be here
+unset zle_bracketed_paste
 
 # ............................................................. fzf
 
@@ -327,6 +330,10 @@ fi
 # -- aliases begin
 alias v="$EDITOR"
 
+alias emi="doas emerge -a --quiet-build"
+alias emu="doas emerge -a --update --deep --changed-use --quiet-build @world"
+alias emr="doas emerge -ac"
+
 # ls
 if type exa >/dev/null; then
   alias ls='exa'
@@ -413,7 +420,15 @@ _k=(
 # insert mode
 bindkey -rp '' # clear everything
 
-bindkey -R "\x20"-"\x7E" self-insert # bind all ascii "printable characters"
+bindkey "^K" self-insert
+bindkey -R " "-"~" self-insert
+bindkey -R "^A"-"^C" self-insert
+bindkey -R "^E"-"^F" self-insert
+bindkey -R "^N"-"^P" self-insert
+bindkey -R "^S"-"^T" self-insert
+bindkey -R "^Y"-"^Z" self-insert
+bindkey -R "^\\\\"-"^\^" self-insert
+bindkey -R "\M-^@"-"\M-^?" self-insert
 
 bindkey "^[[C" vi-forward-char
 bindkey "^[[B" down-line-or-history
@@ -726,10 +741,10 @@ less_prompt+=".?L\/%L.\ "
 export LESS="--use-color --ignore-case --incsearch --prompt $less_prompt"
 
 export LESS_TERMCAP_mb=$'\e[31m'    # begin bold
-export LESS_TERMCAP_md=$'\e[1;33m'    # section titles and options
+export LESS_TERMCAP_md=$'\e[1;33m'  # section titles and options
 export LESS_TERMCAP_me=$'\e[0m'     # reset bold/blink
 export LESS_TERMCAP_so=$'\e[0m'     # begin reverse video
-export LESS_TERMCAP_us=$'\e[1;37m'    # italic
+export LESS_TERMCAP_us=$'\e[1;37m'  # italic
 export LESS_TERMCAP_se=$'\e[0m'     # reset reverse video
 export LESS_TERMCAP_ue=$'\e[0m'     # reset underline
 

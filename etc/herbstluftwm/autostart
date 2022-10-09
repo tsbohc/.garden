@@ -27,7 +27,7 @@ Tab=Tab
 
 # TODO add xwallpaper to hori-hori (wallpaper dotfile w/ autostart hook?)
 command -v hori &>/dev/null && hori autostart -i
-xwallpaper --zoom ~/.garden/usr/wallpaper/roses.jpg
+xwallpaper --zoom ~/.garden/usr/wallpaper/whiteflower.jpg
 
 # ........................................................ keybinds
 
@@ -154,7 +154,6 @@ hc set frame_border_inner_color '#ffffff'
 # hc set frame_border_width 0
 # hc set frame_border_inner_width 0
 
-
 hc set always_show_frame true
 hc set frame_bg_transparent false # recommended off
 #hc set frame_transparent_width 2 # depends on the above being true
@@ -242,6 +241,7 @@ hc rule floatplacement=smart
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule title='floaterm' floating=on floatplacement=center focus=on
 hc rule class='love' floating=on floatplacement=center focus=on
+hc rule instance='dragon' floating=on floatplacement=center focus=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 

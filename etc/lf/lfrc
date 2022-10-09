@@ -181,3 +181,5 @@ cmd git-status ${{
 map ou git-push
 map od git-pull
 map os git-status
+
+map b ${{ dragon -x -A $fx }}

@@ -6,7 +6,7 @@ Xft.autohint: 0
 Xft.rgba: rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
-! desktop, main screet
+! NB: proper dpi
 Xft.dpi: 92
 
 !*.font: JetBrains Mono:style=medium:size=12

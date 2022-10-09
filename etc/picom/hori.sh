@@ -3,11 +3,11 @@ depend() {
 }
 
 add() {
-  link picom.conf "~/.config/picom/picom.conf"
+  link picom.conf ~/.config/picom/picom.conf
 }
 
 del() {
-  unlink "~/.config/picom/picom.conf"
+  unlink ~/.config/picom/picom.conf
 }
 
 autostart() {

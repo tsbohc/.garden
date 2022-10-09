@@ -1,6 +1,6 @@
 configuration {
     modi: "combi";
-    font: "mono 10";
+    font: "Iosevka Custom 10";
 /*  location: 0;*/
 /*  yoffset: 0;*/
 /*  xoffset: 0;*/

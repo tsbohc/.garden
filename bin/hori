@@ -1,1 +1,141 @@
-/home/tsbohc/code/hori/hori
+#!/bin/sh
+# shellcheck shell=dash disable=SC1090
+
+yell() { echo "hori: $*" 1>&2 ; }
+
+# -- templates
+
+# replace $2 with $3 in string $1
+replace() { echo "${1%%"$2"*}${3}${1#*"$2"}" ; }
+
+# extract shortest substring from string $1 between $2 and $3
+extract() { local s=${1%%"$3"*} ; echo "${s##*"$2"}" ; }
+
+import() { # recursively import config into pathed variables
+  local varset=$1 prefix=$2
+  [ "$varset" = "conf" ] || prefix=${prefix}_${1##*\/}
+  prefix="$(echo "$prefix" | sed 's/\//_/g')" # FIXME get rid of sed maybe
+  while read -r line ; do
+    if [ "${line#"import "}" != "$line" ]; then
+      import "${line#"import "}" "$prefix"
+    elif [ "${line#[[:alnum:]]*"="}" != "$line" ]; then # nb: only alnum in assignments
+      eval "_${prefix}_${line}"
+    fi
+  done < "$REPO/hori/$varset"
+}
+
+template() { # render <1:file> with the current context
+  local expr old_expr key val
+  while IFS= read -r line; do
+    while [ "${line#*"{% "[!" "]*" %}"*}" != "$line" ]; do
+      expr="$(extract "$line" "{% " " %}")"
+      old_expr=$expr
+        while [ "${expr#*"{"[!\{\}]*"}"*}" != "$expr" ]; do
+          key="$(extract "$expr" "{" "}")"
+          val="$(eval "echo \$__$key")"
+          [ -z "$val" ] && { yell "'$key' is undefined, aborting" ; exit 1 ; }
+          expr="$(replace "$expr" "{$key}" "$val")"
+        done
+      line="$(replace "$line" "{% $old_expr %}" "$expr")"
+    done
+    echo "$line"
+  done < "$1"
+}
+
+# -- actions
+
+launch() { # kill existing <1:process> and run <@:command>
+  pkill -x "$1" ; sleep 0.2 ; "$@"
+}
+
+render() { # render <1:file(rel)> and return its path
+  local source=$REPO/$PACK/$1
+  local target=$HORI/$PACK/$1
+  mkdir -p "${target%/*}"
+  template "$source" > "$target"
+  echo "$target"
+}
+
+link() { # create symlink from <1:source(rel)> to <2:target(abs)>
+  local source target=$2
+  [ "${1#*"$HORI"*}" != "$1" ] && source=$1 || source=$REPO/$PACK/$1
+  mkdir -p "${target%/*}"
+  ln -sfn "$source" "$target"
+}
+
+unlink() { # remove <1:symlink(abs)>
+  [ -h "$1" ] && rm "$1"
+}
+
+# -- hook
+
+list() {
+  case $* in
+    -i|--installed) packages="$HORI/*" ;;
+    -a|--available) packages="$REPO/*" ;;
+    *) packages="$*" ;;
+  esac
+  for p in $packages; do
+    p="${p##*/}"
+    if [ -f "$REPO/$p/hori.sh" ]; then
+      echo "$p"
+    # else
+      # TODO why is this here and not in hook?
+      # yell "{$p} is not a valid package"
+    fi
+  done
+}
+
+edit() {
+  local c
+  c="$(for p in $(list -a); do
+    find "$REPO/$p/" | while read -r line; do
+      echo "${line##*"$REPO/"}"
+    done
+  done | fzf)"
+  if [ -n "$c" ]; then
+    if [ -f "$HORI/$c" ]; then
+      echo "$REPO/$c" | entr -np hori add "${c%%/*}" &
+      pid=$!
+    fi
+    $EDITOR "$REPO/$c"
+    if [ -n "$pid" ]; then kill "$pid"; else exit 0; fi
+  fi
+}
+
+hook() { # execute <1:hook> in <@:packages>
+  local h=$1 ; shift
+  list "$@" | while read -r p; do
+    PACK=$p ; (
+      . "$REPO/$p/hori.sh"
+      if type "$h" >/dev/null 2>&1; then
+        case $h in
+          add) mkdir -p "$HORI/$p" ;;
+        esac
+        yell "<$h> in {$p}"
+        "$h"
+        case $h in
+          del) [ -d "${HORI:?}/$p" ] && rm -r "${HORI:?}/$p" ;;
+        esac
+      else
+        yell "no <$h> hook in {$p} package"
+      fi
+    ) ; unset PACK
+  done
+}
+
+# -- main
+
+HORI="$HOME/.config/hori"
+REPO="$HOME/.garden/etc"
+mkdir -p "$HORI"
+
+import conf
+
+cmd=$1 ; shift
+case $cmd in
+  -h|--help|"") echo "\$ hori <hook> <packages>|-i|-a" ;;
+  l|list) list "$@" ;;
+  e|edit) edit "$@" ;;
+  *) hook "$cmd" "$@" ;;
+esac

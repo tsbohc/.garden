@@ -3,9 +3,9 @@ depend() {
 }
 
 add() {
-  link dunstrc "~/.config/dunst/dunstrc"
+  link dunstrc ~/.config/dunst/dunstrc
 }
 
 del() {
-  unlink "~/.config/dunst/dunstrc"
+  unlink ~/.config/dunst/dunstrc
 }
