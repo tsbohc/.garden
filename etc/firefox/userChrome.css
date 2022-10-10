@@ -1,0 +1,70 @@
+#navigator-toolbox {
+  --toolbar-bgcolor: #1f1f1f;
+  --toolbar-field-background-color: #181818;
+}
+
+#urlbar-input {
+  text-align: center !important;
+}
+#urlbar-input:focus {
+  text-align: left !important;
+}
+#urlbar {
+  padding-left: 0.5em;
+}
+
+#page-action-buttons,
+#tracking-protection-icon-container,
+.titlebar-spacer,
+#identity-box
+{
+  display: none;
+}
+
+/* #urlbar-background { */
+/*   background: var(--toolbar-bgcolor) !important; */
+/* } */
+
+.tabbrowser-tab[first-visible-unpinned-tab] {
+  margin-inline-start: 0px !important;
+}
+
+#titlebar {
+  background: var(--toolbar-bgcolor);
+}
+
+#nav-bar {
+  background: var(--toolbar-field-background-color) !important;
+}
+
+.tab-close-button {
+  display: none;
+}
+
+#navigator-toolbox {
+  font-family: Noto Sans;
+  font-weight: 500;
+  font-size: 9pt;
+}
+
+#titlebar {
+	-moz-box-ordinal-group: 2 !important;
+}	
+
+#urlbar[breakout][breakout-extend] {
+    top: calc((var(--urlbar-toolbar-height) - var(--urlbar-height)) / 2) !important;
+    left: 0 !important;
+    width: 100% !important;
+}
+
+
+#urlbar-go-button{ display: none !important; }
+
+/* hide "firefox suggests" label */
+.urlbarView-row[label]{
+  margin-block-start: 0 !important;
+}
+
+.urlbarView-row[label]::before{
+  display: none !important;
+}

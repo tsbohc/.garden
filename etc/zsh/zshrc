@@ -18,15 +18,11 @@ if [ -d "$dotgarden/bin" ]; then
 fi
 
 # aliases TODO rename to generic shell stuff and add a hori for this?
-# if [ -d "$dotgarden/bin/cl/_aliases" ]; then
-#   for f in "$dotgarden/bin/cl/_aliases/"*; do
-#     emulate sh -c "source $f"
-#   done
-# fi
-
-# aliases or smth
-# compdef xvi=xbps-install
-# compdef xvr=xbps-remove
+if [ -d "$dotgarden/bin/_alias" ]; then
+  while read -r f; do
+    emulate sh -c "source $f"
+  done < <(find "$dotgarden/bin/_alias" -type f -not -name '_*')
+fi
 
 # ........................................................ settings
 
@@ -75,10 +71,40 @@ autoload -Uz compinit
 } &!
 compinit -C
 
+_em() {
+    local line state
+
+    _arguments -C \
+               "1: :->cmds" \
+               "*::arg:->args"
+    case "$state" in
+        cmds)
+            _values "em command" \
+                    "add[install a package quietly]" \
+                    "del[remove a package and run dep clean]" \
+                    "update[update @world and accomodate for use changes]" \
+                    "sync[sync to the repo]" \
+            ;;
+        args)
+            case $line[1] in
+                add)
+                    _arguments -s \
+                    '*:portage:_gentoo_packages available' \
+                            && return 0
+                    ;;
+                del) _arguments -s \
+                    '*:portage:_gentoo_packages installed' \
+                            && return 0
+            esac
+            ;;
+    esac
+}
+compdef _em em
+
 # completion for hori-hori
 compdef '_path_files -/ -W $HOME/.garden/etc/' hori
 
-# has to be here
+# has to be here... ?
 unset zle_bracketed_paste
 
 # ............................................................. fzf
@@ -329,10 +355,6 @@ fi
 
 # -- aliases begin
 alias v="$EDITOR"
-
-alias emi="doas emerge -a --quiet-build"
-alias emu="doas emerge -a --update --deep --changed-use --quiet-build @world"
-alias emr="doas emerge -ac"
 
 # ls
 if type exa >/dev/null; then

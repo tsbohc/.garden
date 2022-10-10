@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#: tiny emerge wrapper
+
+em() {
+  if [ $# -gt 0 ]; then
+    o="$1" ; shift
+
+    case "$o" in
+      add) doas emerge --ask --quiet-build "$@" ;;
+      del) doas emerge --ask --depclean "$@" ;;
+      update) doas emerge --ask --update --deep --changed-use --quiet-build @world ;;
+      sync) doas emaint --auto sync ;;
+    esac
+  fi
+}

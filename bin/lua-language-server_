@@ -1,2 +1,0 @@
-#!/bin/bash
-exec "~/code/sumneko/bin/lua-language-server" "$@"

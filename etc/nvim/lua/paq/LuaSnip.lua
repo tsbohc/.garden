@@ -707,7 +707,44 @@ ls.add_snippets('markdown', {
    s('inlinecode', fmt([[`{1}`]], { i(0) }))
 })
 
+ls.add_snippets('sh', {
+   s('fn', fmt([[
+      {1}() {{
+        {2}
+      }}
+   ]], { i(1, 'fn'), i(0, ':') })),
 
+   s('if', fmt([[
+      if {1}; then
+        {2}
+      fi
+   ]], { i(1), i(0) })),
+
+   s('ife', fmt([[
+      if {1}; then
+        {2}
+      else
+        {3}
+      fi
+   ]], { i(1), i(2, ':'), i(0, ':') })),
+
+   s('for', fmt([[
+      for {1} in {2}; do
+        {3}
+      done
+   ]], { i(1, 'v'), i(2, '"$@"'), i(0, ':') })),
+
+   s('case', fmt([[
+      case {1} in
+        {2}
+      esac
+   ]], { i(1, '"$1"'), i(0, ':') })),
+
+   -- s('case', fmt([[
+   --    {1}) {2}
+   --       ;;
+   -- ]], { i(1), i(0) })),
+})
 
 
 
